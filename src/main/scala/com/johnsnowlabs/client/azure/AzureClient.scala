@@ -1,5 +1,6 @@
 package com.johnsnowlabs.client.azure
 
+import com.amazonaws.services.ecr.model.InvalidParameterException
 import com.johnsnowlabs.client.{CloudClient, CloudStorage}
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 
@@ -8,22 +9,35 @@ class AzureClient(parameters: Map[String, String] = Map.empty) extends CloudClie
   private lazy val azureStorageConnection = cloudConnect()
 
   override protected def cloudConnect(): CloudStorage = {
-    val azureStorageAccountName = parameters.getOrElse(
+    val storageAccountName = parameters.getOrElse(
       "storageAccountName",
-      ConfigLoader.getConfigStringValue(ConfigHelper.azureStorageAccountName))
-    new AzureGateway(azureStorageAccountName)
+      throw new InvalidParameterException("Azure client requires storageAccountName"))
+    val accountKey =
+      parameters.getOrElse("accountKey", ConfigHelper.getHadoopAzureConfig(storageAccountName))
+    new AzureGateway(storageAccountName, accountKey)
   }
 
   override def doesBucketPathExist(bucketName: String, filePath: String): Boolean = {
     azureStorageConnection.doesBucketPathExist(bucketName, filePath)
   }
 
-  override def copyInputStreamToBucket(bucketName: String, filePath: String, sourceFilePath: String): Unit = {
+  override def copyInputStreamToBucket(
+      bucketName: String,
+      filePath: String,
+      sourceFilePath: String): Unit = {
     azureStorageConnection.copyInputStreamToBucket(bucketName, filePath, sourceFilePath)
   }
 
-  override def downloadFilesFromBucketToDirectory(bucketName: String, filePath: String, directoryPath: String, isIndex: Boolean): Unit = {
-    azureStorageConnection.downloadFilesFromBucketToDirectory(bucketName, filePath, directoryPath, isIndex)
+  override def downloadFilesFromBucketToDirectory(
+      bucketName: String,
+      filePath: String,
+      directoryPath: String,
+      isIndex: Boolean): Unit = {
+    azureStorageConnection.downloadFilesFromBucketToDirectory(
+      bucketName,
+      filePath,
+      directoryPath,
+      isIndex)
   }
 
 }

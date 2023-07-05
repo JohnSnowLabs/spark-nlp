@@ -71,7 +71,7 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
         new GCPClient(configParameters)
       }
       case CloudStorageType.Azure => {
-        val storageAccountName = ConfigLoader.getConfigStringValue(ConfigHelper.azureStorageAccountName)
+        val storageAccountName = CloudHelper.getAccountNameFromAzureBlobURI(uri)
         val configParameters = Map("storageAccountName" -> storageAccountName)
 
         new AzureClient(configParameters)

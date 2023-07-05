@@ -54,9 +54,11 @@ class CloudHelperTest extends AnyFlatSpec {
   }
 
   it should "parse Azure URIs" taggedAs FastTest in {
-    //Azure Blob URI structure is typically: https://[accountName].blob.core.windows.net/[containerName]/[blobName]
+    // Azure Blob URI structure is typically: https://[accountName].blob.core.windows.net/[containerName]/[blobName]
     val azureURIs =
-      Array("https://storageAccountName.blob.core.windows.net/myblob/path", "https://storageAccountName.blob.core.windows.net/myblob/myfolder/myfile.txt")
+      Array(
+        "https://storageAccountName.blob.core.windows.net/myblob/path",
+        "https://storageAccountName.blob.core.windows.net/myblob/myfolder/myfile.txt")
     val expectedOutput =
       Array(("myblob", "path"), ("myblob", "myfolder/myfile.txt"))
 
@@ -72,7 +74,9 @@ class CloudHelperTest extends AnyFlatSpec {
 
   it should "parse account name from Azure URIs" taggedAs FastTest in {
     val azureURIs =
-      Array("https://accountName.blob.core.windows.net", "https://storageAccountName.blob.core.windows.net/myblob/myfolder/myfile.txt")
+      Array(
+        "https://accountName.blob.core.windows.net",
+        "https://storageAccountName.blob.core.windows.net/myblob/myfolder/myfile.txt")
     val expectedOutput =
       Array("accountName", "storageAccountName")
 
@@ -82,6 +86,23 @@ class CloudHelperTest extends AnyFlatSpec {
       val expectedAccountName = expectedOutput(index)
 
       assert(actualAccountName == expectedAccountName)
+    }
+  }
+
+  it should "transforms https URI to wasbs URI" taggedAs FastTest in {
+    val inputURI = "https://myAccount.blob.core.windows.net/myContainer/myPath/myFolder"
+    val expectedURI = "wasbs://myContainer@myAccount.blob.core.windows.net/myPath/myFolder/"
+
+    val actualURI = CloudHelper.transformURIToWASB(inputURI)
+
+    assert(actualURI == expectedURI)
+  }
+
+  it should "transformURIToWASB throws an exception when container name is empty" taggedAs FastTest in {
+    val inputURI = "https://myAccount.blob.core.windows.net/"
+
+    assertThrows[IllegalArgumentException] {
+      CloudHelper.transformURIToWASB(inputURI)
     }
   }
 

@@ -18,7 +18,7 @@ package com.johnsnowlabs.client.util
 import com.johnsnowlabs.nlp.util.io.CloudStorageType
 import com.johnsnowlabs.nlp.util.io.CloudStorageType.CloudStorageType
 
-import java.net.URI
+import java.net.{URI, URL}
 
 object CloudHelper {
 
@@ -41,7 +41,7 @@ object CloudHelper {
     (bucketName, storagePath)
   }
 
-  def parseAzureBlobURI(azureBlobURI: String) : (String, String) = {
+  def parseAzureBlobURI(azureBlobURI: String): (String, String) = {
     val uri = new URI(azureBlobURI)
     val parts = uri.getPath.stripPrefix("/").split("/", 2)
     val containerName = parts(0)
@@ -57,6 +57,17 @@ object CloudHelper {
     val accountName = host.stripSuffix(".blob.core.windows.net")
     require(accountName.nonEmpty, "Azure storage account name is empty!")
     accountName
+  }
+
+  def transformURIToWASB(azureURI: String): String = {
+    val url = new URL(azureURI)
+    val host = url.getHost
+    val pathParts = url.getPath.split("/").filter(_.nonEmpty)
+    val container = if (pathParts.nonEmpty) pathParts(0) else ""
+    require(container.nonEmpty, "Azure container name is empty!")
+    val pathWithoutContainer = if (pathParts.length > 1) pathParts.drop(1).mkString("/") else ""
+
+    s"wasbs://$container@$host/$pathWithoutContainer/"
   }
 
   def isCloudPath(uri: String): Boolean = {

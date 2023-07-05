@@ -20,6 +20,7 @@ import com.johnsnowlabs.client.aws.{AWSClient, AWSGateway}
 import com.johnsnowlabs.client.azure.AzureClient
 import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
+import com.johnsnowlabs.client.util.CloudHelper.transformURIToWASB
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 import org.apache.spark.SparkFiles
@@ -73,14 +74,17 @@ object CloudResources {
       case azureClient: AzureClient => {
         val modelExists =
           doesModelExistInExternalCloudStorage(modelName, cachePath, azureClient)
+        var modelPath: Option[String] = None
 
         if (!modelExists) {
-          val destination = unzipInExternalCloudStorage(sourceS3URI, cachePath, azureClient, zippedModel)
-          Option(destination)
+          val destination =
+            unzipInExternalCloudStorage(sourceS3URI, cachePath, azureClient, zippedModel)
+          modelPath = Some(transformURIToWASB(destination))
         } else {
-          Option(cachePath + "/" + modelName)
+          modelPath = Some(transformURIToWASB(cachePath + "/" + modelName))
         }
 
+        modelPath
       }
     }
 
@@ -107,7 +111,8 @@ object CloudResources {
         gcpClient.doesBucketPathExist(destinationBucketName, modelPath)
       }
       case azureClient: AzureClient => {
-        val (destinationBucketName, destinationStoragePath) = CloudHelper.parseAzureBlobURI(destinationURI)
+        val (destinationBucketName, destinationStoragePath) =
+          CloudHelper.parseAzureBlobURI(destinationURI)
         val modelPath = destinationStoragePath + "/" + modelName
 
         azureClient.doesBucketPathExist(destinationBucketName, modelPath)
@@ -169,8 +174,7 @@ object CloudResources {
             azureClient.copyFileToBucket(
               destinationBucketName,
               destinationAzureStoragePath,
-              inputStream
-            )
+              inputStream)
           }
         }
 
@@ -197,7 +201,8 @@ object CloudResources {
     clientInstance match {
       case awsClient: AWSClient => storeLogFileInS3(outputLogsPath, targetPath, awsClient)
       case gcpClient: GCPClient => storeLogFileInGCPStorage(outputLogsPath, targetPath, gcpClient)
-      case azureClient: AzureClient => storeLogFileInAzureStorage(outputLogsPath, targetPath, azureClient)
+      case azureClient: AzureClient =>
+        storeLogFileInAzureStorage(outputLogsPath, targetPath, azureClient)
     }
   }
 
