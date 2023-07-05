@@ -23,7 +23,6 @@ import com.amazonaws.auth.{
   BasicAWSCredentials,
   DefaultAWSCredentialsProviderChain
 }
-import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 
 class AWSCredentialsProvider extends Credentials {
