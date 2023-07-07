@@ -33,16 +33,7 @@ The text_cleaning is a pretrained pipeline that we can use to process text with 
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.pretrained import PretrainedPipeline
-pipeline = PretrainedPipeline("text_cleaning", "en")
 
-result = pipeline.annotate("""I love johnsnowlabs!  """)
-```
-
-</div>
 
 {:.model-param}
 

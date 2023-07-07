@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [nerdl_restaurant_100d](https://
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-restaurant_pipeline = PretrainedPipeline("nerdl_restaurant_100d_pipeline", lang = "en")
-
-restaurant_pipeline.annotate("Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day.")
-```
-```scala
-
-val restaurant_pipeline = new PretrainedPipeline("nerdl_restaurant_100d_pipeline", lang = "en")
-
-restaurant_pipeline.annotate("Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

@@ -32,37 +32,7 @@ The explain_document_dl is a pretrained pipeline that we can use to process text
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline('recognize_entities_dl', lang = 'fa')
-
-annotations =  pipeline.fullAnnotate("""به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند""")[0]
-
-annotations.keys()
-```
-```scala
-
-val pipeline = new PretrainedPipeline("recognize_entities_dl", lang = "fa")
-
-val result = pipeline.fullAnnotate("""به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند""")(0)
-```
-
-{:.nlu-block}
-```python
-
-import nlu
-
-text = ["""به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند"""]
-
-result_df = nlu.load('fa.recognize_entities_dl').predict(text)
-
-result_df
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

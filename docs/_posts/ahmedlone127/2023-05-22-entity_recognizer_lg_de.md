@@ -34,34 +34,7 @@ It performs most of the common text processing tasks on your dataframe
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-from sparknlp.pretrained import PretrainedPipelinein
-pipeline = PretrainedPipeline('entity_recognizer_lg', lang = 'de')
-annotations =  pipeline.fullAnnotate(""Hallo aus John Snow Labs! "")[0]
-annotations.keys()
-
-```
-```scala
-
-val pipeline = new PretrainedPipeline("entity_recognizer_lg", lang = "de")
-val result = pipeline.fullAnnotate("Hallo aus John Snow Labs! ")(0)
-
-
-```
-
-{:.nlu-block}
-```python
-
-import nlu
-text = [""Hallo aus John Snow Labs! ""]
-result_df = nlu.load('de.ner.recognizer.lg').predict(text)
-result_df
-
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

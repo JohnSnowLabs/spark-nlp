@@ -32,23 +32,7 @@ This pretrained pipeline is built on the top of [albert_large_token_classifier_c
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-pipeline = PretrainedPipeline("albert_large_token_classifier_conll03_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I work at John Snow Labs.")
-```
-```scala
-
-
-val pipeline = new PretrainedPipeline("albert_large_token_classifier_conll03_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I work at John Snow Labs."))
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

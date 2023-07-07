@@ -32,23 +32,7 @@ This pretrained pipeline is built on the top of [longformer_base_token_classifie
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-pipeline = PretrainedPipeline("longformer_base_token_classifier_conll03_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I am working at John Snow Labs.")
-```
-```scala
-
-
-val pipeline = new PretrainedPipeline("longformer_base_token_classifier_conll03_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I am working at John Snow Labs.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

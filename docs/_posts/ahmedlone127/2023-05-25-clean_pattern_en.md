@@ -34,33 +34,7 @@ The clean_pattern is a pretrained pipeline that we can use to process text with 
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-from sparknlp.pretrained import PretrainedPipelinein
-pipeline = PretrainedPipeline('clean_pattern', lang = 'en')
-annotations =  pipeline.fullAnnotate(""Hello from John Snow Labs ! "")[0]
-annotations.keys()
-```
-```scala
-
-
-val pipeline = new PretrainedPipeline("clean_pattern", lang = "en")
-val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
-```
-
-{:.nlu-block}
-```python
-
-
-import nlu
-text = [""Hello from John Snow Labs ! ""]
-result_df = nlu.load('en.clean.pattern').predict(text)
-result_df
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

@@ -32,27 +32,7 @@ This pretrained spellchecker pipeline is built on the top of [spellcheck_dl](htt
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-pipeline = PretrainedPipeline("spellcheck_dl_pipeline", lang = "en")
-
-text = ["During the summer we have the best ueather.", "I have a black ueather jacket, so nice."]
-
-pipeline.annotate(text)
-```
-```scala
-
-
-val pipeline = new PretrainedPipeline("spellcheck_dl_pipeline", lang = "en")
-
-val example = Array("During the summer we have the best ueather.", "I have a black ueather jacket, so nice.")
-
-pipeline.annotate(example)
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

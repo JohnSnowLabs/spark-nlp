@@ -33,16 +33,7 @@ The match_pattern is a pretrained pipeline that we can use to process text with 
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-from sparknlp.pretrained import PretrainedPipeline
-pipeline = PretrainedPipeline("match_pattern", "en", "clinical/models")
-	result = pipeline.annotate("""I love johnsnowlabs!  """)
-```
-
-</div>
 
 {:.model-param}
 

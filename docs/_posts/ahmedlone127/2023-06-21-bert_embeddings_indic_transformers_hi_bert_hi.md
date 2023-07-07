@@ -33,55 +33,7 @@ Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
 
-tokenizer = Tokenizer() \
-.setInputCols("document") \
-.setOutputCol("token")
-
-embeddings = BertEmbeddings.pretrained("bert_embeddings_indic_transformers_hi_bert","hi") \
-.setInputCols(["document", "token"]) \
-.setOutputCol("embeddings")
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["मुझे स्पार्क एनएलपी पसंद है"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array("document"))
-.setOutputCol("token")
-
-val embeddings = BertEmbeddings.pretrained("bert_embeddings_indic_transformers_hi_bert","hi") 
-.setInputCols(Array("document", "token")) 
-.setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("मुझे स्पार्क एनएलपी पसंद है").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("hi.embed.indic_transformers_hi_bert").predict("""मुझे स्पार्क एनएलपी पसंद है""")
-```
-
-</div>
 
 {:.model-param}
 

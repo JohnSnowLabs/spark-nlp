@@ -33,29 +33,7 @@ The DeBERTa model was proposed in [[https://arxiv.org/abs/2006.03654 DeBERTa: De
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DeBertaEmbeddings.pretrained("deberta_v3_xsmall", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
 
-```
-```scala
-val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_xsmall", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.deberta_v3_xsmall").predict("""Put your text here.""")
-```
-
-</div>
 
 {:.model-param}
 

@@ -33,55 +33,7 @@ Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and impor
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
 
-tokenizer = Tokenizer() \
-.setInputCols("document") \
-.setOutputCol("token")
-
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_roberta_base_russian_v0","ru") \
-.setInputCols(["document", "token"]) \
-.setOutputCol("embeddings")
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["Я люблю искра NLP"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array("document"))
-.setOutputCol("token")
-
-val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_roberta_base_russian_v0","ru") 
-.setInputCols(Array("document", "token")) 
-.setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("Я люблю искра NLP").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("ru.embed.roberta_base_russian_v0").predict("""Я люблю искра NLP""")
-```
-
-</div>
 
 {:.model-param}
 

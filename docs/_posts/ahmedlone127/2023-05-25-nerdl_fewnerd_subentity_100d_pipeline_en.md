@@ -32,21 +32,7 @@ This pretrained pipeline is built on Few-NERD/inter public dataset and it extrac
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-fewnerd_pipeline = PretrainedPipeline("nerdl_fewnerd_subentity_100d_pipeline", lang = "en")
-
-fewnerd_pipeline.annotate("""12 Corazones ('12 Hearts') is Spanish-language dating game show produced in the United States for the television network Telemundo since January 2005, based on its namesake Argentine TV show format. The show is filmed in Los Angeles and revolves around the twelve Zodiac signs that identify each contestant. In 2008, Ho filmed a cameo in the Steven Spielberg feature film The Cloverfield Paradox, as a news pundit.""")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("nerdl_fewnerd_subentity_100d_pipeline", lang = "en")
-
-val result = pipeline.fullAnnotate("12 Corazones ('12 Hearts') is Spanish-language dating game show produced in the United States for the television network Telemundo since January 2005, based on its namesake Argentine TV show format. The show is filmed in Los Angeles and revolves around the twelve Zodiac signs that identify each contestant. In 2008, Ho filmed a cameo in the Steven Spielberg feature film The Cloverfield Paradox, as a news pundit.")(0)
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

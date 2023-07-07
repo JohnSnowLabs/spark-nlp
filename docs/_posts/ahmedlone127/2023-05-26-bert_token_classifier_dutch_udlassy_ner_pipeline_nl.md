@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [bert_token_classifier_dutch_udl
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("bert_token_classifier_dutch_udlassy_ner_pipeline", lang = "nl")
-
-pipeline.annotate("Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("bert_token_classifier_dutch_udlassy_ner_pipeline", lang = "nl")
-
-pipeline.annotate("Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
