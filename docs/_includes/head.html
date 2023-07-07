@@ -17,6 +17,8 @@
 
 {%- if page.layout == "landing" -%}
 <title>Spark NLP - State of the Art NLP</title>
+{%- elsif page.layout == "model" -%}
+<title>{%- include snippets/get-article-modeltitle.html article=page -%}</title>
 {%- elsif _pagetitle -%}
 <title>{%- if __return -%}{{ __return }}{%- endif -%}</title>
 {%- else -%}
