@@ -78,6 +78,11 @@ class HasClassifierActivationProperties:
                        "Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid). Default is False i.e. Multiclass",
                        typeConverter=TypeConverters.toBoolean)
 
+    threshold = Param(Params._dummy(),
+                      "threshold",
+                      "Choose the threshold to determine which logits are considered to be positive or negative",
+                      typeConverter=TypeConverters.toFloat)
+
     def setActivation(self, value):
         """Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
 
@@ -125,6 +130,22 @@ class HasClassifierActivationProperties:
             Default is False i.e. multi-class
         """
         return self.getOrDefault(self.multilabel)
+
+    def setThreshold(self, value):
+        """Set the threshold to determine which logits are considered to be positive or negative.
+         (Default: `0.5`). The value should be between 0.0 and 1.0. Changing the threshold value
+         will affect the resulting labels and can be used to adjust the balance between precision and
+         recall in the classification process.
+
+        Parameters
+        ----------
+        value : float
+            The threshold to determine which logits are considered to be positive or negative.
+            (Default: `0.5`). The value should be between 0.0 and 1.0. Changing the threshold value
+            will affect the resulting labels and can be used to adjust the balance between precision and
+            recall in the classification process.
+        """
+        return self._set(threshold=value)
 
 
 class HasEmbeddingsProperties(Params):
