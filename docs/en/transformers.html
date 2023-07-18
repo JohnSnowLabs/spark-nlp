@@ -10895,6 +10895,7 @@ RoBertaForQuestionAnswering.</p>
 <p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP
 <strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a>
 <strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a>
+<strong>ONNX</strong>: Models from HuggingFace in ONNX format
 <strong>Model Architecture</strong>: Which architecture is compatible with that annotator
 <strong>Flags</strong>:</p>
 
@@ -10911,7 +10912,9 @@ RoBertaForQuestionAnswering.</p>
       <th style="text-align: left">Spark NLP</th>
       <th style="text-align: left">TF Hub</th>
       <th style="text-align: left">HuggingFace</th>
+      <th style="text-align: left">ONNX</th>
       <th style="text-align: left">Model Architecture</th>
+      <th> </th>
     </tr>
   </thead>
   <tbody>
@@ -10919,314 +10922,414 @@ RoBertaForQuestionAnswering.</p>
       <td style="text-align: left">BertEmbeddings</td>
       <td style="text-align: left">✅</td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">✅</td>
       <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">BertSentenceEmbeddings</td>
       <td style="text-align: left">✅</td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">✅</td>
       <td style="text-align: left">DistilBERT</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">CamemBertEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left">CamemBERT</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">✅</td>
       <td style="text-align: left">RoBERTa - DistilRoBERTa</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">DeBertaEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">✅</td>
       <td style="text-align: left">DeBERTa-v2 - DeBERTa-v3</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">XlmRoBertaEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">✅</td>
       <td style="text-align: left">XLM-RoBERTa</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">AlbertEmbeddings</td>
       <td style="text-align: left">✅</td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left">ALBERT</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">XlnetEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left">XLNet</td>
+      <td>❎</td>
     </tr>
     <tr>
       <td style="text-align: left">LongformerEmbeddings</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left">Longformer</td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">ElmoEmbeddings</td>
       <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">UniversalSentenceEncoder</td>
       <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">BertForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForTokenClassification">TFBertForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification">TFDistilBertForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">AlbertForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForTokenClassification">TFAlbertForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForTokenClassification">TFRobertaForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DeBertaForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForTokenClassification">TFDebertaV2ForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">XlmRoBertaForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForTokenClassification">TFXLMRobertaForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">XlnetForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForTokenClassificationet">TFXLNetForTokenClassificationet</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">LongformerForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForTokenClassification">TFLongformerForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">CamemBertForTokenClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForTokenClassification">TFCamemBertForTokenClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">CamemBertForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForSequenceClassification">TFCamemBertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">CamemBertForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForQuestionAnswering">TFCamembertForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">BertForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">AlbertForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification">TFAlbertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DeBertaForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForSequenceClassification">TFDebertaV2ForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">XlmRoBertaForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForSequenceClassification">TFXLMRobertaForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">XlnetForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification">TFXLNetForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">LongformerForSequenceClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification">TFLongformerForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">AlbertForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering">TFAlbertForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">BertForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering">TFBertForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DeBertaForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForQuestionAnswering">TFDebertaV2ForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering">TFDistilBertForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">LongformerForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForQuestionAnswering">TFLongformerForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForQuestionAnswering">TFRobertaForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">XlmRoBertaForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForQuestionAnswering">TFXLMRobertaForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">TapasForQuestionAnswering</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/tapas#transformers.TFTapasForQuestionAnswering">TFTapasForQuestionAnswering</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">ViTForImageClassification</td>
       <td style="text-align: left">❌</td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/vit#transformers.TFViTForImageClassification">TFViTForImageClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">Automatic Speech Recognition (Wav2Vec2ForCTC)</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/wav2vec2#transformers.TFWav2Vec2ForCTC">TFWav2Vec2ForCTC</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">SwinForImageClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/swin#transformers.TFSwinForImageClassification">TFSwinForImageClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">HubertForCTC</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/hubert#transformers.TFHubertForCTC">TFHubertForCTC</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">ConvNextForImageClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❎</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/convnext#transformers.TFConvNextForImageClassification">TFConvNextForImageClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">BertForZeroShotClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertForZeroShotClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaForZeroShotClassification</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">✅</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">T5Transformer</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❌</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">MarianTransformer</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❌</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td> </td>
     </tr>
     <tr>
       <td style="text-align: left">OpenAI GPT2</td>
       <td style="text-align: left"> </td>
       <td style="text-align: left">❌</td>
+      <td style="text-align: left">❎</td>
       <td style="text-align: left"> </td>
+      <td> </td>
     </tr>
   </tbody>
 </table>
 
 <h3 id="example-notebooks">Example Notebooks</h3>
 
-<h4 id="huggingface-to-spark-nlp-onnx">HuggingFace to Spark NLP (ONNX)</h4>
+<h4 id="huggingface-optimum-pytorch-and-onnx-runtime-to-spark-nlp-onnx">HuggingFace, Optimum, PyTorch, and ONNX Runtime to Spark NLP (ONNX)</h4>
 
 <table>
   <thead>
     <tr>
       <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">HuggingFace Notebooks</th>
+      <th style="text-align: left">Notebooks</th>
       <th style="text-align: left">Colab</th>
     </tr>
   </thead>
@@ -11234,22 +11337,22 @@ RoBertaForQuestionAnswering.</p>
     <tr>
       <td style="text-align: left">BertEmbeddings</td>
       <td style="text-align: left">HuggingFace in Spark NLP - BERT</td>
-      <td style="text-align: left">Coming soon!</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BERT.ipynb">BERT</a></td>
     </tr>
     <tr>
       <td style="text-align: left">DistilBertEmbeddings</td>
       <td style="text-align: left">HuggingFace in Spark NLP - DistilBERT</td>
-      <td style="text-align: left">Coming soon!</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBERT.ipynb">DistilBERT</a></td>
     </tr>
     <tr>
       <td style="text-align: left">RoBertaEmbeddings</td>
       <td style="text-align: left">HuggingFace in Spark NLP - RoBERTa</td>
-      <td style="text-align: left">Coming soon!</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_RoBERTa.ipynb">RoBERTa</a></td>
     </tr>
     <tr>
       <td style="text-align: left">DeBertaEmbeddings</td>
       <td style="text-align: left">HuggingFace in Spark NLP - DeBERTa</td>
-      <td style="text-align: left">Coming soon!</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DeBERTa.ipynb">DeBERTa</a></td>
     </tr>
   </tbody>
 </table>
@@ -11260,7 +11363,7 @@ RoBertaForQuestionAnswering.</p>
   <thead>
     <tr>
       <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">HuggingFace Notebooks</th>
+      <th style="text-align: left">Notebooks</th>
       <th style="text-align: left">Colab</th>
     </tr>
   </thead>
@@ -11487,7 +11590,7 @@ RoBertaForQuestionAnswering.</p>
   </tbody>
 </table>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2023-04-25T00:00:00+00:00">Apr 25, 2023</time>
+      <time itemprop="dateModified" datetime="2023-06-18T00:00:00+00:00">Jun 18, 2023</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
