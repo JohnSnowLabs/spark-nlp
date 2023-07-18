@@ -34,23 +34,7 @@ The TREC dataset for question classification consists of open-domain, fact-based
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-trec_pipeline = PretrainedPipeline("bert_sequence_classifier_trec_coarse_pipeline", lang = "en")
-
-trec_pipeline.annotate("Germany is the largest country in Europe economically.")
-```
-```scala
-
-
-val trec_pipeline = new PretrainedPipeline("bert_sequence_classifier_trec_coarse_pipeline", lang = "en")
-
-trec_pipeline.annotate("Germany is the largest country in Europe economically.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

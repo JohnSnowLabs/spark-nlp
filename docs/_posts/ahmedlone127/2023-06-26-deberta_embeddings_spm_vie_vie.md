@@ -33,50 +33,7 @@ Pretrained DebertaEmbeddings model, adapted from Hugging Face and curated to pro
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-
-embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_spm_vie","vie") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings") \
-    .setCaseSensitive(True)
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
-
-val embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_spm_vie","vie")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("embeddings")
-    .setCaseSensitive(true)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("I love Spark NLP").toDS.toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-</div>
 
 {:.model-param}
 

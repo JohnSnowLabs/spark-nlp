@@ -32,35 +32,7 @@ DateMatcher based on yyyy/MM/dd
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline_local = PretrainedPipeline('match_datetime')
-
-tres = pipeline_local.fullAnnotate(input_list)[0]
-for dte in tres['date']:
-    sent = tres['sentence'][int(dte.metadata['sentence'])]
-    print (f'text/chunk {sent.result[dte.begin:dte.end+1]} | mapped_date: {dte.result}')
-```
-```scala
-
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline import com.johnsnowlabs.nlp.SparkNLP
-
-SparkNLP.version()
-
-val testData = spark.createDataFrame(Seq( (1, "David visited the restaurant yesterday with his family. 
-He also visited and the day before, but at that time he was alone.
-David again visited today with his colleagues.
-He and his friends really liked the food and hoped to visit again tomorrow."))).toDF("id", "text")
-
-val pipeline = PretrainedPipeline("match_datetime", lang="en")
-
-val annotation = pipeline.transform(testData)
-
-annotation.show()
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

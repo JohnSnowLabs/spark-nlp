@@ -33,50 +33,7 @@ Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provid
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-
-embeddings = BertEmbeddings.pretrained("bert_embeddings_chemical_uncased_finetuned_cust_c1_cust","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings") \
-    .setCaseSensitive(True)
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
-
-val embeddings = BertEmbeddings.pretrained("bert_embeddings_chemical_uncased_finetuned_cust_c1_cust","en")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("embeddings")
-    .setCaseSensitive(True)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("I love Spark NLP").toDS.toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-</div>
 
 {:.model-param}
 

@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [distilbert_token_classifier_typ
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-typo_pipeline = PretrainedPipeline("distilbert_token_classifier_typo_detector_pipeline", lang = "is")
-
-typo_pipeline.annotate("Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP.")
-```
-```scala
-
-val typo_pipeline = new PretrainedPipeline("distilbert_token_classifier_typo_detector_pipeline", lang = "is")
-
-typo_pipeline.annotate("Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

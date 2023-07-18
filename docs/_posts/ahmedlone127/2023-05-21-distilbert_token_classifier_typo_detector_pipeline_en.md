@@ -32,23 +32,7 @@ This pretrained pipeline is built on the top of [distilbert_token_classifier_typ
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-typo_pipeline = PretrainedPipeline("distilbert_token_classifier_typo_detector_pipeline", lang = "en")
-
-typo_pipeline.annotate("He had also stgruggled with addiction during his tine in Congress.")
-```
-```scala
-
-
-val typo_pipeline = new PretrainedPipeline("distilbert_token_classifier_typo_detector_pipeline", lang = "en")
-
-typo_pipeline.annotate("He had also stgruggled with addiction during his tine in Congress.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

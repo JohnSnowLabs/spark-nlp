@@ -33,55 +33,7 @@ Pretrained RoBERTa Embeddings model, uploaded to Hugging Face, adapted and impor
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
 
-tokenizer = Tokenizer() \
-.setInputCols("document") \
-.setOutputCol("token")
-
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_indic_transformers_te_roberta","te") \
-.setInputCols(["document", "token"]) \
-.setOutputCol("embeddings")
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["నేను స్పార్క్ nlp ను ప్రేమిస్తున్నాను"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array("document"))
-.setOutputCol("token")
-
-val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_indic_transformers_te_roberta","te") 
-.setInputCols(Array("document", "token")) 
-.setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("నేను స్పార్క్ nlp ను ప్రేమిస్తున్నాను").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("te.embed.indic_transformers_te_roberta").predict("""నేను స్పార్క్ nlp ను ప్రేమిస్తున్నాను""")
-```
-
-</div>
 
 {:.model-param}
 

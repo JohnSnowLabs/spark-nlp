@@ -33,47 +33,7 @@ Pretrained Electra Embeddings model, adapted from Hugging Face and curated to pr
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
-embeddings = BertEmbeddings.pretrained("electra_embeddings_koelectra_base_generator","ko") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["나는 Spark NLP를 좋아합니다"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
-val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-
-val embeddings = BertEmbeddings.pretrained("electra_embeddings_koelectra_base_generator","ko") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("나는 Spark NLP를 좋아합니다").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-</div>
 
 {:.model-param}
 

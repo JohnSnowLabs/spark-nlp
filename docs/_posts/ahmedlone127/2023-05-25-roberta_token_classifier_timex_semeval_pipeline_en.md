@@ -32,23 +32,7 @@ This pretrained pipeline is built on the top of [roberta_token_classifier_timex_
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-timex_pipeline = PretrainedPipeline("roberta_token_classifier_timex_semeval_pipeline", lang = "en")
-
-timex_pipeline.annotate("Model training was started at 22:12C and it took 3 days from Tuesday to Friday.")
-```
-```scala
-
-
-val timex_pipeline = new PretrainedPipeline("roberta_token_classifier_timex_semeval_pipeline", lang = "en")
-
-timex_pipeline.annotate("Model training was started at 22:12C and it took 3 days from Tuesday to Friday.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

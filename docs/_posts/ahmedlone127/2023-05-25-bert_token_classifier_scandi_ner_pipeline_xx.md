@@ -32,20 +32,7 @@ This pretrained pipeline is built on [bert_token_classifier_scandi_ner](https://
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-scandiner_pipeline = PretrainedPipeline("bert_token_classifier_scandi_ner_pipeline", lang = "xx")
-scandiner_pipeline.annotate("Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.")
-```
-```scala
-
-val scandiner_pipeline = new PretrainedPipeline("bert_token_classifier_scandi_ner_pipeline", lang = "xx")
-
-val scandiner_pipeline.annotate("Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

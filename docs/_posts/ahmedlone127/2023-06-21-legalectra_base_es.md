@@ -33,55 +33,7 @@ Pretrained Spanish Legal Word Embeddings model, adapted from Hugging Face and cu
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
-electra = BertEmbeddings.pretrained("legalectra_base","es") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, electra])
-
-data = spark.createDataFrame([["Amo a Spark NLP."]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
-val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-
-val electra = BertEmbeddings.pretrained("legalectra_base","es") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("class")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, electra))
-
-val data = Seq("Amo a Spark NLP.").toDS.toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("es.embed.bert.base_legal").predict("""Amo a Spark NLP.""")
-```
-
-</div>
 
 {:.model-param}
 

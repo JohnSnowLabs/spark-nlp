@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [xlm_roberta_large_token_classif
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("xlm_roberta_large_token_classifier_conll03_pipeline", lang = "de")
-
-pipeline.annotate("Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004 wechselte er zu Admira Wacker Mödling, wo er auch in der Akademie spielte.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("xlm_roberta_large_token_classifier_conll03_pipeline", lang = "de")
-
-pipeline.annotate("Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004 wechselte er zu Admira Wacker Mödling, wo er auch in der Akademie spielte.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

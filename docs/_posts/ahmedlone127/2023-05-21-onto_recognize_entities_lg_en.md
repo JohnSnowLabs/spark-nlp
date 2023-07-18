@@ -33,24 +33,7 @@ It performs most of the common text processing tasks on your dataframe
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.pretrained import PretrainedPipeline
-pipeline = PretrainedPipeline("onto_recognize_entities_lg", "en")
 
-result = pipeline.annotate("""I love johnsnowlabs!  """)
-```
-
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.ner.onto.lg").predict("""I love johnsnowlabs!  """)
-```
-
-</div>
 
 {:.model-param}
 

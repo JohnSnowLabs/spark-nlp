@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [xlm_roberta_large_token_classif
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("xlm_roberta_large_token_classifier_hrl_pipeline", lang = "xx")
-
-pipeline.annotate("يمكنكم مشاهدة أمير منطقة الرياض الأمير فيصل بن بندر بن عبد العزيز في كل مناسبة وافتتاح تتعلق بمشاريع التعليم والصحة وخدمة الطرق والمشاريع الثقافية في منطقة الرياض.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("xlm_roberta_large_token_classifier_hrl_pipeline", lang = "xx")
-
-pipeline.annotate("يمكنكم مشاهدة أمير منطقة الرياض الأمير فيصل بن بندر بن عبد العزيز في كل مناسبة وافتتاح تتعلق بمشاريع التعليم والصحة وخدمة الطرق والمشاريع الثقافية في منطقة الرياض.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

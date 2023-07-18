@@ -33,20 +33,7 @@ Pretrained Legal Roberta Embeddings model, adapted from Hugging Face and curated
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-```python
-sentence_embeddings = RoBertaEmbeddings.pretrained("roberta_base_swiss_legal", "gsw")\
-  .setInputCols(["sentence"])\
-  .setOutputCol("embeddings")
-```
-```scala
-val sentence_embeddings = RoBertaEmbeddings.pretrained("roberta_base_swiss_legal", "gsw")
-  .setInputCols("sentence")
-  .setOutputCol("embeddings"))
-```
-</div>
 
 {:.model-param}
 

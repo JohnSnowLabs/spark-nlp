@@ -33,55 +33,7 @@ Pretrained Electra Embeddings model, adapted from Hugging Face and curated to pr
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
-embeddings = BertEmbeddings.pretrained("electra_embeddings_electra_base_turkish_mc4_uncased_generator","tr") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["Spark NLP'yi seviyorum"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
-val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-
-val embeddings = BertEmbeddings.pretrained("electra_embeddings_electra_base_turkish_mc4_uncased_generator","tr") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("Spark NLP'yi seviyorum").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("tr.embed.electra.uncased_base").predict("""Spark NLP'yi seviyorum""")
-```
-
-</div>
 
 {:.model-param}
 

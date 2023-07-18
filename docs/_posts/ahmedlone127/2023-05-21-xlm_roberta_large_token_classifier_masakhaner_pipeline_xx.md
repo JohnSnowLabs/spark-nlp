@@ -32,21 +32,7 @@ This pretrained pipeline is built on [xlm_roberta_large_token_classifier_masakha
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-masakhaner_pipeline = PretrainedPipeline("xlm_roberta_large_token_classifier_masakhaner_pipeline", lang = "xx")
-
-masakhaner_pipeline.annotate("አህመድ ቫንዳ ከ3-10-2000 ጀምሮ በአዲስ አበባ ኖሯል።")
-```
-```scala
-
-val masakhaner_pipeline = new PretrainedPipeline("xlm_roberta_large_token_classifier_masakhaner_pipeline", lang = "xx")
-
-val masakhaner_pipeline.annotate("አህመድ ቫንዳ ከ3-10-2000 ጀምሮ በአዲስ አበባ ኖሯል።")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
