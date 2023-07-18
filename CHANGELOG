@@ -1,4 +1,15 @@
 ========
+5.0.1
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix `multiLabel` param issue in `XXXForSequenceClassitication` and `XXXForZeroShotClassification` annotators
+* Add the missing `threshold` param to all `XXXForSequenceClassitication` in Python
+* Fix issue with passing `spark.driver.cores` config as a param into start() function in Python and Scala
+* Add new notebooks to export BERT, DistilBERT, RoBERTa, and DeBERTa models to ONNX format
+
+========
 5.0.0
 ========
 ----------------
