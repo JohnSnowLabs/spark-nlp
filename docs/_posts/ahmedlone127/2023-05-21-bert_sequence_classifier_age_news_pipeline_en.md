@@ -32,23 +32,7 @@ This pretrained pipeline is built on the top of [bert_sequence_classifier_age_ne
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-
-news_pipeline = PretrainedPipeline("bert_sequence_classifier_age_news_pipeline", lang = "en")
-
-news_pipeline.annotate("Microsoft has taken its first step into the metaverse.")
-```
-```scala
-
-
-val news_pipeline = new PretrainedPipeline("bert_sequence_classifier_age_news_pipeline", lang = "en")
-
-news_pipeline.annotate("Microsoft has taken its first step into the metaverse.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

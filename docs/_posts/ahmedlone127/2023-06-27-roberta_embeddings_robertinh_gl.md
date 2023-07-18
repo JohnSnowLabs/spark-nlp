@@ -33,55 +33,7 @@ Pretrained RoBERTa Embeddings model, adapted from Hugging Face and curated to pr
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-
-embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_robertinh","gl") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler()
-      .setInputCols(Array("text"))
-      .setOutputCols(Array("document"))
-
-val tokenizer = new Tokenizer()
-    .setInputCols("document")
-    .setOutputCol("token")
-
-val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_robertinh","gl")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("gl.embed.roberta").predict("""PUT YOUR STRING HERE""")
-```
-
-</div>
 
 {:.model-param}
 

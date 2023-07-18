@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [roberta_token_classifier_icelan
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("roberta_token_classifier_icelandic_ner_pipeline", lang = "is")
-
-pipeline.annotate("Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("roberta_token_classifier_icelandic_ner_pipeline", lang = "is")
-
-pipeline.annotate("Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

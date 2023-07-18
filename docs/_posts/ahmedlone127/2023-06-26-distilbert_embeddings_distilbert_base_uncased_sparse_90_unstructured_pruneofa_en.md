@@ -33,55 +33,7 @@ Pretrained DistilBERT Embeddings model, uploaded to Hugging Face, adapted and im
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol("text") \
-.setOutputCol("document")
 
-tokenizer = Tokenizer() \
-.setInputCols("document") \
-.setOutputCol("token")
-
-embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_uncased_sparse_90_unstructured_pruneofa","en") \
-.setInputCols(["document", "token"]) \
-.setOutputCol("embeddings")
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array("document"))
-.setOutputCol("token")
-
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_uncased_sparse_90_unstructured_pruneofa","en") 
-.setInputCols(Array("document", "token")) 
-.setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("I love Spark NLP").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.distilbert_base_uncased_sparse_90_unstructured_pruneofa").predict("""I love Spark NLP""")
-```
-
-</div>
 
 {:.model-param}
 

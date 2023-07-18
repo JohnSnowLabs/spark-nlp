@@ -33,55 +33,7 @@ Pretrained Word Embeddings model, trained on legal contracts, adapted from Huggi
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
 
-tokenizer = Tokenizer() \
-    .setInputCols("document") \
-    .setOutputCol("token")
-  
-embeddings = BertEmbeddings.pretrained("bert_base_uncased_contracts","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
-    
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([["I love Spark NLP."]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
-      .setOutputCol("document")
- 
-val tokenizer = new Tokenizer() 
-    .setInputCols(Array("document"))
-    .setOutputCol("token")
-
-val embeddings = BertEmbeddings.pretrained("bert_base_uncased_contracts","en") 
-    .setInputCols(Array("document", "token")) 
-    .setOutputCol("embeddings")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq("I love Spark NLP.").toDF("text")
-
-val result = pipeline.fit(data).transform(data)
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.bert.contracts.uncased_base").predict("""I love Spark NLP.""")
-```
-
-</div>
 
 {:.model-param}
 

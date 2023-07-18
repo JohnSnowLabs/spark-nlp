@@ -34,39 +34,7 @@ This model was trained using the dataset available at https://universaldependenc
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pos = PerceptronModel.pretrained("pos_ud_bokmaal", "nb") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("pos")
-
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, pos])
-light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-results = light_pipeline.fullAnnotate("Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene.")
-```
-```scala
-
-val pos = PerceptronModel.pretrained("pos_ud_bokmaal", "nb")
-    .setInputCols(Array("document", "token"))
-    .setOutputCol("pos")
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos))
-val data = Seq("Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene.").toDF("text")
-val result = pipeline.fit(data).transform(data)
-```
-
-{:.nlu-block}
-```python
-
-import nlu
-
-text = ["""Annet enn å være kongen i nord, er John Snow en engelsk lege og en leder innen utvikling av anestesi og medisinsk hygiene."""]
-pos_df = nlu.load('nb.pos.ud_bokmaal').predict(text)
-pos_df
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

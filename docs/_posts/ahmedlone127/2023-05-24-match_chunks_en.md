@@ -32,41 +32,7 @@ The pipeline uses regex `<DT/>?/<JJ/>*<NN>+`
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline_local = PretrainedPipeline('match_chunks')
-
-result = pipeline_local.annotate("David visited the restaurant yesterday with his family. He also visited and the day before, but at that time he was alone. David again visited today with his colleagues. He and his friends really liked the food and hoped to visit again tomorrow.")
-
-result['chunk']
-```
-```scala
-
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline import com.johnsnowlabs.nlp.SparkNLP
-
-SparkNLP.version()
-
-val testData = spark.createDataFrame(Seq( (1, "David visited the restaurant yesterday with his family. He also visited and the day before, but at that time he was alone. David again visited today with his colleagues. He and his friends really liked the food and hoped to visit again tomorrow."))).toDF("id", "text")
-
-val pipeline = PretrainedPipeline("match_chunks", lang="en")
-
-val annotation = pipeline.transform(testData)
-
-annotation.show()
-```
-
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.match.chunks").predict("""David visited the restaurant yesterday with his family. He also visited and the day before, but at that time he was alone. David again visited today with his colleagues. He and his friends really liked the food and hoped to visit again tomorrow.""")
-```
-
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

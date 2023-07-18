@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [roberta_base_token_classifier_o
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("roberta_base_token_classifier_ontonotes_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I have been working at John Snow Labs since November 2020.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("roberta_base_token_classifier_ontonotes_pipeline", lang = "en")
-
-pipeline.annotate("My name is John and I have been working at John Snow Labs since November 2020."))
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

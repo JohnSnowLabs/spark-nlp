@@ -33,16 +33,7 @@ The movies_sentiment_analysis is a pretrained pipeline that we can use to proces
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.pretrained import PretrainedPipeline
-pipeline = PretrainedPipeline("movies_sentiment_analysis", "en")
 
-result = pipeline.annotate("""I love johnsnowlabs!  """)
-```
-
-</div>
 
 {:.model-param}
 

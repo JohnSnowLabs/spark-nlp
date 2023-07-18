@@ -32,21 +32,7 @@ This pretrained pipeline is built on the top of [roberta_token_classifier_bne_ca
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-pipeline = PretrainedPipeline("roberta_token_classifier_bne_capitel_ner_pipeline", lang = "es")
-
-pipeline.annotate("Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid.")
-```
-```scala
-
-val pipeline = new PretrainedPipeline("roberta_token_classifier_bne_capitel_ner_pipeline", lang = "es")
-
-pipeline.annotate("Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid.")
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

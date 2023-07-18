@@ -34,39 +34,7 @@ It performs most of the common text processing tasks on your dataframe
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-```python
-
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en')
-
-result = pipeline.fullAnnotate("""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!""")
-
-
-```
-```scala
-
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-
-val pipeline = new PretrainedPipeline("analyze_sentiment", lang = "en")
-
-val result = pipeline.fullAnnotate("""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!""")
-
-```
-
-{:.nlu-block}
-```python
-
-import nlu
-text = ["""Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!"""]
-result_df = nlu.load('en.classify').predict(text)
-result_df
-
-```
-</div>
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

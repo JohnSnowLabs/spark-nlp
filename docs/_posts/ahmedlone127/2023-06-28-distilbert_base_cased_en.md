@@ -33,29 +33,7 @@ This model is a distilled version of the [BERT base model](https://huggingface.c
 
 ## How to use
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_cased", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-```
-```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_cased", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-```
 
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.distilbert").predict("""Put your text here.""")
-```
-
-</div>
 
 {:.model-param}
 
