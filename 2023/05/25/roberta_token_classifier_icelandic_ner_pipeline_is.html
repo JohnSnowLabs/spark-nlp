@@ -432,20 +432,6 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"roberta_token_classifier_icelandic_ner_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"is"</span><span class="p">)</span>
-
-<span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"roberta_token_classifier_icelandic_ner_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"is"</span><span class="o">)</span>
-
-<span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."</span><span class="o">)</span>
-</code></pre></div>  </div>
-</div>
-
-<div class="tabs-box">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"roberta_token_classifier_icelandic_ner_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"is"</span><span class="p">)</span>
 
 <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."</span><span class="p">)</span>

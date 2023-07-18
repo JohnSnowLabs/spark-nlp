@@ -432,34 +432,6 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">pipeline_local</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'match_datetime'</span><span class="p">)</span>
-
-<span class="n">tres</span> <span class="o">=</span> <span class="n">pipeline_local</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">input_list</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">dte</span> <span class="ow">in</span> <span class="n">tres</span><span class="p">[</span><span class="s">'date'</span><span class="p">]:</span>
-    <span class="n">sent</span> <span class="o">=</span> <span class="n">tres</span><span class="p">[</span><span class="s">'sentence'</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">dte</span><span class="p">.</span><span class="n">metadata</span><span class="p">[</span><span class="s">'sentence'</span><span class="p">])]</span>
-    <span class="k">print</span> <span class="p">(</span><span class="sa">f</span><span class="s">'text/chunk </span><span class="si">{</span><span class="n">sent</span><span class="p">.</span><span class="n">result</span><span class="p">[</span><span class="n">dte</span><span class="p">.</span><span class="n">begin</span><span class="p">:</span><span class="n">dte</span><span class="p">.</span><span class="n">end</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s"> | mapped_date: </span><span class="si">{</span><span class="n">dte</span><span class="p">.</span><span class="n">result</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span> <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"David visited the restaurant yesterday with his family. 
-He also visited and the day before, but at that time he was alone.
-David again visited today with his colleagues.
-He and his friends really liked the food and hoped to visit again tomorrow."</span><span class="o">))).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"match_datetime"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-</code></pre></div>  </div>
-</div>
-
-<div class="tabs-box">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline_local</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'match_datetime'</span><span class="p">)</span>
 
 <span class="n">tres</span> <span class="o">=</span> <span class="n">pipeline_local</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">input_list</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>

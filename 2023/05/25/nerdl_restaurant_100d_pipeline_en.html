@@ -432,20 +432,6 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">restaurant_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"nerdl_restaurant_100d_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">)</span>
-
-<span class="n">restaurant_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day."</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">restaurant_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"nerdl_restaurant_100d_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
-
-<span class="nv">restaurant_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day."</span><span class="o">)</span>
-</code></pre></div>  </div>
-</div>
-
-<div class="tabs-box">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">restaurant_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"nerdl_restaurant_100d_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">)</span>
 
 <span class="n">restaurant_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day."</span><span class="p">)</span>

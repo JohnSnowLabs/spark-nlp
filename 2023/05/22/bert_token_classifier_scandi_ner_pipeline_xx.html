@@ -432,19 +432,6 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">scandiner_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"bert_token_classifier_scandi_ner_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"xx"</span><span class="p">)</span>
-<span class="n">scandiner_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner."</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">scandiner_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"bert_token_classifier_scandi_ner_pipeline"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"xx"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">scandiner_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner."</span><span class="o">)</span>
-</code></pre></div>  </div>
-</div>
-
-<div class="tabs-box">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scandiner_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"bert_token_classifier_scandi_ner_pipeline"</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">"xx"</span><span class="p">)</span>
 <span class="n">scandiner_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner."</span><span class="p">)</span>
 </code></pre></div>  </div>

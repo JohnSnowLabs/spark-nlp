@@ -430,19 +430,6 @@
 
 <h2 id="how-to-use">How to use</h2>
 
-<div class="tabs-box">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_swiss_legal"</span><span class="p">,</span> <span class="s">"gsw"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">sentence_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_swiss_legal"</span><span class="o">,</span> <span class="s">"gsw"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">))</span>
-</code></pre></div>  </div>
-</div>
-
 <div class="tabs-box model-param">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_swiss_legal"</span><span class="p">,</span> <span class="s">"gsw"</span><span class="p">)</span>\
