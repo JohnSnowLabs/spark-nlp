@@ -132,13 +132,24 @@ def start(gpu=False,
 
     if params is None:
         params = {}
+    else:
+        if not isinstance(params, dict):
+            raise TypeError('params must be a dictionary like {"spark.executor.memory": "8G"}')
+
     if '_instantiatedSession' in dir(SparkSession) and SparkSession._instantiatedSession is not None:
         print('Warning::Spark Session already created, some configs may not take.')
+
+    driver_cores = "*"
+    for key, value in params.items():
+        if key == "spark.driver.cores":
+            driver_cores = f"{value}"
+        else:
+            driver_cores = "*"
 
     class SparkNLPConfig:
 
         def __init__(self):
-            self.master, self.app_name = "local[*]", "Spark NLP"
+            self.master, self.app_name = "local[{}]".format(driver_cores), "Spark NLP"
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
             # Spark NLP on CPU or GPU
