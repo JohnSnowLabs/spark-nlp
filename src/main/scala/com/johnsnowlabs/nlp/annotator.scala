@@ -705,4 +705,9 @@ package object annotator {
   object RoBertaForZeroShotClassification
       extends ReadablePretrainedRoBertaForZeroShotModel
       with ReadRoBertaForZeroShotDLModel
+
+  def isSeq2SeqTransformer(instance: Any): Boolean = {
+    instance.getClass.getPackage.getName == "com.johnsnowlabs.nlp.annotators.seq2seq"
+  }
+
 }

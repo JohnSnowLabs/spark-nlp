@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotator.isSeq2SeqTransformer
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{PipelineModel, Transformer}
@@ -42,11 +43,21 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       .toArray
   }
 
-  def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[IAnnotation]] = {
+  def fullAnnotate(
+      target: String,
+      optionalTarget: String = "",
+      streamer: Boolean = false): Map[String, Seq[IAnnotation]] = {
     if (target.contains("/") && ResourceHelper.validFile(target)) {
       fullAnnotateImage(target)
     } else {
-      fullAnnotateInternal(target, optionalTarget)
+      val output = fullAnnotateInternal(target, optionalTarget)
+      if (streamer) {
+        output.foreach { case (outputCol, annotation) =>
+          if (getSeq2SeqOutputCols.contains(outputCol))
+            println(s"$outputCol: ${annotation.mkString(" ")}")
+        }
+      }
+      output
     }
   }
 
@@ -393,16 +404,25 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       .toArray
   }
 
-  def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
-    fullAnnotate(target, optionalTarget).mapValues(_.map { iAnnotation =>
-      val annotation = iAnnotation.asInstanceOf[Annotation]
-      annotation.annotatorType match {
-        case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-            if parseEmbeddings =>
-          annotation.embeddings.mkString(" ")
-        case _ => annotation.result
+  def annotate(
+      target: String,
+      optionalTarget: String = "",
+      streamer: Boolean = false): Map[String, Seq[String]] = {
+    fullAnnotate(target, optionalTarget, streamer = false).map { case (outputCol, annotation) =>
+      outputCol -> annotation.map { iAnnotation =>
+        val annotation = iAnnotation.asInstanceOf[Annotation]
+        val output = annotation.annotatorType match {
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+              if parseEmbeddings =>
+            annotation.embeddings.mkString(" ")
+          case _ => annotation.result
+        }
+        if (streamer && getSeq2SeqOutputCols.contains(outputCol)) {
+          println(s"$outputCol: $output")
+        }
+        output
       }
-    })
+    }
   }
 
   def annotate(
@@ -447,6 +467,12 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       }
       .toList
       .asJava
+  }
+
+  private def getSeq2SeqOutputCols: Array[String] = {
+    getStages
+      .filter(stage => isSeq2SeqTransformer(stage))
+      .map(stage => stage.asInstanceOf[HasOutputAnnotationCol].getOutputCol)
   }
 
 }

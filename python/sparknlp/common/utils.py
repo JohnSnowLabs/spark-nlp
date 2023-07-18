@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains utilities for annotators."""
+import sys
 
 from sparknlp.common.read_as import ReadAs
 import sparknlp.internal as _internal
@@ -37,3 +38,7 @@ def ExternalResource(path, read_as=ReadAs.TEXT, options={}):
 def RegexRule(rule, identifier):
     return _internal._RegexRule(rule, identifier).apply()
 
+
+def isSeq2Seq(instance):
+    module = sys.modules[instance.__class__.__module__]
+    return module.__name__.startswith("sparknlp.annotator.seq2seq")

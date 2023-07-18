@@ -17,7 +17,7 @@ import sparknlp.internal as _internal
 from sparknlp.annotation import Annotation
 from sparknlp.annotation_audio import AnnotationAudio
 from sparknlp.annotation_image import AnnotationImage
-from sparknlp.common import AnnotatorApproach, AnnotatorModel
+from sparknlp.common import AnnotatorApproach, AnnotatorModel, isSeq2Seq
 from sparknlp.internal import AnnotatorTransformer
 
 
@@ -157,7 +157,7 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotate(self, target, optional_target=""):
+    def fullAnnotate(self, target, optional_target="", streamer=False):
         """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
@@ -198,6 +198,8 @@ class LightPipeline:
         if optional_target == "":
             if self.__isTextInput(target):
                 result = self.__fullAnnotateText(target)
+                if streamer:
+                    self.__streamResult(stages, result[0])
             elif self.__isAudioInput(target):
                 result = self.__fullAnnotateAudio(target)
             else:
@@ -315,7 +317,7 @@ class LightPipeline:
             stages[annotator_type] = self._annotationFromJava(annotations)
         return stages
 
-    def annotate(self, target, optional_target=""):
+    def annotate(self, target, optional_target="", streamer=False):
         """Annotates the data provided, extracting the results.
 
         The data should be either a list or a str.
@@ -347,6 +349,7 @@ class LightPipeline:
             return {k: list(v) for k, v in annotations.items()}
 
         stages = self.pipeline_model.stages
+
         if not self._skipPipelineValidation(stages):
             self._validateStagesInputCols(stages)
 
@@ -354,6 +357,8 @@ class LightPipeline:
             if type(target) is str:
                 annotations = self._lightPipeline.annotateJava(target)
                 result = reformat(annotations)
+                if streamer:
+                    self.__streamResult(stages, result)
             elif type(target) is list:
                 if type(target[0]) is list:
                     raise TypeError("target is a 1D list")
@@ -416,3 +421,13 @@ class LightPipeline:
             Whether to ignore unsupported AnnotatorModels.
         """
         return self._lightPipeline.getIgnoreUnsupported()
+
+    def __streamResult(self, stages, result):
+        seq2seq_output_cols = self.__getSeq2SeqOutputCols(stages)
+        for seq2seq_output_col in seq2seq_output_cols:
+            if seq2seq_output_col in result:
+                print(f"{seq2seq_output_col}: {result[seq2seq_output_col]}")
+
+    def __getSeq2SeqOutputCols(self, stages):
+        seq2seq_stages = [stage for stage in stages if isSeq2Seq(stage)]
+        return [stage.getOutputCol() for stage in seq2seq_stages]
