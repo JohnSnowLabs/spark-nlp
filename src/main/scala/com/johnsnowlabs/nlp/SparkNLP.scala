@@ -68,11 +68,17 @@ object SparkNLP {
     val builder = SparkSession
       .builder()
       .appName("Spark NLP")
-      .master("local[*]")
       .config("spark.driver.memory", memory)
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "2000M")
       .config("spark.driver.maxResultSize", "0")
+
+    // get the set cores by users since local[*] will override spark.driver.cores if set
+    if (params.contains("spark.driver.cores")) {
+      builder.master("local[" + params("spark.driver.cores") + "]")
+    } else {
+      builder.master("local[*]")
+    }
 
     val sparkNlpJar =
       if (apple_silicon) MavenSparkSilicon
