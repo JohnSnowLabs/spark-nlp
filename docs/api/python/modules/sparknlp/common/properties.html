@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 5.0.0 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 5.0.1 documentation</title>
   
   
   
@@ -421,6 +421,11 @@ document.write(`
                        <span class="s2">&quot;Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid). Default is False i.e. Multiclass&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Choose the threshold to determine which logits are considered to be positive or negative&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">setActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax</span>
 
@@ -468,6 +473,22 @@ document.write(`
 <span class="sd">            Default is False i.e. multi-class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multilabel</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the threshold to determine which logits are considered to be positive or negative.</span>
+<span class="sd">         (Default: `0.5`). The value should be between 0.0 and 1.0. Changing the threshold value</span>
+<span class="sd">         will affect the resulting labels and can be used to adjust the balance between precision and</span>
+<span class="sd">         recall in the classification process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The threshold to determine which logits are considered to be positive or negative.</span>
+<span class="sd">            (Default: `0.5`). The value should be between 0.0 and 1.0. Changing the threshold value</span>
+<span class="sd">            will affect the resulting labels and can be used to adjust the balance between precision and</span>
+<span class="sd">            recall in the classification process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HasEmbeddingsProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties">[docs]</a><span class="k">class</span> <span class="nc">HasEmbeddingsProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>

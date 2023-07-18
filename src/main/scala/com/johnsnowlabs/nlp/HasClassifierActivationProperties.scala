@@ -52,10 +52,13 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     "multilabel",
     "Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e. multi-class")
 
-  setDefault(activation -> ActivationFunction.softmax, threshold -> 0.5f, multilabel -> false)
-
   /** @group getParam */
-  def getActivation: String = $(activation)
+  def getActivation: String = {
+    val activation =
+      if ($(multilabel)) ActivationFunction.sigmoid else ActivationFunction.softmax
+
+    if ($(multilabel)) activation else $(this.activation)
+  }
 
   /** @group setParam */
   def setActivation(value: String): this.type = {
@@ -93,6 +96,8 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     } else setActivation(ActivationFunction.softmax)
     set(this.multilabel, value)
   }
+
+  setDefault(activation -> ActivationFunction.softmax, threshold -> 0.5f, multilabel -> false)
 
 }
 
