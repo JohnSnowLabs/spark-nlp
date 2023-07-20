@@ -43,21 +43,11 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       .toArray
   }
 
-  def fullAnnotate(
-      target: String,
-      optionalTarget: String = "",
-      streamer: Boolean = false): Map[String, Seq[IAnnotation]] = {
+  def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[IAnnotation]] = {
     if (target.contains("/") && ResourceHelper.validFile(target)) {
       fullAnnotateImage(target)
     } else {
-      val output = fullAnnotateInternal(target, optionalTarget)
-      if (streamer) {
-        output.foreach { case (outputCol, annotation) =>
-          if (getSeq2SeqOutputCols.contains(outputCol))
-            println(s"$outputCol: ${annotation.mkString(" ")}")
-        }
-      }
-      output
+      fullAnnotateInternal(target, optionalTarget)
     }
   }
 
@@ -408,7 +398,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       target: String,
       optionalTarget: String = "",
       streamer: Boolean = false): Map[String, Seq[String]] = {
-    fullAnnotate(target, optionalTarget, streamer = false).map { case (outputCol, annotation) =>
+    fullAnnotate(target, optionalTarget).map { case (outputCol, annotation) =>
       outputCol -> annotation.map { iAnnotation =>
         val annotation = iAnnotation.asInstanceOf[Annotation]
         val output = annotation.annotatorType match {
@@ -418,7 +408,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
           case _ => annotation.result
         }
         if (streamer && getSeq2SeqOutputCols.contains(outputCol)) {
-          println(s"$outputCol: $output")
+          println(s"$output")
         }
         output
       }

@@ -157,7 +157,7 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotate(self, target, optional_target="", streamer=False):
+    def fullAnnotate(self, target, optional_target=""):
         """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
@@ -198,8 +198,6 @@ class LightPipeline:
         if optional_target == "":
             if self.__isTextInput(target):
                 result = self.__fullAnnotateText(target)
-                if streamer:
-                    self.__streamResult(stages, result[0])
             elif self.__isAudioInput(target):
                 result = self.__fullAnnotateAudio(target)
             else:
@@ -426,7 +424,7 @@ class LightPipeline:
         seq2seq_output_cols = self.__getSeq2SeqOutputCols(stages)
         for seq2seq_output_col in seq2seq_output_cols:
             if seq2seq_output_col in result:
-                print(f"{seq2seq_output_col}: {result[seq2seq_output_col]}")
+                print(f"{result[seq2seq_output_col][0]}")
 
     def __getSeq2SeqOutputCols(self, stages):
         seq2seq_stages = [stage for stage in stages if isSeq2Seq(stage)]
