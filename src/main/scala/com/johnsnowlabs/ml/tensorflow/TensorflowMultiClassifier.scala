@@ -141,6 +141,7 @@ private[johnsnowlabs] class TensorflowMultiClassifier(
 
       }
       acc /= (trainSet.length / batchSize)
+      acc = acc.min(1.0f).max(0.0f)
       loss /= (trainSet.length / batchSize)
 
       val endTime = (System.nanoTime() - time) / 1e9
