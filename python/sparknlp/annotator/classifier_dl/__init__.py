@@ -46,3 +46,4 @@ from sparknlp.annotator.classifier_dl.camembert_for_question_answering import *
 from sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification import *
+from sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification import *
