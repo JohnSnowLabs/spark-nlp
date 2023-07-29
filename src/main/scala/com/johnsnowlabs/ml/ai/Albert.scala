@@ -16,10 +16,13 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -65,7 +68,8 @@ import scala.collection.JavaConverters._
   *   Configuration for TensorFlow session
   */
 private[johnsnowlabs] class Albert(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     val spp: SentencePieceWrapper,
     batchSize: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -74,6 +78,11 @@ private[johnsnowlabs] class Albert(
 
   val _tfAlbertSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   // keys representing the input and output tensors of the ALBERT model
   private val SentenceStartTokenId = spp.getSppModel.pieceToId("[CLS]")
@@ -94,47 +103,94 @@ private[johnsnowlabs] class Albert(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tensors = new TensorResources()
+    val embeddings = detectedEngine match {
 
-    val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareBatchTensorsWithSegment(
-        tensors = tensors,
-        batch = batch,
-        maxSentenceLength = maxSentenceLength,
-        batchLength = batchLength)
+      case ONNX.name =>
+        // [nb of encoded sentences , maxSentenceLength]
+        val (runner, env) = onnxWrapper.get.getSession()
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
+        val tokenTensors =
+          OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
 
-    runner
-      .feed(
-        _tfAlbertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfAlbertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-        maskTensors)
-      .feed(
-        _tfAlbertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfAlbertSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+        val maskTensors =
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
+        val segmentTensors =
+          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
 
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
+        val inputs =
+          Map(
+            "input_ids" -> tokenTensors,
+            "attention_mask" -> maskTensors,
+            "token_type_ids" -> segmentTensors).asJava
+
+        // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+        try {
+          val results = runner.run(inputs)
+          try {
+            val embeddings = results
+              .get("last_hidden_state")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            tokenTensors.close()
+            maskTensors.close()
+            segmentTensors.close()
+
+            embeddings
+          } finally if (results != null) results.close()
+        }
+      case _ =>
+        val tensors = new TensorResources()
+
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareBatchTensorsWithSegment(
+            tensors = tensors,
+            batch = batch,
+            maxSentenceLength = maxSentenceLength,
+            batchLength = batchLength)
+
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfAlbertSignatures.getOrElse(
+              ModelSignatureConstants.InputIdsV1.key,
+              "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfAlbertSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+            maskTensors)
+          .feed(
+            _tfAlbertSignatures
+              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+            segmentTensors)
+          .fetch(
+            _tfAlbertSignatures
+              .getOrElse(
+                ModelSignatureConstants.LastHiddenStateV1.key,
+                "missing_sequence_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        embeddings
+    }
 
     PrepareEmbeddings.prepareBatchWordEmbeddings(
       batch,
