@@ -7,7 +7,7 @@ date: 2023-07-30
 tags: [albert, embeddings, ms, open_source, onnx]
 task: Embeddings
 language: ms
-edition: Spark NLP 5.0.0
+edition: Spark NLP 5.0.2
 spark_version: 3.0
 supported: true
 engine: onnx
@@ -28,8 +28,8 @@ Pretrained ALBERT Embeddings model, uploaded to Hugging Face, adapted and import
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_embeddings_albert_tiny_bahasa_cased_ms_5.0.0_3.0_1690752867859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_embeddings_albert_tiny_bahasa_cased_ms_5.0.0_3.0_1690752867859.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_embeddings_albert_tiny_bahasa_cased_ms_5.0.2_3.0_1690752867859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_embeddings_albert_tiny_bahasa_cased_ms_5.0.2_3.0_1690752867859.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -89,7 +89,7 @@ nlu.load("ms.embed.albert_tiny_bahasa_cased").predict("""Saya suka Spark NLP""")
 {:.table-model}
 |---|---|
 |Model Name:|albert_embeddings_albert_tiny_bahasa_cased|
-|Compatibility:|Spark NLP 5.0.0+|
+|Compatibility:|Spark NLP 5.0.2+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
