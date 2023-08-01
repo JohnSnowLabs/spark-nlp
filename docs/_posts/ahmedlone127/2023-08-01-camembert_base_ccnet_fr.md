@@ -29,8 +29,8 @@ For further information or requests, please go to [Camembert Website](https://ca
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690926936025.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690926936025.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
