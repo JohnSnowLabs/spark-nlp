@@ -274,4 +274,66 @@ class BartTestSpec extends AnyFlatSpec {
 
     assert(dataframe1.equals(dataframe2))
   }
+
+  "bart-large-cnn" should "run SparkNLP pipeline with doSample=false and later change to true " taggedAs SlowTest in {
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
+              " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
+              "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
+              "browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside." +
+              "Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until " +
+              "softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the " +
+              "time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a" +
+              " large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush " +
+              "with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C" +
+              "/fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6," +
+              " uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.")))
+      .toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = BartTransformer
+      .pretrained("distilbart_xsum_12_6")
+      .setTask("summarize:")
+      .setInputCols(Array("documents"))
+      .setDoSample(false)
+      .setRandomSeed(56)
+      .setMaxOutputLength(128)
+      .setTemperature(0.1)
+      .setOutputCol("summaries")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
+
+    val model = pipeline.fit(testData)
+
+    var dataframe1 = model
+      .transform(testData)
+      .select("summaries.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
+    println(dataframe1)
+
+    bart.setDoSample(true)
+
+    dataframe1 = model
+      .transform(testData)
+      .select("summaries.result")
+      .collect()
+      .toSeq
+      .head
+      .getAs[Seq[String]](0)
+      .head
+    println(dataframe1)
+
+  }
+
 }
