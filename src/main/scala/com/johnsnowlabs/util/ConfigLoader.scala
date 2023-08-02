@@ -53,8 +53,8 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
       getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
       getConfigInfo(ConfigHelper.awsExternalRegion, "") ++
-      getConfigInfo(ConfigHelper.gcpProjectId, "")
-    getConfigInfo(ConfigHelper.openAIAPIKey, sys.env.getOrElse("OPENAI_API_KEY", ""))
+      getConfigInfo(ConfigHelper.gcpProjectId, "") ++
+      getConfigInfo(ConfigHelper.openAIAPIKey, sys.env.getOrElse("OPENAI_API_KEY", ""))
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
