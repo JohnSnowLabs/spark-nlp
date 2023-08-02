@@ -16,10 +16,13 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -30,14 +33,15 @@ import scala.collection.JavaConverters._
   * in 2019. It is a model trained on 138GB of French text.
   *
   * @param tensorflowWrapper
-  *   Albert Model wrapper with TensorFlowWrapper
+  *   CamemBERRT Model wrapper with TensorFlowWrapper
   * @param spp
-  *   Albert SentencePiece model with SentencePieceWrapper
+  *   CamemBERRT SentencePiece model with SentencePieceWrapper
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
 private[johnsnowlabs] class CamemBert(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
@@ -45,6 +49,11 @@ private[johnsnowlabs] class CamemBert(
 
   val _tfCamemBertSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   /** HACK: These tokens were added by fairseq but don't seem to be actually used when duplicated
     * in the actual # sentencepiece vocabulary (this is the case for '''<s>''' and '''</s>''')
@@ -69,48 +78,89 @@ private[johnsnowlabs] class CamemBert(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tensors = new TensorResources()
+    val embeddings = detectedEngine match {
 
-    val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareBatchTensors(
-        tensors = tensors,
-        batch = batch,
-        maxSentenceLength = maxSentenceLength,
-        batchLength = batchLength,
-        sentencePadTokenId = SentencePadTokenId)
+      case ONNX.name =>
+        // [nb of encoded sentences , maxSentenceLength]
+        val (runner, env) = onnxWrapper.get.getSession()
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
+        val tokenTensors =
+          OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
 
-    runner
-      .feed(
-        _tfCamemBertSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfCamemBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
-        maskTensors)
-      .fetch(_tfCamemBertSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+        val maskTensors =
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
+        val inputs =
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
-    tokenTensors.close()
-    maskTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
+        // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+        try {
+          val results = runner.run(inputs)
+          try {
+            val embeddings = results
+              .get("last_hidden_state")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            tokenTensors.close()
+            maskTensors.close()
+
+            embeddings
+          } finally if (results != null) results.close()
+        }
+      case _ =>
+        val tensors = new TensorResources()
+
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareBatchTensorsWithSegment(
+            tensors = tensors,
+            batch = batch,
+            maxSentenceLength = maxSentenceLength,
+            batchLength = batchLength)
+
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfCamemBertSignatures.getOrElse(
+              ModelSignatureConstants.InputIdsV1.key,
+              "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfCamemBertSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+            maskTensors)
+          .fetch(
+            _tfCamemBertSignatures
+              .getOrElse(
+                ModelSignatureConstants.LastHiddenStateV1.key,
+                "missing_sequence_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        embeddings
+    }
 
     PrepareEmbeddings.prepareBatchWordEmbeddings(
       batch,
       embeddings,
       maxSentenceLength,
       batchLength)
+
   }
 
   def predict(
