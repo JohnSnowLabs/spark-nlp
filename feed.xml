@@ -1,800 +1,614 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-08-02T16:14:09+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-08-02T18:39:51+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_en_5.0.2_3.0_1690935260361.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_en_5.0.2_3.0_1690935260361.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_en_5.0.2_3.0_1690935260361.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_en_5.0.2_3.0_1690935260361.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.base_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_base_uncased&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;42.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_base_uncased|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|42.0 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-base-v2&quot;&gt;https://huggingface.co/albert-base-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 42.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_opt_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_opt_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_opt_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-base-v2](https://huggingface.co/albert-base-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 42.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_opt_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_opt_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_opt_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_opt_en_5.0.2_3.0_1690935304465.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_opt_en_5.0.2_3.0_1690935304465.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_opt_en_5.0.2_3.0_1690935304465.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_opt_en_5.0.2_3.0_1690935304465.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.base_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_base_uncased_opt&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;115.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_base_uncased_opt|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|115.0 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-base-v2&quot;&gt;https://huggingface.co/albert-base-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 115.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_quantized_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_quantized_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_quantized_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-base-v2](https://huggingface.co/albert-base-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 115.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Base Uncase)</title><link href="/2023/08/02/albert_base_uncased_quantized_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Base Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_base_uncased_quantized_en</id><content type="html" xml:base="/2023/08/02/albert_base_uncased_quantized_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_quantized_en_5.0.2_3.0_1690935326685.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_quantized_en_5.0.2_3.0_1690935326685.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_uncased_quantized_en_5.0.2_3.0_1690935326685.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_base_uncased_quantized_en_5.0.2_3.0_1690935326685.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.base_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_base_uncased_quantized&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;46.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_base_uncased_quantized|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|46.0 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-base-v2&quot;&gt;https://huggingface.co/albert-base-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased_quantized Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 46.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-base-v2](https://huggingface.co/albert-base-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_base_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.base_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_base_uncased_quantized Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 46.0 MB Case sensitive: false References https://huggingface.co/albert-base-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_en_5.0.2_3.0_1690935781574.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_en_5.0.2_3.0_1690935781574.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_en_5.0.2_3.0_1690935781574.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_en_5.0.2_3.0_1690935781574.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.large_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_large_uncased&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;62.7 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_large_uncased|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|62.7 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-large-v2&quot;&gt;https://huggingface.co/albert-large-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 62.7 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_opt_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_opt_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_opt_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-large-v2](https://huggingface.co/albert-large-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 62.7 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_opt_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_opt_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_opt_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_opt_en_5.0.2_3.0_1690935934328.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_opt_en_5.0.2_3.0_1690935934328.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_opt_en_5.0.2_3.0_1690935934328.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_opt_en_5.0.2_3.0_1690935934328.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.large_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_large_uncased_opt&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;333.8 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_large_uncased_opt|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|333.8 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-large-v2&quot;&gt;https://huggingface.co/albert-large-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 333.8 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_quantized_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_quantized_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_quantized_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-large-v2](https://huggingface.co/albert-large-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 333.8 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">ALBERT Embeddings (Large Uncase)</title><link href="/2023/08/02/albert_large_uncased_quantized_en.html" rel="alternate" type="text/html" title="ALBERT Embeddings (Large Uncase)" /><published>2023-08-02T00:00:00+00:00</published><updated>2023-08-02T00:00:00+00:00</updated><id>/2023/08/02/albert_large_uncased_quantized_en</id><content type="html" xml:base="/2023/08/02/albert_large_uncased_quantized_en.html">## Description
 
-&lt;p&gt;ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “&lt;a href=&quot;https://arxiv.org/abs/1909.11942&quot;&gt;ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.&lt;/a&gt;”&lt;/p&gt;
+ALBERT is &quot;A Lite&quot; version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper &quot;[ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.](https://arxiv.org/abs/1909.11942)&quot;
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_quantized_en_5.0.2_3.0_1690935970820.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_quantized_en_5.0.2_3.0_1690935970820.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AlbertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_uncased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_uncased_quantized_en_5.0.2_3.0_1690935970820.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_large_uncased_quantized_en_5.0.2_3.0_1690935970820.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love NLP&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.embed.albert.large_uncased'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_level&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;embeddings_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = [&quot;I love NLP&quot;]
+embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token')
+embeddings_df
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_large_uncased_quantized&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;71.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;false&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_large_uncased_quantized|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|71.4 MB|
+|Case sensitive:|false|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/albert-large-v2&quot;&gt;https://huggingface.co/albert-large-v2&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased_quantized Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 71.4 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">CamemBERT Subsample of CCNet</title><link href="/2023/08/01/camembert_base_ccnet_4gb_fr.html" rel="alternate" type="text/html" title="CamemBERT Subsample of CCNet" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_ccnet_4gb_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_ccnet_4gb_fr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/albert-large-v2](https://huggingface.co/albert-large-v2)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="en" /><category term="english" /><category term="embeddings" /><category term="albert" /><category term="large" /><category term="onnx" /><summary type="html">Description ALBERT is “A Lite” version of BERT, a popular unsupervised language representation learning algorithm. ALBERT uses parameter-reduction techniques that allow for large-scale configurations, overcome previous memory limitations, and achieve better behavior with respect to model degradation. The details are described in the paper “ALBERT: A Lite BERT for Self-supervised Learning of Language Representations.” Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = AlbertEmbeddings.pretrained(&quot;albert_large_uncased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu text = [&quot;I love NLP&quot;] embeddings_df = nlu.load('en.embed.albert.large_uncased').predict(text, output_level='token') embeddings_df Model Information Model Name: albert_large_uncased_quantized Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: en Size: 71.4 MB Case sensitive: false References https://huggingface.co/albert-large-v2</summary></entry><entry><title type="html">CamemBERT Subsample of CCNet</title><link href="/2023/08/01/camembert_base_ccnet_4gb_fr.html" rel="alternate" type="text/html" title="CamemBERT Subsample of CCNet" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_ccnet_4gb_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_ccnet_4gb_fr.html">## Description
 
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.03894&quot;&gt;CamemBERT&lt;/a&gt; is a state-of-the-art language model for French based on the RoBERTa model.
-For further information or requests, please go to &lt;a href=&quot;https://camembert-model.fr/&quot;&gt;Camembert Website&lt;/a&gt;&lt;/p&gt;
+[CamemBERT](https://arxiv.org/abs/1911.03894) is a state-of-the-art language model for French based on the RoBERTa model.
+For further information or requests, please go to [Camembert Website](https://camembert-model.fr/)
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_4gb_fr_5.0.2_3.0_1690928369186.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_4gb_fr_5.0.2_3.0_1690928369186.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_ccnet_4gb&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_ccnet_4gb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_4gb_fr_5.0.2_3.0_1690928369186.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_4gb_fr_5.0.2_3.0_1690928369186.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr.embed.camembert_ccnet4g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load(&quot;fr.embed.camembert_ccnet4g&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;camembert_base_ccnet_4gb&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;fr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;263.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|camembert_base_ccnet_4gb|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|fr|
+|Size:|263.4 MB|
+|Case sensitive:|true|
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-| Model                          | &lt;span class=&quot;c&quot;&gt;#params                        | Arch. | Training data                     |&lt;/span&gt;
+```bash
+
+| Model                          | #params                        | Arch. | Training data                     |
 |--------------------------------|--------------------------------|-------|-----------------------------------|
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert-base&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M   | Base  | OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;138 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-large&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;              | 335M    | Large | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;         | 110M    | Base  | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-wikipedia-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M    | Base  | Wikipedia &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;          |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-oscar-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="ccnet" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_ccnet4g&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_ccnet_4gb Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 263.4 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base CCNet</title><link href="/2023/08/01/camembert_base_ccnet_fr.html" rel="alternate" type="text/html" title="CamemBERT Base CCNet" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_ccnet_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_ccnet_fr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+| `camembert-base` | 110M   | Base  | OSCAR (138 GB of text)            |
+| `camembert/camembert-large`              | 335M    | Large | CCNet (135 GB of text)            |
+| `camembert/camembert-base-ccnet`         | 110M    | Base  | CCNet (135 GB of text)            |
+| `camembert/camembert-base-wikipedia-4gb` | 110M    | Base  | Wikipedia (4 GB of text)          |
+| `camembert/camembert-base-oscar-4gb`     | 110M    | Base  | Subsample of OSCAR (4 GB of text) |
+| `camembert/camembert-base-ccnet-4gb`     | 110M    | Base  | Subsample of CCNet (4 GB of text) |
+```</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="ccnet" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet_4gb&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_ccnet4g&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_ccnet_4gb Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 263.4 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base CCNet</title><link href="/2023/08/01/camembert_base_ccnet_fr.html" rel="alternate" type="text/html" title="CamemBERT Base CCNet" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_ccnet_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_ccnet_fr.html">## Description
 
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.03894&quot;&gt;CamemBERT&lt;/a&gt; is a state-of-the-art language model for French based on the RoBERTa model.
-For further information or requests, please go to &lt;a href=&quot;https://camembert-model.fr/&quot;&gt;Camembert Website&lt;/a&gt;&lt;/p&gt;
+[CamemBERT](https://arxiv.org/abs/1911.03894) is a state-of-the-art language model for French based on the RoBERTa model.
+For further information or requests, please go to [Camembert Website](https://camembert-model.fr/)
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_ccnet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_ccnet&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_ccnet_fr_5.0.2_3.0_1690927305918.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr.embed.camembert_base_ccnet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load(&quot;fr.embed.camembert_base_ccnet&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;camembert_base_ccnet&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;fr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;263.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|camembert_base_ccnet|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|fr|
+|Size:|263.6 MB|
+|Case sensitive:|true|
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-| Model                          | &lt;span class=&quot;c&quot;&gt;#params                        | Arch. | Training data                     |&lt;/span&gt;
+```bash
+
+| Model                          | #params                        | Arch. | Training data                     |
 |--------------------------------|--------------------------------|-------|-----------------------------------|
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert-base&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M   | Base  | OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;138 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-large&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;              | 335M    | Large | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;         | 110M    | Base  | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-wikipedia-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M    | Base  | Wikipedia &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;          |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-oscar-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="ccnet" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base_ccnet&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_ccnet Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 263.6 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base Model</title><link href="/2023/08/01/camembert_base_fr.html" rel="alternate" type="text/html" title="CamemBERT Base Model" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_fr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+| `camembert-base` | 110M   | Base  | OSCAR (138 GB of text)            |
+| `camembert/camembert-large`              | 335M    | Large | CCNet (135 GB of text)            |
+| `camembert/camembert-base-ccnet`         | 110M    | Base  | CCNet (135 GB of text)            |
+| `camembert/camembert-base-wikipedia-4gb` | 110M    | Base  | Wikipedia (4 GB of text)          |
+| `camembert/camembert-base-oscar-4gb`     | 110M    | Base  | Subsample of OSCAR (4 GB of text) |
+| `camembert/camembert-base-ccnet-4gb`     | 110M    | Base  | Subsample of CCNet (4 GB of text) |
+```</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="ccnet" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base_ccnet&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base_ccnet&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_ccnet Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 263.6 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base Model</title><link href="/2023/08/01/camembert_base_fr.html" rel="alternate" type="text/html" title="CamemBERT Base Model" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_fr.html">## Description
 
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.03894&quot;&gt;CamemBERT&lt;/a&gt; is a state-of-the-art language model for French based on the RoBERTa model.
-For further information or requests, please go to &lt;a href=&quot;https://camembert-model.fr/&quot;&gt;Camembert Website&lt;/a&gt;&lt;/p&gt;
+[CamemBERT](https://arxiv.org/abs/1911.03894) is a state-of-the-art language model for French based on the RoBERTa model.
+For further information or requests, please go to [Camembert Website](https://camembert-model.fr/)
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_fr_5.0.2_3.0_1690933576243.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/camembert_base_fr_5.0.2_3.0_1690933576243.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_fr_5.0.2_3.0_1690933576243.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_fr_5.0.2_3.0_1690933576243.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr.embed.camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;camembert_base&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;fr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;264.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|camembert_base|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|fr|
+|Size:|264.0 MB|
+|Case sensitive:|true|
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-| Model                          | &lt;span class=&quot;c&quot;&gt;#params                        | Arch. | Training data                     |&lt;/span&gt;
+```bash
+
+| Model                          | #params                        | Arch. | Training data                     |
 |--------------------------------|--------------------------------|-------|-----------------------------------|
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert-base&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M   | Base  | OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;138 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-large&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;              | 335M    | Large | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;         | 110M    | Base  | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-wikipedia-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M    | Base  | Wikipedia &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;          |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-oscar-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="base" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 264.0 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base Model</title><link href="/2023/08/01/camembert_base_opt_fr.html" rel="alternate" type="text/html" title="CamemBERT Base Model" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_opt_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_opt_fr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+| `camembert-base` | 110M   | Base  | OSCAR (138 GB of text)            |
+| `camembert/camembert-large`              | 335M    | Large | CCNet (135 GB of text)            |
+| `camembert/camembert-base-ccnet`         | 110M    | Base  | CCNet (135 GB of text)            |
+| `camembert/camembert-base-wikipedia-4gb` | 110M    | Base  | Wikipedia (4 GB of text)          |
+| `camembert/camembert-base-oscar-4gb`     | 110M    | Base  | Subsample of OSCAR (4 GB of text) |
+| `camembert/camembert-base-ccnet-4gb`     | 110M    | Base  | Subsample of CCNet (4 GB of text) |
+```</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="base" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 264.0 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry><entry><title type="html">CamemBERT Base Model</title><link href="/2023/08/01/camembert_base_opt_fr.html" rel="alternate" type="text/html" title="CamemBERT Base Model" /><published>2023-08-01T00:00:00+00:00</published><updated>2023-08-01T00:00:00+00:00</updated><id>/2023/08/01/camembert_base_opt_fr</id><content type="html" xml:base="/2023/08/01/camembert_base_opt_fr.html">## Description
 
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1911.03894&quot;&gt;CamemBERT&lt;/a&gt; is a state-of-the-art language model for French based on the RoBERTa model.
-For further information or requests, please go to &lt;a href=&quot;https://camembert-model.fr/&quot;&gt;Camembert Website&lt;/a&gt;&lt;/p&gt;
+[CamemBERT](https://arxiv.org/abs/1911.03894) is a state-of-the-art language model for French based on the RoBERTa model.
+For further information or requests, please go to [Camembert Website](https://camembert-model.fr/)
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_opt_fr_5.0.2_3.0_1690933783384.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/camembert_base_opt_fr_5.0.2_3.0_1690933783384.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;CamemBertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_opt_fr_5.0.2_3.0_1690933783384.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_opt_fr_5.0.2_3.0_1690933783384.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr.embed.camembert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+.setOutputCol(&quot;embeddings&quot;)
+```
+```scala
+val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;)
+.setInputCols(&quot;sentence&quot;, &quot;token&quot;)
+.setOutputCol(&quot;embeddings&quot;)
+```
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;camembert_base_opt&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.0.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[token, sentence]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;fr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;264.3 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|camembert_base_opt|
+|Compatibility:|Spark NLP 5.0.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[token, sentence]|
+|Output Labels:|[embeddings]|
+|Language:|fr|
+|Size:|264.3 MB|
+|Case sensitive:|true|
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-| Model                          | &lt;span class=&quot;c&quot;&gt;#params                        | Arch. | Training data                     |&lt;/span&gt;
+```bash
+
+| Model                          | #params                        | Arch. | Training data                     |
 |--------------------------------|--------------------------------|-------|-----------------------------------|
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert-base&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M   | Base  | OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;138 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-large&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;              | 335M    | Large | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;         | 110M    | Base  | CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;135 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;            |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-wikipedia-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; | 110M    | Base  | Wikipedia &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;          |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-oscar-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of OSCAR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-| &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;camembert/camembert-base-ccnet-4gb&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;     | 110M    | Base  | Subsample of CCNet &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4 GB of text&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="base" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 264.3 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry></feed>
+| `camembert-base` | 110M   | Base  | OSCAR (138 GB of text)            |
+| `camembert/camembert-large`              | 335M    | Large | CCNet (135 GB of text)            |
+| `camembert/camembert-base-ccnet`         | 110M    | Base  | CCNet (135 GB of text)            |
+| `camembert/camembert-base-wikipedia-4gb` | 110M    | Base  | Wikipedia (4 GB of text)          |
+| `camembert/camembert-base-oscar-4gb`     | 110M    | Base  | Subsample of OSCAR (4 GB of text) |
+| `camembert/camembert-base-ccnet-4gb`     | 110M    | Base  | Subsample of CCNet (4 GB of text) |
+```</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="embeddings" /><category term="camembert" /><category term="base" /><category term="open_source" /><category term="onnx" /><summary type="html">Description CamemBERT is a state-of-the-art language model for French based on the RoBERTa model. For further information or requests, please go to Camembert Website Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;) val embeddings = CamemBertEmbeddings.pretrained(&quot;camembert_base&quot;, &quot;fr&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) import nlu nlu.load(&quot;fr.embed.camembert_base&quot;).predict(&quot;&quot;&quot;Put your text here.&quot;&quot;&quot;) Model Information Model Name: camembert_base_opt Compatibility: Spark NLP 5.0.2+ License: Open Source Edition: Official Input Labels: [token, sentence] Output Labels: [embeddings] Language: fr Size: 264.3 MB Case sensitive: true Benchmarking | Model | #params | Arch. | Training data | |--------------------------------|--------------------------------|-------|-----------------------------------| | `camembert-base` | 110M | Base | OSCAR (138 GB of text) | | `camembert/camembert-large` | 335M | Large | CCNet (135 GB of text) | | `camembert/camembert-base-ccnet` | 110M | Base | CCNet (135 GB of text) | | `camembert/camembert-base-wikipedia-4gb` | 110M | Base | Wikipedia (4 GB of text) | | `camembert/camembert-base-oscar-4gb` | 110M | Base | Subsample of OSCAR (4 GB of text) | | `camembert/camembert-base-ccnet-4gb` | 110M | Base | Subsample of CCNet (4 GB of text) |</summary></entry></feed>
