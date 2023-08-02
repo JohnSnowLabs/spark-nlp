@@ -367,37 +367,45 @@ trait Generate {
   def multinomialSampling(logitValues: Array[Float], k: Int, seed: Option[Long]): Array[Int] = {
     val (distFiltered, indices) =
       logitValues.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
+    if (!distFiltered.isEmpty) {
 
-    val maxLogit = distFiltered.max
-    val expLogitValues = distFiltered.map(logit => math.exp(logit - maxLogit))
-    val sumExpLogitValues = expLogitValues.sum
-    val probabilities = expLogitValues.map(_ / sumExpLogitValues)
+      val maxLogit = distFiltered.max
+      val expLogitValues = distFiltered.map(logit => math.exp(logit - maxLogit))
+      val sumExpLogitValues = expLogitValues.sum
+      val probabilities = expLogitValues.map(_ / sumExpLogitValues)
 
-    val selectedIndices = new Array[Int](k)
-    var seededRandom = new scala.util.Random()
-    if (seed.isDefined) {
-      seededRandom = new scala.util.Random(seed.get)
-    }
-    for (i <- 0 until k) {
-      var rand = scala.util.Random.nextDouble()
+      val selectedIndices = new Array[Int](k)
+      var seededRandom = new scala.util.Random()
       if (seed.isDefined) {
-        rand = new scala.util.Random(seed.get).nextDouble()
+        seededRandom = new scala.util.Random(seed.get)
       }
-      var cumProb = 0.0
-      var j = 0
-      while (j < probabilities.length - i) {
-        cumProb += probabilities(j)
-        if (rand < cumProb) {
-          selectedIndices(i) = indices(j)
-          probabilities(j) = 0.0
-          indices(j) = indices(indices.length - i - 1)
-          j = probabilities.length
+      for (i <- 0 until k) {
+        var rand = scala.util.Random.nextDouble()
+        if (seed.isDefined) {
+          rand = new scala.util.Random(seed.get).nextDouble()
         }
-        j += 1
+        var cumProb = 0.0
+        var j = 0
+        while (j < probabilities.length - i) {
+          cumProb += probabilities(j)
+          if (rand < cumProb) {
+            selectedIndices(i) = indices(j)
+            probabilities(j) = 0.0
+            indices(j) = indices(indices.length - i - 1)
+            j = probabilities.length
+          }
+          j += 1
+        }
       }
-    }
 
-    selectedIndices
+      selectedIndices
+    } else {
+      val selectedIndices = new Array[Int](k)
+      for (i <- 0 until k) {
+        selectedIndices(i) = 0
+      }
+      selectedIndices
+    }
   }
 
   def getModelOutput(

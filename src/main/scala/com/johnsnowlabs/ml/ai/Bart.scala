@@ -126,7 +126,7 @@ private[johnsnowlabs] class Bart(
     }
 
     var sentBegin, nextSentEnd = 0
-    batchDecoder.zip(sentences).map { case (content, sent) =>
+    val annotations = batchDecoder.zip(sentences).map { case (content, sent) =>
       nextSentEnd += content.length - 1
       val annots = new Annotation(
         annotatorType = AnnotatorType.DOCUMENT,
@@ -137,6 +137,10 @@ private[johnsnowlabs] class Bart(
       sentBegin += nextSentEnd + 1
       annots
     }
+    tensorDecoder = new TensorResources()
+    nextStateTensor1 = None
+    nextStateTensor2 = None
+    annotations
   }
 
   /** @param batch
