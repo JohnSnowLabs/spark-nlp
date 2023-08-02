@@ -1,13 +1,13 @@
 ---
 layout: model
-title: twitter_xlm_roberta_base_sentiment(Cardiff nlp) (Veer)
+title: Sentiment tags predictions trained on twitter
 author: veerdhwaj
-name: twitter_xlm_roberta_base_sentiment
-date: 2023-07-28
-tags: [en, open_source, tensorflow]
+name: sentiment_twitter_xlm_roBerta_pdc
+date: 2023-07-31
+tags: [sentiment, en, open_source, tensorflow]
 task: Text Classification
 language: en
-edition: Spark NLP 5.0.0
+edition: Spark NLP 3.3.2
 spark_version: 3.2
 supported: false
 engine: tensorflow
@@ -25,15 +25,17 @@ Paper: XLM-T: A Multilingual Language Model Toolkit for Twitter.
 Git Repo: XLM-T official repository.
 This model has been integrated into the TweetNLP library.
 
+HF Model: https://huggingface.co/cardiffnlp/twitter-xlm-roberta-base-sentiment
+
 ## Predicted Entities
 
-
+`class`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/community.johnsnowlabs.com/veerdhwaj/twitter_xlm_roberta_base_sentiment_en_5.0.0_3.2_1690542160993.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://community.johnsnowlabs.com/veerdhwaj/twitter_xlm_roberta_base_sentiment_en_5.0.0_3.2_1690542160993.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/community.johnsnowlabs.com/veerdhwaj/sentiment_twitter_xlm_roBerta_pdc_en_3.3.2_3.2_1690780495131.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://community.johnsnowlabs.com/veerdhwaj/sentiment_twitter_xlm_roBerta_pdc_en_3.3.2_3.2_1690780495131.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,6 +45,7 @@ This model has been integrated into the TweetNLP library.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 from pyspark.ml import Pipeline
+from sparknlp.annotator import *
 
 document_assembler = DocumentAssembler() \
     .setInputCol('text') \
@@ -52,7 +55,7 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained('twitter_xlm_roberta_base_sentiment')\
+sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained('sentiment_twitter_xlm_roBerta_pdc_en')\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
@@ -78,8 +81,8 @@ result.select("text", "class.result").show()
 
 {:.table-model}
 |---|---|
-|Model Name:|twitter_xlm_roberta_base_sentiment|
-|Compatibility:|Spark NLP 5.0.0+|
+|Model Name:|sentiment_twitter_xlm_roBerta_pdc|
+|Compatibility:|Spark NLP 3.3.2+|
 |License:|Open Source|
 |Edition:|Community|
 |Input Labels:|[document, token]|
@@ -88,3 +91,4 @@ result.select("text", "class.result").show()
 |Size:|1.0 GB|
 |Case sensitive:|true|
 |Max sentence length:|512|
+|Dependencies:|xlm_roBerta|
