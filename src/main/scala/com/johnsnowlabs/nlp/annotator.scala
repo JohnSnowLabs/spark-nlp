@@ -705,4 +705,20 @@ package object annotator {
   object RoBertaForZeroShotClassification
       extends ReadablePretrainedRoBertaForZeroShotModel
       with ReadRoBertaForZeroShotDLModel
+
+  type XlmRobertaBertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForZeroShotClassification
+
+  object XlmRoBertaForZeroShotClassification
+      extends ReadablePretrainedXlmRoBertaForZeroShotModel
+      with ReadXlmRoBertaForZeroShotDLModel
+
+  type E5Embeddings = com.johnsnowlabs.nlp.embeddings.E5Embeddings
+
+  object E5Embeddings extends ReadablePretrainedE5Model with ReadE5DLModel
+
+  type InstructorEmbeddings = com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings
+
+  object InstructorEmbeddings extends ReadablePretrainedInstructorModel with ReadInstructorDLModel
+
 }

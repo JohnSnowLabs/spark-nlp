@@ -1,4 +1,21 @@
 ========
+5.0.2
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing support for ONNX Runtime in ALBERT, CamemBERT, and XLM-RoBERTa annotators
+* **NEW:** Implement ZeroShotNerModel annotator for zero-shot NER based on XLM-RoBERTa architecture
+
+----------------
+Bug Fixes
+----------------
+* Fix MarianTransformers annotator breaking with `java.lang.ClassCastException` in Python
+* Fix out of 0.0/1.0 accuracy in SentenceDetectorDL and MultiClassifierDL annotators
+* Fix BART issue with low temperature value that only occurred when there are no non infinite logits satisfying the low temperature and top_k values
+* Add missing E5Embeddings and InstructorEmbeddings annotators to `annotators` in Scala for easy all-in-one import
+
+========
 5.0.1
 ========
 ----------------
@@ -39,7 +56,7 @@ New Features & Enhancements
 ----------------
 Bug Fixes
 ----------------
-* Fix not being able to save models from XXXForSequenceClassitication and XXXForZeroShotClassification annotoators https://github.com/JohnSnowLabs/spark-nlp/pull/13842
+* Fix not being able to save models from XXXForSequenceClassification and XXXForZeroShotClassification annotators https://github.com/JohnSnowLabs/spark-nlp/pull/13842
 
 
 ========
@@ -48,7 +65,7 @@ Bug Fixes
 ----------------
 New Features & Enhancements
 ----------------
-* New `multilabel` parameter to swtich from multi-class to multi-label on all Classifiers in Spark NLP: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, XlnetForSequenceClassification, BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification
+* New `multilabel` parameter to switch from multi-class to multi-label on all Classifiers in Spark NLP: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, XlnetForSequenceClassification, BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification
 * Refactor protected Params and Features to avoid unwanted exceptions during runtime https://github.com/JohnSnowLabs/spark-nlp/pull/13797
 * Add proper documentation and instructions for ZeroShot classifiers: BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification https://github.com/JohnSnowLabs/spark-nlp/pull/13798
 * Extend support for downloading models/pipelines directly by given name or S3 path in ResourceDownloader https://github.com/JohnSnowLabs/spark-nlp/pull/13796
@@ -58,7 +75,7 @@ Bug Fixes
 ----------------
 * Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.0 and 3.1 versions (adding 123 new pipelines were added) https://github.com/JohnSnowLabs/spark-nlp/pull/13805
 * Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.2 and 3.3 versions (adding 120 new pipelines) https://github.com/JohnSnowLabs/spark-nlp/pull/13811
-* Fix Java compatibility issue caused by SystemUtils dependecy https://github.com/JohnSnowLabs/spark-nlp/pull/13806
+* Fix Java compatibility issue caused by SystemUtils dependency https://github.com/JohnSnowLabs/spark-nlp/pull/13806
 
 
 ========
@@ -157,7 +174,7 @@ New Features
 * Implement HubertForCTC annotator for automatic speech recognition
 * Implement SwinForImageClassification annotator for Image Classification
 * Introducing CamemBERT for Question Answering annotator
-* Implement ZeroShotNerModel annotator for zero-shot NER baed on RoBERTa architecture
+* Implement ZeroShotNerModel annotator for zero-shot NER based on RoBERTa architecture
 * Implement Date2Chunk annotator
 * Enable params argument in spark_nlp start() function
 * Allow doc_id reading CoNLL file datasets
@@ -198,7 +215,7 @@ Bug Fixes & Enhancements
 * Fix missing to output embeddings in `.fullAnnotate()` method when `parseEmbeddings` param was set to `True/true`
 * Fix broken links to the Python API pages, as the generation of the PyDocs was slightly changed in a previous release. This makes the Python APIs accessible from the Annotators and Transformers pages like before
 * Change default values of `explodeEntities` and `mergeEntities` parameters to `true`
-* Better error handling when there are empty paths/relations in `GraphExctraction`annotator. New message will better guide the user on how to configure `GraphExtraction` to output meaningful relationships
+* Better error handling when there are empty paths/relations in `GraphExtraction`annotator. New message will better guide the user on how to configure `GraphExtraction` to output meaningful relationships
 * Removed the duplicated definition of method `setWeightedDistPath` from `ContextSpellCheckerApproach`
 
 
@@ -367,7 +384,7 @@ Bug Fixes
 ----------------
 * Fix a bug in generating the NerDL graph by using TF v2. The previous graph generated by the `TFGraphBuilder` annotator resulted in an exception when the length of the sequence was 1. This issue has been resolved and the new graphs created by `TFGraphBuilder` won't have this issue anymore (https://github.com/JohnSnowLabs/spark-nlp/pull/12636)
 * Fix a bug introduced in the 4.0.0 release between Transformer-based Word Embeddings annotators. In the 4.0.0 release, the following annotators were migrated to BatchAnnotate to improve their performance, especially on GPU. However, a bug was introduced in sentence indices which when it is combined with SentenceEmbeddings for Text Classifications tasks (ClassifierDLApproach, SentimentDLApproach, and ClassifierDLApproach) resulted in low accuracy: AlbertEmbeddings, CamemBertEmbeddings, DeBertaEmbeddings, DistilBertEmbeddings, LongformerEmbeddings, RoBertaEmbeddings, XlmRoBertaEmbeddings, and XlnetEmbeddings (https://github.com/JohnSnowLabs/spark-nlp/pull/12641)
-* Add support for a list of questions and context in LightPipline. Previously, only one context and question at a time were supported in LightPipeline for Question Answering annotators. We have added support to `fullAnnotate` and `annotate` to receive two lists of questions and contexts (https://github.com/JohnSnowLabs/spark-nlp/pull/12653)
+* Add support for a list of questions and context in LightPipeline. Previously, only one context and question at a time were supported in LightPipeline for Question Answering annotators. We have added support to `fullAnnotate` and `annotate` to receive two lists of questions and contexts (https://github.com/JohnSnowLabs/spark-nlp/pull/12653)
 * Fix division by zero exception in the `GPT2Transformer` annotator when the `setDoSample` param was set to true (https://github.com/JohnSnowLabs/spark-nlp/pull/12661)
 
 ========
@@ -437,7 +454,7 @@ New Features & Enhancements
 * Migrate T5Transformer to TensorFlow v2 architecture with re-uploading all the existing models
 * Official support for Apple silicon M1 on macOS devices. From Spark NLP 4.0.0 you can use `spark-nlp-m1` package that supports Apple silicon M1 on your macOS machine
 * Official support for Apache Spark and PySpark 3.2.x on Scala 2.12. Spark NLP by default is shipped for Spark 3.2.x and supports Spark/PySpark 3.0.x and 3.1.x in additions
-* Unifying all supported Apache Spark pacakges on Maven into `spark-nlp` for CPU, `spark-nlp-gpu` for GPU, and `spark-nlp-m1` for new Apple silicon M1 on macOS. The need for Apache Spark specific package like `spark-nlp-spark32` has been removed.
+* Unifying all supported Apache Spark packages on Maven into `spark-nlp` for CPU, `spark-nlp-gpu` for GPU, and `spark-nlp-m1` for new Apple silicon M1 on macOS. The need for Apache Spark specific package like `spark-nlp-spark32` has been removed.
 * Adding a new param to sparknlp.start() function in Python and Scala for Apple silicon M1 on macOS (`m1=True`)
 * Update Colab, Kaggle, and SageMaker scripts
 * Add new default NerDL graph for xsmall DeBERTa embeddings model (384 dimensions)
@@ -467,7 +484,7 @@ Bug Fixes
 ----------------
 * Fix the default pre-trained model for DeBertaForTokenClassification in Scala and Python
 * Remove a requirement in DocumentNormalizer that consecutive stage processing can produce empty text annotations without breaking the pipeline
-* Fix WordSegmenterModel outputing wrong order of tokens. The regex that groups the tagging format was refactored to preserve the order of segmented outputs (tokens)
+* Fix WordSegmenterModel outputting wrong order of tokens. The regex that groups the tagging format was refactored to preserve the order of segmented outputs (tokens)
 * Fix encoding sentences not respecting the max sequence length given by a user in XlmRobertaSentenceEmbeddings
 * Fix encoding sentences by using SentencePiece to calculate the correct tokens indexing
 * Fix SentencePiece serialization issue when XlmRoBertaEmbeddings and XlmRoBertaSentenceEmbeddings annotators are used from a Fat JAR on GPU
