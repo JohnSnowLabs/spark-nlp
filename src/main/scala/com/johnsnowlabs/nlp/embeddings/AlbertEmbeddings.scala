@@ -356,12 +356,7 @@ class AlbertEmbeddings(override val uid: String)
         throw new Exception(notSupportedEngineError)
     }
 
-    writeSentencePieceModel(
-      path,
-      spark,
-      getModelIfNotSet.spp,
-      suffix,
-      AlbertEmbeddings.sppFile)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, suffix, AlbertEmbeddings.sppFile)
 
   }
 
