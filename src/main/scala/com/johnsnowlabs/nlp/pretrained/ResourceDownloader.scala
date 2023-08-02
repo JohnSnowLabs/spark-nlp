@@ -718,6 +718,7 @@ object PythonResourceDownloader {
     "BertForZeroShotClassification" -> BertForZeroShotClassification,
     "DistilBertForZeroShotClassification" -> DistilBertForZeroShotClassification,
     "RoBertaForZeroShotClassification" -> RoBertaForZeroShotClassification,
+    "XlmRoBertaForZeroShotClassification" -> XlmRoBertaForZeroShotClassification,
     "InstructorEmbeddings" -> InstructorEmbeddings,
     "E5Embeddings" -> E5Embeddings)
 
