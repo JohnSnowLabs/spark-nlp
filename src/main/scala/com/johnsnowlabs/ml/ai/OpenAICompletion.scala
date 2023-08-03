@@ -31,6 +31,8 @@ import org.apache.spark.ml.util.Identifiable
 
 /** Transformer that makes a request for OpenAI Completion API for each executor.
  *
+ * @see
+ *   [[https://platform.openai.com/docs/api-reference/completions/create OpenAI API Doc]] for reference
  *
  * ==Example==
  * {{{

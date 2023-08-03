@@ -15,7 +15,9 @@
 from sparknlp.common import *
 
 """Transformer that makes a request for OpenAI Completion API for each executor.
-
+   
+   See OpenAI API Doc: https://platform.openai.com/docs/api-reference/completions/create for reference 
+    
    ====================== ======================
    Input Annotation types Output Annotation type
    ====================== ======================
@@ -153,6 +155,7 @@ class OpenAICompletion(AnnotatorModel):
                                  "presencePenalty",
                                  "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.",
                                  typeConverter=TypeConverters.toFloat)
+
     frequencyPenalty = Param(Params._dummy(),
                                   "frequencyPenalty",
                                   "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.",
@@ -174,45 +177,170 @@ class OpenAICompletion(AnnotatorModel):
                  typeConverter=TypeConverters.toString)
 
     def setModel(self, value):
+        """Sets model ID of the OpenAI model to use
+
+        Parameters
+        ----------
+        value : str
+           ID of the OpenAI model to use
+        """
         return self._set(model=value)
 
     def setSuffix(self, value):
+        """Sets the suffix that comes after a completion of inserted text.
+
+        Parameters
+        ----------
+        value : str
+           The suffix that comes after a completion of inserted text.
+        """
         return self._set(suffix=value)
 
     def setMaxTokens(self, value):
+        """Sets the maximum number of tokens to generate in the completion.
+           The token count of your prompt plus max_tokens cannot exceed the model's context length.
+
+        Parameters
+        ----------
+        value : int
+           The maximum number of tokens to generate in the completion.
+        """
         return self._set(maxTokens=value)
 
     def setTemperature(self, value):
+        """Sets what sampling temperature to use, between 0 and 2.
+        Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+        We generally recommend altering this or top_p but not both.
+
+        Parameters
+        ----------
+        value : float
+           What sampling temperature to use, between 0 and 2
+        """
         return self._set(temperature=value)
 
     def setTopP(self, value):
+        """Sets An alternative to sampling with temperature, called nucleus sampling.
+        Where the model considers the results of the tokens with top_p probability mass.
+        So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+        We generally recommend altering this or temperature but not both.
+
+        Parameters
+        ----------
+        value : float
+           An alternative to sampling with temperature, called nucleus sampling, where the model considers the results
+           of the tokens with top_p probability mass
+        """
         return self._set(topP=value)
 
     def setNumberOfCompletions(self, value):
+        """Sets how many completions to generate for each prompt.
+
+        Note: Because this parameter generates many completions, it can quickly consume your token quota.
+        Use carefully and ensure that you have reasonable settings for max_tokens and stop.
+
+        Parameters
+        ----------
+        value : int
+           How many completions to generate for each prompt.
+        """
         return self._set(numberOfCompletions=value)
 
     def setLogprobs(self, value):
+        """Sets the log probabilities on the logprobs most likely tokens, as well the chosen tokens.
+        For example, if logprobs is 5, the API will return a list of the 5 most likely tokens.
+        The API will always return the logprob of the sampled token, so there may be up to logprobs+1 elements in the response.
+        The maximum value for logprobs is 5.
+
+        Parameters
+        ----------
+        value : int
+           How many completions to generate for each prompt.
+        """
         return self._set(logprobs=value)
 
     def setEcho(self, value):
+        """Sets echo back the prompt in addition to the completion
+
+        Parameters
+        ----------
+        value : str
+           Echo back the prompt in addition to the completion
+        """
         return self._set(echo=value)
 
     def setStop(self, value):
+        """Sets Up to 4 sequences where the API will stop generating further tokens.
+        The returned text will not contain the stop sequence.
+
+        Parameters
+        ----------
+        value : List[str]
+           Up to 4 sequences where the API will stop generating further tokens.
+        """
         return self._set(stop=value)
 
     def setPresencePenalty(self, value):
+        """Sets values to penalize new tokens based on whether they appear in the text so far,
+        increasing the model's likelihood to talk about new topics.
+
+        Parameters
+        ----------
+        value : int
+           Number between -2.0 and 2.0.
+           Positive values penalize new tokens based on whether they appear in the text so far,
+           increasing the model's likelihood to talk about new topics.
+        """
         return self._set(presencePenalty=value)
 
     def setFrequencyPenalty(self, value):
+        """Sets values to penalize new tokens based on their existing frequency in the text so far,
+           decreasing the model's likelihood to repeat the same line verbatim.
+
+        Parameters
+        ----------
+        value : int
+           Number between -2.0 and 2.0.
+           Positive values penalize new tokens based on their existing frequency in the text so far,
+           decreasing the model's likelihood to repeat the same line verbatim.
+        """
         return self._set(frequencyPenalty=value)
 
     def setBestOf(self, value):
+        """Sets best_of completions server-side and returns the "best" (the one with the highest log probability per token)
+
+        Parameters
+        ----------
+        value : int
+           Generates best_of completions server-side and returns the "best" (the one with the highest log probability per token).
+           Results cannot be streamed.
+           When used with n, best_of controls the number of candidate completions and n specifies how many to return – best_of must be greater than n.
+           Note: Because this parameter generates many completions, it can quickly consume your token quota.
+           Use carefully and ensure that you have reasonable settings for max_tokens and stop.
+        """
         return self._set(bestOf=value)
 
     def setLogitBias(self, value):
+        """Sets the likelihood of specified tokens appearing in the completion
+
+        Parameters
+        ----------
+        value : dict
+           Modify the likelihood of specified tokens appearing in the completion.
+            Accepts a json object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated
+            bias value from -100 to 100. You can use this tokenizer tool (which works for both GPT-2 and GPT-3) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
+            As an example, you can pass {"50256": -100} to prevent the <|endoftext|> token from being generated.
+        """
         return self._set(logitBias=value)
 
     def setUser(self, value):
+        """Sets a unique identifier representing your end-user
+
+        Parameters
+        ----------
+        value : str
+           A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
+        """
         return self._set(user=value)
 
     @keyword_only
