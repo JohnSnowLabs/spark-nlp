@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.ai.DistilBertClassification
+import com.johnsnowlabs.ml.ai.BartClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -32,10 +32,10 @@ import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** DistilBertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI
-  * (natural language inference) tasks. Equivalent of `DistilBertForZeroShotClassification `
-  * models, but these models don't require a hardcoded number of potential classes, they can be
-  * chosen at runtime. It usually means it's slower but it is much more flexible.
+/** BartForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI
+  * (natural language inference) tasks. Equivalent of `BartForZeroShotClassification ` models,
+  * but these models don't require a hardcoded number of potential classes, they can be chosen at
+  * runtime. It usually means it's slower but it is much more flexible.
   *
   * Note that the model will loop through all provided labels. So the more labels you have, the
   * longer this process will take.
@@ -45,12 +45,11 @@ import org.apache.spark.sql.SparkSession
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = DistilBertForZeroShotClassification .pretrained()
+  * val sequenceClassifier = BartForZeroShotClassification .pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"distilbert_base_zero_shot_classifier_uncased_mnli"`, if no name is
-  * provided.
+  * The default model is `"bart_large_zero_shot_classifier_mnli"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
@@ -73,7 +72,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = DistilBertForZeroShotClassification .pretrained()
+  * val sequenceClassifier = BartForZeroShotClassification .pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -97,9 +96,9 @@ import org.apache.spark.sql.SparkSession
   * }}}
   *
   * @see
-  *   [[DistilBertForZeroShotClassification]] for sequence-level classification
+  *   [[BartForZeroShotClassification]] for sequence-level classification
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transforme
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
   *   based classifiers
   * @param uid
   *   required uid for storing annotator to disk
@@ -120,9 +119,9 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class DistilBertForZeroShotClassification(override val uid: String)
-    extends AnnotatorModel[DistilBertForZeroShotClassification]
-    with HasBatchedAnnotate[DistilBertForZeroShotClassification]
+class BartForZeroShotClassification(override val uid: String)
+  extends AnnotatorModel[BartForZeroShotClassification]
+    with HasBatchedAnnotate[BartForZeroShotClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -132,7 +131,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("DISTILBERT_FOR_ZERO_SHOT_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("BART_FOR_ZERO_SHOT_CLASSIFICATION"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -149,12 +148,16 @@ class DistilBertForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
+    $$(vocabulary)("<s>")
   }
 
   /** @group setParam */
   def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
+    $$(vocabulary)("</s>")
+  }
+
+  def padTokenId: Int = {
+    $$(vocabulary)("<pad>")
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -173,7 +176,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = {
@@ -187,10 +190,19 @@ class DistilBertForZeroShotClassification(override val uid: String)
     $$(labels).keys.toArray
   }
 
+  /** Holding merges.txt coming from Bart model
+    *
+    * @group param
+    */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences (Default: `false`).
     *
-    * Due to max sequence length limit in almost all transformer models such as DistilBERT (512
+    * Due to max sequence length limit in almost all transformer models such as Bart (512
     * tokens), this parameter helps feeding all the sentences into the model and averaging all the
     * probabilities for the entire document instead of probabilities per sentence.
     *
@@ -218,7 +230,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForZeroShotClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): BartForZeroShotClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -235,7 +247,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "Bart models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -260,22 +272,24 @@ class DistilBertForZeroShotClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[DistilBertClassification]] = None
+  private var _model: Option[Broadcast[BartClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
-      spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): DistilBertForZeroShotClassification = {
+                        spark: SparkSession,
+                        tensorflowWrapper: TensorflowWrapper): BartForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new DistilBertClassification(
+          new BartClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
+            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
             signatures = getSignatures,
+            $$(merges),
             $$(vocabulary))))
     }
 
@@ -283,7 +297,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: DistilBertClassification = _model.get.value
+  def getModelIfNotSet: BartClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -325,7 +339,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          getActivation)
+          $(activation))
 
       } else {
         Seq.empty[Annotation]
@@ -339,60 +353,63 @@ class DistilBertForZeroShotClassification(override val uid: String)
       path,
       spark,
       getModelIfNotSet.tensorflowWrapper,
-      "_distilbert_classification",
-      DistilBertForZeroShotClassification.tfFile,
+      "_bart_classification",
+      BartForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedDistilBertForZeroShotModel
-    extends ParamsAndFeaturesReadable[DistilBertForZeroShotClassification]
-    with HasPretrained[DistilBertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some(
-    "distilbert_base_zero_shot_classifier_uncased_mnli")
+trait ReadablePretrainedBartForZeroShotModel
+  extends ParamsAndFeaturesReadable[BartForZeroShotClassification]
+    with HasPretrained[BartForZeroShotClassification] {
+  override val defaultModelName: Some[String] = Some("bart_large_zero_shot_classifier_mnli")
 
   /** Java compliant-overrides */
-  override def pretrained(): DistilBertForZeroShotClassification = super.pretrained()
+  override def pretrained(): BartForZeroShotClassification = super.pretrained()
 
-  override def pretrained(name: String): DistilBertForZeroShotClassification =
+  override def pretrained(name: String): BartForZeroShotClassification =
     super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertForZeroShotClassification =
+  override def pretrained(name: String, lang: String): BartForZeroShotClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
-      name: String,
-      lang: String,
-      remoteLoc: String): DistilBertForZeroShotClassification =
+                           name: String,
+                           lang: String,
+                           remoteLoc: String): BartForZeroShotClassification =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[DistilBertForZeroShotClassification] =>
+trait ReadBartForZeroShotDLModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[BartForZeroShotClassification] =>
 
-  override val tfFile: String = "distilbert_classification_tensorflow"
+  override val tfFile: String = "bart_classification_tensorflow"
 
   def readModel(
-      instance: DistilBertForZeroShotClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+                 instance: BartForZeroShotClassification,
+                 path: String,
+                 spark: SparkSession): Unit = {
 
     val tf =
-      readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
+      readTensorflowModel(path, spark, "_bart_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readModel)
 
-  def loadSavedModel(
-      modelPath: String,
-      spark: SparkSession): DistilBertForZeroShotClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BartForZeroShotClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
     val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
+    val bytePairs = loadTextAsset(localModelPath, "merges.txt")
+      .map(_.split(" "))
+      .filter(w => w.length == 2)
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex
+      .toMap
 
     val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
     val contradictionIds =
@@ -410,9 +427,10 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
           Current labels: ${labels.keys.mkString(", ")}
           """)
 
-    val annotatorModel = new DistilBertForZeroShotClassification()
+    val annotatorModel = new BartForZeroShotClassification()
       .setVocabulary(vocabs)
       .setLabels(labels)
+      .setMerges(bytePairs)
       .setCandidateLabels(labels.keys.toArray)
 
     /* set the entailment id */
@@ -447,9 +465,9 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[DistilBertForZeroShotClassification]]. Please refer to that
+/** This is the companion object of [[BartForZeroShotClassification]]. Please refer to that
   * class for the documentation.
   */
-object DistilBertForZeroShotClassification
-    extends ReadablePretrainedDistilBertForZeroShotModel
-    with ReadDistilBertForZeroShotDLModel
+object BartForZeroShotClassification
+  extends ReadablePretrainedBartForZeroShotModel
+    with ReadBartForZeroShotDLModel
