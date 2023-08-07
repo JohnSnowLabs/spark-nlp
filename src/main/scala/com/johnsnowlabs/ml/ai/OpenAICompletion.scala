@@ -26,73 +26,76 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, JsonBuilder, JsonParser}
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** Transformer that makes a request for OpenAI Completion API for each executor.
- *
- * @see
- *   [[https://platform.openai.com/docs/api-reference/completions/create OpenAI API Doc]] for reference
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.ml.ai.OpenAICompletion
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val openAICompletion = new OpenAICompletion()
- *  .setInputCols("document")
- *  .setOutputCol("completion")
- *  .setModel("text-davinci-003")
- *  .setMaxTokens(50)
- *
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   openAICompletion
- * ))
- *
- * val promptDF = Seq(
- *  "Generate a restaurant review.",
- *  "Write a review for a local eatery.",
- *  "Create a JSON with a review of a dining experience.").toDS.toDF("text")
- * val completionDF = pipeline.fit(promptDF).transform(promptDF)
- *
- * completionDF.select("completion").show(false)
- * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- * |completion                                                                                                                                                                                                                                                                                        |
- * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- * |[{document, 0, 258, \n\nI had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|
- * |[{document, 0, 227, \n\nI recently visited Barbecue Joe's for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |
- * |[{document, 0, 172, \n\n{ \n   "review": { \n      "overallRating": 4, \n      "reviewBody": "I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |
- * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- *
- * }}}
- *
- * @param uid
- *   required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno
- *   Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param
- *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
- *   parameter values through setters and getters, respectively.
- */
+  *
+  * @see
+  *   [[https://platform.openai.com/docs/api-reference/completions/create OpenAI API Doc]] for
+  *   reference
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import com.johnsnowlabs.ml.ai.OpenAICompletion
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val openAICompletion = new OpenAICompletion()
+  *  .setInputCols("document")
+  *  .setOutputCol("completion")
+  *  .setModel("text-davinci-003")
+  *  .setMaxTokens(50)
+  *
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   documentAssembler,
+  *   openAICompletion
+  * ))
+  *
+  * val promptDF = Seq(
+  *  "Generate a restaurant review.",
+  *  "Write a review for a local eatery.",
+  *  "Create a JSON with a review of a dining experience.").toDS.toDF("text")
+  * val completionDF = pipeline.fit(promptDF).transform(promptDF)
+  *
+  * completionDF.select("completion").show(false)
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |completion                                                                                                                                                                                                                                                                                        |
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |[{document, 0, 258, \n\nI had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|
+  * |[{document, 0, 227, \n\nI recently visited Barbecue Joe's for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |
+  * |[{document, 0, 172, \n\n{ \n   "review": { \n      "overallRating": 4, \n      "reviewBody": "I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |
+  * +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 
 class OpenAICompletion(override val uid: String)
     extends AnnotatorModel[OpenAICompletion]
@@ -185,6 +188,19 @@ class OpenAICompletion(override val uid: String)
 
   def setUser(value: String): this.type = set(user, value)
 
+  private var bearerToken: Option[Broadcast[String]] = None
+
+  def setBearerTokenIfNotSet(spark: SparkSession, openAIKey: Option[String]): this.type = {
+    if (bearerToken.isEmpty && openAIKey.isDefined) {
+      bearerToken = Some(spark.sparkContext.broadcast(openAIKey.get))
+    }
+    this
+  }
+
+  def getBearerToken: String = {
+    if (bearerToken.isDefined) bearerToken.get.value else ""
+  }
+
   setDefault(
     maxTokens -> 16,
     temperature -> 1f,
@@ -194,6 +210,13 @@ class OpenAICompletion(override val uid: String)
     presencePenalty -> 0f,
     frequencyPenalty -> 0f,
     bestOf -> 1)
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    this.setBearerTokenIfNotSet(
+      dataset.sparkSession,
+      Some(ConfigLoader.getConfigStringValue(ConfigHelper.openAIAPIKey)))
+    dataset
+  }
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -281,21 +304,24 @@ class OpenAICompletion(override val uid: String)
   private def post(url: String, jsonBody: String): String = {
     val httpPost = new HttpPost(url)
     httpPost.setEntity(new StringEntity(jsonBody, ContentType.APPLICATION_JSON))
-    val bearerToken = ConfigLoader.getConfigStringValue(ConfigHelper.openAIAPIKey)
+    val bearerToken = getBearerToken
     require(bearerToken.nonEmpty, "OpenAI API Key required")
     httpPost.setHeader("Authorization", s"Bearer $bearerToken")
 
     var text: String = null
+    var responseBody: String = ""
 
     val httpclient: CloseableHttpClient = HttpClients.createDefault()
     try {
       val response = httpclient.execute(httpPost)
-      val responseBody = EntityUtils.toString(response.getEntity)
+      responseBody = EntityUtils.toString(response.getEntity)
       val completionResponse = JsonParser.parseObject[CompletionResponse](responseBody)
       text = completionResponse.choices.head.text
     } catch {
       case ex: Exception =>
-        ex.printStackTrace()
+        if (responseBody.contains("error"))
+          throw new Exception(responseBody)
+        else ex.printStackTrace()
     } finally {
       httpclient.close()
     }

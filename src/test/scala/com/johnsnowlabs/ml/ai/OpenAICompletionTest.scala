@@ -28,7 +28,7 @@ class OpenAICompletionTest extends AnyFlatSpec with SparkSessionTest {
     // Set OPENAI_API_KEY env variable to make this work
     val promptDF = Seq(
       "Generate a restaurant review.",
-        "Write a review for a local eatery.",
+      "Write a review for a local eatery.",
       "Create a JSON with a review of a dining experience.").toDS.toDF("text")
 
     promptDF.show(false)

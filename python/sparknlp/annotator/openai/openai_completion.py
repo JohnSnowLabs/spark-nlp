@@ -63,15 +63,6 @@ from sparknlp.common import *
    >>> from sparknlp.common import *
    >>> from pyspark.ml import Pipeline
 
-   In this example, the entities file as the form of::
-
-       PERSON|Jon
-       PERSON|John
-       PERSON|John Snow
-       LOCATION|Winterfell
-
-   where each line represents an entity and the associated string delimited by "|".
-
    >>> documentAssembler = DocumentAssembler() \\
    ...     .setInputCol("text") \\
    ...     .setOutputCol("document")
