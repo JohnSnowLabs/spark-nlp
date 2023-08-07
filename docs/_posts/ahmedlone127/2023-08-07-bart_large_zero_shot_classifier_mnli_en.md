@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using large BART model.
 
-BertForZeroShotClassification using a ModelForSequenceClassification trained on MNLI  tasks. Equivalent of BartForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
+BartForZeroShotClassification using a ModelForSequenceClassification trained on MNLI  tasks. Equivalent of BartForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
 
 We used TFBartForSequenceClassification to train this model and used BartForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
 
