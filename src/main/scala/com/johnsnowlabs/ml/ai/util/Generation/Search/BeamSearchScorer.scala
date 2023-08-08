@@ -150,8 +150,9 @@ class BeamSearchScorer(
     }
     val sentLengthMax = sentLengths.max + 1
     val sentMaxLength = Math.min(sentLengthMax, maxLength) + 1
-    var decoded = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
-    var indices = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
+    var decoded =
+      Array.fill[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)(padTokenId)
+    var indices = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)
 
     if (sentLengths.min != sentLengths.max) {
       decoded = decoded.map(each => each.map(_ => padTokenId))
@@ -160,12 +161,12 @@ class BeamSearchScorer(
     for (i <- best.indices) {
       val hypo = best(i)
       val bestIdx = bestIndices(i)
-      for (j <- 0 until sentLengths(i).toInt) {
+      for (j <- 0 until sentLengths(i)) {
         decoded(i)(j) = hypo(j)
 //        indices(i)(j) = bestIdx(j)
       }
       if (sentLengths(i) < sentMaxLength) {
-        decoded(i)(sentLengths(i).toInt) = eosTokenId
+        decoded(i)(sentLengths(i)) = eosTokenId
       }
     }
     (decoded, bestScores, indices)
