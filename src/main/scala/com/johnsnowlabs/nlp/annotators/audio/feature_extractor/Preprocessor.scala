@@ -18,7 +18,9 @@ package com.johnsnowlabs.nlp.annotators.audio.feature_extractor
 
 import com.johnsnowlabs.util.JsonParser
 import org.json4s.jackson.JsonMethods
-import org.json4s.{JNothing, JValue}
+import org.json4s.{Formats, JNothing, JValue}
+
+import scala.collection.mutable.ArrayBuffer
 
 private[johnsnowlabs] case class Preprocessor(
     do_normalize: Boolean = true,
@@ -29,6 +31,8 @@ private[johnsnowlabs] case class Preprocessor(
     sampling_rate: Int)
 
 private[johnsnowlabs] object Preprocessor {
+  implicit val formats: Formats = org.json4s.DefaultFormats
+
   def apply(
       do_normalize: Boolean = true,
       feature_size: Int,
@@ -51,15 +55,24 @@ private[johnsnowlabs] object Preprocessor {
     def has(childString: String): Boolean = {
       (value \ childString) != JNothing
     }
+    def hasAttributes(attributes: Seq[String]): Boolean =
+      attributes.forall(value.has(_))
   }
 
-  def schemaCheckWav2Vec2(jsonStr: String): Boolean = {
-    val json = JsonMethods.parse(jsonStr)
-    val schemaCorrect =
-      if (json.has("do_normalize") && json.has("feature_size") && json.has("padding_side") && json
-          .has("padding_value") && json.has("return_attention_mask") && json.has("sampling_rate"))
-        true
-      else false
+  def checkSchema(json: JValue, processorClass: String): Boolean = {
+    val schemaCorrect = processorClass match {
+      case "Wav2Vec2Processor" =>
+        json.hasAttributes(PreprocessorAttributes.Wave2Vec)
+      case "WhisperProcessor" =>
+        json.hasAttributes(PreprocessorAttributes.Whisper)
+      case _ => false
+    }
+
+    //    val schemaCorrect =
+    //      if (json.has("do_normalize") && json.has("feature_size") && json.has("padding_side") && json
+    //          .has("padding_value") && json.has("return_attention_mask") && json.has("sampling_rate"))
+    //        true
+    //      else false
 
     schemaCorrect
   }
@@ -67,7 +80,7 @@ private[johnsnowlabs] object Preprocessor {
   def loadPreprocessorConfig(preprocessorConfigJsonContent: String): Preprocessor = {
 
     val preprocessorJsonErrorMsg =
-      s"""The schema of preprocessor_config.json file is incorrect. It should look like this:         
+      s"""The schema of preprocessor_config.json file is incorrect. It should look like this:
          |{
          |  "do_normalize": true,
          |  "feature_size": 1,
@@ -77,18 +90,72 @@ private[johnsnowlabs] object Preprocessor {
          |  "sampling_rate": 16000
          |}
          |""".stripMargin
-    require(
-      Preprocessor.schemaCheckWav2Vec2(preprocessorConfigJsonContent),
-      preprocessorJsonErrorMsg)
 
-    val preprocessorConfig =
+    val parsedJson = JsonMethods.parse(preprocessorConfigJsonContent)
+
+    val processorClass = (parsedJson \ "processor_class").extractOrElse[String](
+      throw new Exception("\"processor_class\" attribute not found in preprocessor_config.json!"))
+
+    require(Preprocessor.checkSchema(parsedJson, processorClass), preprocessorJsonErrorMsg)
+
+    val preprocessorConfig: Preprocessor =
       try {
-        JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
+        processorClass match {
+          case "WhisperProcessor" =>
+            JsonParser.parseObject[WhisperPreprocessor](preprocessorConfigJsonContent)
+          case _ => JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
+        }
       } catch {
         case e: Exception =>
-          println(s"${preprocessorJsonErrorMsg} \n error: ${e.getMessage}")
-          JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
+          println(s"$preprocessorJsonErrorMsg \n error: ${e.getMessage}")
+          throw e
       }
     preprocessorConfig
   }
+
+  def normalize(rawAudio: Array[Float]): Array[Float] = {
+    val normalizedData = ArrayBuffer[Float]()
+    val meanData = mean(rawAudio)
+    val varianceData = variance(rawAudio)
+    for (x <- rawAudio) {
+      normalizedData += (x - meanData) / scala.math.sqrt(varianceData + 0.0000001).toFloat
+    }
+    normalizedData.toArray
+  }
+
+  def mean(rawAudio: Array[Float]): Float =
+    if (rawAudio.isEmpty) 0 else rawAudio.sum / rawAudio.length
+
+  def variance(rawAudio: Array[Float]): Double = {
+    val avg = mean(rawAudio)
+    rawAudio.map(a => math.pow(a - avg, 2)).sum / rawAudio.length
+  }
+
+  // TODO: Check for infinite recursion
+  def removeDup(lst: List[Int]): List[Int] = {
+    lst match {
+      case head :: tail =>
+        val (duplicateList, remainList) = lst.span(_ == head)
+        duplicateList.head :: removeDup(remainList)
+      case Nil => List()
+    }
+  }
+
+  def pad(
+      audio: Array[Float],
+      paddingValue: Float,
+      totalLength: Int,
+      paddingSide: String): Array[Float] = {
+    val padding = Array.fill(totalLength - audio.length)(paddingValue)
+
+    paddingSide match {
+      case "left" => padding ++ audio
+      case "right" => audio ++ padding
+      case _ => audio ++ padding
+    }
+  }
+
+  def truncate(audio: Array[Float], maxLength: Int): Array[Float] =
+    if (audio.length > maxLength) audio.slice(0, maxLength) else audio
+
 }

@@ -1,6 +1,7 @@
 package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.scalactic.{Equality, TolerantNumerics}
 
 import scala.io.Source
 
@@ -51,5 +52,9 @@ private[johnsnowlabs] object TestUtils {
     }
     stream.toString
   }
+
+  // Comparisons with tolerance, import and use ===
+  implicit val tolerantFloatEq: Equality[Float] = TolerantNumerics.tolerantFloatEquality(1e-4f)
+  implicit val tolerantDoubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(1e-5f)
 
 }
