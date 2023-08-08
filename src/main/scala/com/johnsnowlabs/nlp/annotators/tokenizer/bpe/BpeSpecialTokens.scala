@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-private[nlp] class SpecialTokens(
+private[johnsnowlabs] class SpecialTokens(
     vocab: Map[String, Int],
     startTokenString: String,
     endTokenString: String,
@@ -24,12 +24,14 @@ private[nlp] class SpecialTokens(
     maskTokenString: String,
     padTokenString: String,
     additionalStrings: Array[String] = Array()) {
+
   val allTokenStrings: Array[String] = Array(
     maskTokenString,
     startTokenString,
     endTokenString,
     unkTokenString,
     padTokenString) ++ additionalStrings
+
   for (specialTok <- allTokenStrings)
     require(vocab.contains(specialTok), s"Special Token '$specialTok' needs to be in vocabulary.")
 
@@ -53,11 +55,48 @@ private[nlp] class SpecialTokens(
   def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
 }
 
-private[nlp] object SpecialTokens {
+private[johnsnowlabs] object SpecialTokens {
+
+  def apply(
+      vocab: Map[String, Int],
+      startTokenString: String,
+      endTokenString: String,
+      unkTokenString: String,
+      maskTokenString: String,
+      padTokenString: String,
+      additionalStrings: Array[String] = Array()): SpecialTokens = new SpecialTokens(
+    vocab,
+    startTokenString,
+    endTokenString,
+    unkTokenString,
+    maskTokenString,
+    padTokenString,
+    additionalStrings)
+
+  def apply(
+      vocab: Map[String, Int],
+      startTokenId: Int,
+      endTokenId: Int,
+      unkTokenId: Int,
+      maskTokenId: Int,
+      padTokenId: Int,
+      additionalTokenIds: Array[Int]): SpecialTokens = {
+    val idToString = vocab.map { case (str, id) => (id, str) }
+
+    new SpecialTokens(
+      vocab,
+      idToString(startTokenId),
+      idToString(endTokenId),
+      idToString(unkTokenId),
+      idToString(maskTokenId),
+      idToString(padTokenId),
+      additionalTokenIds.map(idToString))
+  }
+
   def getSpecialTokensForModel(modelType: String, vocab: Map[String, Int]): SpecialTokens =
     modelType match {
       case "roberta" =>
-        new SpecialTokens(
+        SpecialTokens(
           vocab,
           startTokenString = "<s>",
           endTokenString = "</s>",
@@ -65,7 +104,7 @@ private[nlp] object SpecialTokens {
           maskTokenString = "<mask>",
           padTokenString = "<pad>")
       case "gpt2" =>
-        new SpecialTokens(
+        SpecialTokens(
           vocab,
           startTokenString = "<|endoftext|>",
           endTokenString = "<|endoftext|>",
@@ -73,7 +112,7 @@ private[nlp] object SpecialTokens {
           maskTokenString = "<|endoftext|>",
           padTokenString = "<|endoftext|>")
       case "xlm" =>
-        new SpecialTokens(
+        SpecialTokens(
           vocab,
           "<s>",
           "</s>",
@@ -91,7 +130,7 @@ private[nlp] object SpecialTokens {
             "<special8>",
             "<special9>"))
       case "bart" =>
-        new SpecialTokens(
+        SpecialTokens(
           vocab,
           startTokenString = "<s>",
           endTokenString = "</s>",

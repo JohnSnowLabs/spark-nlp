@@ -20,8 +20,10 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.audio.{
   ReadHubertForAudioDLModel,
   ReadWav2Vec2ForAudioDLModel,
+  ReadWhisperForCTCDLModel,
   ReadablePretrainedHubertForAudioModel,
-  ReadablePretrainedWav2Vec2ForAudioModel
+  ReadablePretrainedWav2Vec2ForAudioModel,
+  ReadablePretrainedWhisperForCTCModel
 }
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
@@ -665,6 +667,11 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.audio.HubertForCTC
 
   object HubertForCTC extends ReadablePretrainedHubertForAudioModel with ReadHubertForAudioDLModel
+
+  type WhisperForCTC =
+    com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC
+
+  object WhisperForCTC extends ReadablePretrainedWhisperForCTCModel with ReadWhisperForCTCDLModel
 
   type ZeroShotNerModel =
     com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
