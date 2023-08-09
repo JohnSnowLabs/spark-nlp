@@ -99,7 +99,7 @@ import org.apache.spark.sql.SparkSession
   * @see
   *   [[DistilBertForZeroShotClassification]] for sequence-level classification
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transforme
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
   *   based classifiers
   * @param uid
   *   required uid for storing annotator to disk
