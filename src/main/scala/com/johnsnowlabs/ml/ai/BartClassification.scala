@@ -40,17 +40,17 @@ import scala.collection.JavaConverters._
   *   TF v2 signatures in Spark NLP
   */
 private[johnsnowlabs] class BartClassification(
-                                                   val tensorflowWrapper: TensorflowWrapper,
-                                                   val sentenceStartTokenId: Int,
-                                                   val sentenceEndTokenId: Int,
-                                                   val sentencePadTokenId: Int,
-                                                   configProtoBytes: Option[Array[Byte]] = None,
-                                                   tags: Map[String, Int],
-                                                   signatures: Option[Map[String, String]] = None,
-                                                   merges: Map[(String, String), Int],
-                                                   vocabulary: Map[String, Int],
-                                                   threshold: Float = 0.5f)
-  extends Serializable
+    val tensorflowWrapper: TensorflowWrapper,
+    val sentenceStartTokenId: Int,
+    val sentenceEndTokenId: Int,
+    val sentencePadTokenId: Int,
+    configProtoBytes: Option[Array[Byte]] = None,
+    tags: Map[String, Int],
+    signatures: Option[Map[String, String]] = None,
+    merges: Map[(String, String), Int],
+    vocabulary: Map[String, Int],
+    threshold: Float = 0.5f)
+    extends Serializable
     with XXXForClassification {
 
   val _tfBartSignatures: Map[String, String] =
@@ -59,9 +59,9 @@ private[johnsnowlabs] class BartClassification(
   protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
-                             sentences: Seq[TokenizedSentence],
-                             maxSeqLength: Int,
-                             caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      sentences: Seq[TokenizedSentence],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val bpeTokenizer = BpeTokenizer.forModel("bart", merges, vocabulary)
 
@@ -85,9 +85,9 @@ private[johnsnowlabs] class BartClassification(
   }
 
   def tokenizeSeqString(
-                         candidateLabels: Seq[String],
-                         maxSeqLength: Int,
-                         caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder = new WordpieceEncoder(vocabulary, unkToken = "<unk>")
@@ -101,9 +101,9 @@ private[johnsnowlabs] class BartClassification(
     })
   }
   def tokenizeDocument(
-                        docs: Seq[Annotation],
-                        maxSeqLength: Int,
-                        caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      docs: Seq[Annotation],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
     // we need the original form of the token
     // let's lowercase if needed right before the encoding
     val bpeTokenizer = BpeTokenizer.forModel("Bart", merges, vocabulary)
@@ -250,10 +250,10 @@ private[johnsnowlabs] class BartClassification(
   }
 
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -295,9 +295,7 @@ private[johnsnowlabs] class BartClassification(
 
     runner
       .feed(
-        _tfBartSignatures.getOrElse(
-          ModelSignatureConstants.InputIds.key,
-          "missing_input_id_key"),
+        _tfBartSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
         _tfBartSignatures
@@ -383,9 +381,9 @@ private[johnsnowlabs] class BartClassification(
   }
 
   def findIndexedToken(
-                        tokenizedSentences: Seq[TokenizedSentence],
-                        sentence: (WordpieceTokenizedSentence, Int),
-                        tokenPiece: TokenPiece): Option[IndexedToken] = {
+      tokenizedSentences: Seq[TokenizedSentence],
+      sentence: (WordpieceTokenizedSentence, Int),
+      tokenPiece: TokenPiece): Option[IndexedToken] = {
     tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin)
   }
 

@@ -32,10 +32,10 @@ import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** BartForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI
-  * (natural language inference) tasks. Equivalent of `BartForZeroShotClassification ` models,
-  * but these models don't require a hardcoded number of potential classes, they can be chosen at
-  * runtime. It usually means it's slower but it is much more flexible.
+/** BartForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
+  * language inference) tasks. Equivalent of `BartForZeroShotClassification ` models, but these
+  * models don't require a hardcoded number of potential classes, they can be chosen at runtime.
+  * It usually means it's slower but it is much more flexible.
   *
   * Note that the model will loop through all provided labels. So the more labels you have, the
   * longer this process will take.
@@ -120,7 +120,7 @@ import org.apache.spark.sql.SparkSession
   *   parameter values through setters and getters, respectively.
   */
 class BartForZeroShotClassification(override val uid: String)
-  extends AnnotatorModel[BartForZeroShotClassification]
+    extends AnnotatorModel[BartForZeroShotClassification]
     with HasBatchedAnnotate[BartForZeroShotClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties
@@ -202,8 +202,8 @@ class BartForZeroShotClassification(override val uid: String)
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences (Default: `false`).
     *
-    * Due to max sequence length limit in almost all transformer models such as Bart (512
-    * tokens), this parameter helps feeding all the sentences into the model and averaging all the
+    * Due to max sequence length limit in almost all transformer models such as Bart (512 tokens),
+    * this parameter helps feeding all the sentences into the model and averaging all the
     * probabilities for the entire document instead of probabilities per sentence.
     *
     * @group param
@@ -276,8 +276,8 @@ class BartForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def setModelIfNotSet(
-                        spark: SparkSession,
-                        tensorflowWrapper: TensorflowWrapper): BartForZeroShotClassification = {
+      spark: SparkSession,
+      tensorflowWrapper: TensorflowWrapper): BartForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -361,7 +361,7 @@ class BartForZeroShotClassification(override val uid: String)
 }
 
 trait ReadablePretrainedBartForZeroShotModel
-  extends ParamsAndFeaturesReadable[BartForZeroShotClassification]
+    extends ParamsAndFeaturesReadable[BartForZeroShotClassification]
     with HasPretrained[BartForZeroShotClassification] {
   override val defaultModelName: Some[String] = Some("bart_large_zero_shot_classifier_mnli")
 
@@ -375,9 +375,9 @@ trait ReadablePretrainedBartForZeroShotModel
     super.pretrained(name, lang)
 
   override def pretrained(
-                           name: String,
-                           lang: String,
-                           remoteLoc: String): BartForZeroShotClassification =
+      name: String,
+      lang: String,
+      remoteLoc: String): BartForZeroShotClassification =
     super.pretrained(name, lang, remoteLoc)
 }
 
@@ -387,9 +387,9 @@ trait ReadBartForZeroShotDLModel extends ReadTensorflowModel {
   override val tfFile: String = "bart_classification_tensorflow"
 
   def readModel(
-                 instance: BartForZeroShotClassification,
-                 path: String,
-                 spark: SparkSession): Unit = {
+      instance: BartForZeroShotClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val tf =
       readTensorflowModel(path, spark, "_bart_classification_tf", initAllTables = false)
@@ -465,9 +465,9 @@ trait ReadBartForZeroShotDLModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[BartForZeroShotClassification]]. Please refer to that
-  * class for the documentation.
+/** This is the companion object of [[BartForZeroShotClassification]]. Please refer to that class
+  * for the documentation.
   */
 object BartForZeroShotClassification
-  extends ReadablePretrainedBartForZeroShotModel
+    extends ReadablePretrainedBartForZeroShotModel
     with ReadBartForZeroShotDLModel

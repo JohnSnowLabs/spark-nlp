@@ -725,7 +725,7 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification
 
   object BartForZeroShotClassification
-    extends ReadablePretrainedBartForZeroShotModel
+      extends ReadablePretrainedBartForZeroShotModel
       with ReadBartForZeroShotDLModel
 
 }
