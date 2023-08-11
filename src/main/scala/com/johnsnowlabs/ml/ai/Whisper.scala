@@ -17,10 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
-  ForcedTokenLogitProcessor,
-  SuppressLogitProcessor
-}
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{ForcedTokenLogitProcessor, SuppressLogitProcessor}
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
@@ -90,7 +87,7 @@ private[johnsnowlabs] class Whisper(
       padTokenId = eosTokenId,
       additionalTokenIds = addedSpecialTokens.values.toArray)
 
-  val tokenDecoder: WhisperTokenDecoder =
+  private val tokenDecoder: WhisperTokenDecoder =
     new WhisperTokenDecoder(vocabWithAddedTokens, tokenizerSpecialTokens)
 
   private val _tfWhisperSignatures: Map[String, String] =
@@ -146,7 +143,67 @@ private[johnsnowlabs] class Whisper(
       "present.3.decoder.value")
   }
 
-  /** @param audios
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Seq(AnnotationAudio(AnnotatorType.AUDIO, Array.ofDim(1), Map.empty))
+    generateFromAudio(
+      dummyInput,
+      batchSize = 2,
+      maxOutputLength = 1,
+      minOutputLength = 0,
+      doSample = false,
+      beamSize = 1,
+      numReturnSequences = 1,
+      temperature = 1.0,
+      topK = 1,
+      topP = 1.0,
+      repetitionPenalty = 1.0,
+      noRepeatNgramSize = 0,
+      randomSeed = None)
+  }
+
+  sessionWarmup()
+
+  private def getLogitProcessors(task: Option[String] = None, language: Option[String] = None) = {
+    val processorList = new LogitProcessorList()
+
+    // Assuming bos token at the front, get the last forced token
+    val generationBeginIdx: Int = forcedDecoderIds match {
+      case Some(forcedTokens) => 1 + forcedTokens.maxBy(_._1)._1
+      case None => 1
+    }
+
+    if (beginSuppressTokens.isDefined)
+      processorList.addProcess(
+        new SuppressLogitProcessor(beginSuppressTokens.get, Some(generationBeginIdx)))
+
+    if (suppressTokenIds.isDefined)
+      processorList.addProcess(new SuppressLogitProcessor(suppressTokenIds.get))
+
+    var totalForcedDecoderIds: Map[Int, Int] = forcedDecoderIds match {
+      case Some(value) => value.toMap
+      case None => Map.empty
+    }
+
+    // Assumed Language and Task tokens were checked during setter
+    // Language token should be at index 1. If None, then don't force anything on that position.
+    totalForcedDecoderIds =
+      if (language.isDefined)
+        totalForcedDecoderIds.updated(1, vocabWithAddedTokens(language.get))
+      else totalForcedDecoderIds
+
+    // Task token should be at index index 2. If None, then it should be "transcribe"
+    // (by default forced by official models)
+    totalForcedDecoderIds =
+      if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
+      else totalForcedDecoderIds
+
+    processorList.addProcess(new ForcedTokenLogitProcessor(totalForcedDecoderIds.toArray))
+
+    processorList
+
+  }
+
+  /** @param batchAudio
     *   Sequence of audio floats
     * @param batchSize
     *   Batch size
@@ -173,7 +230,7 @@ private[johnsnowlabs] class Whisper(
     * @return
     */
   def generateFromAudio(
-      audios: Seq[AnnotationAudio],
+      batchAudio: Seq[AnnotationAudio],
       batchSize: Int,
       maxOutputLength: Int,
       minOutputLength: Int,
@@ -189,149 +246,129 @@ private[johnsnowlabs] class Whisper(
       task: Option[String] = None,
       language: Option[String] = None): Seq[Annotation] = {
 
-    val logitProcessors: LogitProcessorList = {
-      val processorList = new LogitProcessorList()
-
-      // Assuming bos token at the front, get the last forced token
-      val generationBeginIdx: Int = forcedDecoderIds match {
-        case Some(forcedTokens) => 1 + forcedTokens.maxBy(_._1)._1
-        case None => 1
-      }
-
-      if (beginSuppressTokens.isDefined)
-        processorList.addProcess(
-          new SuppressLogitProcessor(beginSuppressTokens.get, Some(generationBeginIdx)))
-
-      if (suppressTokenIds.isDefined)
-        processorList.addProcess(new SuppressLogitProcessor(suppressTokenIds.get))
-
-      var totalForcedDecoderIds: Map[Int, Int] = forcedDecoderIds match {
-        case Some(value) => value.toMap
-        case None => Map.empty
-      }
-
-      // Assumed Language and Task tokens were checked during setter
-      // Language token should be at index 1. If None, then don't force anything on that position.
-      totalForcedDecoderIds =
-        if (language.isDefined)
-          totalForcedDecoderIds.updated(1, vocabWithAddedTokens(language.get))
-        else totalForcedDecoderIds
-
-      // Task token should be at index index 2. If None, then it should be "transcribe" (by default forced?)
-      totalForcedDecoderIds =
-        if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
-        else totalForcedDecoderIds
-
-      processorList.addProcess(new ForcedTokenLogitProcessor(totalForcedDecoderIds.toArray))
-
-      processorList
-    }
-
-    val batchedAudio = audios.grouped(batchSize).toArray
-
-    val batchDecodedIds =
-      batchedAudio.flatMap { batch: Seq[AnnotationAudio] =>
-        val featuresBatch = batch.map { case AnnotationAudio(_, rawFloats, _) =>
-          preprocessor.extractFeatures(rawFloats)
-        }.toArray
-
-        val batchDecoderStartIds = Array.fill(batchedAudio.length, 1)(bosTokenId)
-
-        val tokenIds: Array[Array[Int]] = detectedEngine match {
-          case TensorFlow.name =>
-            val session =
-              tensorflowWrapper.get
-                .getTFSessionWithSignature(configProtoBytes, savedSignatures = signatures)
-
-            val encodedBatchFeatures: Tensor =
-              encode(featuresBatch, Some(session), None).asInstanceOf[Tensor]
-
-            // Generate the tokens
-            val tokenIds: Array[Array[Int]] = generate(
-              encodedBatchFeatures,
-              batchDecoderStartIds,
-              maxOutputLength,
-              minOutputLength,
-              doSample,
-              beamSize,
-              numReturnSequences,
-              temperature,
-              topK,
-              topP,
-              repetitionPenalty,
-              noRepeatNgramSize,
-              randomSeed,
-              session,
-              logitProcessors)
-
-            tfTensorResources.clearTensors()
-            encodedBatchFeatures.close()
-
-            tokenIds
-          case ONNX.name =>
-            if (beamSize > 1)
-              logger.warn(
-                "Currently the Whisper ONNX model only supports greedy search. Will default to this behavior.")
-
-            val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
-            val decoderSession = onnxWrappers.get.decoder.getSession()._1
-            val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
-
-            val encodedBatchTensor: OnnxTensor =
-              encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]
-
-            val (logits, initEncoderStates, initDecoderStates) =
-              initOnnxDecoder(
-                batchDecoderStartIds,
-                encodedBatchTensor,
-                logitProcessors,
-                (decoderSession, env))
-
-            encodedBatchTensor.close()
-
-            val batchInitGenerationTokenIds: Array[Array[Int]] =
-              logits.map { logitsArray =>
-                Array(bosTokenId, argmax(logitsArray))
-              }
-
-            val tokenIds = generateGreedyOnnx(
-              batchInitGenerationTokenIds,
-              replaceStateKeys(initEncoderStates),
-              replaceStateKeys(initDecoderStates),
-              maxOutputLength,
-              minOutputLength,
-              logitProcessors,
-              (decoderWithPastSession, env))
-
-            tokenIds
-        }
-
-        decode(tokenIds)
-      }
-
-    var sentBegin, nextSentEnd = 0
-    batchDecodedIds.zip(audios).map { case (content, audio) =>
-      nextSentEnd += content.length - 1
-      val annotation = new Annotation(
+    def emptyAnnotation(annotationAudio: AnnotationAudio) = {
+      new Annotation(
         annotatorType = AnnotatorType.DOCUMENT,
-        begin = sentBegin,
-        end = nextSentEnd,
-        result = content,
-        metadata = audio.metadata)
-      sentBegin += nextSentEnd + 1
-      annotation
+        begin = 0,
+        end = 0,
+        result = "",
+        metadata = annotationAudio.metadata)
     }
+
+    val validBatchAudio = batchAudio.zipWithIndex
+      .filter { case (annotationAudio, _) =>
+        annotationAudio.result.nonEmpty
+      }
+
+    if (validBatchAudio.nonEmpty) {
+      val validIndices = validBatchAudio.map(_._2)
+
+      val logitProcessors: LogitProcessorList = getLogitProcessors(task, language)
+
+      val featuresBatch = validBatchAudio.map { case (AnnotationAudio(_, rawFloats, _), _) =>
+        preprocessor.extractFeatures(rawFloats)
+      }.toArray
+
+      val batchDecoderStartIds = Array.fill(validBatchAudio.length, 1)(bosTokenId)
+
+      val tokenIds: Array[Array[Int]] = detectedEngine match {
+        case TensorFlow.name =>
+          val session =
+            tensorflowWrapper.get
+              .getTFSessionWithSignature(configProtoBytes, savedSignatures = signatures)
+
+          val encodedBatchFeatures: Tensor =
+            encode(featuresBatch, Some(session), None).asInstanceOf[Tensor]
+
+          // Generate the tokens
+          val tokenIds: Array[Array[Int]] = generate(
+            encodedBatchFeatures,
+            batchDecoderStartIds,
+            maxOutputLength,
+            minOutputLength,
+            doSample,
+            beamSize,
+            numReturnSequences,
+            temperature,
+            topK,
+            topP,
+            repetitionPenalty,
+            noRepeatNgramSize,
+            randomSeed,
+            session,
+            logitProcessors)
+
+          tfTensorResources.clearTensors()
+          encodedBatchFeatures.close()
+
+          tokenIds
+        case ONNX.name =>
+          if (beamSize > 1)
+            logger.warn(
+              "Currently the Whisper ONNX model only supports greedy search. Will default to this behavior.")
+
+          val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
+          val decoderSession = onnxWrappers.get.decoder.getSession()._1
+          val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
+
+          val encodedBatchTensor: OnnxTensor =
+            encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]
+
+          val (logits, initEncoderStates, initDecoderStates) =
+            initOnnxDecoder(
+              batchDecoderStartIds,
+              encodedBatchTensor,
+              logitProcessors,
+              (decoderSession, env))
+
+          encodedBatchTensor.close()
+
+          val batchInitGenerationTokenIds: Array[Array[Int]] =
+            logits.map { logitsArray =>
+              Array(bosTokenId, argmax(logitsArray))
+            }
+
+          val tokenIds = generateGreedyOnnx(
+            batchInitGenerationTokenIds,
+            replaceStateKeys(initEncoderStates),
+            replaceStateKeys(initDecoderStates),
+            maxOutputLength,
+            minOutputLength,
+            logitProcessors,
+            (decoderWithPastSession, env))
+
+          tokenIds
+      }
+
+      val batchDecodedIds = validIndices.zip(decode(tokenIds)).toMap
+
+      batchAudio.zipWithIndex.map { case (annotationAudio, index) =>
+        if (batchDecodedIds.contains(index)) {
+          val decodedIds = batchDecodedIds(index)
+          new Annotation(
+            annotatorType = AnnotatorType.DOCUMENT,
+            begin = 0,
+            end = decodedIds.length - 1,
+            result = decodedIds,
+            metadata = annotationAudio.metadata)
+        } else
+          emptyAnnotation(annotationAudio)
+      }
+    } else
+      batchAudio.map { annotationAudio =>
+        emptyAnnotation(annotationAudio)
+      }
   }
 
-  /** Decode a sequence of sentences
+  /** Decodes a batch of generated token ids.
     *
-    * @param sentences
-    *   Sequence of sentences
+    * @param batchTokenIds
+    *   Batch of token ids of the generated text
     * @return
-    *   Sequence of decoded sentences
+    *   batch of decoded sentences
     */
-  def decode(sentences: Array[Array[Int]]): Seq[String] = {
-    sentences.map(s => tokenDecoder.decodeTokens(s))
+  def decode(batchTokenIds: Array[Array[Int]]): Seq[String] = {
+    batchTokenIds.map(s => tokenDecoder.decodeTokens(s))
   }
 
   /** Encodes a batch of preprocessed input audio.
@@ -604,25 +641,7 @@ private[johnsnowlabs] class Whisper(
     generatedIds
   }
 
-  private def sessionWarmup(): Unit = {
-    val dummyInput = Seq(AnnotationAudio(AnnotatorType.AUDIO, Array.ofDim(1), Map.empty))
-    generateFromAudio(
-      dummyInput,
-      batchSize = 2,
-      maxOutputLength = 1,
-      minOutputLength = 0,
-      doSample = false,
-      beamSize = 1,
-      numReturnSequences = 1,
-      temperature = 1.0,
-      topK = 1,
-      topP = 1.0,
-      repetitionPenalty = 1.0,
-      noRepeatNgramSize = 0,
-      randomSeed = None)
-  }
-
-  def replaceStateKeys(outputs: Map[String, OnnxTensor]): Map[String, OnnxTensor] =
+  private def replaceStateKeys(outputs: Map[String, OnnxTensor]): Map[String, OnnxTensor] =
     outputs.map { case (key, t) =>
       (key.replace("present", "past_key_values"), t)
     }

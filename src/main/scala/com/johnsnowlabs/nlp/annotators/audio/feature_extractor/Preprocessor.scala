@@ -21,7 +21,6 @@ import org.json4s.jackson.JsonMethods
 import org.json4s.{Formats, JNothing, JValue}
 
 import scala.collection.mutable.ArrayBuffer
-
 private[johnsnowlabs] case class Preprocessor(
     do_normalize: Boolean = true,
     feature_size: Int,
@@ -31,7 +30,6 @@ private[johnsnowlabs] case class Preprocessor(
     sampling_rate: Int)
 
 private[johnsnowlabs] object Preprocessor {
-  implicit val formats: Formats = org.json4s.DefaultFormats
 
   def apply(
       do_normalize: Boolean = true,
@@ -59,44 +57,32 @@ private[johnsnowlabs] object Preprocessor {
       attributes.forall(value.has(_))
   }
 
-  def checkSchema(json: JValue, processorClass: String): Boolean = {
-    val schemaCorrect = processorClass match {
+  def checkSchema(json: JValue, processorClass: String): Unit = {
+    val attributes = processorClass match {
       case "Wav2Vec2Processor" =>
-        json.hasAttributes(PreprocessorAttributes.Wave2Vec)
+        PreprocessorAttributes.Wave2Vec
       case "WhisperProcessor" =>
-        json.hasAttributes(PreprocessorAttributes.Whisper)
-      case _ => false
+        PreprocessorAttributes.Whisper
+      case other => throw new IllegalArgumentException(s"Preprocessor for $other not supported.")
     }
 
-    //    val schemaCorrect =
-    //      if (json.has("do_normalize") && json.has("feature_size") && json.has("padding_side") && json
-    //          .has("padding_value") && json.has("return_attention_mask") && json.has("sampling_rate"))
-    //        true
-    //      else false
+    val schemaCorrect = json.hasAttributes(attributes)
 
-    schemaCorrect
+    require(
+      schemaCorrect,
+      s"The schema of preprocessor_config.json file is incorrect. It should have the following fields:\n${attributes
+          .mkString("\n")}")
   }
 
   def loadPreprocessorConfig(preprocessorConfigJsonContent: String): Preprocessor = {
-
-    val preprocessorJsonErrorMsg =
-      s"""The schema of preprocessor_config.json file is incorrect. It should look like this:
-         |{
-         |  "do_normalize": true,
-         |  "feature_size": 1,
-         |  "padding_side": "right",
-         |  "padding_value": 0.0,
-         |  "return_attention_mask": false,
-         |  "sampling_rate": 16000
-         |}
-         |""".stripMargin
+    implicit val formats: Formats = org.json4s.DefaultFormats
 
     val parsedJson = JsonMethods.parse(preprocessorConfigJsonContent)
 
     val processorClass = (parsedJson \ "processor_class").extractOrElse[String](
       throw new Exception("\"processor_class\" attribute not found in preprocessor_config.json!"))
 
-    require(Preprocessor.checkSchema(parsedJson, processorClass), preprocessorJsonErrorMsg)
+    Preprocessor.checkSchema(parsedJson, processorClass)
 
     val preprocessorConfig: Preprocessor =
       try {
@@ -107,7 +93,7 @@ private[johnsnowlabs] object Preprocessor {
         }
       } catch {
         case e: Exception =>
-          println(s"$preprocessorJsonErrorMsg \n error: ${e.getMessage}")
+          println(s"Could not parse preprocessor config ${e.getClass.toString}:${e.getMessage}")
           throw e
       }
     preprocessorConfig

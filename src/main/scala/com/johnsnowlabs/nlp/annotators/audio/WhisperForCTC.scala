@@ -60,7 +60,7 @@ import org.json4s.jackson.JsonMethods._
   * {{{
   * val speechToText = WhisperForCTC.pretrained()
   *   .setInputCols("audio_assembler")
-  *   .setOutputCol("document")
+  *   .setOutputCol("text")
   * }}}
   * The default model is `"asr_whisper_tiny_opt"`, if no name is provided.
   *
@@ -74,7 +74,6 @@ import org.json4s.jackson.JsonMethods._
   * '''References:'''
   *
   * [[https://arxiv.org/abs/2212.04356 Robust Speech Recognition via Large-Scale Weak Supervision]]
-  * [[https://huggingface.co/docs/transformers/v4.30.0/en/model_doc/whisper#transformers.WhisperForConditionalGeneration WhisperForConditionalGeneration on Transformers]]
   *
   * '''Paper Abstract:'''
   *
@@ -242,13 +241,6 @@ class WhisperForCTC(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  /** Hop Length for the window of the preprocessor
-    * @group param
-    */
-  val hopLength: ProtectedParam[Int] =
-    new IntParam(this, "hopLength", "Hop Length for the window of the preprocessor")
-      .setProtected()
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
     *
@@ -385,22 +377,24 @@ class WhisperForCTC(override val uid: String)
   override def batchAnnotate(
       batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map { audioAnnotations =>
-      getModelIfNotSet.generateFromAudio(
-        audios = audioAnnotations,
-        batchSize = getBatchSize,
-        maxOutputLength = getMaxOutputLength,
-        minOutputLength = getMinOutputLength,
-        doSample = getDoSample,
-        beamSize = getBeamSize,
-        numReturnSequences = getNReturnSequences,
-        temperature = getTemperature,
-        topK = getTopK,
-        topP = getTopP,
-        repetitionPenalty = getRepetitionPenalty,
-        noRepeatNgramSize = getNoRepeatNgramSize,
-        randomSeed = getRandomSeed,
-        task = getTask,
-        language = getLanguage)
+      if (audioAnnotations.nonEmpty) {
+        getModelIfNotSet.generateFromAudio(
+          batchAudio = audioAnnotations,
+          batchSize = getBatchSize,
+          maxOutputLength = getMaxOutputLength,
+          minOutputLength = getMinOutputLength,
+          doSample = getDoSample,
+          beamSize = getBeamSize,
+          numReturnSequences = getNReturnSequences,
+          temperature = getTemperature,
+          topK = getTopK,
+          topP = getTopP,
+          repetitionPenalty = getRepetitionPenalty,
+          noRepeatNgramSize = getNoRepeatNgramSize,
+          randomSeed = getRandomSeed,
+          task = getTask,
+          language = getLanguage)
+      } else Seq.empty
     }
   }
 

@@ -15,7 +15,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
   lazy val spark: SparkSession = ResourceHelper.spark
   import spark.implicits._
 
-  behavior of "WhisperForCTCTest"
+  behavior of "WhisperForCTC"
 
   lazy val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("audio_content")
@@ -201,6 +201,24 @@ class WhisperForCTCTest extends AnyFlatSpec {
       .transform(processedAudioFloats)
       .select("document")
       .show(10, truncate = false)
+  }
+
+  it should "not generate on empty audio" taggedAs SlowTest in {
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelOnnx))
+
+    val data = ResourceHelper.spark.read
+      .option("inferSchema", value = true)
+      .json("src/test/resources/audio/json/audio_floats.json")
+      .select($"float_array".cast("array<float>").alias("audio_content"))
+
+    val pipelineDF = pipeline.fit(data).transform(data)
+
+    val transcribedAudio = Annotation.collect(pipelineDF, "document")
+
+    // Last parsed row of the data has null audio. So the results should be empty.
+    val lastRowResult = transcribedAudio.last.head.result
+    assert(lastRowResult.isEmpty)
+
   }
 
 }
