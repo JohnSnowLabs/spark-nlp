@@ -481,6 +481,12 @@ class _HubertForCTC(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.audio.HubertForCTC.loadSavedModel", path, jspark)
 
 
+class _WhisperForCTC(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_WhisperForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC.loadSavedModel", path, jspark)
+
+
 class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_CamemBertForTokenClassificationLoader, self).__init__(

@@ -17,7 +17,10 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{ForcedTokenLogitProcessor, SuppressLogitProcessor}
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
+  ForcedTokenLogitProcessor,
+  SuppressLogitProcessor
+}
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
