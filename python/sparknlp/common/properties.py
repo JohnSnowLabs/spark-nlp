@@ -565,113 +565,139 @@ class HasGeneratorProperties:
                      "The Number of beams for beam search.",
                      typeConverter=TypeConverters.toInt)
 
-    def setTask(self, value):
-        """Sets the transformer's task, e.g. ``summarize:``.
+    nReturnSequences = Param(Params._dummy(),
+                             "nReturnSequences",
+                             "The number of sequences to return from the beam search.",
+                             typeConverter=TypeConverters.toInt)
 
-        Parameters
-        ----------
-        value : str
-            The transformer's task
-        """
-        return self._set(task=value)
 
-    def setMinOutputLength(self, value):
-        """Sets minimum length of the sequence to be generated.
+def setTask(self, value):
+    """Sets the transformer's task, e.g. ``summarize:``.
 
-        Parameters
-        ----------
-        value : int
-            Minimum length of the sequence to be generated
-        """
-        return self._set(minOutputLength=value)
+    Parameters
+    ----------
+    value : str
+        The transformer's task
+    """
+    return self._set(task=value)
 
-    def setMaxOutputLength(self, value):
-        """Sets maximum length of output text.
 
-        Parameters
-        ----------
-        value : int
-            Maximum length of output text
-        """
-        return self._set(maxOutputLength=value)
+def setMinOutputLength(self, value):
+    """Sets minimum length of the sequence to be generated.
 
-    def setDoSample(self, value):
-        """Sets whether or not to use sampling, use greedy decoding otherwise.
+    Parameters
+    ----------
+    value : int
+        Minimum length of the sequence to be generated
+    """
+    return self._set(minOutputLength=value)
 
-        Parameters
-        ----------
-        value : bool
-            Whether or not to use sampling; use greedy decoding otherwise
-        """
-        return self._set(doSample=value)
 
-    def setTemperature(self, value):
-        """Sets the value used to module the next token probabilities.
+def setMaxOutputLength(self, value):
+    """Sets maximum length of output text.
 
-        Parameters
-        ----------
-        value : float
-            The value used to module the next token probabilities
-        """
-        return self._set(temperature=value)
+    Parameters
+    ----------
+    value : int
+        Maximum length of output text
+    """
+    return self._set(maxOutputLength=value)
 
-    def setTopK(self, value):
-        """Sets the number of highest probability vocabulary tokens to keep for
-        top-k-filtering.
 
-        Parameters
-        ----------
-        value : int
-            Number of highest probability vocabulary tokens to keep
-        """
-        return self._set(topK=value)
+def setDoSample(self, value):
+    """Sets whether or not to use sampling, use greedy decoding otherwise.
 
-    def setTopP(self, value):
-        """Sets the top cumulative probability for vocabulary tokens.
+    Parameters
+    ----------
+    value : bool
+        Whether or not to use sampling; use greedy decoding otherwise
+    """
+    return self._set(doSample=value)
 
-        If set to float < 1, only the most probable tokens with probabilities
-        that add up to ``topP`` or higher are kept for generation.
 
-        Parameters
-        ----------
-        value : float
-            Cumulative probability for vocabulary tokens
-        """
-        return self._set(topP=value)
+def setTemperature(self, value):
+    """Sets the value used to module the next token probabilities.
 
-    def setRepetitionPenalty(self, value):
-        """Sets the parameter for repetition penalty. 1.0 means no penalty.
+    Parameters
+    ----------
+    value : float
+        The value used to module the next token probabilities
+    """
+    return self._set(temperature=value)
 
-        Parameters
-        ----------
-        value : float
-            The repetition penalty
 
-        References
-        ----------
-        See `Ctrl: A Conditional Transformer Language Model For Controllable
-        Generation <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details.
-        """
-        return self._set(repetitionPenalty=value)
+def setTopK(self, value):
+    """Sets the number of highest probability vocabulary tokens to keep for
+    top-k-filtering.
 
-    def setNoRepeatNgramSize(self, value):
-        """Sets size of n-grams that can only occur once.
+    Parameters
+    ----------
+    value : int
+        Number of highest probability vocabulary tokens to keep
+    """
+    return self._set(topK=value)
 
-        If set to int > 0, all ngrams of that size can only occur once.
 
-        Parameters
-        ----------
-        value : int
-            N-gram size can only occur once
-        """
-        return self._set(noRepeatNgramSize=value)
+def setTopP(self, value):
+    """Sets the top cumulative probability for vocabulary tokens.
 
-    def setBeamSize(self, value):
-        """Sets the number of beam size for beam search.
+    If set to float < 1, only the most probable tokens with probabilities
+    that add up to ``topP`` or higher are kept for generation.
 
-        Parameters
-        ----------
-        value : int
-            Number of beam size for beam search
-        """
-        return self._set(beamSize=value)
+    Parameters
+    ----------
+    value : float
+        Cumulative probability for vocabulary tokens
+    """
+    return self._set(topP=value)
+
+
+def setRepetitionPenalty(self, value):
+    """Sets the parameter for repetition penalty. 1.0 means no penalty.
+
+    Parameters
+    ----------
+    value : float
+        The repetition penalty
+
+    References
+    ----------
+    See `Ctrl: A Conditional Transformer Language Model For Controllable
+    Generation <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details.
+    """
+    return self._set(repetitionPenalty=value)
+
+
+def setNoRepeatNgramSize(self, value):
+    """Sets size of n-grams that can only occur once.
+
+    If set to int > 0, all ngrams of that size can only occur once.
+
+    Parameters
+    ----------
+    value : int
+        N-gram size can only occur once
+    """
+    return self._set(noRepeatNgramSize=value)
+
+
+def setBeamSize(self, value):
+    """Sets the number of beam size for beam search.
+
+    Parameters
+    ----------
+    value : int
+        Number of beam size for beam search
+    """
+    return self._set(beamSize=value)
+
+
+def setNReturnSequences(self, value):
+    """Sets the number of sequences to return from the beam search.
+
+    Parameters
+    ----------
+    value : int
+        Number of sequences to return
+    """
+    return self._set(nReturnSequences=value)
