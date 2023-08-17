@@ -4,7 +4,7 @@ header: true
 title: Spark NLP - General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2022-12-21"
+modify_date: "2023-08-17"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -90,7 +90,7 @@ out in scala. Note that the first time you run the below code it might take long
 
 ```python
 import sparknlp
-sparknlp.start()
+spark = sparknlp.start()
 
 from sparknlp.pretrained import PretrainedPipeline
 
@@ -98,43 +98,41 @@ explain_document_pipeline = PretrainedPipeline("explain_document_ml")
 annotations = explain_document_pipeline.annotate("We are very happy about SparkNLP")
 print(annotations)
 
-OUTPUT:
-{
-  'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
-  'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
-  'lemma': ['We', 'be', 'very', 'happy', 'about', 'SparkNLP'],
-  'document': ['We are very happy about SparkNLP'],
-  'pos': ['PRP', 'VBP', 'RB', 'JJ', 'IN', 'NNP'],
-  'token': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
-  'sentence': ['We are very happy about SparkNLP']
-}
-```
 
+# OUTPUT:
+# {
+#   'stem': ['we', 'ar', 'veri', 'happi', 'about', 'sparknlp'],
+#   'checked': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
+#   'lemma': ['We', 'be', 'very', 'happy', 'about', 'SparkNLP'],
+#   'document': ['We are very happy about SparkNLP'],
+#   'pos': ['PRP', 'VBP', 'RB', 'JJ', 'IN', 'NNP'],
+#   'token': ['We', 'are', 'very', 'happy', 'about', 'SparkNLP'],
+#   'sentence': ['We are very happy about SparkNLP']
+# }
+```
 
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 
-OUTPUT:
-explain_document_ml download started this may take some time.
-Approximate size to download 9.4 MB
-Download done! Loading the resource.
-explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_ml,en,public/models)
-```
+// OUTPUT:
+// explain_document_ml download started this may take some time.
+// Approximate size to download 9.4 MB
+// Download done! Loading the resource.
+// explain_document_pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_ml,en,public/models)
 
-```scala
 val annotations = explainDocumentPipeline.annotate("We are very happy about SparkNLP")
 println(annotations)
 
-OUTPUT:
-Map(
-   stem -> List(we, ar, veri, happi, about, sparknlp),
-   checked -> List(We, are, very, happy, about, SparkNLP),
-   lemma -> List(We, be, very, happy, about, SparkNLP),
-   document -> List(We are very happy about SparkNLP),
-   pos -> ArrayBuffer(PRP, VBP, RB, JJ, IN, NNP),
-   token -> List(We, are, very, happy, about, SparkNLP),
-   sentence -> List(We are very happy about SparkNLP)
+// OUTPUT:
+// Map(
+//    stem -> List(we, ar, veri, happi, about, sparknlp),
+//    checked -> List(We, are, very, happy, about, SparkNLP),
+//    lemma -> List(We, be, very, happy, about, SparkNLP),
+//    document -> List(We are very happy about SparkNLP),
+//    pos -> ArrayBuffer(PRP, VBP, RB, JJ, IN, NNP),
+//    token -> List(We, are, very, happy, about, SparkNLP),
+//    sentence -> List(We are very happy about SparkNLP)
    )
 ```
 
@@ -160,7 +158,7 @@ by default within the namespace 'scala'.
 
 ```python
 import sparknlp
-sparknlp.start()
+spark = sparknlp.start()
 
 sentences = [
   ['Hello, this is an example sentence'],
@@ -178,22 +176,6 @@ explain_document_ml download started this may take some time.
 Approx size to download 9.4 MB
 [OK!]
 ```
-```python
-# Transform 'data' and store output in a new 'annotations_df' dataframe
-annotations_df = explain_document_pipeline.transform(data)
-
-# Show the results
-annotations_df.show()
-
-OUTPUT:
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|Hello, this is an...|[[document, 0, 33...|[[document, 0, 33...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, He...|[[token, 0, 4, he...|[[pos, 0, 4, UH, ...|
-|And this is a sec...|[[document, 0, 29...|[[document, 0, 29...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, An...|[[token, 0, 2, an...|[[pos, 0, 2, CC, ...|
-+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-```
-
 
 ```scala
 val data = Seq(
@@ -203,20 +185,19 @@ val data = Seq(
 
 data.show(truncate=false)
 
-OUTPUT:
+// OUTPUT:
 +------------------------------+
 |text                          |
 +------------------------------+
 |Hello, this is an example set |
 |And this is a second sentence.|
 +------------------------------+
-```
-```scala
+
 val explainDocumentPipeline = PretrainedPipeline("explain_document_ml")
 val annotations_df = explainDocumentPipeline.transform(data)
 annotations_df.show()
 
-OUTPUT:
+// OUTPUT:
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 |                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|
 +--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
@@ -240,7 +221,7 @@ running the code:
 ```python
 annotations_df.select("token").show(truncate=False)
 
-OUTPUT:
+# OUTPUT:
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -249,11 +230,10 @@ OUTPUT:
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-
 ```scala
 annotations_df.select("token").show(truncate=false)
 
-OUTPUT:
+// OUTPUT:
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |token                                                                                                                                                                                                                                                                                                                                       |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -294,7 +274,7 @@ annotations_finished_df = model.transform(data)
 
 annotations_finished_df.select('finished_token').show(truncate=False)
 
-OUTPUT:
+# OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
@@ -303,31 +283,27 @@ OUTPUT:
 +-------------------------------------------+
 ```
 
-
 ```scala
-scala> import com.johnsnowlabs.nlp.Finisher
-scala> import org.apache.spark.ml.Pipeline
-
-scala> val finisher = new Finisher().setInputCols("token", "lemma", "pos")
-
-scala> val explainPipelineModel = PretrainedPipeline("explain_document_ml").model
-
-scala> val pipeline = new Pipeline().
+import com.johnsnowlabs.nlp.Finisher
+import org.apache.spark.ml.Pipeline
+val finisher = new Finisher().setInputCols("token", "lemma", "pos")
+val explainPipelineModel = PretrainedPipeline("explain_document_ml").model
+val pipeline = new Pipeline().
     setStages(Array(
         explainPipelineModel,
         finisher
     ))
 
-scala> val data = Seq(
+val data = Seq(
     "Hello, this is an example sentence",
     "And this is a second sentence")
     .toDF("text")
 
-scala> val model = pipeline.fit(data)
-scala> val annotations_df = model.transform(data)
-scala> annotations_df.select("finished_token").show(truncate=false)
+val model = pipeline.fit(data)
+val annotations_df = model.transform(data)
+annotations_df.select("finished_token").show(truncate=false)
 
-OUTPUT:
+// OUTPUT:
 +-------------------------------------------+
 |finished_token                             |
 +-------------------------------------------+
