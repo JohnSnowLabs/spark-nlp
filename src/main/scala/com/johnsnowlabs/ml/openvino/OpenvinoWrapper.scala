@@ -1,9 +1,9 @@
 package com.johnsnowlabs.ml.openvino
 
-import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants._
-import com.johnsnowlabs.ml.util.Openvino
+import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.intel.openvino.{CompiledModel, Core, Model}
@@ -103,6 +103,7 @@ object OpenvinoWrapper {
   def convertToOpenvinoFormat(
       modelPath: String,
       targetPath: String,
+      detectedEngine: String,
       useBundle: Boolean,
       zipped: Boolean = true): Unit = {
     val tmpFolder = Files
@@ -117,17 +118,18 @@ object OpenvinoWrapper {
         modelPath
       }
 
-    // TODO verify logic for useBundle
-    val actualPath =
-      if (useBundle) {
-        folder
-      } else {
-        Paths.get(folder, TensorflowWrapper.SavedModelPB).toAbsolutePath.toString
+    logger.debug(
+      s"Converting the $detectedEngine model to OpenVINO Intermediate format")
+
+    val srcModelPath: String =
+      detectedEngine match {
+        case TensorFlow.name =>
+          folder
+        case ONNX.name =>
+          folder + ONNX.modelName
       }
 
-    logger.debug(
-      s"Attempting to convert the saved model to OpenVINO Intermediate format, useBundle: $useBundle...")
-    val model: Model = core.read_model(actualPath)
+    val model: Model = core.read_model(srcModelPath)
     val ovModelPath = Paths.get(targetPath, Openvino.modelXml).toAbsolutePath.toString
     val ovWeightsPath = Paths.get(targetPath, Openvino.modelBin).toAbsolutePath.toString
     org.intel.openvino.Openvino.serialize(model, ovModelPath, ovWeightsPath)
@@ -179,18 +181,7 @@ object OpenvinoWrapper {
 
     val tensorNamesMap = (compiledModel.outputs().asScala ++ compiledModel.inputs().asScala)
       .map(_.get_any_name())
-      .map(tensorName => {
-        tensorName match {
-          case "input_ids" | "input_word_ids" => InputIds.key -> tensorName
-          case "input_mask" | "attention_mask" => AttentionMask.key -> tensorName
-          case "segment_ids" | "input_type_ids" | "token_type_ids" =>
-            TokenTypeIds.key -> tensorName
-          case "sequence_output" | "bert_encoder" | "last_hidden_state" =>
-            LastHiddenState.key -> tensorName
-          case "pooler_output" => PoolerOutput.key -> tensorName
-          case k => k -> k
-        }
-      })
+      .map(tensorName => ModelSignatureConstants.toAdoptedKeys(tensorName) -> tensorName)
       .toMap
 
     FileHelper.delete(tmpFolder)
