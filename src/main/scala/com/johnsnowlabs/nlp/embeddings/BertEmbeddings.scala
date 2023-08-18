@@ -496,6 +496,7 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOp
             OpenvinoWrapper.convertToOpenvinoFormat(
               modelPath = localModelPath,
               targetPath = tmpFolder,
+              detectedEngine = detectedEngine,
               zipped = false,
               useBundle = true)
             tmpFolder

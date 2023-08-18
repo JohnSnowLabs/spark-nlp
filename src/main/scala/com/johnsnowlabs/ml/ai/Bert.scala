@@ -134,12 +134,11 @@ private[johnsnowlabs] class Bert(
           } finally if (results != null) results.close()
         }
       case Openvino.name =>
-        val shape = Array(batchLength, maxSentenceLength)
-        val tokenTensors = new Tensor(shape, batch.flatMap(_.toSeq).toArray)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
-        val maskTensors = new Tensor(
-          shape,
-          batch.flatMap(sentence => sentence.map(x => if (x == 0) 0 else 1)).toArray)
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareOvIntBatchTensorsWithSegment(
+            batch = batch,
+            maxSentenceLength = maxSentenceLength,
+            batchLength = batchLength)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor(
@@ -269,12 +268,11 @@ private[johnsnowlabs] class Bert(
           } finally if (results != null) results.close()
         }
       case Openvino.name =>
-        val shape = Array(batchLength, maxSentenceLength)
-        val tokenTensors = new Tensor(shape, batch.flatMap(_.toSeq).toArray)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
-        val maskTensors = new Tensor(
-          shape,
-          batch.flatMap(sentence => sentence.map(x => if (x == 0) 0 else 1)).toArray)
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareOvIntBatchTensorsWithSegment(
+            batch = batch,
+            maxSentenceLength = maxSentenceLength,
+            batchLength = batchLength)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request
         inferRequest.set_tensor(

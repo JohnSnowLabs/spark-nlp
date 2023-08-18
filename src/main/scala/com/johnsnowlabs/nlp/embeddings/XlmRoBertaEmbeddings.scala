@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.XlmRoberta
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -29,15 +30,19 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
+import com.johnsnowlabs.util.FileHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
+
+import java.nio.file.Files
+import java.util.UUID
 
 /** The XLM-RoBERTa model was proposed in
   * [[https://arxiv.org/abs/1911.02116 Unsupervised Cross-lingual Representation Learning at Scale]]
@@ -169,6 +174,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -239,6 +245,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
       spp: SentencePieceWrapper): XlmRoBertaEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
@@ -246,6 +253,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
           new XlmRoberta(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             spp,
             $(caseSensitive),
             configProtoBytes = getConfigProtoBytes,
@@ -354,6 +362,13 @@ class XlmRoBertaEmbeddings(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           XlmRoBertaEmbeddings.onnxFile)
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          suffix,
+          XlmRoBertaEmbeddings.openvinoFile)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -390,11 +405,13 @@ trait ReadablePretrainedXlmRobertaModel
 trait ReadXlmRobertaDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel
-    with ReadOnnxModel {
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaEmbeddings] =>
 
   override val tfFile: String = "xlmroberta_tensorflow"
   override val onnxFile: String = "xlmroberta_onnx"
+  override val openvinoFile: String = "xlmroberta_openvino"
   override val sppFile: String = "xlmroberta_spp"
 
   def readModel(instance: XlmRoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
@@ -403,13 +420,20 @@ trait ReadXlmRobertaDLModel
       case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_xlmroberta_tf", initAllTables = false)
         val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None, spp)
 
       case ONNX.name => {
         val onnxWrapper =
           readOnnxModel(path, spark, "_xlmroberta_onnx", zipped = true, useBundle = false, None)
         val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
+      }
+
+      case Openvino.name => {
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "_xlmroberta_openvino")
+        val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
       }
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -418,7 +442,10 @@ trait ReadXlmRobertaDLModel
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaEmbeddings = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): XlmRoBertaEmbeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -426,10 +453,15 @@ trait ReadXlmRobertaDLModel
 
     /*Universal parameters for all engines*/
     val annotatorModel = new XlmRoBertaEmbeddings()
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    detectedEngine match {
+    modelEngine match {
       case TensorFlow.name =>
         val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
@@ -444,12 +476,42 @@ trait ReadXlmRobertaDLModel
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, None, spModel)
 
       case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
+
+      case Openvino.name =>
+        val tmpFolder = Files
+          .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ov_model")
+          .toAbsolutePath
+          .toString
+
+        /** Convert the model from the detected framework to Openvino Intermediate format */
+        val irModelFolder =
+          if (detectedEngine == Openvino.name) {
+            localModelPath
+          } else {
+            OpenvinoWrapper.convertToOpenvinoFormat(
+              modelPath = localModelPath,
+              targetPath = tmpFolder,
+              detectedEngine = detectedEngine,
+              zipped = false,
+              useBundle = true)
+            tmpFolder
+          }
+        val (ovWrapper: OpenvinoWrapper, tensorNames: Map[String, String]) =
+          OpenvinoWrapper.fromOpenvinoFormat(irModelFolder, zipped = false)
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel.setSignatures(tensorNames)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
+        FileHelper.delete(tmpFolder)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

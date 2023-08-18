@@ -242,6 +242,7 @@ class XlmRoBertaSentenceEmbeddings(override val uid: String)
           new XlmRoberta(
             tensorflowWrapper,
             onnxWrapper,
+            None,
             spp,
             $(caseSensitive),
             configProtoBytes = getConfigProtoBytes,

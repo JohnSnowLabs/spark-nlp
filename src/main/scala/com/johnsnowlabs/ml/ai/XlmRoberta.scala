@@ -19,12 +19,14 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.intel.openvino.Tensor
 
 import scala.collection.JavaConverters._
 
@@ -75,6 +77,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class XlmRoberta(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
     caseSensitive: Boolean = true,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -146,11 +149,10 @@ private[johnsnowlabs] class XlmRoberta(
         }
 
       case Openvino.name =>
-        val shape = Array(batchLength, maxSentenceLength)
-        val tokenTensors = new Tensor(shape, batch.flatMap(x => x.map(x => x.toLong)).toArray)
-        val maskTensors = new Tensor(
-          shape,
-          batch.flatMap(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+        val (tokenTensors, maskTensors) = PrepareEmbeddings.prepareOvLongBatchTensors(
+          batch = batch,
+          maxSentenceLength = maxSentenceLength,
+          batchLength = batchLength)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor(
