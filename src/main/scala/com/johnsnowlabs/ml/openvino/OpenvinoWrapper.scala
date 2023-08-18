@@ -118,15 +118,14 @@ object OpenvinoWrapper {
         modelPath
       }
 
-    logger.debug(
-      s"Converting the $detectedEngine model to OpenVINO Intermediate format")
+    logger.debug(s"Converting the $detectedEngine model to OpenVINO Intermediate format")
 
     val srcModelPath: String =
       detectedEngine match {
         case TensorFlow.name =>
           folder
         case ONNX.name =>
-          folder + ONNX.modelName
+          Paths.get(folder, ONNX.modelName).toString
       }
 
     val model: Model = core.read_model(srcModelPath)
