@@ -90,7 +90,7 @@ private[johnsnowlabs] object PrepareEmbeddings {
     val maskTensors = new org.intel.openvino.Tensor(
       shape,
       batch
-        .flatMap(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+        .flatMap(sentence => sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
         .toArray)
     val segmentTensors =
       new org.intel.openvino.Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
