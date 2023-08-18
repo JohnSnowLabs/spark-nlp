@@ -87,6 +87,7 @@ private[johnsnowlabs] class XlmRoberta(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
 
   private val SentenceStartTokenId = 0
@@ -143,6 +144,32 @@ private[johnsnowlabs] class XlmRoberta(
 
           } finally if (results != null) results.close()
         }
+
+      case Openvino.name =>
+        val shape = Array(batchLength, maxSentenceLength)
+        val tokenTensors = new Tensor(shape, batch.flatMap(x => x.map(x => x.toLong)).toArray)
+        val maskTensors = new Tensor(
+          shape,
+          batch.flatMap(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor(
+          _tfRoBertaSignatures.getOrElse(
+            ModelSignatureConstants.InputIds.key,
+            "missing_input_id_key"),
+          tokenTensors)
+        inferRequest.set_tensor(
+          _tfRoBertaSignatures
+            .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+          maskTensors)
+
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor(_tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+        val embeddings = result.data()
+
+        embeddings
       case _ =>
         val tensors = new TensorResources()
 
