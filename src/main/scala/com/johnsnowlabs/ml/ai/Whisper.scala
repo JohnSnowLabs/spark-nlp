@@ -28,6 +28,7 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
@@ -128,31 +129,6 @@ private[johnsnowlabs] class Whisper(
 
       val decoderStateOp: String = _tfWhisperSignatures("decoder_past_key_values_out")
     }
-
-//    val encoderInputOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.EncoderInputFeatures.key,
-//      ModelSignatureConstants.EncoderInputFeatures.value)
-//    val encoderOutputOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.EncoderOutput.key,
-//      ModelSignatureConstants.EncoderOutput.value)
-//    val initDecoderInputIdsOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.InitDecoderInputIds.key,
-//      ModelSignatureConstants.InitDecoderInputIds.value)
-//    val initDecoderEncoderStateOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.InitDecoderEncoderInputIds.key,
-//      ModelSignatureConstants.InitDecoderEncoderInputIds.value)
-//    val decoderPastKeyValuesOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.DecoderPastKeyValues.key,
-//      ModelSignatureConstants.DecoderPastKeyValues.value)
-//    val encoderPastKeyValuesOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.EncoderPastKeyValues.key,
-//      ModelSignatureConstants.EncoderPastKeyValues.value)
-//    val decoderInputIdsOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.DecoderInputIds.key,
-//      ModelSignatureConstants.DecoderInputIds.value)
-//    val decoderOutputLogitsOp: String = _tfWhisperSignatures.getOrElse(
-//      ModelSignatureConstants.LogitsOutput.key,
-//      ModelSignatureConstants.LogitsOutput.value)
   }
 
   private object OnnxSignatures {
@@ -486,7 +462,6 @@ private[johnsnowlabs] class Whisper(
     val decoderStateTensor = decoderOuts(1)
     val encoderStateTensor = decoderOuts(2)
 
-    tfTensorResources.clearTensors()
     (logits, decoderStateTensor, encoderStateTensor)
   }
 
@@ -560,6 +535,7 @@ private[johnsnowlabs] class Whisper(
           currentIds ++ Array(nextId)
         }
     }
+    currentCacheStateTensor.close()
 
     generatedIds
   }
@@ -591,15 +567,13 @@ private[johnsnowlabs] class Whisper(
 
     val decoderOuts = runner.run().asScala
     val logitsRaw = tensorflow.TensorResources.extractFloats(decoderOuts.head)
-    decoderOuts.head.close()
 
     val nextTokenLogits =
       logitsRaw.grouped(vocabSize).toArray // Should result in length batch size
 
     val updatedDecoderState = decoderOuts(1)
 
-    tfTensorResources.clearTensors()
-
+    decoderOuts.head.close()
     (nextTokenLogits, updatedDecoderState)
   }
 
@@ -789,6 +763,9 @@ private[johnsnowlabs] class Whisper(
         generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
           currentIds ++ Array(nextId)
         }
+    }
+    currentDecoderStateTensors.foreach { case (_, tensor) =>
+      tensor.close()
     }
 
     generatedIds

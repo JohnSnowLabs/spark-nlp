@@ -30,8 +30,7 @@ class WhisperForCTC(AnnotatorModel,
 
     The audio needs to be provided pre-processed an array of floats.
 
-    Note that this annotator is currently not supported on Apple Silicon processors such as the
-    M1/M2 (Apple Silicon). This is due to the processor not supporting instructions for XLA.
+    Note that at the moment, this annotator only supports greedy search.
 
     For multilingual models, the language and the task (transcribe or translate) can be set with
     ``setLanguage`` and ``setTask``.

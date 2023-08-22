@@ -11,11 +11,8 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.util.Using
 
-class WhisperForCTCTest extends AnyFlatSpec {
-  lazy val spark: SparkSession = ResourceHelper.spark
+class WhisperForCTCTest extends AnyFlatSpec with WhisperForCTCBehaviors {
   import spark.implicits._
-
-  behavior of "WhisperForCTC"
 
   lazy val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("audio_content")
@@ -34,210 +31,228 @@ class WhisperForCTCTest extends AnyFlatSpec {
   lazy val processedAudioFloats: Dataset[Row] = Seq(rawFloats).toDF("audio_content")
 
   // Needs to be added manually
-  lazy val modelPathTf =
-    "/home/ducha/spark-nlp/dev-things/hf_exports/whisper/exported_tf/openai/whisper-tiny_v2/"
-
   lazy val modelTf: WhisperForCTC = WhisperForCTC
-    .loadSavedModel(modelPathTf, ResourceHelper.spark)
+    .loadSavedModel("exported_tf/openai/whisper-tiny", ResourceHelper.spark)
     .setInputCols("audio_assembler")
     .setOutputCol("document")
-
-  lazy val modelPathOnnx =
-    "onnx/exported_onnx/openai/whisper-tiny"
 
   lazy val modelOnnx: WhisperForCTC = WhisperForCTC
-    .loadSavedModel(modelPathOnnx, ResourceHelper.spark)
+    .loadSavedModel("exported_onnx/openai/whisper-tiny", ResourceHelper.spark)
     .setInputCols("audio_assembler")
     .setOutputCol("document")
 
-  it should "correctly transform speech to text from already processed audio files" taggedAs SlowTest in {
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
+  behavior of "WhisperForCTC"
 
-    processedAudioFloats.printSchema()
-
-    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
-
-    val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
-
-    val expected =
-      " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
-
-    assert(transcribedAudio == expected)
+  Seq(modelTf, modelOnnx).foreach { model =>
+    it should behave like correctTranscriber(model)
+    it should behave like compatibleWithLightPipeline(model)
+    it should behave like serializableModel(model)
   }
 
-  it should "correctly transcribe batches" taggedAs SlowTest in {
-    val batchAudioAnnotations =
-      Seq(Array(rawFloats, rawFloats).map(new AnnotationAudio(AnnotatorType.AUDIO, _, Map.empty)))
+}
 
-    val result: Seq[Annotation] = modelTf.batchAnnotate(batchAudioAnnotations).head
+trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
+  lazy val spark: SparkSession = ResourceHelper.spark
+  import spark.implicits._
 
-    val expected =
-      " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
+  val audioAssembler: AudioAssembler
+  val processedAudioFloats: Dataset[Row]
+  val rawFloats: Array[Float]
 
-    result.foreach(transcription => assert(transcription.getResult == expected))
+  def correctTranscriber(model: WhisperForCTC): Unit = {
+    it should s"correctly transform speech to text from already processed audio files (${model.getEngine})" taggedAs SlowTest in {
+      val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
+
+      processedAudioFloats.printSchema()
+
+      val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+      val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
+
+      val expected =
+        " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
+
+      assert(transcribedAudio == expected)
+    }
+
+    it should s"correctly transcribe batches (${model.getEngine})" taggedAs SlowTest in {
+      val batchAudioAnnotations =
+        Seq(
+          Array(rawFloats, rawFloats).map(new AnnotationAudio(AnnotatorType.AUDIO, _, Map.empty)))
+
+      val result: Seq[Annotation] = model.batchAnnotate(batchAudioAnnotations).head
+
+      val expected =
+        " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
+
+      result.foreach(transcription => assert(transcription.getResult == expected))
+
+    }
+
+    it should s"correctly work with Tokenizer (${model.getEngine})" taggedAs SlowTest in {
+
+      val token = new Tokenizer()
+        .setInputCols("document")
+        .setOutputCol("token")
+
+      val pipeline: Pipeline =
+        new Pipeline().setStages(Array(audioAssembler, model, token))
+
+      processedAudioFloats.printSchema()
+
+      val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+      val tokens = Annotation.collect(pipelineDF, "token").head.map(_.getResult)
+
+      println(tokens.mkString("Array(\"", "\", \"", "\")"))
+
+      val expectedTokens = Array(
+        "Mr",
+        ".",
+        "Quilter",
+        "is",
+        "the",
+        "apostle",
+        "of",
+        "the",
+        "middle",
+        "classes",
+        "and",
+        "we",
+        "are",
+        "glad",
+        "to",
+        "welcome",
+        "his",
+        "gospel",
+        ".")
+
+      tokens.zip(expectedTokens).map { case (token, expected) => assert(token == expected) }
+
+    }
+
+    it should s"correctly transcribe speech to text from a different language (${model.getEngine})" taggedAs SlowTest in {
+
+      val modelChangedLang: WhisperForCTC =
+        model.setLanguage("<|de|>").setTask("<|transcribe|>")
+
+      val pipeline: Pipeline =
+        new Pipeline().setStages(Array(audioAssembler, modelChangedLang))
+
+      processedAudioFloats.printSchema()
+
+      val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+      val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
+
+      val expectedText =
+        " Die Kilder ist die Posse der Mittelklasse und wir klären zu den ganzen Kildern."
+
+      assert(transcribedAudio == expectedText)
+    }
+
+    it should s"correctly transcribe and translate speech to text from a different language (${model.getEngine})" taggedAs SlowTest in {
+
+      val modelChangedLangTask: WhisperForCTC =
+        model.setLanguage("<|de|>").setTask("<|translate|>")
+
+      val pipeline: Pipeline =
+        new Pipeline().setStages(Array(audioAssembler, modelChangedLangTask))
+
+      processedAudioFloats.printSchema()
+
+      val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+
+      val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
+
+      val expectedText =
+        " Mr. Kfilter is the apostle of the middle classes and we are glad to welcome his gospel."
+
+      assert(transcribedAudio == expectedText)
+    }
+
+    it should s"not generate on empty audio (${model.getEngine})" taggedAs SlowTest in {
+      val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
+
+      val data = ResourceHelper.spark.read
+        .option("inferSchema", value = true)
+        .json("src/test/resources/audio/json/audio_floats.json")
+        .select($"float_array".cast("array<float>").alias("audio_content"))
+
+      val pipelineDF = pipeline.fit(data).transform(data)
+
+      val transcribedAudio = Annotation.collect(pipelineDF, "document")
+
+      // Last parsed row of the data has null audio. So the results should be empty.
+      val lastRowResult = transcribedAudio.last.head.result
+      assert(lastRowResult.isEmpty)
+
+    }
 
   }
 
-  it should "correctly work with Tokenizer" taggedAs SlowTest in {
+  def compatibleWithLightPipeline(model: WhisperForCTC): Unit = {
 
-    val token = new Tokenizer()
-      .setInputCols("document")
-      .setOutputCol("token")
+    it should s"transform speech to text with LightPipeline (${model.getEngine})" taggedAs SlowTest in {
+      val token = new Tokenizer()
+        .setInputCols("document")
+        .setOutputCol("token")
 
-    val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
+      val pipeline: Pipeline =
+        new Pipeline().setStages(Array(audioAssembler, model, token))
 
-    processedAudioFloats.printSchema()
+      val pipelineModel = pipeline.fit(processedAudioFloats)
+      val lightPipeline = new LightPipeline(pipelineModel)
+      val result = lightPipeline.fullAnnotate(rawFloats)
 
-    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
-
-    val tokens = Annotation.collect(pipelineDF, "token").head.map(_.getResult)
-
-    println(tokens.mkString("Array(\"", "\", \"", "\")"))
-
-    val expectedTokens = Array(
-      "Mr",
-      ".",
-      "Quilter",
-      "is",
-      "the",
-      "apostle",
-      "of",
-      "the",
-      "middle",
-      "classes",
-      "and",
-      "we",
-      "are",
-      "glad",
-      "to",
-      "welcome",
-      "his",
-      "gospel",
-      ".")
-
-    tokens.zip(expectedTokens).map { case (token, expected) => assert(token == expected) }
-
-  }
-
-  it should "correctly transcribe speech to text from a different language" taggedAs SlowTest in {
-
-    val modelChangedLang: WhisperForCTC =
-      modelTf.setLanguage("<|de|>").setTask("<|transcribe|>")
-
-    val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelChangedLang))
-
-    processedAudioFloats.printSchema()
-
-    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
-
-    val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
-
-    val expectedText =
-      " Die Kilder ist die Posse der Mittelklasse und wir klären zu den ganzen Kildern."
-
-    assert(transcribedAudio == expectedText)
-  }
-
-  it should "correctly transcribe and translate speech to text from a different language" taggedAs SlowTest in {
-
-    val modelChangedLangTask: WhisperForCTC =
-      modelTf.setLanguage("<|de|>").setTask("<|translate|>")
-
-    val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelChangedLangTask))
-
-    processedAudioFloats.printSchema()
-
-    val pipelineDF = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
-
-    val transcribedAudio = Annotation.collect(pipelineDF, "document").head.head.getResult
-
-    val expectedText =
-      " Mr. Kfilter is the apostle of the middle classes and we are glad to welcome his gospel."
-
-    assert(transcribedAudio == expectedText)
-  }
-
-  it should "transform speech to text with LightPipeline" taggedAs SlowTest in {
-    val token = new Tokenizer()
-      .setInputCols("document")
-      .setOutputCol("token")
-
-    val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
-
-    val pipelineModel = pipeline.fit(processedAudioFloats)
-    val lightPipeline = new LightPipeline(pipelineModel)
-    val result = lightPipeline.fullAnnotate(rawFloats)
-
-    println(result("token"))
-    assert(result("audio_assembler").nonEmpty)
-    assert(result("document").nonEmpty)
-    assert(result("token").nonEmpty)
-  }
-
-  it should "transform several speeches to text with LightPipeline" taggedAs SlowTest in {
-    val token = new Tokenizer()
-      .setInputCols("document")
-      .setOutputCol("token")
-
-    val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
-
-    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
-
-    val pipelineModel = pipeline.fit(processedAudioFloats)
-    val lightPipeline = new LightPipeline(pipelineModel)
-    val results = lightPipeline.fullAnnotate(Array(rawFloats, rawFloats))
-
-    results.foreach { result =>
       println(result("token"))
       assert(result("audio_assembler").nonEmpty)
       assert(result("document").nonEmpty)
       assert(result("token").nonEmpty)
     }
 
+    it should s"transform several speeches to text with LightPipeline (${model.getEngine})" taggedAs SlowTest in {
+      val token = new Tokenizer()
+        .setInputCols("document")
+        .setOutputCol("token")
+
+      val pipeline: Pipeline =
+        new Pipeline().setStages(Array(audioAssembler, model, token))
+
+      val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+
+      val pipelineModel = pipeline.fit(processedAudioFloats)
+      val lightPipeline = new LightPipeline(pipelineModel)
+      val results = lightPipeline.fullAnnotate(Array(rawFloats, rawFloats))
+
+      results.foreach { result =>
+        println(result("token"))
+        assert(result("audio_assembler").nonEmpty)
+        assert(result("document").nonEmpty)
+        assert(result("token").nonEmpty)
+      }
+    }
   }
+  def serializableModel(model: WhisperForCTC): Unit = {
+    it should s"be serializable (${model.getEngine})" taggedAs SlowTest in {
 
-  it should "be serializable" taggedAs SlowTest in {
+      val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
+      val pipelineModel = pipeline.fit(processedAudioFloats)
+      pipelineModel.stages.last
+        .asInstanceOf[WhisperForCTC]
+        .write
+        .overwrite()
+        .save("./tmp_whisper_model")
 
-    val pipelineModel = pipeline.fit(processedAudioFloats)
-    pipelineModel.stages.last
-      .asInstanceOf[WhisperForCTC]
-      .write
-      .overwrite()
-      .save("./tmp_whisper_model")
+      val loadedModel = WhisperForCTC.load("./tmp_whisper_model")
+      val newPipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, loadedModel))
 
-    val loadedModel = WhisperForCTC.load("./tmp_whisper_model")
-    val newPipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, loadedModel))
-
-    newPipeline
-      .fit(processedAudioFloats)
-      .transform(processedAudioFloats)
-      .select("document")
-      .show(10, truncate = false)
+      newPipeline
+        .fit(processedAudioFloats)
+        .transform(processedAudioFloats)
+        .select("document")
+        .show(10, truncate = false)
+    }
   }
-
-  it should "not generate on empty audio" taggedAs SlowTest in {
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
-
-    val data = ResourceHelper.spark.read
-      .option("inferSchema", value = true)
-      .json("src/test/resources/audio/json/audio_floats.json")
-      .select($"float_array".cast("array<float>").alias("audio_content"))
-
-    val pipelineDF = pipeline.fit(data).transform(data)
-
-    val transcribedAudio = Annotation.collect(pipelineDF, "document")
-
-    // Last parsed row of the data has null audio. So the results should be empty.
-    val lastRowResult = transcribedAudio.last.head.result
-    assert(lastRowResult.isEmpty)
-
-  }
-
 }
