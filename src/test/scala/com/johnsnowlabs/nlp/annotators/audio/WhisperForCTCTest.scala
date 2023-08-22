@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.audio
 import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AudioAssembler}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationAudio, AnnotatorType, AudioAssembler}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
@@ -34,8 +34,13 @@ class WhisperForCTCTest extends AnyFlatSpec {
   lazy val processedAudioFloats: Dataset[Row] = Seq(rawFloats).toDF("audio_content")
 
   // Needs to be added manually
-//  lazy val modelPathTf =
-//    "whisper/exported/openai/whisper-tiny.en/"
+  lazy val modelPathTf =
+    "/home/ducha/spark-nlp/dev-things/hf_exports/whisper/exported_tf/openai/whisper-tiny_v2/"
+
+  lazy val modelTf: WhisperForCTC = WhisperForCTC
+    .loadSavedModel(modelPathTf, ResourceHelper.spark)
+    .setInputCols("audio_assembler")
+    .setOutputCol("document")
 
   lazy val modelPathOnnx =
     "onnx/exported_onnx/openai/whisper-tiny"
@@ -46,7 +51,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
     .setOutputCol("document")
 
   it should "correctly transform speech to text from already processed audio files" taggedAs SlowTest in {
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelOnnx))
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
 
     processedAudioFloats.printSchema()
 
@@ -60,6 +65,19 @@ class WhisperForCTCTest extends AnyFlatSpec {
     assert(transcribedAudio == expected)
   }
 
+  it should "correctly transcribe batches" taggedAs SlowTest in {
+    val batchAudioAnnotations =
+      Seq(Array(rawFloats, rawFloats).map(new AnnotationAudio(AnnotatorType.AUDIO, _, Map.empty)))
+
+    val result: Seq[Annotation] = modelTf.batchAnnotate(batchAudioAnnotations).head
+
+    val expected =
+      " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
+
+    result.foreach(transcription => assert(transcription.getResult == expected))
+
+  }
+
   it should "correctly work with Tokenizer" taggedAs SlowTest in {
 
     val token = new Tokenizer()
@@ -67,7 +85,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
       .setOutputCol("token")
 
     val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelOnnx, token))
+      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
 
     processedAudioFloats.printSchema()
 
@@ -105,7 +123,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
   it should "correctly transcribe speech to text from a different language" taggedAs SlowTest in {
 
     val modelChangedLang: WhisperForCTC =
-      modelOnnx.setLanguage("<|de|>").setTask("<|transcribe|>")
+      modelTf.setLanguage("<|de|>").setTask("<|transcribe|>")
 
     val pipeline: Pipeline =
       new Pipeline().setStages(Array(audioAssembler, modelChangedLang))
@@ -121,10 +139,11 @@ class WhisperForCTCTest extends AnyFlatSpec {
 
     assert(transcribedAudio == expectedText)
   }
+
   it should "correctly transcribe and translate speech to text from a different language" taggedAs SlowTest in {
 
     val modelChangedLangTask: WhisperForCTC =
-      modelOnnx.setLanguage("<|de|>").setTask("<|translate|>")
+      modelTf.setLanguage("<|de|>").setTask("<|translate|>")
 
     val pipeline: Pipeline =
       new Pipeline().setStages(Array(audioAssembler, modelChangedLangTask))
@@ -147,7 +166,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
       .setOutputCol("token")
 
     val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelOnnx, token))
+      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
 
     val pipelineModel = pipeline.fit(processedAudioFloats)
     val lightPipeline = new LightPipeline(pipelineModel)
@@ -165,7 +184,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
       .setOutputCol("token")
 
     val pipeline: Pipeline =
-      new Pipeline().setStages(Array(audioAssembler, modelOnnx, token))
+      new Pipeline().setStages(Array(audioAssembler, modelTf, token))
 
     val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
 
@@ -184,7 +203,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
 
   it should "be serializable" taggedAs SlowTest in {
 
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelOnnx))
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
 
     val pipelineModel = pipeline.fit(processedAudioFloats)
     pipelineModel.stages.last
@@ -204,7 +223,7 @@ class WhisperForCTCTest extends AnyFlatSpec {
   }
 
   it should "not generate on empty audio" taggedAs SlowTest in {
-    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelOnnx))
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, modelTf))
 
     val data = ResourceHelper.spark.read
       .option("inferSchema", value = true)

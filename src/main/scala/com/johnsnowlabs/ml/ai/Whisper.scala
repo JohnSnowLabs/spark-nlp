@@ -17,17 +17,18 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
+import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   ForcedTokenLogitProcessor,
+  MinLengthLogitProcessor,
   SuppressLogitProcessor
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
-import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{SpecialTokens, WhisperTokenDecoder}
@@ -61,16 +62,15 @@ private[johnsnowlabs] class Whisper(
     vocabulary: Map[String, Int],
     addedSpecialTokens: Map[String, Int],
     generationConfig: GenerationConfig)
-    extends Serializable
-    with Generate {
+    extends Serializable {
 
   private val logger = LoggerFactory.getLogger(this.getClass.getName)
 
   private val GenerationConfig(
     bosTokenId: Int,
-    paddingTokenId: Int,
+    _,
     eosTokenId: Int,
-    logitsSize: Int,
+    vocabSize: Int,
     beginSuppressTokens,
     suppressTokenIds,
     forcedDecoderIds) =
@@ -103,22 +103,56 @@ private[johnsnowlabs] class Whisper(
 
   private val tfTensorResources = new tensorflow.TensorResources()
 //  val onnxTensorResources = new onnx.TensorResources(OrtEnvironment.getEnvironment())
+
   private object TfSignatures {
-    val encoderInputOp: String = _tfWhisperSignatures.getOrElse(
-      ModelSignatureConstants.EncoderInputIds.key,
-      ModelSignatureConstants.EncoderInputIds.value)
-    val encoderOutputOp: String = _tfWhisperSignatures.getOrElse(
-      ModelSignatureConstants.EncoderOutput.key,
-      ModelSignatureConstants.EncoderOutput.value)
-    val decoderEncoderOutputsOp: String = _tfWhisperSignatures.getOrElse(
-      ModelSignatureConstants.DecoderEncoderInputIds.key,
-      ModelSignatureConstants.DecoderEncoderInputIds.value)
-    val decoderInputIdsOp: String = _tfWhisperSignatures.getOrElse(
-      ModelSignatureConstants.DecoderInputIds.key,
-      ModelSignatureConstants.DecoderInputIds.value)
-    val decoderOutputOp: String = _tfWhisperSignatures.getOrElse(
-      ModelSignatureConstants.LogitsOutput.key,
-      ModelSignatureConstants.LogitsOutput.value)
+    object InputOps {
+      val encoderInputOp: String = _tfWhisperSignatures("input_features")
+
+      val initDecoderInputIdsOp: String = _tfWhisperSignatures("decoder_input_ids_init")
+      val initDecoderEncoderStateOp: String = _tfWhisperSignatures("encoder_state_init")
+
+      val decoderInputIdsOp: String = _tfWhisperSignatures("decoder_input_ids")
+      val decoderEncoderStateOp: String = _tfWhisperSignatures("encoder_state")
+      val decoderCacheOp: String = _tfWhisperSignatures("decoder_past_key_values")
+      val decoderEncoderCacheOp: String = _tfWhisperSignatures("encoder_past_key_values")
+    }
+
+    object OutputOps {
+      val encoderOutputOp: String = _tfWhisperSignatures("last_hidden_state")
+
+      val initDecoderLogitsOp: String = _tfWhisperSignatures("logits_init")
+      val decoderLogitsOp: String = _tfWhisperSignatures("logits")
+
+      val decoderStateInitOp: String = _tfWhisperSignatures("decoder_past_key_values_init")
+      val encoderStateInitOp: String = _tfWhisperSignatures("encoder_past_key_values_init")
+
+      val decoderStateOp: String = _tfWhisperSignatures("decoder_past_key_values_out")
+    }
+
+//    val encoderInputOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.EncoderInputFeatures.key,
+//      ModelSignatureConstants.EncoderInputFeatures.value)
+//    val encoderOutputOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.EncoderOutput.key,
+//      ModelSignatureConstants.EncoderOutput.value)
+//    val initDecoderInputIdsOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.InitDecoderInputIds.key,
+//      ModelSignatureConstants.InitDecoderInputIds.value)
+//    val initDecoderEncoderStateOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.InitDecoderEncoderInputIds.key,
+//      ModelSignatureConstants.InitDecoderEncoderInputIds.value)
+//    val decoderPastKeyValuesOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.DecoderPastKeyValues.key,
+//      ModelSignatureConstants.DecoderPastKeyValues.value)
+//    val encoderPastKeyValuesOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.EncoderPastKeyValues.key,
+//      ModelSignatureConstants.EncoderPastKeyValues.value)
+//    val decoderInputIdsOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.DecoderInputIds.key,
+//      ModelSignatureConstants.DecoderInputIds.value)
+//    val decoderOutputLogitsOp: String = _tfWhisperSignatures.getOrElse(
+//      ModelSignatureConstants.LogitsOutput.key,
+//      ModelSignatureConstants.LogitsOutput.value)
   }
 
   private object OnnxSignatures {
@@ -166,41 +200,52 @@ private[johnsnowlabs] class Whisper(
 
   sessionWarmup()
 
-  private def getLogitProcessors(task: Option[String] = None, language: Option[String] = None) = {
+  private def getLogitProcessors(
+      task: Option[String] = None,
+      language: Option[String] = None,
+      minLength: Int = 0) = {
     val processorList = new LogitProcessorList()
 
-    // Assuming bos token at the front, get the last forced token
-    val generationBeginIdx: Int = forcedDecoderIds match {
-      case Some(forcedTokens) => 1 + forcedTokens.maxBy(_._1)._1
-      case None => 1
-    }
+    if (beginSuppressTokens.isDefined) {
+      // Assuming bos token at the front, get the last forced token
+      val generationBeginIdx: Int = forcedDecoderIds match {
+        case Some(forcedTokens) => 1 + forcedTokens.maxBy(_._1)._1
+        case None => 1
+      }
 
-    if (beginSuppressTokens.isDefined)
       processorList.addProcess(
         new SuppressLogitProcessor(beginSuppressTokens.get, Some(generationBeginIdx)))
+    }
 
     if (suppressTokenIds.isDefined)
       processorList.addProcess(new SuppressLogitProcessor(suppressTokenIds.get))
 
-    var totalForcedDecoderIds: Map[Int, Int] = forcedDecoderIds match {
-      case Some(value) => value.toMap
-      case None => Map.empty
+    val forcedTokenLogitProcessor = {
+      var totalForcedDecoderIds: Map[Int, Int] = forcedDecoderIds match {
+        case Some(value) => value.toMap
+        case None => Map.empty
+      }
+
+      // Assumed Language and Task tokens were checked during setter
+      // Language token should be at index 1. If None, then don't force anything on that position.
+      totalForcedDecoderIds =
+        if (language.isDefined)
+          totalForcedDecoderIds.updated(1, vocabWithAddedTokens(language.get))
+        else totalForcedDecoderIds
+
+      // Task token should be at index index 2. If None, then it should be "transcribe"
+      // (by default forced by official models)
+      totalForcedDecoderIds =
+        if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
+        else totalForcedDecoderIds
+
+      new ForcedTokenLogitProcessor(totalForcedDecoderIds.toArray)
     }
 
-    // Assumed Language and Task tokens were checked during setter
-    // Language token should be at index 1. If None, then don't force anything on that position.
-    totalForcedDecoderIds =
-      if (language.isDefined)
-        totalForcedDecoderIds.updated(1, vocabWithAddedTokens(language.get))
-      else totalForcedDecoderIds
+    processorList.addProcess(forcedTokenLogitProcessor)
 
-    // Task token should be at index index 2. If None, then it should be "transcribe"
-    // (by default forced by official models)
-    totalForcedDecoderIds =
-      if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
-      else totalForcedDecoderIds
-
-    processorList.addProcess(new ForcedTokenLogitProcessor(totalForcedDecoderIds.toArray))
+    if (minLength > 0)
+      processorList.addProcess(new MinLengthLogitProcessor(eosTokenId, minLength, vocabSize))
 
     processorList
 
@@ -249,6 +294,10 @@ private[johnsnowlabs] class Whisper(
       task: Option[String] = None,
       language: Option[String] = None): Seq[Annotation] = {
 
+    if (beamSize > 1)
+      logger.warn(
+        "Currently the Whisper model only supports greedy search. Will default to this behavior.")
+
     def emptyAnnotation(annotationAudio: AnnotationAudio) = {
       new Annotation(
         annotatorType = AnnotatorType.DOCUMENT,
@@ -266,7 +315,8 @@ private[johnsnowlabs] class Whisper(
     if (validBatchAudio.nonEmpty) {
       val validIndices = validBatchAudio.map(_._2)
 
-      val logitProcessors: LogitProcessorList = getLogitProcessors(task, language)
+      val logitProcessors: LogitProcessorList =
+        getLogitProcessors(task, language, minOutputLength)
 
       val featuresBatch = validBatchAudio.map { case (AnnotationAudio(_, rawFloats, _), _) =>
         preprocessor.extractFeatures(rawFloats)
@@ -283,33 +333,29 @@ private[johnsnowlabs] class Whisper(
           val encodedBatchFeatures: Tensor =
             encode(featuresBatch, Some(session), None).asInstanceOf[Tensor]
 
+          val (initLogits, decoderCacheTensor, decoderEncoderCacheTensor) =
+            initDecoderTf(encodedBatchFeatures, batchDecoderStartIds, logitProcessors, session)
+
+          val batchInitGenerationTokenIds: Array[Array[Int]] =
+            initLogits.map { logitsArray =>
+              Array(bosTokenId, argmax(logitsArray))
+            }
+
           // Generate the tokens
-          val tokenIds: Array[Array[Int]] = generate(
+          val tokenIds: Array[Array[Int]] = generateGreedyTf(
+            batchInitGenerationTokenIds,
             encodedBatchFeatures,
-            batchDecoderStartIds,
+            decoderCacheTensor,
+            decoderEncoderCacheTensor,
             maxOutputLength,
-            minOutputLength,
-            doSample,
-            beamSize,
-            numReturnSequences,
-            temperature,
-            topK,
-            topP,
-            repetitionPenalty,
-            noRepeatNgramSize,
-            randomSeed,
-            session,
-            logitProcessors)
+            logitProcessors,
+            session)
 
           tfTensorResources.clearTensors()
           encodedBatchFeatures.close()
 
           tokenIds
         case ONNX.name =>
-          if (beamSize > 1)
-            logger.warn(
-              "Currently the Whisper ONNX model only supports greedy search. Will default to this behavior.")
-
           val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
           val decoderSession = onnxWrappers.get.decoder.getSession()._1
           val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
@@ -317,8 +363,8 @@ private[johnsnowlabs] class Whisper(
           val encodedBatchTensor: OnnxTensor =
             encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]
 
-          val (logits, initEncoderStates, initDecoderStates) =
-            initOnnxDecoder(
+          val (initLogits, initEncoderStates, initDecoderStates) =
+            initDecoderOnnx(
               batchDecoderStartIds,
               encodedBatchTensor,
               logitProcessors,
@@ -327,7 +373,7 @@ private[johnsnowlabs] class Whisper(
           encodedBatchTensor.close()
 
           val batchInitGenerationTokenIds: Array[Array[Int]] =
-            logits.map { logitsArray =>
+            initLogits.map { logitsArray =>
               Array(bosTokenId, argmax(logitsArray))
             }
 
@@ -336,7 +382,6 @@ private[johnsnowlabs] class Whisper(
             replaceStateKeys(initEncoderStates),
             replaceStateKeys(initDecoderStates),
             maxOutputLength,
-            minOutputLength,
             logitProcessors,
             (decoderWithPastSession, env))
 
@@ -395,8 +440,8 @@ private[johnsnowlabs] class Whisper(
           tfTensorResources.createTensor[Array[Array[Array[Float]]]](features)
 
         val encoderOutputs: Tensor = runner
-          .feed(TfSignatures.encoderInputOp, featuresTensors)
-          .fetch(TfSignatures.encoderOutputOp)
+          .feed(TfSignatures.InputOps.encoderInputOp, featuresTensors)
+          .fetch(TfSignatures.OutputOps.encoderOutputOp)
           .run()
           .asScala
           .head
@@ -415,117 +460,225 @@ private[johnsnowlabs] class Whisper(
     }
   }
 
-  /** Get model output for a batch of input sequences
-    *
-    * TODO: Caching
-    *
-    * @param encodedInputsTensor
-    *   Batch of encoded features as a Tensor
-    * @param decoderInputIds
-    *   Batch of decoder input ids
-    * @param maxLength
-    *   Max length of the output
-    * @param session
-    *   tensorflow session
-    * @return
-    *   Model output logits for the last input token for the batches
-    */
-  def getModelOutput(
+  private def initDecoderTf(
       encodedInputsTensor: Tensor,
-      decoderInputIds: Seq[Array[Int]],
-      maxLength: Int,
-      session: Session): Array[Array[Float]] = {
-
-    val truncatedInputIds = decoderInputIds.map(_.slice(0, maxLength))
-
+      decoderInputIds: Array[Array[Int]],
+      logitProcessors: LogitProcessorList,
+      session: Session): (Array[Array[Float]], Tensor, Tensor) = {
     val decoderInputIdsTensor: Tensor =
-      tfTensorResources.createTensor[Array[Array[Int]]](truncatedInputIds.toArray)
+      tfTensorResources.createTensor[Array[Array[Int]]](decoderInputIds)
 
     val runner = session.runner
-      .feed(TfSignatures.decoderInputIdsOp, decoderInputIdsTensor)
-      .feed(TfSignatures.decoderEncoderOutputsOp, encodedInputsTensor)
-      .fetch(TfSignatures.decoderOutputOp)
+      .feed(TfSignatures.InputOps.initDecoderInputIdsOp, decoderInputIdsTensor)
+      .feed(TfSignatures.InputOps.initDecoderEncoderStateOp, encodedInputsTensor)
+      .fetch(TfSignatures.OutputOps.initDecoderLogitsOp)
+      .fetch(TfSignatures.OutputOps.decoderStateInitOp)
+      .fetch(TfSignatures.OutputOps.encoderStateInitOp)
 
     val decoderOuts = runner.run().asScala
     val logitsRaw = tensorflow.TensorResources.extractFloats(decoderOuts.head)
-    decoderOuts.foreach(_.close())
+    decoderOuts.head.close()
 
-    val nextTokenLogits =
-      logitsRaw.grouped(logitsSize).toArray // Should result in length batch size
+    val rawLogits =
+      logitsRaw.grouped(vocabSize).toArray // Should result in length batch size
+    val logits = logitProcessors.process(decoderInputIds, rawLogits, decoderInputIds.head.length)
+
+    val decoderStateTensor = decoderOuts(1)
+    val encoderStateTensor = decoderOuts(2)
 
     tfTensorResources.clearTensors()
-    nextTokenLogits
+    (logits, decoderStateTensor, encoderStateTensor)
   }
 
-  def generate(
-      decoderEncoderStateTensors: Tensor,
-      decoderInputIds: Array[Array[Int]],
+  /** Gets the index with the highest score
+    *
+    * @param scores
+    *   Array of Scores to max
+    * @return
+    *   Index of the highest score
+    */
+  private def argmax(scores: Array[Float]): Int =
+    scores.zipWithIndex.maxBy { case (score, _) =>
+      score
+    }._2
+
+  private def greedyGenerationFinished(
+      decoderIds: Seq[Array[Int]],
+      eosTokenId: Int,
+      maxOutputLength: Int): Boolean =
+    decoderIds.map(_.last).forall(_ == eosTokenId) || decoderIds.head.length == maxOutputLength
+
+  /** Generates a Sequence of tokens with a greedy strategy.
+    *
+    * The token with the highest score will always be chosen.
+    *
+    * @param decoderEncoderCacheTensor
+    *   Tensor of encoded input for the decoder
+    * @param decoderCacheTensor
+    *   Tensor for encoder attention mask
+    * @param initInputIds
+    *   Init Input IDs from the first run of the decoder
+    * @param maxOutputLength
+    *   Max length of the generated sequence
+    * @param logitProcessor
+    *   Optional logit processors
+    * @param session
+    *   Tensorflow session
+    * @return
+    */
+  private def generateGreedyTf(
+      initInputIds: Array[Array[Int]],
+      encoderStateTensor: Tensor,
+      decoderCacheTensor: Tensor,
+      decoderEncoderCacheTensor: Tensor,
       maxOutputLength: Int,
-      minOutputLength: Int,
-      doSample: Boolean,
-      beamSize: Int,
-      numReturnSequences: Int,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      randomSeed: Option[Long],
-      session: Session,
-      logitProcessorList: LogitProcessorList): Array[Array[Int]] = {
-    val dummyEncoderInput =
-      Seq.fill(decoderInputIds.length)(Array.empty[Int]) // Needs to be size of batch
-    val dummyEncoderAttentionMaskTensors: Tensor = null // not needed
+      logitProcessor: LogitProcessorList,
+      session: Session): Array[Array[Int]] = {
 
-    if (beamSize == 1) // Equivalent to greedy search
-      super.generateGreedy(
-        encoderInputIds = dummyEncoderInput,
-        decoderEncoderStateTensors = decoderEncoderStateTensors,
-        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
-        decoderInputs = decoderInputIds,
-        maxOutputLength = maxOutputLength,
-        minOutputLength = minOutputLength,
-        vocabSize = logitsSize,
-        eosTokenId = eosTokenId,
-        paddingTokenId = paddingTokenId,
-        applySoftmax = false,
-        session = session,
-        logitProcessor = Some(logitProcessorList))
-    else
-      super.generate(
-        inputIds = dummyEncoderInput,
-        decoderEncoderStateTensors = decoderEncoderStateTensors,
-        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
-        decoderInputs = decoderInputIds,
-        maxOutputLength = maxOutputLength,
-        minOutputLength = minOutputLength,
-        doSample = doSample,
-        beamSize = beamSize,
-        numReturnSequences = numReturnSequences,
-        temperature = temperature,
-        topK = topK,
-        topP = topP,
-        repetitionPenalty = repetitionPenalty,
-        noRepeatNgramSize = noRepeatNgramSize,
-        vocabSize = logitsSize,
-        eosTokenId = eosTokenId,
-        paddingTokenId = paddingTokenId,
-        randomSeed = randomSeed,
-        session = session,
-        applySoftmax = false)
+    var generatedIds = initInputIds
+    var currentCacheStateTensor = decoderCacheTensor
+
+    while (!greedyGenerationFinished(generatedIds, eosTokenId, maxOutputLength)) {
+
+      val (rawBatchLogits: Array[Array[Float]], updatedDecoderState: Tensor) =
+        getDecoderOutputTf(
+          generatedIds,
+          encoderStateTensor,
+          currentCacheStateTensor,
+          decoderEncoderCacheTensor,
+          session)
+
+      currentCacheStateTensor.close()
+
+      val batchLogits =
+        logitProcessor.process(generatedIds, rawBatchLogits, generatedIds.head.length)
+      val nextTokenIds: Array[Int] = batchLogits.map(argmax)
+      currentCacheStateTensor = updatedDecoderState
+
+      generatedIds =
+        generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
+          currentIds ++ Array(nextId)
+        }
+    }
+
+    generatedIds
   }
 
-  def getModelOutput(
-      encoderInputIds: Seq[Array[Int]],
-      decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
-      maxLength: Int,
-      session: Session): Array[Array[Float]] = {
-    getModelOutput(decoderEncoderStateTensors, decoderInputIds, maxLength, session)
+  /** Get model output for a batch of input sequences */
+  private def getDecoderOutputTf(
+      decoderInputIds: Array[Array[Int]],
+      encoderStateTensor: Tensor,
+      decoderCacheTensor: Tensor,
+      decoderEncoderCacheTensor: Tensor,
+      session: Session): (Array[Array[Float]], Tensor) = {
+
+    // Only requires the last generated token
+    val lastTokens: Array[Array[Int]] =
+      decoderInputIds.map { tokenIds =>
+        Array(tokenIds.last)
+      }
+
+    val decoderInputIdsTensor: Tensor =
+      tfTensorResources.createTensor[Array[Array[Int]]](lastTokens)
+
+    val runner = session.runner
+      .feed(TfSignatures.InputOps.decoderInputIdsOp, decoderInputIdsTensor)
+      .feed(TfSignatures.InputOps.decoderEncoderStateOp, encoderStateTensor)
+      .feed(TfSignatures.InputOps.decoderCacheOp, decoderCacheTensor)
+      .feed(TfSignatures.InputOps.decoderEncoderCacheOp, decoderEncoderCacheTensor)
+      .fetch(TfSignatures.OutputOps.decoderLogitsOp)
+      .fetch(TfSignatures.OutputOps.decoderStateOp)
+
+    val decoderOuts = runner.run().asScala
+    val logitsRaw = tensorflow.TensorResources.extractFloats(decoderOuts.head)
+    decoderOuts.head.close()
+
+    val nextTokenLogits =
+      logitsRaw.grouped(vocabSize).toArray // Should result in length batch size
+
+    val updatedDecoderState = decoderOuts(1)
+
+    tfTensorResources.clearTensors()
+
+    (nextTokenLogits, updatedDecoderState)
   }
 
-  private def initOnnxDecoder(
+//  def generate(
+//      decoderEncoderStateTensors: Tensor,
+//      decoderInputIds: Array[Array[Int]],
+//      maxOutputLength: Int,
+//      minOutputLength: Int,
+//      doSample: Boolean,
+//      beamSize: Int,
+//      numReturnSequences: Int,
+//      temperature: Double,
+//      topK: Int,
+//      topP: Double,
+//      repetitionPenalty: Double,
+//      noRepeatNgramSize: Int,
+//      randomSeed: Option[Long],
+//      session: Session,
+//      logitProcessorList: LogitProcessorList): Array[Array[Int]] = {
+//    val dummyEncoderInput =
+//      Seq.fill(decoderInputIds.length)(Array.empty[Int]) // Needs to be size of batch
+//    val dummyEncoderAttentionMaskTensors: Tensor = null // not needed
+//
+//    if (beamSize == 1) // Equivalent to greedy search
+//      super.generateGreedy(
+//        encoderInputIds = dummyEncoderInput,
+//        decoderEncoderStateTensors = decoderEncoderStateTensors,
+//        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
+//        decoderInputs = decoderInputIds,
+//        maxOutputLength = maxOutputLength,
+//        minOutputLength = minOutputLength,
+//        vocabSize = vocabSize,
+//        eosTokenId = eosTokenId,
+//        paddingTokenId = paddingTokenId,
+//        applySoftmax = false,
+//        session = session,
+//        logitProcessor = Some(logitProcessorList))
+//    else
+//      super.generate(
+//        inputIds = dummyEncoderInput,
+//        decoderEncoderStateTensors = decoderEncoderStateTensors,
+//        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
+//        decoderInputs = decoderInputIds,
+//        maxOutputLength = maxOutputLength,
+//        minOutputLength = minOutputLength,
+//        doSample = doSample,
+//        beamSize = beamSize,
+//        numReturnSequences = numReturnSequences,
+//        temperature = temperature,
+//        topK = topK,
+//        topP = topP,
+//        repetitionPenalty = repetitionPenalty,
+//        noRepeatNgramSize = noRepeatNgramSize,
+//        vocabSize = vocabSize,
+//        eosTokenId = eosTokenId,
+//        paddingTokenId = paddingTokenId,
+//        randomSeed = randomSeed,
+//        session = session,
+//        applySoftmax = false)
+//  }
+
+//  def getModelOutput(
+//      encoderInputIds: Seq[Array[Int]],
+//      decoderInputIds: Seq[Array[Int]],
+//      decoderEncoderStateTensors: Tensor,
+//      encoderAttentionMaskTensors: Tensor,
+//      maxLength: Int,
+//      session: Session): Array[Array[Float]] = {
+//
+//    getModelOutput(
+//      decoderInputIds = decoderInputIds,
+//      decoderCacheTensor = decoderEncoderStateTensors,
+//      decoderEncoderCacheTensor = encoderAttentionMaskTensors,
+//      maxLength = maxLength,
+//      session = session)
+//
+//  }
+
+  private def initDecoderOnnx(
       decoderInputIds: Array[Array[Int]],
       encoderOutputs: OnnxTensor,
       logitProcessors: LogitProcessorList,
@@ -545,7 +698,7 @@ private[johnsnowlabs] class Whisper(
     decoderInputTensor.close()
 
     val rawLogits =
-      sessionOutput.getFloatArray(OnnxSignatures.decoderOutputKey).grouped(logitsSize).toArray
+      sessionOutput.getFloatArray(OnnxSignatures.decoderOutputKey).grouped(vocabSize).toArray
 
     val logits = logitProcessors.process(decoderInputIds, rawLogits, decoderInputIds.head.length)
 
@@ -558,7 +711,7 @@ private[johnsnowlabs] class Whisper(
     (logits, encoderStates, decoderStates)
   }
 
-  private def getOnnxDecoderOutput(
+  private def getDecoderOutputOnnx(
       decoderInputIds: Array[Array[Int]],
       pastEncoderStateTensors: Map[String, OnnxTensor],
       pastDecoderStateTensors: Map[String, OnnxTensor],
@@ -587,7 +740,7 @@ private[johnsnowlabs] class Whisper(
 
     lastTokensTensor.close()
 
-    val batchLogits = logits.grouped(logitsSize).toArray
+    val batchLogits = logits.grouped(vocabSize).toArray
     (batchLogits, updatedDecoderStates)
   }
 
@@ -601,8 +754,6 @@ private[johnsnowlabs] class Whisper(
     *   Map of each decoder state name and its tensor
     * @param maxOutputLength
     *   Max output length
-    * @param minOutputLength
-    *   min output length
     * @return
     */
   private def generateGreedyOnnx(
@@ -610,7 +761,6 @@ private[johnsnowlabs] class Whisper(
       encoderStateTensors: Map[String, OnnxTensor],
       decoderStateTensors: Map[String, OnnxTensor],
       maxOutputLength: Int,
-      minOutputLength: Int,
       logitProcessor: LogitProcessorList,
       onnxSession: (OrtSession, OrtEnvironment)): Array[Array[Int]] = {
 
@@ -620,7 +770,7 @@ private[johnsnowlabs] class Whisper(
     while (!greedyGenerationFinished(generatedIds, eosTokenId, maxOutputLength)) {
 
       val (rawBatchLogits: Array[Array[Float]], updatedDecoderStates: Map[String, OnnxTensor]) =
-        getOnnxDecoderOutput(
+        getDecoderOutputOnnx(
           generatedIds,
           encoderStateTensors,
           currentDecoderStateTensors,

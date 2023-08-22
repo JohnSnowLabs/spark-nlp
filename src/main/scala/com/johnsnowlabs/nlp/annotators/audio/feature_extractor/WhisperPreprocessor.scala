@@ -24,7 +24,7 @@ class WhisperPreprocessor(
   require(n_fft < n_samples, "n_fft should be smaller than n_samples.")
   require(hop_length > 0, "hop_length must be greater than 0.")
 
-  def getHanningWindow(periodic: Boolean = true): DenseVector[Double] = {
+  private def getHanningWindow(periodic: Boolean = true): DenseVector[Double] = {
     val windowLength = if (periodic) n_fft + 1 else n_fft
     val window = hanningWindow(windowLength)
     if (periodic) window(0 to -2) // Remove last element, so window is periodic

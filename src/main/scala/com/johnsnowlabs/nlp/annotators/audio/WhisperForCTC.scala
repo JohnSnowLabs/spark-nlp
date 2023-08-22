@@ -145,8 +145,8 @@ import org.json4s.jackson.JsonMethods._
   *   parameter values through setters and getters, respectively.
   */
 class WhisperForCTC(override val uid: String)
-    extends AnnotatorModel[Wav2Vec2ForCTC]
-    with HasBatchedAnnotateAudio[Wav2Vec2ForCTC]
+    extends AnnotatorModel[WhisperForCTC]
+    with HasBatchedAnnotateAudio[WhisperForCTC]
     with HasAudioFeatureProperties
     with WriteTensorflowModel
     with WriteOnnxModel
@@ -428,7 +428,11 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
     instance.getEngine match {
       case TensorFlow.name =>
-        val tfWrapper = readTensorflowModel(path, spark, WhisperForCTC.suffix)
+        val tfWrapper = readTensorflowModel(
+          path,
+          spark,
+          WhisperForCTC.suffix,
+          savedSignatures = instance.getSignatures)
         instance.setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case ONNX.name =>
