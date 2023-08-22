@@ -403,6 +403,7 @@ trait ReadablePretrainedWhisperForCTCModel
     extends ParamsAndFeaturesReadable[WhisperForCTC]
     with HasPretrained[WhisperForCTC] {
   override val defaultModelName: Some[String] = Some("asr_whisper_tiny_opt")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): WhisperForCTC = super.pretrained()

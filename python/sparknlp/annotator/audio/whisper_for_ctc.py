@@ -227,7 +227,7 @@ class WhisperForCTC(AnnotatorModel,
         return WhisperForCTC(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="asr_whisper_tiny_opt", lang="en", remote_loc=None):
+    def pretrained(name="asr_whisper_tiny_opt", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
