@@ -43,11 +43,13 @@ class WhisperForCTCTest extends AnyFlatSpec with WhisperForCTCBehaviors {
 
   behavior of "WhisperForCTC"
 
-  Seq(modelTf, modelOnnx).foreach { model =>
-    it should behave like correctTranscriber(model)
-    it should behave like compatibleWithLightPipeline(model)
-    it should behave like serializableModel(model)
-  }
+  it should behave like correctTranscriber(modelTf, "tf")
+  it should behave like compatibleWithLightPipeline(modelTf, "tf")
+  it should behave like serializableModel(modelTf, "tf")
+
+  it should behave like correctTranscriber(modelOnnx, "onnx")
+  it should behave like compatibleWithLightPipeline(modelOnnx, "onnx")
+  it should behave like serializableModel(modelOnnx, "onnx")
 
 }
 
@@ -59,8 +61,8 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
   val processedAudioFloats: Dataset[Row]
   val rawFloats: Array[Float]
 
-  def correctTranscriber(model: WhisperForCTC): Unit = {
-    it should s"correctly transform speech to text from already processed audio files (${model.getEngine})" taggedAs SlowTest in {
+  def correctTranscriber(model: => WhisperForCTC, engine: => String): Unit = {
+    it should s"correctly transform speech to text from already processed audio files ($engine)" taggedAs SlowTest in {
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
       processedAudioFloats.printSchema()
@@ -75,7 +77,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expected)
     }
 
-    it should s"correctly transcribe batches (${model.getEngine})" taggedAs SlowTest in {
+    it should s"correctly transcribe batches ($engine)" taggedAs SlowTest in {
       val batchAudioAnnotations =
         Seq(
           Array(rawFloats, rawFloats).map(new AnnotationAudio(AnnotatorType.AUDIO, _, Map.empty)))
@@ -89,7 +91,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should s"correctly work with Tokenizer (${model.getEngine})" taggedAs SlowTest in {
+    it should s"correctly work with Tokenizer ($engine)" taggedAs SlowTest in {
 
       val token = new Tokenizer()
         .setInputCols("document")
@@ -131,7 +133,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should s"correctly transcribe speech to text from a different language (${model.getEngine})" taggedAs SlowTest in {
+    it should s"correctly transcribe speech to text from a different language ($engine)" taggedAs SlowTest in {
 
       val modelChangedLang: WhisperForCTC =
         model.setLanguage("<|de|>").setTask("<|transcribe|>")
@@ -151,7 +153,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expectedText)
     }
 
-    it should s"correctly transcribe and translate speech to text from a different language (${model.getEngine})" taggedAs SlowTest in {
+    it should s"correctly transcribe and translate speech to text from a different language ($engine)" taggedAs SlowTest in {
 
       val modelChangedLangTask: WhisperForCTC =
         model.setLanguage("<|de|>").setTask("<|translate|>")
@@ -171,7 +173,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expectedText)
     }
 
-    it should s"not generate on empty audio (${model.getEngine})" taggedAs SlowTest in {
+    it should s"not generate on empty audio ($engine)" taggedAs SlowTest in {
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
       val data = ResourceHelper.spark.read
@@ -191,9 +193,9 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
   }
 
-  def compatibleWithLightPipeline(model: WhisperForCTC): Unit = {
+  def compatibleWithLightPipeline(model: => WhisperForCTC, engine: => String): Unit = {
 
-    it should s"transform speech to text with LightPipeline (${model.getEngine})" taggedAs SlowTest in {
+    it should s"transform speech to text with LightPipeline ($engine)" taggedAs SlowTest in {
       val token = new Tokenizer()
         .setInputCols("document")
         .setOutputCol("token")
@@ -211,7 +213,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(result("token").nonEmpty)
     }
 
-    it should s"transform several speeches to text with LightPipeline (${model.getEngine})" taggedAs SlowTest in {
+    it should s"transform several speeches to text with LightPipeline ($engine)" taggedAs SlowTest in {
       val token = new Tokenizer()
         .setInputCols("document")
         .setOutputCol("token")
@@ -233,8 +235,8 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       }
     }
   }
-  def serializableModel(model: WhisperForCTC): Unit = {
-    it should s"be serializable (${model.getEngine})" taggedAs SlowTest in {
+  def serializableModel(model: => WhisperForCTC, engine: => String): Unit = {
+    it should s"be serializable ($engine)" taggedAs SlowTest in {
 
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
