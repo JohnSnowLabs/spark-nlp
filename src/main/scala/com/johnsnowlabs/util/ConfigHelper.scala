@@ -67,6 +67,8 @@ object ConfigHelper {
   // Stores info for integration with GCP
   val gcpProjectId = "spark.jsl.settings.gcp.project_id"
 
+  val openAIAPIKey = "spark.jsl.settings.openai.api.key"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }

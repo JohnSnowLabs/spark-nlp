@@ -45,6 +45,7 @@ from sparknlp.annotator.cv import *
 from sparknlp.annotator.audio import *
 from sparknlp.annotator.chunk2_doc import *
 from sparknlp.annotator.date2_chunk import *
+from sparknlp.annotator.openai import *
 
 if sys.version_info[0] == 2:
     raise ImportError(
