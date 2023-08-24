@@ -728,4 +728,11 @@ package object annotator {
 
   object InstructorEmbeddings extends ReadablePretrainedInstructorModel with ReadInstructorDLModel
 
+  type BartForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification
+
+  object BartForZeroShotClassification
+      extends ReadablePretrainedBartForZeroShotModel
+      with ReadBartForZeroShotDLModel
+
 }
