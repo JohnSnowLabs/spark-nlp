@@ -16,15 +16,18 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
+import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+
 import scala.collection.JavaConverters._
 
 /** E5 Sentence embeddings model
-  * @param tensorflow
+  * @param tensorflowWrapper
   *   tensorflow wrapper
   * @param configProtoBytes
   *   config proto bytes
@@ -36,7 +39,8 @@ import scala.collection.JavaConverters._
   *   signatures
   */
 private[johnsnowlabs] class E5(
-    val tensorflow: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -46,7 +50,11 @@ private[johnsnowlabs] class E5(
   private val _tfInstructorSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 0
-  private val eosTokenId = 1
+
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   /** Get sentence embeddings for a batch of sentences
     * @param batch
@@ -55,6 +63,16 @@ private[johnsnowlabs] class E5(
     *   sentence embeddings
     */
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val embeddings = detectedEngine match {
+      case ONNX.name =>
+        getSentenceEmbeddingFromOnnx(batch)
+      case _ =>
+        getSentenceEmbeddingFromTF(batch)
+    }
+    embeddings
+  }
+
+  private def getSentenceEmbeddingFromTF(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     // get max sentence length
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
@@ -90,7 +108,7 @@ private[johnsnowlabs] class E5(
       tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
 
     // run model
-    val runner = tensorflow
+    val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         initAllTables = false,
@@ -127,6 +145,49 @@ private[johnsnowlabs] class E5(
     tensorEncoder.clearSession(sentenceEmbeddings)
 
     sentenceEmbeddingsFloatsArray
+  }
+
+  private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val batchLength = batch.length
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+
+    val (runner, env) = onnxWrapper.get.getSession()
+    val tokenTensors =
+      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+    val maskTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+    val segmentTensors =
+      OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
+
+    val inputs =
+      Map(
+        "input_ids" -> tokenTensors,
+        "attention_mask" -> maskTensors,
+        "token_type_ids" -> segmentTensors).asJava
+
+    // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+    try {
+      val results = runner.run(inputs)
+      try {
+        val embeddings = results
+          .get("last_hidden_state")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+
+        val dim = embeddings.length / batchLength
+        // group embeddings
+        val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
+        sentenceEmbeddingsFloatsArray
+      } finally if (results != null) results.close()
+    }
   }
 
   /** Predict sentence embeddings for a batch of sentences
