@@ -358,10 +358,10 @@ class E5Embeddings(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           E5Embeddings.onnxFile)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
-
   }
 
   /** @group getParam */
@@ -407,20 +407,15 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
   def readModel(instance: E5Embeddings, path: String, spark: SparkSession): Unit = {
 
     instance.getEngine match {
-      case TensorFlow.name => {
-        val tf = readTensorflowModel(
-          path,
-          spark,
-          "_e5_tf",
-          savedSignatures = instance.getSignatures,
-          initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None)
-      }
-      case ONNX.name => {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_e5_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "_e5_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
-      }
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -432,19 +427,24 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
   def loadSavedModel(modelPath: String, spark: SparkSession): E5Embeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+
     /*Universal parameters for all engines*/
-    val annotatorModel = new E5Embeddings().setVocabulary(vocabs)
+    val annotatorModel = new E5Embeddings()
+      .setVocabulary(vocabs)
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
+
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) = TensorflowWrapper.read(
-          localModelPath,
-          zipped = false,
-          useBundle = true,
-          tags = Array("serve"),
-          initAllTables = false)
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"),
+            initAllTables = false)
 
         val _signatures = signatures match {
           case Some(s) => s
