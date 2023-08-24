@@ -32,8 +32,8 @@ Here are the NER models that this pretrained pipeline includes:
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/e5_small_v2_quantized_en_5.0.2_3.0_1692905515868.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/e5_small_v2_quantized_en_5.0.2_3.0_1692905515868.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/e5_small_v2_quantized_en_5.0.2_3.0_1692905945722.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/e5_small_v2_quantized_en_5.0.2_3.0_1692905945722.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
