@@ -8,7 +8,7 @@ tags: [whisper, en, audio, open_source, asr, onnx, xx]
 task: Automatic Speech Recognition
 language: xx
 edition: Spark NLP 5.1.0
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: WhisperForCTC
@@ -32,8 +32,8 @@ Afrikaans, Arabic, Armenian, Azerbaijani, Belarusian, Bosnian, Bulgarian, Catala
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_whisper_tiny_opt_xx_5.1.0_3.2_1692721787993.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_whisper_tiny_opt_xx_5.1.0_3.2_1692721787993.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_whisper_tiny_opt_xx_5.1.0_3.0_1692721787993.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_whisper_tiny_opt_xx_5.1.0_3.0_1692721787993.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
