@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.johnsnowlabs.client
 
-package com.johnsnowlabs.client.aws
+import java.io.InputStream
 
-import com.amazonaws.auth.AWSCredentials
-import org.slf4j.{Logger, LoggerFactory}
+trait CloudStorage {
 
-trait Credentials {
+  def doesBucketPathExist(bucketName: String, filePath: String): Boolean
 
-  protected val logger: Logger = LoggerFactory.getLogger("Credentials")
+  def copyFileToBucket(
+      bucketName: String,
+      destinationPath: String,
+      inputStream: InputStream): Unit
 
-  val next: Option[Credentials] = None
+  def copyInputStreamToBucket(bucketName: String, filePath: String, sourceFilePath: String): Unit
 
-  def buildCredentials(credentialParams: CredentialParams): Option[AWSCredentials]
+  def downloadFilesFromBucketToDirectory(
+      bucketName: String,
+      filePath: String,
+      directoryPath: String,
+      isIndex: Boolean): Unit
 
 }

@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC, WhisperForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
@@ -53,14 +52,10 @@ import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
-import org.apache.spark.SparkFiles
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 import org.slf4j.{Logger, LoggerFactory}
 
-import java.io.File
-import java.net.URI
-import java.nio.file.Paths
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -573,41 +568,6 @@ object ResourceDownloader {
       case None => "-1"
 
     }
-  }
-
-  /** Downloads the provided S3 path to a local temporary directory and returns the location of
-    * the folder.
-    *
-    * @param s3Path
-    *   S3 URL to the resource
-    * @return
-    *   URI of the local path to the temporary folder of the resource
-    */
-  def downloadS3Directory(
-      s3Path: String,
-      tempLocalPath: String = "",
-      isIndex: Boolean = false): URI = {
-
-    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(s3Path)
-    val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
-    val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
-    val privateS3Defined =
-      accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
-
-    val awsGateway =
-      if (privateS3Defined)
-        new AWSGateway(accessKey, secretKey, sessionToken, region = region)
-      else {
-        if (accessKey != null || secretKey != null || sessionToken != null)
-          logger.info(
-            "Not all configs set for private S3 access. Defaulting to public downloader.")
-        new AWSGateway(credentialsType = "public")
-      }
-
-    val directory = if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
-    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(directory), isIndex)
-    Paths.get(directory, keyPrefix).toUri
-
   }
 
 }

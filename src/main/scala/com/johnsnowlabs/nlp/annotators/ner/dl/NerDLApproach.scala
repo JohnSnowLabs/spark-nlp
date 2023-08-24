@@ -16,13 +16,14 @@
 
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import com.johnsnowlabs.client.CloudResources
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
@@ -670,11 +671,8 @@ trait WithGraphResolver {
   private def getFiles(localGraphPath: Option[String]): Seq[String] = {
     var files: Seq[String] = List()
 
-    if (localGraphPath.isDefined && localGraphPath.get
-        .startsWith("s3://")) { // TODO: Might be able to remove this condition
-
-      val tmpDirectory = ResourceDownloader.downloadS3Directory(localGraphPath.get).getPath
-
+    if (localGraphPath.isDefined && CloudHelper.isCloudPath(localGraphPath.get)) {
+      val tmpDirectory = CloudResources.downloadBucketToLocalTmp(localGraphPath.get).getPath
       files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
     } else {
 

@@ -85,4 +85,9 @@ object ConfigHelper {
     (accessKey, secretKey, sessionToken)
   }
 
+  def getHadoopAzureConfig(storageAccountName: String): String = {
+    sparkSession.sparkContext.hadoopConfiguration.get(
+      s"fs.azure.account.key.$storageAccountName.blob.core.windows.net")
+  }
+
 }

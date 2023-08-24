@@ -17,14 +17,15 @@
 package com.johnsnowlabs.nlp.util.io
 
 import com.amazonaws.AmazonServiceException
+import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.util.ConfigHelper
-import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
@@ -122,7 +123,7 @@ object ResourceHelper {
     private def getPipe(fileSystem: FileSystem): Seq[InputStream] = {
       if (fileSystem.getScheme == "s3a") {
         val awsGateway = new AWSGateway()
-        val (bucket, s3Path) = parseS3URI(path.get.toString)
+        val (bucket, s3Path) = CloudHelper.parseS3URI(path.get.toString)
         val inputStreams = awsGateway.listS3Files(bucket, s3Path).map { summary =>
           val s3Object = awsGateway.getS3Object(bucket, summary.getKey)
           s3Object.getObjectContent
@@ -202,8 +203,8 @@ object ResourceHelper {
     */
   def copyToLocal(path: String): String = try {
     val localUri =
-      if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
-        ResourceDownloader.downloadS3Directory(path)
+      if (CloudHelper.isCloudPath(path)) { // Download directly from Cloud Buckets
+        CloudResources.downloadBucketToLocalTmp(path)
       } else { // Use Source Stream
         val pathWithProtocol: String =
           if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
@@ -647,23 +648,28 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
-
-    val fileSystem = OutputHelper.getFileSystem
+    val fileSystem = OutputHelper.getFileSystem(path)
 
     val filesPath = fileSystem.getScheme match {
       case "hdfs" =>
         if (path.startsWith("file:")) {
           Option(new File(path.replace("file:", "")).listFiles())
         } else {
-          val filesIterator = fileSystem.listFiles(new Path(path), false)
-          val files: ArrayBuffer[File] = ArrayBuffer()
+          try {
+            val filesIterator = fileSystem.listFiles(new Path(path), false)
+            val files: ArrayBuffer[File] = ArrayBuffer()
 
-          while (filesIterator.hasNext) {
-            val file = new File(filesIterator.next().getPath.toString)
-            files.append(file)
+            while (filesIterator.hasNext) {
+              val file = new File(filesIterator.next().getPath.toString)
+              files.append(file)
+            }
+
+            Option(files.toArray)
+          } catch {
+            case _: FileNotFoundException =>
+              Option(new File(path).listFiles())
           }
 
-          Option(files.toArray)
         }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
@@ -727,64 +733,6 @@ object ResourceHelper {
 
   private def validDbfsFile(path: String): Try[Boolean] = Try {
     getFileFromPath(path).exists()
-  }
-
-  def moveFile(sourceFile: String, destinationFile: String): Unit = {
-
-    val sourceFileSystem = OutputHelper.getFileSystem(sourceFile)
-
-    if (destinationFile.startsWith("s3:")) {
-      val s3Bucket = destinationFile.replace("s3://", "").split("/").head
-      val s3Path = "s3:/" + destinationFile.substring(s"s3://$s3Bucket".length)
-
-      if (sourceFileSystem.getScheme.equals("dbfs") || sourceFileSystem.getScheme.equals(
-          "hdfs")) {
-        val inputStream = getResourceStream(sourceFile)
-
-        val destinationFile = sourceFile.split("/").last
-        val tmpPath =
-          if (sourceFileSystem.getScheme.equals("dbfs")) new Path("dbfs:/tmp")
-          else new Path("hdfs:/tmp")
-        if (!sourceFileSystem.exists(tmpPath)) sourceFileSystem.mkdirs(tmpPath)
-        val sourceFilePath = tmpPath + "/" + destinationFile
-        val outputStream = sourceFileSystem.create(new Path(sourceFilePath))
-
-        val inputBytes = IOUtils.toByteArray(inputStream)
-        outputStream.write(inputBytes)
-        outputStream.close()
-
-        OutputHelper.storeFileInS3(sourceFilePath, s3Bucket, s3Path)
-      }
-
-    } else {
-
-      if (!sourceFileSystem.getScheme.equals("dbfs")) {
-        val source = new Path(s"file:///$sourceFile")
-        val destination = new Path(destinationFile)
-        sourceFileSystem.copyFromLocalFile(source, destination)
-      }
-    }
-
-  }
-
-  def parseS3URI(s3URI: String): (String, String) = {
-    val prefix = if (s3URI.startsWith("s3:")) "s3://" else "s3a://"
-    val bucketName = s3URI.substring(prefix.length).split("/").head
-    val key = s3URI.substring((prefix + bucketName).length + 1)
-
-    require(bucketName.nonEmpty, "S3 bucket name is empty!")
-
-    (bucketName, key)
-  }
-
-  def parseGCPStorageURI(gcpStorageURI: String): (String, String) = {
-    val prefix = "gs://"
-    val bucketName = gcpStorageURI.substring(prefix.length).split("/").head
-    val storagePath = gcpStorageURI.substring((prefix + bucketName).length + 1)
-
-    require(bucketName.nonEmpty, "GCP Storage bucket name is empty!")
-
-    (bucketName, storagePath)
   }
 
 }

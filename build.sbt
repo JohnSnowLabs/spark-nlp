@@ -151,7 +151,10 @@ lazy val utilDependencies = Seq(
     exclude ("com.google.code.findbugs", "annotations")
     exclude ("org.slf4j", "slf4j-api"),
   gcpStorage,
-  greex)
+  greex,
+  azureIdentity,
+  azureStorage
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
