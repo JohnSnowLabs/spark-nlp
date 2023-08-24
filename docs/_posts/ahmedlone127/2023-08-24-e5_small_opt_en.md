@@ -7,7 +7,7 @@ date: 2023-08-24
 tags: [en, open_source, onnx]
 task: Embeddings
 language: en
-edition: Spark NLP 5.0.2
+edition: Spark NLP 5.1.0
 spark_version: 3.0
 supported: true
 engine: onnx
@@ -32,8 +32,8 @@ Here are the NER models that this pretrained pipeline includes:
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/e5_small_opt_en_5.0.2_3.0_1692906321320.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/e5_small_opt_en_5.0.2_3.0_1692906321320.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/e5_small_opt_en_5.1.0_3.0_1692906710132.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/e5_small_opt_en_5.1.0_3.0_1692906710132.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -113,7 +113,7 @@ val result = ner_profiling_pipeline.annotate("""Smith is 55 years old, living in
 {:.table-model}
 |---|---|
 |Model Name:|e5_small_opt|
-|Compatibility:|Spark NLP 5.0.2+|
+|Compatibility:|Spark NLP 5.1.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[documents]|
