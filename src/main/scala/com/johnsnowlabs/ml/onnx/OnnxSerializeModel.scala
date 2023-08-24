@@ -44,7 +44,7 @@ trait WriteOnnxModel {
       .toString
 
     onnxWrappersWithNames foreach { case (onnxWrapper, modelName) =>
-      val onnxFile = Paths.get(tmpFolder, modelName + suffix).toString
+      val onnxFile = Paths.get(tmpFolder, modelName).toString
 
       // 2. Save ONNX state
       onnxWrapper.saveToFile(onnxFile)
