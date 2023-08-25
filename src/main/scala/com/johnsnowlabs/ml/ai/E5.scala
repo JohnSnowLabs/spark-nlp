@@ -215,9 +215,9 @@ private[johnsnowlabs] class E5(
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1.tokens))
         val tokens = tokensBatch.map(x =>
-          Array(sentenceStartTokenId) ++ x.map(y => y.pieceId).take(maxSentenceLength) ++ Array(
-            sentenceEndTokenId))
-        val sentencesBatch = batch.map(x => x._1._2)
+          Array(sentenceStartTokenId) ++ x
+            .map(y => y.pieceId)
+            .take(maxSentenceLength - 2) ++ Array(sentenceEndTokenId))
         val sentenceEmbeddings = getSentenceEmbedding(tokens)
 
         batch.zip(sentenceEmbeddings).map { case (sentence, vectors) =>
