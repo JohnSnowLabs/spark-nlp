@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification &#8212; Spark NLP 5.0.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification &#8212; Spark NLP 5.1.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../../../static/doctools.js"></script>
     <script src="../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../static/toggleprompt.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification';</script>
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -323,7 +323,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</li>
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification</li>
   </ul>
 </nav>
 </div>
@@ -340,7 +340,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</h1><div class="highlight"><pre>
+  <h1>Source code for sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  Copyright 2017-2023 John Snow Labs</span>
 <span class="c1">#</span>
 <span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
@@ -354,19 +354,19 @@ document.write(`
 <span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1">#  See the License for the specific language governing permissions and</span>
 <span class="c1">#  limitations under the License.</span>
-<span class="sd">&quot;&quot;&quot;Contains classes for RoBertaForZeroShotClassification.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for BartForZeroShotClassification.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="RoBertaForZeroShotClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification">[docs]</a><span class="k">class</span> <span class="nc">RoBertaForZeroShotClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+<div class="viewcode-block" id="BartForZeroShotClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification">[docs]</a><span class="k">class</span> <span class="nc">BartForZeroShotClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                        <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                        <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
                                        <span class="n">HasClassifierActivationProperties</span><span class="p">,</span>
                                        <span class="n">HasCandidateLabelsProperties</span><span class="p">,</span>
                                        <span class="n">HasEngine</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;RoBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language</span>
-<span class="sd">    inference) tasks. Equivalent of `RoBertaForSequenceClassification` models, but these models don&#39;t require a hardcoded</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BartForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language</span>
+<span class="sd">    inference) tasks. Equivalent of `BartForSequenceClassification` models, but these models don&#39;t require a hardcoded</span>
 <span class="sd">    number of potential classes, they can be chosen at runtime. It usually means it&#39;s slower but it is much more</span>
 <span class="sd">    flexible.</span>
 
@@ -379,11 +379,11 @@ document.write(`
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
 <span class="sd">    object:</span>
 
-<span class="sd">    &gt;&gt;&gt; sequenceClassifier = RoBertaForZeroShotClassification.pretrained() \\</span>
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = BartForZeroShotClassification.pretrained() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
 
-<span class="sd">    The default model is ``&quot;roberta_base_zero_shot_classifier_nli&quot;``, if no name is</span>
+<span class="sd">    The default model is ``&quot;bart_large_zero_shot_classifier_mnli&quot;``, if no name is</span>
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
@@ -431,7 +431,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; sequenceClassifier = RoBertaForZeroShotClassification.pretrained() \\</span>
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = BartForZeroShotClassification.pretrained() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
 <span class="sd">    ...     .setCaseSensitive(True)</span>
@@ -450,7 +450,7 @@ document.write(`
 <span class="sd">    |[neg] |</span>
 <span class="sd">    +------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RoBertaForZeroShotClassification&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BartForZeroShotClassification&quot;</span>
 
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
 
@@ -470,13 +470,13 @@ document.write(`
                               <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns labels used to train this model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -486,7 +486,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
 
 <span class="sd">        Parameters</span>
@@ -496,9 +496,9 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging</span>
-<span class="sd">        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as RoBerta</span>
+<span class="sd">        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as Bart</span>
 <span class="sd">        (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the probabilities</span>
 <span class="sd">        for the entire document instead of probabilities per sentence. (Default: true)</span>
 
@@ -510,9 +510,9 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">coalesceSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification&quot;</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">RoBertaForZeroShotClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BartForZeroShotClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
@@ -525,7 +525,7 @@ document.write(`
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -537,22 +537,22 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        RoBertaForZeroShotClassification</span>
+<span class="sd">        BartForZeroShotClassification</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_RoBertaForZeroShotClassification</span>
-        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RoBertaForZeroShotClassification</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
-        <span class="k">return</span> <span class="n">RoBertaForZeroShotClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_BartForZeroShotClassification</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_BartForZeroShotClassification</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">BartForZeroShotClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="RoBertaForZeroShotClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roberta_base_zero_shot_classifier_nli&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BartForZeroShotClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bart_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.BartForZeroShotClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bart_large_zero_shot_classifier_mnli&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
 <span class="sd">            Name of the pretrained model, by default</span>
-<span class="sd">            &quot;roberta_base_zero_shot_classifier_nli&quot;</span>
+<span class="sd">            &quot;bart_large_zero_shot_classifier_mnli&quot;</span>
 <span class="sd">            lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">            remote_loc : str, optional</span>
@@ -561,11 +561,11 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        RoBertaForZeroShotClassification</span>
+<span class="sd">        BartForZeroShotClassification</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
-        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RoBertaForZeroShotClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BartForZeroShotClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

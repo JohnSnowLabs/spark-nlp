@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.0.2 ScalaDoc  - com.johnsnowlabs.ml.onnx</title>
-          <meta name="description" content="Spark NLP 5.0.2 ScalaDoc - com.johnsnowlabs.ml.onnx" />
-          <meta name="keywords" content="Spark NLP 5.0.2 ScalaDoc com.johnsnowlabs.ml.onnx" />
+          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.ml.onnx</title>
+          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.ml.onnx" />
+          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.ml.onnx" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -174,6 +174,10 @@
                         <a class="trait" href="ReadOnnxModel.html" title=""></a>
                         <a href="ReadOnnxModel.html" title="">ReadOnnxModel</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="TensorResources$.html" title=""></a>
+                        <a class="class" href="TensorResources.html" title="Class to manage the creation of ONNX Tensors (WIP)."></a>
+                        <a href="TensorResources.html" title="Class to manage the creation of ONNX Tensors (WIP).">TensorResources</a>
+                      </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="WriteOnnxModel.html" title=""></a>
                         <a href="WriteOnnxModel.html" title="">WriteOnnxModel</a>
@@ -300,10 +304,28 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="ReadOnnxModel.html"><span class="name">ReadOnnxModel</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="ReadOnnxModel.html"><span class="name">ReadOnnxModel</span></a><span class="result"> extends <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
+    </li><li name="com.johnsnowlabs.ml.onnx.TensorResources" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TensorResourcesextendsAutoCloseable"></a><a id="TensorResources:TensorResources"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/onnx/TensorResources.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Class to manage the creation of ONNX Tensors (WIP)." href="TensorResources.html"><span class="name">TensorResources</span></a><span class="result"> extends <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Class to manage the creation of ONNX Tensors (WIP).</p><div class="fullcomment"><div class="comment cmt"><p>Class to manage the creation of ONNX Tensors (WIP).</p><p>Tensors that do not belong to a <span class="extype" name="OrtSession">OrtSession</span>, will need to be explicitly closed. This class
+manages created tensors and can free all of them at once.</p><p>The <span class="extype" name="OrtEnvironment">OrtEnvironment</span> exists at most once, so all TensorResources will share the same one.
+</p></div></div>
     </li><li name="com.johnsnowlabs.ml.onnx.WriteOnnxModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="WriteOnnxModelextendsAnyRef"></a><a id="WriteOnnxModel:WriteOnnxModel"></a>
       <span class="permalink">
@@ -316,7 +338,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="WriteOnnxModel.html"><span class="name">WriteOnnxModel</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="WriteOnnxModel.html"><span class="name">WriteOnnxModel</span></a><span class="result"> extends <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -344,6 +366,22 @@
       </span>
       
       <p class="shortcomment cmt">Companion object</p>
+    </li><li name="com.johnsnowlabs.ml.onnx.TensorResources" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TensorResources"></a><a id="TensorResources:TensorResources"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/onnx/TensorResources$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="TensorResources$.html"><span class="name">TensorResources</span></a>
+      </span>
+      
+      
     </li>
               </ol>
             </div>
