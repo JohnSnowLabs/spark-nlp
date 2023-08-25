@@ -112,6 +112,8 @@ documentation and examples
 - XLM-RoBerta Sentence Embeddings (HuggingFace models)
 - Instructor Embeddings (HuggingFace models)
 - E5 Embeddings (HuggingFace models)
+- MPNet Embeddings (HuggingFace models)
+- OpenAI Embeddings
 - Sentence Embeddings
 - Chunk Embeddings
 - Unsupervised keywords extraction
@@ -149,6 +151,7 @@ documentation and examples
 - ConvNext Image Classification (Facebook ConvNext)
 - Automatic Speech Recognition (Wav2Vec2)
 - Automatic Speech Recognition (HuBERT)
+- Automatic Speech Recognition (OpenAI Whisper)
 - Named entity recognition (Deep learning)
 - Easy ONNX and TensorFlow integrations
 - GPU Support
@@ -341,6 +344,7 @@ Spark NLP 5.1.0 has been tested and is compatible with the following EMR release
 - emr-6.9.0
 - emr-6.10.0
 - emr-6.11.0
+- emr-6.12.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 

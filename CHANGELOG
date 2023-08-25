@@ -4,6 +4,28 @@
 ----------------
 New Features & Enhancements
 ----------------
+* **NEW:** Introducing WhisperForCTC annotator for Automatic Speech Recognition (ASR)
+* **NEW:** Introducing OpenAICompletion and OpenAIEmbeddings annotators
+* **NEW:** Introducing MPNet Text Embeddings annotators
+* **NEW:** Introducing a new BART for Zero-Shot Text Classification annotator
+* **NEW:** Adding ONNX support to E5 Embeddings annotator
+* **NEW:** New full support for GCP and Azure distributed storages
+* New 150+ MPNet models
+* New Databricks 13.3 runtime support
+* New EMR 6.12.0 version support
+
+
+----------------
+Bug Fixes
+----------------
+* Fix max sentence length issue in E5Embeddings
+
+========
+5.0.2
+========
+----------------
+New Features & Enhancements
+----------------
 * **NEW:** Introducing support for ONNX Runtime in ALBERT, CamemBERT, and XLM-RoBERTa annotators
 * **NEW:** Implement ZeroShotNerModel annotator for zero-shot NER based on XLM-RoBERTa architecture
 
