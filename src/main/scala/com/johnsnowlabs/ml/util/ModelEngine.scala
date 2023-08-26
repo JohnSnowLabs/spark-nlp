@@ -33,6 +33,11 @@ final case object ONNX extends ModelEngine {
   val decoderModel = "decoder_model.onnx"
   val decoderWithPastModel = "decoder_with_past_model.onnx"
 }
+final case object Openvino extends ModelEngine {
+  val name = "openvino"
+  val modelXml = "saved_model.xml"
+  val modelBin = "saved_model.bin"
+}
 
 final case object Unknown extends ModelEngine {
   val name = "unk"

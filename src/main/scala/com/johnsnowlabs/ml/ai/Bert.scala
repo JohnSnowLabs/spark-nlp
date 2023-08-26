@@ -19,11 +19,13 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.intel.openvino.Tensor
 
 import scala.collection.JavaConverters._
 
@@ -39,6 +41,8 @@ import scala.collection.JavaConverters._
   *   Bert Model wrapper with TensorFlow Wrapper
   * @param onnxWrapper
   *   Bert Model wrapper with ONNX Wrapper
+  * @param openvinoWrapper
+  *   Bert Model wrapper with OpenVINO Wrapper
   * @param sentenceStartTokenId
   *   Id of sentence start Token
   * @param sentenceEndTokenId
@@ -53,6 +57,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Bert(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -65,6 +70,7 @@ private[johnsnowlabs] class Bert(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
 
   private def sessionWarmup(): Unit = {
@@ -127,6 +133,39 @@ private[johnsnowlabs] class Bert(
             embeddings
           } finally if (results != null) results.close()
         }
+      case Openvino.name =>
+        val shape = Array(batchLength, maxSentenceLength)
+        val tokenTensors = new Tensor(shape, batch.flatMap(_.toSeq).toArray)
+        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
+        val maskTensors = new Tensor(
+          shape,
+          batch.flatMap(sentence => sentence.map(x => if (x == 0) 0 else 1)).toArray)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor(
+          _tfBertSignatures.getOrElse(
+            ModelSignatureConstants.InputIdsV1.key,
+            "missing_input_id_key"),
+          tokenTensors)
+        inferRequest.set_tensor(
+          _tfBertSignatures
+            .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+          maskTensors)
+        inferRequest.set_tensor(
+          _tfBertSignatures
+            .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+          segmentTensors)
+
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor(
+          _tfBertSignatures
+            .getOrElse(
+              ModelSignatureConstants.LastHiddenStateV1.key,
+              "missing_sequence_output_key"))
+        val embeddings = result.data()
+
+        embeddings
       case _ =>
         val tensors = new TensorResources()
 
@@ -229,6 +268,36 @@ private[johnsnowlabs] class Bert(
             embeddings
           } finally if (results != null) results.close()
         }
+      case Openvino.name =>
+        val shape = Array(batchLength, maxSentenceLength)
+        val tokenTensors = new Tensor(shape, batch.flatMap(_.toSeq).toArray)
+        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
+        val maskTensors = new Tensor(
+          shape,
+          batch.flatMap(sentence => sentence.map(x => if (x == 0) 0 else 1)).toArray)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request
+        inferRequest.set_tensor(
+          _tfBertSignatures.getOrElse(
+            ModelSignatureConstants.InputIdsV1.key,
+            "missing_input_id_key"),
+          tokenTensors)
+        inferRequest.set_tensor(
+          _tfBertSignatures
+            .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+          maskTensors)
+        inferRequest.set_tensor(
+          _tfBertSignatures
+            .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+          segmentTensors)
+
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor(
+          _tfBertSignatures
+            .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+        val embeddings = result.data()
+        embeddings
       case _ =>
         val tensors = new TensorResources()
 

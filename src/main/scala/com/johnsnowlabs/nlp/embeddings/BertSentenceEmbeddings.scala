@@ -315,6 +315,7 @@ class BertSentenceEmbeddings(override val uid: String)
           new Bert(
             tensorflowWrapper,
             onnxWrapper,
+            None,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
