@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.storage
 
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+import com.johnsnowlabs.client.CloudResources
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -134,7 +134,7 @@ object StorageHelper {
     }
 
     if (fileSystemSource.getScheme == "s3a" && fileSystemDestination.getScheme == "file") {
-      ResourceDownloader.downloadS3Directory(
+      CloudResources.downloadBucketToLocalTmp(
         source.toString,
         destination.toString,
         isIndex = true)

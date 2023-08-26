@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.common.properties &#8212; Spark NLP 5.0.2 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 5.1.0 documentation</title>
   
   
   
@@ -373,6 +373,46 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setTask" title="sparknlp.common.properties.setTask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTask</span></code></a>(self, value)</p></td>
+<td><p>Sets the transformer's task, e.g. <code class="docutils literal notranslate"><span class="pre">summarize:</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.common.properties.setMinOutputLength" title="sparknlp.common.properties.setMinOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinOutputLength</span></code></a>(self, value)</p></td>
+<td><p>Sets minimum length of the sequence to be generated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setMaxOutputLength" title="sparknlp.common.properties.setMaxOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxOutputLength</span></code></a>(self, value)</p></td>
+<td><p>Sets maximum length of output text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.common.properties.setDoSample" title="sparknlp.common.properties.setDoSample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDoSample</span></code></a>(self, value)</p></td>
+<td><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setTemperature" title="sparknlp.common.properties.setTemperature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTemperature</span></code></a>(self, value)</p></td>
+<td><p>Sets the value used to module the next token probabilities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.common.properties.setTopK" title="sparknlp.common.properties.setTopK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopK</span></code></a>(self, value)</p></td>
+<td><p>Sets the number of highest probability vocabulary tokens to keep for</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setTopP" title="sparknlp.common.properties.setTopP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopP</span></code></a>(self, value)</p></td>
+<td><p>Sets the top cumulative probability for vocabulary tokens.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.common.properties.setRepetitionPenalty" title="sparknlp.common.properties.setRepetitionPenalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRepetitionPenalty</span></code></a>(self, value)</p></td>
+<td><p>Sets the parameter for repetition penalty. 1.0 means no penalty.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setNoRepeatNgramSize" title="sparknlp.common.properties.setNoRepeatNgramSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNoRepeatNgramSize</span></code></a>(self, value)</p></td>
+<td><p>Sets size of n-grams that can only occur once.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.common.properties.setBeamSize" title="sparknlp.common.properties.setBeamSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBeamSize</span></code></a>(self, value)</p></td>
+<td><p>Sets the number of beam size for beam search.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.common.properties.setNReturnSequences" title="sparknlp.common.properties.setNReturnSequences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNReturnSequences</span></code></a>(self, value)</p></td>
+<td><p>Sets the number of sequences to return from the beam search.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasEmbeddingsProperties">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasEmbeddingsProperties</span></span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasEmbeddingsProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasEmbeddingsProperties" title="Permalink to this definition">#</a></dt>
@@ -401,6 +441,167 @@ param map to store parameter values attached to the instance.</p>
 <dd><p>Gets embeddings dimension.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setTask">
+<span class="sig-name descname"><span class="pre">setTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setTask" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the transformer’s task, e.g. <code class="docutils literal notranslate"><span class="pre">summarize:</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>The transformer’s task</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setMinOutputLength">
+<span class="sig-name descname"><span class="pre">setMinOutputLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setMinOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setMinOutputLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets minimum length of the sequence to be generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum length of the sequence to be generated</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setMaxOutputLength">
+<span class="sig-name descname"><span class="pre">setMaxOutputLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setMaxOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setMaxOutputLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets maximum length of output text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum length of output text</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setDoSample">
+<span class="sig-name descname"><span class="pre">setDoSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setDoSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setDoSample" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use sampling; use greedy decoding otherwise</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setTemperature">
+<span class="sig-name descname"><span class="pre">setTemperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setTemperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setTemperature" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the value used to module the next token probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The value used to module the next token probabilities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setTopK">
+<span class="sig-name descname"><span class="pre">setTopK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setTopK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setTopK" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of highest probability vocabulary tokens to keep for
+top-k-filtering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of highest probability vocabulary tokens to keep</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setTopP">
+<span class="sig-name descname"><span class="pre">setTopP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setTopP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setTopP" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the top cumulative probability for vocabulary tokens.</p>
+<p>If set to float &lt; 1, only the most probable tokens with probabilities
+that add up to <code class="docutils literal notranslate"><span class="pre">topP</span></code> or higher are kept for generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Cumulative probability for vocabulary tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setRepetitionPenalty">
+<span class="sig-name descname"><span class="pre">setRepetitionPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setRepetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setRepetitionPenalty" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the parameter for repetition penalty. 1.0 means no penalty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The repetition penalty</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>See <a class="reference external" href="https://arxiv.org/pdf/1909.05858.pdf">Ctrl: A Conditional Transformer Language Model For Controllable
+Generation</a> for more details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setNoRepeatNgramSize">
+<span class="sig-name descname"><span class="pre">setNoRepeatNgramSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setNoRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setNoRepeatNgramSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets size of n-grams that can only occur once.</p>
+<p>If set to int &gt; 0, all ngrams of that size can only occur once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>N-gram size can only occur once</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setBeamSize">
+<span class="sig-name descname"><span class="pre">setBeamSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setBeamSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setBeamSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of beam size for beam search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of beam size for beam search</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp.common.properties.setNReturnSequences">
+<span class="sig-name descname"><span class="pre">setNReturnSequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#setNReturnSequences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.setNReturnSequences" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of sequences to return from the beam search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of sequences to return</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -437,12 +638,24 @@ param map to store parameter values attached to the instance.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEmbeddingsProperties"><code class="docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEmbeddingsProperties.setDimension"><code class="docutils literal notranslate"><span class="pre">HasEmbeddingsProperties.setDimension()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEmbeddingsProperties.getDimension"><code class="docutils literal notranslate"><span class="pre">HasEmbeddingsProperties.getDimension()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setTask"><code class="docutils literal notranslate"><span class="pre">setTask()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setMinOutputLength"><code class="docutils literal notranslate"><span class="pre">setMinOutputLength()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setMaxOutputLength"><code class="docutils literal notranslate"><span class="pre">setMaxOutputLength()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setDoSample"><code class="docutils literal notranslate"><span class="pre">setDoSample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setTemperature"><code class="docutils literal notranslate"><span class="pre">setTemperature()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setTopK"><code class="docutils literal notranslate"><span class="pre">setTopK()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setTopP"><code class="docutils literal notranslate"><span class="pre">setTopP()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setRepetitionPenalty"><code class="docutils literal notranslate"><span class="pre">setRepetitionPenalty()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setNoRepeatNgramSize"><code class="docutils literal notranslate"><span class="pre">setNoRepeatNgramSize()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setBeamSize"><code class="docutils literal notranslate"><span class="pre">setBeamSize()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.setNReturnSequences"><code class="docutils literal notranslate"><span class="pre">setNReturnSequences()</span></code></a></li>
 </ul>
 </li>
 </ul>

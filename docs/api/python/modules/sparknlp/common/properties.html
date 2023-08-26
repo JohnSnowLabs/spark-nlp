@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 5.0.2 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 5.1.0 documentation</title>
   
   
   
@@ -871,6 +871,179 @@ document.write(`
 
 <span class="k">class</span> <span class="nc">HasLongMaxSentenceLengthLimit</span><span class="p">(</span><span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
     <span class="n">max_length_limit</span> <span class="o">=</span> <span class="mi">4096</span>
+
+
+<span class="k">class</span> <span class="nc">HasGeneratorProperties</span><span class="p">:</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="s2">&quot;Transformer&#39;s task, e.g. summarize&gt;&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;The Number of beams for beam search.&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">nReturnSequences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;nReturnSequences&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;The number of sequences to return from the beam search.&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="setTask"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setTask">[docs]</a><span class="k">def</span> <span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : str</span>
+<span class="sd">        The transformer&#39;s task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setMinOutputLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setMinOutputLength">[docs]</a><span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        Minimum length of the sequence to be generated</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setMaxOutputLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setMaxOutputLength">[docs]</a><span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        Maximum length of output text</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setDoSample"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setDoSample">[docs]</a><span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : bool</span>
+<span class="sd">        Whether or not to use sampling; use greedy decoding otherwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setTemperature"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setTemperature">[docs]</a><span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : float</span>
+<span class="sd">        The value used to module the next token probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setTopK"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setTopK">[docs]</a><span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
+<span class="sd">    top-k-filtering.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        Number of highest probability vocabulary tokens to keep</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setTopP"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setTopP">[docs]</a><span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
+
+<span class="sd">    If set to float &lt; 1, only the most probable tokens with probabilities</span>
+<span class="sd">    that add up to ``topP`` or higher are kept for generation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : float</span>
+<span class="sd">        Cumulative probability for vocabulary tokens</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setRepetitionPenalty"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setRepetitionPenalty">[docs]</a><span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : float</span>
+<span class="sd">        The repetition penalty</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    See `Ctrl: A Conditional Transformer Language Model For Controllable</span>
+<span class="sd">    Generation &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setNoRepeatNgramSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setNoRepeatNgramSize">[docs]</a><span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
+
+<span class="sd">    If set to int &gt; 0, all ngrams of that size can only occur once.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        N-gram size can only occur once</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setBeamSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setBeamSize">[docs]</a><span class="k">def</span> <span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the number of beam size for beam search.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        Number of beam size for beam search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setNReturnSequences"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.setNReturnSequences">[docs]</a><span class="k">def</span> <span class="nf">setNReturnSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the number of sequences to return from the beam search.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : int</span>
+<span class="sd">        Number of sequences to return</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nReturnSequences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

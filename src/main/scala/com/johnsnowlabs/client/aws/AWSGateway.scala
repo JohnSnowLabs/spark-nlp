@@ -28,7 +28,7 @@ import com.amazonaws.services.s3.model.{
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
-import com.johnsnowlabs.client.CredentialParams
+import com.johnsnowlabs.client.CloudStorage
 import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
@@ -36,7 +36,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.jdk.CollectionConverters._
-import java.io.File
+import java.io.{File, InputStream}
 import java.nio.file.Files
 import scala.util.control.NonFatal
 
@@ -49,7 +49,8 @@ class AWSGateway(
     awsProfile: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
     region: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion),
     credentialsType: String = "private")
-    extends AutoCloseable {
+    extends AutoCloseable
+    with CloudStorage {
 
   protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
@@ -94,6 +95,36 @@ class AWSGateway(
     s3Client.withRegion(region).build()
   }
 
+  override def doesBucketPathExist(bucketName: String, filePath: String): Boolean = {
+    try {
+      val listObjects = client.listObjectsV2(bucketName, filePath)
+      listObjects.getObjectSummaries.size() > 0
+    } catch {
+      case exception: AmazonServiceException =>
+        if (exception.getStatusCode == 404) false else throw exception
+      case NonFatal(unexpectedException) =>
+        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
+        throw new Exception(
+          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
+    }
+  }
+
+  override def copyFileToBucket(
+      bucketName: String,
+      destinationPath: String,
+      inputStream: InputStream): Unit = {
+    client.putObject(bucketName, destinationPath, inputStream, new ObjectMetadata())
+  }
+
+  override def copyInputStreamToBucket(
+      bucketName: String,
+      filePath: String,
+      sourceFilePath: String): Unit = {
+    val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+    val inputStream = fileSystem.open(new Path(sourceFilePath))
+    client.putObject(bucketName, filePath, inputStream, new ObjectMetadata())
+  }
+
   def getMetadata(s3Path: String, folder: String, bucket: String): List[ResourceMetadata] = {
     val metaFile = getS3File(s3Path, folder, "metadata.json")
     val obj = this.client.getObject(bucket, metaFile)
@@ -120,21 +151,6 @@ class AWSGateway(
         throw new Exception(
           s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
     }
-  }
-
-  def doesS3FolderExist(bucket: String, s3FilePath: String): Boolean = {
-    try {
-      val listObjects = client.listObjectsV2(bucket, s3FilePath)
-      listObjects.getObjectSummaries.size() > 0
-    } catch {
-      case exception: AmazonServiceException =>
-        if (exception.getStatusCode == 404) false else throw exception
-      case NonFatal(unexpectedException) =>
-        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
-        throw new Exception(
-          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
-    }
-
   }
 
   def getS3Object(bucket: String, s3FilePath: String, tmpFile: File): ObjectMetadata = {
@@ -166,27 +182,10 @@ class AWSGateway(
     }
   }
 
-  def copyFileToS3(
-      bucket: String,
-      s3FilePath: String,
-      sourceFilePath: String): PutObjectResult = {
-    val sourceFile = new File("file://" + sourceFilePath)
-    client.putObject(bucket, s3FilePath, sourceFile)
-  }
-
-  def copyInputStreamToS3(
-      bucket: String,
-      s3FilePath: String,
-      sourceFilePath: String): PutObjectResult = {
-    val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
-    val inputStream = fileSystem.open(new Path(sourceFilePath))
-    client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
-  }
-
-  def downloadFilesFromDirectory(
+  override def downloadFilesFromBucketToDirectory(
       bucketName: String,
-      keyPrefix: String,
-      directoryPath: File,
+      filePath: String,
+      directoryPath: String,
       isIndex: Boolean = false): Unit = {
 
     val transferManager = TransferManagerBuilder
@@ -195,7 +194,7 @@ class AWSGateway(
       .build()
     try {
       val multipleFileDownload =
-        transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
+        transferManager.downloadDirectory(bucketName, filePath, new File(directoryPath))
       println(multipleFileDownload.getDescription)
       waitForCompletion(multipleFileDownload)
     } catch {
@@ -219,15 +218,15 @@ class AWSGateway(
             // Otherwise, rename the file to the desired local file path
             val fileName = file.getName()
             val newFilePath =
-              new File(directoryPath, fileName.stripPrefix(keyPrefix)).getPath()
+              new File(directoryPath, fileName.stripPrefix(directoryPath)).getPath()
             file.renameTo(new File(newFilePath))
           }
         }
       }
 
       // Rename the downloaded files to the desired local file path
-      val keySuffix = keyPrefix.split("/").tail.mkString("/")
-      renameFiles(directoryPath, keySuffix)
+      val keySuffix = directoryPath.split("/").tail.mkString("/")
+      renameFiles(new File(directoryPath), keySuffix)
 
       // Remove all old folders
       def removeAllFolders(directoryPath: File): Unit = {
@@ -240,7 +239,7 @@ class AWSGateway(
         }
       }
 
-      removeAllFolders(directoryPath)
+      removeAllFolders(new File(directoryPath))
     }
 
   }

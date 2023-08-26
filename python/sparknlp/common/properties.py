@@ -528,3 +528,176 @@ class HasMaxSentenceLengthLimit:
 
 class HasLongMaxSentenceLengthLimit(HasMaxSentenceLengthLimit):
     max_length_limit = 4096
+
+
+class HasGeneratorProperties:
+    task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
+
+    minOutputLength = Param(Params._dummy(), "minOutputLength", "Minimum length of the sequence to be generated",
+                            typeConverter=TypeConverters.toInt)
+
+    maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Maximum length of output text",
+                            typeConverter=TypeConverters.toInt)
+
+    doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise",
+                     typeConverter=TypeConverters.toBoolean)
+
+    temperature = Param(Params._dummy(), "temperature", "The value used to module the next token probabilities",
+                        typeConverter=TypeConverters.toFloat)
+
+    topK = Param(Params._dummy(), "topK",
+                 "The number of highest probability vocabulary tokens to keep for top-k-filtering",
+                 typeConverter=TypeConverters.toInt)
+
+    topP = Param(Params._dummy(), "topP",
+                 "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation",
+                 typeConverter=TypeConverters.toFloat)
+
+    repetitionPenalty = Param(Params._dummy(), "repetitionPenalty",
+                              "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details",
+                              typeConverter=TypeConverters.toFloat)
+
+    noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
+                              "If set to int > 0, all ngrams of that size can only occur once",
+                              typeConverter=TypeConverters.toInt)
+
+    beamSize = Param(Params._dummy(), "beamSize",
+                     "The Number of beams for beam search.",
+                     typeConverter=TypeConverters.toInt)
+
+    nReturnSequences = Param(Params._dummy(),
+                             "nReturnSequences",
+                             "The number of sequences to return from the beam search.",
+                             typeConverter=TypeConverters.toInt)
+
+
+def setTask(self, value):
+    """Sets the transformer's task, e.g. ``summarize:``.
+
+    Parameters
+    ----------
+    value : str
+        The transformer's task
+    """
+    return self._set(task=value)
+
+
+def setMinOutputLength(self, value):
+    """Sets minimum length of the sequence to be generated.
+
+    Parameters
+    ----------
+    value : int
+        Minimum length of the sequence to be generated
+    """
+    return self._set(minOutputLength=value)
+
+
+def setMaxOutputLength(self, value):
+    """Sets maximum length of output text.
+
+    Parameters
+    ----------
+    value : int
+        Maximum length of output text
+    """
+    return self._set(maxOutputLength=value)
+
+
+def setDoSample(self, value):
+    """Sets whether or not to use sampling, use greedy decoding otherwise.
+
+    Parameters
+    ----------
+    value : bool
+        Whether or not to use sampling; use greedy decoding otherwise
+    """
+    return self._set(doSample=value)
+
+
+def setTemperature(self, value):
+    """Sets the value used to module the next token probabilities.
+
+    Parameters
+    ----------
+    value : float
+        The value used to module the next token probabilities
+    """
+    return self._set(temperature=value)
+
+
+def setTopK(self, value):
+    """Sets the number of highest probability vocabulary tokens to keep for
+    top-k-filtering.
+
+    Parameters
+    ----------
+    value : int
+        Number of highest probability vocabulary tokens to keep
+    """
+    return self._set(topK=value)
+
+
+def setTopP(self, value):
+    """Sets the top cumulative probability for vocabulary tokens.
+
+    If set to float < 1, only the most probable tokens with probabilities
+    that add up to ``topP`` or higher are kept for generation.
+
+    Parameters
+    ----------
+    value : float
+        Cumulative probability for vocabulary tokens
+    """
+    return self._set(topP=value)
+
+
+def setRepetitionPenalty(self, value):
+    """Sets the parameter for repetition penalty. 1.0 means no penalty.
+
+    Parameters
+    ----------
+    value : float
+        The repetition penalty
+
+    References
+    ----------
+    See `Ctrl: A Conditional Transformer Language Model For Controllable
+    Generation <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details.
+    """
+    return self._set(repetitionPenalty=value)
+
+
+def setNoRepeatNgramSize(self, value):
+    """Sets size of n-grams that can only occur once.
+
+    If set to int > 0, all ngrams of that size can only occur once.
+
+    Parameters
+    ----------
+    value : int
+        N-gram size can only occur once
+    """
+    return self._set(noRepeatNgramSize=value)
+
+
+def setBeamSize(self, value):
+    """Sets the number of beam size for beam search.
+
+    Parameters
+    ----------
+    value : int
+        Number of beam size for beam search
+    """
+    return self._set(beamSize=value)
+
+
+def setNReturnSequences(self, value):
+    """Sets the number of sequences to return from the beam search.
+
+    Parameters
+    ----------
+    value : int
+        Number of sequences to return
+    """
+    return self._set(nReturnSequences=value)

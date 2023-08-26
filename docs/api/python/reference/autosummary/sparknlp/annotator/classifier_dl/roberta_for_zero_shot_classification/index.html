@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification &#8212; Spark NLP 5.0.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification &#8212; Spark NLP 5.1.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../../../static/doctools.js"></script>
     <script src="../../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../../static/toggleprompt.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification/index';</script>
     <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" />
@@ -298,6 +298,7 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../albert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../albert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bart_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification</span></code></a></li>
@@ -312,9 +313,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../xlm_roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../xlm_roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification</span></code></a></li>
@@ -341,6 +342,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/elmo_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.elmo_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/instructor_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.instructor_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/longformer_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.longformer_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/mpnet_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.mpnet_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/roberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/roberta_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_sentence_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.sentence_embeddings</span></code></a></li>
@@ -380,42 +382,47 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../ner/ner_overwriter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_overwriter</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../openai/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/openai_completion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_completion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/openai_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_embeddings</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../param/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.param</span></code></a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../pos/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../pos/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../pos/perceptron/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos.perceptron</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentence/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentence/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../sentence/sentence_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sentence/sentence_detector_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector_dl</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../sentiment/sentiment_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.sentiment_detector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sentiment/vivekn_sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.vivekn_sentiment</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/bart_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.bart_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/gpt2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.gpt2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/marian_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.marian_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/t5_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.t5_transformer</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../spell_check/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../spell_check/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../spell_check/context_spell_checker/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.context_spell_checker</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../spell_check/norvig_sweeting/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.norvig_sweeting</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../spell_check/symmetric_delete/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.symmetric_delete</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../token/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../token/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../ws/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ws/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../ws/word_segmenter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws.word_segmenter</span></code></a></li>
 </ul>
 </li>
@@ -468,7 +475,7 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></li>
+    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification</span></code></li>
   </ul>
 </nav>
 </div>
@@ -485,8 +492,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification">
-<span id="sparknlp-annotator-classifier-dl-roberta-bert-for-zero-shot-classification"></span><h1><a class="reference internal" href="#module-sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification" title="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a><a class="headerlink" href="#module-sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification" title="Permalink to this heading">#</a></h1>
+  <section id="module-sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification">
+<span id="sparknlp-annotator-classifier-dl-roberta-for-zero-shot-classification"></span><h1><a class="reference internal" href="#module-sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification" title="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification</span></code></a><a class="headerlink" href="#module-sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification" title="Permalink to this heading">#</a></h1>
 <p>Contains classes for RoBertaForZeroShotClassification.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
@@ -494,14 +501,14 @@ document.write(`
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification" title="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification" title="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification</span></code></a></p></td>
 <td><p>RoBertaForZeroShotClassification using a <cite>ModelForSequenceClassification</cite> trained on NLI (natural language</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RoBertaForZeroShotClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RoBertaForZeroShotClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification" title="Permalink to this definition">#</a></dt>
 <dd><p>RoBertaForZeroShotClassification using a <cite>ModelForSequenceClassification</cite> trained on NLI (natural language
 inference) tasks. Equivalent of <cite>RoBertaForSequenceClassification</cite> models, but these models don’t require a hardcoded
 number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more
@@ -510,7 +517,7 @@ flexible.</p>
 longer this process will take.</p>
 <p>Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis
 pair and passed to the pretrained model.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained" title="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained" title="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">RoBertaForZeroShotClassification</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -589,14 +596,14 @@ default False</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses">
-<span class="sig-name descname"><span class="pre">getClasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.getClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses">
+<span class="sig-name descname"><span class="pre">getClasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.getClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns labels used to train this model</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes">
-<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes">
+<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -609,8 +616,8 @@ default False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength">
-<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength">
+<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets max sentence length to process, by default 128.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -623,8 +630,8 @@ default False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences">
-<span class="sig-name descname"><span class="pre">setCoalesceSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setCoalesceSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences">
+<span class="sig-name descname"><span class="pre">setCoalesceSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.setCoalesceSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences" title="Permalink to this definition">#</a></dt>
 <dd><p>Instead of 1 class per sentence (if inputCols is ‘’’sentence’’’) output 1 class per document by averaging
 probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as RoBerta
 (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the probabilities
@@ -640,8 +647,8 @@ for the entire document instead of probabilities per sentence. (Default: true)</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Loads a locally saved model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -662,8 +669,8 @@ The current SparkSession</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'roberta_base_zero_shot_classifier_nli'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification.html#RoBertaForZeroShotClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'roberta_base_zero_shot_classifier_nli'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification.html#RoBertaForZeroShotClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained" title="Permalink to this definition">#</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -724,13 +731,13 @@ Spark NLPs repositories otherwise.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.getClasses()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setConfigProtoBytes()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setMaxSentenceLength()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setCoalesceSentences()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.loadSavedModel()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.pretrained()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.getClasses"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.getClasses()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setConfigProtoBytes()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setMaxSentenceLength()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.setCoalesceSentences"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.setCoalesceSentences()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.loadSavedModel()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.RoBertaForZeroShotClassification.pretrained"><code class="docutils literal notranslate"><span class="pre">RoBertaForZeroShotClassification.pretrained()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -742,7 +749,7 @@ Spark NLPs repositories otherwise.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../../../../../_sources/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.rst.txt">
+    <a href="../../../../../../_sources/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_zero_shot_classification/index.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

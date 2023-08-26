@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.util.io
 
-import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.CloudResources
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
@@ -119,46 +120,50 @@ object OutputHelper {
   private def getLogsFolder: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
-  private lazy val isDBFS = fileSystem.getScheme.equals("dbfs")
+  private lazy val isDBFS =
+    fileSystem.getScheme.equals("dbfs")
 
   private var targetPath: Path = _
 
   private var historyLog: Array[String] = Array()
 
   def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
-
     val targetFolder = getTargetFolder(outputLogsPath)
     targetPath = new Path(targetFolder, uuid + ".log")
 
-    if (isDBFS) {
-      historyLog = historyLog ++ Array(content)
-    } else {
-      if (!fileSystem.exists(new Path(targetFolder))) fileSystem.mkdirs(new Path(targetFolder))
-
-      if (fileSystem.getScheme.equals("file")) {
-        val fo = new File(targetPath.toUri.getRawPath)
-        val writer = new FileWriter(fo, true)
+    fileSystem.getScheme match {
+      case "dbfs" =>
+        historyLog = historyLog ++ Array(content)
+      case "hdfs" =>
+        if (!fileSystem.exists(targetPath)) {
+          fileSystem.createNewFile(targetPath)
+        }
+        val outputStream = fileSystem.append(targetPath)
+        val writer = new PrintWriter(outputStream)
         writer.append(content + System.lineSeparator())
         writer.close()
-      } else {
-        fileSystem.createNewFile(targetPath)
-        val fo = fileSystem.append(targetPath)
-        val writer = new PrintWriter(fo, true)
-        writer.append(content + System.lineSeparator())
-        writer.close()
-        fo.close()
-      }
+      case _ =>
+        if (CloudHelper.isCloudPath(targetFolder)) {
+          fileSystem.createNewFile(targetPath)
+          val fo = fileSystem.append(targetPath)
+          val writer = new PrintWriter(fo, true)
+          writer.append(content + System.lineSeparator())
+          writer.close()
+          fo.close()
+        } else {
+          if (!fileSystem.exists(new Path(targetFolder)))
+            fileSystem.mkdirs(new Path(targetFolder))
+          val fo = new File(targetPath.toUri.getRawPath)
+          val writer = new FileWriter(fo, true)
+          writer.append(content + System.lineSeparator())
+          writer.close()
+        }
     }
   }
 
   private def getTargetFolder(outputLogsPath: String): String = {
-    if (outputLogsPath.isEmpty) {
-      if (getLogsFolder.startsWith("s3")) SparkFiles.getRootDirectory() + "/tmp/logs"
-      else getLogsFolder
-    } else {
-      if (outputLogsPath.startsWith("s3")) SparkFiles.getRootDirectory() + "/tmp/logs"
-      else outputLogsPath
-    }
+    val path = if (outputLogsPath.isEmpty) getLogsFolder else outputLogsPath
+    if (CloudHelper.isCloudPath(path)) SparkFiles.getRootDirectory() + "/tmp/logs" else path
   }
 
   def exportLogFile(outputLogsPath: String): Unit = {
@@ -173,31 +178,14 @@ object OutputHelper {
         historyLog = Array()
       }
 
-      if (outputLogsPath.startsWith("s3")) {
-        val sourceFilePath = targetPath.toString
-        val s3Bucket = outputLogsPath.replace("s3://", "").split("/").head
-        val s3Path = "s3:/" + outputLogsPath.substring(s"s3://$s3Bucket".length) + "/"
-
-        storeFileInS3(sourceFilePath, s3Bucket, s3Path)
-      } else if (getLogsFolder.startsWith("s3")) {
-        val sourceFilePath = targetPath.toString
-        val s3Bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
-        val s3Path = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder) + "/"
-
-        storeFileInS3(sourceFilePath, s3Bucket, s3Path)
+      if (CloudHelper.isCloudPath(outputLogsPath)) {
+        CloudResources.storeLogFileInCloudStorage(outputLogsPath, targetPath.toString)
       }
-
     } catch {
       case e: Exception =>
-        println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")
+        println(
+          s"Warning couldn't export log on DBFS or Cloud Storage because of error: ${e.getMessage}")
     }
-  }
-
-  def storeFileInS3(sourceFilePath: String, s3Bucket: String, s3Path: String): Unit = {
-    val awsGateway = new AWSGateway(credentialsType = "proprietary")
-    val s3FilePath = s"""${s3Path.substring("s3://".length)}${sourceFilePath.split("/").last}"""
-
-    awsGateway.copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
   }
 
 }

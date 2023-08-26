@@ -28,12 +28,12 @@ import java.util.UUID
 
 trait WriteOnnxModel {
 
-  def writeOnnxModel(
+  def writeOnnxModels(
       path: String,
       spark: SparkSession,
-      onnxWrapper: OnnxWrapper,
-      suffix: String,
-      fileName: String): Unit = {
+      onnxWrappersWithNames: Seq[(OnnxWrapper, String)],
+      suffix: String): Unit = {
+
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
@@ -43,16 +43,27 @@ trait WriteOnnxModel {
       .toAbsolutePath
       .toString
 
-    val onnxFile = Paths.get(tmpFolder, fileName).toString
+    onnxWrappersWithNames foreach { case (onnxWrapper, modelName) =>
+      val onnxFile = Paths.get(tmpFolder, modelName).toString
 
-    // 2. Save Tensorflow state
-    onnxWrapper.saveToFile(onnxFile)
+      // 2. Save ONNX state
+      onnxWrapper.saveToFile(onnxFile)
 
-    // 3. Copy to dest folder
-    fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
+      // 3. Copy to dest folder
+      fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
+    }
 
     // 4. Remove tmp folder
     FileUtils.deleteDirectory(new File(tmpFolder))
+  }
+
+  def writeOnnxModel(
+      path: String,
+      spark: SparkSession,
+      onnxWrapper: OnnxWrapper,
+      suffix: String,
+      fileName: String): Unit = {
+    writeOnnxModels(path, spark, Seq((onnxWrapper, fileName)), suffix)
   }
 
 }
@@ -93,6 +104,47 @@ trait ReadOnnxModel {
     FileHelper.delete(tmpFolder)
 
     onnxWrapper
+  }
+
+  def readOnnxModels(
+      path: String,
+      spark: SparkSession,
+      modelNames: Seq[String],
+      suffix: String,
+      zipped: Boolean = true,
+      useBundle: Boolean = false,
+      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp directory
+    val tmpFolder = Files
+      .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+      .toAbsolutePath
+      .toString
+
+    val wrappers = (modelNames map { modelName: String =>
+      // 2. Copy to local dir
+      val localModelFile = modelName + suffix
+      fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
+
+      val localPath = new Path(tmpFolder, localModelFile).toString
+
+      // 3. Read ONNX state
+      val onnxWrapper = OnnxWrapper.read(
+        localPath,
+        zipped = zipped,
+        useBundle = useBundle,
+        sessionOptions = sessionOptions)
+
+      (modelName, onnxWrapper)
+    }).toMap
+
+    // 4. Remove tmp folder
+    FileHelper.delete(tmpFolder)
+
+    wrappers
   }
 
 }

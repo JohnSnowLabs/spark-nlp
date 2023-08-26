@@ -67,6 +67,8 @@ object ConfigHelper {
   // Stores info for integration with GCP
   val gcpProjectId = "spark.jsl.settings.gcp.project_id"
 
+  val openAIAPIKey = "spark.jsl.settings.openai.api.key"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }
@@ -81,6 +83,11 @@ object ConfigHelper {
     val sessionToken = sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
 
     (accessKey, secretKey, sessionToken)
+  }
+
+  def getHadoopAzureConfig(storageAccountName: String): String = {
+    sparkSession.sparkContext.hadoopConfiguration.get(
+      s"fs.azure.account.key.$storageAccountName.blob.core.windows.net")
   }
 
 }

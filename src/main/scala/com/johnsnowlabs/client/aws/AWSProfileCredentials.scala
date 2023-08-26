@@ -18,7 +18,6 @@ package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.johnsnowlabs.client.CredentialParams
 
 class AWSProfileCredentials extends Credentials {
 

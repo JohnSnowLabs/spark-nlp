@@ -49,7 +49,7 @@ object LoadExternalModel {
        |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
        |├── encoder_model.onnx
        |├── decoder_model.onnx
-       |├── decoder_with_past_model.onnx (not used in this release)
+       |├── decoder_with_past_model.onnx
        |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
@@ -61,11 +61,15 @@ object LoadExternalModel {
 
   }
 
-  def isOnnxModel(modelPath: String, isEncoderDecoder: Boolean = false): Boolean = {
-
+  def isOnnxModel(
+      modelPath: String,
+      isEncoderDecoder: Boolean = false,
+      withPast: Boolean = false): Boolean = {
     if (isEncoderDecoder) {
       val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
-      val onnxDecoderModel = new File(modelPath, ONNX.decoderModel)
+      val onnxDecoderModel =
+        if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
+        else new File(modelPath, ONNX.decoderModel)
       onnxEncoderModel.exists() && onnxDecoderModel.exists()
     } else {
       val onnxModel = new File(modelPath, ONNX.modelName)
@@ -74,7 +78,10 @@ object LoadExternalModel {
 
   }
 
-  def detectEngine(modelPath: String, isEncoderDecoder: Boolean = false): String = {
+  def detectEngine(
+      modelPath: String,
+      isEncoderDecoder: Boolean = false,
+      withPast: Boolean = false): String = {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
@@ -91,7 +98,7 @@ object LoadExternalModel {
     val tfSavedModelExist = isTensorFlowModel(modelPath)
 
     /*ONNX required model's name*/
-    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder)
+    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast)
 
     if (tfSavedModelExist) {
       TensorFlow.name
@@ -115,10 +122,13 @@ object LoadExternalModel {
     * @return
     *   URL to the local path of the folder
     */
-  def modelSanityCheck(path: String, isEncoderDecoder: Boolean = false): (String, String) = {
+  def modelSanityCheck(
+      path: String,
+      isEncoderDecoder: Boolean = false,
+      withPast: Boolean = false): (String, String) = {
     val localPath: String = ResourceHelper.copyToLocal(path)
 
-    (localPath, detectEngine(localPath, isEncoderDecoder))
+    (localPath, detectEngine(localPath, isEncoderDecoder, withPast))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {

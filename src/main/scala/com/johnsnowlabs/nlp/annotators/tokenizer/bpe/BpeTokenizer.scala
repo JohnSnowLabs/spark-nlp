@@ -313,42 +313,40 @@ object BpeTokenizer {
       padWithSentenceTokens: Boolean = false,
       addPrefixSpace: Boolean = false,
       specialTokens: Option[SpecialTokens] = None): BpeTokenizer = {
-    val availableModels = Array("roberta", "xlm", "gpt2", "bart")
-    require(
-      availableModels.contains(modelType),
-      "Model type \"" + modelType + "\" not supported yet.")
 
-    val modelSpecialTokens = specialTokens match {
+    def modelSpecialTokens() = specialTokens match {
       case Some(specialTok) => specialTok
       case None => SpecialTokens.getSpecialTokensForModel(modelType, vocab)
     }
 
-    modelType match {
+    val tokenizer = modelType match {
       case "roberta" =>
         new RobertaTokenizer(
           merges,
           vocab,
-          modelSpecialTokens,
+          modelSpecialTokens(),
           padWithSentenceTokens,
           addPrefixSpace = addPrefixSpace)
       case "xlm" =>
-        new XlmTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
+        new XlmTokenizer(merges, vocab, modelSpecialTokens(), padWithSentenceTokens)
       case "gpt2" =>
         new Gpt2Tokenizer(
           merges,
           vocab,
-          modelSpecialTokens,
+          modelSpecialTokens(),
           padWithSentenceTokens,
           addPrefixSpace = addPrefixSpace)
-
       case "bart" =>
         new BartTokenizer(
           merges,
           vocab,
-          modelSpecialTokens,
+          modelSpecialTokens(),
           padWithSentenceTokens,
           addPrefixSpace = addPrefixSpace)
-
+      case _ =>
+        throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
+
+    tokenizer
   }
 }

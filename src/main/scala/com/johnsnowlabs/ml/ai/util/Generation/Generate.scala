@@ -15,9 +15,7 @@
  */
 
 package com.johnsnowlabs.ml.ai.util.Generation
-import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer
-import scala.math._
-import scala.util.control.Breaks._
+
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   MinLengthLogitProcessor,
   NoRepeatNgramsLogitProcessor,
@@ -29,13 +27,16 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
   TopKLogitWarper,
   TopPLogitWarper
 }
-
-import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamSearchScorer
+import com.johnsnowlabs.ml.ai.util.Generation.Search.{BeamScorer, BeamSearchScorer}
 import org.tensorflow.{Session, Tensor}
+
+import scala.math._
+import scala.util.control.Breaks._
 
 trait Generate {
 
   /** Text Generation using Beam Search
+    *
     * @param inputIds
     *   input ids
     * @param decoderEncoderStateTensors
@@ -99,7 +100,8 @@ trait Generate {
       paddingTokenId: Int,
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
-      session: Session): Array[Array[Int]] = {
+      session: Session,
+      applySoftmax: Boolean = true): Array[Array[Int]] = {
 
     // TODO: Add support for ignoreTokenIds
 
@@ -141,10 +143,12 @@ trait Generate {
       eosTokenId,
       doSample,
       randomSeed,
-      session)
+      session,
+      applySoftmax)
   }
 
   /** Beam Search for text generation
+    *
     * @param encoderInputIdsVals
     *   encoder input ids vals
     * @param inputIdsVal
@@ -183,8 +187,9 @@ trait Generate {
       eosTokenId: Int,
       doSample: Boolean,
       randomSeed: Option[Long],
-      session: Session): Array[Array[Int]] = {
-    var inputIds = inputIdsVal
+      session: Session,
+      applySoftmax: Boolean): Array[Array[Int]] = {
+    val inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
     val numBeams = beamScorer.getNumBeams
     val batchBeamSize = batchSize * numBeams
@@ -213,8 +218,9 @@ trait Generate {
             maxLength,
             session)
 
-        // Apply log softmax to model outputs
-        var nextTokenScores = nextTokenLogits.map(logSoftmax)
+        // Optionally Apply log softmax to model outputs
+        var nextTokenScores =
+          if (applySoftmax) nextTokenLogits.map(logSoftmax) else nextTokenLogits
 
         // Process the logits by defined logit processors
         val nextTokenScoresProcessed =
@@ -408,6 +414,23 @@ trait Generate {
     }
   }
 
+  /** Calls the model and returns the output logits.
+    *
+    * @param encoderInputIds
+    *   Input IDs for the Encoder
+    * @param decoderInputIds
+    *   Input IDs for the Decoder
+    * @param decoderEncoderStateTensors
+    *   Tensor of encoded input for the decoder
+    * @param encoderAttentionMaskTensors
+    *   Tensor for encoder attention mask
+    * @param maxLength
+    *   Max length of the input
+    * @param session
+    *   Tensorflow Session
+    * @return
+    *   Logits for the input
+    */
   def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
