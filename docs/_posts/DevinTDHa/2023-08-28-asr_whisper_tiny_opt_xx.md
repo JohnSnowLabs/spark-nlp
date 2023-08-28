@@ -8,7 +8,7 @@ tags: [whisper, audio, open_source, asr, onnx, xx]
 task: Automatic Speech Recognition
 language: xx
 edition: Spark NLP 5.1.1
-spark_version: 3.4
+spark_version: 3.1
 supported: true
 engine: onnx
 annotator: WhisperForCTC
