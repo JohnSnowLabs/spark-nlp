@@ -1,8 +1,23 @@
+/*
+ * Copyright 2017-2022 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.openvino
 
 import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
-import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants._
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
@@ -74,13 +89,7 @@ class OpenvinoWrapper(modelBytes: Array[Byte], weightsBytes: Array[Array[Byte]])
 object OpenvinoWrapper {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
-  private[OpenvinoWrapper] val core: Core = this.synchronized {
-    if (core == null) {
-      new Core()
-    } else {
-      core
-    }
-  }
+  private[OpenvinoWrapper] val core: Core = new Core
 
   // size of bytes store in each chunk/array
   private val BUFFER_SIZE = 1024 * 1024
@@ -88,15 +97,15 @@ object OpenvinoWrapper {
   private val ModelSuffix = "_ov_model"
 
   /** Reads models from supported file formats and exports them into OpenVINO Intermediate
-    * Representation (IR) format. The resulting framework-independent model representation
-    * consists of a model graph (.xml) and weights (.bin) files.
+    * Representation (IR) format. The resulting model representation consists of a model graph
+    * (.xml) and weights (.bin) files.
     *
     * @param modelPath
     *   Path to the source model
     * @param targetPath
     *   Path to the converted model directory
-    * @param useBundle
-    *   Read from a provided model bundle
+    * @param detectedEngine
+    *   The detected model framework
     * @param zipped
     *   Unpack the zipped model
     */
@@ -104,7 +113,6 @@ object OpenvinoWrapper {
       modelPath: String,
       targetPath: String,
       detectedEngine: String,
-      useBundle: Boolean,
       zipped: Boolean = true): Unit = {
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + ModelSuffix)
@@ -126,6 +134,8 @@ object OpenvinoWrapper {
           folder
         case ONNX.name =>
           Paths.get(folder, ONNX.modelName).toString
+        case _ =>
+          throw new Exception(s"Unsupported model framework ${detectedEngine}!")
       }
 
     val model: Model = core.read_model(srcModelPath)

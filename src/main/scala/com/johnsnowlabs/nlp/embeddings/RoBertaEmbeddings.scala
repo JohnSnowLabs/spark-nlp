@@ -546,8 +546,7 @@ trait ReadRobertaDLModel extends ReadTensorflowModel with ReadOnnxModel with Rea
               modelPath = localModelPath,
               targetPath = tmpFolder,
               detectedEngine = detectedEngine,
-              zipped = false,
-              useBundle = true)
+              zipped = false)
             tmpFolder
           }
         val (ovWrapper: OpenvinoWrapper, tensorNames: Map[String, String]) =

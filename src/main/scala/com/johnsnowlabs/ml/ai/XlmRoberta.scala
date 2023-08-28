@@ -26,7 +26,6 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.intel.openvino.Tensor
 
 import scala.collection.JavaConverters._
 
@@ -65,6 +64,10 @@ import scala.collection.JavaConverters._
   *
   * @param tensorflowWrapper
   *   XlmRoberta Model wrapper with TensorFlowWrapper
+ * @param onnxWrapper
+ *   XlmRoberta Model wrapper with ONNX Wrapper
+ * @param openvinoWrapper
+ *   XlmRoberta Model wrapper with OpenVINO Wrapper
   * @param spp
   *   XlmRoberta SentencePiece model with SentencePieceWrapper
   * @param caseSensitive

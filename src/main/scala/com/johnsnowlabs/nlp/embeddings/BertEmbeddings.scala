@@ -450,7 +450,6 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOp
         val onnxWrapper =
           readOnnxModel(path, spark, "_bert_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-      }
 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_bert_openvino")
@@ -497,8 +496,7 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOp
               modelPath = localModelPath,
               targetPath = tmpFolder,
               detectedEngine = detectedEngine,
-              zipped = false,
-              useBundle = true)
+              zipped = false)
             tmpFolder
           }
         val (ovWrapper: OpenvinoWrapper, tensorNames: Map[String, String]) =

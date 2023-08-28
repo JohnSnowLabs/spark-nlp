@@ -85,8 +85,6 @@ object LoadExternalModel {
 
   }
 
-  def detectEngine(modelPath: String, isEncoderDecoder: Boolean = false): String = {
-  }
   def isOpenvinoModel(modelPath: String): Boolean = {
     val modelXml = new File(modelPath, Openvino.modelXml)
     val modelBin = new File(modelPath, Openvino.modelBin)

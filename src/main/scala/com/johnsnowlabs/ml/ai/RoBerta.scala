@@ -30,8 +30,12 @@ import scala.collection.JavaConverters._
 
 /** TensorFlow backend for '''RoBERTa''' and '''Longformer'''
   *
-  * @param tensorflowWrapper
-  *   tensorflowWrapper class
+ * @param tensorflowWrapper
+ *   Model wrapper with TensorFlow Wrapper
+ * @param onnxWrapper
+ *   Model wrapper with ONNX Wrapper
+ * @param openvinoWrapper
+ *   Model wrapper with OpenVINO Wrapper
   * @param sentenceStartTokenId
   *   special token id for `<s>`
   * @param sentenceEndTokenId
