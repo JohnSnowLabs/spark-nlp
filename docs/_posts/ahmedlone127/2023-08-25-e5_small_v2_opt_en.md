@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Small V2 Sentence Embeddings
+title: E5 Small V2 Sentence Embeddings Optimized
 author: John Snow Labs
 name: e5_small_v2_opt
 date: 2023-08-25

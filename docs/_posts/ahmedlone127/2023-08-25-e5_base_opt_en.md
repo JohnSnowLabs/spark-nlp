@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Base Sentence Embeddings
+title: E5 Base Sentence Embeddings Optimized
 author: John Snow Labs
 name: e5_base_opt
 date: 2023-08-25

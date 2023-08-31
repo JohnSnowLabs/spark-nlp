@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Small Sentence Embeddings
+title: E5 Small Sentence Embeddings Quantized
 author: John Snow Labs
 name: e5_small_quantized
 date: 2023-08-25

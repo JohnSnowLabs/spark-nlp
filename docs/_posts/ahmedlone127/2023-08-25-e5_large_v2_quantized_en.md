@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Large V2 Sentence Embeddings
+title: E5 Large V2 Sentence Embeddings Quantized
 author: John Snow Labs
 name: e5_large_v2_quantized
 date: 2023-08-25

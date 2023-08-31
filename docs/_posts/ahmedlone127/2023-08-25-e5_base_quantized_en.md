@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Base Sentence Embeddings
+title: E5 Base Sentence Embeddings Quantized
 author: John Snow Labs
 name: e5_base_quantized
 date: 2023-08-25
