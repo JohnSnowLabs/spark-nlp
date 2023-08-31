@@ -38,14 +38,14 @@ Text Embeddings by Weakly-Supervised Contrastive Pre-training. Liang Wang, Nan Y
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings =E5Embeddings.pretrained("e5_large_v2","en") \
+embeddings =E5Embeddings.pretrained("e5_large_v2_quantized","en") \
             .setInputCols(["documents"]) \
             .setOutputCol("instructor")
 
 pipeline = Pipeline().setStages([document_assembler, embeddings])
 ```
 ```scala
-val embeddings = E5Embeddings.pretrained("e5_large_v2","en")
+val embeddings = E5Embeddings.pretrained("e5_large_v2_quantized","en")
       .setInputCols(["document"])
       .setOutputCol("e5_embeddings")
 val pipeline = new Pipeline().setStages(Array(document, embeddings))
