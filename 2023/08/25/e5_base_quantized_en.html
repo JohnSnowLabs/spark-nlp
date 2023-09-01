@@ -11,7 +11,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-NMNWXW7PZM');
-</script><title>E5 Base Sentence Embeddings | e5_base_quantized | Spark NLP 5.1.0</title><meta property="og:title" content=""/>
+</script><title>E5 Base Sentence Embeddings Quantized | e5_base_quantized | Spark NLP 5.1.0</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionText Embeddings by Weakly-Supervised Contrastive Pre-training. Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang, Rangan Majumder, Furu Wei, arXiv 2022Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  embeddings =E5Embeddings.pretrained("e5_b...">
 <link rel="canonical" href="/2023/08/25/e5_base_quantized_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 25, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-25T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>E5 Base Sentence Embeddings</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="E5 Base Sentence Embeddings"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-25T00:00:00+00:00">
+          <h1>E5 Base Sentence Embeddings Quantized</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="E5 Base Sentence Embeddings Quantized"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-25T00:00:00+00:00">
     <meta itemprop="keywords" content="en,open_source,onnx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -432,13 +432,13 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span><span class="n">E5Embeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"e5_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span><span class="n">E5Embeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"e5_base_quantized"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"instructor"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">E5Embeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"e5_base"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">E5Embeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"e5_base_quantized"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"e5_embeddings"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
@@ -641,7 +641,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/08/25/e5_base_opt_en.html">E5 Base Sentence Embeddings</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/08/25/e5_base_v2_en.html">E5 Base v2 Sentence Embeddings</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/08/25/e5_base_opt_en.html">E5 Base Sentence Embeddings Optimized</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/08/25/e5_base_v2_en.html">E5 Base v2 Sentence Embeddings</a></div></div></div>
 
 </div>
 </div>
