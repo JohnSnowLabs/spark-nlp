@@ -1,6 +1,6 @@
 ---
 layout: model
-title: E5 Base Sentence Embeddings
+title: E5 Base Sentence Embeddings Optimized
 author: John Snow Labs
 name: e5_base_opt
 date: 2023-08-25
@@ -38,14 +38,14 @@ Text Embeddings by Weakly-Supervised Contrastive Pre-training. Liang Wang, Nan Y
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings =E5Embeddings.pretrained("e5_base","en") \
+embeddings =E5Embeddings.pretrained("e5_base_opt","en") \
             .setInputCols(["documents"]) \
             .setOutputCol("instructor")
 
 pipeline = Pipeline().setStages([document_assembler, embeddings])
 ```
 ```scala
-val embeddings = E5Embeddings.pretrained("e5_base","en")
+val embeddings = E5Embeddings.pretrained("e5_base_opt","en")
       .setInputCols(["document"])
       .setOutputCol("e5_embeddings")
 val pipeline = new Pipeline().setStages(Array(document, embeddings))
