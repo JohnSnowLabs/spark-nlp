@@ -1,6 +1,6 @@
 ---
 layout: model
-title: German DistilBERT Embeddings
+title: German DistilBERT Embeddings  Quantized
 author: John Snow Labs
 name: distilbert_embeddings_distilbert_base_german_cased_quantized
 date: 2023-06-28
@@ -48,7 +48,7 @@ tokenizer = Tokenizer() \
 .setInputCols("document") \
 .setOutputCol("token")
 
-embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_german_cased","de") \
+embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_german_cased_quantized","de") \
 .setInputCols(["document", "token"]) \
 .setOutputCol("embeddings")
 
@@ -67,7 +67,7 @@ val tokenizer = new Tokenizer()
 .setInputCols(Array("document"))
 .setOutputCol("token")
 
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_german_cased","de") 
+val embeddings = DistilBertEmbeddings.pretrained("distilbert_embeddings_distilbert_base_german_cased_quantized","de") 
 .setInputCols(Array("document", "token")) 
 .setOutputCol("embeddings")
 

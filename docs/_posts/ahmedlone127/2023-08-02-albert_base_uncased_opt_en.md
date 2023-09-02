@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ALBERT Embeddings (Base Uncase)
+title: ALBERT Embeddings (Base Uncase) Optimized
 author: John Snow Labs
 name: albert_base_uncased_opt
 date: 2023-08-02
@@ -38,12 +38,12 @@ ALBERT is "A Lite" version of BERT, a popular unsupervised language representati
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en") \
+embeddings = AlbertEmbeddings.pretrained("albert_base_uncased_opt", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 ```
 ```scala
-val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased", "en")
+val embeddings = AlbertEmbeddings.pretrained("albert_base_uncased_opt", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 ```

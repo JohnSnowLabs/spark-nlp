@@ -1,6 +1,6 @@
 ---
 layout: model
-title: ALBERT Embeddings (Large Uncase)
+title: ALBERT Embeddings (Large Uncase)  Quantized
 author: John Snow Labs
 name: albert_large_uncased_quantized
 date: 2023-08-02
@@ -38,12 +38,12 @@ ALBERT is "A Lite" version of BERT, a popular unsupervised language representati
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = AlbertEmbeddings.pretrained("albert_large_uncased", "en") \
+embeddings = AlbertEmbeddings.pretrained("albert_large_uncased_quantized", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 ```
 ```scala
-val embeddings = AlbertEmbeddings.pretrained("albert_large_uncased", "en")
+val embeddings = AlbertEmbeddings.pretrained("albert_large_uncased_quantized", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 ```
