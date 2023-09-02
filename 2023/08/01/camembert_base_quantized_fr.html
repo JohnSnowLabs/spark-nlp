@@ -11,9 +11,9 @@
   gtag('js', new Date());
 
   gtag('config', 'G-NMNWXW7PZM');
-</script><title>CamemBERT Base Model | camembert_base_quantized | Spark NLP 5.0.2</title><meta property="og:title" content=""/>
+</script><title>CamemBERT Base Model  Quantized | camembert_base_quantized | Spark NLP 5.0.2</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionCamemBERT is a state-of-the-art language model for French based on the RoBERTa model.For further information or requests, please go to Camembert WebsitePredicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  embeddings = CamemBertEmbeddings.pretrained("camembert_base", "fr")...">
+<meta name="description" content="DescriptionCamemBERT is a state-of-the-art language model for French based on the RoBERTa model.For further information or requests, please go to Camembert WebsitePredicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  embeddings = CamemBertEmbeddings.pretrained("camembert_base_quantiz...">
 <link rel="canonical" href="/2023/08/01/camembert_base_quantized_fr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Aug 01, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-01T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>CamemBERT Base Model</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="CamemBERT Base Model"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fr</li><li>french</li><li>embeddings</li><li>camembert</li><li>base</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-01T00:00:00+00:00">
+          <h1>CamemBERT Base Model  Quantized</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="CamemBERT Base Model  Quantized"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fr</li><li>french</li><li>embeddings</li><li>camembert</li><li>base</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-08-01T00:00:00+00:00">
     <meta itemprop="keywords" content="fr,french,embeddings,camembert,base,open_source,onnx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -433,11 +433,11 @@ For further information or requests, please go to <a href="https://camembert-mod
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">CamemBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"camembert_base"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">CamemBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"camembert_base_quantized"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">CamemBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"camembert_base"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">CamemBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"camembert_base_quantized"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>

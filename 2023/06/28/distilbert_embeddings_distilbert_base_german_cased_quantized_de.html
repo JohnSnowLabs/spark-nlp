@@ -11,7 +11,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-NMNWXW7PZM');
-</script><title>German DistilBERT Embeddings | distilbert_embeddings_distilbert_base_german_cased_quantized | Spark NLP 5.0.0</title><meta property="og:title" content=""/>
+</script><title>German DistilBERT Embeddings  Quantized | distilbert_embeddings_distilbert_base_german_cased_quantized | Spark NLP 5.0.0</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionPretrained DistilBERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. distilbert-base-german-cased is a German model orginally trained by HuggingFace.Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  documentAssembler = DocumentAssemble...">
 <link rel="canonical" href="/2023/06/28/distilbert_embeddings_distilbert_base_german_cased_quantized_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 28, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>German DistilBERT Embeddings</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="German DistilBERT Embeddings"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>distilbert</li><li>embeddings</li><li>de</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00">
+          <h1>German DistilBERT Embeddings  Quantized</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="German DistilBERT Embeddings  Quantized"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>distilbert</li><li>embeddings</li><li>de</li><li>open_source</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00">
     <meta itemprop="keywords" content="distilbert,embeddings,de,open_source,onnx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -440,7 +440,7 @@
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_embeddings_distilbert_base_german_cased"</span><span class="p">,</span><span class="s">"de"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_embeddings_distilbert_base_german_cased_quantized"</span><span class="p">,</span><span class="s">"de"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
@@ -458,7 +458,7 @@
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_embeddings_distilbert_base_german_cased"</span><span class="o">,</span><span class="s">"de"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_embeddings_distilbert_base_german_cased_quantized"</span><span class="o">,</span><span class="s">"de"</span><span class="o">)</span> 
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
@@ -674,7 +674,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/06/28/distilbert_embeddings_distilbert_base_german_cased_opt_de.html">German DistilBERT Embeddings</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/06/28/roberta_base_en.html">RoBERTa base model</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/06/28/distilbert_embeddings_distilbert_base_german_cased_opt_de.html">German DistilBERT Embeddings Optimized</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/06/28/roberta_base_en.html">RoBERTa base model</a></div></div></div>
 
 </div>
 </div>
