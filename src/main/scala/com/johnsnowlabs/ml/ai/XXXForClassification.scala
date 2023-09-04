@@ -271,7 +271,8 @@ private[johnsnowlabs] trait XXXForClassification {
 
     val allTokenPieces =
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
-    val decodedAnswer = allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
+    val decodedAnswer =
+      allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
     val content =
       mergeTokenStrategy match {
         case MergeTokenStrategy.vocab =>

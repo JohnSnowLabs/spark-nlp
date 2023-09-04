@@ -19,8 +19,16 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.{AlbertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
@@ -316,11 +324,18 @@ trait ReadAlbertForQuestionAnsweringDLModel
 
     instance.getEngine match {
       case TensorFlow.name =>
-        val tf = readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
+        val tf =
+          readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
         instance.setModelIfNotSet(spark, Some(tf), None, spp)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_albert_classification_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(
+            path,
+            spark,
+            "_albert_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)

@@ -19,8 +19,17 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.AlbertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -311,7 +320,7 @@ class AlbertForSequenceClassification(override val uid: String)
           "_albert_classification",
           AlbertForSequenceClassification.tfFile,
           configProtoBytes = getConfigProtoBytes)
-      case  ONNX.name =>
+      case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
@@ -350,9 +359,9 @@ trait ReadablePretrainedAlbertForSequenceModel
 }
 
 trait ReadAlbertForSequenceDLModel
-  extends ReadTensorflowModel
-  with ReadOnnxModel
-  with ReadSentencePieceModel {
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
@@ -368,11 +377,18 @@ trait ReadAlbertForSequenceDLModel
 
     instance.getEngine match {
       case TensorFlow.name =>
-        val tf = readTensorflowModel (path, spark, "_albert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet (spark, Some(tf), None, spp)
+        val tf =
+          readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, spp)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_albert_classification_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(
+            path,
+            spark,
+            "_albert_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)

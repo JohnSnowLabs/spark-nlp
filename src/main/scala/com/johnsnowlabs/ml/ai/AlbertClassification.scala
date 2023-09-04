@@ -203,7 +203,10 @@ private[johnsnowlabs] class AlbertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(batch: Seq[Array[Int]], maxSentenceLength: Int, sequence: Boolean): Array[Float] = {
+  private def getRowScoresWithOnnx(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int,
+      sequence: Boolean): Array[Float] = {
 
     val output = if (sequence) "logits" else "last_hidden_state"
 
@@ -256,7 +259,7 @@ private[johnsnowlabs] class AlbertClassification(
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch, maxSentenceLength)
       case _ => computeLogitsWithTF(batch, maxSentenceLength)
-      }
+    }
 
     val endDim = endLogits.length / batchLength
     val endScores: Array[Array[Float]] =
@@ -269,7 +272,9 @@ private[johnsnowlabs] class AlbertClassification(
     (startScores, endScores)
   }
 
-  private def computeLogitsWithTF(batch: Seq[Array[Int]], maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     val batchLength = batch.length
     val tensors = new TensorResources()
 
@@ -340,7 +345,9 @@ private[johnsnowlabs] class AlbertClassification(
     (endLogits, startLogits)
   }
 
-  private def computeLogitsWithOnnx(batch: Seq[Array[Int]], maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOnnx(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession()
 
@@ -381,7 +388,7 @@ private[johnsnowlabs] class AlbertClassification(
         maskTensors.close()
         segmentTensors.close()
 
-        ( startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length) )
+        (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
       } finally if (output != null) output.close()
     }
   }
