@@ -345,3 +345,9 @@ class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(Word2VecModel, name, lang, remote_loc)
 
+    def getVectors(self):
+        """
+        Returns the vector representation of the words as a dataframe
+        with two fields, word and vector.
+        """
+        return self._call_java("getVectors")
