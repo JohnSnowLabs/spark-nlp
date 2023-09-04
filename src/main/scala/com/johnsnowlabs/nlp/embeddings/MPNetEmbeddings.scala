@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.MPNet
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -145,6 +146,7 @@ class MPNetEmbeddings(override val uid: String)
     extends AnnotatorModel[MPNetEmbeddings]
     with HasBatchedAnnotate[MPNetEmbeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -229,12 +231,14 @@ class MPNetEmbeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): MPNetEmbeddings = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): MPNetEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new MPNet(
             tensorflowWrapper,
+            onnxWrapper,
             configProtoBytes = getConfigProtoBytes,
             sentenceStartTokenId = sentenceStartTokenId,
             sentenceEndTokenId = sentenceEndTokenId,
@@ -336,14 +340,29 @@ class MPNetEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflow,
-      "_mpnet",
-      MPNetEmbeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes,
-      savedSignatures = getSignatures)
+    val suffix = "_mpnet"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          MPNetEmbeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes,
+          savedSignatures = getSignatures)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          MPNetEmbeddings.onnxFile)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   /** @group getParam */
@@ -366,7 +385,7 @@ class MPNetEmbeddings(override val uid: String)
 trait ReadablePretrainedMPNetModel
     extends ParamsAndFeaturesReadable[MPNetEmbeddings]
     with HasPretrained[MPNetEmbeddings] {
-  override val defaultModelName: Some[String] = Some("mpnet_small")
+  override val defaultModelName: Some[String] = Some("mpnet_embedding_mpnet_base")
 
   /** Java compliant-overrides */
   override def pretrained(): MPNetEmbeddings = super.pretrained()
@@ -380,19 +399,26 @@ trait ReadablePretrainedMPNetModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMPNetDLModel extends ReadTensorflowModel {
+trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[MPNetEmbeddings] =>
 
   override val tfFile: String = "mpnet_tensorflow"
+  override val onnxFile: String = "mpnet_onnx"
   def readModel(instance: MPNetEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(
-      path,
-      spark,
-      "_mpnet_tf",
-      savedSignatures = instance.getSignatures,
-      initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_mpnet_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_mpnet_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -424,7 +450,12 @@ trait ReadMPNetDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "E5 Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
+  "Mpnet Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -36,14 +36,15 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("document")
 
     val embeddings = MPNetEmbeddings
-      .pretrained()
+      .pretrained("mpnet_embedding_all_mpnet_base_v2_by_sentence_transformers")
       .setInputCols(Array("document"))
-      .setOutputCol("e5")
+      .setOutputCol("mpnet")
 
     val pipeline = new Pipeline().setStages(Array(document, embeddings))
 
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
-    pipelineDF.select("e5.embeddings").show(truncate = false)
+    pipelineDF.select("mpnet.embeddings").show(truncate = false)
 
   }
+
 }
