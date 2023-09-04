@@ -49,7 +49,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCols("document")
   *   .setOutputCol("mpnet_embeddings")
   * }}}
-  * The default model is `"all_mpnet_base_v2"`, if no name is provided.
+  * The default model is `"all_mpnet_base_v2_sentence_transformers"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?q=MPNet Models Hub]].
@@ -93,7 +93,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val embeddings = MPNetEmbeddings.pretrained("all_mpnet_base_v2", "en")
+  * val embeddings = MPNetEmbeddings.pretrained("all_mpnet_base_v2_sentence_transformers", "en")
   *   .setInputCols("document")
   *   .setOutputCol("mpnet_embeddings")
   *
@@ -385,7 +385,7 @@ class MPNetEmbeddings(override val uid: String)
 trait ReadablePretrainedMPNetModel
     extends ParamsAndFeaturesReadable[MPNetEmbeddings]
     with HasPretrained[MPNetEmbeddings] {
-  override val defaultModelName: Some[String] = Some("mpnet_embedding_mpnet_base")
+  override val defaultModelName: Some[String] = Some("all_mpnet_base_v2_sentence_transformers")
 
   /** Java compliant-overrides */
   override def pretrained(): MPNetEmbeddings = super.pretrained()

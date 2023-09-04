@@ -36,7 +36,7 @@ class MPNetEmbeddings(AnnotatorModel,
     ...     .setOutputCol("mpnet_embeddings")
 
 
-    The default model is ``"all_mpnet_base_v2"``, if no name is provided.
+    The default model is ``"all_mpnet_base_v2_sentence_transformers"``, if no name is provided.
 
     For available pretrained models please see the
     `Models Hub <https://sparknlp.org/models?q=MPNet>`__.
@@ -168,13 +168,13 @@ class MPNetEmbeddings(AnnotatorModel,
         return MPNetEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="all_mpnet_base_v2", lang="en", remote_loc=None):
+    def pretrained(name="all_mpnet_base_v2_sentence_transformers", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "all_mpnet_base_v2"
+            Name of the pretrained model, by default "all_mpnet_base_v2_sentence_transformers"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
