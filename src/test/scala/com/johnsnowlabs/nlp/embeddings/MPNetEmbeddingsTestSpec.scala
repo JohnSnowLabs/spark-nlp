@@ -36,7 +36,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("document")
 
     val embeddings = MPNetEmbeddings
-      .pretrained("mpnet_embedding_all_mpnet_base_v2_by_sentence_transformers")
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("mpnet")
 
