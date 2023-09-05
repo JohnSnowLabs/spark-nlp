@@ -58,9 +58,12 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
       .toString
 
     // 2. Save onnx model
-    val onnxFile = Paths.get(tmpFolder, file).toString
-    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
+    val onnxFile = Paths
+      .get(tmpFolder,
+       file.replace(":", ""))
+      .toString
 
+    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
     // 4. Zip folder
     if (zip) ZipArchiveUtil.zip(tmpFolder, file)
 
@@ -76,8 +79,8 @@ object OnnxWrapper {
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
-      onnxModel: Array[Byte],
-      sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+                                       onnxModel: Array[Byte],
+                                       sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
 
@@ -115,11 +118,11 @@ object OnnxWrapper {
     }
 
   def read(
-      modelPath: String,
-      zipped: Boolean = true,
-      useBundle: Boolean = false,
-      modelName: String = "model",
-      sessionOptions: Option[SessionOptions] = None): OnnxWrapper = {
+            modelPath: String,
+            zipped: Boolean = true,
+            useBundle: Boolean = false,
+            modelName: String = "model",
+            sessionOptions: Option[SessionOptions] = None): OnnxWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -160,8 +163,8 @@ object OnnxWrapper {
   }
 
   case class EncoderDecoderWrappers(
-      encoder: OnnxWrapper,
-      decoder: OnnxWrapper,
-      decoderWithPast: OnnxWrapper)
+                                     encoder: OnnxWrapper,
+                                     decoder: OnnxWrapper,
+                                     decoderWithPast: OnnxWrapper)
 
 }
