@@ -339,7 +339,7 @@ class RoBertaForZeroShotClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          $(activation))
+          getActivation)
 
       } else {
         Seq.empty[Annotation]

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: CamemBERT Base Model
+title: CamemBERT Base Model Optimized
 author: John Snow Labs
 name: camembert_base_opt
 date: 2023-08-01
@@ -39,12 +39,12 @@ For further information or requests, please go to [Camembert Website](https://ca
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = CamemBertEmbeddings.pretrained("camembert_base", "fr") \
+embeddings = CamemBertEmbeddings.pretrained("camembert_base_opt", "fr") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 ```
 ```scala
-val embeddings = CamemBertEmbeddings.pretrained("camembert_base", "fr")
+val embeddings = CamemBertEmbeddings.pretrained("camembert_base_opt", "fr")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 ```

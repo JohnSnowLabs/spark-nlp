@@ -20,8 +20,10 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.audio.{
   ReadHubertForAudioDLModel,
   ReadWav2Vec2ForAudioDLModel,
+  ReadWhisperForCTCDLModel,
   ReadablePretrainedHubertForAudioModel,
-  ReadablePretrainedWav2Vec2ForAudioModel
+  ReadablePretrainedWav2Vec2ForAudioModel,
+  ReadablePretrainedWhisperForCTCModel
 }
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
@@ -666,6 +668,11 @@ package object annotator {
 
   object HubertForCTC extends ReadablePretrainedHubertForAudioModel with ReadHubertForAudioDLModel
 
+  type WhisperForCTC =
+    com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC
+
+  object WhisperForCTC extends ReadablePretrainedWhisperForCTCModel with ReadWhisperForCTCDLModel
+
   type ZeroShotNerModel =
     com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
 
@@ -705,4 +712,27 @@ package object annotator {
   object RoBertaForZeroShotClassification
       extends ReadablePretrainedRoBertaForZeroShotModel
       with ReadRoBertaForZeroShotDLModel
+
+  type XlmRobertaBertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForZeroShotClassification
+
+  object XlmRoBertaForZeroShotClassification
+      extends ReadablePretrainedXlmRoBertaForZeroShotModel
+      with ReadXlmRoBertaForZeroShotDLModel
+
+  type E5Embeddings = com.johnsnowlabs.nlp.embeddings.E5Embeddings
+
+  object E5Embeddings extends ReadablePretrainedE5Model with ReadE5DLModel
+
+  type InstructorEmbeddings = com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings
+
+  object InstructorEmbeddings extends ReadablePretrainedInstructorModel with ReadInstructorDLModel
+
+  type BartForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification
+
+  object BartForZeroShotClassification
+      extends ReadablePretrainedBartForZeroShotModel
+      with ReadBartForZeroShotDLModel
+
 }

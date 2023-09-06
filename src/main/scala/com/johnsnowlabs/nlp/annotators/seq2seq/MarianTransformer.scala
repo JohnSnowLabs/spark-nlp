@@ -37,6 +37,8 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param, StringArrayPar
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
+import scala.jdk.CollectionConverters.asScalaBufferConverter
+
 /** MarianTransformer: Fast Neural Machine Translation
   *
   * Marian is an efficient, free Neural Machine Translation framework written in pure C++ with
@@ -317,6 +319,13 @@ class MarianTransformer(override val uid: String)
   /** @group setParam * */
   def getModelIfNotSet: Marian = _model.get.value
 
+  def getVocabulary: Array[String] = {
+    if ($(vocabulary).isInstanceOf[java.util.ArrayList[String]]) {
+      val arrayListValue = $(vocabulary).asInstanceOf[java.util.ArrayList[String]]
+      arrayListValue.asScala.toArray
+    } else $(vocabulary)
+  }
+
   setDefault(
     maxInputLength -> 40,
     maxOutputLength -> 40,
@@ -349,7 +358,7 @@ class MarianTransformer(override val uid: String)
           sentences = allAnnotations.map(_._1),
           maxInputLength = $(maxInputLength),
           maxOutputLength = $(maxOutputLength),
-          vocabs = $(vocabulary),
+          vocabs = getVocabulary,
           langId = $(langId),
           batchSize = $(batchSize),
           ignoreTokenIds = $(ignoreTokenIds))
@@ -441,7 +450,6 @@ trait ReadMarianMTDLModel extends ReadTensorflowModel with ReadSentencePieceMode
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): MarianTransformer = {
-
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     val sppSrc = loadSentencePieceAsset(localModelPath, "source.spm")

@@ -431,11 +431,11 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel {
         val tfWrapper = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
         instance.setModelIfNotSet(spark, Some(tfWrapper), None)
 
-      case ONNX.name => {
+      case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "_bert_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
-      }
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

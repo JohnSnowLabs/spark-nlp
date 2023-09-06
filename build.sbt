@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "5.0.0"
+version := "5.1.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -151,7 +151,10 @@ lazy val utilDependencies = Seq(
     exclude ("com.google.code.findbugs", "annotations")
     exclude ("org.slf4j", "slf4j-api"),
   gcpStorage,
-  greex)
+  greex,
+  azureIdentity,
+  azureStorage
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

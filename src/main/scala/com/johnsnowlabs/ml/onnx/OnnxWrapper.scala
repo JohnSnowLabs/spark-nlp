@@ -50,7 +50,7 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
       (m_session, m_env)
     }
 
-  def saveToFile(file: String): Unit = {
+  def saveToFile(file: String, zip: Boolean = true): Unit = {
     // 1. Create tmp director
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_onnx")
@@ -62,7 +62,7 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
     FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
 
     // 4. Zip folder
-    ZipArchiveUtil.zip(tmpFolder, file)
+    if (zip) ZipArchiveUtil.zip(tmpFolder, file)
 
     // 5. Remove tmp directory
     FileHelper.delete(tmpFolder)
@@ -158,5 +158,10 @@ object OnnxWrapper {
     onnxWrapper.m_env = env
     onnxWrapper
   }
+
+  case class EncoderDecoderWrappers(
+      encoder: OnnxWrapper,
+      decoder: OnnxWrapper,
+      decoderWithPast: OnnxWrapper)
 
 }

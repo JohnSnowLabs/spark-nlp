@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.0.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 5.0.0 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 5.0.0 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -399,6 +399,10 @@
                         <a href="HasFeatures.html" title="">HasFeatures</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasGeneratorProperties.html" title="Parameters to configure beam search text generation."></a>
+                        <a href="HasGeneratorProperties.html" title="Parameters to configure beam search text generation.">HasGeneratorProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasImageFeatureProperties.html" title="example of required parameters"></a>
                         <a href="HasImageFeatureProperties.html" title="example of required parameters">HasImageFeatureProperties</a>
                       </li><li class="current-entities indented3">
@@ -600,7 +604,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="represents annotator's output parts and their details" href="Annotation.html"><span class="name">Annotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="represents annotator's output parts and their details" href="Annotation.html"><span class="name">Annotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol"><span class="name"><a href="../../../scala/index.html">Array.emptyFloatArray</a></span></span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       <p class="shortcomment cmt">represents annotator's output parts and their details
@@ -728,7 +732,7 @@ root</pre></div></div>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="CanBeLazy.html"><span class="name">CanBeLazy</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="CanBeLazy.html"><span class="name">CanBeLazy</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1051,7 +1055,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasBatchedAnnotate.html"><span class="name">HasBatchedAnnotate</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasBatchedAnnotate.html"><span class="name">HasBatchedAnnotate</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1067,7 +1071,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasBatchedAnnotateAudio.html"><span class="name">HasBatchedAnnotateAudio</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateAudio.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasBatchedAnnotateAudio.html"><span class="name">HasBatchedAnnotateAudio</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateAudio.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1083,7 +1087,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasBatchedAnnotateImage.html"><span class="name">HasBatchedAnnotateImage</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasBatchedAnnotateImage.html"><span class="name">HasBatchedAnnotateImage</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1179,10 +1183,26 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasFeatures.html"><span class="name">HasFeatures</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasFeatures.html"><span class="name">HasFeatures</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.HasGeneratorProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasGeneratorPropertiesextendsAnyRef"></a><a id="HasGeneratorProperties:HasGeneratorProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasGeneratorProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="Parameters to configure beam search text generation." href="HasGeneratorProperties.html"><span class="name">HasGeneratorProperties</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Parameters to configure beam search text generation.</p>
     </li><li name="com.johnsnowlabs.nlp.HasImageFeatureProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="HasImageFeaturePropertiesextendsParamsAndFeaturesWritable"></a><a id="HasImageFeatureProperties:HasImageFeatureProperties"></a>
       <span class="permalink">
@@ -1275,7 +1295,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasOutputAnnotatorType.html"><span class="name">HasOutputAnnotatorType</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasOutputAnnotatorType.html"><span class="name">HasOutputAnnotatorType</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1291,7 +1311,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasPretrained.html"><span class="name">HasPretrained</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span></span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasPretrained.html"><span class="name">HasPretrained</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span></span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1307,7 +1327,7 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="Enables a class to protect a parameter, which means that it can only be set once." href="HasProtectedParams.html"><span class="name">HasProtectedParams</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="Enables a class to protect a parameter, which means that it can only be set once." href="HasProtectedParams.html"><span class="name">HasProtectedParams</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">Enables a class to protect a parameter, which means that it can only be set once.</p><div class="fullcomment"><div class="comment cmt"><p>Enables a class to protect a parameter, which means that it can only be set once.</p><p>This trait will enable a implicit conversion from Param to ProtectedParam. In addition, the
@@ -1326,7 +1346,7 @@ then a warning will be output and the value will not be set again.
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include intermediate steps trained PipelineModel's" href="HasRecursiveFit.html"><span class="name">HasRecursiveFit</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasRecursiveFit.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include intermediate steps trained PipelineModel's" href="HasRecursiveFit.html"><span class="name">HasRecursiveFit</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasRecursiveFit.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">AnnotatorApproach'es may extend this trait in order to allow RecursivePipelines to include
@@ -1344,7 +1364,7 @@ intermediate steps trained PipelineModel's
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasRecursiveTransform.html"><span class="name">HasRecursiveTransform</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasRecursiveTransform.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasRecursiveTransform.html"><span class="name">HasRecursiveTransform</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasRecursiveTransform.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1360,7 +1380,7 @@ intermediate steps trained PipelineModel's
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="HasSimpleAnnotate.html"><span class="name">HasSimpleAnnotate</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="HasSimpleAnnotate.html"><span class="name">HasSimpleAnnotate</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate.M">M</span>]</span>]</span><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       
@@ -1376,7 +1396,7 @@ intermediate steps trained PipelineModel's
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP." href="IAnnotation.html"><span class="name">IAnnotation</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in Spark NLP." href="IAnnotation.html"><span class="name">IAnnotation</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">IAnnotation trait is used to abstract the annotator's output for each NLP tasks available in
@@ -1473,7 +1493,7 @@ root
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="JavaAnnotation.html"><span class="name">JavaAnnotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol">Array.emptyFloatArray</span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="JavaAnnotation.html"><span class="name">JavaAnnotation</span></a><span class="params">(<span name="annotatorType">annotatorType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="begin">begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="end">end: <span class="extype" name="scala.Int">Int</span></span>, <span name="result">result: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>] = <span class="symbol"><span class="name"><a href="../../../scala/index.html">Array.emptyFloatArray</a></span></span></span>)</span><span class="result"> extends <a href="IAnnotation.html" class="extype" name="com.johnsnowlabs.nlp.IAnnotation">IAnnotation</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
@@ -1489,7 +1509,7 @@ root
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="LightPipeline.html"><span class="name">LightPipeline</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="LightPipeline.html"><span class="name">LightPipeline</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       

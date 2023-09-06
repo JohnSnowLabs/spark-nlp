@@ -187,6 +187,10 @@ class _MarianLoader(ExtendedJavaWrapper):
         super(_MarianLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)
 
+class _MPNetLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MPNetLoader, self).__init__(
+        "com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings.loadSavedModel", path, jspark)
 
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -481,6 +485,12 @@ class _HubertForCTC(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.audio.HubertForCTC.loadSavedModel", path, jspark)
 
 
+class _WhisperForCTC(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_WhisperForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC.loadSavedModel", path, jspark)
+
+
 class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_CamemBertForTokenClassificationLoader, self).__init__(
@@ -536,6 +546,20 @@ class _RoBertaForZeroShotClassification(ExtendedJavaWrapper):
             jspark)
 
 
+class _XlmRoBertaForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForZeroShotClassification.loadSavedModel", path,
+            jspark)
+
 class _InstructorLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel", path, jspark)
+
+
+class _BartForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BartForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification.loadSavedModel", path,
+            jspark)
+

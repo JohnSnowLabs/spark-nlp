@@ -156,6 +156,7 @@ private[johnsnowlabs] class SentenceDetectorDL(
       }
 
       acc /= batches
+      acc = acc.min(1.0f).max(0.0f)
 
       if (validationSplit > 0.0) {
         val (validationFeatures, validationLabels) = validationDataset.toArray.unzip

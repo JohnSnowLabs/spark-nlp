@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.0.0 ScalaDoc  - com.johnsnowlabs.client.aws.AWSGateway</title>
-          <meta name="description" content="Spark NLP 5.0.0 ScalaDoc - com.johnsnowlabs.client.aws.AWSGateway" />
-          <meta name="keywords" content="Spark NLP 5.0.0 ScalaDoc com.johnsnowlabs.client.aws.AWSGateway" />
+          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.client.aws.AWSGateway</title>
+          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.client.aws.AWSGateway" />
+          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.client.aws.AWSGateway" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -143,6 +143,10 @@
                         <a href="AWSBasicCredentials.html" title="">AWSBasicCredentials</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="AWSClient.html" title=""></a>
+                        <a href="AWSClient.html" title="">AWSClient</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="AWSCredentialsProvider.html" title=""></a>
                         <a href="AWSCredentialsProvider.html" title="">AWSCredentialsProvider</a>
                       </li><li class="current-entities indented4">
@@ -157,6 +161,10 @@
                         <span class="separator"></span>
                         <a class="class" href="AWSTokenCredentials.html" title=""></a>
                         <a href="AWSTokenCredentials.html" title="">AWSTokenCredentials</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="CredentialParams.html" title=""></a>
+                        <a href="CredentialParams.html" title="">CredentialParams</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="Credentials.html" title=""></a>
@@ -184,7 +192,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">AWSGateway</span><span class="result"> extends <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span></span>
+        <span class="name">AWSGateway</span><span class="result"> extends <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span> with <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></span>
       </span>
       </h4>
 
@@ -193,7 +201,7 @@
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a>, <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span>, <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -219,7 +227,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.client.aws.AWSGateway"><span>AWSGateway</span></li><li class="in" name="java.lang.AutoCloseable"><span>AutoCloseable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.client.aws.AWSGateway"><span>AWSGateway</span></li><li class="in" name="com.johnsnowlabs.client.CloudStorage"><span>CloudStorage</span></li><li class="in" name="java.lang.AutoCloseable"><span>AutoCloseable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -357,7 +365,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -385,10 +393,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → AutoCloseable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#copyFileToS3" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="copyFileToS3(bucket:String,s3FilePath:String,sourceFilePath:String):com.amazonaws.services.s3.model.PutObjectResult"></a><a id="copyFileToS3(String,String,String):PutObjectResult"></a>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#copyFileToBucket" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyFileToBucket(bucketName:String,destinationPath:String,inputStream:java.io.InputStream):Unit"></a><a id="copyFileToBucket(String,String,InputStream):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#copyFileToS3(bucket:String,s3FilePath:String,sourceFilePath:String):com.amazonaws.services.s3.model.PutObjectResult" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#copyFileToBucket(bucketName:String,destinationPath:String,inputStream:java.io.InputStream):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -397,14 +405,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">copyFileToS3</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceFilePath">sourceFilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.amazonaws.services.s3.model.PutObjectResult">PutObjectResult</span></span>
+        <span class="name">copyFileToBucket</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="destinationPath">destinationPath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="inputStream">inputStream: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#copyInputStreamToS3" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="copyInputStreamToS3(bucket:String,s3FilePath:String,sourceFilePath:String):com.amazonaws.services.s3.model.PutObjectResult"></a><a id="copyInputStreamToS3(String,String,String):PutObjectResult"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#copyInputStreamToBucket" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyInputStreamToBucket(bucketName:String,filePath:String,sourceFilePath:String):Unit"></a><a id="copyInputStreamToBucket(String,String,String):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#copyInputStreamToS3(bucket:String,s3FilePath:String,sourceFilePath:String):com.amazonaws.services.s3.model.PutObjectResult" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#copyInputStreamToBucket(bucketName:String,filePath:String,sourceFilePath:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -413,14 +421,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">copyInputStreamToS3</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceFilePath">sourceFilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.amazonaws.services.s3.model.PutObjectResult">PutObjectResult</span></span>
+        <span class="name">copyInputStreamToBucket</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceFilePath">sourceFilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#doesS3FolderExist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="doesS3FolderExist(bucket:String,s3FilePath:String):Boolean"></a><a id="doesS3FolderExist(String,String):Boolean"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#doesBucketPathExist" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="doesBucketPathExist(bucketName:String,filePath:String):Boolean"></a><a id="doesBucketPathExist(String,String):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#doesS3FolderExist(bucket:String,s3FilePath:String):Boolean" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#doesBucketPathExist(bucketName:String,filePath:String):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -429,10 +437,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">doesS3FolderExist</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">doesBucketPathExist</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.client.aws.AWSGateway#doesS3ObjectExist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="doesS3ObjectExist(bucket:String,s3FilePath:String):Boolean"></a><a id="doesS3ObjectExist(String,String):Boolean"></a>
       <span class="permalink">
@@ -449,10 +457,10 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#downloadFilesFromDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="downloadFilesFromDirectory(bucketName:String,keyPrefix:String,directoryPath:java.io.File,isIndex:Boolean):Unit"></a><a id="downloadFilesFromDirectory(String,String,File,Boolean):Unit"></a>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#downloadFilesFromBucketToDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="downloadFilesFromBucketToDirectory(bucketName:String,filePath:String,directoryPath:String,isIndex:Boolean):Unit"></a><a id="downloadFilesFromBucketToDirectory(String,String,String,Boolean):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#downloadFilesFromDirectory(bucketName:String,keyPrefix:String,directoryPath:java.io.File,isIndex:Boolean):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#downloadFilesFromBucketToDirectory(bucketName:String,filePath:String,directoryPath:String,isIndex:Boolean):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -461,10 +469,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">downloadFilesFromDirectory</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyPrefix">keyPrefix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="directoryPath">directoryPath: <span class="extype" name="java.io.File">File</span></span>, <span name="isIndex">isIndex: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">downloadFilesFromBucketToDirectory</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="directoryPath">directoryPath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isIndex">isIndex: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -477,7 +485,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -550,7 +558,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getMetadata</span><span class="params">(<span name="s3Path">s3Path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="folder">folder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../../nlp/pretrained/ResourceMetadata.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceMetadata">ResourceMetadata</a>]</span>
+        <span class="name">getMetadata</span><span class="params">(<span name="s3Path">s3Path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="folder">folder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../../../scala/index.html#List[+A]=List[A]" class="extmbr" name="scala.List">List</a>[<a href="../../nlp/pretrained/ResourceMetadata.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceMetadata">ResourceMetadata</a>]</span>
       </span>
       
       
@@ -697,7 +705,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -849,10 +857,12 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="java.lang.AutoCloseable">
+        <div class="parent" name="com.johnsnowlabs.client.CloudStorage">
+              <h3>Inherited from <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></h3>
+            </div><div class="parent" name="java.lang.AutoCloseable">
               <h3>Inherited from <span class="extype" name="java.lang.AutoCloseable">AutoCloseable</span></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+              <h3>Inherited from <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
             </div>

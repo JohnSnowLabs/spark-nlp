@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.0.0 ScalaDoc  - com.johnsnowlabs.client.gcp.GCPGateway</title>
-          <meta name="description" content="Spark NLP 5.0.0 ScalaDoc - com.johnsnowlabs.client.gcp.GCPGateway" />
-          <meta name="keywords" content="Spark NLP 5.0.0 ScalaDoc com.johnsnowlabs.client.gcp.GCPGateway" />
+          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.client.gcp.GCPGateway</title>
+          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.client.gcp.GCPGateway" />
+          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.client.gcp.GCPGateway" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -135,6 +135,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.client">client</a></dd></dl></div>
     </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="GCPClient.html" title=""></a>
+                        <a href="GCPClient.html" title="">GCPClient</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">GCPGateway</a>
                       </li>
@@ -160,7 +164,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">GCPGateway</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">GCPGateway</span><span class="result"> extends <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></span>
       </span>
       </h4>
 
@@ -169,7 +173,7 @@
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a>, <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -195,7 +199,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.client.gcp.GCPGateway"><span>GCPGateway</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.client.gcp.GCPGateway"><span>GCPGateway</span></li><li class="in" name="com.johnsnowlabs.client.CloudStorage"><span>CloudStorage</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -317,7 +321,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -329,10 +333,10 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#copyFileToGCPStorage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="copyFileToGCPStorage(bucket:String,destinationGCPStoragePath:String,inputStream:java.io.InputStream):Unit"></a><a id="copyFileToGCPStorage(String,String,InputStream):Unit"></a>
+    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#copyFileToBucket" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyFileToBucket(bucketName:String,destinationPath:String,inputStream:java.io.InputStream):Unit"></a><a id="copyFileToBucket(String,String,InputStream):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#copyFileToGCPStorage(bucket:String,destinationGCPStoragePath:String,inputStream:java.io.InputStream):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#copyFileToBucket(bucketName:String,destinationPath:String,inputStream:java.io.InputStream):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -341,14 +345,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">copyFileToGCPStorage</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="destinationGCPStoragePath">destinationGCPStoragePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="inputStream">inputStream: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">copyFileToBucket</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="destinationPath">destinationPath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="inputStream">inputStream: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#doesFolderExist" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="doesFolderExist(bucket:String,prefix:String):Boolean"></a><a id="doesFolderExist(String,String):Boolean"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.gcp.GCPGateway">GCPGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#copyInputStreamToBucket" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="copyInputStreamToBucket(bucketName:String,filePath:String,sourceFilePath:String):Unit"></a><a id="copyInputStreamToBucket(String,String,String):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#doesFolderExist(bucket:String,prefix:String):Boolean" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#copyInputStreamToBucket(bucketName:String,filePath:String,sourceFilePath:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -357,10 +361,42 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">doesFolderExist</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="prefix">prefix: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">copyInputStreamToBucket</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sourceFilePath">sourceFilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.gcp.GCPGateway">GCPGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#doesBucketPathExist" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="doesBucketPathExist(bucketName:String,filePath:String):Boolean"></a><a id="doesBucketPathExist(String,String):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#doesBucketPathExist(bucketName:String,filePath:String):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">doesBucketPathExist</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
       
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.gcp.GCPGateway">GCPGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.gcp.GCPGateway#downloadFilesFromBucketToDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="downloadFilesFromBucketToDirectory(bucketName:String,filePath:String,directoryPath:String,isIndex:Boolean):Unit"></a><a id="downloadFilesFromBucketToDirectory(String,String,String,Boolean):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/gcp/GCPGateway.html#downloadFilesFromBucketToDirectory(bucketName:String,filePath:String,directoryPath:String,isIndex:Boolean):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">downloadFilesFromBucketToDirectory</span><span class="params">(<span name="bucketName">bucketName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="directoryPath">directoryPath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isIndex">isIndex: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.gcp.GCPGateway">GCPGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -373,7 +409,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -481,7 +517,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -633,8 +669,10 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+        <div class="parent" name="com.johnsnowlabs.client.CloudStorage">
+              <h3>Inherited from <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
             </div>

@@ -1,0 +1,9 @@
+{%- assign _modelname = include.article.name -%}
+{%- assign _modeledition = include.article.edition -%}
+{%- assign _title = include.article.title -%}
+
+{%- if _title -%}
+{{ _title }} | {% if _modelname %}{{ _modelname }}{% endif %}{% if _modeledition %} | {{ _modeledition }}{% endif %}
+{%- else -%}
+  {%- assign __return = nil -%}
+{%- endif -%}

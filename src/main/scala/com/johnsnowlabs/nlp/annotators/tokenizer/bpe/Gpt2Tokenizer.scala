@@ -56,9 +56,9 @@ class Gpt2Tokenizer(
   override val prependForPieceId: Option[String] =
     if (prependString.nonEmpty) Some(prependString) else None
 
-  private val decoderVocab = vocab.map(x => (x._2, x._1))
+  protected val decoderVocab: Map[Int, String] = vocab.map(x => (x._2, x._1))
 
-  private val unicodeToByteMapping: Map[String, Int] =
+  protected val unicodeToByteMapping: Map[String, Int] =
     bytesToUnicodeMapping.map(x => (x._2, x._1))
 
   override def preProcessTokenForBpe(token: String): String = {

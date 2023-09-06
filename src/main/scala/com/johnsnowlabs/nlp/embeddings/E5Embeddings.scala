@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.E5
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -144,6 +145,7 @@ class E5Embeddings(override val uid: String)
     extends AnnotatorModel[E5Embeddings]
     with HasBatchedAnnotate[E5Embeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -228,12 +230,14 @@ class E5Embeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): E5Embeddings = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): E5Embeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new E5(
             tensorflowWrapper,
+            onnxWrapper,
             configProtoBytes = getConfigProtoBytes,
             sentenceStartTokenId = sentenceStartTokenId,
             sentenceEndTokenId = sentenceEndTokenId,
@@ -335,14 +339,29 @@ class E5Embeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflow,
-      "_e5",
-      E5Embeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes,
-      savedSignatures = getSignatures)
+    val suffix = "_e5"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          E5Embeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes,
+          savedSignatures = getSignatures)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          E5Embeddings.onnxFile)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   /** @group getParam */
@@ -379,19 +398,28 @@ trait ReadablePretrainedE5Model
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadE5DLModel extends ReadTensorflowModel {
+trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[E5Embeddings] =>
 
   override val tfFile: String = "e5_tensorflow"
+  override val onnxFile: String = "e5_onnx"
+
   def readModel(instance: E5Embeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(
-      path,
-      spark,
-      "_e5_tf",
-      savedSignatures = instance.getSignatures,
-      initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_e5_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_e5_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
   }
 
   addReader(readModel)
@@ -399,19 +427,24 @@ trait ReadE5DLModel extends ReadTensorflowModel {
   def loadSavedModel(modelPath: String, spark: SparkSession): E5Embeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+
     /*Universal parameters for all engines*/
-    val annotatorModel = new E5Embeddings().setVocabulary(vocabs)
+    val annotatorModel = new E5Embeddings()
+      .setVocabulary(vocabs)
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
+
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) = TensorflowWrapper.read(
-          localModelPath,
-          zipped = false,
-          useBundle = true,
-          tags = Array("serve"),
-          initAllTables = false)
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            tags = Array("serve"),
+            initAllTables = false)
 
         val _signatures = signatures match {
           case Some(s) => s
@@ -423,7 +456,12 @@ trait ReadE5DLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

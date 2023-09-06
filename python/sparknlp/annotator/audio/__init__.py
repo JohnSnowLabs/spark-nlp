@@ -13,3 +13,4 @@
 #  limitations under the License.
 from sparknlp.annotator.audio.wav2vec2_for_ctc import *
 from sparknlp.annotator.audio.hubert_for_ctc import *
+from sparknlp.annotator.audio.whisper_for_ctc import *

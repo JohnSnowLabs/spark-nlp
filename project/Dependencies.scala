@@ -114,5 +114,9 @@ object Dependencies {
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
 
+  val azureIdentityVersion = "1.9.1"
+  val azureStorageVersion = "12.22.2"
+  val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
+  val azureStorage = "com.azure" % "azure-storage-blob" % "12.22.2" % Provided
   /** ------- Dependencies end  ------- */
 }
