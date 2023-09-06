@@ -166,5 +166,4 @@ object OnnxWrapper {
        encoder: OnnxWrapper,
        decoder: OnnxWrapper,
        decoderWithPast: OnnxWrapper)
-
 }
