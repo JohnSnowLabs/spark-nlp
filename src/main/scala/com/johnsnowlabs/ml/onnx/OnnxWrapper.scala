@@ -79,8 +79,8 @@ object OnnxWrapper {
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
-                                       onnxModel: Array[Byte],
-                                       sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+    onnxModel: Array[Byte],
+    sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
 
