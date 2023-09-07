@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English setfit_few_shot_classifier MPNetEmbeddings from Kuaaangwen
+title: English setfit_few_shot_classifier Mpnet from Kuaaangwen
 author: John Snow Labs
 name: setfit_few_shot_classifier
 date: 2023-09-07
@@ -24,8 +24,8 @@ Pretrained MPNetEmbeddings  model, adapted from Hugging Face and curated to prov
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/setfit_few_shot_classifier_en_5.1.1_3.0_1694123478364.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/setfit_few_shot_classifier_en_5.1.1_3.0_1694123478364.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/setfit_few_shot_classifier_en_5.1.1_3.0_1694122595974.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/setfit_few_shot_classifier_en_5.1.1_3.0_1694122595974.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
