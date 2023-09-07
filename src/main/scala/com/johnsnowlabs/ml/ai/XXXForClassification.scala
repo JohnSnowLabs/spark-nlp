@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 
@@ -244,7 +245,8 @@ private[johnsnowlabs] trait XXXForClassification {
       documents: Seq[Annotation],
       maxSentenceLength: Int,
       caseSensitive: Boolean,
-      mergeTokenStrategy: String = MergeTokenStrategy.vocab): Seq[Annotation] = {
+      mergeTokenStrategy: String = MergeTokenStrategy.vocab,
+      engine: String = TensorFlow.name): Seq[Annotation] = {
 
     val questionAnnot = Seq(documents.head)
     val contextAnnot = documents.drop(1)
@@ -264,9 +266,13 @@ private[johnsnowlabs] trait XXXForClassification {
     val startIndex = startScores.zipWithIndex.maxBy(_._1)
     val endIndex = endScores.zipWithIndex.maxBy(_._1)
 
+    val offsetStartIndex = if (engine == TensorFlow.name) 2 else 1
+    val offsetEndIndex = if (engine == TensorFlow.name) 1 else 0
+
     val allTokenPieces =
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
-    val decodedAnswer = allTokenPieces.slice(startIndex._2 - 2, endIndex._2 - 1)
+    val decodedAnswer =
+      allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
     val content =
       mergeTokenStrategy match {
         case MergeTokenStrategy.vocab =>
