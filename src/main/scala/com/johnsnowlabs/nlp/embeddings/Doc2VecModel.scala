@@ -23,7 +23,8 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{IntParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.types.{ArrayType, FloatType, StringType, StructField, StructType}
 
 /** Word2Vec model that creates vector representations of words in a text corpus.
   *
@@ -166,6 +167,21 @@ class Doc2VecModel(override val uid: String)
   /** @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
+  private var sparkSession: Option[SparkSession] = None
+
+  def getVectors: DataFrame = {
+    val vectors: Map[String, Array[Float]] = $$(wordVectors)
+    val rows = vectors.toSeq.map { case (key, values) => Row(key, values) }
+    val schema = StructType(
+      StructField("word", StringType, nullable = false) ::
+        StructField("vector", ArrayType(FloatType), nullable = false) :: Nil)
+    if (sparkSession.isEmpty) {
+      throw new UnsupportedOperationException(
+        "Vector representation empty. Please run Doc2VecModel in some pipeline before accessing vector vocabulary.")
+    }
+    sparkSession.get.createDataFrame(sparkSession.get.sparkContext.parallelize(rows), schema)
+  }
+
   setDefault(inputCols -> Array(TOKEN), outputCol -> "doc2vec", vectorSize -> 100)
 
   private def calculateSentenceEmbeddings(matrix: Seq[Array[Float]]): Array[Float] = {
@@ -178,6 +194,11 @@ class Doc2VecModel(override val uid: String)
       res(j) /= matrix.length
     }
     res
+  }
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    sparkSession = Some(dataset.sparkSession)
+    dataset
   }
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
@@ -204,8 +225,8 @@ class Doc2VecModel(override val uid: String)
           .filter(_.nonEmpty)
 
         val oovVector = Array.fill($(vectorSize))(0.0f)
-        val vectors = tokens.map { tokne =>
-          $$(wordVectors).getOrElse(tokne, oovVector)
+        val vectors = tokens.map { token =>
+          $$(wordVectors).getOrElse(token, oovVector)
         }
 
         val sentEmbeddings = calculateSentenceEmbeddings(vectors)
