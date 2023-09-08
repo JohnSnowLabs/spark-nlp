@@ -24,8 +24,8 @@ Pretrained MPNetEmbeddings  model, adapted from Hugging Face and curated to prov
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/cross_all_mpnet_base_v2_finetuned_webnlg2020_metric_average_en_5.1.1_3.0_1694123651904.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/cross_all_mpnet_base_v2_finetuned_webnlg2020_metric_average_en_5.1.1_3.0_1694123651904.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/cross_all_mpnet_base_v2_finetuned_webnlg2020_metric_average_en_5.1.1_3.0_1694128061507.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/cross_all_mpnet_base_v2_finetuned_webnlg2020_metric_average_en_5.1.1_3.0_1694128061507.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
