@@ -58,9 +58,12 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
       .toString
 
     // 2. Save onnx model
-    val onnxFile = Paths.get(tmpFolder, file).toString
-    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
+    val fileName = Paths.get(file).getFileName.toString
+    val onnxFile = Paths
+      .get(tmpFolder, fileName)
+      .toString
 
+    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
     // 4. Zip folder
     if (zip) ZipArchiveUtil.zip(tmpFolder, file)
 
@@ -163,5 +166,4 @@ object OnnxWrapper {
       encoder: OnnxWrapper,
       decoder: OnnxWrapper,
       decoderWithPast: OnnxWrapper)
-
 }
