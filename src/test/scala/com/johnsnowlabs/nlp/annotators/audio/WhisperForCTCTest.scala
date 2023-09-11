@@ -32,7 +32,7 @@ class WhisperForCTCTest extends AnyFlatSpec with WhisperForCTCBehaviors {
 
   // Needs to be added manually
   lazy val modelTf: WhisperForCTC = WhisperForCTC
-    .pretrained("asr_whisper_tiny")
+    .pretrained("asr_whisper_tiny", "xx")
     .setInputCols("audio_assembler")
     .setOutputCol("document")
 
