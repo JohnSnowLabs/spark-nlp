@@ -1,4 +1,23 @@
 ========
+5.1.1
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing support for ONNX Runtime in MPNet embedding annotator
+* **NEW:** Introducing support for ONNX Runtime in AlbertForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in AlbertForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in AlbertForQuestionAnswering annotator
+* Implement `getVectors` feature in Word2VecModel, Doc2VecModel, and WordEmbeddingsModel annotators. This new feature allows access to the entire tokens and their vectors in the loaded model.
+
+----------------
+Bug Fixes
+----------------
+* Fix how to save and load `Whisper` models
+* Fix saving ONNX model on Windows operating system
+
+
+========
 5.1.0
 ========
 ----------------
