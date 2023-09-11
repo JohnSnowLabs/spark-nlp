@@ -24,7 +24,8 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.{IntParam, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.types.{ArrayType, FloatType, StringType, StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 /** Word2Vec model that creates vector representations of words in a text corpus.
   *
@@ -167,7 +168,27 @@ class Word2VecModel(override val uid: String)
   /** @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
+  private var sparkSession: Option[SparkSession] = None
+
+  def getVectors: DataFrame = {
+    val vectors: Map[String, Array[Float]] = $$(wordVectors)
+    val rows = vectors.toSeq.map { case (key, values) => Row(key, values) }
+    val schema = StructType(
+      StructField("word", StringType, nullable = false) ::
+        StructField("vector", ArrayType(FloatType), nullable = false) :: Nil)
+    if (sparkSession.isEmpty) {
+      throw new UnsupportedOperationException(
+        "Vector representation empty. Please run Word2VecModel in some pipeline before accessing vector vocabulary.")
+    }
+    sparkSession.get.createDataFrame(sparkSession.get.sparkContext.parallelize(rows), schema)
+  }
+
   setDefault(inputCols -> Array(TOKEN), outputCol -> "word2vec", vectorSize -> 100)
+
+  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    sparkSession = Some(dataset.sparkSession)
+    dataset
+  }
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type

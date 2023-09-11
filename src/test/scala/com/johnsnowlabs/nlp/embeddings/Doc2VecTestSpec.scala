@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -27,7 +28,7 @@ import org.apache.spark.mllib.evaluation.{BinaryClassificationMetrics, Multiclas
 import org.apache.spark.sql.functions.{explode, when}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class Doc2VecTestSpec extends AnyFlatSpec {
+class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   "Doc2VecApproach" should "train, save, and load back the saved model" taggedAs FastTest in {
 
@@ -43,18 +44,6 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       "  ",
       " ").toDF("text")
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val setence = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("sentence"))
-      .setOutputCol("token")
-
     val stops = new StopWordsCleaner()
       .setInputCols("token")
       .setOutputCol("cleanedToken")
@@ -67,7 +56,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setStorageRef("my_awesome_doc2vec")
       .setEnableCaching(true)
 
-    val pipeline = new Pipeline().setStages(Array(document, setence, tokenizer, stops, doc2Vec))
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, sentenceDetector, tokenizerWithSentence, stops, doc2Vec))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -87,7 +77,8 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence_embeddings")
 
     val loadedPipeline =
-      new Pipeline().setStages(Array(document, setence, tokenizer, loadedDoc2Vec))
+      new Pipeline().setStages(
+        Array(documentAssembler, sentenceDetector, tokenizerWithSentence, loadedDoc2Vec))
 
     loadedPipeline.fit(ddd).transform(ddd).select("sentence_embeddings").show()
 
@@ -104,10 +95,6 @@ class Doc2VecTestSpec extends AnyFlatSpec {
       " carbon emissions have come down without impinging on our growth . . .",
       "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.",
       "the ").toDF("text")
-
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
 
     val setence = new SentenceDetector()
       .setInputCols("document")
@@ -135,7 +122,7 @@ class Doc2VecTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(
       Array(
-        document,
+        documentAssembler,
         setence,
         tokenizerDocument,
         tokenizerSentence,
@@ -332,4 +319,38 @@ class Doc2VecTestSpec extends AnyFlatSpec {
     println("Area under ROC = " + auROC)
 
   }
+
+  it should "get word vectors as spark dataframe" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val testDataset = Seq(
+      "Rare Hendrix song draft sells for almost $17,000. This is my second sentenece! The third one here!")
+      .toDF("text")
+
+    val doc2Vec = Doc2VecModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("embeddings")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, doc2Vec))
+
+    val result = pipeline.fit(testDataset).transform(testDataset)
+    result.show()
+
+    doc2Vec.getVectors.show()
+  }
+
+  it should "raise an error when trying to retrieve empty word vectors" taggedAs SlowTest in {
+    val word2Vec = Doc2VecModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("embeddings")
+
+    intercept[UnsupportedOperationException] {
+      word2Vec.getVectors
+    }
+  }
+
 }
