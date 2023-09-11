@@ -56,7 +56,8 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setStorageRef("my_awesome_doc2vec")
       .setEnableCaching(true)
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizerWithSentence, stops, doc2Vec))
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, sentenceDetector, tokenizerWithSentence, stops, doc2Vec))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -76,7 +77,8 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("sentence_embeddings")
 
     val loadedPipeline =
-      new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizerWithSentence, loadedDoc2Vec))
+      new Pipeline().setStages(
+        Array(documentAssembler, sentenceDetector, tokenizerWithSentence, loadedDoc2Vec))
 
     loadedPipeline.fit(ddd).transform(ddd).select("sentence_embeddings").show()
 
