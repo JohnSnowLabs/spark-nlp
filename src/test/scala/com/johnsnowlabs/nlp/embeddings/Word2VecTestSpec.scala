@@ -201,4 +201,37 @@ class Word2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
+  it should "get word vectors as spark dataframe" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val testDataset = Seq(
+      "Rare Hendrix song draft sells for almost $17,000. This is my second sentenece! The third one here!")
+      .toDF("text")
+
+    val word2Vec = Word2VecModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("embeddings")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, word2Vec))
+
+    val result = pipeline.fit(testDataset).transform(testDataset)
+    result.show()
+
+    word2Vec.getVectors.show()
+  }
+
+  it should "raise an error when trying to retrieve empty word vectors" taggedAs SlowTest in {
+    val word2Vec = Word2VecModel
+      .pretrained()
+      .setInputCols("token")
+      .setOutputCol("embeddings")
+
+    intercept[UnsupportedOperationException] {
+      word2Vec.getVectors
+    }
+  }
+
 }
