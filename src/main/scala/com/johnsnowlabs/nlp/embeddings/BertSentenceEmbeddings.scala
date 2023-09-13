@@ -457,12 +457,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name => {
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_bert_sentence_onnx",
-            zipped = true,
-            useBundle = false)
+          readOnnxModel(path, spark, "_bert_sentence_onnx", zipped = true, useBundle = false)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
       }
       case _ =>

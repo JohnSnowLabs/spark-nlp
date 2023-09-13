@@ -93,10 +93,6 @@ object OnnxWrapper {
         getCPUSessionConfig(sparkSession)
       }
 
-      sessionOptions.getConfigEntries.forEach { case (key, value) =>
-        println(s"config: $key, value: $value")
-      }
-
       val session = env.createSession(onnxModel, sessionOptions)
       (session, env)
     }
