@@ -312,7 +312,8 @@ class MPNetEmbeddings(override val uid: String)
         sentences = allAnnotations.map(_._1),
         tokenizedSentences = tokenizedSentences,
         batchSize = $(batchSize),
-        maxSentenceLength = $(maxSentenceLength))
+        maxSentenceLength = $(maxSentenceLength),
+        sparkSession = sparkSession)
     } else {
       Seq()
     }
@@ -413,7 +414,7 @@ trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_mpnet_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(path, spark, "_mpnet_onnx", zipped = true, useBundle = false)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
@@ -453,7 +454,11 @@ trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel {
           .setModelIfNotSet(spark, Some(wrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          sparkSession = Some(spark))
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

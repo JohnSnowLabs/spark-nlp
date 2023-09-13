@@ -167,8 +167,6 @@ class Doc2VecModel(override val uid: String)
   /** @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
-  private var sparkSession: Option[SparkSession] = None
-
   def getVectors: DataFrame = {
     val vectors: Map[String, Array[Float]] = $$(wordVectors)
     val rows = vectors.toSeq.map { case (key, values) => Row(key, values) }
@@ -194,11 +192,6 @@ class Doc2VecModel(override val uid: String)
       res(j) /= matrix.length
     }
     res
-  }
-
-  override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    sparkSession = Some(dataset.sparkSession)
-    dataset
   }
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation

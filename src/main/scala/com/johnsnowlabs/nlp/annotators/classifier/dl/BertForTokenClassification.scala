@@ -30,7 +30,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** BertForTokenClassification can load Bert Models with a token classification head on top (a
   * linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER)
@@ -280,7 +280,8 @@ class BertForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        $$(labels))
+        $$(labels),
+        sparkSession)
     })
     else {
       Seq(Seq.empty[Annotation])

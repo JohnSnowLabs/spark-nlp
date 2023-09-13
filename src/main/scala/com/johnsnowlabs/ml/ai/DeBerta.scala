@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.JavaConverters._
 
@@ -59,7 +60,9 @@ class DeBerta(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[PAD]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]] = {
     /* Actual size of each sentence to skip padding in the TF model */
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
@@ -68,7 +71,7 @@ class DeBerta(
 
       case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(sparkSession)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -162,7 +165,8 @@ class DeBerta(
       tokenizedSentences: Seq[TokenizedSentence],
       batchSize: Int,
       maxSentenceLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceEmbeddingsSentence] = {
+      caseSensitive: Boolean,
+      sparkSession: Option[SparkSession]): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -175,7 +179,7 @@ class DeBerta(
           SentenceStartTokenId,
           SentenceEndTokenId,
           SentencePadTokenId)
-        val vectors = tag(encoded)
+        val vectors = tag(encoded, sparkSession)
 
         /*Combine tokens and calculated embeddings*/
         batch.zip(vectors).map { case (sentence, tokenVectors) =>

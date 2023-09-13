@@ -21,6 +21,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.apache.spark.sql.SparkSession
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -134,7 +135,9 @@ private[johnsnowlabs] class BertClassification(
     }
   }
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -198,7 +201,10 @@ private[johnsnowlabs] class BertClassification(
     batchScores
   }
 
-  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
+  def tagSequence(
+      batch: Seq[Array[Int]],
+      activation: String,
+      sparkSession: Option[SparkSession]): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -338,7 +344,9 @@ private[johnsnowlabs] class BertClassification(
       .toArray
   }
 
-  def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
+  def tagSpan(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max

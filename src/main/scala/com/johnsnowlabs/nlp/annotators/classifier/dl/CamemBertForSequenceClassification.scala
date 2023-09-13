@@ -36,7 +36,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** CamemBertForSequenceClassification can load CamemBERT Models with sequence
   * classification/regression head on top (a linear layer on top of the pooled output) e.g. for
@@ -296,7 +296,8 @@ class CamemBertForSequenceClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          $(activation))
+          $(activation),
+          sparkSession)
       } else {
         Seq.empty[Annotation]
       }

@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.apache.spark.sql.SparkSession
 
 private[johnsnowlabs] class ZeroShotNerClassification(
     override val tensorflowWrapper: TensorflowWrapper,
@@ -41,8 +42,10 @@ private[johnsnowlabs] class ZeroShotNerClassification(
       merges,
       vocabulary) {
 
-  override def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
-    val (startLogits, endLogits) = super.tagSpan(batch)
+  override def tagSpan(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): (Array[Array[Float]], Array[Array[Float]]) = {
+    val (startLogits, endLogits) = super.tagSpan(batch, sparkSession)
     val contextStartOffsets = batch.map(_.indexOf(sentenceEndTokenId))
 
     (
@@ -63,7 +66,8 @@ private[johnsnowlabs] class ZeroShotNerClassification(
       maxSentenceLength: Int,
       caseSensitive: Boolean,
       mergeTokenStrategy: String,
-      engine: String): Seq[Annotation] = {
+      engine: String,
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
     val questionAnnot = Seq(documents.head)
     val contextAnnot = documents.drop(1)
 
@@ -74,7 +78,7 @@ private[johnsnowlabs] class ZeroShotNerClassification(
 
     val encodedInput =
       encodeSequence(wordPieceTokenizedQuestion, wordPieceTokenizedContext, maxSentenceLength)
-    val (startLogits, endLogits) = tagSpan(encodedInput)
+    val (startLogits, endLogits) = tagSpan(encodedInput, sparkSession)
 
     val startScores = startLogits.map(x => x.map(y => y / x.sum)).head
     val endScores = endLogits.map(x => x.map(y => y / x.sum)).head

@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.ai
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
+import org.apache.spark.sql.SparkSession
 
 private[johnsnowlabs] trait XXXForClassification {
 
@@ -32,7 +33,8 @@ private[johnsnowlabs] trait XXXForClassification {
       batchSize: Int,
       maxSentenceLength: Int,
       caseSensitive: Boolean,
-      tags: Map[String, Int]): Seq[Annotation] = {
+      tags: Map[String, Int],
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -42,7 +44,7 @@ private[johnsnowlabs] trait XXXForClassification {
       .grouped(batchSize)
       .flatMap { batch =>
         val encoded = encode(batch, maxSentenceLength)
-        val logits = tag(encoded)
+        val logits = tag(encoded, sparkSession)
 
         /*Combine tokens and calculated logits*/
         batch.zip(logits).flatMap { case (sentence, tokenVectors) =>
@@ -71,7 +73,8 @@ private[johnsnowlabs] trait XXXForClassification {
       caseSensitive: Boolean,
       coalesceSentences: Boolean = false,
       tags: Map[String, Int],
-      activation: String = ActivationFunction.softmax): Seq[Annotation] = {
+      activation: String = ActivationFunction.softmax,
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -84,7 +87,7 @@ private[johnsnowlabs] trait XXXForClassification {
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val encoded = encode(tokensBatch, maxSentenceLength)
-        val logits = tagSequence(encoded, activation)
+        val logits = tagSequence(encoded, activation, sparkSession)
         activation match {
           case ActivationFunction.softmax =>
             if (coalesceSentences) {
@@ -246,7 +249,8 @@ private[johnsnowlabs] trait XXXForClassification {
       maxSentenceLength: Int,
       caseSensitive: Boolean,
       mergeTokenStrategy: String = MergeTokenStrategy.vocab,
-      engine: String = TensorFlow.name): Seq[Annotation] = {
+      engine: String = TensorFlow.name,
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
 
     val questionAnnot = Seq(documents.head)
     val contextAnnot = documents.drop(1)
@@ -258,7 +262,7 @@ private[johnsnowlabs] trait XXXForClassification {
 
     val encodedInput =
       encodeSequence(wordPieceTokenizedQuestion, wordPieceTokenizedContext, maxSentenceLength)
-    val (startLogits, endLogits) = tagSpan(encodedInput)
+    val (startLogits, endLogits) = tagSpan(encodedInput, sparkSession)
 
     val startScores = startLogits.transpose.map(_.sum / startLogits.length)
     val endScores = endLogits.transpose.map(_.sum / endLogits.length)
@@ -362,9 +366,12 @@ private[johnsnowlabs] trait XXXForClassification {
     Seq(Array(sentenceStartTokenId) ++ question ++ context)
   }
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]]
+  def tag(batch: Seq[Array[Int]], sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]]
 
-  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]]
+  def tagSequence(
+      batch: Seq[Array[Int]],
+      activation: String,
+      sparkSession: Option[SparkSession]): Array[Array[Float]]
 
   def tagZeroShotSequence(
       batch: Seq[Array[Int]],
@@ -372,7 +379,9 @@ private[johnsnowlabs] trait XXXForClassification {
       contradictionId: Int,
       activation: String): Array[Array[Float]]
 
-  def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]])
+  def tagSpan(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): (Array[Array[Float]], Array[Array[Float]])
 
   /** Calculate softmax from returned logits
     * @param scores

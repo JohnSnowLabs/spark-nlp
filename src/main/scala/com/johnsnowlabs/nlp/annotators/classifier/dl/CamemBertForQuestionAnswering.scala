@@ -34,7 +34,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top
   * for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
@@ -244,7 +244,8 @@ class CamemBertForQuestionAnswering(override val uid: String)
           documents,
           $(maxSentenceLength),
           $(caseSensitive),
-          MergeTokenStrategy.sentencePiece)
+          MergeTokenStrategy.sentencePiece,
+          sparkSession = sparkSession)
       } else {
         Seq.empty[Annotation]
       }

@@ -29,7 +29,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** BertForQuestionAnswering can load Bert Models with a span classification head on top for
   * extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
@@ -260,7 +260,8 @@ class BertForQuestionAnswering(override val uid: String)
           documents,
           $(maxSentenceLength),
           $(caseSensitive),
-          MergeTokenStrategy.vocab)
+          MergeTokenStrategy.vocab,
+          sparkSession = sparkSession)
       } else {
         Seq.empty[Annotation]
       }

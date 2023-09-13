@@ -25,6 +25,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.JavaConverters._
 
@@ -98,7 +99,7 @@ private[johnsnowlabs] class XlmRoberta(
     val dummyInput =
       Array(0, 10842, 25, 7, 24814, 2037, 70, 148735, 100, 70, 5117, 53498, 6620, 5, 2)
     if (modelArch == ModelArch.wordEmbeddings) {
-      tag(Seq(dummyInput))
+      tag(Seq(dummyInput), None)
     } else if (modelArch == ModelArch.sentenceEmbeddings) {
       tagSequence(Seq(dummyInput))
     }
@@ -106,7 +107,9 @@ private[johnsnowlabs] class XlmRoberta(
 
   sessionWarmup()
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
@@ -115,7 +118,7 @@ private[johnsnowlabs] class XlmRoberta(
 
       case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(sparkSession)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -244,7 +247,8 @@ private[johnsnowlabs] class XlmRoberta(
   def predict(
       tokenizedSentences: Seq[TokenizedSentence],
       batchSize: Int,
-      maxSentenceLength: Int): Seq[WordpieceEmbeddingsSentence] = {
+      maxSentenceLength: Int,
+      sparkSession: Option[SparkSession]): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength)
     wordPieceTokenizedSentences.zipWithIndex
@@ -256,7 +260,7 @@ private[johnsnowlabs] class XlmRoberta(
           SentenceStartTokenId,
           SentenceEndTokenId,
           SentencePadTokenId)
-        val vectors = tag(encoded)
+        val vectors = tag(encoded, sparkSession)
 
         /*Combine tokens and calculated embeddings*/
         batch.zip(vectors).map { case (sentence, tokenVectors) =>

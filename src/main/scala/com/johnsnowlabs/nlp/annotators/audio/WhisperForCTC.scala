@@ -392,7 +392,8 @@ class WhisperForCTC(override val uid: String)
           noRepeatNgramSize = getNoRepeatNgramSize,
           randomSeed = getRandomSeed,
           task = getTask,
-          language = getLanguage)
+          language = getLanguage,
+          sparkSession = sparkSession)
       } else Seq.empty
     }
   }
@@ -441,7 +442,8 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             path,
             spark,
             Seq("encoder_model", "decoder_model", "decoder_with_past_model"),
-            WhisperForCTC.suffix)
+            WhisperForCTC.suffix,
+            sparkSession = Some(spark))
 
         val onnxWrappers = EncoderDecoderWrappers(
           wrappers("encoder_model"),
@@ -573,21 +575,24 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "encoder_model")
+            modelName = "encoder_model",
+            Some(spark))
 
         val onnxWrapperDecoder =
           OnnxWrapper.read(
             modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            Some(spark))
 
         val onnxWrapperDecoderWithPast =
           OnnxWrapper.read(
             modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_with_past_model")
+            modelName = "decoder_with_past_model",
+            Some(spark))
 
         val onnxWrappers = EncoderDecoderWrappers(
           onnxWrapperEncoder,

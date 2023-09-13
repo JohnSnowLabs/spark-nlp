@@ -270,7 +270,8 @@ class RoBertaForQuestionAnswering(override val uid: String)
           documents,
           $(maxSentenceLength),
           $(caseSensitive),
-          MergeTokenStrategy.vocab)
+          MergeTokenStrategy.vocab,
+          sparkSession = sparkSession)
       } else {
         Seq.empty[Annotation]
       }

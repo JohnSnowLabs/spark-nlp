@@ -22,11 +22,13 @@ import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
+import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
+import scala.util.{Failure, Success, Try}
 
 class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
 
@@ -40,10 +42,10 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
   @transient private var m_env: OrtEnvironment = _
   @transient private val logger = LoggerFactory.getLogger("OnnxWrapper")
 
-  def getSession(sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+  def getSession(sparkSession: Option[SparkSession]): (OrtSession, OrtEnvironment) =
     this.synchronized {
       if (m_session == null && m_env == null) {
-        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, sessionOptions)
+        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, sparkSession)
         m_env = env
         m_session = session
       }
@@ -80,40 +82,22 @@ object OnnxWrapper {
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
       onnxModel: Array[Byte],
-      sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+      sparkSession: Option[SparkSession]): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
-
-      val opts =
-        if (sessionOptions.isDefined) sessionOptions.get else new OrtSession.SessionOptions()
-
       val providers = OrtEnvironment.getAvailableProviders
 
-      if (providers.toArray.map(x => x.toString).contains("CUDA")) {
-        logger.info("using CUDA")
-        // it seems there is no easy way to use multiple GPUs
-        // at least not without using multiple threads
-        // TODO: add support for multiple GPUs
-        // TODO: allow user to specify which GPU to use
-        val gpuDeviceId = 0 // The GPU device ID to execute on
-        val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
-        // TODO: incorporate other cuda-related configs
-        // cudaOpts.add("gpu_mem_limit", "" + (512 * 1024 * 1024))
-        // sessOptions.addCUDA(gpuDeviceId)
-        opts.addCUDA(cudaOpts)
+      val sessionOptions = if (providers.toArray.map(x => x.toString).contains("CUDA")) {
+        getCUDASessionConfig(sparkSession)
       } else {
-        logger.info("using CPUs")
-        // TODO: the following configs can be tested for performance
-        // However, so far, they seem to be slower than the ones used
-        // opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
-        // opts.setMemoryPatternOptimization(true)
-        // opts.setCPUArenaAllocator(false)
-        opts.setIntraOpNumThreads(6)
-        opts.setOptimizationLevel(OptLevel.ALL_OPT)
-        opts.setExecutionMode(ExecutionMode.SEQUENTIAL)
+        getCPUSessionConfig(sparkSession)
       }
 
-      val session = env.createSession(onnxModel, opts)
+      sessionOptions.getConfigEntries.forEach { case (key, value) =>
+        println(s"config: $key, value: $value")
+      }
+
+      val session = env.createSession(onnxModel, sessionOptions)
       (session, env)
     }
 
@@ -122,7 +106,7 @@ object OnnxWrapper {
       zipped: Boolean = true,
       useBundle: Boolean = false,
       modelName: String = "model",
-      sessionOptions: Option[SessionOptions] = None): OnnxWrapper = {
+      sparkSession: Option[SparkSession]): OnnxWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -143,13 +127,13 @@ object OnnxWrapper {
         val onnxFile = Paths.get(modelPath, s"$modelName.onnx").toString
         val modelFile = new File(onnxFile)
         val modelBytes = FileUtils.readFileToByteArray(modelFile)
-        val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+        val (session, env) = withSafeOnnxModelLoader(modelBytes, sparkSession)
         (session, env, modelBytes)
       } else {
         val modelFile = new File(folder).list().head
         val fullPath = Paths.get(folder, modelFile).toFile
         val modelBytes = FileUtils.readFileToByteArray(fullPath)
-        val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+        val (session, env) = withSafeOnnxModelLoader(modelBytes, sparkSession)
         (session, env, modelBytes)
       }
 
@@ -160,6 +144,86 @@ object OnnxWrapper {
     onnxWrapper.m_session = session
     onnxWrapper.m_env = env
     onnxWrapper
+  }
+
+  private def getCUDASessionConfig(sparkSession: Option[SparkSession]): SessionOptions = {
+
+    logger.info("Using CUDA")
+    // it seems there is no easy way to use multiple GPUs
+    // at least not without using multiple threads
+    // TODO: add support for multiple GPUs
+    // TODO: allow user to specify which GPU to use
+    var gpuDeviceId = 0 // The GPU device ID to execute on
+
+    if (sparkSession.isDefined) {
+      gpuDeviceId = sparkSession.get.conf.get("spark.jsl.settings.onnx.gpuDeviceId", "0").toInt
+    }
+
+    val sessionOptions = new OrtSession.SessionOptions()
+    val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
+    sessionOptions.addCUDA(cudaOpts)
+
+    sessionOptions
+  }
+
+  private def getCPUSessionConfig(sparkSession: Option[SparkSession]): SessionOptions = {
+
+    val defaultIntraOpNumThreads = 6
+    val defaultExecutionMode = ExecutionMode.SEQUENTIAL
+    val defaultOptLevel = OptLevel.ALL_OPT
+
+    def getOptLevel(optLevel: String): OptLevel = {
+      Try(OptLevel.valueOf(optLevel)) match {
+        case Success(value) => value
+        case Failure(_) => {
+          logger.warn(
+            s"Error while getting OptLevel, using default value: ${defaultOptLevel.name()}")
+          defaultOptLevel
+        }
+      }
+    }
+
+    def getExecutionMode(executionMode: String): ExecutionMode = {
+      Try(ExecutionMode.valueOf(executionMode)) match {
+        case Success(value) => value
+        case Failure(_) => {
+          logger.warn(
+            s"Error while getting Execution Mode, using default value: ${defaultExecutionMode.name()}")
+          defaultExecutionMode
+        }
+      }
+    }
+
+    logger.info("Using CPUs")
+    // TODO: the following configs can be tested for performance
+    // However, so far, they seem to be slower than the ones used
+    // opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
+    // opts.setMemoryPatternOptimization(true)
+    // opts.setCPUArenaAllocator(false)
+    var intraOpNumThreads = defaultIntraOpNumThreads
+    var optimizationLevel = defaultOptLevel
+    var executionMode = defaultExecutionMode
+
+    if (sparkSession.isDefined) {
+      intraOpNumThreads = sparkSession.get.conf
+        .get("spark.jsl.settings.onnx.intraOpNumThreads", defaultIntraOpNumThreads.toString)
+        .toInt
+
+      optimizationLevel = getOptLevel(
+        sparkSession.get.conf
+          .get("spark.jsl.settings.onnx.optimizationLevel", defaultOptLevel.toString))
+
+      executionMode = getExecutionMode(
+        sparkSession.get.conf
+          .get("spark.jsl.settings.onnx.executionMode", defaultExecutionMode.toString))
+    }
+
+    val sessionOptions = new OrtSession.SessionOptions()
+    sessionOptions.setIntraOpNumThreads(intraOpNumThreads)
+    sessionOptions.setOptimizationLevel(optimizationLevel)
+    sessionOptions.setExecutionMode(executionMode)
+
+    sessionOptions
   }
 
   case class EncoderDecoderWrappers(

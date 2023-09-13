@@ -19,17 +19,8 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.AlbertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -300,7 +291,8 @@ class AlbertForSequenceClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          $(activation))
+          $(activation),
+          sparkSession)
       } else {
         Seq.empty[Annotation]
       }
@@ -387,8 +379,7 @@ trait ReadAlbertForSequenceDLModel
             spark,
             "_albert_classification_onnx",
             zipped = true,
-            useBundle = false,
-            None)
+            useBundle = false)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -428,7 +419,11 @@ trait ReadAlbertForSequenceDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          sparkSession = Some(spark))
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

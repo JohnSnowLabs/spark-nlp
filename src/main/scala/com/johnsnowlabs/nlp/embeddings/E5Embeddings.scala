@@ -311,7 +311,8 @@ class E5Embeddings(override val uid: String)
         sentences = allAnnotations.map(_._1),
         tokenizedSentences = tokenizedSentences,
         batchSize = $(batchSize),
-        maxSentenceLength = $(maxSentenceLength))
+        maxSentenceLength = $(maxSentenceLength),
+        sparkSession)
     } else {
       Seq()
     }
@@ -413,7 +414,7 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_e5_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(path, spark, "_e5_onnx", zipped = true, useBundle = false)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
@@ -459,7 +460,11 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
           .setModelIfNotSet(spark, Some(wrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          sparkSession = Some(spark))
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

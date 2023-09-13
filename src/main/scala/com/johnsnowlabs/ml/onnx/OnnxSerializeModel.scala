@@ -76,8 +76,7 @@ trait ReadOnnxModel {
       spark: SparkSession,
       suffix: String,
       zipped: Boolean = true,
-      useBundle: Boolean = false,
-      sessionOptions: Option[SessionOptions] = None): OnnxWrapper = {
+      useBundle: Boolean = false): OnnxWrapper = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -98,7 +97,7 @@ trait ReadOnnxModel {
       localPath,
       zipped = zipped,
       useBundle = useBundle,
-      sessionOptions = sessionOptions)
+      sparkSession = Some(spark))
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
@@ -113,7 +112,7 @@ trait ReadOnnxModel {
       suffix: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
+      sparkSession: Option[SparkSession]): Map[String, OnnxWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -136,7 +135,7 @@ trait ReadOnnxModel {
         localPath,
         zipped = zipped,
         useBundle = useBundle,
-        sessionOptions = sessionOptions)
+        sparkSession = sparkSession)
 
       (modelName, onnxWrapper)
     }).toMap

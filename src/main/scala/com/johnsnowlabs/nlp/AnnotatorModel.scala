@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.ml.{Model, PipelineModel}
 import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 /** This trait implements logic that applies nlp using Spark ML Pipeline transformers Should
   * strongly change once UsedDefinedTypes are allowed
@@ -31,8 +31,12 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
     * UserDefinedTypes to @developerAPI
     */
   protected type AnnotationContent = Seq[Row]
+  protected var sparkSession: Option[SparkSession] = None
 
-  protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = dataset
+  protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    sparkSession = Some(dataset.sparkSession)
+    dataset
+  }
 
   protected def afterAnnotate(dataset: DataFrame): DataFrame = dataset
 

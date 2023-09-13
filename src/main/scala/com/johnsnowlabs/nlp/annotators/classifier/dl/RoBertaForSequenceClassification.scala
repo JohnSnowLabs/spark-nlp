@@ -322,7 +322,8 @@ class RoBertaForSequenceClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          $(activation))
+          $(activation),
+          sparkSession)
       } else {
         Seq.empty[Annotation]
       }

@@ -32,7 +32,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 import java.io.File
 
@@ -313,7 +313,8 @@ class BertForSequenceClassification(override val uid: String)
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          $(activation))
+          $(activation),
+          sparkSession)
 
       } else {
         Seq.empty[Annotation]

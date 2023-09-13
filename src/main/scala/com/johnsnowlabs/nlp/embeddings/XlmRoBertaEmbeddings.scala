@@ -295,7 +295,11 @@ class XlmRoBertaEmbeddings(override val uid: String)
       }
 
     val sentenceWordEmbeddings =
-      getModelIfNotSet.predict(sentencesWithRow.map(_._1), $(batchSize), $(maxSentenceLength))
+      getModelIfNotSet.predict(
+        sentencesWithRow.map(_._1),
+        $(batchSize),
+        $(maxSentenceLength),
+        sparkSession)
 
     // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
@@ -407,7 +411,7 @@ trait ReadXlmRobertaDLModel
 
       case ONNX.name => {
         val onnxWrapper =
-          readOnnxModel(path, spark, "_xlmroberta_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(path, spark, "_xlmroberta_onnx", zipped = true, useBundle = false)
         val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       }
@@ -447,7 +451,11 @@ trait ReadXlmRobertaDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          sparkSession = Some(spark))
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

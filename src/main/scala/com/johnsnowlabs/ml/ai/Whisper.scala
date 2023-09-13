@@ -34,6 +34,7 @@ import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{SpecialTokens, WhisperTokenDecoder}
 import com.johnsnowlabs.nlp.{Annotation, AnnotationAudio, AnnotatorType}
+import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory
 import org.tensorflow.{Session, Tensor}
 
@@ -171,7 +172,8 @@ private[johnsnowlabs] class Whisper(
       topP = 1.0,
       repetitionPenalty = 1.0,
       noRepeatNgramSize = 0,
-      randomSeed = None)
+      randomSeed = None,
+      sparkSession = None)
   }
 
   sessionWarmup()
@@ -268,7 +270,8 @@ private[johnsnowlabs] class Whisper(
       noRepeatNgramSize: Int,
       randomSeed: Option[Long],
       task: Option[String] = None,
-      language: Option[String] = None): Seq[Annotation] = {
+      language: Option[String] = None,
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
 
     if (beamSize > 1)
       logger.warn(
@@ -332,9 +335,10 @@ private[johnsnowlabs] class Whisper(
 
           tokenIds
         case ONNX.name =>
-          val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
-          val decoderSession = onnxWrappers.get.decoder.getSession()._1
-          val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
+          val (encoderSession, env) = onnxWrappers.get.encoder.getSession(sparkSession)
+          val decoderSession = onnxWrappers.get.decoder.getSession(sparkSession)._1
+          val decoderWithPastSession =
+            onnxWrappers.get.decoderWithPast.getSession(sparkSession)._1
 
           val encodedBatchTensor: OnnxTensor =
             encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]

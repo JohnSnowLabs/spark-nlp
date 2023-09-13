@@ -293,7 +293,8 @@ class DeBertaEmbeddings(override val uid: String)
       sentencesWithRow.map(_._1),
       $(batchSize),
       $(maxSentenceLength),
-      $(caseSensitive))
+      $(caseSensitive),
+      sparkSession)
 
     // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
@@ -386,7 +387,7 @@ trait ReadDeBertaDLModel
 
       case ONNX.name => {
         val onnxWrapper =
-          readOnnxModel(path, spark, "_deberta_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(path, spark, "_deberta_onnx", zipped = true, useBundle = false)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       }
       case _ =>
@@ -425,7 +426,11 @@ trait ReadDeBertaDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          sparkSession = Some(spark))
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

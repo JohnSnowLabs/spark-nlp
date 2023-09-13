@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.JavaConverters._
 
@@ -93,12 +94,14 @@ private[johnsnowlabs] class Albert(
   private def sessionWarmup(): Unit = {
     val dummyInput =
       Array(101, 2292, 1005, 1055, 4010, 6279, 1996, 5219, 2005, 1996, 2034, 28937, 1012, 102)
-    tag(Seq(dummyInput))
+    tag(Seq(dummyInput), None)
   }
 
   sessionWarmup()
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
@@ -107,7 +110,7 @@ private[johnsnowlabs] class Albert(
 
       case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(sparkSession)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -204,7 +207,8 @@ private[johnsnowlabs] class Albert(
       tokenizedSentences: Seq[TokenizedSentence],
       batchSize: Int,
       maxSentenceLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceEmbeddingsSentence] = {
+      caseSensitive: Boolean,
+      sparkSession: Option[SparkSession]): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
@@ -217,7 +221,7 @@ private[johnsnowlabs] class Albert(
           SentenceStartTokenId,
           SentenceEndTokenId,
           SentencePadTokenId)
-        val vectors = tag(encoded)
+        val vectors = tag(encoded, sparkSession)
 
         /*Combine tokens and calculated embeddings*/
         batch.zip(vectors).map { case (sentence, tokenVectors) =>

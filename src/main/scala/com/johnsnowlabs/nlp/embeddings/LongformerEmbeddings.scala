@@ -341,7 +341,8 @@ class LongformerEmbeddings(override val uid: String)
       sentencesWithRow.map(_._1),
       $(batchSize),
       $(maxSentenceLength),
-      $(caseSensitive))
+      $(caseSensitive),
+      sparkSession)
 
     // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {

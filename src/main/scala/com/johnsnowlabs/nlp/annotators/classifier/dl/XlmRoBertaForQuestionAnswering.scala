@@ -244,7 +244,8 @@ class XlmRoBertaForQuestionAnswering(override val uid: String)
           documents,
           $(maxSentenceLength),
           $(caseSensitive),
-          MergeTokenStrategy.sentencePiece)
+          MergeTokenStrategy.sentencePiece,
+          sparkSession = sparkSession)
       } else {
         Seq.empty[Annotation]
       }

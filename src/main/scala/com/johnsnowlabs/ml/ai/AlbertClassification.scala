@@ -21,10 +21,10 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.notSupportedEngineError
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.apache.spark.sql.SparkSession
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -103,12 +103,15 @@ private[johnsnowlabs] class AlbertClassification(
     sentenceTokenPieces
   }
 
-  def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+  def tag(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Seq[Array[Array[Float]]] = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name =>
+        getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true, sparkSession)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -123,12 +126,16 @@ private[johnsnowlabs] class AlbertClassification(
     batchScores
   }
 
-  def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
+  def tagSequence(
+      batch: Seq[Array[Int]],
+      activation: String,
+      sparkSession: Option[SparkSession]): Array[Array[Float]] = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name =>
+        getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true, sparkSession)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -206,12 +213,13 @@ private[johnsnowlabs] class AlbertClassification(
   private def getRowScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
-      sequence: Boolean): Array[Float] = {
+      sequence: Boolean,
+      sparkSession: Option[SparkSession]): Array[Float] = {
 
     val output = if (sequence) "logits" else "last_hidden_state"
 
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(sparkSession)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -253,11 +261,13 @@ private[johnsnowlabs] class AlbertClassification(
       contradictionId: Int,
       activation: String): Array[Array[Float]] = ???
 
-  def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
+  def tagSpan(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val (startLogits, endLogits) = detectedEngine match {
-      case ONNX.name => computeLogitsWithOnnx(batch, maxSentenceLength)
+      case ONNX.name => computeLogitsWithOnnx(batch, maxSentenceLength, sparkSession)
       case _ => computeLogitsWithTF(batch, maxSentenceLength)
     }
 
@@ -347,9 +357,10 @@ private[johnsnowlabs] class AlbertClassification(
 
   private def computeLogitsWithOnnx(
       batch: Seq[Array[Int]],
-      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+      maxSentenceLength: Int,
+      sparkSession: Option[SparkSession]): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(sparkSession)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)

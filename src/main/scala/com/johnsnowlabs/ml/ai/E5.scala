@@ -23,6 +23,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.JavaConverters._
 
@@ -62,10 +63,12 @@ private[johnsnowlabs] class E5(
     * @return
     *   sentence embeddings
     */
-  private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  private def getSentenceEmbedding(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Array[Array[Float]] = {
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        getSentenceEmbeddingFromOnnx(batch)
+        getSentenceEmbeddingFromOnnx(batch, sparkSession)
       case _ =>
         getSentenceEmbeddingFromTF(batch)
     }
@@ -147,11 +150,13 @@ private[johnsnowlabs] class E5(
     sentenceEmbeddingsFloatsArray
   }
 
-  private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  private def getSentenceEmbeddingFromOnnx(
+      batch: Seq[Array[Int]],
+      sparkSession: Option[SparkSession]): Array[Array[Float]] = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
 
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(sparkSession)
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
     val maskTensors =
@@ -205,7 +210,8 @@ private[johnsnowlabs] class E5(
       sentences: Seq[Annotation],
       tokenizedSentences: Seq[WordpieceTokenizedSentence],
       batchSize: Int,
-      maxSentenceLength: Int): Seq[Annotation] = {
+      maxSentenceLength: Int,
+      sparkSession: Option[SparkSession]): Seq[Annotation] = {
 
     tokenizedSentences
       .zip(sentences)
@@ -218,7 +224,7 @@ private[johnsnowlabs] class E5(
           Array(sentenceStartTokenId) ++ x
             .map(y => y.pieceId)
             .take(maxSentenceLength - 2) ++ Array(sentenceEndTokenId))
-        val sentenceEmbeddings = getSentenceEmbedding(tokens)
+        val sentenceEmbeddings = getSentenceEmbedding(tokens, sparkSession)
 
         batch.zip(sentenceEmbeddings).map { case (sentence, vectors) =>
           Annotation(

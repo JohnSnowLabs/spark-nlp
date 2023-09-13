@@ -268,7 +268,8 @@ class DeBertaForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        $$(labels))
+        $$(labels),
+        sparkSession)
     })
     else {
       Seq(Seq.empty[Annotation])
