@@ -20,6 +20,7 @@ from sparknlp.common import *
 class SwinForImageClassification(AnnotatorModel,
                                  HasBatchedAnnotateImage,
                                  HasImageFeatureProperties,
+                                 HasRescaleFactor,
                                  HasEngine):
     """SwinImageClassification is an image classifier based on Swin.
 
@@ -157,34 +158,6 @@ class SwinForImageClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with "
                              "config_proto.SerializeToString()",
                              TypeConverters.toListInt)
-
-    doRescale = Param(Params._dummy(), "doRescale",
-                      "Whether to rescale the image values by rescaleFactor.",
-                      TypeConverters.toBoolean)
-
-    rescaleFactor = Param(Params._dummy(), "rescaleFactor",
-                          "Factor to scale the image values",
-                          TypeConverters.toFloat)
-
-    def setDoRescale(self, value):
-        """Sets Whether to rescale the image values by rescaleFactor, by default `True`.
-
-        Parameters
-        ----------
-        value : Boolean
-            Whether to rescale the image values by rescaleFactor.
-        """
-        return self._set(doRescale=value)
-
-    def setRescaleFactor(self, value):
-        """Sets Factor to scale the image values, by default `1/255.0`.
-
-        Parameters
-        ----------
-        value : Boolean
-            Whether to rescale the image values by rescaleFactor.
-        """
-        return self._set(rescaleFactor=value)
 
     def getClasses(self):
         """

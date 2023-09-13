@@ -197,7 +197,7 @@ trait Generate {
 
     var beamScores = Array.ofDim[Float](batchSize * numBeams)
     beamScores = beamScores.zipWithIndex.map { case (_, ind) =>
-      if (ind % numBeams == 0) 0 else (-1e-9).toFloat
+      if (ind % numBeams == 0) 0 else (-1e+9).toFloat
     }
     var beamIndices = Seq.fill(batchBeamSize)(Array[Int]())
     var nextIndices = Array[Array[Int]]()

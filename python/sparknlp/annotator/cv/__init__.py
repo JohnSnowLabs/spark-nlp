@@ -14,3 +14,4 @@
 from sparknlp.annotator.cv.vit_for_image_classification import *
 from sparknlp.annotator.cv.swin_for_image_classification import *
 from sparknlp.annotator.cv.convnext_for_image_classification import *
+from sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning import *
