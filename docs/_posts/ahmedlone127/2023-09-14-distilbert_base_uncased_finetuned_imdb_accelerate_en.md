@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English distilbert_base_uncased_finetuned_imdb_accelerate DistilBertEmbeddings from Ghost1
+title: English distilbert_base_uncased_finetuned_imdb_accelerate DistilBertEmbeddings from liquannan
 author: John Snow Labs
 name: distilbert_base_uncased_finetuned_imdb_accelerate
 date: 2023-09-14
@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained DistilBertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`distilbert_base_uncased_finetuned_imdb_accelerate` is a English model originally trained by Ghost1.
+Pretrained DistilBertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`distilbert_base_uncased_finetuned_imdb_accelerate` is a English model originally trained by liquannan.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_uncased_finetuned_imdb_accelerate_en_5.1.2_3.0_1694734669876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_uncased_finetuned_imdb_accelerate_en_5.1.2_3.0_1694734669876.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_uncased_finetuned_imdb_accelerate_en_5.1.2_3.0_1694734614129.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_uncased_finetuned_imdb_accelerate_en_5.1.2_3.0_1694734614129.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -90,4 +90,4 @@ val pipelineDF = pipelineModel.transform(data)
 
 ## References
 
-https://huggingface.co/Ghost1/distilbert-base-uncased-finetuned-imdb-accelerate
+https://huggingface.co/liquannan/distilbert-base-uncased-finetuned-imdb-accelerate
