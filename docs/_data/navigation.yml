@@ -65,6 +65,8 @@ sparknlp:
         url: /docs/en/third-party-projects
       - title: Release Notes
         url: /docs/en/release_notes
+      - title: Spark NLP FAQ
+        url: /docs/en/faq
 
 nlp-server:
   - title: NLP Server
