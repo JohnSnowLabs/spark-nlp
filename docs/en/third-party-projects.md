@@ -6,31 +6,24 @@ title: Third Party Projects
 permalink: /docs/en/third-party-projects
 key: docs-third-party-projects
 modify_date: "2021-10-25"
-use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: sparknlp
 ---
 
-There are third party projects that can integrate with Spark NLP. These
-packages need to be installed separately to be used.
+<div class="h3-box" markdown="1">
 
-If you'd like to integrate your application with Spark NLP, please send us a
-message!
+There are third party projects that can integrate with Spark NLP. These packages need to be installed separately to be used.
+
+If you'd like to integrate your application with Spark NLP, please send us a message!
 
 ## Logging
 
 ### Comet
 
-[Comet](https://www.comet.ml/) is a meta machine learning platform designed
-to help AI practitioners and teams build reliable machine learning models for
-real-world applications by streamlining the machine learning model lifecycle. By
-leveraging Comet, users can track, compare, explain and reproduce their machine
-learning experiments.
+[Comet](https://www.comet.ml/) is a meta machine learning platform designed to help AI practitioners and teams build reliable machine learning models for real-world applications by streamlining the machine learning model lifecycle. By leveraging Comet, users can track, compare, explain and reproduce their machine learning experiments.
 
-Comet can easily integrated into the Spark NLP workflow with the a dedicated
-logging class `CometLogger` to log training and evaluation metrics,
-pipeline parameters and NER visualization made with sparknlp-display.
+Comet can easily integrated into the Spark NLP workflow with the a dedicated logging class `CometLogger` to log training and evaluation metrics, pipeline parameters and NER visualization made with sparknlp-display.
 
 For more information see the [User Guide](/api/python/third_party/Comet.html) and for more examples see the [Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/logging/Comet_SparkNLP_Integration.ipynb).
 
@@ -96,19 +89,17 @@ logger.experiment.display(tab='charts')
 
 </details>
 
+</div><div class="h3-box" markdown="1">
+
 ### MLflow
 
 Spark NLP uses Spark MLlib Pipelines, what are natively supported by MLFlow.
-MLFlow is, as stated in their [official webpage](https://mlflow.org/), an open
-source platform for the machine learning lifecycle, that includes:
-* **Mlflow Tracking**: Record and query experiments: code, data, config, and
-  results
-* **MLflow Projects**: Package data science code in a format to reproduce runs
-  on any platform
-* **MLflow Models**: Deploy machine learning models in diverse serving
-  environments
-* **Model Registry**: Store, annotate, discover, and manage models in a central
-  repository
+MLFlow is, as stated in their [official webpage](https://mlflow.org/), an open source platform for the machine learning lifecycle, that includes:
+* **Mlflow Tracking**: Record and query experiments: code, data, config, and results
+* **MLflow Projects**: Package data science code in a format to reproduce runs on any platform
+* **MLflow Models**: Deploy machine learning models in diverse serving environments
+* **Model Registry**: Store, annotate, discover, and manage models in a central repository
 
-For more information, please see the complete guide at [Experiment
-Tracking](/docs/en/mlflow).
+For more information, please see the complete guide at [Experiment Tracking](/docs/en/mlflow).
+
+</div>

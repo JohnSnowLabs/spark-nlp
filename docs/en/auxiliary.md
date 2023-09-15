@@ -1,12 +1,11 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
+seotitle: Spark NLP - Helper functions
 title: Helper functions
 permalink: /docs/en/auxiliary
 key: docs-auxiliary
 modify_date: "2019-11-28"
-use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: sparknlp
