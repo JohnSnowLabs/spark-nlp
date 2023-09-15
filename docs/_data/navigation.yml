@@ -10,8 +10,9 @@ header:
   - title: Demo
     url: /infer_meaning_intent
     key: demo
-  - title: '<a href="https://www.johnsnowlabs.com/spark-nlp-blog/" target="_blank">Blog</a>'
+  - title: Blog
     url: https://www.johnsnowlabs.com/spark-nlp-blog/
+    blank: yes
     key: blog
   # - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
   #   url: https://github.com/JohnSnowLabs/spark-nlp
