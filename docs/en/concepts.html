@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -531,29 +531,35 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - General Concepts"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="concepts">Concepts</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<p>Spark ML provides a set of Machine Learning applications that can be build using two main components: <strong>Estimators</strong> and <strong>Transformers</strong>. The <strong>Estimators</strong> have a method called fit() which secures and trains a piece of data to such application. The <strong>Transformer</strong> is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP.</p>
+  <h2 id="concepts">Concepts</h2>
 
-<p><strong>Pipelines</strong> are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to <a href="https://spark.apache.org/docs/latest/ml-guide.html">Spark ML</a> library.</p>
+  <p>Spark ML provides a set of Machine Learning applications that can be build using two main components: <strong>Estimators</strong> and <strong>Transformers</strong>. The <strong>Estimators</strong> have a method called fit() which secures and trains a piece of data to such application. The <strong>Transformer</strong> is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP.</p>
 
-<h2 id="annotation">Annotation</h2>
+  <p><strong>Pipelines</strong> are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to <a href="https://spark.apache.org/docs/latest/ml-guide.html">Spark ML</a> library.</p>
 
-<p>The basic result of a Spark NLP operation is an <strong>annotation</strong>. It’s structure includes:</p>
+</div>
+<div class="h3-box">
 
-<ul>
-  <li><strong>annotatorType:</strong> the type of annotator that generated the current annotation</li>
-  <li><strong>begin:</strong> the begin of the matched content relative to raw-text</li>
-  <li><strong>end:</strong> the end of the matched content relative to raw-text</li>
-  <li><strong>result:</strong> the main output of the annotation</li>
-  <li><strong>metadata:</strong> content of matched result and additional information</li>
-  <li><strong>embeddings:</strong> (new in 2.0) contains vector mappings if required</li>
-</ul>
+  <h2 id="annotation">Annotation</h2>
 
-<p>This object is <strong>automatically generated</strong> by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it.</p>
+  <p>The basic result of a Spark NLP operation is an <strong>annotation</strong>. It’s structure includes:</p>
 
-<h2 id="annotators">Annotators</h2>
+  <ul>
+    <li><strong>annotatorType:</strong> the type of annotator that generated the current annotation</li>
+    <li><strong>begin:</strong> the begin of the matched content relative to raw-text</li>
+    <li><strong>end:</strong> the end of the matched content relative to raw-text</li>
+    <li><strong>result:</strong> the main output of the annotation</li>
+    <li><strong>metadata:</strong> content of matched result and additional information</li>
+    <li><strong>embeddings:</strong> (new in 2.0) contains vector mappings if required</li>
+  </ul>
 
+  <p>This object is <strong>automatically generated</strong> by annotators after a transform process. No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it.</p>
+
+  <h2 id="annotators">Annotators</h2>
+
+</div>
 <div class="h3-box">
 
   <p>Annotators are the spearhead of NLP functions in Spark NLP. There are two forms of annotators:</p>
@@ -1241,17 +1247,20 @@ same intention.</p>
 
   </div>
 </div>
+<div class="h3-box">
 
-<h3 id="params-and-features">Params and Features</h3>
+  <h3 id="params-and-features">Params and Features</h3>
 
-<h4 id="annotator-parameters">Annotator parameters</h4>
+  <h4 id="annotator-parameters">Annotator parameters</h4>
 
-<p>SparkML uses ML Params to store pipeline parameter maps. In SparkNLP,
+  <p>SparkML uses ML Params to store pipeline parameter maps. In SparkNLP,
 we also use Features, which are a way to store parameter maps that are
 larger than just a string or a boolean. These features are serialized
 as either Parquet or RDD objects, allowing much faster and scalable
 annotator information. Features are also broadcasted among executors for
 better performance.</p>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2023-08-17T00:00:00+00:00">Aug 17, 2023</time>
     </span><!-- start custom article footer snippet -->

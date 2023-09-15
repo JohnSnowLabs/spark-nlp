@@ -531,86 +531,100 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="NLP Server"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>This is a ready to use NLP Server for analyzing text documents using NLU library. Over 4500+ industry grade NLP Models in 300+ Languages  are available to use via a simple and intuitive UI, without writing a line of code. For more expert users and more complex tasks, NLP Server also provides a REST API that can be used to process high amounts of data.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<p>The models, refered to as <code class="language-plaintext highlighter-rouge">spells</code>, are provided by the <a href="https://nlu.johnsnowlabs.com/">NLU library</a> and
+  <p>This is a ready to use NLP Server for analyzing text documents using NLU library. Over 4500+ industry grade NLP Models in 300+ Languages  are available to use via a simple and intuitive UI, without writing a line of code. For more expert users and more complex tasks, NLP Server also provides a REST API that can be used to process high amounts of data.</p>
+
+  <p>The models, refered to as <code class="language-plaintext highlighter-rouge">spells</code>, are provided by the <a href="https://nlu.johnsnowlabs.com/">NLU library</a> and
 powered by the most widely used NLP library in the industry, <a href="https://sparknlp.org/">Spark NLP</a>.</p>
 
-<p>NLP Server is <code class="language-plaintext highlighter-rouge">free</code> for everyone to download and use. There is no limitation in the amount of text to analyze.</p>
+  <p>NLP Server is <code class="language-plaintext highlighter-rouge">free</code> for everyone to download and use. There is no limitation in the amount of text to analyze.</p>
 
-<p>You can setup NLP-Server as a Docker Machine in any enviroment or get it via the <code class="language-plaintext highlighter-rouge">AWS Marketplace</code> in just 1 click.</p>
+  <p>You can setup NLP-Server as a Docker Machine in any enviroment or get it via the <code class="language-plaintext highlighter-rouge">AWS Marketplace</code> in just 1 click.</p>
 
-<h2 id="web-ui">Web UI</h2>
-<p>The Web UI is accessible at the following URL: http://localhost:5000/
+</div>
+<div class="h3-box">
+
+  <h2 id="web-ui">Web UI</h2>
+  <p>The Web UI is accessible at the following URL: http://localhost:5000/
 It allows a very simple and intuitive interaction with the NLP Server.
 As a first step the user chooses the spell from the first dropdown. All NLU spells are available.
 Then the user has to provide a text document for analysis. This can be done by either copy/pasting text on the text box, or by uploading a csv/json file.
 After selecting the grouping option, the user clicks on the <code class="language-plaintext highlighter-rouge">Preview</code> button to get the results for the first 10 rows of text.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/web_UI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/web_UI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<h2 id="rest-api">REST API</h2>
+</div>
+<div class="h3-box">
 
-<p>NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL <a href="http://localhost:5000/docs">http://localhost:5000/docs</a>.</p>
+  <h2 id="rest-api">REST API</h2>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/api_docs.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p>NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL <a href="http://localhost:5000/docs">http://localhost:5000/docs</a>.</p>
 
-<h2 id="integrate-via-the-rest-api">Integrate via the Rest API</h2>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/api_docs.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>Rest APIs are a popular way to integrate different services into one common platform. NLP Server offers its own API to offer a quick programmatic integration with customers’ services and applications.
+</div>
+<div class="h3-box">
+
+  <h2 id="integrate-via-the-rest-api">Integrate via the Rest API</h2>
+
+  <p>Rest APIs are a popular way to integrate different services into one common platform. NLP Server offers its own API to offer a quick programmatic integration with customers’ services and applications.
 Bellow is a quick overview of the provided endpoints. More details are provided in the API documentation available <a href="http://localhost:5000/docs">http://localhost:5000/docs</a>.</p>
 
-<ul>
-  <li>Start to analyze</li>
-  <li>Endpoint : /results</li>
-  <li>Method : POST</li>
-  <li>Content-Type (Format) : multipart/form-data</li>
-  <li>Parameters:
-    <ul>
-      <li>Spell – the spell that you want to use for this analyze (if you want to run multiple spells you should join them with space character)</li>
-      <li>Data – The data to analyse that can be a single text or an array of strings or files.</li>
-      <li>Grouping – can be choosen from [“document”, “sentence”, “entity”, “word”]. The default value is “” for automatic selection based on spell.</li>
-      <li>Format – The format of the provided input. The default value is “text”.</li>
-    </ul>
-  </li>
-  <li>Response:
-    <ul>
-      <li>uuid – the unique identifier for the analysis process.</li>
-    </ul>
-  </li>
-  <li>Check the status of an analysis process</li>
-  <li>Endpoint : /results/{uuid}/status</li>
-  <li>Method : GET</li>
-  <li>Content-Type (Format) : application/json</li>
-  <li>Response:
-    <ul>
-      <li>code – the status code that can be one of “progress”, “success”, “failure”, “broken spell”, “invalid license”, “licensed spell with no license”</li>
-      <li>message – the status message</li>
-    </ul>
-  </li>
-  <li>Get the results</li>
-</ul>
+  <ul>
+    <li>Start to analyze</li>
+    <li>Endpoint : /results</li>
+    <li>Method : POST</li>
+    <li>Content-Type (Format) : multipart/form-data</li>
+    <li>Parameters:
+      <ul>
+        <li>Spell – the spell that you want to use for this analyze (if you want to run multiple spells you should join them with space character)</li>
+        <li>Data – The data to analyse that can be a single text or an array of strings or files.</li>
+        <li>Grouping – can be choosen from [“document”, “sentence”, “entity”, “word”]. The default value is “” for automatic selection based on spell.</li>
+        <li>Format – The format of the provided input. The default value is “text”.</li>
+      </ul>
+    </li>
+    <li>Response:
+      <ul>
+        <li>uuid – the unique identifier for the analysis process.</li>
+      </ul>
+    </li>
+    <li>Check the status of an analysis process</li>
+    <li>Endpoint : /results/{uuid}/status</li>
+    <li>Method : GET</li>
+    <li>Content-Type (Format) : application/json</li>
+    <li>Response:
+      <ul>
+        <li>code – the status code that can be one of “progress”, “success”, “failure”, “broken spell”, “invalid license”, “licensed spell with no license”</li>
+        <li>message – the status message</li>
+      </ul>
+    </li>
+    <li>Get the results</li>
+  </ul>
 
-<p>After ensuring the status of an analysis is “success” you can get the results:</p>
-<ul>
-  <li>Endpoint : /results/{uuid}</li>
-  <li>Method : GET</li>
-  <li>Content-Type (Format) : application/json</li>
-  <li>Parameters:
-    <ul>
-      <li>target – if the specified target is “preview” you only get a small part of results.</li>
-    </ul>
-  </li>
-  <li>Response:
-    <ul>
-      <li>A JSON object that contains the results generated by the spell (each spell has their own specific keys)</li>
-    </ul>
-  </li>
-</ul>
+  <p>After ensuring the status of an analysis is “success” you can get the results:</p>
+  <ul>
+    <li>Endpoint : /results/{uuid}</li>
+    <li>Method : GET</li>
+    <li>Content-Type (Format) : application/json</li>
+    <li>Parameters:
+      <ul>
+        <li>target – if the specified target is “preview” you only get a small part of results.</li>
+      </ul>
+    </li>
+    <li>Response:
+      <ul>
+        <li>A JSON object that contains the results generated by the spell (each spell has their own specific keys)</li>
+      </ul>
+    </li>
+  </ul>
 
-<h2 id="how-to-use-in-python">How to use in Python</h2>
+</div>
+<div class="h3-box">
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+  <h2 id="how-to-use-in-python">How to use in Python</h2>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="c1"># Invoke Processing with tokenization spell
 </span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results'</span><span class="p">,</span><span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s">"spell"</span><span class="p">:</span> <span class="s">"tokenize"</span><span class="p">,</span><span class="s">"data"</span><span class="p">:</span> <span class="s">"I love NLU! &lt;3"</span><span class="p">})</span>
 <span class="c1"># Use the uuid to get your processed data
@@ -624,33 +638,37 @@ Bellow is a quick overview of the provided endpoints. More details are provided 
 </span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">'</span><span class="p">).</span><span class="n">json</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'sentence'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I love NLU! &lt;3'</span><span class="p">]},</span> <span class="s">'document'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="s">'I love NLU! &lt;3'</span><span class="p">},</span> <span class="s">'token'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I'</span><span class="p">,</span> <span class="s">'love'</span><span class="p">,</span> <span class="s">'NLU'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'&lt;3'</span><span class="p">]}}</span>
 
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="import-a-license-key">Import a license key</h2>
+</div>
+<div class="h3-box">
 
-<p>Thanks to the close integration between NLP Server and https://my.JohnSnowLabs.com  website, users can easily select and import one of the available licenses to be used on NLP Server.
+  <h2 id="import-a-license-key">Import a license key</h2>
+
+  <p>Thanks to the close integration between NLP Server and https://my.JohnSnowLabs.com  website, users can easily select and import one of the available licenses to be used on NLP Server.
 The steps to execute for this are:</p>
 
-<p>1.Click on Login via MYJSL button on the menu bar.</p>
+  <p>1.Click on Login via MYJSL button on the menu bar.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/license/login.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/license/login.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>2.In the pop-up window click on the Authorize button.</p>
+  <p>2.In the pop-up window click on the Authorize button.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/license/authorize.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/license/authorize.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>3.After redirecting back to NLP Server click on the Choose License button.</p>
+  <p>3.After redirecting back to NLP Server click on the Choose License button.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/license/choose_license.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/license/choose_license.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>4.In the modal choose the license that you want to use and then click on the Select button.</p>
+  <p>4.In the modal choose the license that you want to use and then click on the Select button.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/license/select.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/license/select.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>5.After the above steps you will see this success alert on the top right of the page. That confirms the import of license completed successfully.</p>
+  <p>5.After the above steps you will see this success alert on the top right of the page. That confirms the import of license completed successfully.</p>
 
-<p><img class="image image--xl" src="/assets/images/nlp_server/license/success.png" style="width:30%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/nlp_server/license/success.png" style="width:30%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-04-17T00:00:00+00:00">Apr 17, 2021</time>
     </span><!-- start custom article footer snippet -->

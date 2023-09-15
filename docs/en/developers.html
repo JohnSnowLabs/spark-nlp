@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2 active"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2 active"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -531,11 +531,14 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - Developers Guideline"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Spark NLP is an open-source library and everyone’s contribution is welcome!
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
+
+  <p>Spark NLP is an open-source library and everyone’s contribution is welcome!
 In this section we provide a guide on how to setup your environment using IntelliJ IDEA for a smoother start. You can also check our video tutorials available on our YouTube channel: https://www.youtube.com/johnsnowlabs</p>
 
-<h2 id="setting-up-the-environment">Setting up the Environment</h2>
+  <h2 id="setting-up-the-environment">Setting up the Environment</h2>
 
+</div>
 <div class="h3-box">
 
   <h3 id="import-to-intellij-idea">Import to IntelliJ IDEA</h3>
@@ -715,22 +718,25 @@ In this section we provide a guide on how to setup your environment using Intell
   <p><em>Note: Assembly command creates a fat jars, that includes all dependencies within</em></p>
 
 </div>
+<div class="h3-box">
 
-<h3 id="compiling-pypi-whl">Compiling pypi, whl</h3>
+  <h3 id="compiling-pypi-whl">Compiling pypi, whl</h3>
 
-<p>Click <strong>Add configuration</strong> or <strong>Edit configuration</strong> in the Top right corner. In the pop up click on the <strong>+</strong> and select <strong>sbt task</strong>.</p>
+  <p>Click <strong>Add configuration</strong> or <strong>Edit configuration</strong> in the Top right corner. In the pop up click on the <strong>+</strong> and select <strong>sbt task</strong>.</p>
 
-<p>In the <strong>Name</strong> field put <code class="language-plaintext highlighter-rouge">AssemblyAndCopyForPyPi</code>. In the <strong>Tasks</strong> field write down <code class="language-plaintext highlighter-rouge">assemblyAndCopyForPyPi</code>.</p>
+  <p>In the <strong>Name</strong> field put <code class="language-plaintext highlighter-rouge">AssemblyAndCopyForPyPi</code>. In the <strong>Tasks</strong> field write down <code class="language-plaintext highlighter-rouge">assemblyAndCopyForPyPi</code>.</p>
 
-<p>Then you go to <code class="language-plaintext highlighter-rouge">spark-nlp/python/</code> directory and run:</p>
+  <p>Then you go to <code class="language-plaintext highlighter-rouge">spark-nlp/python/</code> directory and run:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python setup.py sdist bdist_wheel
-</code></pre></div></div>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python setup.py sdist bdist_wheel
+</code></pre></div>  </div>
 
-<p>You can find created <code class="language-plaintext highlighter-rouge">whl</code> and <code class="language-plaintext highlighter-rouge">tar.gz</code> in the folder <code class="language-plaintext highlighter-rouge">spark-nlp/python/dist/</code>. Use this files to install spark-nlp locally:</p>
+  <p>You can find created <code class="language-plaintext highlighter-rouge">whl</code> and <code class="language-plaintext highlighter-rouge">tar.gz</code> in the folder <code class="language-plaintext highlighter-rouge">spark-nlp/python/dist/</code>. Use this files to install spark-nlp locally:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install spark_nlp-2.x.x-py3-none-any.whl
-</code></pre></div></div>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install spark_nlp-2.x.x-py3-none-any.whl
+</code></pre></div>  </div>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-11-21T00:00:00+00:00">Nov 21, 2021</time>
     </span><!-- start custom article footer snippet -->

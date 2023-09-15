@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2 active"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2 active"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -548,7 +548,8 @@
 
   <p>The  visualisation classes work with the outputs returned by both Pipeline.transform() function and LightPipeline.fullAnnotate().</p>
 
-  <p><br /></p>
+</div>
+<div class="h3-box">
 
   <h3 id="install-spark-nlp-display">Install Spark NLP Display</h3>
 
@@ -556,9 +557,13 @@
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp-display
 </code></pre></div>  </div>
+
   <p><br /></p>
 
   <p>A complete guideline on how to use the Spark NLP Display library is available <a href="https://github.com/JohnSnowLabs/spark-nlp-display/blob/main/tutorials/Spark_NLP_Display.ipynb">here</a>.</p>
+
+</div>
+<div class="h3-box">
 
   <h3 id="visualize-a-dependency-tree">Visualize a dependency tree</h3>
 
@@ -580,7 +585,8 @@ dependency_vis.display<span class="o">(</span>pipeline_result[0], <span class="c
 
   <p><img class="image image--xl" src="/assets/images/dependency tree viz.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><br /></p>
+</div>
+<div class="h3-box">
 
   <h3 id="visualize-extracted-named-entities">Visualize extracted named entities</h3>
 
@@ -603,7 +609,8 @@ ner_vis.set_label_colors<span class="o">({</span><span class="s1">'LOC'</span>:<
 
   <p><img class="image image--xl" src="/assets/images/ner viz.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><br /></p>
+</div>
+<div class="h3-box">
 
   <h3 id="visualize-relations">Visualize relations</h3>
 
@@ -623,7 +630,8 @@ re_vis.display<span class="o">(</span>pipeline_result[0], <span class="c">#shoul
 
   <p><img class="image image--xl" src="/assets/images/relations viz.png" style="width:100%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><br /></p>
+</div>
+<div class="h3-box">
 
   <h3 id="visualize-assertion-status">Visualize assertion status</h3>
 
@@ -647,7 +655,8 @@ assertion_vis.set_label_colors<span class="o">({</span><span class="s1">'TREATME
 
   <p><img class="image image--xl" src="/assets/images/assertion viz.png" style="width:80%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><br /></p>
+</div>
+<div class="h3-box">
 
   <h3 id="visualize-entity-resolution">Visualize entity resolution</h3>
 
@@ -674,7 +683,6 @@ er_vis.set_label_colors<span class="o">({</span><span class="s1">'TREATMENT'</sp
   <p><img class="image image--xl" src="/assets/images/resolution viz.png" style="width:100%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
 </div>
-<div class="h3-box"></div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2020-11-17T00:00:00+00:00">Nov 17, 2020</time>
     </span><!-- start custom article footer snippet -->

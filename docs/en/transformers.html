@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2 active"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2 active"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -8942,6 +8942,143 @@ examples, see
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="whisperforctc">WhisperForCTC</h2>
+
+  <p>Whisper Model with a language modeling head on top for Connectionist Temporal Classification
+(CTC).</p>
+
+  <p>Whisper is an automatic speech recognition (ASR) system trained on 680,000 hours of
+multilingual and multitask supervised data collected from the web. It transcribe in multiple
+languages, as well as translate from those languages into English.</p>
+
+  <p>The audio needs to be provided pre-processed an array of floats.</p>
+
+  <p>Note that at the moment, this annotator only supports greedy search.</p>
+
+  <p>For multilingual models, the language and the task (transcribe or translate) can be set with
+<code class="language-plaintext highlighter-rouge">setLanguage</code> and <code class="language-plaintext highlighter-rouge">setTask</code>.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">speechToText</span> <span class="k">=</span> <span class="nv">WhisperForCTC</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"audio_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"asr_whisper_tiny_opt"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/WhisperForCTCTest.scala">WhisperForCTCTestSpec</a>.</p>
+
+  <p><strong>References:</strong></p>
+
+  <p><a href="https://arxiv.org/abs/2212.04356">Robust Speech Recognition via Large-Scale Weak Supervision</a></p>
+
+  <p><strong>Paper Abstract:</strong></p>
+
+  <p><em>We study the capabilities of speech processing systems trained simply to predict large
+amounts of transcripts of audio on the internet. When scaled to 680,000 hours of multilingual
+and multitask supervision, the resulting models generalize well to standard benchmarks and are
+often competitive with prior fully supervised results but in a zero- shot transfer setting
+without the need for any fine- tuning. When compared to humans, the models approach their
+accuracy and robustness. We are releasing models and inference code to serve as a foundation
+for further work on robust speech processing.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">AUDIO</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/audio/whisper_for_ctc/index.html?highlight=whisperforctc#python.sparknlp.annotator.audio.whisper_for_ctc.WhisperForCTC">WhisperForCTC</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/audio/WhisperForCTC">WhisperForCTC</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/audio/WhisperForCTC.scala">WhisperForCTC</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">audioAssembler</span> <span class="o">=</span> <span class="n">AudioAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"audio_content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"audio_assembler"</span><span class="p">)</span>
+
+<span class="n">speechToText</span> <span class="o">=</span> <span class="n">WhisperForCTC</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"audio_assembler"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">audioAssembler</span><span class="p">,</span> <span class="n">speechToText</span><span class="p">])</span>
+<span class="n">processedAudioFloats</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">rawFloats</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"audio_content"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                    <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span> <span class="n">Mr</span><span class="p">.</span> <span class="n">Quilter</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">apostle</span> <span class="n">of</span> <span class="n">the</span> <span class="n">middle</span> <span class="n">classes</span> <span class="ow">and</span> <span class="n">we</span> <span class="n">are</span> <span class="n">glad</span> <span class="n">to</span> <span class="n">welcome</span> <span class="n">his</span> <span class="n">gospel</span><span class="p">.]</span><span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">audioAssembler</span><span class="k">:</span> <span class="kt">AudioAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AudioAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"audio_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">speechToText</span><span class="k">:</span> <span class="kt">WhisperForCTC</span> <span class="o">=</span> <span class="nc">WhisperForCTC</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"audio_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span><span class="k">:</span> <span class="kt">Pipeline</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">audioAssembler</span><span class="o">,</span> <span class="n">speechToText</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">bufferedSource</span> <span class="k">=</span>
+  <span class="nv">scala</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"src/test/resources/audio/txt/librispeech_asr_0.txt"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">rawFloats</span> <span class="k">=</span> <span class="n">bufferedSource</span>
+  <span class="o">.</span><span class="py">getLines</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">","</span><span class="o">).</span><span class="py">head</span><span class="o">.</span><span class="py">trim</span><span class="o">.</span><span class="py">toFloat</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toArray</span>
+<span class="nv">bufferedSource</span><span class="o">.</span><span class="py">close</span>
+
+<span class="k">val</span> <span class="nv">processedAudioFloats</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">rawFloats</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"text.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                    <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+<span class="o">|[</span> <span class="kt">Mr.</span> <span class="kt">Quilter</span> <span class="kt">is</span> <span class="kt">the</span> <span class="kt">apostle</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">middle</span> <span class="kt">classes</span> <span class="kt">and</span> <span class="kt">we</span> <span class="kt">are</span> <span class="kt">glad</span> <span class="kt">to</span> <span class="kt">welcome</span> <span class="kt">his</span> <span class="kt">gospel.</span><span class="o">]|</span>
+<span class="o">+------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="h3-box">
 
   <h2 id="xlmrobertaembeddings">XlmRoBertaEmbeddings</h2>
@@ -10884,711 +11021,727 @@ RoBertaForQuestionAnswering.</p>
 
 </div>
 
-<h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
+<div class="h3-box">
 
-<h3 id="overview">Overview</h3>
+  <h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
 
-<p>We have extended support for <code class="language-plaintext highlighter-rouge">HuggingFace</code> 🤗   and <code class="language-plaintext highlighter-rouge">TF Hub</code> exported models since <code class="language-plaintext highlighter-rouge">3.1.0</code> to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any <code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">DistilBERT</code>, <code class="language-plaintext highlighter-rouge">CamemBERT</code>, <code class="language-plaintext highlighter-rouge">RoBERTa</code>, <code class="language-plaintext highlighter-rouge">DeBERTa</code>, <code class="language-plaintext highlighter-rouge">XLM-RoBERTa</code>, <code class="language-plaintext highlighter-rouge">Longformer</code>, <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForTokenClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForQuestionAnswering</code>,  <code class="language-plaintext highlighter-rouge">DeBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">DistilBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">LongformerForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">RoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">TapasForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">Vision Transformers (ViT)</code>, <code class="language-plaintext highlighter-rouge">HubertForCTC</code>, <code class="language-plaintext highlighter-rouge">SwinForImageClassification</code>, and <code class="language-plaintext highlighter-rouge">ConvNextForImageClassification</code> models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
+  <h3 id="overview">Overview</h3>
 
-<h3 id="compatibility">Compatibility</h3>
+  <p>We have extended support for <code class="language-plaintext highlighter-rouge">HuggingFace</code> 🤗   and <code class="language-plaintext highlighter-rouge">TF Hub</code> exported models since <code class="language-plaintext highlighter-rouge">3.1.0</code> to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any <code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">DistilBERT</code>, <code class="language-plaintext highlighter-rouge">CamemBERT</code>, <code class="language-plaintext highlighter-rouge">RoBERTa</code>, <code class="language-plaintext highlighter-rouge">DeBERTa</code>, <code class="language-plaintext highlighter-rouge">XLM-RoBERTa</code>, <code class="language-plaintext highlighter-rouge">Longformer</code>, <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForTokenClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForQuestionAnswering</code>,  <code class="language-plaintext highlighter-rouge">DeBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">DistilBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">LongformerForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">RoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">TapasForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">Vision Transformers (ViT)</code>, <code class="language-plaintext highlighter-rouge">HubertForCTC</code>, <code class="language-plaintext highlighter-rouge">SwinForImageClassification</code>, and <code class="language-plaintext highlighter-rouge">ConvNextForImageClassification</code> models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
 
-<p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP
+</div>
+<div class="h3-box">
+
+  <h3 id="compatibility">Compatibility</h3>
+
+  <p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP
 <strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a>
 <strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a>
 <strong>ONNX</strong>: Models from HuggingFace in ONNX format
 <strong>Model Architecture</strong>: Which architecture is compatible with that annotator
 <strong>Flags</strong>:</p>
 
-<ul>
-  <li>Fully supported ✅</li>
-  <li>Partially supported (requires workarounds) ✔️</li>
-  <li>Under development ❎</li>
-  <li>Not supported ❌</li>
-</ul>
+  <ul>
+    <li>Fully supported ✅</li>
+    <li>Partially supported (requires workarounds) ✔️</li>
+    <li>Under development ❎</li>
+    <li>Not supported ❌</li>
+  </ul>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">TF Hub</th>
-      <th style="text-align: left">HuggingFace</th>
-      <th style="text-align: left">ONNX</th>
-      <th style="text-align: left">Model Architecture</th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">BertEmbeddings</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertSentenceEmbeddings</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">DistilBERT</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">CamemBERT</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">RoBERTa - DistilRoBERTa</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">DeBERTa-v2 - DeBERTa-v3</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">XLM-RoBERTa</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertEmbeddings</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">ALBERT</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlnetEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">XLNet</td>
-      <td>❎</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerEmbeddings</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">Longformer</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ElmoEmbeddings</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left"> </td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">UniversalSentenceEncoder</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left"> </td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForTokenClassification">TFBertForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification">TFDistilBertForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForTokenClassification">TFAlbertForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForTokenClassification">TFRobertaForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForTokenClassification">TFDebertaV2ForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForTokenClassification">TFXLMRobertaForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlnetForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForTokenClassificationet">TFXLNetForTokenClassificationet</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForTokenClassification">TFLongformerForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForTokenClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForTokenClassification">TFCamemBertForTokenClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForSequenceClassification">TFCamemBertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForQuestionAnswering">TFCamembertForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification">TFAlbertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForSequenceClassification">TFDebertaV2ForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForSequenceClassification">TFXLMRobertaForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlnetForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification">TFXLNetForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerForSequenceClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification">TFLongformerForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering">TFAlbertForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering">TFBertForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForQuestionAnswering">TFDebertaV2ForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering">TFDistilBertForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForQuestionAnswering">TFLongformerForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForQuestionAnswering">TFRobertaForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForQuestionAnswering">TFXLMRobertaForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">TapasForQuestionAnswering</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/tapas#transformers.TFTapasForQuestionAnswering">TFTapasForQuestionAnswering</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ViTForImageClassification</td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/vit#transformers.TFViTForImageClassification">TFViTForImageClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">Automatic Speech Recognition (Wav2Vec2ForCTC)</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/wav2vec2#transformers.TFWav2Vec2ForCTC">TFWav2Vec2ForCTC</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">SwinForImageClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/swin#transformers.TFSwinForImageClassification">TFSwinForImageClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">HubertForCTC</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/hubert#transformers.TFHubertForCTC">TFHubertForCTC</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ConvNextForImageClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/convnext#transformers.TFConvNextForImageClassification">TFConvNextForImageClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForZeroShotClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForZeroShotClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForZeroShotClassification</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">✅</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">T5Transformer</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"> </td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">MarianTransformer</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"> </td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td style="text-align: left">OpenAI GPT2</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left">❎</td>
-      <td style="text-align: left"> </td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Spark NLP</th>
+        <th style="text-align: left">TF Hub</th>
+        <th style="text-align: left">HuggingFace</th>
+        <th style="text-align: left">ONNX</th>
+        <th style="text-align: left">Model Architecture</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">BertEmbeddings</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertSentenceEmbeddings</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">DistilBERT</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">CamemBERT</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">RoBERTa - DistilRoBERTa</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">DeBERTa-v2 - DeBERTa-v3</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">XLM-RoBERTa</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertEmbeddings</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">ALBERT</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlnetEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">XLNet</td>
+        <td>❎</td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerEmbeddings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">Longformer</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">ElmoEmbeddings</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">UniversalSentenceEncoder</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForTokenClassification">TFBertForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification">TFDistilBertForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForTokenClassification">TFAlbertForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForTokenClassification">TFRobertaForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForTokenClassification">TFDebertaV2ForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForTokenClassification">TFXLMRobertaForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlnetForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForTokenClassificationet">TFXLNetForTokenClassificationet</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForTokenClassification">TFLongformerForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForTokenClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForTokenClassification">TFCamemBertForTokenClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForSequenceClassification">TFCamemBertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/camembert#transformers.TFCamembertForQuestionAnswering">TFCamembertForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification">TFAlbertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForSequenceClassification">TFDebertaV2ForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForSequenceClassification">TFXLMRobertaForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlnetForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification">TFXLNetForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerForSequenceClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification">TFLongformerForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForQuestionAnswering">TFAlbertForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering">TFBertForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/deberta-v2#transformers.TFDebertaV2ForQuestionAnswering">TFDebertaV2ForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering">TFDistilBertForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForQuestionAnswering">TFLongformerForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForQuestionAnswering">TFRobertaForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/xlm-roberta#transformers.TFXLMRobertaForQuestionAnswering">TFXLMRobertaForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">TapasForQuestionAnswering</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/tapas#transformers.TFTapasForQuestionAnswering">TFTapasForQuestionAnswering</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">ViTForImageClassification</td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/vit#transformers.TFViTForImageClassification">TFViTForImageClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">Automatic Speech Recognition (Wav2Vec2ForCTC)</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/wav2vec2#transformers.TFWav2Vec2ForCTC">TFWav2Vec2ForCTC</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">SwinForImageClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/swin#transformers.TFSwinForImageClassification">TFSwinForImageClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">HubertForCTC</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/hubert#transformers.TFHubertForCTC">TFHubertForCTC</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">ConvNextForImageClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/convnext#transformers.TFConvNextForImageClassification">TFConvNextForImageClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForZeroShotClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForZeroShotClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForZeroShotClassification</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">✅</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification">TFRobertaForSequenceClassification</a></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">T5Transformer</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">MarianTransformer</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">OpenAI GPT2</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left">❌</td>
+        <td style="text-align: left">❎</td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+    </tbody>
+  </table>
 
-<h3 id="example-notebooks">Example Notebooks</h3>
+</div>
+<div class="h3-box">
 
-<h4 id="huggingface-optimum-pytorch-and-onnx-runtime-to-spark-nlp-onnx">HuggingFace, Optimum, PyTorch, and ONNX Runtime to Spark NLP (ONNX)</h4>
+  <h3 id="example-notebooks">Example Notebooks</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">Notebooks</th>
-      <th style="text-align: left">Colab</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">BertEmbeddings</td>
-      <td style="text-align: left">HuggingFace in Spark NLP - BERT</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BERT.ipynb">BERT</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertEmbeddings</td>
-      <td style="text-align: left">HuggingFace in Spark NLP - DistilBERT</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBERT.ipynb">DistilBERT</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaEmbeddings</td>
-      <td style="text-align: left">HuggingFace in Spark NLP - RoBERTa</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_RoBERTa.ipynb">RoBERTa</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaEmbeddings</td>
-      <td style="text-align: left">HuggingFace in Spark NLP - DeBERTa</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DeBERTa.ipynb">DeBERTa</a></td>
-    </tr>
-  </tbody>
-</table>
+  <h4 id="huggingface-optimum-pytorch-and-onnx-runtime-to-spark-nlp-onnx">HuggingFace, Optimum, PyTorch, and ONNX Runtime to Spark NLP (ONNX)</h4>
 
-<h4 id="huggingface-to-spark-nlp-tensorflow">HuggingFace to Spark NLP (TensorFlow)</h4>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Spark NLP</th>
+        <th style="text-align: left">Notebooks</th>
+        <th style="text-align: left">Colab</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">BertEmbeddings</td>
+        <td style="text-align: left">HuggingFace in Spark NLP - BERT</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BERT.ipynb">BERT</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertEmbeddings</td>
+        <td style="text-align: left">HuggingFace in Spark NLP - DistilBERT</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBERT.ipynb">DistilBERT</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaEmbeddings</td>
+        <td style="text-align: left">HuggingFace in Spark NLP - RoBERTa</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_RoBERTa.ipynb">RoBERTa</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaEmbeddings</td>
+        <td style="text-align: left">HuggingFace in Spark NLP - DeBERTa</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DeBERTa.ipynb">DeBERTa</a></td>
+      </tr>
+    </tbody>
+  </table>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">Notebooks</th>
-      <th style="text-align: left">Colab</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">BertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb">HuggingFace in Spark NLP - BERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertSentenceEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">HuggingFace in Spark NLP - BERT Sentence</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">HuggingFace in Spark NLP - DistilBERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb">HuggingFace in Spark NLP - CamemBERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">HuggingFace in Spark NLP - RoBERTa</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb">HuggingFace in Spark NLP - DeBERTa</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">HuggingFace in Spark NLP - XLM-RoBERTa</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb">HuggingFace in Spark NLP - ALBERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlnetEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb">HuggingFace in Spark NLP - XLNet</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb">HuggingFace in Spark NLP - Longformer</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb">HuggingFace in Spark NLP - BertForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb">HuggingFace in Spark NLP - DistilBertForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb">HuggingFace in Spark NLP - AlbertForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb">HuggingFace in Spark NLP - RoBertaForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb">HuggingFace in Spark NLP - XlmRoBertaForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForTokenClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForTokenClassification.ipynb">HuggingFace in Spark NLP - CamemBertForTokenClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - CamemBertForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">CamemBertForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - CamemBertForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - BertForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - DistilBertForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - AlbertForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - RoBertaForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRoBertaForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - XlmRoBertaForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlnetForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - XlnetForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlnetForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerForSequenceClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - LongformerForSequenceClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - AlbertForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - BertForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DeBertaForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - DeBertaForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - DistilBertForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">LongformerForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForQuestionAnswering.ipynb">HuggingFace in Spark NLP - LongformerForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - RoBertaForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">XlmRobertaForQuestionAnswering</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - XlmRobertaForQuestionAnswering</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ViTForImageClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb">HuggingFace in Spark NLP - ViTForImageClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ConvNextForImageClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb">HuggingFace in Spark NLP - ConvNextForImageClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">SwinForImageClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb">HuggingFace in Spark NLP - SwinForImageClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertForZeroShotClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - BertForZeroShotClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">DistilBertForZeroShotClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb">HuggingFace in Spark NLP - DistilBertForZeroShotClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">RoBertaForZeroShotClassification</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb">HuggingFace in Spark NLP - RoBertaForZeroShotClassification</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-  </tbody>
-</table>
+</div>
+<div class="h3-box">
 
-<h4 id="tf-hub-to-spark-nlp">TF Hub to Spark NLP</h4>
+  <h4 id="huggingface-to-spark-nlp-tensorflow">HuggingFace to Spark NLP (TensorFlow)</h4>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Spark NLP</th>
-      <th style="text-align: left">TF Hub Notebooks</th>
-      <th style="text-align: left">Colab</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">BertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb">TF Hub in Spark NLP - BERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">BertSentenceEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">TF Hub in Spark NLP - BERT Sentence</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left">AlbertEmbeddings</td>
-      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb">TF Hub in Spark NLP - ALBERT</a></td>
-      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
-    </tr>
-  </tbody>
-</table>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Spark NLP</th>
+        <th style="text-align: left">Notebooks</th>
+        <th style="text-align: left">Colab</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">BertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb">HuggingFace in Spark NLP - BERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertSentenceEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">HuggingFace in Spark NLP - BERT Sentence</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">HuggingFace in Spark NLP - DistilBERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb">HuggingFace in Spark NLP - CamemBERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">HuggingFace in Spark NLP - RoBERTa</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb">HuggingFace in Spark NLP - DeBERTa</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">HuggingFace in Spark NLP - XLM-RoBERTa</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb">HuggingFace in Spark NLP - ALBERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlnetEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb">HuggingFace in Spark NLP - XLNet</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLNet.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb">HuggingFace in Spark NLP - Longformer</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb">HuggingFace in Spark NLP - BertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb">HuggingFace in Spark NLP - DistilBertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb">HuggingFace in Spark NLP - AlbertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb">HuggingFace in Spark NLP - RoBertaForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb">HuggingFace in Spark NLP - XlmRoBertaForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForTokenClassification.ipynb">HuggingFace in Spark NLP - CamemBertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - CamemBertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">CamemBertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - CamemBertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20CamemBertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - BertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb">HuggingFace in Spark NLP - DistilBertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - AlbertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - RoBertaForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRoBertaForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - XlmRoBertaForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlnetForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - XlnetForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlnetForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - LongformerForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - AlbertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - BertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DeBertaForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - DeBertaForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DeBertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForQuestionAnswering.ipynb">HuggingFace in Spark NLP - DistilBertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">LongformerForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForQuestionAnswering.ipynb">HuggingFace in Spark NLP - LongformerForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20LongformerForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - RoBertaForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">XlmRobertaForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb">HuggingFace in Spark NLP - XlmRobertaForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRobertaForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">ViTForImageClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb">HuggingFace in Spark NLP - ViTForImageClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">ConvNextForImageClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb">HuggingFace in Spark NLP - ConvNextForImageClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">SwinForImageClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb">HuggingFace in Spark NLP - SwinForImageClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForZeroShotClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">HuggingFace in Spark NLP - BertForZeroShotClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForZeroShotClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb">HuggingFace in Spark NLP - DistilBertForZeroShotClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">RoBertaForZeroShotClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb">HuggingFace in Spark NLP - RoBertaForZeroShotClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="tf-hub-to-spark-nlp">TF Hub to Spark NLP</h4>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Spark NLP</th>
+        <th style="text-align: left">TF Hub Notebooks</th>
+        <th style="text-align: left">Colab</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">BertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb">TF Hub in Spark NLP - BERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertSentenceEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">TF Hub in Spark NLP - BERT Sentence</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb">TF Hub in Spark NLP - ALBERT</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2023-06-18T00:00:00+00:00">Jun 18, 2023</time>
     </span><!-- start custom article footer snippet -->

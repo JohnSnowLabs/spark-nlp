@@ -531,290 +531,309 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - FAQ"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="how-to-use-spark-nlp">How to use Spark NLP?</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<p>To use Spark NLP in Python, follow these steps:</p>
+  <h3 id="how-to-use-spark-nlp">How to use Spark NLP?</h3>
 
-<ol>
-  <li>
-    <p><strong>Installation</strong>:</p>
+  <p>To use Spark NLP in Python, follow these steps:</p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">pip</span> <span class="n">install</span> <span class="n">spark</span><span class="o">-</span><span class="n">nlp</span>
-</code></pre></div>    </div>
+  <ol>
+    <li>
+      <p><strong>Installation</strong>:</p>
 
-    <p>if you don’t have PySpark you should also install the following dependencies:</p>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">pip</span> <span class="n">install</span> <span class="n">spark</span><span class="o">-</span><span class="n">nlp</span>
+</code></pre></div>      </div>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyspark</span> <span class="n">numpy</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Initialize SparkSession with Spark NLP</strong>:</p>
+      <p>if you don’t have PySpark you should also install the following dependencies:</p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyspark</span> <span class="n">numpy</span>
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Initialize SparkSession with Spark NLP</strong>:</p>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Use Annotators</strong>:
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Use Annotators</strong>:
 Spark NLP offers a variety of annotators (e.g., Tokenizer, SentenceDetector, Lemmatizer). To use them, first create the appropriate pipeline.</p>
 
-    <p>Example using a Tokenizer:</p>
+      <p>Example using a Tokenizer:</p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">])</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Transform Data</strong>:
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Transform Data</strong>:
 Once you have a pipeline, you can transform your data.</p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Explore and Utilize Models</strong>:
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Explore and Utilize Models</strong>:
 Spark NLP offers pre-trained models for tasks like Named Entity Recognition (NER), sentiment analysis, and more. You can easily plug these into your pipeline and customize as needed.</p>
-  </li>
-  <li>
-    <p><strong>Further Reading</strong>:
+    </li>
+    <li>
+      <p><strong>Further Reading</strong>:
 Dive deeper into the <a href="https://sparknlp.org/docs/en/install">official documentation</a> for more detailed examples, a complete list of annotators and models, and best practices for building NLP pipelines.</p>
-  </li>
-</ol>
+    </li>
+  </ol>
 
-<h3 id="is-spark-nlp-free">Is Spark NLP free?</h3>
+</div>
+<div class="h3-box">
 
-<p>Short answer: 100%! Free forever inculding any commercial use.</p>
+  <h3 id="is-spark-nlp-free">Is Spark NLP free?</h3>
 
-<p>Longer answer: Yes, Spark NLP is an open-source library and can be used freely. It’s released under the Apache License 2.0. Users can use, modify, and distribute it without incurring costs.</p>
+  <p>Short answer: 100%! Free forever inculding any commercial use.</p>
 
-<h3 id="what-is-the-difference-between-spacy-and-spark-nlp">What is the difference between spaCy and Spark NLP?</h3>
+  <p>Longer answer: Yes, Spark NLP is an open-source library and can be used freely. It’s released under the Apache License 2.0. Users can use, modify, and distribute it without incurring costs.</p>
 
-<p>Both spaCy and Spark NLP are popular libraries for Natural Language Processing, but Spark NLP shines when it comes to scalability and distributed processing. Here are some key differences between the two:</p>
+</div>
+<div class="h3-box">
 
-<ol>
-  <li><strong>Scalability &amp; Distributed Processing</strong>:
-    <ul>
-      <li><strong>Spark NLP</strong>: Built on top of Apache Spark, it’s designed for distributed processing and handling large datasets at scale. This makes it especially suitable for big data processing tasks that need to run on a cluster.</li>
-      <li><strong>spaCy</strong>: Designed for processing data on a single machine and it’s not natively built for distributed computing.</li>
-    </ul>
-  </li>
-  <li><strong>Language Models &amp; Pretrained Pipelines</strong>:
-    <ul>
-      <li><strong>Spark NLP</strong>: Offers over 18,000 diverse pre-trained models and pipelines for over 235 languages, making it easy to get started on various NLP tasks. It also makes it easy to import your custom models from Hugging Face in TensorFlow and ONNX formats. Spark NLP also offeres a large number of state-of-the-art Large Language Models (LLMs) like BERT, RoBERTa, ALBERT, T5, OpenAI Whisper, and many more for Text Embeddings (useful for RAG), Named Entity Recognition, Text Classification, Answering, Automatic Speech Recognition, and more. These models can be used out of the box or fine-tuned on your own data.</li>
-      <li><strong>spaCy</strong>: Provides support for multiple languages with its models and supports tasks like tokenization, named entity recognition, and dependency parsing out of the box. However, spaCy doesn’t have any Models Hub and the number of offered models out of the box is limited.</li>
-    </ul>
-  </li>
-  <li><strong>Licensing &amp; Versions</strong>:
-    <ul>
-      <li><strong>Spark NLP</strong>: The core library is open-source under the Apache License 2.0, making it free for both academic and commercial use.</li>
-      <li><strong>spaCy</strong>: Open-source and released under the MIT license.</li>
-    </ul>
-  </li>
-</ol>
+  <h3 id="what-is-the-difference-between-spacy-and-spark-nlp">What is the difference between spaCy and Spark NLP?</h3>
 
-<h3 id="what-are-the-spark-nlp-models">What are the Spark NLP models?</h3>
+  <p>Both spaCy and Spark NLP are popular libraries for Natural Language Processing, but Spark NLP shines when it comes to scalability and distributed processing. Here are some key differences between the two:</p>
 
-<p>Spark NLP provides a range of models to tackle various NLP tasks. These models are often pre-trained on large datasets and can be fine-tuned or used directly for inference. Some of the primary categories and examples of Spark NLP models include:</p>
+  <ol>
+    <li><strong>Scalability &amp; Distributed Processing</strong>:
+      <ul>
+        <li><strong>Spark NLP</strong>: Built on top of Apache Spark, it’s designed for distributed processing and handling large datasets at scale. This makes it especially suitable for big data processing tasks that need to run on a cluster.</li>
+        <li><strong>spaCy</strong>: Designed for processing data on a single machine and it’s not natively built for distributed computing.</li>
+      </ul>
+    </li>
+    <li><strong>Language Models &amp; Pretrained Pipelines</strong>:
+      <ul>
+        <li><strong>Spark NLP</strong>: Offers over 18,000 diverse pre-trained models and pipelines for over 235 languages, making it easy to get started on various NLP tasks. It also makes it easy to import your custom models from Hugging Face in TensorFlow and ONNX formats. Spark NLP also offeres a large number of state-of-the-art Large Language Models (LLMs) like BERT, RoBERTa, ALBERT, T5, OpenAI Whisper, and many more for Text Embeddings (useful for RAG), Named Entity Recognition, Text Classification, Answering, Automatic Speech Recognition, and more. These models can be used out of the box or fine-tuned on your own data.</li>
+        <li><strong>spaCy</strong>: Provides support for multiple languages with its models and supports tasks like tokenization, named entity recognition, and dependency parsing out of the box. However, spaCy doesn’t have any Models Hub and the number of offered models out of the box is limited.</li>
+      </ul>
+    </li>
+    <li><strong>Licensing &amp; Versions</strong>:
+      <ul>
+        <li><strong>Spark NLP</strong>: The core library is open-source under the Apache License 2.0, making it free for both academic and commercial use.</li>
+        <li><strong>spaCy</strong>: Open-source and released under the MIT license.</li>
+      </ul>
+    </li>
+  </ol>
 
-<ol>
-  <li><strong>Named Entity Recognition (NER)</strong>:
-    <ul>
-      <li>Pre-trained models for recognizing entities such as persons, organizations, locations, etc.</li>
-      <li>Specialized models for sectors like healthcare to detect medical entities.</li>
-    </ul>
-  </li>
-  <li><strong>Text Classification</strong>:
-    <ul>
-      <li>Models for tasks like sentiment analysis, topic classification, and more.</li>
-    </ul>
-  </li>
-  <li><strong>Word Embeddings</strong>:
-    <ul>
-      <li>Word2Vec, GloVe, and BERT embeddings.</li>
-      <li>Models to generate embeddings for words or sentences, useful in many downstream tasks.</li>
-    </ul>
-  </li>
-  <li><strong>Language Models</strong>:
-    <ul>
-      <li>Models like BERT, ALBERT, and ELECTRA are available pre-trained and can be fine-tuned for specific tasks.</li>
-    </ul>
-  </li>
-  <li><strong>Dependency Parsing</strong>:
-    <ul>
-      <li>Models that analyze the grammatical structure of a sentence and determine relationships between words.</li>
-    </ul>
-  </li>
-  <li><strong>Spell Checking and Correction</strong>:
-    <ul>
-      <li>Models that can detect and correct spelling mistakes in the text.</li>
-    </ul>
-  </li>
-  <li><strong>Sentence Embeddings</strong>:
-    <ul>
-      <li>Models to generate vector representations for entire sentences, such as Universal Sentence Encoder.</li>
-    </ul>
-  </li>
-  <li><strong>Translation and Language Detection</strong>:
-    <ul>
-      <li>Models to detect the language of a given text or translate text between languages.</li>
-    </ul>
-  </li>
-  <li><strong>Text Matching</strong>:
-    <ul>
-      <li>Models that can be used for tasks like textual similarity, paraphrase detection, etc.</li>
-    </ul>
-  </li>
-  <li><strong>Pretrained Pipelines</strong>:</li>
-</ol>
+</div>
+<div class="h3-box">
 
-<ul>
-  <li>Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.</li>
-</ul>
+  <h3 id="what-are-the-spark-nlp-models">What are the Spark NLP models?</h3>
 
-<p>For the latest list of models, detailed documentation, and instructions on how to use them, visiting the <a href="http://sparknlp.org/models">Official Spark NLP Models Hub</a> would be beneficial.</p>
+  <p>Spark NLP provides a range of models to tackle various NLP tasks. These models are often pre-trained on large datasets and can be fine-tuned or used directly for inference. Some of the primary categories and examples of Spark NLP models include:</p>
 
-<h3 id="what-are-the-main-functions-of-spark-nlp">What are the main functions of Spark NLP?</h3>
+  <ol>
+    <li><strong>Named Entity Recognition (NER)</strong>:
+      <ul>
+        <li>Pre-trained models for recognizing entities such as persons, organizations, locations, etc.</li>
+        <li>Specialized models for sectors like healthcare to detect medical entities.</li>
+      </ul>
+    </li>
+    <li><strong>Text Classification</strong>:
+      <ul>
+        <li>Models for tasks like sentiment analysis, topic classification, and more.</li>
+      </ul>
+    </li>
+    <li><strong>Word Embeddings</strong>:
+      <ul>
+        <li>Word2Vec, GloVe, and BERT embeddings.</li>
+        <li>Models to generate embeddings for words or sentences, useful in many downstream tasks.</li>
+      </ul>
+    </li>
+    <li><strong>Language Models</strong>:
+      <ul>
+        <li>Models like BERT, ALBERT, and ELECTRA are available pre-trained and can be fine-tuned for specific tasks.</li>
+      </ul>
+    </li>
+    <li><strong>Dependency Parsing</strong>:
+      <ul>
+        <li>Models that analyze the grammatical structure of a sentence and determine relationships between words.</li>
+      </ul>
+    </li>
+    <li><strong>Spell Checking and Correction</strong>:
+      <ul>
+        <li>Models that can detect and correct spelling mistakes in the text.</li>
+      </ul>
+    </li>
+    <li><strong>Sentence Embeddings</strong>:
+      <ul>
+        <li>Models to generate vector representations for entire sentences, such as Universal Sentence Encoder.</li>
+      </ul>
+    </li>
+    <li><strong>Translation and Language Detection</strong>:
+      <ul>
+        <li>Models to detect the language of a given text or translate text between languages.</li>
+      </ul>
+    </li>
+    <li><strong>Text Matching</strong>:
+      <ul>
+        <li>Models that can be used for tasks like textual similarity, paraphrase detection, etc.</li>
+      </ul>
+    </li>
+    <li><strong>Pretrained Pipelines</strong>:</li>
+  </ol>
 
-<p>Spark NLP offers a comprehensive suite of functionalities tailored for natural language processing tasks via large language models. Some of the main functions and capabilities include:</p>
+  <ul>
+    <li>Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.</li>
+  </ul>
 
-<ol>
-  <li><strong>Text Tokenization</strong>:
-    <ul>
-      <li>Segmenting text into words, phrases, or other meaningful elements called tokens.</li>
-    </ul>
-  </li>
-  <li><strong>Named Entity Recognition (NER)</strong>:
-    <ul>
-      <li>Identifying and classifying named entities in text, such as names of people, places, organizations, dates, etc.</li>
-    </ul>
-  </li>
-  <li><strong>Document Classification</strong>:
-    <ul>
-      <li>Categorizing documents or chunks of text into predefined classes or topics.</li>
-    </ul>
-  </li>
-  <li><strong>Sentiment Analysis</strong>:
-    <ul>
-      <li>Determining the sentiment or emotion expressed in a piece of text, typically as positive, negative, or neutral.</li>
-    </ul>
-  </li>
-  <li><strong>Dependency Parsing</strong>:
-    <ul>
-      <li>Analyzing the grammatical structure of a sentence to establish relationships between words.</li>
-    </ul>
-  </li>
-  <li><strong>Lemmatization and Stemming</strong>:
-    <ul>
-      <li>Reducing words to their base or root form. For example, “running” becomes “run”.</li>
-    </ul>
-  </li>
-  <li><strong>Spell Checking and Correction</strong>:
-    <ul>
-      <li>Identifying and correcting spelling mistakes in text.</li>
-    </ul>
-  </li>
-  <li><strong>Word and Sentence Embeddings</strong>:
-    <ul>
-      <li>Transforming words or sentences into numerical vectors, useful for many machine learning tasks.</li>
-    </ul>
-  </li>
-  <li><strong>Language Detection and Translation</strong>:
-    <ul>
-      <li>Detecting the language of a given text and translating text between different languages.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Text Matching and Similarity</strong>:</p>
+  <p>For the latest list of models, detailed documentation, and instructions on how to use them, visiting the <a href="http://sparknlp.org/models">Official Spark NLP Models Hub</a> would be beneficial.</p>
 
-    <ul>
-      <li>Calculating the similarity between pieces of text or determining if texts are duplicates or paraphrases of one another.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Chunking</strong>:</p>
+</div>
+<div class="h3-box">
 
-    <ul>
-      <li>Extracting short, meaningful phrases from the text.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Stop Words Removal</strong>:</p>
+  <h3 id="what-are-the-main-functions-of-spark-nlp">What are the main functions of Spark NLP?</h3>
 
-    <ul>
-      <li>Removing commonly used words that don’t carry significant meaning in most contexts (e.g., “and”, “the”, “is”).</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Normalization</strong>:</p>
+  <p>Spark NLP offers a comprehensive suite of functionalities tailored for natural language processing tasks via large language models. Some of the main functions and capabilities include:</p>
 
-    <ul>
-      <li>Converting text into a standard or regular form, such as converting all letters to lowercase or removing special characters.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Pre-trained Pipelines</strong>:</p>
+  <ol>
+    <li><strong>Text Tokenization</strong>:
+      <ul>
+        <li>Segmenting text into words, phrases, or other meaningful elements called tokens.</li>
+      </ul>
+    </li>
+    <li><strong>Named Entity Recognition (NER)</strong>:
+      <ul>
+        <li>Identifying and classifying named entities in text, such as names of people, places, organizations, dates, etc.</li>
+      </ul>
+    </li>
+    <li><strong>Document Classification</strong>:
+      <ul>
+        <li>Categorizing documents or chunks of text into predefined classes or topics.</li>
+      </ul>
+    </li>
+    <li><strong>Sentiment Analysis</strong>:
+      <ul>
+        <li>Determining the sentiment or emotion expressed in a piece of text, typically as positive, negative, or neutral.</li>
+      </ul>
+    </li>
+    <li><strong>Dependency Parsing</strong>:
+      <ul>
+        <li>Analyzing the grammatical structure of a sentence to establish relationships between words.</li>
+      </ul>
+    </li>
+    <li><strong>Lemmatization and Stemming</strong>:
+      <ul>
+        <li>Reducing words to their base or root form. For example, “running” becomes “run”.</li>
+      </ul>
+    </li>
+    <li><strong>Spell Checking and Correction</strong>:
+      <ul>
+        <li>Identifying and correcting spelling mistakes in text.</li>
+      </ul>
+    </li>
+    <li><strong>Word and Sentence Embeddings</strong>:
+      <ul>
+        <li>Transforming words or sentences into numerical vectors, useful for many machine learning tasks.</li>
+      </ul>
+    </li>
+    <li><strong>Language Detection and Translation</strong>:
+      <ul>
+        <li>Detecting the language of a given text and translating text between different languages.</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Text Matching and Similarity</strong>:</p>
 
-    <ul>
-      <li>Ready-to-use workflows combining multiple functions, allowing users to process text without creating a custom sequence of operations.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Customizable Workflows</strong>:</p>
+      <ul>
+        <li>Calculating the similarity between pieces of text or determining if texts are duplicates or paraphrases of one another.</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Chunking</strong>:</p>
 
-    <ul>
-      <li>Building custom pipelines by chaining different annotators and models to create a tailored NLP processing sequence.</li>
-    </ul>
-  </li>
-</ol>
+      <ul>
+        <li>Extracting short, meaningful phrases from the text.</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Stop Words Removal</strong>:</p>
 
-<p>Spark NLP is designed to be highly scalable and can handle large-scale text processing tasks efficiently by leveraging the distributed processing capabilities of Apache Spark.</p>
+      <ul>
+        <li>Removing commonly used words that don’t carry significant meaning in most contexts (e.g., “and”, “the”, “is”).</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Normalization</strong>:</p>
 
-<p>To fully grasp the breadth of functions and learn how to use them, users are encouraged to explore the <a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">official Spark NLP documentation</a>.</p>
+      <ul>
+        <li>Converting text into a standard or regular form, such as converting all letters to lowercase or removing special characters.</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Pre-trained Pipelines</strong>:</p>
 
-<h3 id="where-can-i-get-prebuilt-versions-of-spark-nlp">Where can I get prebuilt versions of Spark NLP?</h3>
+      <ul>
+        <li>Ready-to-use workflows combining multiple functions, allowing users to process text without creating a custom sequence of operations.</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Customizable Workflows</strong>:</p>
 
-<p>Prebuilt versions of Spark NLP can be obtained through multiple channels, depending on your development environment and platform:</p>
+      <ul>
+        <li>Building custom pipelines by chaining different annotators and models to create a tailored NLP processing sequence.</li>
+      </ul>
+    </li>
+  </ol>
 
-<ol>
-  <li>
-    <p><strong>PyPI (for Python Users)</strong>:
+  <p>Spark NLP is designed to be highly scalable and can handle large-scale text processing tasks efficiently by leveraging the distributed processing capabilities of Apache Spark.</p>
+
+  <p>To fully grasp the breadth of functions and learn how to use them, users are encouraged to explore the <a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">official Spark NLP documentation</a>.</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="where-can-i-get-prebuilt-versions-of-spark-nlp">Where can I get prebuilt versions of Spark NLP?</h3>
+
+  <p>Prebuilt versions of Spark NLP can be obtained through multiple channels, depending on your development environment and platform:</p>
+
+  <ol>
+    <li>
+      <p><strong>PyPI (for Python Users)</strong>:
 You can install Spark NLP using <code class="language-plaintext highlighter-rouge">pip</code>, the Python package installer.</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Maven Central (for Java/Scala Users)</strong>:
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Maven Central (for Java/Scala Users)</strong>:
 If you are using Maven, you can add the following dependency to your <code class="language-plaintext highlighter-rouge">pom.xml</code>:</p>
 
-    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+      <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
    <span class="nt">&lt;version&gt;</span>LATEST_VERSION<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>    </div>
+</code></pre></div>      </div>
 
-    <p>Make sure to replace <code class="language-plaintext highlighter-rouge">LATEST_VERSION</code> with the desired version of Spark NLP.</p>
-  </li>
-  <li>
-    <p><strong>Spark Packages</strong>:
+      <p>Make sure to replace <code class="language-plaintext highlighter-rouge">LATEST_VERSION</code> with the desired version of Spark NLP.</p>
+    </li>
+    <li>
+      <p><strong>Spark Packages</strong>:
 For those using the <code class="language-plaintext highlighter-rouge">spark-shell</code>, <code class="language-plaintext highlighter-rouge">pyspark</code>, or <code class="language-plaintext highlighter-rouge">spark-submit</code>, you can include Spark NLP directly via Spark Packages:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Pre-trained Models &amp; Pipelines</strong>:
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p><strong>Pre-trained Models &amp; Pipelines</strong>:
 Apart from the library itself, Spark NLP provides a range of pre-trained models and pipelines. These can be found on the <a href="https://sparknlp.org/models">Spark NLP Model Hub</a>.</p>
-  </li>
-</ol>
+    </li>
+  </ol>
 
-<p>Always make sure to consult the <a href="https://sparknlp.org/docs/en/quickstart">official documentation</a> or the <a href="https://github.com/JohnSnowLabs/spark-nlp/">GitHub repository</a> for the latest instructions and versions available.</p>
+  <p>Always make sure to consult the <a href="https://sparknlp.org/docs/en/quickstart">official documentation</a> or the <a href="https://github.com/JohnSnowLabs/spark-nlp/">GitHub repository</a> for the latest instructions and versions available.</p>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2023-09-14T00:00:00+00:00">Sep 14, 2023</time>
     </span><!-- start custom article footer snippet -->

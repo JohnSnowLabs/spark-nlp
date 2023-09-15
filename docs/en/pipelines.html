@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -531,10 +531,13 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - Pipelines"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p class="success success">Pretrained Pipelines have moved to Models Hub.
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
+
+  <p class="success success">Pretrained Pipelines have moved to Models Hub.
 Please follow this link for the updated list of all models and pipelines:
 <a href="https://sparknlp.org/modelss">Models Hub</a></p>
 
+</div>
 <div class="h3-box">
 
   <h2 id="english">English</h2>
@@ -2000,17 +2003,19 @@ annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 8 more f
   <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_dl"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span></code></pre></figure>
 
 </div>
+<div class="h3-box">
 
-<h3 id="offline">Offline</h3>
+  <h3 id="offline">Offline</h3>
 
-<p>If you have any trouble using online pipelines or models in your environment (maybe it’s air-gapped), you can directly download them for <code class="language-plaintext highlighter-rouge">offline</code> use.</p>
+  <p>If you have any trouble using online pipelines or models in your environment (maybe it’s air-gapped), you can directly download them for <code class="language-plaintext highlighter-rouge">offline</code> use.</p>
 
-<p>After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):</p>
+  <p>After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):</p>
 
-<figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nv">advancedPipeline</span> <span class="k">=</span> <span class="nv">PipelineModel</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/"</span><span class="o">)</span>
+  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nv">advancedPipeline</span> <span class="k">=</span> <span class="nv">PipelineModel</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/"</span><span class="o">)</span>
 <span class="c1">// To use the loaded Pipeline for prediction</span>
 <span class="nv">advancedPipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">predictionDF</span><span class="o">)</span></code></pre></figure>
 
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-11-20T00:00:00+00:00">Nov 20, 2021</time>
     </span><!-- start custom article footer snippet -->
@@ -2171,7 +2176,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/release_notes">Release Notes</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/faq">Spark NLP FAQ</a></div></div></div>
 
 </div>
 </div>

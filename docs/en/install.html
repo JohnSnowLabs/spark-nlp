@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -531,9 +531,11 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - Installation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="spark-nlp-cheatsheet">Spark NLP Cheatsheet</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Spark NLP from PyPI</span>
+  <h2 id="spark-nlp-cheatsheet">Spark NLP Cheatsheet</h2>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Spark NLP from PyPI</span>
 pip <span class="nb">install </span>spark-nlp<span class="o">==</span>5.1.1
 
 <span class="c"># Install Spark NLP from Anacodna/Conda</span>
@@ -550,41 +552,50 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 
 <span class="c"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
 spark-shell <span class="nt">--jars</span> spark-nlp-assembly-5.1.1.jar
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="python">Python</h2>
+</div>
+<div class="h3-box">
 
-<p>Spark NLP supports Python 3.7.x and above depending on your major PySpark version.</p>
+  <h2 id="python">Python</h2>
 
-<p><strong>NOTE</strong>: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+  <p>Spark NLP supports Python 3.7.x and above depending on your major PySpark version.</p>
+
+  <p><strong>NOTE</strong>: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
 python version, consider sticking to lower versions of Spark.</p>
 
-<h4 id="quick-install">Quick Install</h4>
+</div>
+<div class="h3-box">
 
-<p>Let’s create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.</p>
+  <h4 id="quick-install">Quick Install</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
+  <p>Let’s create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
 <span class="c"># should be Java 8 (Oracle or OpenJDK)</span>
 <span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.8 <span class="nt">-y</span>
 <span class="nv">$ </span>conda activate sparknlp
 <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>5.1.1 <span class="nv">pyspark</span><span class="o">==</span>3.3.1
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>Of course you will need to have jupyter installed in your system:</p>
+  <p>Of course you will need to have jupyter installed in your system:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>jupyter
-</code></pre></div></div>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>jupyter
+</code></pre></div>  </div>
 
-<p>Now you should be ready to create a jupyter notebook running from terminal:</p>
+  <p>Now you should be ready to create a jupyter notebook running from terminal:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
-</code></pre></div></div>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
+</code></pre></div>  </div>
 
-<h4 id="start-spark-nlp-session-from-python">Start Spark NLP Session from python</h4>
+</div>
+<div class="h3-box">
 
-<p>If you need to manually start SparkSession because you have other configurations and <code class="language-plaintext highlighter-rouge">sparknlp.start()</code> is not including them, you can manually start the SparkSession:</p>
+  <h4 id="start-spark-nlp-session-from-python">Start Spark NLP Session from python</h4>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
+  <p>If you need to manually start SparkSession because you have other configurations and <code class="language-plaintext highlighter-rouge">sparknlp.start()</code> is not including them, you can manually start the SparkSession:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
     <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16G"</span><span class="p">)</span>\
@@ -592,375 +603,416 @@ python version, consider sticking to lower versions of Spark.</p>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.1"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="scala-and-java">Scala and Java</h2>
+</div>
+<div class="h3-box">
 
-<h4 id="maven">Maven</h4>
+  <h2 id="scala-and-java">Scala and Java</h2>
 
-<p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+  <h4 id="maven">Maven</h4>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp --&gt;</span>
+  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>5.1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-gpu:</strong></p>
+  <p><strong>spark-nlp-gpu:</strong></p>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu --&gt;</span>
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>5.1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-silicon:</strong></p>
+  <p><strong>spark-nlp-silicon:</strong></p>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.12<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>5.1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-aarch64:</strong></p>
+  <p><strong>spark-nlp-aarch64:</strong></p>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64 --&gt;</span>
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64 --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-aarch64_2.12<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>5.1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h4 id="sbt">SBT</h4>
+</div>
+<div class="h3-box">
 
-<p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+  <h4 id="sbt">SBT</h4>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
+  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"5.1.1"</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-gpu:</strong></p>
+  <p><strong>spark-nlp-gpu:</strong></p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-gpu"</span> <span class="o">%</span> <span class="s">"5.1.1"</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-silicon:</strong></p>
+  <p><strong>spark-nlp-silicon:</strong></p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"5.1.1"</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>spark-nlp-aarch64:</strong></p>
+  <p><strong>spark-nlp-aarch64:</strong></p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-aarch64"</span> <span class="o">%</span> <span class="s">"5.1.1"</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>Maven Central: <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp">https://mvnrepository.com/artifact/com.johnsnowlabs.nlp</a></p>
+  <p>Maven Central: <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp">https://mvnrepository.com/artifact/com.johnsnowlabs.nlp</a></p>
 
-<p>If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects <a href="https://github.com/maziyarpanahi/spark-nlp-starter">Spark NLP SBT Starter</a></p>
+  <p>If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects <a href="https://github.com/maziyarpanahi/spark-nlp-starter">Spark NLP SBT Starter</a></p>
 
-<h2 id="installation-for-m1-macs">Installation for M1 Macs</h2>
+</div>
+<div class="h3-box">
 
-<p>Starting from version 4.0.0, Spark NLP has experimental support for M1 macs. Note that
+  <h2 id="installation-for-m1-macs">Installation for M1 Macs</h2>
+
+  <p>Starting from version 4.0.0, Spark NLP has experimental support for M1 macs. Note that
 at the moment, only the standard variant of the M1 is supported. Other variants (e.g.
 M1 Pro/Max/Ultra, M2) will most likely not work.</p>
 
-<p>Make sure the following prerequisites are met:</p>
+  <p>Make sure the following prerequisites are met:</p>
 
-<ol>
-  <li>
-    <p>An M1 compiled java version needs to be installed. For example to install the Zulu
+  <ol>
+    <li>
+      <p>An M1 compiled java version needs to be installed. For example to install the Zulu
  Java 11 JDK head to <a href="https://www.azul.com/downloads/?version=java-11-lts&amp;os=macos&amp;architecture=arm-64-bit&amp;package=jdk">Download Azul JDKs</a> and install that java version.</p>
 
-    <p>To check if the installed java environment is running natively on arm64 and not
+      <p>To check if the installed java environment is running natively on arm64 and not
  rosetta, you can run the following commands in your shell:</p>
 
-    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> johnsnow@m1mac ~ % <span class="nb">cat</span> <span class="si">$(</span>which java<span class="si">)</span> | file -
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> johnsnow@m1mac ~ % <span class="nb">cat</span> <span class="si">$(</span>which java<span class="si">)</span> | file -
  /dev/stdin: Mach-O 64-bit executable arm64
-</code></pre></div>    </div>
+</code></pre></div>      </div>
 
-    <p>The environment variable <code class="language-plaintext highlighter-rouge">JAVA_HOME</code> should also be set to this java version. You
+      <p>The environment variable <code class="language-plaintext highlighter-rouge">JAVA_HOME</code> should also be set to this java version. You
  can check this by running <code class="language-plaintext highlighter-rouge">echo $JAVA_HOME</code> in your terminal. If it is not set,
  you can set it by adding <code class="language-plaintext highlighter-rouge">export JAVA_HOME=$(/usr/libexec/java_home)</code> to your
  <code class="language-plaintext highlighter-rouge">~/.zshrc</code> file.</p>
-  </li>
-  <li>
-    <p>If you are planning to use Annotators or Pipelines that use the RocksDB library (for
+    </li>
+    <li>
+      <p>If you are planning to use Annotators or Pipelines that use the RocksDB library (for
  example <code class="language-plaintext highlighter-rouge">WordEmbeddings</code>, <code class="language-plaintext highlighter-rouge">TextMatcher</code> or <code class="language-plaintext highlighter-rouge">explain_document_dl_en</code> Pipeline
  respectively) with <code class="language-plaintext highlighter-rouge">spark-submit</code>, then a workaround is required to get it working.
  See <a href="#m1-rocksdb-workaround-for-spark-submit-with-spark-version--320">M1 RocksDB workaround for spark-submit with Spark version &gt;= 3.2.0</a>.</p>
-  </li>
-</ol>
+    </li>
+  </ol>
 
-<h3 id="m1-rocksdb-workaround-for-spark-submit-with-spark-version--320">M1 RocksDB workaround for spark-submit with Spark version &gt;= 3.2.0</h3>
+  <h3 id="m1-rocksdb-workaround-for-spark-submit-with-spark-version--320">M1 RocksDB workaround for spark-submit with Spark version &gt;= 3.2.0</h3>
 
-<p>Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
+  <p>Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
 dependency. Unfortunately, this is an older version of RocksDB does not include the
 necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
 has to be removed from the Spark distribution.</p>
 
-<p>For example, if you downloaded Spark version 3.2.0 from the official archives, you will
+  <p>For example, if you downloaded Spark version 3.2.0 from the official archives, you will
 find the following folders in the directory of Spark:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls
 </span>bin  conf  data  examples  jars  kubernetes  LICENSE  licenses
 NOTICE  python  R  README.md  RELEASE  sbin  yarn
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>To check for the RocksDB jar, you can run</p>
+  <p>To check for the RocksDB jar, you can run</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls </span>jars | <span class="nb">grep </span>rocksdb
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls </span>jars | <span class="nb">grep </span>rocksdb
 rocksdbjni-6.20.3.jar
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>to find the jar you have to remove. After removing the jar, the pipelines should work
+  <p>to find the jar you have to remove. After removing the jar, the pipelines should work
 as expected.</p>
 
-<h3 id="scala-and-java-for-m1">Scala and Java for M1</h3>
+</div>
+<div class="h3-box">
 
-<p>Adding Spark NLP to your Scala or Java project is easy:</p>
+  <h3 id="scala-and-java-for-m1">Scala and Java for M1</h3>
 
-<p>Simply change to dependency coordinates to <code class="language-plaintext highlighter-rouge">spark-nlp-silicon</code> and add the dependency to your
+  <p>Adding Spark NLP to your Scala or Java project is easy:</p>
+
+  <p>Simply change to dependency coordinates to <code class="language-plaintext highlighter-rouge">spark-nlp-silicon</code> and add the dependency to your
 project.</p>
 
-<p>How to do this is mentioned above: <a href="#scala-and-java">Scala And Java</a></p>
+  <p>How to do this is mentioned above: <a href="#scala-and-java">Scala And Java</a></p>
 
-<p>So for example for Spark NLP with Apache Spark 3.0.x and 3.1.x you will end up with
+  <p>So for example for Spark NLP with Apache Spark 3.0.x and 3.1.x you will end up with
 maven coordinates like these:</p>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.12<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>5.1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>or in case of sbt:</p>
+  <p>or in case of sbt:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"5.1.1"</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>If everything went well, you can now start Spark NLP with the <code class="language-plaintext highlighter-rouge">m1</code> flag set to <code class="language-plaintext highlighter-rouge">true</code>:</p>
+  <p>If everything went well, you can now start Spark NLP with the <code class="language-plaintext highlighter-rouge">m1</code> flag set to <code class="language-plaintext highlighter-rouge">true</code>:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
 
 <span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkNLP</span><span class="o">.</span><span class="py">start</span><span class="o">(</span><span class="n">apple_silicon</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h3 id="python-for-m1--m2">Python for M1 &amp; M2</h3>
+</div>
+<div class="h3-box">
 
-<p>First, make sure you have a recent Python 3 installation.</p>
+  <h3 id="python-for-m1--m2">Python for M1 &amp; M2</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>johnsnow@m1mac ~ % python3 <span class="nt">--version</span>
+  <p>First, make sure you have a recent Python 3 installation.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>johnsnow@m1mac ~ % python3 <span class="nt">--version</span>
 Python 3.9.13
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>Then we can install the dependency as described in the <a href="#python">Python section</a>.
+  <p>Then we can install the dependency as described in the <a href="#python">Python section</a>.
 It is also recommended to use a virtual environment for this.</p>
 
-<p>If everything went well, you can now start Spark NLP with the <code class="language-plaintext highlighter-rouge">m1</code> flag set to <code class="language-plaintext highlighter-rouge">True</code>:</p>
+  <p>If everything went well, you can now start Spark NLP with the <code class="language-plaintext highlighter-rouge">m1</code> flag set to <code class="language-plaintext highlighter-rouge">True</code>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="n">apple_silicon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="installation-for-linux-aarch64-systems">Installation for Linux Aarch64 Systems</h2>
+</div>
+<div class="h3-box">
 
-<p>Starting from version 5.1.1, Spark NLP supports Linux systems running on an aarch64
+  <h2 id="installation-for-linux-aarch64-systems">Installation for Linux Aarch64 Systems</h2>
+
+  <p>Starting from version 5.1.1, Spark NLP supports Linux systems running on an aarch64
 processor architecture. The necessary dependencies have been built on Ubuntu 16.04, so a
 recent system with an environment of at least that will be needed.</p>
 
-<p>Check the <a href="#python">Python section</a> and the <a href="#scala-and-java">Scala And Java section</a> on
+  <p>Check the <a href="#python">Python section</a> and the <a href="#scala-and-java">Scala And Java section</a> on
 to install Spark NLP for your system.</p>
 
-<h3 id="starting-spark-nlp">Starting Spark NLP</h3>
+</div>
+<div class="h3-box">
 
-<p>Spark NLP needs to be started with the <code class="language-plaintext highlighter-rouge">aarch64</code> flag set to <code class="language-plaintext highlighter-rouge">true</code>:</p>
+  <h3 id="starting-spark-nlp">Starting Spark NLP</h3>
 
-<p>For Scala:</p>
+  <p>Spark NLP needs to be started with the <code class="language-plaintext highlighter-rouge">aarch64</code> flag set to <code class="language-plaintext highlighter-rouge">true</code>:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
+  <p>For Scala:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
 
 <span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkNLP</span><span class="o">.</span><span class="py">start</span><span class="o">(</span><span class="n">aarch64</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>For Python:</p>
+  <p>For Python:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="n">aarch64</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="google-colab-notebook">Google Colab Notebook</h2>
+</div>
+<div class="h3-box">
 
-<p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
+  <h2 id="google-colab-notebook">Google Colab Notebook</h2>
 
-<p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
+  <p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
+  <p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
+
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
 <span class="o">!</span>wget http://setup.johnsnowlabs.com/colab.sh <span class="nt">-O</span> - | bash
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code> and <code class="language-plaintext highlighter-rouge">spark-nlp</code> versions via options:</p>
+  <p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code> and <code class="language-plaintext highlighter-rouge">spark-nlp</code> versions via options:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
 <span class="c"># -s is for spark-nlp</span>
 <span class="c"># by default they are set to the latest</span>
 <span class="o">!</span>wget http://setup.johnsnowlabs.com/colab.sh <span class="nt">-O</span> - | bash /dev/stdin <span class="nt">-p</span> 3.2.3 <span class="nt">-s</span> 5.1.1
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.</p>
+  <p><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.</p>
 
-<h2 id="kaggle-kernel">Kaggle Kernel</h2>
+</div>
+<div class="h3-box">
 
-<p>Run the following code in Kaggle Kernel and start using spark-nlp right away.</p>
+  <h2 id="kaggle-kernel">Kaggle Kernel</h2>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Let's setup Kaggle for Spark NLP and PySpark</span>
+  <p>Run the following code in Kaggle Kernel and start using spark-nlp right away.</p>
+
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Let's setup Kaggle for Spark NLP and PySpark</span>
 <span class="o">!</span>wget http://setup.johnsnowlabs.com/kaggle.sh <span class="nt">-O</span> - | bash
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><a href="https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition">Spark NLP quick start on Kaggle Kernel</a> is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.</p>
+  <p><a href="https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition">Spark NLP quick start on Kaggle Kernel</a> is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.</p>
 
-<h2 id="databricks-support">Databricks Support</h2>
+</div>
+<div class="h3-box">
 
-<p>Spark NLP 5.1.1 has been tested and is compatible with the following runtimes:</p>
+  <h2 id="databricks-support">Databricks Support</h2>
 
-<p><strong>CPU:</strong></p>
+  <p>Spark NLP 5.1.1 has been tested and is compatible with the following runtimes:</p>
 
-<ul>
-  <li>9.1</li>
-  <li>9.1 ML</li>
-  <li>10.1</li>
-  <li>10.1 ML</li>
-  <li>10.2</li>
-  <li>10.2 ML</li>
-  <li>10.3</li>
-  <li>10.3 ML</li>
-  <li>10.4</li>
-  <li>10.4 ML</li>
-  <li>10.5</li>
-  <li>10.5 ML</li>
-  <li>11.0</li>
-  <li>11.0 ML</li>
-  <li>11.1</li>
-  <li>11.1 ML</li>
-  <li>11.2</li>
-  <li>11.2 ML</li>
-  <li>11.3</li>
-  <li>11.3 ML</li>
-  <li>12.0</li>
-  <li>12.0 ML</li>
-  <li>12.1</li>
-  <li>12.1 ML</li>
-  <li>12.2</li>
-  <li>12.2 ML</li>
-  <li>13.0</li>
-  <li>13.0 ML</li>
-  <li>13.1</li>
-  <li>13.1 ML</li>
-  <li>13.2</li>
-  <li>13.2 ML</li>
-  <li>13.3</li>
-  <li>13.3 ML</li>
-</ul>
+  <p><strong>CPU:</strong></p>
 
-<p><strong>GPU:</strong></p>
+  <ul>
+    <li>9.1</li>
+    <li>9.1 ML</li>
+    <li>10.1</li>
+    <li>10.1 ML</li>
+    <li>10.2</li>
+    <li>10.2 ML</li>
+    <li>10.3</li>
+    <li>10.3 ML</li>
+    <li>10.4</li>
+    <li>10.4 ML</li>
+    <li>10.5</li>
+    <li>10.5 ML</li>
+    <li>11.0</li>
+    <li>11.0 ML</li>
+    <li>11.1</li>
+    <li>11.1 ML</li>
+    <li>11.2</li>
+    <li>11.2 ML</li>
+    <li>11.3</li>
+    <li>11.3 ML</li>
+    <li>12.0</li>
+    <li>12.0 ML</li>
+    <li>12.1</li>
+    <li>12.1 ML</li>
+    <li>12.2</li>
+    <li>12.2 ML</li>
+    <li>13.0</li>
+    <li>13.0 ML</li>
+    <li>13.1</li>
+    <li>13.1 ML</li>
+    <li>13.2</li>
+    <li>13.2 ML</li>
+    <li>13.3</li>
+    <li>13.3 ML</li>
+  </ul>
 
-<ul>
-  <li>9.1 ML &amp; GPU</li>
-  <li>10.1 ML &amp; GPU</li>
-  <li>10.2 ML &amp; GPU</li>
-  <li>10.3 ML &amp; GPU</li>
-  <li>10.4 ML &amp; GPU</li>
-  <li>10.5 ML &amp; GPU</li>
-  <li>11.0 ML &amp; GPU</li>
-  <li>11.1 ML &amp; GPU</li>
-  <li>11.2 ML &amp; GPU</li>
-  <li>11.3 ML &amp; GPU</li>
-  <li>12.0 ML &amp; GPU</li>
-  <li>12.1 ML &amp; GPU</li>
-  <li>12.2 ML &amp; GPU</li>
-  <li>13.0 ML &amp; GPU</li>
-  <li>13.1 ML &amp; GPU</li>
-  <li>13.2 ML &amp; GPU</li>
-  <li>13.3 ML &amp; GPU</li>
-</ul>
+  <p><strong>GPU:</strong></p>
 
-<h4 id="install-spark-nlp-on-databricks">Install Spark NLP on Databricks</h4>
+  <ul>
+    <li>9.1 ML &amp; GPU</li>
+    <li>10.1 ML &amp; GPU</li>
+    <li>10.2 ML &amp; GPU</li>
+    <li>10.3 ML &amp; GPU</li>
+    <li>10.4 ML &amp; GPU</li>
+    <li>10.5 ML &amp; GPU</li>
+    <li>11.0 ML &amp; GPU</li>
+    <li>11.1 ML &amp; GPU</li>
+    <li>11.2 ML &amp; GPU</li>
+    <li>11.3 ML &amp; GPU</li>
+    <li>12.0 ML &amp; GPU</li>
+    <li>12.1 ML &amp; GPU</li>
+    <li>12.2 ML &amp; GPU</li>
+    <li>13.0 ML &amp; GPU</li>
+    <li>13.1 ML &amp; GPU</li>
+    <li>13.2 ML &amp; GPU</li>
+    <li>13.3 ML &amp; GPU</li>
+  </ul>
 
-<ol>
-  <li>
-    <p>Create a cluster if you don’t have one already</p>
-  </li>
-  <li>
-    <p>On a new cluster or existing one you need to add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab:</p>
+</div>
+<div class="h3-box">
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 2000M
+  <h4 id="install-spark-nlp-on-databricks">Install Spark NLP on Databricks</h4>
+
+  <ol>
+    <li>
+      <p>Create a cluster if you don’t have one already</p>
+    </li>
+    <li>
+      <p>On a new cluster or existing one you need to add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab:</p>
+
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 2000M
  spark.serializer org.apache.spark.serializer.KryoSerializer
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>In <code class="language-plaintext highlighter-rouge">Libraries</code> tab inside your cluster you need to follow these steps:</p>
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p>In <code class="language-plaintext highlighter-rouge">Libraries</code> tab inside your cluster you need to follow these steps:</p>
 
-    <p>3.1. Install New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp</code> -&gt; Install</p>
+      <p>3.1. Install New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp</code> -&gt; Install</p>
 
-    <p>3.2. Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.1</code> -&gt; Install</p>
-  </li>
-  <li>
-    <p>Now you can attach your notebook to the cluster and use Spark NLP!</p>
-  </li>
-</ol>
+      <p>3.2. Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.1</code> -&gt; Install</p>
+    </li>
+    <li>
+      <p>Now you can attach your notebook to the cluster and use Spark NLP!</p>
+    </li>
+  </ol>
 
-<p>NOTE: Databrick’s runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our <a href="https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet">Packages Cheatsheet</a></p>
+  <p>NOTE: Databrick’s runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our <a href="https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet">Packages Cheatsheet</a></p>
 
-<h4 id="databricks-notebooks">Databricks Notebooks</h4>
+</div>
+<div class="h3-box">
 
-<p>You can view all the Databricks notebooks from this address:</p>
+  <h4 id="databricks-notebooks">Databricks Notebooks</h4>
 
-<p><a href="https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html">https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html</a></p>
+  <p>You can view all the Databricks notebooks from this address:</p>
 
-<p>Note: You can import these notebooks by using their URLs.</p>
+  <p><a href="https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html">https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html</a></p>
 
-<h2 id="emr-support">EMR Support</h2>
+  <p>Note: You can import these notebooks by using their URLs.</p>
 
-<p>Spark NLP 5.1.1 has been tested and is compatible with the following EMR releases:</p>
+</div>
+<div class="h3-box">
 
-<ul>
-  <li>emr-6.2.0</li>
-  <li>emr-6.3.0</li>
-  <li>emr-6.3.1</li>
-  <li>emr-6.4.0</li>
-  <li>emr-6.5.0</li>
-  <li>emr-6.6.0</li>
-  <li>emr-6.7.0</li>
-  <li>emr-6.8.0</li>
-  <li>emr-6.9.0</li>
-  <li>emr-6.10.0</li>
-</ul>
+  <h2 id="emr-support">EMR Support</h2>
 
-<p>Full list of <a href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html">Amazon EMR 6.x releases</a></p>
+  <p>Spark NLP 5.1.1 has been tested and is compatible with the following EMR releases:</p>
 
-<p>NOTE: The EMR 6.1.0 and 6.1.1 are not supported.</p>
+  <ul>
+    <li>emr-6.2.0</li>
+    <li>emr-6.3.0</li>
+    <li>emr-6.3.1</li>
+    <li>emr-6.4.0</li>
+    <li>emr-6.5.0</li>
+    <li>emr-6.6.0</li>
+    <li>emr-6.7.0</li>
+    <li>emr-6.8.0</li>
+    <li>emr-6.9.0</li>
+    <li>emr-6.10.0</li>
+  </ul>
 
-<h4 id="how-to-create-emr-cluster-via-cli">How to create EMR cluster via CLI</h4>
+  <p>Full list of <a href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html">Amazon EMR 6.x releases</a></p>
 
-<p>To lanuch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.</p>
+  <p>NOTE: The EMR 6.1.0 and 6.1.1 are not supported.</p>
 
-<p>A sample of your bootstrap script</p>
+</div>
+<div class="h3-box">
+  <h4 id="how-to-create-emr-cluster-via-cli">How to create EMR cluster via CLI</h4>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+  <p>To lanuch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.</p>
+
+  <p>A sample of your bootstrap script</p>
+
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 <span class="nb">set</span> <span class="nt">-x</span> <span class="nt">-e</span>
 
 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s1">'export PYSPARK_PYTHON=/usr/bin/python3
@@ -972,11 +1024,11 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
 
 <span class="nb">set</span> +x
 <span class="nb">exit </span>0
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>A sample of your software configuration in JSON on S3 (must be public access):</p>
+  <p>A sample of your software configuration in JSON on S3 (must be public access):</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[{</span><span class="w">
+  <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[{</span><span class="w">
   </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spark-env"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"Configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"export"</span><span class="p">,</span><span class="w">
@@ -997,11 +1049,11 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
+</span></code></pre></div>  </div>
 
-<p>A sample of AWS CLI to launch EMR cluster:</p>
+  <p>A sample of AWS CLI to launch EMR cluster:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr create-cluster <span class="se">\</span>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr create-cluster <span class="se">\</span>
 <span class="nt">--name</span> <span class="s2">"Spark NLP 5.1.1"</span> <span class="se">\</span>
 <span class="nt">--release-label</span> emr-6.2.0 <span class="se">\</span>
 <span class="nt">--applications</span> <span class="nv">Name</span><span class="o">=</span>Hadoop <span class="nv">Name</span><span class="o">=</span>Spark <span class="nv">Name</span><span class="o">=</span>Hive <span class="se">\</span>
@@ -1013,42 +1065,45 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
 <span class="nt">--configurations</span> <span class="s2">"https://&lt;public_access&gt;/sparknlp-config.json"</span> <span class="se">\</span>
 <span class="nt">--ec2-attributes</span> <span class="nv">KeyName</span><span class="o">=</span>&lt;your_ssh_key&gt;,EmrManagedMasterSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt;,EmrManagedSlaveSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt; <span class="se">\</span>
 <span class="nt">--profile</span> &lt;aws_profile_credentials&gt;
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="gcp-dataproc-support">GCP Dataproc Support</h2>
+</div>
+<div class="h3-box">
 
-<ol>
-  <li>Create a cluster if you don’t have one already as follows.</li>
-</ol>
+  <h2 id="gcp-dataproc-support">GCP Dataproc Support</h2>
 
-<p>At gcloud shell:</p>
+  <ol>
+    <li>Create a cluster if you don’t have one already as follows.</li>
+  </ol>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
+  <p>At gcloud shell:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
   compute.googleapis.com <span class="se">\</span>
   storage-component.googleapis.com <span class="se">\</span>
   bigquery.googleapis.com <span class="se">\</span>
   bigquerystorage.googleapis.com
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
-</code></pre></div></div>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+</code></pre></div>  </div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
 gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
 <span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
 <span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
 <span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>You can set image-version, master-machine-type, worker-machine-type,
+  <p>You can set image-version, master-machine-type, worker-machine-type,
 master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
 If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
 And, you should enable gateway.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
@@ -1062,20 +1117,23 @@ And, you should enable gateway.</p>
   <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
   <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage'</span> <span class="se">\</span>
   <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<ol>
-  <li>
-    <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
-  </li>
-  <li>
-    <p>Now, you can attach your notebook to the cluster and use the Spark NLP!</p>
-  </li>
-</ol>
+  <ol>
+    <li>
+      <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
+    </li>
+    <li>
+      <p>Now, you can attach your notebook to the cluster and use the Spark NLP!</p>
+    </li>
+  </ol>
 
-<h2 id="amazon-linux-2-support">Amazon Linux 2 Support</h2>
+</div>
+<div class="h3-box">
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Package List &amp; Install  Required Packages</span>
+  <h2 id="amazon-linux-2-support">Amazon Linux 2 Support</h2>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Package List &amp; Install  Required Packages</span>
 <span class="nb">sudo </span>yum update
 <span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> amazon-linux-extras
 <span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>python3-pip
@@ -1083,39 +1141,42 @@ And, you should enable gateway.</p>
 <span class="c"># Create Python virtual environment and activate it:</span>
 python3 <span class="nt">-m</span> venv .sparknlp-env
 <span class="nb">source</span> .sparknlp-env/bin/activate
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>Check JAVA version:</p>
+  <p>Check JAVA version:</p>
 
-<ul>
-  <li>For Sparknlp versions above 3.x, please use JAVA-11</li>
-</ul>
+  <ul>
+    <li>For Sparknlp versions above 3.x, please use JAVA-11</li>
+  </ul>
 
-<p>Checking Java versions installed on your machine:</p>
+  <p>Checking Java versions installed on your machine:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>alternatives <span class="nt">--config</span> java
-</code></pre></div></div>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>alternatives <span class="nt">--config</span> java
+</code></pre></div>  </div>
 
-<p>You can pick the index number (I am using java-8 as default - index 2):</p>
+  <p>You can pick the index number (I am using java-8 as default - index 2):</p>
 
-<p><img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p>If you dont have java-11 or java-8 in you system, you can easily install via:</p>
+  <p>If you dont have java-11 or java-8 in you system, you can easily install via:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>java-1.8.0-openjdk
-</code></pre></div></div>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>java-1.8.0-openjdk
+</code></pre></div>  </div>
 
-<p>Now, we can start installing the required libraries:</p>
+  <p>Now, we can start installing the required libraries:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span><span class="nv">pyspark</span><span class="o">==</span>3.3.1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span><span class="nv">pyspark</span><span class="o">==</span>3.3.1
 pip <span class="nb">install </span>spark-nlp
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="docker-support">Docker Support</h2>
+</div>
+<div class="h3-box">
 
-<p>For having Spark NLP, PySpark, Jupyter, and other ML/DL dependencies as a Docker image you can use the following template:</p>
+  <h2 id="docker-support">Docker Support</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Download base image ubuntu 18.04</span>
+  <p>For having Spark NLP, PySpark, Jupyter, and other ML/DL dependencies as a Docker image you can use the following template:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Download base image ubuntu 18.04</span>
 FROM ubuntu:18.04
 
 ENV NB_USER jovyan
@@ -1189,112 +1250,125 @@ WORKDIR <span class="k">${</span><span class="nv">HOME</span><span class="k">}</
 
 <span class="c"># Specify the default command to run</span>
 CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">"notebook"</span>, <span class="s2">"--ip"</span>, <span class="s2">"0.0.0.0"</span><span class="o">]</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>Finally, use <strong>jupyter_notebook_config.json</strong> for the password:</p>
+  <p>Finally, use <strong>jupyter_notebook_config.json</strong> for the password:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
   <span class="s2">"NotebookApp"</span>: <span class="o">{</span>
     <span class="s2">"password"</span>: <span class="s2">"sha1:65adaa6ffb9c:36df1c2086ef294276da703667d1b8ff38f92614"</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="windows-support">Windows Support</h2>
+</div>
+<div class="h3-box">
 
-<p>In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/1022">https://github.com/JohnSnowLabs/spark-nlp/discussions/1022</a></p>
+  <h2 id="windows-support">Windows Support</h2>
 
-<h3 id="how-to-correctly-install-spark-nlp-on-windows">How to correctly install Spark NLP on Windows</h3>
+  <p>In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/1022">https://github.com/JohnSnowLabs/spark-nlp/discussions/1022</a></p>
 
-<p>Follow the below steps to set up Spark NLP with Spark 3.2.3:</p>
+</div>
+<div class="h3-box">
+  <p>\</p>
 
-<ol>
-  <li>Download <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">Adopt OpenJDK 1.8</a>
-    <ul>
-      <li>Make sure it is 64-bit</li>
-      <li>Make sure you install it in the root of your main drive <code class="language-plaintext highlighter-rouge">C:\java</code>.</li>
-      <li>During installation after changing the path, select setting Path</li>
-    </ul>
-  </li>
-  <li>Download the pre-compiled Hadoop binaries <code class="language-plaintext highlighter-rouge">winutils.exe</code>, <code class="language-plaintext highlighter-rouge">hadoop.dll</code> and put it in a folder called <code class="language-plaintext highlighter-rouge">C:\hadoop\bin</code> from <a href="https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin">https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin</a>
-    <ul>
-      <li><strong>Note:</strong> The version above is for Spark 3.2.3, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.</li>
-    </ul>
-  </li>
-  <li>
-    <p>Download <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.2.3/spark-3.2.3-bin-hadoop3.2.tgz">Apache Spark 3.2.3</a> and extract it to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
-  </li>
-  <li>
-    <p>Set/add environment variables for <code class="language-plaintext highlighter-rouge">HADOOP_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\hadoop</code> and <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
-  </li>
-  <li>
-    <p>Add <code class="language-plaintext highlighter-rouge">%HADOOP_HOME%\bin</code> and <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> to the <code class="language-plaintext highlighter-rouge">PATH</code> environment variable.</p>
-  </li>
-  <li>
-    <p>Install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=26999">Microsoft Visual C++ 2010 Redistributed Package (x64)</a>.</p>
-  </li>
-  <li>Create folders <code class="language-plaintext highlighter-rouge">C:\tmp</code> and <code class="language-plaintext highlighter-rouge">C:\tmp\hive</code>
-    <ul>
-      <li>If you encounter issues with permissions to these folders, you might need
+  <h3 id="how-to-correctly-install-spark-nlp-on-windows">How to correctly install Spark NLP on Windows</h3>
+
+  <p>Follow the below steps to set up Spark NLP with Spark 3.2.3:</p>
+
+  <ol>
+    <li>Download <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">Adopt OpenJDK 1.8</a>
+      <ul>
+        <li>Make sure it is 64-bit</li>
+        <li>Make sure you install it in the root of your main drive <code class="language-plaintext highlighter-rouge">C:\java</code>.</li>
+        <li>During installation after changing the path, select setting Path</li>
+      </ul>
+    </li>
+    <li>Download the pre-compiled Hadoop binaries <code class="language-plaintext highlighter-rouge">winutils.exe</code>, <code class="language-plaintext highlighter-rouge">hadoop.dll</code> and put it in a folder called <code class="language-plaintext highlighter-rouge">C:\hadoop\bin</code> from <a href="https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin">https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin</a>
+      <ul>
+        <li><strong>Note:</strong> The version above is for Spark 3.2.3, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.</li>
+      </ul>
+    </li>
+    <li>
+      <p>Download <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.2.3/spark-3.2.3-bin-hadoop3.2.tgz">Apache Spark 3.2.3</a> and extract it to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
+    </li>
+    <li>
+      <p>Set/add environment variables for <code class="language-plaintext highlighter-rouge">HADOOP_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\hadoop</code> and <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
+    </li>
+    <li>
+      <p>Add <code class="language-plaintext highlighter-rouge">%HADOOP_HOME%\bin</code> and <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> to the <code class="language-plaintext highlighter-rouge">PATH</code> environment variable.</p>
+    </li>
+    <li>
+      <p>Install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=26999">Microsoft Visual C++ 2010 Redistributed Package (x64)</a>.</p>
+    </li>
+    <li>Create folders <code class="language-plaintext highlighter-rouge">C:\tmp</code> and <code class="language-plaintext highlighter-rouge">C:\tmp\hive</code>
+      <ul>
+        <li>If you encounter issues with permissions to these folders, you might need
 to change the permissions by running the following commands:
-        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
+          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
 %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/
-</code></pre></div>        </div>
-      </li>
-    </ul>
-  </li>
-</ol>
+</code></pre></div>          </div>
+        </li>
+      </ul>
+    </li>
+  </ol>
 
-<h4 id="requisites-for-pyspark">Requisites for PySpark</h4>
+</div>
+<div class="h3-box">
 
-<p>We recommend using <code class="language-plaintext highlighter-rouge">conda</code> to manage your Python environment on Windows.</p>
+  <h4 id="requisites-for-pyspark">Requisites for PySpark</h4>
 
-<ul>
-  <li>Download <a href="https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Windows-x86_64.exe">Miniconda for Python 3.8</a></li>
-  <li>See <a href="#quick-install">Quick Install</a> on how to set up a conda environment with
+  <p>We recommend using <code class="language-plaintext highlighter-rouge">conda</code> to manage your Python environment on Windows.</p>
+
+  <ul>
+    <li>Download <a href="https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Windows-x86_64.exe">Miniconda for Python 3.8</a></li>
+    <li>See <a href="#quick-install">Quick Install</a> on how to set up a conda environment with
 Spark NLP.</li>
-  <li>The following environment variables need to be set:
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">PYSPARK_PYTHON=python</code></li>
-      <li>Optionally, if you want to use the Jupyter Notebook runtime of Spark:
-        <ul>
-          <li>first install it in the environment with <code class="language-plaintext highlighter-rouge">conda install notebook</code></li>
-          <li>then set <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_PYTHON=jupyter</code>, <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_PYTHON_OPTS=notebook</code></li>
-        </ul>
-      </li>
-      <li>The environment variables can either be directly set in windows, or if only
+    <li>The following environment variables need to be set:
+      <ul>
+        <li><code class="language-plaintext highlighter-rouge">PYSPARK_PYTHON=python</code></li>
+        <li>Optionally, if you want to use the Jupyter Notebook runtime of Spark:
+          <ul>
+            <li>first install it in the environment with <code class="language-plaintext highlighter-rouge">conda install notebook</code></li>
+            <li>then set <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_PYTHON=jupyter</code>, <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_PYTHON_OPTS=notebook</code></li>
+          </ul>
+        </li>
+        <li>The environment variables can either be directly set in windows, or if only
 the conda env will be used, with <code class="language-plaintext highlighter-rouge">conda env config vars set PYSPARK_PYTHON=python</code>.
 After setting the variable with conda, you need to deactivate and re-activate
 the environment.</li>
-    </ul>
-  </li>
-</ul>
+      </ul>
+    </li>
+  </ul>
 
-<p>Now you can use the downloaded binary by navigating to <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> and
+  <p>Now you can use the downloaded binary by navigating to <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> and
 running</p>
 
-<p>Either create a conda env for python 3.6, install <em>pyspark==3.3.1 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.1</em>.</p>
+  <p>Either create a conda env for python 3.6, install <em>pyspark==3.3.1 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.1</em>.</p>
 
-<p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p><img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p><img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-<h2 id="offline">Offline</h2>
+</div>
+<div class="h3-box">
 
-<p>Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:</p>
+  <h2 id="offline">Offline</h2>
 
-<ul>
-  <li>Instead of using the Maven package, you need to load our Fat JAR</li>
-  <li>Instead of using PretrainedPipeline for pretrained pipelines or the <code class="language-plaintext highlighter-rouge">.pretrained()</code> function to download pretrained models, you will need to manually download your pipeline/model from <a href="https://sparknlp.org/models">Models Hub</a>, extract it, and load it.</li>
-</ul>
+  <p>Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:</p>
 
-<p>Example of <code class="language-plaintext highlighter-rouge">SparkSession</code> with Fat JAR to have Spark NLP offline:</p>
+  <ul>
+    <li>Instead of using the Maven package, you need to load our Fat JAR</li>
+    <li>Instead of using PretrainedPipeline for pretrained pipelines or the <code class="language-plaintext highlighter-rouge">.pretrained()</code> function to download pretrained models, you will need to manually download your pipeline/model from <a href="https://sparknlp.org/models">Models Hub</a>, extract it, and load it.</li>
+  </ul>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
+  <p>Example of <code class="language-plaintext highlighter-rouge">SparkSession</code> with Fat JAR to have Spark NLP offline:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
     <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16G"</span><span class="p">)</span>\
@@ -1302,16 +1376,16 @@ running</p>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"/tmp/spark-nlp-assembly-5.1.1.jar"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<ul>
-  <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.x)</li>
-  <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-5.1.1.jar</code>)</li>
-</ul>
+  <ul>
+    <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.x)</li>
+    <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-5.1.1.jar</code>)</li>
+  </ul>
 
-<p>Example of using pretrained Models and Pipelines in offline:</p>
+  <p>Example of using pretrained Models and Pipelines in offline:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># instead of using pretrained() for online:
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
 </span><span class="n">french_pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/"</span><span class="p">)</span>\
@@ -1323,12 +1397,14 @@ running</p>
 # pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 # you download this pipeline, extract it, and use PipelineModel
 </span><span class="n">PipelineModel</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/"</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<ul>
-  <li>Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you</li>
-  <li>If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/</code>)</li>
-</ul>
+  <ul>
+    <li>Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you</li>
+    <li>If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/</code>)</li>
+  </ul>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2023-05-10T00:00:00+00:00">May 10, 2023</time>
     </span><!-- start custom article footer snippet -->

@@ -415,36 +415,44 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP - Examples"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<h2 id="python-setup">Python Setup</h2>
+  <p>Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
+  <h2 id="python-setup">Python Setup</h2>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
 <span class="c"># should be Java 8 (Oracle or OpenJDK)</span>
 <span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.7 <span class="nt">-y</span>
 <span class="nv">$ </span>conda activate sparknlp
 <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>5.1.1 <span class="nv">pyspark</span><span class="o">==</span>3.3.1
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<h2 id="google-colab-notebook">Google Colab Notebook</h2>
+</div>
+<div class="h3-box">
 
-<p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
+  <h2 id="google-colab-notebook">Google Colab Notebook</h2>
 
-<p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
+  <p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
+  <p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
+
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
 <span class="o">!</span>wget http://setup.johnsnowlabs.com/colab.sh <span class="nt">-O</span> - | bash
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code> and <code class="language-plaintext highlighter-rouge">spark-nlp</code> versions via options:</p>
+  <p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code> and <code class="language-plaintext highlighter-rouge">spark-nlp</code> versions via options:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
 <span class="c"># -s is for spark-nlp</span>
 <span class="c"># by default they are set to the latest</span>
 <span class="o">!</span>bash colab.sh <span class="nt">-p</span> 3.2.3 <span class="nt">-s</span> 5.1.1
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.</p>
+  <p><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.</p>
+
+</div>
+<p>&lt;div class=”h3-box” markdown=”1”</p>
 
 <h2 id="kaggle-kernel">Kaggle Kernel</h2>
 
@@ -454,12 +462,16 @@
 <span class="o">!</span>wget http://setup.johnsnowlabs.com/kaggle.sh <span class="nt">-O</span> - | bash
 </code></pre></div></div>
 
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
+
 <h2 id="notebooks">Notebooks</h2>
 
 <ul>
   <li><a href="https://medium.com/spark-nlp">Tutorials and articles</a></li>
   <li><a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples">Jupyter Notebooks</a></li>
 </ul>
+
+<p>&lt;/div&gt;</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2022-12-21T00:00:00+00:00">Dec 21, 2022</time>
     </span><!-- start custom article footer snippet -->
