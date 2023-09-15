@@ -1,732 +1,932 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-09-15T11:14:49+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English 222 BertEmbeddings from junzai</title><link href="/2023/09/09/222_en.html" rel="alternate" type="text/html" title="English 222 BertEmbeddings from junzai" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/222_en</id><content type="html" xml:base="/2023/09/09/222_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-09-15T14:50:47+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English 222 BertEmbeddings from junzai</title><link href="/2023/09/09/222_en.html" rel="alternate" type="text/html" title="English 222 BertEmbeddings from junzai" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/222_en</id><content type="html" xml:base="/2023/09/09/222_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`222` is a English model originally trained by junzai.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;222&lt;/code&gt; is a English model originally trained by junzai.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/222_en_5.1.1_3.0_1694284019307.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/222_en_5.1.1_3.0_1694284019307.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/222_en_5.1.1_3.0_1694284019307.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/222_en_5.1.1_3.0_1694284019307.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;222&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;222&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;222&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;222&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|222|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|407.2 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;222&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/junzai/222</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.222 is a English model originally trained by junzai. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;222&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;222&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 222 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/junzai/222</summary></entry><entry><title type="html">English absa_maskedlm BertEmbeddings from UchihaMadara</title><link href="/2023/09/09/absa_maskedlm_en.html" rel="alternate" type="text/html" title="English absa_maskedlm BertEmbeddings from UchihaMadara" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/absa_maskedlm_en</id><content type="html" xml:base="/2023/09/09/absa_maskedlm_en.html">## Description
+&lt;p&gt;https://huggingface.co/junzai/222&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.222 is a English model originally trained by junzai. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;222&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;222&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 222 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/junzai/222</summary></entry><entry><title type="html">English absa_maskedlm BertEmbeddings from UchihaMadara</title><link href="/2023/09/09/absa_maskedlm_en.html" rel="alternate" type="text/html" title="English absa_maskedlm BertEmbeddings from UchihaMadara" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/absa_maskedlm_en</id><content type="html" xml:base="/2023/09/09/absa_maskedlm_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`absa_maskedlm` is a English model originally trained by UchihaMadara.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;absa_maskedlm&lt;/code&gt; is a English model originally trained by UchihaMadara.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/absa_maskedlm_en_5.1.1_3.0_1694284442111.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/absa_maskedlm_en_5.1.1_3.0_1694284442111.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/absa_maskedlm_en_5.1.1_3.0_1694284442111.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/absa_maskedlm_en_5.1.1_3.0_1694284442111.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;absa_maskedlm&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_maskedlm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;absa_maskedlm&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_maskedlm&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|absa_maskedlm|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|407.2 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;absa_maskedlm&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/UchihaMadara/ABSA-MaskedLM</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.absa_maskedlm is a English model originally trained by UchihaMadara. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;absa_maskedlm&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;absa_maskedlm&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: absa_maskedlm Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/UchihaMadara/ABSA-MaskedLM</summary></entry><entry><title type="html">English adaptive_lm_molecules BertEmbeddings from mossaic-candle</title><link href="/2023/09/09/adaptive_lm_molecules_en.html" rel="alternate" type="text/html" title="English adaptive_lm_molecules BertEmbeddings from mossaic-candle" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/adaptive_lm_molecules_en</id><content type="html" xml:base="/2023/09/09/adaptive_lm_molecules_en.html">## Description
+&lt;p&gt;https://huggingface.co/UchihaMadara/ABSA-MaskedLM&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.absa_maskedlm is a English model originally trained by UchihaMadara. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;absa_maskedlm&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;absa_maskedlm&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: absa_maskedlm Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/UchihaMadara/ABSA-MaskedLM</summary></entry><entry><title type="html">English adaptive_lm_molecules BertEmbeddings from mossaic-candle</title><link href="/2023/09/09/adaptive_lm_molecules_en.html" rel="alternate" type="text/html" title="English adaptive_lm_molecules BertEmbeddings from mossaic-candle" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/adaptive_lm_molecules_en</id><content type="html" xml:base="/2023/09/09/adaptive_lm_molecules_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`adaptive_lm_molecules` is a English model originally trained by mossaic-candle.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adaptive_lm_molecules&lt;/code&gt; is a English model originally trained by mossaic-candle.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adaptive_lm_molecules_en_5.1.1_3.0_1694282672899.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/adaptive_lm_molecules_en_5.1.1_3.0_1694282672899.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adaptive_lm_molecules_en_5.1.1_3.0_1694282672899.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/adaptive_lm_molecules_en_5.1.1_3.0_1694282672899.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;adaptive_lm_molecules&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adaptive_lm_molecules&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;adaptive_lm_molecules&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adaptive_lm_molecules&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|adaptive_lm_molecules|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|263.8 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;adaptive_lm_molecules&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;263.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/mossaic-candle/adaptive-lm-molecules</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adaptive_lm_molecules is a English model originally trained by mossaic-candle. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;adaptive_lm_molecules&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;adaptive_lm_molecules&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: adaptive_lm_molecules Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 263.8 MB References https://huggingface.co/mossaic-candle/adaptive-lm-molecules</summary></entry><entry><title type="html">English aethiqs_base_bertje_data_rotterdam_epochs_10 BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en.html" rel="alternate" type="text/html" title="English aethiqs_base_bertje_data_rotterdam_epochs_10 BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en</id><content type="html" xml:base="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en.html">## Description
+&lt;p&gt;https://huggingface.co/mossaic-candle/adaptive-lm-molecules&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adaptive_lm_molecules is a English model originally trained by mossaic-candle. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;adaptive_lm_molecules&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;adaptive_lm_molecules&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: adaptive_lm_molecules Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 263.8 MB References https://huggingface.co/mossaic-candle/adaptive-lm-molecules</summary></entry><entry><title type="html">English aethiqs_base_bertje_data_rotterdam_epochs_10 BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en.html" rel="alternate" type="text/html" title="English aethiqs_base_bertje_data_rotterdam_epochs_10 BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en</id><content type="html" xml:base="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_10_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`aethiqs_base_bertje_data_rotterdam_epochs_10` is a English model originally trained by AethiQs-Max.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aethiqs_base_bertje_data_rotterdam_epochs_10&lt;/code&gt; is a English model originally trained by AethiQs-Max.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_10_en_5.1.1_3.0_1694260296232.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_10_en_5.1.1_3.0_1694260296232.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_10_en_5.1.1_3.0_1694260296232.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_10_en_5.1.1_3.0_1694260296232.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|aethiqs_base_bertje_data_rotterdam_epochs_10|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|406.8 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;aethiqs_base_bertje_data_rotterdam_epochs_10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_10</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_base_bertje_data_rotterdam_epochs_10 is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_base_bertje_data_rotterdam_epochs_10 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_10</summary></entry><entry><title type="html">English aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en.html" rel="alternate" type="text/html" title="English aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en</id><content type="html" xml:base="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en.html">## Description
+&lt;p&gt;https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_10&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_base_bertje_data_rotterdam_epochs_10 is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_10&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_base_bertje_data_rotterdam_epochs_10 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_10</summary></entry><entry><title type="html">English aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en.html" rel="alternate" type="text/html" title="English aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en</id><content type="html" xml:base="/2023/09/09/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30` is a English model originally trained by AethiQs-Max.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&lt;/code&gt; is a English model originally trained by AethiQs-Max.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en_5.1.1_3.0_1694260436558.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en_5.1.1_3.0_1694260436558.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en_5.1.1_3.0_1694260436558.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30_en_5.1.1_3.0_1694260436558.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|406.8 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_30-epoch_30</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_30-epoch_30</summary></entry><entry><title type="html">English aethiqs_gembert_bertje_50k BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_gembert_bertje_50k_en.html" rel="alternate" type="text/html" title="English aethiqs_gembert_bertje_50k BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_gembert_bertje_50k_en</id><content type="html" xml:base="/2023/09/09/aethiqs_gembert_bertje_50k_en.html">## Description
+&lt;p&gt;https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_30-epoch_30&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_base_bertje_data_rotterdam_epochs_30_epoch_30 Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/aethiqs-base_bertje-data_rotterdam-epochs_30-epoch_30</summary></entry><entry><title type="html">English aethiqs_gembert_bertje_50k BertEmbeddings from AethiQs-Max</title><link href="/2023/09/09/aethiqs_gembert_bertje_50k_en.html" rel="alternate" type="text/html" title="English aethiqs_gembert_bertje_50k BertEmbeddings from AethiQs-Max" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/aethiqs_gembert_bertje_50k_en</id><content type="html" xml:base="/2023/09/09/aethiqs_gembert_bertje_50k_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`aethiqs_gembert_bertje_50k` is a English model originally trained by AethiQs-Max.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aethiqs_gembert_bertje_50k&lt;/code&gt; is a English model originally trained by AethiQs-Max.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_gembert_bertje_50k_en_5.1.1_3.0_1694260128112.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/aethiqs_gembert_bertje_50k_en_5.1.1_3.0_1694260128112.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/aethiqs_gembert_bertje_50k_en_5.1.1_3.0_1694260128112.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/aethiqs_gembert_bertje_50k_en_5.1.1_3.0_1694260128112.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;aethiqs_gembert_bertje_50k&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_gembert_bertje_50k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;aethiqs_gembert_bertje_50k&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;aethiqs_gembert_bertje_50k&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|aethiqs_gembert_bertje_50k|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|406.8 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;aethiqs_gembert_bertje_50k&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/AethiQs-Max/AethiQs_GemBERT_bertje_50k</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_gembert_bertje_50k is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_gembert_bertje_50k&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_gembert_bertje_50k&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_gembert_bertje_50k Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/AethiQs_GemBERT_bertje_50k</summary></entry><entry><title type="html">English ai12_junzai BertEmbeddings from junzai</title><link href="/2023/09/09/ai12_junzai_en.html" rel="alternate" type="text/html" title="English ai12_junzai BertEmbeddings from junzai" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/ai12_junzai_en</id><content type="html" xml:base="/2023/09/09/ai12_junzai_en.html">## Description
+&lt;p&gt;https://huggingface.co/AethiQs-Max/AethiQs_GemBERT_bertje_50k&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.aethiqs_gembert_bertje_50k is a English model originally trained by AethiQs-Max. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;aethiqs_gembert_bertje_50k&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;aethiqs_gembert_bertje_50k&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: aethiqs_gembert_bertje_50k Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 406.8 MB References https://huggingface.co/AethiQs-Max/AethiQs_GemBERT_bertje_50k</summary></entry><entry><title type="html">English ai12_junzai BertEmbeddings from junzai</title><link href="/2023/09/09/ai12_junzai_en.html" rel="alternate" type="text/html" title="English ai12_junzai BertEmbeddings from junzai" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/ai12_junzai_en</id><content type="html" xml:base="/2023/09/09/ai12_junzai_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`ai12_junzai` is a English model originally trained by junzai.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ai12_junzai&lt;/code&gt; is a English model originally trained by junzai.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ai12_junzai_en_5.1.1_3.0_1694284179005.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/ai12_junzai_en_5.1.1_3.0_1694284179005.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ai12_junzai_en_5.1.1_3.0_1694284179005.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/ai12_junzai_en_5.1.1_3.0_1694284179005.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;ai12_junzai&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ai12_junzai&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;ai12_junzai&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ai12_junzai&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|ai12_junzai|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|407.2 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;ai12_junzai&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/junzai/ai12</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.ai12_junzai is a English model originally trained by junzai. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;ai12_junzai&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;ai12_junzai&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: ai12_junzai Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/junzai/ai12</summary></entry><entry><title type="html">English alephbertgimmel_10_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_10_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_10_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_10_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_10_epochs_en.html">## Description
+&lt;p&gt;https://huggingface.co/junzai/ai12&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.ai12_junzai is a English model originally trained by junzai. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;ai12_junzai&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;ai12_junzai&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: ai12_junzai Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 407.2 MB References https://huggingface.co/junzai/ai12</summary></entry><entry><title type="html">English alephbertgimmel_10_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_10_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_10_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_10_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_10_epochs_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`alephbertgimmel_10_epochs` is a English model originally trained by Embible.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alephbertgimmel_10_epochs&lt;/code&gt; is a English model originally trained by Embible.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_10_epochs_en_5.1.1_3.0_1694259605594.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_10_epochs_en_5.1.1_3.0_1694259605594.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_10_epochs_en_5.1.1_3.0_1694259605594.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_10_epochs_en_5.1.1_3.0_1694259605594.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_10_epochs&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_10_epochs&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;alephbertgimmel_10_epochs&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_10_epochs&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|alephbertgimmel_10_epochs|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|690.3 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;alephbertgimmel_10_epochs&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;690.3 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/Embible/AlephBertGimmel-10-epochs</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_10_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_10_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_10_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_10_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.3 MB References https://huggingface.co/Embible/AlephBertGimmel-10-epochs</summary></entry><entry><title type="html">English alephbertgimmel_20_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_20_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_20_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_20_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_20_epochs_en.html">## Description
+&lt;p&gt;https://huggingface.co/Embible/AlephBertGimmel-10-epochs&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_10_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_10_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_10_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_10_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.3 MB References https://huggingface.co/Embible/AlephBertGimmel-10-epochs</summary></entry><entry><title type="html">English alephbertgimmel_20_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_20_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_20_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_20_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_20_epochs_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`alephbertgimmel_20_epochs` is a English model originally trained by Embible.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alephbertgimmel_20_epochs&lt;/code&gt; is a English model originally trained by Embible.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_20_epochs_en_5.1.1_3.0_1694259790377.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_20_epochs_en_5.1.1_3.0_1694259790377.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_20_epochs_en_5.1.1_3.0_1694259790377.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_20_epochs_en_5.1.1_3.0_1694259790377.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_20_epochs&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_20_epochs&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;alephbertgimmel_20_epochs&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_20_epochs&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|alephbertgimmel_20_epochs|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|690.3 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;alephbertgimmel_20_epochs&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;690.3 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/Embible/AlephBertGimmel-20-epochs</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_20_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_20_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_20_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_20_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.3 MB References https://huggingface.co/Embible/AlephBertGimmel-20-epochs</summary></entry><entry><title type="html">English alephbertgimmel_50_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_50_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_50_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_50_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_50_epochs_en.html">## Description
+&lt;p&gt;https://huggingface.co/Embible/AlephBertGimmel-20-epochs&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_20_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_20_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_20_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_20_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.3 MB References https://huggingface.co/Embible/AlephBertGimmel-20-epochs</summary></entry><entry><title type="html">English alephbertgimmel_50_epochs BertEmbeddings from Embible</title><link href="/2023/09/09/alephbertgimmel_50_epochs_en.html" rel="alternate" type="text/html" title="English alephbertgimmel_50_epochs BertEmbeddings from Embible" /><published>2023-09-09T00:00:00+00:00</published><updated>2023-09-09T00:00:00+00:00</updated><id>/2023/09/09/alephbertgimmel_50_epochs_en</id><content type="html" xml:base="/2023/09/09/alephbertgimmel_50_epochs_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`alephbertgimmel_50_epochs` is a English model originally trained by Embible.
+&lt;p&gt;Pretrained BertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alephbertgimmel_50_epochs&lt;/code&gt; is a English model originally trained by Embible.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_50_epochs_en_5.1.1_3.0_1694259959436.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_50_epochs_en_5.1.1_3.0_1694259959436.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/alephbertgimmel_50_epochs_en_5.1.1_3.0_1694259959436.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/alephbertgimmel_50_epochs_en_5.1.1_3.0_1694259959436.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
     
-embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_50_epochs&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_50_epochs&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([document_assembler, embeddings])
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-
-val document_assembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val embeddings = BertEmbeddings 
-    .pretrained(&quot;alephbertgimmel_50_epochs&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alephbertgimmel_50_epochs&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val pipelineModel = pipeline.fit(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|alephbertgimmel_50_epochs|
-|Compatibility:|Spark NLP 5.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|690.0 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;alephbertgimmel_50_epochs&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.1.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;690.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/Embible/AlephBertGimmel-50-epochs</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_50_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_50_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_50_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_50_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.0 MB References https://huggingface.co/Embible/AlephBertGimmel-50-epochs</summary></entry></feed>
+&lt;p&gt;https://huggingface.co/Embible/AlephBertGimmel-50-epochs&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="en" /><category term="open_source" /><category term="fill_mask" /><category term="onnx" /><summary type="html">Description Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.alephbertgimmel_50_epochs is a English model originally trained by Embible. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) embeddings =BertEmbeddings.pretrained(&quot;alephbertgimmel_50_epochs&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddings = BertEmbeddings .pretrained(&quot;alephbertgimmel_50_epochs&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: alephbertgimmel_50_epochs Compatibility: Spark NLP 5.1.1+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [embeddings] Language: en Size: 690.0 MB References https://huggingface.co/Embible/AlephBertGimmel-50-epochs</summary></entry></feed>
