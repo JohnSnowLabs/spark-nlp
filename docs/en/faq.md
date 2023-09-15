@@ -6,11 +6,12 @@ title: Spark NLP - FAQ
 permalink: /docs/en/faq
 key: docs-faq
 modify_date: "2023-09-14"
-use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
     nav: sparknlp
 ---
+
+<div class="h3-box" markdown="1">
 
 ### How to use Spark NLP?
 
@@ -63,11 +64,15 @@ To use Spark NLP in Python, follow these steps:
 6. **Further Reading**:
    Dive deeper into the [official documentation](https://sparknlp.org/docs/en/install) for more detailed examples, a complete list of annotators and models, and best practices for building NLP pipelines.
 
+</div><div class="h3-box" markdown="1">
+
 ### Is Spark NLP free?
 
 Short answer: 100%! Free forever inculding any commercial use.
 
 Longer answer: Yes, Spark NLP is an open-source library and can be used freely. It's released under the Apache License 2.0. Users can use, modify, and distribute it without incurring costs.
+
+</div><div class="h3-box" markdown="1">
 
 ### What is the difference between spaCy and Spark NLP?
 
@@ -84,6 +89,8 @@ Both spaCy and Spark NLP are popular libraries for Natural Language Processing, 
 3. **Licensing & Versions**:
    - **Spark NLP**: The core library is open-source under the Apache License 2.0, making it free for both academic and commercial use.
    - **spaCy**: Open-source and released under the MIT license.
+
+</div><div class="h3-box" markdown="1">
 
 ### What are the Spark NLP models?
 
@@ -123,6 +130,8 @@ Spark NLP provides a range of models to tackle various NLP tasks. These models a
 - Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.
 
 For the latest list of models, detailed documentation, and instructions on how to use them, visiting the [Official Spark NLP Models Hub](http://sparknlp.org/models) would be beneficial.
+
+</div><div class="h3-box" markdown="1">
 
 ### What are the main functions of Spark NLP?
 
@@ -183,6 +192,8 @@ Spark NLP is designed to be highly scalable and can handle large-scale text proc
 
 To fully grasp the breadth of functions and learn how to use them, users are encouraged to explore the [official Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart).
 
+</div><div class="h3-box" markdown="1">
+
 ### Where can I get prebuilt versions of Spark NLP?
 
 Prebuilt versions of Spark NLP can be obtained through multiple channels, depending on your development environment and platform:
@@ -218,3 +229,5 @@ Prebuilt versions of Spark NLP can be obtained through multiple channels, depend
    Apart from the library itself, Spark NLP provides a range of pre-trained models and pipelines. These can be found on the [Spark NLP Model Hub](https://sparknlp.org/models).
 
 Always make sure to consult the [official documentation](https://sparknlp.org/docs/en/quickstart) or the [GitHub repository](https://github.com/JohnSnowLabs/spark-nlp/) for the latest instructions and versions available.
+
+</div>

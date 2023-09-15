@@ -23,11 +23,15 @@ sidebar:
     {% endif %}
 {% endfor %}
 
+<div class="h3-box" markdown="1">
+
 ## Import Transformers into Spark NLP
 
 ### Overview
 
 We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models since `3.1.0` to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `CamemBERT`, `RoBERTa`, `DeBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `DeBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`,  `LongformerForTokenClassification`, `CamemBertForTokenClassification`, `CamemBertForSequenceClassification`, `CamemBertForQuestionAnswering`, `BertForSequenceClassification`, `DistilBertForSequenceClassification`, `AlbertForSequenceClassification`, `RoBertaForSequenceClassification`, `DeBertaForSequenceClassification`, `XlmRoBertaForSequenceClassification`, `XlnetForSequenceClassification`,  `LongformerForSequenceClassification`, `AlbertForQuestionAnswering`, `BertForQuestionAnswering`,  `DeBertaForQuestionAnswering`, `DistilBertForQuestionAnswering`, `LongformerForQuestionAnswering`, `RoBertaForQuestionAnswering`, `XlmRoBertaForQuestionAnswering`, `TapasForQuestionAnswering`, `Vision Transformers (ViT)`, `HubertForCTC`, `SwinForImageClassification`, and `ConvNextForImageClassification` models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
+
+</div><div class="h3-box" markdown="1">
 
 ### Compatibility
 
@@ -96,6 +100,8 @@ We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models s
 | MarianTransformer                             |        | ❌           | ❎    |                                                                                                                                                            |
 | OpenAI GPT2                                   |        | ❌           | ❎    |                                                                                                                                                            |
 
+</div><div class="h3-box" markdown="1">
+
 ### Example Notebooks
 
 #### HuggingFace, Optimum, PyTorch, and ONNX Runtime to Spark NLP (ONNX)
@@ -106,6 +112,8 @@ We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models s
 | DistilBertEmbeddings | HuggingFace in Spark NLP - DistilBERT | [DistilBERT](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBERT.ipynb) |
 | RoBertaEmbeddings    | HuggingFace in Spark NLP - RoBERTa    | [RoBERTa](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_RoBERTa.ipynb)       |
 | DeBertaEmbeddings    | HuggingFace in Spark NLP - DeBERTa    | [DeBERTa](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DeBERTa.ipynb)       |
+
+</div><div class="h3-box" markdown="1">
 
 #### HuggingFace to Spark NLP (TensorFlow)
 
@@ -150,6 +158,8 @@ We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models s
 | DistilBertForZeroShotClassification | [HuggingFace in Spark NLP - DistilBertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForZeroShotClassification.ipynb) |
 | RoBertaForZeroShotClassification    | [HuggingFace in Spark NLP - RoBertaForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb)       | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForZeroShotClassification.ipynb)    |
 
+</div><div class="h3-box" markdown="1">
+
 #### TF Hub to Spark NLP
 
 | Spark NLP              | TF Hub Notebooks                                                                                                                                                                  | Colab                                                                                                                                                                                                                                          |
@@ -157,3 +167,5 @@ We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models s
 | BertEmbeddings         | [TF Hub in Spark NLP - BERT](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb)                     | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb)            |
 | BertSentenceEmbeddings | [TF Hub in Spark NLP - BERT Sentence](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb) |
 | AlbertEmbeddings       | [TF Hub in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)                 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)          |
+
+</div>

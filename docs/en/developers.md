@@ -11,6 +11,7 @@ sidebar:
     nav: sparknlp
 ---
 
+<div class="h3-box" markdown="1">
 
 Spark NLP is an open-source library and everyone's contribution is welcome!
 In this section we provide a guide on how to setup your environment using IntelliJ IDEA for a smoother start. You can also check our video tutorials available on our YouTube channel: https://www.youtube.com/johnsnowlabs
@@ -18,7 +19,7 @@ In this section we provide a guide on how to setup your environment using Intell
 ## Setting up the Environment
 
 
-<div class="h3-box" markdown="1">
+</div><div class="h3-box" markdown="1">
 
 ### Import to IntelliJ IDEA
 
@@ -196,7 +197,7 @@ You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
 *Note: Assembly command creates a fat jars, that includes all dependencies within*
 
-</div>
+</div><div class="h3-box" markdown="1">
 
 ### Compiling pypi, whl
 
@@ -215,3 +216,5 @@ You can find created `whl` and `tar.gz` in the folder ``spark-nlp/python/dist/``
 ```
 pip install spark_nlp-2.x.x-py3-none-any.whl
 ```
+
+</div>

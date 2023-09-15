@@ -12,6 +12,8 @@ sidebar:
     nav: sparknlp
 ---
 
+<div class="h3-box" markdown="1">
+
 ## Training Datasets
 These are classes to load common datasets to train annotators for tasks such as
 part-of-speech tagging, named entity recognition, spell checking and more.
@@ -21,7 +23,7 @@ part-of-speech tagging, named entity recognition, spell checking and more.
 {% include_relative training_entries/conllu.md %}
 {% include_relative training_entries/pubtator.md %}
 
-<div class="h3-box" markdown="1">
+</div><div class="h3-box" markdown="1">
 
 ### Spell Checkers Dataset (Corpus)
 
@@ -45,7 +47,7 @@ val trainCorpus = spark.read
     .select(trainCorpus.col("value").as("text"))
 ```
 
-</div></div>
+</div></div><div class="h3-box" markdown="1">
 
 ## Text Processing
 These are annotators that can be trained to process text for tasks such as
@@ -59,6 +61,8 @@ and word segmentation.
 {% include_relative training_entries/TypedDependencyParser.md %}
 {% include_relative training_entries/WordSegmenterApproach.md %}
 
+</div><div class="h3-box" markdown="1">
+
 ## Spell Checkers
 These are annotators that can be trained to correct text.
 
@@ -66,11 +70,15 @@ These are annotators that can be trained to correct text.
 {% include_relative training_entries/NorvigSweeting.md %}
 {% include_relative training_entries/SymmetricDelete.md %}
 
+</div><div class="h3-box" markdown="1">
+
 ## Token Classification
 These are annotators that can be trained to recognize named entities in text.
 
 {% include_relative training_entries/NerCrfApproach.md %}
 {% include_relative training_entries/NerDLApproach.md %}
+
+</div><div class="h3-box" markdown="1">
 
 ## Text Classification
 These are annotators that can be trained to classify text into different
@@ -81,12 +89,16 @@ classes, such as sentiment.
 {% include_relative training_entries/SentimentDLApproach.md %}
 {% include_relative training_entries/ViveknSentimentApproach.md %}
 
+</div><div class="h3-box" markdown="1">
+
 ## Text Representation
 These are annotators that can be trained to turn text into a numerical
 representation.
 
 {% include_relative training_entries/Doc2VecApproach.md %}
 {% include_relative training_entries/Word2VecApproach.md %}
+
+</div><div class="h3-box" markdown="1">
 
 ## External Trainable Models
 These are annotators that are trained in an external library, which are then
@@ -100,6 +112,7 @@ loaded into Spark NLP.
 {% include_relative training_entries/RoBertaForTokenClassification.md %}
 {% include_relative training_entries/XlmRoBertaForTokenClassification.md %}
 
+</div><div class="h3-box" markdown="1">
 
 ## TensorFlow Graphs
 NER DL uses Char CNNs - BiLSTM - CRF Neural Network architecture. Spark NLP defines this architecture through a Tensorflow graph, which requires the following parameters:
@@ -145,3 +158,5 @@ To overcome this exception message we have to follow these steps:
 
 **Note:**  Make sure that you have Python 3 and Tensorflow 1.15.0 installed on your system since `create_models` requires those versions to generate the graph successfully.
 **Note:**  We also have a notebook in the same directory if you prefer Jupyter notebook to cerate your custom graph.
+
+</div>

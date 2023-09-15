@@ -53,11 +53,14 @@ Follow the seven steps instructions or the video tutorial given below to learn h
 3.In a couple of seconds the subscription becomes active.
 
 <img class="image image--xl" src="/assets/images/nlp_server/AWS_s3.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 Once it is active you see this screen. 
+
 <img class="image image--xl" src="/assets/images/nlp_server/AWS_s4.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 4.Go to AWS Marketplace > Manage subscriptions and click on the `Launch new instance` button corresponding to the NLP Server subscription.
 This will redirect you to the following screen. Click on `Continue to launch through EC2` button.
+
 <img class="image image--xl" src="/assets/images/nlp_server/EC2_0.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 5.From the available options select the instance type you want to use for the deployment. Then click on `Review and Lauch` button.
@@ -76,9 +79,11 @@ Then the instance will appear on your EC2 Instances list.
 <img class="image image--xl" src="/assets/images/nlp_server/EC2_s5.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 The NLP Server can now be accessed via a web browser at http://PUBLIC_EC2_IP .
+
 <img class="image image--xl" src="/assets/images/nlp_server/EC2_s6.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 API documentation is also available at http://PUBLIC_EC2_IP/docs
+
 <img class="image image--xl" src="/assets/images/nlp_server/EC2_s7.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Deploy using Azure Marketplace

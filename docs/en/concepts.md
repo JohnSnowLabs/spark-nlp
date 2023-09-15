@@ -11,11 +11,15 @@ sidebar:
     nav: sparknlp
 ---
 
+<div class="h3-box" markdown="1">
+
 ## Concepts
 
 Spark ML provides a set of Machine Learning applications that can be build using two main components: **Estimators** and **Transformers**. The **Estimators** have a method called fit() which secures and trains a piece of data to such application. The **Transformer** is generally the result of a fitting process and applies changes to the the target dataset. These components have been embedded to be applicable to Spark NLP.
 
 **Pipelines** are a mechanism for combining multiple estimators and transformers in a single workflow. They allow multiple chained transformations along a Machine Learning task. For more information please refer to [Spark ML](https://spark.apache.org/docs/latest/ml-guide.html) library.
+
+</div><div class="h3-box" markdown="1">
 
 ## Annotation
 
@@ -32,7 +36,7 @@ This object is **automatically generated** by annotators after a transform proce
 
 ## Annotators
 
-<div class="h3-box" markdown="1">
+</div><div class="h3-box" markdown="1">
 
 Annotators are the spearhead of NLP functions in Spark NLP. There are two forms of annotators:
 
@@ -726,7 +730,7 @@ val recursivePipeline = new RecursivePipeline()
     ))
 ```
 
-</div></div>
+</div></div><div class="h3-box" markdown="1">
 
 ### Params and Features
 
@@ -738,3 +742,5 @@ larger than just a string or a boolean. These features are serialized
 as either Parquet or RDD objects, allowing much faster and scalable
 annotator information. Features are also broadcasted among executors for
 better performance.
+
+</div>
