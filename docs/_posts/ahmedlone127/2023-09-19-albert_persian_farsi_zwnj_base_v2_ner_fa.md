@@ -5,7 +5,7 @@ author: John Snow Labs
 name: albert_persian_farsi_zwnj_base_v2_ner
 date: 2023-09-19
 tags: [albert, fa, open_source, token_classification, onnx]
-task: Text Classification
+task: Named Entity Recognition
 language: fa
 edition: Spark NLP 5.1.2
 spark_version: 3.0
@@ -24,8 +24,8 @@ Pretrained AlbertForTokenClassification model, adapted from Hugging Face and cur
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_persian_farsi_zwnj_base_v2_ner_fa_5.1.2_3.0_1695086753492.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_persian_farsi_zwnj_base_v2_ner_fa_5.1.2_3.0_1695086753492.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_persian_farsi_zwnj_base_v2_ner_fa_5.1.2_3.0_1695087008371.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_persian_farsi_zwnj_base_v2_ner_fa_5.1.2_3.0_1695087008371.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
