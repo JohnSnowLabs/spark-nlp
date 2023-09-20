@@ -2,13 +2,8 @@ package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
-import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.{
-  BucketedRandomProjectionLSH,
-  BucketedRandomProjectionLSHModel,
-  MinHashLSH
-}
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, MinHashLSH}
 import org.apache.spark.ml.functions.array_to_vector
 import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.param.{BooleanParam, Param}
@@ -29,6 +24,111 @@ case class IndexedNeighborsWithDistance(neighbors: Array[(Int, Double)])
 
 case class NeighborsResultSet(result: (Int, NeighborAnnotation))
 
+/** Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest
+  * neighbors search on top of sentence embeddings.
+  *
+  * It aims to capture the semantic meaning of a document in a dense, continuous vector space and
+  * return it to the ranker search.
+  *
+  * For instantiated/pretrained models, see [[DocumentSimilarityRankerModel]].
+  *
+  * For extended examples of usage, see the jupyter notebook
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb Document Similarity Ranker for Spark NLP]].
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach
+  * import com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
+  * import org.apache.spark.ml.Pipeline
+  *
+  * import spark.implicits._
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentenceEmbeddings = RoBertaSentenceEmbeddings
+  *   .pretrained()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence_embeddings")
+  *
+  * val documentSimilarityRanker = new DocumentSimilarityRankerApproach()
+  *   .setInputCols("sentence_embeddings")
+  *   .setOutputCol("doc_similarity_rankings")
+  *   .setSimilarityMethod("brp")
+  *   .setNumberOfNeighbours(1)
+  *   .setBucketLength(2.0)
+  *   .setNumHashTables(3)
+  *   .setVisibleDistances(true)
+  *   .setIdentityRanking(false)
+  *
+  * val documentSimilarityRankerFinisher = new DocumentSimilarityRankerFinisher()
+  *   .setInputCols("doc_similarity_rankings")
+  *   .setOutputCols(
+  *     "finished_doc_similarity_rankings_id",
+  *     "finished_doc_similarity_rankings_neighbors")
+  *   .setExtractNearestNeighbor(true)
+  *
+  * // Let's use a dataset where we can visually control similarity
+  * // Documents are coupled, as 1-2, 3-4, 5-6, 7-8 and they were create to be similar on purpose
+  * val data = Seq(
+  *   "First document, this is my first sentence. This is my second sentence.",
+  *   "Second document, this is my second sentence. This is my second sentence.",
+  *   "Third document, climate change is arguably one of the most pressing problems of our time.",
+  *   "Fourth document, climate change is definitely one of the most pressing problems of our time.",
+  *   "Fifth document, Florence in Italy, is among the most beautiful cities in Europe.",
+  *   "Sixth document, Florence in Italy, is a very beautiful city in Europe like Lyon in France.",
+  *   "Seventh document, the French Riviera is the Mediterranean coastline of the southeast corner of France.",
+  *   "Eighth document, the warmest place in France is the French Riviera coast in Southern France.")
+  *   .toDF("text")
+  *
+  * val pipeline = new Pipeline().setStages(
+  *   Array(
+  *     documentAssembler,
+  *     sentenceEmbeddings,
+  *     documentSimilarityRanker,
+  *     documentSimilarityRankerFinisher))
+  *
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result
+  *   .select("finished_doc_similarity_rankings_id", "finished_doc_similarity_rankings_neighbors")
+  *   .show(10, truncate = false)
+  * +-----------------------------------+------------------------------------------+
+  * |finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|
+  * +-----------------------------------+------------------------------------------+
+  * |1510101612                         |[(1634839239,0.12448559591306324)]        |
+  * |1634839239                         |[(1510101612,0.12448559591306324)]        |
+  * |-612640902                         |[(1274183715,0.1220122862046063)]         |
+  * |1274183715                         |[(-612640902,0.1220122862046063)]         |
+  * |-1320876223                        |[(1293373212,0.17848855164122393)]        |
+  * |1293373212                         |[(-1320876223,0.17848855164122393)]       |
+  * |-1548374770                        |[(-1719102856,0.23297156732534166)]       |
+  * |-1719102856                        |[(-1548374770,0.23297156732534166)]       |
+  * +-----------------------------------+------------------------------------------+
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class DocumentSimilarityRankerApproach(override val uid: String)
     extends AnnotatorApproach[DocumentSimilarityRankerModel]
     with HasEnableCachingProperties {

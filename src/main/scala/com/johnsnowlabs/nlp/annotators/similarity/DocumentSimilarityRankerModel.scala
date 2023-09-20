@@ -3,19 +3,17 @@ package com.johnsnowlabs.nlp.annotators.similarity
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{
-  Annotation,
-  AnnotatorModel,
-  HasSimpleAnnotate,
-  ParamsAndFeaturesReadable,
-  ParamsAndFeaturesWritable
-}
-import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.functions.col
+import com.johnsnowlabs.nlp._
+import org.apache.spark.ml.util.Identifiable
 
 import scala.util.hashing.MurmurHash3
 
+/** Instantiated model of the [[DocumentSimilarityRankerApproach]]. For usage and examples see the
+  * documentation of the main class.
+  *
+  * @param uid
+  *   internally renquired UID to make it writable
+  */
 class DocumentSimilarityRankerModel(override val uid: String)
     extends AnnotatorModel[DocumentSimilarityRankerModel]
     with HasSimpleAnnotate[DocumentSimilarityRankerModel]
