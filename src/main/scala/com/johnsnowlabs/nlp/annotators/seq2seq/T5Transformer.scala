@@ -479,7 +479,7 @@ class T5Transformer(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_t5",
       T5Transformer.tfFile,
       configProtoBytes = getConfigProtoBytes,

@@ -16,9 +16,11 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 
@@ -29,7 +31,7 @@ import scala.math._
 /** This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenized with a SentencePieceModel,
   *
-  * @param tensorflow
+  * @param tensorflowWrapper
   *   Albert Model wrapper with TensorFlowWrapper
   * @param spp
   *   Albert SentencePiece model with SentencePieceWrapper
@@ -38,10 +40,11 @@ import scala.math._
   */
 
 private[johnsnowlabs] class T5(
-    val tensorflow: TensorflowWrapper,
-    val spp: SentencePieceWrapper,
-    configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+                                val tensorflowWrapper: Option[TensorflowWrapper],
+                                val onnxWrapper: Option[OnnxWrapper],
+                                val spp: SentencePieceWrapper,
+                                configProtoBytes: Option[Array[Byte]] = None,
+                                signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
   private val _tfT5Signatures: Map[String, String] =
@@ -49,6 +52,11 @@ private[johnsnowlabs] class T5(
   private val paddingTokenId = 0
   private val eosTokenId = 1
   private val pieceSize = spp.getSppModel.getPieceSize
+
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   private def sessionWarmup(): Unit = {
     val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
@@ -120,76 +128,82 @@ private[johnsnowlabs] class T5(
       encoderAttentionMaskBuffers.offset(offset).write(mask)
     }
 
-    val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
-    val encoderAttentionMaskTensors =
-      tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
+    if (detectedEngine ==  TensorFlow.name){
+      val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
+      val encoderAttentionMaskTensors =
+        tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      initAllTables = false,
-      savedSignatures = signatures)
-    val runner = session.runner
+      val session = tensorflowWrapper.getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        initAllTables = false,
+        savedSignatures = signatures)
+      val runner = session.runner
 
-    runner
-      .feed(
-        _tfT5Signatures.getOrElse(
-          ModelSignatureConstants.EncoderInputIds.key,
-          "missing_encoder_input_ids"),
-        encoderInputTensors)
-      .feed(
-        _tfT5Signatures.getOrElse(
-          ModelSignatureConstants.EncoderAttentionMask.key,
-          "missing_encoder_attention_mask"),
-        encoderAttentionMaskTensors)
-      .fetch(_tfT5Signatures
-        .getOrElse(ModelSignatureConstants.EncoderOutput.key, "missing_last_hidden_state"))
+      runner
+        .feed(
+          _tfT5Signatures.getOrElse(
+            ModelSignatureConstants.EncoderInputIds.key,
+            "missing_encoder_input_ids"),
+          encoderInputTensors)
+        .feed(
+          _tfT5Signatures.getOrElse(
+            ModelSignatureConstants.EncoderAttentionMask.key,
+            "missing_encoder_attention_mask"),
+          encoderAttentionMaskTensors)
+        .fetch(_tfT5Signatures
+          .getOrElse(ModelSignatureConstants.EncoderOutput.key, "missing_last_hidden_state"))
 
-    val encoderOuts = runner.run().asScala
-    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / inputDim
-    val encoderOutsBatch =
-      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+      val encoderOuts = runner.run().asScala
+      val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
+      val dim = encoderOutsFloats.length / inputDim
+      val encoderOutsBatch =
+        encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
-    encoderOuts.foreach(_.close())
+      encoderOuts.foreach(_.close())
 
-    // Run decoder
-    val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers =
-      decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach { case (_, index) =>
-      var offset = index * maxSentenceLength * dim
-      encoderOutsBatch(index).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
-        offset += dim
-      })
+      // Run decoder
+      val decoderEncoderStateTensorResources = new TensorResources()
+      val decoderEncoderStateBuffers =
+        decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
+      batch.zipWithIndex.foreach { case (_, index) =>
+        var offset = index * maxSentenceLength * dim
+        encoderOutsBatch(index).foreach(encoderOutput => {
+          decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
+          offset += dim
+        })
+      }
+
+      val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
+        Array(batch.length.toLong, maxSentenceLength, dim),
+        decoderEncoderStateBuffers)
+
+      val modelOutputs = generateNoBeamSearch(
+        batch,
+        decoderEncoderStateTensors,
+        encoderAttentionMaskTensors,
+        maxOutputLength,
+        minOutputLength,
+        doSample,
+        temperature,
+        topK,
+        topP,
+        repetitionPenalty,
+        noRepeatNgramSize,
+        effectiveBatch_size,
+        vocab_size,
+        randomSeed,
+        session,
+        ignoreTokenIds)
+
+      tensorEncoder.clearTensors()
+      tensorEncoder.clearSession(encoderOuts)
+      modelOutputs
+    } else if (detectedEngine == ONNX.name){
+      //ONNX implementation
+      Array(Array())
+    } else {
+      Array(Array())
     }
-
-    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
-      Array(batch.length.toLong, maxSentenceLength, dim),
-      decoderEncoderStateBuffers)
-
-    val modelOutputs = generateNoBeamSearch(
-      batch,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
-      maxOutputLength,
-      minOutputLength,
-      doSample,
-      temperature,
-      topK,
-      topP,
-      repetitionPenalty,
-      noRepeatNgramSize,
-      effectiveBatch_size,
-      vocab_size,
-      randomSeed,
-      session,
-      ignoreTokenIds)
-
-    tensorEncoder.clearTensors()
-    tensorEncoder.clearSession(encoderOuts)
-    modelOutputs
-
   }
 
   def generateNoBeamSearch(
