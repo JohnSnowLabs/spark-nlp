@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 5.1.1 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 5.1.2 documentation</title>
   
   
   
@@ -664,6 +664,36 @@ document.write(`
 <span class="sd">            Resize the input to the given size. If a tuple is provided, it should be (width, height).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HasRescaleFactor</span><span class="p">:</span>
+    <span class="n">doRescale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doRescale&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Whether to rescale the image values by rescaleFactor.&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">rescaleFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;rescaleFactor&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Factor to scale the image values&quot;</span><span class="p">,</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setDoRescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Whether to rescale the image values by rescaleFactor, by default `True`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : Boolean</span>
+<span class="sd">            Whether to rescale the image values by rescaleFactor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doRescale</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setRescaleFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Factor to scale the image values, by default `1/255.0`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : Boolean</span>
+<span class="sd">            Whether to rescale the image values by rescaleFactor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rescaleFactor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">HasBatchedAnnotateAudio</span><span class="p">:</span>

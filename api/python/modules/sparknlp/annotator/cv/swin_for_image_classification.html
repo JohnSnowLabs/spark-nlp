@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 5.1.1 documentation</title>
+    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 5.1.2 documentation</title>
   
   
   
@@ -363,6 +363,7 @@ document.write(`
 <div class="viewcode-block" id="SwinForImageClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification">[docs]</a><span class="k">class</span> <span class="nc">SwinForImageClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                  <span class="n">HasBatchedAnnotateImage</span><span class="p">,</span>
                                  <span class="n">HasImageFeatureProperties</span><span class="p">,</span>
+                                 <span class="n">HasRescaleFactor</span><span class="p">,</span>
                                  <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SwinImageClassification is an image classifier based on Swin.</span>
 
@@ -500,34 +501,6 @@ document.write(`
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with &quot;</span>
                              <span class="s2">&quot;config_proto.SerializeToString()&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
-
-    <span class="n">doRescale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doRescale&quot;</span><span class="p">,</span>
-                      <span class="s2">&quot;Whether to rescale the image values by rescaleFactor.&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-
-    <span class="n">rescaleFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;rescaleFactor&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;Factor to scale the image values&quot;</span><span class="p">,</span>
-                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
-
-<div class="viewcode-block" id="SwinForImageClassification.setDoRescale"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.setDoRescale">[docs]</a>    <span class="k">def</span> <span class="nf">setDoRescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Whether to rescale the image values by rescaleFactor, by default `True`.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : Boolean</span>
-<span class="sd">            Whether to rescale the image values by rescaleFactor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doRescale</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SwinForImageClassification.setRescaleFactor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.setRescaleFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setRescaleFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Factor to scale the image values, by default `1/255.0`.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : Boolean</span>
-<span class="sd">            Whether to rescale the image values by rescaleFactor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rescaleFactor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SwinForImageClassification.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
