@@ -20,6 +20,100 @@ from sparknlp.internal import AnnotatorTransformer
 
 
 class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProperties):
+    """Annotator that uses LSH techniques present in Spark ML lib to execute
+    approximate nearest neighbors search on top of sentence embeddings.
+
+    It aims to capture the semantic meaning of a document in a dense,
+    continuous vector space and return it to the ranker search.
+
+    For instantiated/pretrained models, see DocumentSimilarityRankerModel.
+
+    For extended examples of usage, see the jupyter notebook
+    `Document Similarity Ranker for Spark NLP <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb>`__.
+
+    ======================= ===========================
+    Input Annotation types  Output Annotation type
+    ======================= ===========================
+    ``SENTENCE_EMBEDDINGS`` ``DOC_SIMILARITY_RANKINGS``
+    ======================= ===========================
+
+    Parameters
+    ----------
+    enableCaching
+        Whether to enable caching DataFrames or RDDs during the training
+    similarityMethod
+        The similarity method used to calculate the neighbours.
+        (Default: 'brp',Bucketed Random Projection for Euclidean Distance)
+    numberOfNeighbours
+        The number of neighbours the model will return (Default:`10`)
+    bucketLength
+        Controls the average size of hash buckets. A larger bucket
+        length (i.e., fewer buckets) increases the probability of features
+        being hashed to the same bucket (increasing the numbers of true and false positives)
+    numHashTables
+      Number of hash tables, where increasing number of hash tables lowers the
+      false negative rate, and decreasing it improves the running performance.
+    visibleDistances
+        "Whether to set visibleDistances in ranking output (Default: `false`).
+    identityRanking
+        Whether to include identity in ranking result set. Useful for debug. (Default: `false`).
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> from sparknlp.annotator.similarity.document_similarity_ranker import *
+    >>> document_assembler = DocumentAssembler() \
+    ...             .setInputCol("text") \
+    ...             .setOutputCol("document")
+    >>> sentence_embeddings = E5Embeddings.pretrained() \
+    ...             .setInputCols(["document"]) \
+    ...             .setOutputCol("sentence_embeddings")
+    >>> document_similarity_ranker = DocumentSimilarityRankerApproach() \
+    ...             .setInputCols("sentence_embeddings") \
+    ...             .setOutputCol("doc_similarity_rankings") \
+    ...             .setSimilarityMethod("brp") \
+    ...             .setNumberOfNeighbours(1) \
+    ...             .setBucketLength(2.0) \
+    ...             .setNumHashTables(3) \
+    ...             .setVisibleDistances(True) \
+    ...             .setIdentityRanking(False)
+    >>> document_similarity_ranker_finisher = DocumentSimilarityRankerFinisher() \
+    ...         .setInputCols("doc_similarity_rankings") \
+    ...         .setOutputCols(
+    ...             "finished_doc_similarity_rankings_id",
+    ...             "finished_doc_similarity_rankings_neighbors") \
+    ...         .setExtractNearestNeighbor(True)
+    >>> pipeline = Pipeline(stages=[
+    ...             document_assembler,
+    ...             sentence_embeddings,
+    ...             document_similarity_ranker,
+    ...             document_similarity_ranker_finisher
+    ...         ])
+    >>> docSimRankerPipeline = pipeline.fit(data).transform(data)
+    >>> (
+    ...     docSimRankerPipeline
+    ...         .select(
+    ...                "finished_doc_similarity_rankings_id",
+    ...                "finished_doc_similarity_rankings_neighbors"
+    ...         ).show(10, False)
+    ... )
+    +-----------------------------------+------------------------------------------+
+    |finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|
+    +-----------------------------------+------------------------------------------+
+    |1510101612                         |[(1634839239,0.12448559591306324)]        |
+    |1634839239                         |[(1510101612,0.12448559591306324)]        |
+    |-612640902                         |[(1274183715,0.1220122862046063)]         |
+    |1274183715                         |[(-612640902,0.1220122862046063)]         |
+    |-1320876223                        |[(1293373212,0.17848855164122393)]        |
+    |1293373212                         |[(-1320876223,0.17848855164122393)]       |
+    |-1548374770                        |[(-1719102856,0.23297156732534166)]       |
+    |-1719102856                        |[(-1548374770,0.23297156732534166)]       |
+    +-----------------------------------+------------------------------------------+
+    """
+
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     outputAnnotatorType = AnnotatorType.DOC_SIMILARITY_RANKINGS
@@ -154,7 +248,20 @@ class DocumentSimilarityRankerModel(AnnotatorModel, HasEmbeddingsProperties):
 
 
 class DocumentSimilarityRankerFinisher(AnnotatorTransformer):
+    """Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the
+    documentation of the main class.
 
+    ======================= ===========================
+    Input Annotation types  Output Annotation type
+    ======================= ===========================
+    ``SENTENCE_EMBEDDINGS`` ``DOC_SIMILARITY_RANKINGS``
+    ======================= ===========================
+
+    Parameters
+    ----------
+    extractNearestNeighbor
+        Whether to extract the nearest neighbor document
+    """
     inputCols = Param(Params._dummy(),
                       "inputCols",
                       "name of input annotation cols containing document similarity ranker results",

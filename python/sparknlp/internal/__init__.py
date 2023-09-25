@@ -187,10 +187,12 @@ class _MarianLoader(ExtendedJavaWrapper):
         super(_MarianLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)
 
+
 class _MPNetLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MPNetLoader, self).__init__(
-        "com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings.loadSavedModel", path, jspark)
+
 
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -461,6 +463,12 @@ class _ViTForImageClassification(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path, jspark)
 
 
+class _VisionEncoderDecoderForImageCaptioning(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_VisionEncoderDecoderForImageCaptioning, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.VisionEncoderDecoderForImageCaptioning.loadSavedModel", path, jspark)
+
+
 class _SwinForImageClassification(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_SwinForImageClassification, self).__init__(
@@ -552,9 +560,11 @@ class _XlmRoBertaForZeroShotClassification(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForZeroShotClassification.loadSavedModel", path,
             jspark)
 
+
 class _InstructorLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel", path, jspark)
+        super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel",
+                                                path, jspark)
 
 
 class _BartForZeroShotClassification(ExtendedJavaWrapper):
@@ -562,4 +572,3 @@ class _BartForZeroShotClassification(ExtendedJavaWrapper):
         super(_BartForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification.loadSavedModel", path,
             jspark)
-

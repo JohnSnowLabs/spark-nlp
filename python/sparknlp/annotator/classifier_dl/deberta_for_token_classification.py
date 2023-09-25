@@ -86,11 +86,9 @@ class DeBertaForTokenClassification(AnnotatorModel,
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
     name = "DeBertaForTokenClassification"

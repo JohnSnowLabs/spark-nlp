@@ -1,4 +1,15 @@
 ========
+5.1.2
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing VisionEncoderDecoder annotator to generate captions from images
+* Add missing enteries in the docs and update them with the new features
+* Improve beam search results in BART Transformer
+
+
+========
 5.1.1
 ========
 ----------------

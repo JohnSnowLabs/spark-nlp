@@ -25,7 +25,6 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
@@ -144,38 +143,13 @@ import org.json4s.jackson.JsonMethods._
   *   parameter values through setters and getters, respectively.
   */
 class SwinForImageClassification(override val uid: String)
-    extends ViTForImageClassification(uid) {
+    extends ViTForImageClassification(uid)
+    with HasRescaleFactor {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
   def this() = this(Identifiable.randomUID("SwinForImageClassification"))
-
-  /** Whether to rescale the image values by rescaleFactor.
-    *
-    * @group param
-    */
-  val doRescale =
-    new BooleanParam(this, "doRescale", "Whether to rescale the image values by rescaleFactor.")
-
-  /** Factor to scale the image values (Default: `1 / 255.0`).
-    *
-    * @group param
-    */
-  val rescaleFactor =
-    new DoubleParam(this, "rescaleFactor", "Factor to scale the image values")
-
-  /** @group setParam */
-  def setDoRescale(value: Boolean): this.type = set(this.doRescale, value)
-
-  /** @group getParam */
-  def getDoRescale: Boolean = $(doRescale)
-
-  /** @group setParam */
-  def setRescaleFactor(value: Double): this.type = set(this.rescaleFactor, value)
-
-  /** @group getParam */
-  def getRescaleFactor: Double = $(rescaleFactor)
 
   setDefault(
     batchSize -> 2,
