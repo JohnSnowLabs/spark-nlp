@@ -23,7 +23,8 @@ import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 import com.johnsnowlabs.nlp.annotators.cv.{
   ConvNextForImageClassification,
   SwinForImageClassification,
-  ViTForImageClassification
+  ViTForImageClassification,
+  VisionEncoderDecoderForImageCaptioning
 }
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
@@ -664,6 +665,7 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
+    "VisionEncoderDecoderForImageCaptioning" -> VisionEncoderDecoderForImageCaptioning,
     "SwinForImageClassification" -> SwinForImageClassification,
     "ConvNextForImageClassification" -> ConvNextForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,

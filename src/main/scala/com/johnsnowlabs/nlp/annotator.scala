@@ -17,14 +17,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
-import com.johnsnowlabs.nlp.annotators.audio.{
-  ReadHubertForAudioDLModel,
-  ReadWav2Vec2ForAudioDLModel,
-  ReadWhisperForCTCDLModel,
-  ReadablePretrainedHubertForAudioModel,
-  ReadablePretrainedWav2Vec2ForAudioModel,
-  ReadablePretrainedWhisperForCTCModel
-}
+import com.johnsnowlabs.nlp.annotators.audio._
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.{
@@ -613,6 +606,13 @@ package object annotator {
   object ViTForImageClassification
       extends ReadablePretrainedViTForImageModel
       with ReadViTForImageDLModel
+
+  type VisionEncoderDecoderForImageCaptioning =
+    com.johnsnowlabs.nlp.annotators.cv.VisionEncoderDecoderForImageCaptioning
+
+  object VisionEncoderDecoderForImageCaptioning
+      extends ReadablePretrainedVisionEncoderDecoderModel
+      with ReadVisionEncoderDecoderDLModel
 
   type CamemBertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification
