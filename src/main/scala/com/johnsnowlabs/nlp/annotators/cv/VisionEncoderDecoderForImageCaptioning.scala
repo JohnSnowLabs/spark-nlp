@@ -65,11 +65,11 @@ import org.json4s.{DefaultFormats, JValue}
   * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/VisionEncoderDecoderForImageCaptioningTestSpec.scala VisionEncoderDecoderTestSpec]].
   *
- * '''Note:'''
- *
- * This is a very computationally expensive module especially on larger batch sizes. The use of
- * an accelerator such as GPU is recommended.
- *
+  * '''Note:'''
+  *
+  * This is a very computationally expensive module especially on larger batch sizes. The use of
+  * an accelerator such as GPU is recommended.
+  *
   * ==Example==
   * {{{
   * import com.johnsnowlabs.nlp.annotator._
