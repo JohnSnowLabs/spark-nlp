@@ -200,7 +200,7 @@ object OnnxWrapper {
     var optimizationLevel = defaultOptLevel
     var executionMode = defaultExecutionMode
 
-    if (sparkSession.isDefined) {
+    if (sparkSession.isDefined && sparkSession.get.conf != null) {
       intraOpNumThreads = sparkSession.get.conf
         .get("spark.jsl.settings.onnx.intraOpNumThreads", defaultIntraOpNumThreads.toString)
         .toInt
