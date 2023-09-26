@@ -69,6 +69,12 @@ object ConfigHelper {
 
   val openAIAPIKey = "spark.jsl.settings.openai.api.key"
 
+  // Configs for ONNX session
+  val onnxGpuDeviceId = "spark.jsl.settings.onnx.gpuDeviceId" // The GPU device ID to execute on
+  val onnxIntraOpNumThreads = "spark.jsl.settings.onnx.intraOpNumThreads"
+  val onnxOptimizationLevel = "spark.jsl.settings.onnx.optimizationLevel"
+  val onnxExecutionMode = "spark.jsl.settings.onnx.executionMode"
+
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }
