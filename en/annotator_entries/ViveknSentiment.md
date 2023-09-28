@@ -14,7 +14,7 @@ For training your own model, please see the documentation of that class.
 The analyzer requires sentence boundaries to give a score in context.
 Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/VivekNarayanSentimentApproach.ipynb)
 and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
 {%- endcapture -%}
 
@@ -49,7 +49,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
 The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/VivekNarayanSentimentApproach.ipynb)
 and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
 {%- endcapture -%}
 

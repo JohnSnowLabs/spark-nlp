@@ -15,7 +15,7 @@ The dictionary can be set as a delimited text file.
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/RuleBasedSentiment.ipynb)
 and the [SentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala).
 {%- endcapture -%}
 
@@ -49,7 +49,7 @@ The dictionary can be set as a delimited text file.
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/RuleBasedSentiment.ipynb)
 and the [SentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala).
 {%- endcapture -%}
 

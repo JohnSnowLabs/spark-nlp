@@ -1379,8 +1379,8 @@ For usage and examples see the documentation of the main class.</p>
   <table>
     <tbody>
       <tr>
-        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc">Chunk2Doc</a></td>
-        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/Chunk2Doc">Chunk2Doc</a></td>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc">Chunk2Doc</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/Chunk2Doc">Chunk2Doc</a></td>
         <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/Chunk2Doc.scala">Chunk2Doc</a></td>
       </tr>
     </tbody>
@@ -7763,7 +7763,7 @@ The dictionary can be set as a delimited text file.</p>
     <p>By default, the sentiment score will be assigned labels <code class="language-plaintext highlighter-rouge">"positive"</code> if the score is <code class="language-plaintext highlighter-rouge">&gt;= 0</code>, else <code class="language-plaintext highlighter-rouge">"negative"</code>.
 To retrieve the raw sentiment scores, <code class="language-plaintext highlighter-rouge">enableScore</code> needs to be set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/RuleBasedSentiment.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala">SentimentTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -7923,7 +7923,7 @@ The dictionary can be set as a delimited text file.</p>
     <p>By default, the sentiment score will be assigned labels <code class="language-plaintext highlighter-rouge">"positive"</code> if the score is <code class="language-plaintext highlighter-rouge">&gt;= 0</code>, else <code class="language-plaintext highlighter-rouge">"negative"</code>.
 To retrieve the raw sentiment scores, <code class="language-plaintext highlighter-rouge">enableScore</code> needs to be set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/RuleBasedSentiment.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala">SentimentTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -8560,7 +8560,7 @@ For usage and examples see the documentation of the main class.</p>
     <table>
       <tbody>
         <tr>
-          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/token/token2_chunk/index.html#sparknlp.annotator.token.token2_chunk.Token2Chunk">Token2Chunk</a></td>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/base/token2_chunk/index.html#sparknlp.annotator.token.token2_chunk.Token2Chunk">Token2Chunk</a></td>
           <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/Token2Chunk">Token2Chunk</a></td>
           <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Token2Chunk.scala">Token2Chunk</a></td>
         </tr>
@@ -9131,7 +9131,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
       <p>The training data needs to consist of a column for normalized text and a label column (either <code class="language-plaintext highlighter-rouge">"positive"</code> or <code class="language-plaintext highlighter-rouge">"negative"</code>).</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/VivekNarayanSentimentApproach.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn">ViveknSentimentTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -9284,7 +9284,7 @@ For training your own model, please see the documentation of that class.</p>
       <p>The analyzer requires sentence boundaries to give a score in context.
 Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/VivekNarayanSentimentApproach.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn">ViveknSentimentTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -9977,7 +9977,7 @@ please see the documentation of that class.</p>
 For available pretrained models please see the
 <a href="https://sparknlp.org/models?task=Word+Segmentation">Models Hub</a>.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation/words_segmenter_demo.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala">WordSegmenterTest</a>.</p>
 
       <p><strong>References:</strong></p>
@@ -10422,7 +10422,7 @@ $(document).ready(function () {
   <div class="main"><div itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content=""><meta itemprop="url" content="/"></div><div class="site-info mt-2">
       <div>© <span id="year"></span> John Snow Labs Inc.
-        <a href="http://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="http://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
+        <a href="https://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="https://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
       </div>
     </div>
   </div>

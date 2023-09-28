@@ -550,18 +550,18 @@ In this section we provide a guide on how to setup your environment using Intell
   <pre><code class="language-shel">java -version
 </code></pre>
 
-  <p><img src="\assets\images\java_version.png" alt="Java version" /></p>
+  <p><img src="/assets/images/java_version.png" alt="Java version" /></p>
 
   <p>and</p>
 
   <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-submit <span class="nt">--version</span>
 </code></pre></div>  </div>
 
-  <p><img src="\assets\images\spark_submit.png" alt="Spark Submit" /></p>
+  <p><img src="/assets/images/spark_submit.png" alt="Spark Submit" /></p>
 
   <p>Next step is to open IntelliJ IDEA. On the <strong>Welcome to IntelliJ IDEA</strong> screen you will see ability to <strong>Check out from Version Controle</strong>.</p>
 
-  <p><img src="\assets\images\idea_init.png" alt="Idea initial screen" /></p>
+  <p><img src="/assets/images/idea_init.png" alt="Idea initial screen" /></p>
 
   <p>Log in into your github account in pop up. After select from a list Spark NLP repo url:</p>
 
@@ -570,41 +570,41 @@ In this section we provide a guide on how to setup your environment using Intell
 
   <p>and press <em>clone</em> button. If you don’t see url in the list, clone or fork repo first to your Github account and try again.</p>
 
-  <p><img src="\assets\images\idea_choose_repo.png" alt="Idea choose repo" /></p>
+  <p><img src="/assets/images/idea_choose_repo.png" alt="Idea choose repo" /></p>
 
   <p>When the repo cloned IDE will detect SBT file with dependencies. Click <strong>Yes</strong> to start import from sbt.</p>
 
-  <p><img src="\assets\images\pop_up_build.png" alt="Pop up build" /></p>
+  <p><img src="/assets/images/pop_up_build.png" alt="Pop up build" /></p>
 
   <p>In the <strong>Import from sbt</strong> pop up make sure you have JDK 8 detected. Click <strong>Ok</strong> to proceed and download required resources.</p>
 
-  <p><img src="\assets\images\settings_build.png" alt="Pop up settings build" /></p>
+  <p><img src="/assets/images/settings_build.png" alt="Pop up settings build" /></p>
 
   <p>If you already had dependences installed you may see the pop up <strong>Not empty folder</strong>, click <strong>Ok</strong> to ignore it and reload resources.</p>
 
   <p>IntelliJ IDEA will be open and it will start syncing SBT project. It make take some time, you will see the progress in the build output panel in the bottom of the screen. To see the project panel in the left press <strong>Alt+1</strong>.</p>
 
-  <p><img src="\assets\images\idea_first_screen.png" alt="Idea first screen" /></p>
+  <p><img src="/assets/images/idea_first_screen.png" alt="Idea first screen" /></p>
 
   <p>Next step is to install Python plugin to the IntelliJ IDEA. To do this, open <code class="language-plaintext highlighter-rouge">File -&gt; Settings -&gt; Plugins</code>, type <code class="language-plaintext highlighter-rouge">Python</code> in the search and select Python plugin by JetBrains. Install this plugin by clicking <code class="language-plaintext highlighter-rouge">Install</code> button.</p>
 
-  <p><img src="\assets\images\python_plugin.png" alt="Python plugin" /></p>
+  <p><img src="/assets/images/python_plugin.png" alt="Python plugin" /></p>
 
   <p>After this steps you can check project structure in the <code class="language-plaintext highlighter-rouge">File -&gt; Project Structure -&gt; Modules</code>.</p>
 
-  <p><img src="\assets\images\project_structure.png" alt="Project structure" /></p>
+  <p><img src="/assets/images/project_structure.png" alt="Project structure" /></p>
 
   <p>Make sure what you have <code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-build</code> folders and no errors in the exported dependencies.</p>
 
   <p>In the <code class="language-plaintext highlighter-rouge">Project</code> settings check what project SDK is set to 1.8 and in <code class="language-plaintext highlighter-rouge">Platform Settings -&gt; SDK's</code> you have Java installation as well as Python installation.</p>
 
-  <p><img src="\assets\images\project_settings.png" alt="Project settings" /></p>
+  <p><img src="/assets/images/project_settings.png" alt="Project settings" /></p>
 
-  <p><img src="\assets\images\platform_settings.png" alt="Platform settings" /></p>
+  <p><img src="/assets/images/platform_settings.png" alt="Platform settings" /></p>
 
   <p>If you don’t see Python installed in the <code class="language-plaintext highlighter-rouge">SDK's</code> tab click <strong>+</strong> button, add <strong>Python SDK</strong> with new virtual environment in the project folder with Python 3.x.</p>
 
-  <p><img src="\assets\images\add_python.png" alt="Add python" /></p>
+  <p><img src="/assets/images/add_python.png" alt="Add python" /></p>
 
 </div>
 <div class="h3-box">
@@ -615,15 +615,15 @@ In this section we provide a guide on how to setup your environment using Intell
 
   <p>Click <strong>Add configuration</strong> in the Top right corner. In the pop up click on the <strong>+</strong> and look for <strong>sbt task</strong>.</p>
 
-  <p><img src="\assets\images\add_config.png" alt="Add config" /></p>
+  <p><img src="/assets/images/add_config.png" alt="Add config" /></p>
 
   <p>In the <strong>Name</strong> field put <code class="language-plaintext highlighter-rouge">Test</code>. In the <strong>Tasks</strong> field write down <code class="language-plaintext highlighter-rouge">test</code>. After you can disable checkbox in <strong>Use sbt shell</strong> to have more custom configurations.  In the <strong>VM parameters</strong> increase the memory by changing <code class="language-plaintext highlighter-rouge">-Xmx1024M</code> to <code class="language-plaintext highlighter-rouge">-Xmx10G</code> and click <strong>Ok</strong>.</p>
 
-  <p><img src="\assets\images\sbt_task.png" alt="sbt task" /></p>
+  <p><img src="/assets/images/sbt_task.png" alt="sbt task" /></p>
 
   <p>If everything was set up correctly you suhould see unabled green button <strong>Run ‘Test’</strong> in the top right. Click on it to start running the tests.</p>
 
-  <p><img src="\assets\images\sbt_task_run.png" alt="sbt task" /></p>
+  <p><img src="/assets/images/sbt_task_run.png" alt="sbt task" /></p>
 
   <p>This algorithm will Run all tests under <code class="language-plaintext highlighter-rouge">spark-nlp/src/test/scala/com.johnsnowlabs/</code></p>
 
@@ -643,7 +643,7 @@ In this section we provide a guide on how to setup your environment using Intell
 
   <p>In the <strong>Tasks</strong> field write down <code class="language-plaintext highlighter-rouge">"testOnly *classpath*"</code> -&gt; <code class="language-plaintext highlighter-rouge">"testOnly com.johnsnowlabs.nlp.FinisherTestSpec"</code> and click <strong>Ok</strong> to save individual scala test run configuration.</p>
 
-  <p><img src="\assets\images\individual_test.png" alt="individual sbt task" /></p>
+  <p><img src="/assets/images/individual_test.png" alt="individual sbt task" /></p>
 
   <p>Press <strong>play</strong> button to run individual test.</p>
 
@@ -661,32 +661,32 @@ In this section we provide a guide on how to setup your environment using Intell
 
   <p>To run Python test, first you need to configure project structure. Go to <code class="language-plaintext highlighter-rouge">File -&gt; Project Settings -&gt; Modules</code>, click on the <strong>+</strong> button and select <strong>New Module</strong>.</p>
 
-  <p><img src="\assets\images\python_module_add.png" alt="python module add" /></p>
+  <p><img src="/assets/images/python_module_add.png" alt="python module add" /></p>
 
   <p>In the pop up choose Python on left menu, select Python SDK from created virtual environment and click <strong>Next</strong>.</p>
 
-  <p><img src="\assets\images\python_module_pop_up.png" alt="python module pop up" /></p>
+  <p><img src="/assets/images/python_module_pop_up.png" alt="python module pop up" /></p>
 
   <p>Enter <code class="language-plaintext highlighter-rouge">python</code> in the Module name and click <strong>Finish</strong>.</p>
 
   <p>After you need to add Spark dependencies. Select created Python module and click on the <strong>+</strong> button in the Dependencies part.</p>
 
-  <p><img src="\assets\images\python_libs_add.png" alt="python libs add" /></p>
+  <p><img src="/assets/images/python_libs_add.png" alt="python libs add" /></p>
 
   <p>Choose <strong>Jars or directories…</strong> and find the find installation path of spark (usually the folder name is <code class="language-plaintext highlighter-rouge">spark-2.4.5-bin-hadoop2.7</code>). In the Spark folder go to the <code class="language-plaintext highlighter-rouge">python/libs</code> and select <code class="language-plaintext highlighter-rouge">pyspark.zip</code> to the project. Do the same for another file in the same folder - <code class="language-plaintext highlighter-rouge">py4j-0.10.7-src.zip</code>.</p>
 
-  <p><img src="\assets\images\python_libs_select.png" alt="python libs select" />
-<img src="\assets\images\python_libs_attached.png" alt="python libs attached" /></p>
+  <p><img src="/assets/images/python_libs_select.png" alt="python libs select" />
+<img src="/assets/images/python_libs_attached.png" alt="python libs attached" /></p>
 
   <p>All available tests are in <code class="language-plaintext highlighter-rouge">spark-nlp/python/run-tests.py</code>. Click <strong>Add configuration</strong> or <strong>Edit configuration</strong> in the Top right corner. In the pop up click on the <strong>+</strong> and look for <strong>Python</strong>.</p>
 
-  <p><img src="\assets\images\python_test_add.png" alt="python test add" /></p>
+  <p><img src="/assets/images/python_test_add.png" alt="python test add" /></p>
 
   <p>In the <strong>Script path</strong> locate file <code class="language-plaintext highlighter-rouge">spark-nlp/python/run-tests.py</code>. Also you need to add <strong>SPARK_HOME</strong> environment variable to the project. Choose <strong>Environment variables</strong> and add new variable <strong>SPARK_HOME</strong>. Insert installation path of spark to the Value field.</p>
 
-  <p><img src="\assets\images\python_spark_home.png" alt="python spark home" /></p>
+  <p><img src="/assets/images/python_spark_home.png" alt="python spark home" /></p>
 
-  <p><img src="\assets\images\python_test_config.png" alt="python test config" /></p>
+  <p><img src="/assets/images/python_test_config.png" alt="python test config" /></p>
 
   <p>Click <strong>Ok</strong> to save and close pop up and click <strong>Ok</strong> to confirm new task creation.</p>
 
@@ -695,7 +695,7 @@ In this section we provide a guide on how to setup your environment using Intell
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source venv/bin/activate
 </code></pre></div>  </div>
 
-  <p><img src="\assets\images\activate_env.png" alt="activate env" /></p>
+  <p><img src="/assets/images/activate_env.png" alt="activate env" /></p>
 
   <p>after install packages by running</p>
 
@@ -711,7 +711,7 @@ In this section we provide a guide on how to setup your environment using Intell
 
   <p>In the <strong>Name</strong> field put <code class="language-plaintext highlighter-rouge">AssemblyCopy</code>. In the <strong>Tasks</strong> field write down <code class="language-plaintext highlighter-rouge">assemblyAndCopy</code>. After you can disable checkbox in <strong>Use sbt shell</strong> to have more custom configurations.  In the <strong>VM parameters</strong> increase the memory by changing <code class="language-plaintext highlighter-rouge">-Xmx1024M</code> to <code class="language-plaintext highlighter-rouge">-Xmx6G</code> and click <strong>Ok</strong>.</p>
 
-  <p><img src="\assets\images\compile_jar.png" alt="compile jar" /></p>
+  <p><img src="/assets/images/compile_jar.png" alt="compile jar" /></p>
 
   <p>You can find created jar in the folder <code class="language-plaintext highlighter-rouge">spark-nlp/python/lib/sparknlp.jar</code></p>
 
@@ -973,7 +973,7 @@ $(document).ready(function () {
   <div class="main"><div itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content=""><meta itemprop="url" content="/"></div><div class="site-info mt-2">
       <div>© <span id="year"></span> John Snow Labs Inc.
-        <a href="http://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="http://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
+        <a href="https://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="https://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
       </div>
     </div>
   </div>

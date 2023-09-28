@@ -5180,6 +5180,9 @@ html,
   width: 100%; }
 
 /****Vars****/
+body, html, .root, .layout--page {
+  height: auto; }
+
 body {
   font-size: 16px;
   line-height: 24px;
@@ -5455,6 +5458,23 @@ h2.h2_doc {
   max-width: 800px;
   margin: 0 auto 10px; }
 
+.layout--landing {
+  overflow: hidden; }
+
+.hero.bottom_section {
+  position: relative; }
+  .hero.bottom_section::after, .hero.bottom_section::before {
+    content: '';
+    position: absolute;
+    width: calc((100vw - 1900px)/2);
+    top: 0;
+    left: calc((-100vw + 1900px)/2);
+    display: block;
+    height: 100%;
+    background: #0098da; }
+  .hero.bottom_section::after {
+    left: auto;
+    right: calc((-100vw + 1900px)/2); }
 .hero .h3_title {
   font-weight: 800;
   font-size: 35px;
@@ -6544,7 +6564,7 @@ a.btn1.small {
 /****Footer****/
 .page__footer footer {
   background: #fff;
-  padding: 38px 0;
+  padding: 38px 15px;
   position: relative;
   z-index: 999;
   border-top: 1px solid #E2F5FE; }
@@ -7420,6 +7440,9 @@ code {
 @media (max-width: 1600px) {
   .end_banner {
     width: 100%; }
+
+  .has-aside .col-aside > aside {
+    padding-bottom: 50px; }
 
   .layout--page--sidebar.layout--page--aside .main {
     max-width: 970px; }

@@ -30,7 +30,7 @@ For available pretrained models please see the
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
 examples, see
-[BertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala).
+[BertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
