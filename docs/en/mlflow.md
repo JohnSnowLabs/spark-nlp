@@ -70,8 +70,8 @@ Finally, make sure you follow the Spark NLP installation, available [here](https
 We are going to use Docker to instantiate a MySQL container with a persistent volume, but you can install it directly on your machine without Docker.
 
 To do that, we will need to have installed (feel free to skip this step if you will install MySql without Docker):
-* [Docker](!https://docs.docker.com/engine/install/)
-* [Docker-compose](!https://docs.docker.com/compose/install/)
+* [Docker](https://docs.docker.com/engine/install/)
+* [Docker-compose](https://docs.docker.com/compose/install/)
 
 In our case, I used this `docker-compose.yml` file to instantiate a `mysql` database with a persistent volume:
 ```

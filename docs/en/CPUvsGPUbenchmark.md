@@ -241,6 +241,6 @@ Right now, we don't support multigpu training (1 model in different GPUs in para
 </div><div class="h3-box" markdown="1">
 
 ### Where to look for more information about Training
-Please, take a look at the [Spark NLP](https://sparknlp.org/docs/en/training) and [Spark NLP for Healthcare](https://sparknlp.org/docs/en/licensed_training) Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.
+Please, take a look at the [Spark NLP](https://sparknlp.org/docs/en/training) and feel free to reach us out in case you want to maximize the performance on your GPU.
 
 </div>

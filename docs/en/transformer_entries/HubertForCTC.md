@@ -28,7 +28,7 @@ For available pretrained models please see the
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
 examples, see
-[HubertForCTCTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/HubertForCTCTestSpec.scala).
+[HubertForCTCTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/HubertForCTCTest.scala).
 
 **References:**
 

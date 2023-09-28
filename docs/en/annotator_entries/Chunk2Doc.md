@@ -68,11 +68,11 @@ result.selectExpr("explode(chunkConverted)").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Chunk2Doc](/api/com/johnsnowlabs/nlp/Chunk2Doc)
+[Chunk2Doc](/api/com/johnsnowlabs/nlp/annotators/Chunk2Doc)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Chunk2Doc](/api/python/reference/autosummary/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
+[Chunk2Doc](/api/python/reference/autosummary/sparknlp/annotator/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
 {%- endcapture -%}
 
 {%- capture source_link -%}

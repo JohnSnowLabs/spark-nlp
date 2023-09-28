@@ -14,8 +14,8 @@ article_header:
     {%- include snippets/get-nav-url.html path=_section.background_image.src -%}
     {%- assign _url = __return -%}
     {%- if _section.theme == 'light' -%}
-    <section class="hero section-row hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
-      <section class="hero  section-row hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
+    <section class="hero {{ _section.topclass }} section-row hero--center hero--light" id="hero-{{ forloop.index }}" {%- elsif _section.theme == 'dark' -%}
+      <section class="hero {{ _section.topclass }} section-row hero--center hero--dark" id="hero-{{ forloop.index }}" {%- else -%} <section
       class="hero section-row hero--center" id="hero-{{ forloop.index }}" {%- endif -%} {%- if _section.background_color -%}
       style="background-image: url({{ _url }}); background-color: {{ _section.background_color }};">
       {%- else -%}
