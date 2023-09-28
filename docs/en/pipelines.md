@@ -15,8 +15,7 @@ sidebar:
 
 Pretrained Pipelines have moved to Models Hub.
 Please follow this link for the updated list of all models and pipelines:
-[Models Hub](https://sparknlp.org/modelss)
-{:.success}
+[Models Hub](https://sparknlp.org/models)
 {:.success}
 
 </div><div class="h3-box" markdown="1">

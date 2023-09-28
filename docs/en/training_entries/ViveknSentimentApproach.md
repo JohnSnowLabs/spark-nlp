@@ -13,7 +13,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
 The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/sentiment-detection/VivekNarayanSentimentApproach.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

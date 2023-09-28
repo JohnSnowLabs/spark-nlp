@@ -144,7 +144,7 @@ The following image gives an example of html output that is obtained for a coupl
 
 ### Visualize entity resolution
 
-**Entity resolution** refers to the normalization of named entities predicted by Spark NLP with respect to standard terminologies such as ICD-10, SNOMED, RxNorm etc. You can read more about the available entity resolvers <a href="/en/licensed_annotators#chunkentityresolver">here.</a>
+**Entity resolution** refers to the normalization of named entities predicted by Spark NLP with respect to standard terminologies such as ICD-10, SNOMED, RxNorm etc. You can read more about the available entity resolvers <a href="/docs/en/annotators">here.</a>
 
 The **EntityResolverVisualizer** will automatically display on top of the NER label the standard code (ICD10 CM, PCS, ICDO; CPT) that corresponds to that entity as well as the short description of the code. If no resolution code could be identified a regular NER-type of visualization will be displayed.
 

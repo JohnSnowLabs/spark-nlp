@@ -15,7 +15,7 @@ For the instantiated/pretrained models, see SentimentDLModel.
     So positive sentiment can be expressed as either `"positive"` or `0`, negative sentiment as `"negative"` or `1`.
   - Any type of sentence embeddings, such as the [UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
     [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings), or
-    [SentenceEmbeddings](docs/en/annotators#sentenceembeddings) can be used for the `inputCol`.
+    [SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) can be used for the `inputCol`.
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb).
 {%- endcapture -%}
