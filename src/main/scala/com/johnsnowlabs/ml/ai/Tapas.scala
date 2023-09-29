@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common.TableData
@@ -27,7 +28,8 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class Tapas(
-    override val tensorflowWrapper: TensorflowWrapper,
+    override val tensorflowWrapper: Option[TensorflowWrapper],
+    override val onnxWrapper: Option[OnnxWrapper],
     override val sentenceStartTokenId: Int,
     override val sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -36,6 +38,7 @@ private[johnsnowlabs] class Tapas(
     vocabulary: Map[String, Int])
     extends BertClassification(
       tensorflowWrapper = tensorflowWrapper,
+      onnxWrapper = onnxWrapper,
       sentenceStartTokenId = sentenceStartTokenId,
       sentenceEndTokenId = sentenceEndTokenId,
       configProtoBytes = configProtoBytes,
@@ -77,7 +80,7 @@ private[johnsnowlabs] class Tapas(
         })
       }
 
-    val session = tensorflowWrapper.getTFSessionWithSignature(
+    val session = tensorflowWrapper.get.getTFSessionWithSignature(
       configProtoBytes = configProtoBytes,
       savedSignatures = signatures,
       initAllTables = false)
