@@ -12,7 +12,8 @@ languages, as well as translate from those languages into English.
 
 The audio needs to be provided pre-processed an array of floats.
 
-Note that at the moment, this annotator only supports greedy search.
+Note that at the moment, this annotator only supports greedy search and only Spark Versions
+3.4 and up are supported.
 
 For multilingual models, the language and the task (transcribe or translate) can be set with
 `setLanguage` and `setTask`.
