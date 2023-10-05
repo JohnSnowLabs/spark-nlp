@@ -20,12 +20,12 @@ class BartTokenizer(
     merges: Map[(String, String), Int],
     vocab: Map[String, Int],
     specialTokens: SpecialTokens,
-    padWithSentenceTokens: Boolean = false,
-    addPrefixSpace: Boolean = false)
+    padWithSequenceTokens: Boolean = false,
+    addPrefixSpaceToSentence: Boolean = false)
     extends Gpt2Tokenizer(
       merges,
       vocab,
       specialTokens,
-      padWithSentenceTokens,
+      padWithSequenceTokens,
       prependString = "Ġ",
-      addPrefixSpace)
+      addPrefixSpaceToSentence)

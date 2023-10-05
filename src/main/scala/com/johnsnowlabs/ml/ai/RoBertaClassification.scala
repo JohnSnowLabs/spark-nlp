@@ -48,7 +48,7 @@ private[johnsnowlabs] class RoBertaClassification(
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     merges: Map[(String, String), Int],
-    vocabulary: Map[String, Int],
+    val vocabulary: Map[String, Int],
     threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
@@ -63,7 +63,8 @@ private[johnsnowlabs] class RoBertaClassification(
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
+    val bpeTokenizer =
+      BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
 
     sentences.map { tokenIndex =>
       // filter empty and only whitespace tokens
@@ -106,7 +107,8 @@ private[johnsnowlabs] class RoBertaClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
     // we need the original form of the token
     // let's lowercase if needed right before the encoding
-    val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
+    val bpeTokenizer =
+    BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
     sentences.map { sentence =>
