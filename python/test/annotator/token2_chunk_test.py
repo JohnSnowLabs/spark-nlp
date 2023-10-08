@@ -19,33 +19,33 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import SparkContextForTest
 
+from pyspark.sql.types import StringType
+
 
 @pytest.mark.fast
-class Date2ChunkTestSpec(unittest.TestCase):
+class Token2ChunkTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = SparkContextForTest.data
+        text_list = ["Hello world, this is a sentence out of nowhere", "a sentence out"]
+        self.data = SparkContextForTest.spark.createDataFrame(text_list, StringType()).toDF("text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
-        date_matcher = DateMatcher() \
-            .setInputCols(['document']) \
-            .setOutputCol("date") \
-            .setOutputFormat("yyyyMM") \
-            .setSourceLanguage("en")
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
 
-        date_to_chunk = Date2Chunk() \
-            .setInputCols(['date']) \
-            .setOutputCol("date_chunk") \
-            .setEntityName("DATUM")
+        token2chunk = Token2Chunk() \
+            .setInputCols(["token"]) \
+            .setOutputCol("token_chunk")
 
         pipeline = Pipeline(stages=[
             document_assembler,
-            date_matcher,
-            date_to_chunk
+            tokenizer,
+            token2chunk
         ])
 
         model = pipeline.fit(self.data)
