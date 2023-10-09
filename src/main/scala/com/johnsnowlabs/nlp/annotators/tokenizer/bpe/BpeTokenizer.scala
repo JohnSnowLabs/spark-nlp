@@ -245,7 +245,7 @@ private[nlp] abstract class BpeTokenizer(
   }
 
   /** Needs to be implemented */
-  def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
+  protected def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
 
   /** Special tokens of the model for processing */
   val sentencePadding: (String, String) =

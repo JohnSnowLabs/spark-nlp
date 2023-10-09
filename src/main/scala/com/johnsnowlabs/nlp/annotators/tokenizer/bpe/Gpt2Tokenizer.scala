@@ -69,7 +69,10 @@ class Gpt2Tokenizer(
     bytesToUnicodeMapping.map(x => (x._2, x._1))
 
   override def preProcessTokenForBpe(token: String): String = {
-    token.foldLeft("")(_ + bytesToUnicodeMapping(_))
+    token
+      .getBytes("UTF-8")
+      .map { b => if (b < 0) 256 + b else b }
+      .foldLeft("")(_ + bytesToUnicodeMapping(_))
   }
 
   val splitPattern: Regex =
