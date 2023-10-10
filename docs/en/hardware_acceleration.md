@@ -49,7 +49,7 @@ Since the new Transformer models such as BERT for Word and Sentence embeddings a
 | DeBERTa Large     |        +477%(5.8x)        |
 | Longformer Base   |         +52%(1.5x)        |
 
-Spark NLP 5.1.2 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP 5.1.3 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
