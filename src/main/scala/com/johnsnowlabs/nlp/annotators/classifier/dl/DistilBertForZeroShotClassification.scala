@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.DistilBertClassification
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -265,12 +266,14 @@ class DistilBertForZeroShotClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): DistilBertForZeroShotClassification = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): DistilBertForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new DistilBertClassification(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
@@ -338,7 +341,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_distilbert_classification",
       DistilBertForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -380,7 +383,7 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
 
     val tf =
       readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tf), None)
   }
 
   addReader(readModel)
@@ -437,7 +440,7 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
