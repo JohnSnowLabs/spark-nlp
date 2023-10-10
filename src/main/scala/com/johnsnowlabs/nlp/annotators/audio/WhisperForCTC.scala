@@ -54,8 +54,8 @@ import org.json4s.jackson.JsonMethods._
   * For multilingual models, the language and the task (transcribe or translate) can be set with
   * `setLanguage` and `setTask`.
   *
- * Note that at the moment, this annotator only supports greedy search and only Spark Versions
- * 3.4 and up are supported.
+  * Note that at the moment, this annotator only supports greedy search and only Spark Versions
+  * 3.4 and up are supported.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{

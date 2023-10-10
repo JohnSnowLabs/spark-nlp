@@ -210,8 +210,7 @@ private[johnsnowlabs] class DistilBertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(
-      batch: Seq[Array[Int]]): Array[Float] = {
+  private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession()
 
@@ -409,8 +408,7 @@ private[johnsnowlabs] class DistilBertClassification(
     (endLogits, startLogits)
   }
 
-  private def computeLogitsWithOnnx(
-      batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     val (runner, env) = onnxWrapper.get.getSession()
 
     val tokenTensors =
