@@ -10118,7 +10118,8 @@ languages, as well as translate from those languages into English.</p>
 
   <p>The audio needs to be provided pre-processed an array of floats.</p>
 
-  <p>Note that at the moment, this annotator only supports greedy search.</p>
+  <p>Note that at the moment, this annotator only supports greedy search and only Spark Versions
+3.4 and up are supported.</p>
 
   <p>For multilingual models, the language and the task (transcribe or translate) can be set with
 <code class="language-plaintext highlighter-rouge">setLanguage</code> and <code class="language-plaintext highlighter-rouge">setTask</code>.</p>
@@ -12409,21 +12410,21 @@ RoBertaForQuestionAnswering.</p>
         <td style="text-align: left">BertForQuestionAnswering</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForQuestionAnswering">TFBertForQuestionAnswering</a></td>
       </tr>
       <tr>
         <td style="text-align: left">BertForSequenceClassification</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification">TFBertForSequenceClassification</a></td>
       </tr>
       <tr>
         <td style="text-align: left">BertForTokenClassification</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForTokenClassification">TFBertForTokenClassification</a></td>
       </tr>
       <tr>
@@ -12514,21 +12515,21 @@ RoBertaForQuestionAnswering.</p>
         <td style="text-align: left">DistilBertForQuestionAnswering</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForQuestionAnswering">TFDistilBertForQuestionAnswering</a></td>
       </tr>
       <tr>
         <td style="text-align: left">DistilBertForSequenceClassification</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification">TFDistilBertForSequenceClassification</a></td>
       </tr>
       <tr>
         <td style="text-align: left">DistilBertForTokenClassification</td>
         <td style="text-align: left"> </td>
         <td style="text-align: left">✅</td>
-        <td style="text-align: left">❎</td>
+        <td style="text-align: left">✅</td>
         <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification">TFDistilBertForTokenClassification</a></td>
       </tr>
       <tr>
@@ -12809,6 +12810,36 @@ RoBertaForQuestionAnswering.</p>
         <td style="text-align: left">AlbertForTokenClassification</td>
         <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_AlbertForTokenClassification.ipynb">HuggingFace ONNX in Spark NLP AlbertForTokenClassification</a></td>
         <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_AlbertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForQuestionAnswering.ipynb">HuggingFace ONNX in Spark NLP BertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForSequenceClassification.ipynb">HuggingFace ONNX in Spark NLP BertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForTokenClassification.ipynb">HuggingFace ONNX in Spark NLP BertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForQuestionAnswering</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_BertForQuestionAnswering.ipynb">HuggingFace ONNX in Spark NLP DistilBertForQuestionAnswering</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBertForQuestionAnswering.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForSequenceClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBertForSequenceClassification.ipynb">HuggingFace ONNX in Spark NLP DistilBertForSequenceClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBertForSequenceClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">DistilBertForTokenClassification</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBertForTokenClassification.ipynb">HuggingFace ONNX in Spark NLP DistilBertForTokenClassification</a></td>
+        <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_DistilBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
       </tr>
       <tr>
         <td style="text-align: left">BertEmbeddings</td>
