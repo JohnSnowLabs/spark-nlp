@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.Tapas
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -167,12 +168,14 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
   /** @group setParam */
   override def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): TapasForQuestionAnswering = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): TapasForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new Tapas(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             tags = Map.empty[String, Int],
@@ -246,8 +249,9 @@ trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
   def readModel(instance: TapasForQuestionAnswering, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    val tensorFlow =
+      readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
+    instance.setModelIfNotSet(spark, Some(tensorFlow), None)
   }
 
   addReader(readModel)
@@ -279,7 +283,7 @@ trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

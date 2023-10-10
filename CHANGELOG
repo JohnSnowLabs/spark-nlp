@@ -1,4 +1,26 @@
 ========
+5.1.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing support for ONNX Runtime in BertForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in BertForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in BertForQuestionAnswering annotator
+* **NEW:** Introducing support for ONNX Runtime in DistilBertForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DistilBertForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DistilBertForQuestionAnswering annotator
+* **NEW:** Setting ONNX configuration such as GPU device id, execution mode, etc. via Spark NLP configs
+* Update Whisper documentation with minimum required version of Spark/PySpark (3.4)
+
+----------------
+Bug Fixes
+----------------
+* Fix `module 'sparknlp.annotator' has no attribute 'Token2Chunk'` error in Python when using `Token2Chunk` annotator inside loaded PipelineModel
+
+
+
+========
 5.1.2
 ========
 ----------------
