@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.onnx
 
+import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
 import ai.onnxruntime.OrtSession.SessionOptions
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
@@ -113,7 +114,8 @@ trait ReadOnnxModel {
       suffix: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
+      sessionOptions: Option[SessionOptions] = None,
+      suppressWarnings: Boolean = false): Map[String, OnnxWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -130,6 +132,14 @@ trait ReadOnnxModel {
       fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
 
       val localPath = new Path(tmpFolder, localModelFile).toString
+
+      //Suppress ONNX warning if required
+      val sessionOptionsWithOptimization = if (suppressWarnings && sessionOptions.isEmpty)
+        Some(new SessionOptions()) else sessionOptions
+      if (suppressWarnings) {
+        OrtEnvironment.getEnvironment()
+        sessionOptionsWithOptimization.get.setSessionLogLevel(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
+      }
 
       // 3. Read ONNX state
       val onnxWrapper = OnnxWrapper.read(
