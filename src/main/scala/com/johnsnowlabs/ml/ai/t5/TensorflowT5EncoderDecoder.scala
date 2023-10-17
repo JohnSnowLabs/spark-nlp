@@ -8,50 +8,32 @@ import org.tensorflow.{Session, Tensor}
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class TensorflowT5EncoderDecoder(
-                                                               val tensorflow: TensorflowWrapper,
-                                                               override val spp: SentencePieceWrapper,
-                                                               override val additionalTokens: Map[Int, String] = Map(),
-                                                               val configProtoBytes: Option[Array[Byte]] = None,
-                                                               val signatures: Option[Map[String, String]] = None,
-                                                               val useCache: Boolean = false)
-  extends T5EncoderDecoder(spp, additionalTokens) {
+    val tensorflow: TensorflowWrapper,
+    override val spp: SentencePieceWrapper,
+    override val additionalTokens: Map[Int, String] = Map(),
+    val configProtoBytes: Option[Array[Byte]] = None,
+    val signatures: Option[Map[String, String]] = None,
+    val useCache: Boolean = false)
+    extends T5EncoderDecoder(spp, additionalTokens) {
 
   private val _tfT5Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val decoderInitInputIdsKey = "decoder_init_decoder_input_ids:0"
-  private val decoderInitEncoderAttentionMaskKey = "decoder_init_encoder_attention_mask:0"
-  private val decoderInitEncoderStateKey = "decoder_init_encoder_state:0"
-
-  private val decoderInitOutputLogitsKey = if (useCache) "StatefulPartitionedCall_1:2" else "StatefulPartitionedCall:0"
-  private val decoderInitOutputCache1Key = "StatefulPartitionedCall_1:0"
-  private val decoderInitOutputCache2Key = "StatefulPartitionedCall_1:1"
-
-  private val decoderCachedInputIdsKey = "decoder_cached_decoder_input_ids:0"
-  private val decoderCachedEncoderAttentionMaskKey = "decoder_cached_encoder_attention_mask:0"
-  private val decoderCachedEncoderStateKey = "decoder_cached_encoder_state:0"
-  private val decoderCachedCache1Key = "decoder_cached_cache1:0"
-  private val decoderCachedCache2Key = "decoder_cached_cache2:0"
-
-  private val decoderCachedOutputLogitsKey = "StatefulPartitionedCall:2"
-  private val decoderCachedOutputCache1Key = "StatefulPartitionedCall:0"
-  private val decoderCachedOutputCache2Key = "StatefulPartitionedCall:1"
-
   sessionWarmup()
 
   override def tag(
-                    batch: Seq[Array[Int]],
-                    maxNewTokens: Int,
-                    maxTextLength: Int,
-                    doSample: Boolean,
-                    topK: Int,
-                    topP: Double,
-                    temperature: Double,
-                    noRepeatNgramSize: Int,
-                    repetitionPenalty: Double,
-                    randomSeed: Option[Long],
-                    ignoreTokenIds: Array[Int] = Array(),
-                    stopAtEos: Boolean): Array[Array[Int]] = {
+      batch: Seq[Array[Int]],
+      maxNewTokens: Int,
+      maxTextLength: Int,
+      doSample: Boolean,
+      topK: Int,
+      topP: Double,
+      temperature: Double,
+      noRepeatNgramSize: Int,
+      repetitionPenalty: Double,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array(),
+      stopAtEos: Boolean): Array[Array[Int]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -132,19 +114,19 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
       batch,
       decoderEncoderStateTensors,
       encoderAttentionMaskTensors,
-      maxNewTokens=maxNewTokens,
-      maxTextLength=maxTextLength,
-      doSample=doSample,
-      topK=topK,
-      topP=topP,
-      temperature=temperature,
-      vocabSize=vocabSize,
-      randomSeed=randomSeed,
-      session=session,
-      ignoreTokenIds=ignoreTokenIds,
-      stopAtEos=stopAtEos,
-      noRepeatNgramSize=noRepeatNgramSize,
-      repetitionPenalty=repetitionPenalty)
+      maxNewTokens = maxNewTokens,
+      maxTextLength = maxTextLength,
+      doSample = doSample,
+      topK = topK,
+      topP = topP,
+      temperature = temperature,
+      vocabSize = vocabSize,
+      randomSeed = randomSeed,
+      session = session,
+      ignoreTokenIds = ignoreTokenIds,
+      stopAtEos = stopAtEos,
+      noRepeatNgramSize = noRepeatNgramSize,
+      repetitionPenalty = repetitionPenalty)
 
     tensorEncoder.clearTensors()
     tensorEncoder.clearSession(encoderOuts)
@@ -153,22 +135,22 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
   }
 
   def generateNoBeamSearch(
-                            inputIds: Seq[Array[Int]],
-                            decoderEncoderStateTensors: Tensor,
-                            encoderAttentionMaskTensors: Tensor,
-                            maxNewTokens: Int,
-                            maxTextLength: Int,
-                            doSample: Boolean,
-                            topK: Int,
-                            topP: Double,
-                            temperature: Double,
-                            vocabSize: Int,
-                            randomSeed: Option[Long],
-                            session: Session,
-                            ignoreTokenIds: Array[Int] = Array(),
-                            stopAtEos: Boolean,
-                            noRepeatNgramSize: Int,
-                            repetitionPenalty: Double): Array[Array[Int]] = {
+      inputIds: Seq[Array[Int]],
+      decoderEncoderStateTensors: Tensor,
+      encoderAttentionMaskTensors: Tensor,
+      maxNewTokens: Int,
+      maxTextLength: Int,
+      doSample: Boolean,
+      topK: Int,
+      topP: Double,
+      temperature: Double,
+      vocabSize: Int,
+      randomSeed: Option[Long],
+      session: Session,
+      ignoreTokenIds: Array[Int] = Array(),
+      stopAtEos: Boolean,
+      noRepeatNgramSize: Int,
+      repetitionPenalty: Double): Array[Array[Int]] = {
 
     /** Generate sequences for each example without beam search (numBeams == 1). All returned
       * sequence are generated independently.
@@ -194,8 +176,7 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
       stopTokens = stopTokens,
       ignoreTokenIds = ignoreTokenIds,
       maxNewTokens = maxNewTokens,
-      repetitionPenalty = repetitionPenalty
-    )
+      repetitionPenalty = repetitionPenalty)
 
     while (!decoderProcessor.stopDecoding(decoderInputs)) {
       val decoderInputLength = decoderInputs.head.length
@@ -204,22 +185,27 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
 
       val decoderInputBuffers =
         tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
+      val decoderAttentionBuffers =
+        tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
 
       decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
         val offset = idx * sequenceLength
-        decoderInputBuffers.offset(offset).write(if (useLastIdOnly) pieceIds.takeRight(1) else pieceIds)
+        decoderInputBuffers
+          .offset(offset)
+          .write(if (useLastIdOnly) pieceIds.takeRight(1) else pieceIds)
+        val paddingMasks = pieceIds.map(_ => 1)
+        decoderAttentionBuffers.offset(offset).write(paddingMasks)
       }
 
       val decoderInputTensors = tensorDecoder.createIntBufferTensor(
         Array(decoderInputs.length.toLong, sequenceLength),
         decoderInputBuffers)
 
-      val runner = if (nextStateTensor1.isEmpty || nextStateTensor2.isEmpty){
-//        val r = session.runner
-//          .feed(decoderInitInputIdsKey, decoderInputTensors)
-//          .feed(decoderInitEncoderStateKey, decoderEncoderStateTensors)
-//          .feed(decoderInitEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-//          .fetch(decoderInitOutputLogitsKey)
+      val decoderAttentionMaskTensors = tensorDecoder.createIntBufferTensor(
+        Array(decoderInputs.length.toLong, decoderInputLength),
+        decoderAttentionBuffers)
+
+      val runner = if (nextStateTensor1.isEmpty || nextStateTensor2.isEmpty) {
         val r = session.runner
           .feed(
             _tfT5Signatures.getOrElse(
@@ -230,7 +216,7 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
             _tfT5Signatures.getOrElse(
               ModelSignatureConstants.DecoderAttentionMask.key,
               "missing_encoder_attention_mask"),
-            encoderAttentionMaskTensors)
+            decoderAttentionMaskTensors)
           .feed(
             _tfT5Signatures.getOrElse(
               ModelSignatureConstants.DecoderEncoderInputIds.key,
@@ -241,23 +227,81 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
               ModelSignatureConstants.DecoderEncoderAttentionMask.key,
               "missing_decoder_encoder_attention_mask"),
             encoderAttentionMaskTensors)
-          .fetch(_tfT5Signatures
-            .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
+          .fetch(
+            if (useCache)
+              _tfT5Signatures.getOrElse(
+                ModelSignatureConstants.DecoderCachedOutput.key,
+                "missing_cached_output")
+            else
+              _tfT5Signatures
+                .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output"))
 
         if (!useCache)
-          r else r
-          .fetch(decoderInitOutputCache1Key)
-          .fetch(decoderInitOutputCache2Key)
+          r
+        else {
+          try {
+            r
+              .fetch(
+                _tfT5Signatures.getOrElse(
+                  ModelSignatureConstants.DecoderInitOutputCache1Key.key,
+                  "missing_decoder_init_output_cache1"))
+              .fetch(
+                _tfT5Signatures.getOrElse(
+                  ModelSignatureConstants.DecoderInitOutputCache2Key.key,
+                  "missing_decoder_init_output_cache2"))
+          } catch {
+            case e: Exception =>
+              if (e.getMessage.toLowerCase().contains("no operation named"))
+                throw new Exception("This model doesn't support caching.")
+              else
+                throw e
+          }
+        }
       } else {
         session.runner
-          .feed(decoderCachedInputIdsKey, decoderInputTensors)
-          .feed(decoderCachedEncoderStateKey, decoderEncoderStateTensors)
-          .feed(decoderCachedEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-          .feed(decoderCachedCache1Key, nextStateTensor1.get)
-          .feed(decoderCachedCache2Key, nextStateTensor2.get)
-          .fetch(decoderCachedOutputLogitsKey)
-          .fetch(decoderCachedOutputCache1Key)
-          .fetch(decoderCachedOutputCache2Key)
+          .feed(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedInputIdsKey.key,
+                "missing_decoder_cached_input_ids"),
+            decoderInputTensors)
+          .feed(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedEncoderStateKey.key,
+                "missing_decoder_cached_encoder_state"),
+            decoderEncoderStateTensors)
+          .feed(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedEncoderAttentionKey.key,
+                "missing_decoder_cached_encoder_attention"),
+            encoderAttentionMaskTensors)
+          .feed(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedCache1Key.key,
+                "missing_decoder_cached_cache1"),
+            nextStateTensor1.get)
+          .feed(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedCache2Key.key,
+                "missing_decoder_cached_cache2"),
+            nextStateTensor2.get)
+          .fetch(
+            _tfT5Signatures
+              .getOrElse(
+                ModelSignatureConstants.DecoderCachedOutputKey.key,
+                "missing_decoder_cached_output"))
+          .fetch(_tfT5Signatures
+            .getOrElse(
+              ModelSignatureConstants.DecoderCachedOutputCache1Key.key,
+              "missing_decoder_cached_output_cache1"))
+          .fetch(_tfT5Signatures
+            .getOrElse(
+              ModelSignatureConstants.DecoderCachedOutputCache2Key.key,
+              "missing_decoder_cached_output_cache2"))
       }
 
       val decoderOuts = runner.run().asScala
@@ -266,17 +310,17 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
       decoderOuts.head.close()
 
       if (useCache) {
-        if (nextStateTensor1.isDefined){
+        if (nextStateTensor1.isDefined) {
           nextStateTensor1.get.close()
         }
-        if (nextStateTensor2.isDefined){
+        if (nextStateTensor2.isDefined) {
           nextStateTensor2.get.close()
         }
         nextStateTensor1 = Some(decoderOuts(1).asRawTensor())
         nextStateTensor2 = Some(decoderOuts(2).asRawTensor())
       }
 
-      val decoderOutputs  = (0 until batchSize).map(i => {
+      val decoderOutputs = (0 until batchSize).map(i => {
         logitsRaw
           .slice(
             i * sequenceLength * vocabSize + (sequenceLength - 1) * vocabSize,
@@ -284,7 +328,8 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
       })
 
       decoderInputs = decoderProcessor.processLogits(
-        batchLogits = decoderOutputs.toArray, decoderInputIds = decoderInputs)
+        batchLogits = decoderOutputs.toArray,
+        decoderInputIds = decoderInputs)
 
       decoderInputTensors.close()
 
