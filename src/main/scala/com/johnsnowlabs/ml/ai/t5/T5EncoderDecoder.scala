@@ -7,48 +7,49 @@ import scala.collection.mutable
 import scala.math.exp
 
 abstract class T5EncoderDecoder(
-                                 val spp: SentencePieceWrapper,
-                                 val additionalTokens: Map[Int, String] = Map()
-                               ) {
+    val spp: SentencePieceWrapper,
+    val additionalTokens: Map[Int, String] = Map()) {
 
   protected val paddingTokenId = 0
-  protected  val eosTokenId = 1
-  protected  val pieceSize: Int = spp.getSppModel.getPieceSize
+  protected val eosTokenId = 1
+  protected val pieceSize: Int = spp.getSppModel.getPieceSize
   protected val vocabSize = 32128
 
   def sessionWarmup(): Unit = {
-    val dummyInput = Array(1079, 5682, eosTokenId)
+    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
 
     tag(
       Seq(dummyInput),
-      maxNewTokens = 10,
-      maxTextLength = 10,
+      maxNewTokens = 1,
+      maxTextLength = 1,
       doSample = false,
       temperature = 0f,
       topK = 0,
       topP = 0f,
       repetitionPenalty = 0f,
-      randomSeed = Option(0),
-      ignoreTokenIds = Array(paddingTokenId),
+      noRepeatNgramSize = 0,
+      randomSeed = Option(0L),
       stopAtEos = true,
-      noRepeatNgramSize = 0
-    )
+      ignoreTokenIds = Array(0))
   }
 
   protected def decode(sentences: Array[Array[Int]]): Seq[String] = {
 
     sentences.map { s =>
       val filteredPieceIds = s.filter(x => x <= pieceSize || additionalTokens.contains(x))
-      val additionalTokenPositions = filteredPieceIds.zipWithIndex.filter(x => additionalTokens.contains(x._1)).map(_._2)
-      val decodedStrings = if (additionalTokenPositions.nonEmpty){
+      val additionalTokenPositions =
+        filteredPieceIds.zipWithIndex.filter(x => additionalTokens.contains(x._1)).map(_._2)
+      val decodedStrings = if (additionalTokenPositions.nonEmpty) {
         var offset = 0
         additionalTokenPositions.map(i => {
-          val slice = spp.getSppModel.decodeIds(filteredPieceIds.slice(offset, i).map(_.toInt): _*) + additionalTokens(filteredPieceIds(i))
+          val slice = spp.getSppModel.decodeIds(
+            filteredPieceIds.slice(offset, i).map(_.toInt): _*) + additionalTokens(
+            filteredPieceIds(i))
           offset = i + 1
           slice
         }) ++ Array(
-          spp.getSppModel.decodeIds(filteredPieceIds.slice(offset, filteredPieceIds.length).map(_.toInt): _*)
-        )
+          spp.getSppModel.decodeIds(
+            filteredPieceIds.slice(offset, filteredPieceIds.length).map(_.toInt): _*))
       } else {
         Array(spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt): _*))
       }
@@ -71,13 +72,12 @@ abstract class T5EncoderDecoder(
     })
   }
 
-
   protected def getGeneratedNgrams(
-                                    prevInputIds: Seq[Array[Int]],
-                                    generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]],
-                                    hypoIdx: Int,
-                                    curLen: Int,
-                                    noRepeatNgramSize: Int): Array[Int] = {
+      prevInputIds: Seq[Array[Int]],
+      generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]],
+      hypoIdx: Int,
+      curLen: Int,
+      noRepeatNgramSize: Int): Array[Int] = {
     // Before decoding the next token, prevent decoding of ngrams that have already appeared
     val startIdx = curLen + 1 - noRepeatNgramSize
     val ngramIdx = prevInputIds(hypoIdx).slice(startIdx, curLen)
@@ -85,20 +85,20 @@ abstract class T5EncoderDecoder(
   }
 
   protected def setTensorByIndicesToValue(
-                                           prevInputIds: Array[Float],
-                                           indices: IndexedSeq[Boolean],
-                                           value: Float): Array[Float] = {
+      prevInputIds: Array[Float],
+      indices: IndexedSeq[Boolean],
+      value: Float): Array[Float] = {
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 
   protected def calcBannedNgramTokens(
-                                       prevInputIds: Seq[Array[Int]],
-                                       numHypos: Int,
-                                       noRepeatNgramSize: Int,
-                                       curLen: Int): Array[Array[Int]] = {
+      prevInputIds: Seq[Array[Int]],
+      numHypos: Int,
+      noRepeatNgramSize: Int,
+      curLen: Int): Array[Array[Int]] = {
     // based on fairseq for noRepeatNgram in beam_search
     if (curLen + 1 < noRepeatNgramSize)
-    // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
+      // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
       return Array.ofDim[Int](numHypos, 0)
     val generatedNgrams =
       Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Int], List[Int]])
@@ -123,39 +123,37 @@ abstract class T5EncoderDecoder(
   }
 
   protected def tag(
-                     batch: Seq[Array[Int]],
-                     maxNewTokens: Int,
-                     maxTextLength: Int,
-                     doSample: Boolean,
-                     topK: Int,
-                     topP: Double,
-                     temperature: Double,
-                     noRepeatNgramSize: Int,
-                     repetitionPenalty: Double,
-                     randomSeed: Option[Long],
-                     ignoreTokenIds: Array[Int] = Array(),
-                     stopAtEos: Boolean): Array[Array[Int]]
+      batch: Seq[Array[Int]],
+      maxNewTokens: Int,
+      maxTextLength: Int,
+      doSample: Boolean,
+      topK: Int,
+      topP: Double,
+      temperature: Double,
+      noRepeatNgramSize: Int,
+      repetitionPenalty: Double,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array(),
+      stopAtEos: Boolean): Array[Array[Int]]
 
   def predict(
-                sentences: Seq[Annotation],
-                task: String,
-                batchSize: Int,
-                maxNewTokens: Int,
-                maxTextLength: Int,
-                doSample: Boolean,
-                topK: Int,
-                topP: Double,
-                temperature: Double,
-                randomSeed: Option[Long] = None,
-                ignoreTokenIds: Array[Int] = Array(),
-                isCaseSensitive: Boolean,
-                stopAtEos: Boolean,
-                noRepeatNgramSize: Int,
-                repetitionPenalty: Double
-              ): Seq[Annotation] = {
+      sentences: Seq[Annotation],
+      task: String,
+      batchSize: Int,
+      maxNewTokens: Int,
+      maxTextLength: Int,
+      doSample: Boolean,
+      topK: Int,
+      topP: Double,
+      temperature: Double,
+      randomSeed: Option[Long] = None,
+      ignoreTokenIds: Array[Int] = Array(),
+      isCaseSensitive: Boolean,
+      stopAtEos: Boolean,
+      noRepeatNgramSize: Int,
+      repetitionPenalty: Double): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
-
       val batchSP = encode(batch, task)
       val spIds = tag(
         batch = batchSP,
@@ -168,9 +166,8 @@ abstract class T5EncoderDecoder(
         randomSeed = randomSeed,
         ignoreTokenIds = ignoreTokenIds,
         stopAtEos = stopAtEos,
-        noRepeatNgramSize=noRepeatNgramSize,
-        repetitionPenalty=repetitionPenalty
-      )
+        noRepeatNgramSize = noRepeatNgramSize,
+        repetitionPenalty = repetitionPenalty)
       decode(spIds)
 
     }
@@ -190,20 +187,20 @@ abstract class T5EncoderDecoder(
   }
 
   def generate(
-                         prompts: Seq[Annotation],
-                         batchSize: Int,
-                         maxNewTokens: Int,
-                         maxContextLength: Int,
-                         doSample: Boolean,
-                         topK: Int,
-                         topP: Double,
-                         temperature: Double,
-                         randomSeed: Option[Long],
-                         ignoreTokenIds: Array[Int],
-                         isCaseSensitive: Boolean,
-                         stopAtEos: Boolean,
-                         noRepeatNgramSize: Int,
-                         repetitionPenalty: Double): Seq[Annotation] = {
+      prompts: Seq[Annotation],
+      batchSize: Int,
+      maxNewTokens: Int,
+      maxContextLength: Int,
+      doSample: Boolean,
+      topK: Int,
+      topP: Double,
+      temperature: Double,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int],
+      isCaseSensitive: Boolean,
+      stopAtEos: Boolean,
+      noRepeatNgramSize: Int,
+      repetitionPenalty: Double): Seq[Annotation] = {
     predict(
       sentences = prompts,
       task = "",
@@ -212,8 +209,8 @@ abstract class T5EncoderDecoder(
       maxTextLength = maxContextLength,
       doSample = doSample,
       topK = topK,
-      topP=topP,
-      temperature=temperature,
+      topP = topP,
+      temperature = temperature,
       randomSeed = randomSeed,
       ignoreTokenIds = ignoreTokenIds,
       isCaseSensitive = isCaseSensitive,
@@ -223,21 +220,20 @@ abstract class T5EncoderDecoder(
   }
 
   class DecoderProcessor(
-                          val batchSize: Int,
-                          val maxTextLength: Int,
-                          val sequenceLength: Int,
-                          val doSample: Boolean,
-                          val topK: Int,
-                          val topP: Double,
-                          val temperature: Double,
-                          val vocabSize: Int,
-                          val noRepeatNgramSize: Int,
-                          val repetitionPenalty: Double,
-                          val randomSeed: Option[Long],
-                          val stopTokens: Array[Int],
-                          val ignoreTokenIds: Array[Int],
-                          val maxNewTokens: Int
-                        ) {
+      val batchSize: Int,
+      val maxTextLength: Int,
+      val sequenceLength: Int,
+      val doSample: Boolean,
+      val topK: Int,
+      val topP: Double,
+      val temperature: Double,
+      val vocabSize: Int,
+      val noRepeatNgramSize: Int,
+      val repetitionPenalty: Double,
+      val randomSeed: Option[Long],
+      val stopTokens: Array[Int],
+      val ignoreTokenIds: Array[Int],
+      val maxNewTokens: Int) {
     var unfinishedSentences: List[Int] = List.fill(batchSize)(1)
     var sentenceLengths: List[Int] = List.fill(batchSize)(maxTextLength)
     var currentLength = sequenceLength
@@ -248,22 +244,25 @@ abstract class T5EncoderDecoder(
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
 
       (decoderInputIds.forall(o => o exists (t => stopTokens.contains(t)))
-        || (nPredictedTokens >= maxNewTokens)
-        || (decoderInputIds.head.length > maxTextLength))
+      || (nPredictedTokens >= maxNewTokens)
+      || (decoderInputIds.head.length > maxTextLength))
     }
 
     def stopDecoding(decoderInputIds: Array[Array[Long]]): Boolean = {
       stopDecoding(decoderInputIds.map(x => x.map(_.toInt)))
     }
 
-    def processLogits(batchLogits: Array[Array[Float]], decoderInputIds: Array[Array[Long]]): Array[Array[Long]] = {
-      processLogits(batchLogits, decoderInputIds.map(x => x.map(_.toInt))).map(x => x.map(_.toLong))
+    def processLogits(
+        batchLogits: Array[Array[Float]],
+        decoderInputIds: Array[Array[Long]]): Array[Array[Long]] = {
+      processLogits(batchLogits, decoderInputIds.map(x => x.map(_.toInt))).map(x =>
+        x.map(_.toLong))
     }
 
     def createNextTokenLogitsPenalties(
-                                        inputIds: Seq[Array[Int]],
-                                        logits: Array[Array[Float]],
-                                        repetitionPenalty: Double): Array[Array[Float]] = {
+        inputIds: Seq[Array[Int]],
+        logits: Array[Array[Float]],
+        repetitionPenalty: Double): Array[Array[Float]] = {
       // create logit penalties for already seen inputIds
       val nextTokenLogits = Array.ofDim[Array[Float]](logits.length)
 
@@ -324,26 +323,26 @@ abstract class T5EncoderDecoder(
       xs.foldLeft(List(s))((acc, x) => f(acc.head, x) :: acc).reverse
 
     private def scatterValuesOnBatchIndices(
-                                             values: List[Boolean],
-                                             batchIndices: Array[Int]): List[Boolean] = {
+        values: List[Boolean],
+        batchIndices: Array[Int]): List[Boolean] = {
       // scatter values to pair indices
       val (_, initArray) = batchIndices.zip(values).sorted.unzip
       initArray.toList
     }
 
     private def topKTopPFiltering(
-                                   logits: Array[Array[Float]],
-                                   topK: Int,
-                                   topP: Double,
-                                   filterValue: Float = Float.NegativeInfinity,
-                                   minTokensToKeep: Int = 1): Array[Array[Float]] = {
+        logits: Array[Array[Float]],
+        topK: Int,
+        topP: Double,
+        filterValue: Float = Float.NegativeInfinity,
+        minTokensToKeep: Int = 1): Array[Array[Float]] = {
 
       /** Filter a distribution of logits using top-k and/or nucleus (top-p) filtering * Args:
-        * logits: logits distribution shape (batch size, vocabulary size) if topK > 0: keep only top
-        * k tokens with highest probability (top-k filtering). if topP < 1.0: keep the top tokens
-        * with cumulative probability >= topP (nucleus filtering). Nucleus filtering is described in
-        * Holtzman et al. (http://arxiv.org/abs/1904.09751) Make sure we keep at least
-        * minTokensToKeep per batch example in the output From:
+        * logits: logits distribution shape (batch size, vocabulary size) if topK > 0: keep only
+        * top k tokens with highest probability (top-k filtering). if topP < 1.0: keep the top
+        * tokens with cumulative probability >= topP (nucleus filtering). Nucleus filtering is
+        * described in Holtzman et al. (http://arxiv.org/abs/1904.09751) Make sure we keep at
+        * least minTokensToKeep per batch example in the output From:
         * https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
         */
       var logitsUpd = logits
@@ -367,7 +366,8 @@ abstract class T5EncoderDecoder(
 
         val cumulativeProbs = scanLeft(softmax(sortedLogits))(0.0)(_ + _).drop(1)
 
-        /** Remove tokens with cumulative probability above the threshold (token with 0 are kept) */
+        /** Remove tokens with cumulative probability above the threshold (token with 0 are kept)
+          */
         var sortedIndicesToRemove =
           for (prob <- cumulativeProbs)
             yield if (prob > topP) true else false
@@ -392,16 +392,18 @@ abstract class T5EncoderDecoder(
         val indicesToRemove = scatterValuesOnBatchIndices(sortedIndicesToRemove, sortedIndices)
         logitsUpd =
           for ((nextTokenLogit, indexToRemove) <- logits.zip(
-            IndexedSeq.fill(logits.length)(indicesToRemove)))
-          yield setTensorByIndicesToValue(
-            nextTokenLogit,
-            indexToRemove.toIndexedSeq,
-            Float.NegativeInfinity)
+              IndexedSeq.fill(logits.length)(indicesToRemove)))
+            yield setTensorByIndicesToValue(
+              nextTokenLogit,
+              indexToRemove.toIndexedSeq,
+              Float.NegativeInfinity)
       }
       logitsUpd
     }
 
-    def processLogits(batchLogits: Array[Array[Float]], decoderInputIds: Array[Array[Int]]): Array[Array[Int]] = {
+    def processLogits(
+        batchLogits: Array[Array[Float]],
+        decoderInputIds: Array[Array[Int]]): Array[Array[Int]] = {
 
       nPredictedTokens += 1
 
@@ -409,7 +411,8 @@ abstract class T5EncoderDecoder(
         logits.indices
           .map(i => {
             if (ignoreTokenIds.contains(i)) Float.NegativeInfinity else logits(i)
-          }).toArray
+          })
+          .toArray
       })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
@@ -421,7 +424,8 @@ abstract class T5EncoderDecoder(
       if (noRepeatNgramSize > 0) {
         // calculate a list of banned tokens to prevent repetitively generating the same ngrams
         // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
-        val bannedTokens = calcBannedNgramTokens(decoderInputIds, batchSize, noRepeatNgramSize, currentLength)
+        val bannedTokens =
+          calcBannedNgramTokens(decoderInputIds, batchSize, noRepeatNgramSize, currentLength)
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
@@ -432,18 +436,18 @@ abstract class T5EncoderDecoder(
         if (!bannedTokensIndicesMask.isEmpty) {
           nextTokenLogits =
             for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
-              bannedTokensIndicesMask))
-            yield setTensorByIndicesToValue(
-              nextTokenLogit,
-              bannedTokensIndexMask,
-              Float.NegativeInfinity)
+                bannedTokensIndicesMask))
+              yield setTensorByIndicesToValue(
+                nextTokenLogit,
+                bannedTokensIndexMask,
+                Float.NegativeInfinity)
         }
       }
 
       if (randomSeed.isDefined)
         scala.util.Random.setSeed(randomSeed.get)
 
-      val predictions = if (doSample){
+      val predictions = if (doSample) {
 
         // Temperature (higher temperature => more likely to sample low probability tokens)
         if (temperature != 1.0)
@@ -459,7 +463,8 @@ abstract class T5EncoderDecoder(
         nextTokenLogits.map(x => x.zipWithIndex.maxBy(_._1)._2)
       }
       //      var tokensToAdd = Array.ofDim[Int](decoderInputIds.length)
-      val tokensToAdd = predictions.zip(unfinishedSentences).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
+      val tokensToAdd =
+        predictions.zip(unfinishedSentences).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
 
       currentLength += 1
 
