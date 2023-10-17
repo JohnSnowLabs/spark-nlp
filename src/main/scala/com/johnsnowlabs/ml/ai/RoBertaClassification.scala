@@ -402,7 +402,7 @@ private[johnsnowlabs] class RoBertaClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    (endLogits, startLogits)
+    (startLogits, endLogits)
   }
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
@@ -439,7 +439,7 @@ private[johnsnowlabs] class RoBertaClassification(
         tokenTensors.close()
         maskTensors.close()
 
-        (startLogits, endLogits)
+        (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
       } finally if (output != null) output.close()
     }
   }
