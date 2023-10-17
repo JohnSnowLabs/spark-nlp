@@ -191,6 +191,27 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
 
+    useCache = Param(Params._dummy(), "useCache", "Cache internal state of the model to improve performance",
+                     typeConverter=TypeConverters.toBoolean)
+
+    mlFrameworkType = Param(Params._dummy(), "mlFrameworkType",
+                            "ML framework type",
+                            typeConverter=TypeConverters.toString)
+
+    stopAtEos = Param(
+        Params._dummy(),
+        "stopAtEos",
+        "Stop text generation when the end-of-sentence token is encountered.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    maxNewTokens = Param(
+        Params._dummy(),
+        "maxNewTokens",
+        "Maximum number of new tokens to be generated",
+        typeConverter=TypeConverters.toInt
+    )
+
     def setIgnoreTokenIds(self, value):
         """A list of token ids which are ignored in the decoder's output.
 
@@ -240,6 +261,26 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             Maximum length of output text
         """
         return self._set(maxOutputLength=value)
+
+    def setStopAtEos(self, b):
+        """Stop text generation when the end-of-sentence token is encountered.
+
+        Parameters
+        ----------
+        b : bool
+            whether to stop at end-of-sentence token or not
+        """
+        return self._set(stopAtEos=b)
+
+    def setMaxNewTokens(self, value):
+        """Sets the maximum number of new tokens to be generated
+
+        Parameters
+        ----------
+        value : int
+            the maximum number of new tokens to be generated
+        """
+        return self._set(maxNewTokens=value)
 
     def setDoSample(self, value):
         """Sets whether or not to use sampling, use greedy decoding otherwise.
@@ -312,6 +353,16 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         """
         return self._set(noRepeatNgramSize=value)
 
+    def setUseCache(self, value):
+        """Cache internal state of the model to improve performance
+
+        Parameters
+        ----------
+        value : bool
+            Whether or not to use cache
+        """
+        return self._set(useCache=value)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer", java_model=None):
         super(T5Transformer, self).__init__(
@@ -329,7 +380,11 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=1
+            batchSize=1,
+            stopAtEos=True,
+            mlFrameworkType="tensorflow",
+            maxNewTokens=512,
+            useCache=False
         )
 
     @staticmethod

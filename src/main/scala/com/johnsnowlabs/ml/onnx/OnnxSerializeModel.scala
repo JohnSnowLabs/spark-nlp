@@ -108,13 +108,13 @@ trait ReadOnnxModel {
   }
 
   def readOnnxModels(
-                      path: String,
-                      spark: SparkSession,
-                      modelNames: Seq[String],
-                      suffix: String,
-                      zipped: Boolean = true,
-                      useBundle: Boolean = false,
-                      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
+      path: String,
+      spark: SparkSession,
+      modelNames: Seq[String],
+      suffix: String,
+      zipped: Boolean = true,
+      useBundle: Boolean = false,
+      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
