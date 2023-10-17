@@ -633,11 +633,8 @@ trait ReadT5TransformerDLModel
     instance.getMlFrameworkType.toLowerCase match {
       case ONNX.name =>
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
-        val onnxModels = readOnnxModels(
-          path,
-          spark,
-          Seq(onnxEncoderFile, onnxDecoderFile),
-          suffix = "")
+        val onnxModels =
+          readOnnxModels(path, spark, Seq(onnxEncoderFile, onnxDecoderFile), suffix = "")
         instance
           .setModelIfNotSet(spark, onnxModels(onnxEncoderFile), onnxModels(onnxDecoderFile), spp)
       case _ =>
