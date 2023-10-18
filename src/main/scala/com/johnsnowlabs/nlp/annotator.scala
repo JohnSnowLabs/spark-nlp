@@ -735,4 +735,8 @@ package object annotator {
       extends ReadablePretrainedBartForZeroShotModel
       with ReadBartForZeroShotDLModel
 
+  type DocumentCharacterTextSplitter =
+    com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter
+  object DocumentCharacterTextSplitter
+      extends ParamsAndFeaturesReadable[DocumentCharacterTextSplitter]
 }
