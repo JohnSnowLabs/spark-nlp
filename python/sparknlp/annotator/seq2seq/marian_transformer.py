@@ -145,6 +145,29 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
                             "Controls the maximum length for decoder outputs (target language texts)",
                             typeConverter=TypeConverters.toInt)
 
+    doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise",
+                     typeConverter=TypeConverters.toBoolean)
+
+    temperature = Param(Params._dummy(), "temperature", "The value used to module the next token probabilities",
+                        typeConverter=TypeConverters.toFloat)
+
+    topK = Param(Params._dummy(), "topK",
+                 "The number of highest probability vocabulary tokens to keep for top-k-filtering",
+                 typeConverter=TypeConverters.toInt)
+
+    topP = Param(Params._dummy(), "topP",
+                 "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation",
+                 typeConverter=TypeConverters.toFloat)
+
+    repetitionPenalty = Param(Params._dummy(), "repetitionPenalty",
+                              "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details",
+                              typeConverter=TypeConverters.toFloat)
+
+    noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
+                              "If set to int > 0, all ngrams of that size can only occur once",
+                              typeConverter=TypeConverters.toInt)
+
+
     ignoreTokenIds = Param(Params._dummy(), "ignoreTokenIds",
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
@@ -204,6 +227,90 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         """
         return self._set(maxOutputLength=value)
 
+
+    def setDoSample(self, value):
+        """Sets whether or not to use sampling, use greedy decoding otherwise.
+
+        Parameters
+        ----------
+        value : bool
+            Whether or not to use sampling; use greedy decoding otherwise
+        """
+        return self._set(doSample=value)
+
+    def setTemperature(self, value):
+        """Sets the value used to module the next token probabilities.
+
+        Parameters
+        ----------
+        value : float
+            The value used to module the next token probabilities
+        """
+        return self._set(temperature=value)
+
+    def setTopK(self, value):
+        """Sets the number of highest probability vocabulary tokens to keep for
+        top-k-filtering.
+
+        Parameters
+        ----------
+        value : int
+            Number of highest probability vocabulary tokens to keep
+        """
+        return self._set(topK=value)
+
+    def setTopP(self, value):
+        """Sets the top cumulative probability for vocabulary tokens.
+
+        If set to float < 1, only the most probable tokens with probabilities
+        that add up to ``topP`` or higher are kept for generation.
+
+        Parameters
+        ----------
+        value : float
+            Cumulative probability for vocabulary tokens
+        """
+        return self._set(topP=value)
+
+    def setRepetitionPenalty(self, value):
+        """Sets the parameter for repetition penalty. 1.0 means no penalty.
+
+        Parameters
+        ----------
+        value : float
+            The repetition penalty
+
+        References
+        ----------
+        See `Ctrl: A Conditional Transformer Language Model For Controllable
+        Generation <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details.
+        """
+        return self._set(repetitionPenalty=value)
+
+    def setNoRepeatNgramSize(self, value):
+        """Sets size of n-grams that can only occur once.
+
+        If set to int > 0, all ngrams of that size can only occur once.
+
+        Parameters
+        ----------
+        value : int
+            N-gram size can only occur once
+        """
+        return self._set(noRepeatNgramSize=value)
+
+    def setRandomSeed(self, seed):
+        """Sets random seed.
+
+        Parameters
+        ----------
+        seed : int
+            Random seed
+        """
+        self._call_java("setRandomSeed", seed)
+
+        return self
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer", java_model=None):
         super(MarianTransformer, self).__init__(
@@ -215,6 +322,12 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
+            doSample=False,
+            temperature=1.0,
+            topK=50,
+            topP=1.0,
+            repetitionPenalty=1.0,
+            noRepeatNgramSize=0,
             ignoreTokenIds=[]
         )
 
