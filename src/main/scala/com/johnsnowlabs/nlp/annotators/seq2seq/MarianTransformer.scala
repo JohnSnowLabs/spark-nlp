@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
-import com.johnsnowlabs.ml.ai.marian.{
+import com.johnsnowlabs.ml.ai.seq2seq.{
   MarianEncoderDecoder,
   OnnxMarianEncoderDecoder,
   TensorflowMarianEncoderDecoder

@@ -1,8 +1,8 @@
-package com.johnsnowlabs.ml.ai.t5
+package com.johnsnowlabs.ml.ai.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
@@ -176,7 +176,8 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
       stopTokens = stopTokens,
       ignoreTokenIds = ignoreTokenIds,
       maxNewTokens = maxNewTokens,
-      repetitionPenalty = repetitionPenalty)
+      repetitionPenalty = repetitionPenalty,
+      paddingTokenId = paddingTokenId)
 
     while (!decoderProcessor.stopDecoding(decoderInputs)) {
       val decoderInputLength = decoderInputs.head.length

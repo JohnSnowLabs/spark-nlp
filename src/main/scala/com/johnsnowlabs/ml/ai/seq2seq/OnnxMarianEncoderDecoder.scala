@@ -1,4 +1,4 @@
-package com.johnsnowlabs.ml.ai.marian
+package com.johnsnowlabs.ml.ai.seq2seq
 
 import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper

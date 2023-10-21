@@ -16,29 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import ai.onnxruntime.OrtSession.SessionOptions
 import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
-import com.johnsnowlabs.ml.ai.t5.{
-  OnnxT5EncoderDecoder,
-  T5EncoderDecoder,
-  TensorflowT5EncoderDecoder
-}
+import com.johnsnowlabs.ml.ai.seq2seq.{OnnxT5EncoderDecoder, T5EncoderDecoder, TensorflowT5EncoderDecoder}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._

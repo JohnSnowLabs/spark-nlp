@@ -1,9 +1,8 @@
-package com.johnsnowlabs.ml.ai.t5
+package com.johnsnowlabs.ml.ai.seq2seq
 
 import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
-import org.apache.hadoop.thirdparty.org.checkerframework.checker.units.qual.Temperature
 
 import scala.collection.JavaConverters.{mapAsJavaMap, setAsJavaSet}
 
@@ -174,7 +173,8 @@ class OnnxT5EncoderDecoder(
       stopTokens = stopTokens,
       ignoreTokenIds = ignoreTokenIds,
       maxNewTokens = maxNewTokens,
-      repetitionPenalty = repetitionPenalty)
+      repetitionPenalty = repetitionPenalty,
+      paddingTokenId = paddingTokenId)
 
     while (!decoderProcessor.stopDecoding(decoderInputIds)) {
 

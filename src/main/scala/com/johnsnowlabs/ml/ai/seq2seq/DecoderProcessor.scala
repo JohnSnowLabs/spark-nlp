@@ -1,4 +1,4 @@
-package com.johnsnowlabs.ml.ai.marian
+package com.johnsnowlabs.ml.ai.seq2seq
 
 import breeze.numerics.exp
 
