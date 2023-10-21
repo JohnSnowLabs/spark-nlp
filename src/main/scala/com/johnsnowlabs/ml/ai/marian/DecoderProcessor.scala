@@ -321,6 +321,5 @@ class DecoderProcessor(
       .map(x => {
         x._1 ++ Array(x._2)
       })
-
   }
 }

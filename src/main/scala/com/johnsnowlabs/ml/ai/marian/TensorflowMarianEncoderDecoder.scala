@@ -112,19 +112,33 @@ private[johnsnowlabs] class TensorflowMarianEncoderDecoder(
       Array(batch.length.toLong, maxSentenceLength, dim),
       decoderEncoderStateBuffers)
 
-    var decoderInputs = batch.map(_ => Array(paddingTokenId)).toArray
-    var modelOutputs = batch.map(_ => Array(paddingTokenId)).toArray
+    var decoderInputIds = batch.map(_ => Array(paddingTokenId)).toArray
+    val batchSize = decoderInputIds.length
 
-    var stopDecoder = false
+    val decoderProcessor = new DecoderProcessor(
+      batchSize = batchSize,
+      maxTextLength = maxOutputLength + maxSentenceLength,
+      sequenceLength = decoderInputIds(0).length,
+      doSample = doSample,
+      topK = topK,
+      topP = topP,
+      temperature = temperature,
+      vocabSize = vocabSize,
+      noRepeatNgramSize = noRepeatNgramSize,
+      randomSeed = randomSeed,
+      stopTokens = Array(eosTokenId),
+      paddingTokenId = paddingTokenId,
+      ignoreTokenIds = ignoreTokenIds ++ Array(paddingTokenId),
+      maxNewTokens = maxOutputLength,
+      repetitionPenalty = repetitionPenalty)
 
-    while (!stopDecoder) {
-
-      val decoderInputLength = decoderInputs.head.length
+    while (!decoderProcessor.stopDecoding(decoderInputIds)) {
+      val decoderInputLength = decoderInputIds.head.length
       val tensorDecoder = new TensorResources()
 
       val decoderInputBuffers = tensorDecoder.createIntBuffer(batch.length * decoderInputLength)
 
-      decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
+      decoderInputIds.zipWithIndex.foreach { case (pieceIds, idx) =>
         val offset = idx * decoderInputLength
         decoderInputBuffers.offset(offset).write(pieceIds)
       }
@@ -154,53 +168,23 @@ private[johnsnowlabs] class TensorflowMarianEncoderDecoder(
           .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
 
       val decoderOuts = runner.run().asScala
-      val decoderOutputs = TensorResources
-        .extractFloats(decoderOuts.head)
-        .grouped(vocabSize)
-        .toArray
-        .grouped(decoderInputLength)
-        .toArray
 
-      val outputIds = decoderOutputs.map(batch =>
-        batch
-          .map(input => {
-            var maxArg = -1
-            var maxValue = Float.MinValue
-            input.indices.foreach(i => {
-              if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))) {
-                maxArg = i
-                maxValue = input(i)
-              }
-            })
-            maxArg
-          })
-          .last)
-      decoderInputs = decoderInputs.zip(outputIds).map(x => x._1 ++ Array(x._2))
-      modelOutputs = modelOutputs
-        .zip(outputIds)
-        .map(x => {
-          if (x._1.contains(eosTokenId)) {
-            x._1
-          } else {
-            x._1 ++ Array(x._2)
-          }
-        })
+      val logitsRaw = TensorResources.extractFloats(decoderOuts.head)
+      decoderOuts.head.close()
 
-      decoderOuts.foreach(_.close())
+      val logits = (0 until batchSize).map(i => {
+        logitsRaw
+          .slice(
+            i * decoderInputLength * vocabSize + (decoderInputLength - 1) * vocabSize,
+            i * decoderInputLength * vocabSize + decoderInputLength * vocabSize)
+      })
 
-      tensorDecoder.clearTensors()
-      tensorDecoder.clearSession(decoderOuts)
+      decoderInputIds = decoderProcessor.processLogits(batchLogits = logits.toArray, decoderInputIds = decoderInputIds)
       decoderInputTensors.close()
-
-      stopDecoder = !modelOutputs.exists(o => o.last != eosTokenId) ||
-        (modelOutputs.head.length > math.max(maxOutputLength, maxSentenceLength))
-
+      tensorDecoder.clearSession(decoderOuts)
+      tensorDecoder.clearTensors()
     }
 
-    decoderAttentionMaskTensors.close()
-    decoderEncoderStateTensors.close()
-    tensorEncoder.clearTensors()
-
-    modelOutputs.map(x => x.filter(y => y != eosTokenId && y != paddingTokenId))
+    decoderInputIds.map(x => x.filter(y => y != eosTokenId && y != paddingTokenId))
   }
 }

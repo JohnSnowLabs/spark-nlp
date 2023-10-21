@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
-import com.johnsnowlabs.ml.ai.Marian
 import com.johnsnowlabs.ml.ai.marian.{
   MarianEncoderDecoder,
   OnnxMarianEncoderDecoder,
@@ -437,7 +436,7 @@ class MarianTransformer(override val uid: String)
   /** @group getParam */
   def getRandomSeed: Option[Long] = this.randomSeed
 
-  /** The Tensorflow Marian Model */
+  /** The Marian Model, either Temsorflow or Onnx */
   private var _model: Option[Broadcast[MarianEncoderDecoder]] = None
 
   /** @group setParam * */
