@@ -179,7 +179,9 @@ private[johnsnowlabs] class TensorflowMarianEncoderDecoder(
             i * decoderInputLength * vocabSize + decoderInputLength * vocabSize)
       })
 
-      decoderInputIds = decoderProcessor.processLogits(batchLogits = logits.toArray, decoderInputIds = decoderInputIds)
+      decoderInputIds = decoderProcessor.processLogits(
+        batchLogits = logits.toArray,
+        decoderInputIds = decoderInputIds)
       decoderInputTensors.close()
       tensorDecoder.clearSession(decoderOuts)
       tensorDecoder.clearTensors()

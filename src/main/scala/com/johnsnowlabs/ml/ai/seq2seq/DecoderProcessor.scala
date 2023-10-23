@@ -26,6 +26,9 @@ class DecoderProcessor(
   var currentLength = sequenceLength
   var nPredictedTokens = 0
 
+  if (randomSeed.isDefined)
+    scala.util.Random.setSeed(randomSeed.get)
+
   def stopDecoding(decoderInputIds: Array[Array[Int]]): Boolean = {
     // stop when there is a eos in each sentence, or if we exceed the maximum length
     //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
@@ -77,7 +80,7 @@ class DecoderProcessor(
     expElem.map(_ / total)
   }
 
-  private def categoricalSample(dist: Array[Float], randomSeed: Option[Long]): Int = {
+  private def categoricalSample(dist: Array[Float]): Int = {
     val (distFiltered, indices) =
       dist.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
 
@@ -89,11 +92,7 @@ class DecoderProcessor(
     //    val normalized = distFiltered.map(i => (i - distMinValue)/distRange)
     val normalized = softmax(distFiltered)
 
-    var randomDouble = 0.0
-    if (randomSeed.isDefined)
-      randomDouble = new scala.util.Random(randomSeed.get).nextDouble()
-    else
-      randomDouble = scala.util.Random.nextDouble()
+    var randomDouble = scala.util.Random.nextDouble()
 
     var accum = 0.0
     for ((itemProb, i) <- normalized.zip(indices)) {
@@ -279,9 +278,6 @@ class DecoderProcessor(
       }
     }
 
-    if (randomSeed.isDefined)
-      scala.util.Random.setSeed(randomSeed.get)
-
     val predictions = if (doSample) {
 
       // Temperature (higher temperature => more likely to sample low probability tokens)
@@ -293,7 +289,7 @@ class DecoderProcessor(
       nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
       // Sample
 
-      nextTokenLogits.map(input => categoricalSample(input, randomSeed))
+      nextTokenLogits.map(input => categoricalSample(input))
     } else {
       nextTokenLogits.map(x => x.zipWithIndex.maxBy(_._1)._2)
     }

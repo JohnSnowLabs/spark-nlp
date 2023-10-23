@@ -17,11 +17,27 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
-import com.johnsnowlabs.ml.ai.seq2seq.{OnnxT5EncoderDecoder, T5EncoderDecoder, TensorflowT5EncoderDecoder}
+import com.johnsnowlabs.ml.ai.seq2seq.{
+  OnnxT5EncoderDecoder,
+  T5EncoderDecoder,
+  TensorflowT5EncoderDecoder
+}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
@@ -523,18 +539,19 @@ class T5Transformer(override val uid: String)
       this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         task = $(task),
-        batchSize = $(batchSize),
-        maxTextLength = $(maxOutputLength),
-        maxNewTokens = $(maxNewTokens),
-        stopAtEos = $(stopAtEos),
-        doSample = $(doSample),
-        topK = $(topK),
-        topP = $(topP),
-        temperature = $(temperature),
-        noRepeatNgramSize = $(noRepeatNgramSize),
-        repetitionPenalty = $(repetitionPenalty),
-        ignoreTokenIds = $(ignoreTokenIds),
-        isCaseSensitive = $(caseSensitive))
+        batchSize = getBatchSize,
+        maxTextLength = getMaxOutputLength,
+        maxNewTokens = getMaxNewTokens,
+        stopAtEos = getStopAtEos,
+        doSample = getDoSample,
+        topK = getTopK,
+        topP = getTopP,
+        temperature = getTemperature,
+        noRepeatNgramSize = getNoRepeatNgramSize,
+        repetitionPenalty = getRepetitionPenalty,
+        ignoreTokenIds = getIgnoreTokenIds,
+        isCaseSensitive = getCaseSensitive,
+        randomSeed = getRandomSeed)
     } else {
       Seq()
     }
