@@ -677,6 +677,7 @@ trait ReadT5TransformerDLModel
 
         annotatorModel
           .setEngine(ONNX.name)
+
           .setModelIfNotSet(spark, onnxEncoder, onnxDecoder, spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)
