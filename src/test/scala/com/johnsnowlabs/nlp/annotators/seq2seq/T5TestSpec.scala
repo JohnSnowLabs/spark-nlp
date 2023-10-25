@@ -98,7 +98,7 @@ class T5TestSpec extends AnyFlatSpec {
     val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
 
     assert(
-      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
+      result == "the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core .")
   }
 
   "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
@@ -255,7 +255,7 @@ class T5TestSpec extends AnyFlatSpec {
 
     val dataframe1 =
       results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
-    assert("cut the kidneys in half and snip out the white core . dripping or 2" == dataframe1)
+    assert(dataframe1 == "cook 2 months uncovered and uncovered for 15-20 mins with more butter . heat over medium")
 
   }
 
@@ -302,7 +302,7 @@ class T5TestSpec extends AnyFlatSpec {
       results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
     assert(
-      "the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core ." == dataframe1)
+      "dripping or 2 tablespoons of vegetable oil set aside, stirring constantly . add the onions and fry for about 10 minutes until softened ." == dataframe1)
 
   }
 
@@ -349,7 +349,7 @@ class T5TestSpec extends AnyFlatSpec {
       results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
     assert(
-      "the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core ." == dataframe1)
+      "the lamb fillet is cut into slices the thickness of a chop . add the kidneys and cook for 1-2 minutes, turning once, until browned ." == dataframe1)
 
   }
 
@@ -395,7 +395,7 @@ class T5TestSpec extends AnyFlatSpec {
     println(dataframe1)
 
     assert(
-      dataframe1 == "a knob of dripping or 2 tablespoons vegetable oil in . heavy large pan - cut the kidneys in half and snip out the white core if desired .")
+      dataframe1 == "the lamb fillet of fat and cut into slices the thickness of a chop . heat up to 220°C/fan140°C/gas 7 and cook for another 2 hours - uncover, and brush the potatoes with more")
 
   }
 

@@ -245,28 +245,6 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getMaxOutputLength: Int = $(this.maxOutputLength)
 
-  /** ML framework type
-    *
-    * @group param
-    */
-  val mlFrameworkType =
-    new Param[String](parent = this, name = "mlFrameworkType", doc = "ML framework (TF, ONNX)")
-
-  /** Set ML framework type
-    *
-    * @group setParam
-    */
-  def setMlFrameworkType(value: String): this.type = {
-    set(mlFrameworkType, value)
-    this
-  }
-
-  /** Get ML framework type
-    *
-    * @group getParam
-    */
-  def getMlFrameworkType: String = $(mlFrameworkType)
-
   /** Cache internal state of the model to improve performance. This param can only be set when
     * importing the model.
     *
@@ -441,6 +419,8 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
 
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
     *
@@ -522,7 +502,6 @@ class T5Transformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     stopAtEos -> true,
-    mlFrameworkType -> TensorFlow.name,
     maxNewTokens -> 512,
     useCache -> false)
 
@@ -586,7 +565,7 @@ class T5Transformer(override val uid: String)
           path,
           spark,
           obj.tensorflow,
-          "_t5",
+          suffix = "_t5",
           T5Transformer.tfFile,
           configProtoBytes = getConfigProtoBytes,
           savedSignatures = getSignatures)
@@ -630,7 +609,7 @@ trait ReadT5TransformerDLModel
 
     val spp = readSentencePieceModel(path, spark, "_t5_spp", sppFile)
 
-    instance.getMlFrameworkType.toLowerCase match {
+    instance.getEngine.toLowerCase match {
       case ONNX.name =>
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
         val onnxModels =
@@ -641,8 +620,7 @@ trait ReadT5TransformerDLModel
         val tf = readTensorflowModel(
           path,
           spark,
-          "_t5_tf",
-          initAllTables = false,
+          suffix = "_t5_tf",
           savedSignatures = instance.getSignatures)
         instance.setModelIfNotSet(spark, tf, spp, instance.getUseCache)
     }
@@ -667,8 +645,7 @@ trait ReadT5TransformerDLModel
           localModelPath,
           zipped = false,
           useBundle = true,
-          tags = Array("serve"),
-          initAllTables = false)
+          tags = Array("serve"))
 
         val _signatures = signatures match {
           case Some(s) => s
@@ -679,6 +656,7 @@ trait ReadT5TransformerDLModel
           * setModelIfNotSet
           */
         annotatorModel
+          .setEngine(TensorFlow.name)
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, wrapper, spModel, useCache = false)
 
@@ -698,7 +676,7 @@ trait ReadT5TransformerDLModel
           useBundle = true)
 
         annotatorModel
-          .setMlFrameworkType(ONNX.name)
+          .setEngine(ONNX.name)
           .setModelIfNotSet(spark, onnxEncoder, onnxDecoder, spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)

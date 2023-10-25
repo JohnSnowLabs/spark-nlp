@@ -22,9 +22,56 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MarianTransformerTestSpec extends AnyFlatSpec {
+
+  "MarianTransformer" should "load saved model from onnx" taggedAs SlowTest in {
+    MarianTransformer
+      .loadSavedModel("/tmp/mt_en_bg", ResourceHelper.spark)
+      .save("/models/sparknlp/marianmt_onnx")
+  }
+  "MarianTransformer" should "do some work with ONNX" in {
+
+    import ResourceHelper.spark.implicits._
+
+    val smallCorpus = Seq(
+      "Which is the capital of France?",
+      "This should go to French.",
+      "This is a sentence in English which we want to translate to French.",
+      "Despite a Democratic majority in the General Assembly, Nunn was able to enact most of his priorities, including tax increases that funded improvements to the state park system and the construction of a statewide network of mental health centers.",
+      "",
+      " ").toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel
+      .pretrained("sentence_detector_dl", "xx")
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val marian = MarianTransformer
+      .load("/models/sparknlp/marianmt_onnx")
+//        .pretrained("opus_mt_en_bg", "xx")
+      .setInputCols("sentence")
+      .setOutputCol("translation")
+      .setMaxInputLength(512)
+      .setMaxOutputLength(128)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentence, marian))
+
+    val pipelineModel = pipeline.fit(smallCorpus)
+    pipelineModel
+      .transform(smallCorpus)
+      .select(
+        col("sentence.result").alias("source"),
+        col("translation.result").alias("translation"))
+      .show(truncate = false)
+  }
 
   "MarianTransformer" should "ignore bad token ids" taggedAs SlowTest in {
 

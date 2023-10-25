@@ -39,9 +39,6 @@ private[johnsnowlabs] class TensorflowT5EncoderDecoder(
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
-    val numReturn_sequences = 1
-    // from config
-
     // Run encoder
     val tensorEncoder = new TensorResources()
     val inputDim = batch.length * maxSentenceLength

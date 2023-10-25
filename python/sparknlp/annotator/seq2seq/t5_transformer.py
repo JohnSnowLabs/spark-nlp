@@ -194,10 +194,6 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     useCache = Param(Params._dummy(), "useCache", "Cache internal state of the model to improve performance",
                      typeConverter=TypeConverters.toBoolean)
 
-    mlFrameworkType = Param(Params._dummy(), "mlFrameworkType",
-                            "ML framework type",
-                            typeConverter=TypeConverters.toString)
-
     stopAtEos = Param(
         Params._dummy(),
         "stopAtEos",
@@ -382,7 +378,6 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             ignoreTokenIds=[],
             batchSize=1,
             stopAtEos=True,
-            mlFrameworkType="tensorflow",
             maxNewTokens=512,
             useCache=False
         )
