@@ -255,7 +255,8 @@ class T5TestSpec extends AnyFlatSpec {
 
     val dataframe1 =
       results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
-    assert(dataframe1 == "cook 2 months uncovered and uncovered for 15-20 mins with more butter . heat over medium")
+    assert(
+      dataframe1 == "cook 2 months uncovered and uncovered for 15-20 mins with more butter . heat over medium")
 
   }
 
