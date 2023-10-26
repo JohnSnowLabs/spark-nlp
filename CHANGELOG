@@ -1,4 +1,26 @@
 ========
+5.1.4
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introduceding the `DocumentCharacterTextSplitter` which allows users to split large documents into smaller chunks. `DocumentCharacterTextSplitter` takes a list of separators in order and splits subtexts if they are over the chunk length, considering optional overlap of the chunks.
+* **NEW:** Introducing support for ONNX Runtime in RobertaForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in RobertaForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in RobertaForQuestionAnswering annotator
+* Adding an example to load a model directly from Azure using .load() method. This example helps users to understand how to set Spark NLP to load models from Azure
+
+----------------
+Bug Fixes
+----------------
+* Fix a bug with in `Whisper` annotator, that would not allow every model to be imported
+* Fix BPE Tokenizer to include a flag whether or not to always prepend a space before words (previous behavior for embeddings)
+* Fix BPE Tokenizer to correctly convert and tokenize non-latin and other special characters/words
+* Fix `RobertaForQuestionAnswering` to produce the same logits and indexes as the implementation in Transformer library
+* Fix the return order of logits in `BertForQuestionAnswering` and `DistilBertForQuestionAnswering` annotators
+
+
+========
 5.1.3
 ========
 ----------------
