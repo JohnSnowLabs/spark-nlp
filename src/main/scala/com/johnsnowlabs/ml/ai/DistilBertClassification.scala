@@ -405,7 +405,7 @@ private[johnsnowlabs] class DistilBertClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    (endLogits, startLogits)
+    (startLogits, endLogits)
   }
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
