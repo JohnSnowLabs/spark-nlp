@@ -1,8 +1,8 @@
 ---
 layout: model
-title: English google_Job_data_tuned_trial_2_11_2_2022 DistilBertEmbeddings from EslamAhmed
+title: English google_job_data_tuned_trial_2_11_2_2022 DistilBertEmbeddings from EslamAhmed
 author: John Snow Labs
-name: google_Job_data_tuned_trial_2_11_2_2022
+name: google_job_data_tuned_trial_2_11_2_2022
 date: 2023-09-15
 tags: [distilbert, en, open_source, fill_mask, onnx]
 task: Embeddings
@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained DistilBertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`google_Job_data_tuned_trial_2_11_2_2022` is a English model originally trained by EslamAhmed.
+Pretrained DistilBertEmbeddings  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`google_job_data_tuned_trial_2_11_2_2022` is a English model originally trained by EslamAhmed.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/google_Job_data_tuned_trial_2_11_2_2022_en_5.1.2_3.0_1694736099439.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/google_Job_data_tuned_trial_2_11_2_2022_en_5.1.2_3.0_1694736099439.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/google_job_data_tuned_trial_2_11_2_2022_en_5.1.2_3.0_1694772782812.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/google_job_data_tuned_trial_2_11_2_2022_en_5.1.2_3.0_1694772782812.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -41,7 +41,7 @@ document_assembler = DocumentAssembler() \
     .setOutputCol("documents")
     
     
-embeddings =DistilBertEmbeddings.pretrained("google_Job_data_tuned_trial_2_11_2_2022","en") \
+embeddings =DistilBertEmbeddings.pretrained("google_job_data_tuned_trial_2_11_2_2022","en") \
             .setInputCols(["documents","token"]) \
             .setOutputCol("embeddings")
 
@@ -60,7 +60,7 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("embeddings")
     
 val embeddings = DistilBertEmbeddings 
-    .pretrained("google_Job_data_tuned_trial_2_11_2_2022", "en")
+    .pretrained("google_job_data_tuned_trial_2_11_2_2022", "en")
     .setInputCols(Array("documents","token")) 
     .setOutputCol("embeddings") 
 
@@ -79,7 +79,7 @@ val pipelineDF = pipelineModel.transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|google_Job_data_tuned_trial_2_11_2_2022|
+|Model Name:|google_job_data_tuned_trial_2_11_2_2022|
 |Compatibility:|Spark NLP 5.1.2+|
 |License:|Open Source|
 |Edition:|Official|
