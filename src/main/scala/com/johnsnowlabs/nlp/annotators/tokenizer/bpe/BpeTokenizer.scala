@@ -23,22 +23,22 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /** A BPE Tokenizer based on GPT2's tokenization scheme. The tokenization can then be used for
- * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
- *
- * TODO: truncation assumed?
- *
+  * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
+  *
+  * TODO: truncation assumed?
+  *
   * @param merges
   *   Map of tokens that are mergeable
   * @param vocab
   *   Map of tokens to encoded representation
   * @param specialTokens
   *   Collection of special tokens
- * @param padWithSequenceTokens
+  * @param padWithSequenceTokens
   *   Whether to pad the sentence with sentence tokens at the start and end
- * @param addPrefixSpaceToSentence
+  * @param addPrefixSpaceToSentence
   *   Whether to add a space to the first word of a sentence
- * @param alwaysAddPrefix
- *    Whether to always prefix token ids with `prefixForPieceId`
+  * @param alwaysAddPrefix
+  *   Whether to always prefix token ids with `prefixForPieceId`
   */
 private[nlp] abstract class BpeTokenizer(
     val merges: Map[(String, String), Int],

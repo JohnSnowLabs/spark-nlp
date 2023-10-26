@@ -30,13 +30,13 @@ class Gpt2Tokenizer(
     prependString: String = "",
     addPrefixSpaceToSentence: Boolean = false,
     alwaysAddPrefix: Boolean = true)
-  extends BpeTokenizer(
-    merges,
-    vocab,
-    specialTokens,
-    padWithSequenceTokens,
-    addPrefixSpaceToSentence,
-    alwaysAddPrefix) {
+    extends BpeTokenizer(
+      merges,
+      vocab,
+      specialTokens,
+      padWithSequenceTokens,
+      addPrefixSpaceToSentence,
+      alwaysAddPrefix) {
 
   /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
     * improved model performance for gpt-2
