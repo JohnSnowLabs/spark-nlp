@@ -399,11 +399,7 @@ class GPT2Transformer(override val uid: String)
     if (_tfModel.isEmpty) {
 
       val bpeTokenizer = BpeTokenizer
-        .forModel(
-          "gpt2",
-          merges = $$(merges),
-          vocab = $$(vocabulary),
-          padWithSentenceTokens = false)
+        .forModel("gpt2", merges = $$(merges), vocab = $$(vocabulary))
         .asInstanceOf[Gpt2Tokenizer]
 
       _tfModel = Some(

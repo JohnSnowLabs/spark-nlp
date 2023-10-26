@@ -305,11 +305,8 @@ class RoBertaEmbeddings(override val uid: String)
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
 
-    val bpeTokenizer = BpeTokenizer.forModel(
-      "roberta",
-      merges = $$(merges),
-      vocab = $$(vocabulary),
-      padWithSentenceTokens = false)
+    val bpeTokenizer =
+      BpeTokenizer.forModel("roberta", merges = $$(merges), vocab = $$(vocabulary))
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens

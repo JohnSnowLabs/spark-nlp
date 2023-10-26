@@ -128,7 +128,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "5.1.3"
+    current_version = "5.1.4"
 
     if params is None:
         params = {}
@@ -309,4 +309,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '5.1.3'
+    return '5.1.4'
