@@ -58,6 +58,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="Doc2Chunk" summary="Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`."%}
 {% include templates/anno_table_entry.md path="" name="Doc2Vec" summary="Word2Vec model that creates vector representations of words in a text corpus."%}
 {% include templates/anno_table_entry.md path="" name="DocumentAssembler" summary="Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline."%}
+{% include templates/anno_table_entry.md path="" name="DocumentCharacterTextSplitter" summary="Annotator which splits large documents into chunks of roughly given size."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
 {% include templates/anno_table_entry.md path="" name="DocumentSimilarityRanker" summary="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."%}
 {% include templates/anno_table_entry.md path="" name="EntityRuler" summary="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity."%}
