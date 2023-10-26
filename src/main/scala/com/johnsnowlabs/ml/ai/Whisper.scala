@@ -28,7 +28,6 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.TFInfoNameMapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
@@ -134,26 +133,18 @@ private[johnsnowlabs] class Whisper(
   private object OnnxSignatures {
     val encoderInputKey: String = "input_features"
     val encoderOutputKey = "last_hidden_state"
-    val encoderStateOutputKeys: Array[String] = Array(
-      "present.0.encoder.key",
-      "present.0.encoder.value",
-      "present.1.encoder.key",
-      "present.1.encoder.value",
-      "present.2.encoder.key",
-      "present.2.encoder.value",
-      "present.3.encoder.key",
-      "present.3.encoder.value")
-
     val decoderOutputKey: String = "logits"
-    val decoderStateOutputKeys: Array[String] = Array(
-      "present.0.decoder.key",
-      "present.0.decoder.value",
-      "present.1.decoder.key",
-      "present.1.decoder.value",
-      "present.2.decoder.key",
-      "present.2.decoder.value",
-      "present.3.decoder.key",
-      "present.3.decoder.value")
+
+    /** Gets all keys for cache tensors.
+      *
+      * @param session
+      *   Loaded model
+      * @return
+      *   All keys belonging to the state tensors
+      */
+    def getStateOutputKeys(session: OrtSession): Array[String] =
+      session.getOutputNames.asScala.filter(_.startsWith("present.")).toArray
+
   }
 
   private def sessionWarmup(): Unit = {
@@ -577,81 +568,6 @@ private[johnsnowlabs] class Whisper(
     (nextTokenLogits, updatedDecoderState)
   }
 
-//  def generate(
-//      decoderEncoderStateTensors: Tensor,
-//      decoderInputIds: Array[Array[Int]],
-//      maxOutputLength: Int,
-//      minOutputLength: Int,
-//      doSample: Boolean,
-//      beamSize: Int,
-//      numReturnSequences: Int,
-//      temperature: Double,
-//      topK: Int,
-//      topP: Double,
-//      repetitionPenalty: Double,
-//      noRepeatNgramSize: Int,
-//      randomSeed: Option[Long],
-//      session: Session,
-//      logitProcessorList: LogitProcessorList): Array[Array[Int]] = {
-//    val dummyEncoderInput =
-//      Seq.fill(decoderInputIds.length)(Array.empty[Int]) // Needs to be size of batch
-//    val dummyEncoderAttentionMaskTensors: Tensor = null // not needed
-//
-//    if (beamSize == 1) // Equivalent to greedy search
-//      super.generateGreedy(
-//        encoderInputIds = dummyEncoderInput,
-//        decoderEncoderStateTensors = decoderEncoderStateTensors,
-//        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
-//        decoderInputs = decoderInputIds,
-//        maxOutputLength = maxOutputLength,
-//        minOutputLength = minOutputLength,
-//        vocabSize = vocabSize,
-//        eosTokenId = eosTokenId,
-//        paddingTokenId = paddingTokenId,
-//        applySoftmax = false,
-//        session = session,
-//        logitProcessor = Some(logitProcessorList))
-//    else
-//      super.generate(
-//        inputIds = dummyEncoderInput,
-//        decoderEncoderStateTensors = decoderEncoderStateTensors,
-//        encoderAttentionMaskTensors = dummyEncoderAttentionMaskTensors,
-//        decoderInputs = decoderInputIds,
-//        maxOutputLength = maxOutputLength,
-//        minOutputLength = minOutputLength,
-//        doSample = doSample,
-//        beamSize = beamSize,
-//        numReturnSequences = numReturnSequences,
-//        temperature = temperature,
-//        topK = topK,
-//        topP = topP,
-//        repetitionPenalty = repetitionPenalty,
-//        noRepeatNgramSize = noRepeatNgramSize,
-//        vocabSize = vocabSize,
-//        eosTokenId = eosTokenId,
-//        paddingTokenId = paddingTokenId,
-//        randomSeed = randomSeed,
-//        session = session,
-//        applySoftmax = false)
-//  }
-
-//  def getModelOutput(
-//      encoderInputIds: Seq[Array[Int]],
-//      decoderInputIds: Seq[Array[Int]],
-//      decoderEncoderStateTensors: Tensor,
-//      encoderAttentionMaskTensors: Tensor,
-//      maxLength: Int,
-//      session: Session): Array[Array[Float]] = {
-//
-//    getModelOutput(
-//      decoderInputIds = decoderInputIds,
-//      decoderCacheTensor = decoderEncoderStateTensors,
-//      decoderEncoderCacheTensor = encoderAttentionMaskTensors,
-//      maxLength = maxLength,
-//      session = session)
-//
-//  }
-
   private def initDecoderOnnx(
       decoderInputIds: Array[Array[Int]],
       encoderOutputs: OnnxTensor,
@@ -676,11 +592,12 @@ private[johnsnowlabs] class Whisper(
 
     val logits = logitProcessors.process(decoderInputIds, rawLogits, decoderInputIds.head.length)
 
+    val stateKeys = OnnxSignatures.getStateOutputKeys(sessionRunner)
     val encoderStates =
-      sessionOutput.getOnnxTensors(OnnxSignatures.encoderStateOutputKeys)
+      sessionOutput.getOnnxTensors(stateKeys)
 
     val decoderStates =
-      sessionOutput.getOnnxTensors(OnnxSignatures.decoderStateOutputKeys)
+      sessionOutput.getOnnxTensors(stateKeys)
 
     (logits, encoderStates, decoderStates)
   }
@@ -710,7 +627,7 @@ private[johnsnowlabs] class Whisper(
     val logits = sessionOutput.getFloatArray(OnnxSignatures.decoderOutputKey)
 
     val updatedDecoderStates =
-      sessionOutput.getOnnxTensors(OnnxSignatures.decoderStateOutputKeys)
+      sessionOutput.getOnnxTensors(OnnxSignatures.getStateOutputKeys(session))
 
     lastTokensTensor.close()
 
@@ -749,10 +666,6 @@ private[johnsnowlabs] class Whisper(
           encoderStateTensors,
           currentDecoderStateTensors,
           onnxSession)
-
-      currentDecoderStateTensors.foreach { case (_, tensor) =>
-        tensor.close()
-      }
 
       val batchLogits =
         logitProcessor.process(generatedIds, rawBatchLogits, generatedIds.head.length)
