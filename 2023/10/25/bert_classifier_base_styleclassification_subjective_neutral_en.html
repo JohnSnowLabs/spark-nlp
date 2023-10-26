@@ -1,0 +1,1269 @@
+<!DOCTYPE html><html lang="en">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NMNWXW7PZM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NMNWXW7PZM');
+</script><title>English BertForSequenceClassification Base Cased model (from cffl) | bert_classifier_base_styleclassification_subjective_neutral | Spark NLP 5.1.4</title><meta property="og:title" content=""/>
+
+<meta name="description" content="DescriptionPretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. bert-base-styleclassification-subjective-neutral is a English model originally trained by cffl.Predicted EntitiesNEUTRAL, SUBJECTIVELive DemoOpen in ColabD...">
+<link rel="canonical" href="/2023/10/25/bert_classifier_base_styleclassification_subjective_neutral_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!---->
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="icon" type="image/png" sizes="32x32" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="manifest" href="/fav.ico"> --><link rel="mask-icon" href="/fav.ico" color="#fc4d50"><link rel="shortcut icon" href="/fav.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" >
+<link rel="stylesheet" href="/static/models.css" /><!-- start custom head snippets -->
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.decodeUrl = function(str) {
+    return str ? decodeURIComponent(str.replace(/\+/g, '%20')) : '';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.4',
+      sources: {
+        font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script></head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <a class="responsive_btn" href="#" id="responsive_menu">
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
+        </a>
+        <div class="header__brand">
+          <a title="High Performance NLP with Apache Spark
+" href="/"><svg width="187" height="50" viewBox="0 0 187 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M38.6212 18.6877H42.3588V29.0697C42.3588 33.7209 40.1163 35.382 36.5448 35.382C35.7143 35.382 34.5515 35.2159 33.804 34.9668L34.2192 31.9767C34.7176 32.1428 35.382 32.3089 36.1295 32.3089C37.7076 32.3089 38.6212 31.6445 38.6212 29.0697V18.6877Z" fill="#3E4095"/>
+<path d="M55.2325 28.9867C55.2325 33.3056 52.1594 35.299 48.9202 35.299C45.4319 35.299 42.774 32.9734 42.774 29.1528C42.774 25.3322 45.2657 22.8405 49.0863 22.8405C52.7408 22.8405 55.2325 25.4153 55.2325 28.9867ZM46.5946 29.0698C46.5946 31.1462 47.4252 32.6412 49.0033 32.6412C50.4152 32.6412 51.3289 31.2292 51.3289 29.0698C51.3289 27.3256 50.6644 25.4983 49.0033 25.4983C47.2591 25.4983 46.5946 27.3256 46.5946 29.0698Z" fill="#3E4095"/>
+<path d="M55.6478 17.774H59.3854V24.5847H59.4684C59.8837 24.0863 60.382 23.6711 60.9634 23.3388C61.4618 23.0066 62.2093 22.8405 62.8737 22.8405C65.1993 22.8405 67.0266 24.5016 67.0266 28.0731V35.0498H63.289V28.4883C63.289 26.9103 62.7907 25.8305 61.3787 25.8305C60.382 25.8305 59.8006 26.495 59.5515 27.1594C59.4684 27.4086 59.4684 27.7408 59.4684 27.99V35.0498H55.6478V17.774Z" fill="#3E4095"/>
+<path d="M68.1064 26.9103C68.1064 25.4153 68.0233 24.1694 68.0233 23.0897H71.2625L71.4286 24.7508C71.927 24.0033 73.0898 22.8405 75.0831 22.8405C77.4917 22.8405 79.319 24.4186 79.319 27.907V34.9668H75.5814V28.4053C75.5814 26.9103 75.0831 25.8305 73.6711 25.8305C72.6745 25.8305 72.01 26.495 71.7609 27.2425C71.6778 27.4917 71.5947 27.8239 71.5947 28.1561V35.0498H68.1064V26.9103Z" fill="#3E4095"/>
+<path d="M83.887 31.2292C84.8836 31.7275 86.3787 32.2259 87.9567 32.2259C89.6179 32.2259 90.5315 31.5614 90.5315 30.4817C90.5315 29.485 89.784 28.9036 87.7906 28.1561C85.0497 27.2425 83.3056 25.6644 83.3056 23.3388C83.3056 20.5149 85.6311 18.4385 89.5348 18.4385C91.362 18.4385 92.774 18.8538 93.6876 19.269L92.8571 22.2591C92.1926 21.9268 91.0298 21.5116 89.4517 21.5116C87.8737 21.5116 87.0431 22.2591 87.0431 23.0896C87.0431 24.1694 87.9567 24.5847 90.1162 25.4152C93.0232 26.495 94.3521 27.99 94.3521 30.3156C94.3521 33.0564 92.2757 35.382 87.7076 35.382C85.7973 35.382 83.97 34.8837 83.0564 34.3853L83.887 31.2292Z" fill="#3E4095"/>
+<path d="M94.9336 26.9103C94.9336 25.4153 94.8505 24.1694 94.8505 23.0897H98.0897L98.2558 24.7508H98.3389C98.8372 24.0033 100 22.8405 101.993 22.8405C104.402 22.8405 106.229 24.4186 106.229 27.907V34.9668H102.492V28.4053C102.492 26.9103 101.993 25.8305 100.581 25.8305C99.5847 25.8305 98.9203 26.495 98.6711 27.2425C98.5881 27.4917 98.505 27.8239 98.505 28.1561V35.0498H94.7675V26.9103H94.9336Z" fill="#3E4095"/>
+<path d="M119.103 28.9867C119.103 33.3056 116.03 35.299 112.791 35.299C109.302 35.299 106.645 32.9734 106.645 29.1528C106.645 25.3322 109.136 22.8405 112.957 22.8405C116.694 22.8405 119.103 25.4153 119.103 28.9867ZM110.465 29.0698C110.465 31.1462 111.296 32.6412 112.874 32.6412C114.286 32.6412 115.199 31.2292 115.199 29.0698C115.199 27.3256 114.535 25.4983 112.874 25.4983C111.13 25.4983 110.465 27.3256 110.465 29.0698Z" fill="#3E4095"/>
+<path d="M121.927 23.1727L122.841 28.0731C123.09 29.3189 123.339 30.6478 123.505 31.9767H123.588C123.837 30.6478 124.17 29.2359 124.502 28.0731L125.748 23.1727H128.655L129.817 27.9069C130.15 29.2359 130.482 30.5648 130.731 31.9767H130.814C130.98 30.6478 131.229 29.2359 131.478 27.9069L132.475 23.1727H136.13L132.475 35.0498H128.987L127.907 30.897C127.575 29.7342 127.409 28.6545 127.16 27.1594H127.076C126.827 28.6545 126.578 29.7342 126.329 30.897L125.166 35.0498H121.678L118.189 23.1727H121.927Z" fill="#3E4095"/>
+<path d="M143.023 18.9369H145.1V32.8073H152.575V34.5515H143.023V18.9369Z" fill="#0098DA"/>
+<path d="M155.399 29.5681L153.571 34.5515H151.329L157.226 18.9369H159.801L165.781 34.5515H163.455L161.545 29.5681H155.399ZM161.213 27.99L159.468 23.3389C159.136 22.3422 158.804 21.5116 158.555 20.6811H158.472C158.223 21.5116 157.973 22.3422 157.641 23.2558L155.897 27.99H161.213Z" fill="#0098DA"/>
+<path d="M165.864 19.186C166.777 19.0199 168.355 18.8538 169.933 18.8538C172.176 18.8538 173.505 19.186 174.502 20.0166C175.332 20.6811 175.914 21.5947 175.914 22.8405C175.914 24.3355 174.834 25.6644 173.173 26.2458V26.3289C174.502 26.6611 176.495 27.8239 176.495 30.2326C176.495 31.5615 175.914 32.6412 175.083 33.3887C173.92 34.3854 172.093 34.8837 169.269 34.8837C167.774 34.8837 166.611 34.8007 165.864 34.7176V19.186ZM168.023 25.5814H170.183C172.508 25.5814 173.754 24.5017 173.754 23.0066C173.754 21.0963 172.176 20.4319 170.1 20.4319C169.02 20.4319 168.355 20.5149 168.023 20.598V25.5814ZM168.023 32.9734C168.521 33.0565 169.103 33.0565 169.933 33.0565C172.093 33.0565 174.252 32.392 174.252 29.9834C174.252 27.8239 172.342 26.9934 169.933 26.9934H167.94V32.9734H168.023Z" fill="#0098DA"/>
+<path d="M176.91 31.9768C177.907 32.6412 179.402 33.1396 180.98 33.1396C183.223 33.1396 184.468 32.0598 184.468 30.4818C184.468 28.9867 183.638 28.1562 181.229 27.4087C178.239 26.495 176.661 25.1661 176.661 22.9236C176.661 20.4319 178.821 18.6047 182.06 18.6047C183.887 18.6047 185.133 19.02 185.963 19.4352L185.382 21.0964C184.884 20.7641 183.638 20.2658 182.06 20.2658C179.734 20.2658 178.821 21.5947 178.821 22.5914C178.821 24.0033 179.817 24.7509 182.226 25.4984C185.133 26.412 186.628 27.6578 186.628 30.1495C186.628 32.4751 184.884 34.7176 180.814 34.7176C179.153 34.7176 177.325 34.2193 176.412 33.6379L176.91 31.9768Z" fill="#0098DA"/>
+<path d="M22.5083 35.6312C22.5083 40.1163 18.8538 43.7708 14.3688 43.7708C9.88372 43.7708 6.22924 40.1163 6.22924 35.6312V12.2093L0 11.4618V35.6312C0 43.6047 6.4784 50 14.3688 50C22.2591 50 28.7375 43.5216 28.7375 35.6312V11.4618L22.5083 12.2093V35.6312Z" fill="#0098DA"/>
+<path d="M16.1129 17.7741H8.63786C8.13952 17.7741 7.72424 17.3588 7.72424 16.8604V9.38536C7.72424 8.88702 8.13952 8.47174 8.63786 8.47174H16.1129C16.6113 8.47174 17.0266 8.88702 17.0266 9.38536V16.8604C17.0266 17.3588 16.6113 17.7741 16.1129 17.7741Z" fill="#3E4095"/>
+<path d="M20.515 22.7575H15.2824C14.7841 22.7575 14.3688 22.3422 14.3688 21.8439V16.6113C14.3688 16.113 14.7841 15.6977 15.2824 15.6977H20.515C21.0133 15.6977 21.4286 16.113 21.4286 16.6113V21.8439C21.4286 22.4253 21.0133 22.7575 20.515 22.7575Z" fill="#3E4095"/>
+<path d="M19.8505 9.71762H16.113C15.6146 9.71762 15.1993 9.30233 15.1993 8.80399V5.06645C15.1993 4.56811 15.6146 4.15283 16.113 4.15283H19.8505C20.3488 4.15283 20.7641 4.56811 20.7641 5.06645V8.80399C20.6811 9.30233 20.3488 9.71762 19.8505 9.71762Z" fill="#3E4095"/>
+<path d="M13.6213 3.48837H11.8771C11.3788 3.48837 10.9635 3.07309 10.9635 2.57475V0.913621C10.9635 0.415282 11.3788 0 11.8771 0H13.6213C14.1196 0 14.5349 0.415282 14.5349 0.913621V2.65781C14.5349 3.15615 14.1196 3.48837 13.6213 3.48837Z" fill="#3E4095"/>
+<path d="M20.2658 41.196H8.38867V41.3622H20.2658V41.196Z" fill="#ECF9FF"/>
+<path d="M20.2658 40.9469H8.38867V41.113H20.2658V40.9469Z" fill="#EBF9FF"/>
+<path d="M20.2658 40.7808H8.38867V40.9469H20.2658V40.7808Z" fill="#EAF8FF"/>
+<path d="M20.2658 40.6146H8.38867V40.7807H20.2658V40.6146Z" fill="#E9F8FF"/>
+<path d="M20.2658 40.3655H8.38867V40.5316H20.2658V40.3655Z" fill="#E8F8FF"/>
+<path d="M20.2658 40.1993H8.38867V40.3655H20.2658V40.1993Z" fill="#E7F7FF"/>
+<path d="M20.2658 40.0333H8.38867V40.1994H20.2658V40.0333Z" fill="#E6F7FF"/>
+<path d="M20.2658 39.8671H8.38867V40.0332H20.2658V39.8671Z" fill="#E5F7FF"/>
+<path d="M20.2658 39.618H8.38867V39.7841H20.2658V39.618Z" fill="#E4F6FE"/>
+<path d="M20.2658 39.4518H8.38867V39.618H20.2658V39.4518Z" fill="#E3F6FE"/>
+<path d="M20.2658 39.2858H8.38867V39.4519H20.2658V39.2858Z" fill="#E2F5FE"/>
+<path d="M20.2658 39.0366H8.38867V39.2027H20.2658V39.0366Z" fill="#E1F5FE"/>
+<path d="M20.2658 38.8705H8.38867V39.0366H20.2658V38.8705Z" fill="#E0F5FE"/>
+<path d="M20.2658 38.7043H8.38867V38.8705H20.2658V38.7043Z" fill="#DFF4FE"/>
+<path d="M20.2658 38.4552H8.38867V38.6213H20.2658V38.4552Z" fill="#DEF4FE"/>
+<path d="M20.2658 38.2891H8.38867V38.4552H20.2658V38.2891Z" fill="#DDF4FE"/>
+<path d="M20.2658 38.1229H8.38867V38.289H20.2658V38.1229Z" fill="#DCF3FE"/>
+<path d="M20.2658 37.8738H8.38867V38.0399H20.2658V37.8738Z" fill="#DBF3FE"/>
+<path d="M20.2658 37.7077H8.38867V37.8738H20.2658V37.7077Z" fill="#DAF3FE"/>
+<path d="M20.2658 37.5416H8.38867V37.7077H20.2658V37.5416Z" fill="#D9F2FE"/>
+<path d="M20.2658 37.3754H8.38867V37.5415H20.2658V37.3754Z" fill="#D8F2FE"/>
+<path d="M20.2658 37.1263H8.38867V37.2924H20.2658V37.1263Z" fill="#D7F2FE"/>
+<path d="M20.2658 36.9601H8.38867V37.1263H20.2658V36.9601Z" fill="#D6F1FE"/>
+<path d="M20.2658 36.7941H8.38867V36.9602H20.2658V36.7941Z" fill="#D5F1FE"/>
+<path d="M20.2658 36.5449H8.38867V36.711H20.2658V36.5449Z" fill="#D4F1FD"/>
+<path d="M20.2658 36.3788H8.38867V36.5449H20.2658V36.3788Z" fill="#D3F0FD"/>
+<path d="M20.2658 36.2126H8.38867V36.3788H20.2658V36.2126Z" fill="#D2F0FD"/>
+<path d="M20.2658 35.9635H8.38867V36.1296H20.2658V35.9635Z" fill="#D1F0FD"/>
+<path d="M20.2658 35.7974H8.38867V35.9635H20.2658V35.7974Z" fill="#D0EFFD"/>
+<path d="M20.2658 35.6313H8.38867V35.7974H20.2658V35.6313Z" fill="#CFEFFD"/>
+<path d="M20.2658 35.3821H8.38867V35.5482H20.2658V35.3821Z" fill="#CEEEFD"/>
+<path d="M20.2658 35.216H8.38867V35.3821H20.2658V35.216Z" fill="#CDEEFD"/>
+<path d="M20.2658 35.0499H8.38867V35.216H20.2658V35.0499Z" fill="#CCEEFD"/>
+<path d="M20.2658 34.8837H8.38867V35.0498H20.2658V34.8837Z" fill="#CBEDFD"/>
+<path d="M20.2658 34.6346H8.38867V34.8007H20.2658V34.6346Z" fill="#CAEDFD"/>
+<path d="M20.2658 34.4684H8.38867V34.6346H20.2658V34.4684Z" fill="#C9EDFD"/>
+<path d="M20.2658 34.3024H8.38867V34.4685H20.2658V34.3024Z" fill="#C8ECFD"/>
+<path d="M20.2658 34.0532H8.38867V34.2193H20.2658V34.0532Z" fill="#C7ECFD"/>
+<path d="M20.2658 33.8871H8.38867V34.0532H20.2658V33.8871Z" fill="#C6ECFD"/>
+<path d="M20.2658 33.7209H8.38867V33.8871H20.2658V33.7209Z" fill="#C4EBFC"/>
+<path d="M20.2658 33.4718H8.38867V33.6379H20.2658V33.4718Z" fill="#C3EBFC"/>
+<path d="M20.2658 33.3057H8.38867V33.4718H20.2658V33.3057Z" fill="#C2EBFC"/>
+<path d="M20.2658 33.1396H8.38867V33.3057H20.2658V33.1396Z" fill="#C1EAFC"/>
+<path d="M20.2658 32.8904H8.38867V33.0565H20.2658V32.8904Z" fill="#C0EAFC"/>
+<path d="M20.2658 32.7242H8.38867V32.8904H20.2658V32.7242Z" fill="#BFEAFC"/>
+<path d="M20.2658 32.5582H8.38867V32.7243H20.2658V32.5582Z" fill="#BEE9FC"/>
+<path d="M20.2658 32.392H8.38867V32.5581H20.2658V32.392Z" fill="#BDE9FC"/>
+<path d="M20.2658 32.1429H8.38867V32.309H20.2658V32.1429Z" fill="#BCE9FC"/>
+<path d="M20.2658 31.9768H8.38867V32.1429H20.2658V31.9768Z" fill="#BBE8FC"/>
+<path d="M20.2658 31.8107H8.38867V31.9768H20.2658V31.8107Z" fill="#BAE8FC"/>
+<path d="M20.2658 31.5615H8.38867V31.7276H20.2658V31.5615Z" fill="#B9E7FC"/>
+<path d="M20.2658 31.3954H8.38867V31.5615H20.2658V31.3954Z" fill="#B8E7FC"/>
+<path d="M20.2658 31.2292H8.38867V31.3954H20.2658V31.2292Z" fill="#B7E7FC"/>
+<path d="M20.2658 30.9801H8.38867V31.1462H20.2658V30.9801Z" fill="#B6E6FC"/>
+<path d="M20.2658 30.814H8.38867V30.9801H20.2658V30.814Z" fill="#B5E6FB"/>
+<path d="M20.2658 30.6479H8.38867V30.814H20.2658V30.6479Z" fill="#B4E6FB"/>
+<path d="M20.2658 30.3987H8.38867V30.5648H20.2658V30.3987Z" fill="#B3E5FB"/>
+<path d="M20.2658 30.2326H8.38867V30.3987H20.2658V30.2326Z" fill="#B2E5FB"/>
+<path d="M20.2658 30.0665H8.38867V30.2326H20.2658V30.0665Z" fill="#B1E5FB"/>
+<path d="M20.2658 29.9004H8.38867V30.0665H20.2658V29.9004Z" fill="#B0E4FB"/>
+<path d="M20.2658 29.6512H8.38867V29.8173H20.2658V29.6512Z" fill="#AFE4FB"/>
+<path d="M20.2658 29.4851H8.38867V29.6512H20.2658V29.4851Z" fill="#AEE4FB"/>
+<path d="M20.2658 29.319H8.38867V29.4851H20.2658V29.319Z" fill="#ADE3FB"/>
+<path d="M20.2658 29.0698H8.38867V29.2359H20.2658V29.0698Z" fill="#ACE3FB"/>
+<path d="M20.2658 28.9037H8.38867V29.0698H20.2658V28.9037Z" fill="#ABE3FB"/>
+<path d="M20.2658 28.7375H8.38867V28.9037H20.2658V28.7375Z" fill="#AAE2FB"/>
+<path d="M20.2658 28.4884H8.38867V28.6545H20.2658V28.4884Z" fill="#A9E2FB"/>
+<path d="M20.2658 28.3223H8.38867V28.4884H20.2658V28.3223Z" fill="#A8E2FB"/>
+<path d="M20.2658 28.1562H8.38867V28.3223H20.2658V28.1562Z" fill="#A7E1FB"/>
+<path d="M20.2658 27.907H8.38867V28.0731H20.2658V27.907Z" fill="#A6E1FB"/>
+<path d="M20.2658 27.7409H8.38867V27.907H20.2658V27.7409Z" fill="#A5E0FA"/>
+<path d="M20.2658 27.5748H8.38867V27.7409H20.2658V27.5748Z" fill="#A4E0FA"/>
+<path d="M20.2658 27.4087H8.38867V27.5748H20.2658V27.4087Z" fill="#A3E0FA"/>
+<path d="M20.2658 27.1595H8.38867V27.3256H20.2658V27.1595Z" fill="#A2DFFA"/>
+<path d="M20.2658 26.9934H8.38867V27.1595H20.2658V26.9934Z" fill="#A1DFFA"/>
+<path d="M20.2658 26.8273H8.38867V26.9934H20.2658V26.8273Z" fill="#A0DFFA"/>
+<path d="M20.2658 26.5781H8.38867V26.7442H20.2658V26.5781Z" fill="#9FDEFA"/>
+<path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
+</svg>
+</a><!---->
+            <!-- <a title="High Performance NLP with Apache Spark
+" href="/">Spark NLP</a> -->
+          <!---->
+        </div></div><nav class="navigation top_navigation">
+        <ul class="top-menu"><li class="navigation__item "><a  href="/">Home</a></li><li class="navigation__item "><a  href="/docs/en/quickstart">Docs</a></li><li class="navigation__item "><a  href="/models">Models</a></li><li class="navigation__item "><a  href="/infer_meaning_intent">Demo</a></li><li class="navigation__item "><a  target="_blank"  href="https://www.johnsnowlabs.com/spark-nlp-blog/">Blog</a></li><li class="f_inner"><a class="github-button" href="https://github.com/JohnSnowLabs/spark-nlp" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star spark-nlp on GitHub">Star on GitHub</a></li>
+        </ul>
+      </nav><a class="responsive_btn" href="#" id="aside_menu">
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
+        </a>
+    </div>
+  </header>
+</div><div class="page__content "><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
+            <a class="edit-on-github-btn" target="_blank" rel="alternate"
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/ahmedlone127/2023-10-25-bert_classifier_base_styleclassification_subjective_neutral_en.md">
+              <span class="fab fa-github"></span>
+              <span class="edit-on-github-label">Edit on GitHub</span>
+            </a>
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 25, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-10-25T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>English BertForSequenceClassification Base Cased model (from cffl)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="English BertForSequenceClassification Base Cased model (from cffl)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>sequence_classification</li><li>classification</li><li>open_source</li><li>en</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-10-25T00:00:00+00:00">
+    <meta itemprop="keywords" content="bert,sequence_classification,classification,open_source,en,onnx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">bert-base-styleclassification-subjective-neutral</code> is a English model originally trained by <code class="language-plaintext highlighter-rouge">cffl</code>.</p>
+
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">NEUTRAL</code>, <code class="language-plaintext highlighter-rouge">SUBJECTIVE</code></p>
+
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_classifier_base_styleclassification_subjective_neutral_en_5.1.4_3.4_1698268337507.zip" class="button button-orange button-orange-trans arr button-icon">Download</a>
+<a href="s3://auxdata.johnsnowlabs.com/public/models/bert_classifier_base_styleclassification_subjective_neutral_en_5.1.4_3.4_1698268337507.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+
+<h2 id="how-to-use">How to use</h2>
+
+<div class="tabs-box">
+  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">sequenceClassifier_loaded</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_classifier_base_styleclassification_subjective_neutral"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span><span class="n">sequenceClassifier_loaded</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+          <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+          <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sequenceClassifier_loaded</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_classifier_base_styleclassification_subjective_neutral"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span><span class="n">sequenceClassifier_loaded</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.bert.base.by_cffl"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""PUT YOUR STRING HERE"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+</div>
+
+<h2 class="model-param" id="model-information">Model Information</h2>
+
+<table class="table-model">
+  <tbody>
+    <tr>
+      <td>Model Name:</td>
+      <td>bert_classifier_base_styleclassification_subjective_neutral</td>
+    </tr>
+    <tr>
+      <td>Compatibility:</td>
+      <td>Spark NLP 5.1.4+</td>
+    </tr>
+    <tr>
+      <td>License:</td>
+      <td>Open Source</td>
+    </tr>
+    <tr>
+      <td>Edition:</td>
+      <td>Official</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[document, token]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[class]</td>
+    </tr>
+    <tr>
+      <td>Language:</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <td>Size:</td>
+      <td>409.4 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentence length:</td>
+      <td>256</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="references">References</h2>
+
+<p>References</p>
+
+<ul>
+  <li>https://huggingface.co/cffl/bert-base-styleclassification-subjective-neutral</li>
+  <li>https://arxiv.org/pdf/1911.09709.pdf</li>
+  <li>https://arxiv.org/pdf/1703.01365.pdf</li>
+  <li>https://github.com/openai/gpt-2/blob/master/model_card.md#out-of-scope-use-cases</li>
+  <li>https://github.com/fastforwardlabs/text-style-transfer/blob/main/scripts/train/classifier/train_classifier.py</li>
+  <li>https://github.com/fastforwardlabs/text-style-transfer/blob/main/notebooks/WNC_full_style_classifier_evaluation.ipynb</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-10-25T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet --></footer>
+
+<script>
+
+'use strict';
+
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
+
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
+
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
+
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
+            
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
+    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            try{showTabContent(i);}catch(e){}
+                        }
+                    });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
+    });
+}
+
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+
+</script>
+
+
+<style>
+  /* Remove Scrollbar from Code Segments */
+.article__content .highlighter-rouge > .highlight > pre > code, .article__content figure.highlight > pre > code  {
+    overflow: auto;
+}
+
+
+
+button.code-selector-active {
+ background-color: white;
+ color: #08c;
+ font-weight: bold;
+ border-width: 1px;
+ padding-left: 12px;
+ padding-right: 12px;
+ width: 90px;
+ padding-top: 6px;
+ margin-right: 2px;
+
+ border-bottom: none;
+
+ position: relative;
+ z-index: 2;
+}
+
+button.code-selector-un-active {
+    background-color: white;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 90px;
+    margin-right: 2px;
+    padding-top: 8px;
+    position: relative;
+    border-bottom: none;
+
+   }
+
+hr.code-selector-underlie {
+    border-top: 1px solid;
+    background-color: black;
+    width: fill;
+    height: 1px;
+    margin-top: -3px;
+    position: relative;
+
+}
+
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/10/25/bert_classifier_base_for_multilabel_sentence_classification_en.html">English BertForSequenceClassification Base Cased model (from Zamachi)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/10/25/bert_classifier_base_uncased_debiased_nli_en.html">English BertForSequenceClassification Base Uncased model (from tomhosking)</a></div></div></div>
+
+</div>
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+
+$(document).ready(function () {
+
+  try{
+        /* Versions Pagination*/
+      $('.pagination_big').owlCarousel({
+        margin:10,
+        nav:true,
+        dots:false,
+        responsive:{
+            0:{
+                items:3
+            },
+            400:{
+                items:4
+            },
+            500:{
+                items:6
+            },
+            1600:{
+                items:11
+            }
+        }
+    });
+  } catch(e){}
+
+});
+
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet --></div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content=""><meta itemprop="url" content="/"></div><div class="site-info mt-2">
+      <div>© <span id="year"></span> John Snow Labs Inc.
+        <a href="https://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="https://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* Responsive menu
+	 ========================================================*/
+jQuery(document).ready(function($) {
+	jQuery('#responsive_menu').click(function(e) {
+      e.preventDefault();
+      jQuery(this).toggleClass('close');
+      jQuery('.top_navigation').toggleClass('open');
+  });
+  jQuery('#aside_menu').click(function(e) {
+      e.preventDefault();
+      jQuery(this).toggleClass('close');
+      jQuery('.js-col-aside').toggleClass('open');
+      if (jQuery(window).width() <= 1023)
+      {
+        jQuery('.page__sidebar').toggleClass('open'); 
+      jQuery('.demomenu').toggleClass('open');
+      }
+  });
+  jQuery('.toc--ellipsis a').click(function(e) {
+    if (jQuery(window).width() <= 767)
+      {
+        jQuery('.js-col-aside').removeClass('open');
+        jQuery('.page__sidebar').removeClass('open');    
+        jQuery('#aside_menu').removeClass('close');  
+      }       
+  });
+});
+
+/*OPen by URL*/
+jQuery(document).ready(function () {  
+  const tabName = (window.location.hash || '').replace('#', '');
+  const tab = document.getElementById(tabName || 'opensource');
+  if (tab) {
+    tab.click();
+  }
+});
+
+try{
+  //Accordion demos categories
+  let acc = document.getElementsByClassName("acc-top"),
+    isResizeble = false;
+
+  if(!isResizeble && document.querySelector(".acc-top")) {
+      let accBody = document.querySelector('.acc-body li.active');
+      accBody.parentElement.style.maxHeight = accBody.parentElement.scrollHeight + 20 + "px";
+      accBody.parentElement.classList.add('open');
+      accBody.parentElement.previousElementSibling.classList.add('active');
+      isResizeble = true;
+  }
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+      panel.classList.add('open');
+    }
+  });
+}
+} catch(e){}
+
+
+try {
+  //Show more in demos description
+  let tabDescription = document.querySelectorAll('.tab-description');
+
+  tabDescription.forEach(element => {
+    let tabDescriptionInner = element.querySelector('.tab-description-inner');
+    if(element.offsetHeight < tabDescriptionInner.offsetHeight) {
+      element.classList.add('big-descr');
+    }
+  });
+
+  let showMore = document.querySelectorAll('.show_more');
+
+  showMore.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+      this.parentElement.parentElement.classList.remove('big-descr');
+      this.parentElement.parentElement.classList.add('big-descr-close');
+    });
+  });
+} catch(e){}
+
+
+try{
+  //disable Colab link
+  let btnDisable = document.querySelectorAll('.btn.disable');
+
+  btnDisable.forEach(element => {
+    element.addEventListener("click", function(e) {
+      e.preventDefault();
+    });
+  });
+} catch(e){}
+
+
+try {
+  // Ancor click
+const anchors = [].slice.call(document.querySelectorAll('.btn-box-install a')),
+animationTime = 300,
+framesCount = 20;
+
+anchors.forEach(function(item) {
+item.addEventListener('click', function(e) {
+  e.preventDefault();
+  let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset -100;
+
+  let scroller = setInterval(function() {
+      let scrollBy = coordY / framesCount;
+
+if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+    window.scrollBy(0, scrollBy);
+} else {
+          window.scrollTo(0, coordY);
+  clearInterval(scroller);
+}
+  }, animationTime / framesCount);
+});
+}); 
+} catch(e){}
+
+
+try {
+  //Pagination active
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+} catch(e){}
+
+
+try{
+  // copy to clipboard
+  let btnCopy = document.querySelectorAll('.button-copy-s3');
+
+  btnCopy.forEach((element) => {
+    //add span Copied!
+    element.insertAdjacentHTML('beforeend', '<span>Copied!</span>');
+
+    element.addEventListener('click', function (e) {
+      e.preventDefault();
+      element.classList.add('copied');
+      setTimeout(function () {
+        element.classList.remove('copied');
+      }, 3000);
+      navigator.clipboard.writeText(element.href);
+    });
+  });
+} catch(e){}
+
+document.getElementById("year").innerHTML = new Date().getFullYear();
+
+</script></div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"></div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3',  container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+        
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName')
+              .toLowerCase() + ' ' + $this.prop('className'))
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
