@@ -74,7 +74,7 @@ trait BpeTokenizerBehaviours {
 
     it should "add sentence padding correctly if requested" taggedAs FastTest in {
       val sentencePaddingTokenizer =
-        BpeTokenizer.forModel(modelType, merges, vocab, padWithSentenceTokens = true)
+        BpeTokenizer.forModel(modelType, merges, vocab, padWithSequenceTokens = true)
 
       val (tokenized: Array[IndexedToken], encoded: Array[TokenPiece]) =
         tokenizeAndEncode(sentencePaddingTokenizer, text)
@@ -93,7 +93,7 @@ trait BpeTokenizerBehaviours {
       expectedIds: Array[Int]): Unit = {
     it should "encode words correctly with added prefix" taggedAs FastTest in {
       val addedPrefixTokenizer =
-        BpeTokenizer.forModel(modelType, merges, vocab, addPrefixSpace = true)
+        BpeTokenizer.forModel(modelType, merges, vocab, addPrefixSpaceToSentence = true)
 
       val (_, encoded: Array[TokenPiece]) = tokenizeAndEncode(addedPrefixTokenizer, text)
       assertEncodedCorrectly(text, encoded, expected, expectedIds)

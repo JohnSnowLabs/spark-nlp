@@ -23,24 +23,30 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /** A BPE Tokenizer based on GPT2's tokenization scheme. The tokenization can then be used for
-  * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa) TODO: truncation assumed?
+ * models based on this scheme (e.g. GPT2, roBERTa, DeBERTa)
+ *
+ * TODO: truncation assumed?
+ *
   * @param merges
   *   Map of tokens that are mergeable
   * @param vocab
   *   Map of tokens to encoded representation
   * @param specialTokens
   *   Collection of special tokens
-  * @param padWithSentenceTokens
+ * @param padWithSequenceTokens
   *   Whether to pad the sentence with sentence tokens at the start and end
-  * @param addPrefixSpace
+ * @param addPrefixSpaceToSentence
   *   Whether to add a space to the first word of a sentence
+ * @param alwaysAddPrefix
+ *    Whether to always prefix token ids with `prefixForPieceId`
   */
 private[nlp] abstract class BpeTokenizer(
     val merges: Map[(String, String), Int],
     val vocab: Map[String, Int],
     val specialTokens: SpecialTokens,
-    val padWithSentenceTokens: Boolean,
-    val addPrefixSpace: Boolean) {
+    val padWithSequenceTokens: Boolean,
+    val addPrefixSpaceToSentence: Boolean,
+    val alwaysAddPrefix: Boolean) {
 
   protected val bpeRanks: Map[(String, String), Int] = {
     merges
@@ -60,8 +66,8 @@ private[nlp] abstract class BpeTokenizer(
   }
 
   // Can be overridden in inherited class
-  protected val prependForPieceId: Option[String] = None
-  protected val appendForPieceId: Option[String] = None
+  protected val prefixForPieceId: Option[String] = None
+  protected val suffixForPieceId: Option[String] = None
 
   protected def performMerges(
       wordChars: Array[String],
@@ -122,16 +128,16 @@ private[nlp] abstract class BpeTokenizer(
         val isWordStart = indToken.begin == indexes._1
         val isDocumentStart = indToken.begin == 0
         var processedSubWord = subWord
-        processedSubWord = if (isDocumentStart && !addPrefixSpace) {
+        processedSubWord = if (isDocumentStart && !addPrefixSpaceToSentence) {
           processedSubWord
         } else
-          prependForPieceId match {
-            case None => processedSubWord
-            case Some(prepend) =>
+          prefixForPieceId match {
+            case Some(prepend) if alwaysAddPrefix =>
               if (isWordStart && subWord.indexOf(prepend) < 0) prepend + processedSubWord
               else processedSubWord
+            case _ => processedSubWord
           }
-        processedSubWord = appendForPieceId match {
+        processedSubWord = suffixForPieceId match {
           case None => processedSubWord
           case Some(append) =>
             val isWordEnd = indToken.end == indexes._2
@@ -239,7 +245,7 @@ private[nlp] abstract class BpeTokenizer(
   }
 
   /** Needs to be implemented */
-  def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
+  protected def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
 
   /** Special tokens of the model for processing */
   val sentencePadding: (String, String) =
@@ -264,7 +270,7 @@ private[nlp] abstract class BpeTokenizer(
         textList = splitTexts.clone()
       }
 
-      if (padWithSentenceTokens) {
+      if (padWithSequenceTokens) {
         text = sentencePadding._1 + text + sentencePadding._2
         splitTexts.prepend(sentencePadding._1)
         splitTexts.append(sentencePadding._2)
@@ -310,9 +316,10 @@ object BpeTokenizer {
       modelType: String,
       merges: Map[(String, String), Int],
       vocab: Map[String, Int],
-      padWithSentenceTokens: Boolean = false,
-      addPrefixSpace: Boolean = false,
-      specialTokens: Option[SpecialTokens] = None): BpeTokenizer = {
+      padWithSequenceTokens: Boolean = false,
+      addPrefixSpaceToSentence: Boolean = false,
+      specialTokens: Option[SpecialTokens] = None,
+      alwaysAddPrefix: Boolean = true): BpeTokenizer = {
 
     def modelSpecialTokens() = specialTokens match {
       case Some(specialTok) => specialTok
@@ -325,24 +332,26 @@ object BpeTokenizer {
           merges,
           vocab,
           modelSpecialTokens(),
-          padWithSentenceTokens,
-          addPrefixSpace = addPrefixSpace)
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix)
       case "xlm" =>
-        new XlmTokenizer(merges, vocab, modelSpecialTokens(), padWithSentenceTokens)
+        new XlmTokenizer(merges, vocab, modelSpecialTokens(), padWithSequenceTokens)
       case "gpt2" =>
         new Gpt2Tokenizer(
           merges,
           vocab,
           modelSpecialTokens(),
-          padWithSentenceTokens,
-          addPrefixSpace = addPrefixSpace)
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix)
       case "bart" =>
         new BartTokenizer(
           merges,
           vocab,
           modelSpecialTokens(),
-          padWithSentenceTokens,
-          addPrefixSpace = addPrefixSpace)
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }

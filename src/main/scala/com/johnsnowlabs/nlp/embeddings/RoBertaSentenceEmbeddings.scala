@@ -304,8 +304,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     val bpeTokenizer = BpeTokenizer.forModel(
       "roberta",
       merges = $$(merges),
-      vocab = $$(vocabulary),
-      padWithSentenceTokens = false)
+      vocab = $$(vocabulary))
 
     sentences.map { s =>
       // filter empty and only whitespace tokens
