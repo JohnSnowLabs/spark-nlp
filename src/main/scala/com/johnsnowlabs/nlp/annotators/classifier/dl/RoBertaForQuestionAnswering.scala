@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, RoBertaClassification}
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ModelEngine, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
@@ -111,6 +112,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[RoBertaForQuestionAnswering]
     with HasBatchedAnnotate[RoBertaForQuestionAnswering]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasCaseSensitiveProperties
     with HasEngine {
 
@@ -220,12 +222,14 @@ class RoBertaForQuestionAnswering(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): RoBertaForQuestionAnswering = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): RoBertaForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBertaClassification(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -279,13 +283,26 @@ class RoBertaForQuestionAnswering(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_roberta_classification",
-      RoBertaForQuestionAnswering.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_roberta_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          RoBertaForQuestionAnswering.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          RoBertaForQuestionAnswering.onnxFile)
+    }
+
   }
 
 }
@@ -310,18 +327,34 @@ trait ReadablePretrainedRoBertaForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel {
+trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[RoBertaForQuestionAnswering] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
+  override val onnxFile: String = "roberta_classification_onnx"
 
   def readModel(
       instance: RoBertaForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "roberta_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+    }
+
   }
 
   addReader(readModel)
@@ -348,7 +381,7 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -361,7 +394,12 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

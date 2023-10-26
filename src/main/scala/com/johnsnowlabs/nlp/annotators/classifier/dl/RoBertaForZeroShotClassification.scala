@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.RoBertaClassification
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -277,12 +278,14 @@ class RoBertaForZeroShotClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): RoBertaForZeroShotClassification = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): RoBertaForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBertaClassification(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -352,7 +355,7 @@ class RoBertaForZeroShotClassification(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_roberta_classification",
       RoBertaForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -391,9 +394,9 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel {
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
+    val tfWrapper =
       readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tfWrapper), None)
   }
 
   addReader(readModel)
@@ -442,7 +445,7 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -455,7 +458,7 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

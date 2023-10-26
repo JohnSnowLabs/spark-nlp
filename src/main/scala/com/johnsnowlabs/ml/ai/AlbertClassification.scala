@@ -21,7 +21,6 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.notSupportedEngineError
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
@@ -342,7 +341,7 @@ private[johnsnowlabs] class AlbertClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    (endLogits, startLogits)
+    (startLogits, endLogits)
   }
 
   private def computeLogitsWithOnnx(
