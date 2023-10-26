@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity</title>
-          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity" />
-          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity" />
+          <title>Spark NLP 5.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity</title>
+          <meta name="description" content="Spark NLP 5.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity" />
+          <meta name="keywords" content="Spark NLP 5.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -423,12 +423,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="DocumentSimilarityRankerApproach$.html" title="This is the companion object of DocumentSimilarityRankerApproach."></a>
-                        <a class="class" href="DocumentSimilarityRankerApproach.html" title=""></a>
-                        <a href="DocumentSimilarityRankerApproach.html" title="">DocumentSimilarityRankerApproach</a>
+                        <a class="class" href="DocumentSimilarityRankerApproach.html" title="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."></a>
+                        <a href="DocumentSimilarityRankerApproach.html" title="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings.">DocumentSimilarityRankerApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="DocumentSimilarityRankerModel$.html" title=""></a>
-                        <a class="class" href="DocumentSimilarityRankerModel.html" title=""></a>
-                        <a href="DocumentSimilarityRankerModel.html" title="">DocumentSimilarityRankerModel</a>
+                        <a class="class" href="DocumentSimilarityRankerModel.html" title="Instantiated model of the DocumentSimilarityRankerApproach."></a>
+                        <a href="DocumentSimilarityRankerModel.html" title="Instantiated model of the DocumentSimilarityRankerApproach.">DocumentSimilarityRankerModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="IndexedNeighbors.html" title=""></a>
@@ -576,7 +576,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentSimilarityRankerApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel]withHasEnableCachingProperties"></a><a id="DocumentSimilarityRankerApproach:DocumentSimilarityRankerApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html" title="Permalink">
@@ -588,11 +588,85 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="DocumentSimilarityRankerApproach.html"><span class="name">DocumentSimilarityRankerApproach</span></a><span class="result"> extends <a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../HasEnableCachingProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasEnableCachingProperties">HasEnableCachingProperties</a></span>
+        <a title="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings." href="DocumentSimilarityRankerApproach.html"><span class="name">DocumentSimilarityRankerApproach</span></a><span class="result"> extends <a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../HasEnableCachingProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasEnableCachingProperties">HasEnableCachingProperties</a></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest
+neighbors search on top of sentence embeddings.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest
+neighbors search on top of sentence embeddings.</p><p>It aims to capture the semantic meaning of a document in a dense, continuous vector space and
+return it to the ranker search.</p><p>For instantiated/pretrained models, see <a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>.</p><p>For extended examples of usage, see the jupyter notebook
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb" target="_blank">Document Similarity Ranker for Spark NLP</a>.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach
+<span class="kw">import</span> com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">import</span> spark.implicits._
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentenceEmbeddings = RoBertaSentenceEmbeddings
+  .pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+
+<span class="kw">val</span> documentSimilarityRanker = <span class="kw">new</span> DocumentSimilarityRankerApproach()
+  .setInputCols(<span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"doc_similarity_rankings"</span>)
+  .setSimilarityMethod(<span class="lit">"brp"</span>)
+  .setNumberOfNeighbours(<span class="num">1</span>)
+  .setBucketLength(<span class="num">2.0</span>)
+  .setNumHashTables(<span class="num">3</span>)
+  .setVisibleDistances(<span class="kw">true</span>)
+  .setIdentityRanking(<span class="kw">false</span>)
+
+<span class="kw">val</span> documentSimilarityRankerFinisher = <span class="kw">new</span> DocumentSimilarityRankerFinisher()
+  .setInputCols(<span class="lit">"doc_similarity_rankings"</span>)
+  .setOutputCols(
+    <span class="lit">"finished_doc_similarity_rankings_id"</span>,
+    <span class="lit">"finished_doc_similarity_rankings_neighbors"</span>)
+  .setExtractNearestNeighbor(<span class="kw">true</span>)
+
+<span class="cmt">// Let's use a dataset where we can visually control similarity</span>
+<span class="cmt">// Documents are coupled, as 1-2, 3-4, 5-6, 7-8 and they were create to be similar on purpose</span>
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"First document, this is my first sentence. This is my second sentence."</span>,
+  <span class="lit">"Second document, this is my second sentence. This is my second sentence."</span>,
+  <span class="lit">"Third document, climate change is arguably one of the most pressing problems of our time."</span>,
+  <span class="lit">"Fourth document, climate change is definitely one of the most pressing problems of our time."</span>,
+  <span class="lit">"Fifth document, Florence in Italy, is among the most beautiful cities in Europe."</span>,
+  <span class="lit">"Sixth document, Florence in Italy, is a very beautiful city in Europe like Lyon in France."</span>,
+  <span class="lit">"Seventh document, the French Riviera is the Mediterranean coastline of the southeast corner of France."</span>,
+  <span class="lit">"Eighth document, the warmest place in France is the French Riviera coast in Southern France."</span>)
+  .toDF(<span class="lit">"text"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(
+  <span class="std">Array</span>(
+    documentAssembler,
+    sentenceEmbeddings,
+    documentSimilarityRanker,
+    documentSimilarityRankerFinisher))
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result
+  .select(<span class="lit">"finished_doc_similarity_rankings_id"</span>, <span class="lit">"finished_doc_similarity_rankings_neighbors"</span>)
+  .show(<span class="num">10</span>, truncate = <span class="kw">false</span>)
++-----------------------------------+------------------------------------------+
+|finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|
++-----------------------------------+------------------------------------------+
+|<span class="num">1510101612</span>                         |[(<span class="num">1634839239</span>,<span class="num">0.12448559591306324</span>)]        |
+|<span class="num">1634839239</span>                         |[(<span class="num">1510101612</span>,<span class="num">0.12448559591306324</span>)]        |
+|-<span class="num">612640902</span>                         |[(<span class="num">1274183715</span>,<span class="num">0.1220122862046063</span>)]         |
+|<span class="num">1274183715</span>                         |[(-<span class="num">612640902</span>,<span class="num">0.1220122862046063</span>)]         |
+|-<span class="num">1320876223</span>                        |[(<span class="num">1293373212</span>,<span class="num">0.17848855164122393</span>)]        |
+|<span class="num">1293373212</span>                         |[(-<span class="num">1320876223</span>,<span class="num">0.17848855164122393</span>)]       |
+|-<span class="num">1548374770</span>                        |[(-<span class="num">1719102856</span>,<span class="num">0.23297156732534166</span>)]       |
+|-<span class="num">1719102856</span>                        |[(-<span class="num">1548374770</span>,<span class="num">0.23297156732534166</span>)]       |
++-----------------------------------+------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentSimilarityRankerModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel]withHasEmbeddingsPropertieswithParamsAndFeaturesWritable"></a><a id="DocumentSimilarityRankerModel:DocumentSimilarityRankerModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerModel.html" title="Permalink">
@@ -604,10 +678,12 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="DocumentSimilarityRankerModel.html"><span class="name">DocumentSimilarityRankerModel</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../embeddings/HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+        <a title="Instantiated model of the DocumentSimilarityRankerApproach." href="DocumentSimilarityRankerModel.html"><span class="name">DocumentSimilarityRankerModel</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="DocumentSimilarityRankerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel">DocumentSimilarityRankerModel</a>] with <a href="../../embeddings/HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Instantiated model of the <a href="DocumentSimilarityRankerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach">DocumentSimilarityRankerApproach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated model of the <a href="DocumentSimilarityRankerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach">DocumentSimilarityRankerApproach</a>. For usage and examples see the
+documentation of the main class.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.similarity.IndexedNeighbors" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="IndexedNeighborsextendsNeighborAnnotationwithProductwithSerializable"></a><a id="IndexedNeighbors:IndexedNeighbors"></a>
       <span class="permalink">

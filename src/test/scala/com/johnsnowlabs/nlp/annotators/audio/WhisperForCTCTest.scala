@@ -32,12 +32,12 @@ class WhisperForCTCTest extends AnyFlatSpec with WhisperForCTCBehaviors {
 
   // Needs to be added manually
   lazy val modelTf: WhisperForCTC = WhisperForCTC
-    .loadSavedModel("exported_tf/openai/whisper-tiny", ResourceHelper.spark)
+    .pretrained("asr_whisper_tiny", "xx")
     .setInputCols("audio_assembler")
     .setOutputCol("document")
 
   lazy val modelOnnx: WhisperForCTC = WhisperForCTC
-    .loadSavedModel("exported_onnx/openai/whisper-tiny", ResourceHelper.spark)
+    .pretrained()
     .setInputCols("audio_assembler")
     .setOutputCol("document")
 

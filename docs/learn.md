@@ -4,7 +4,7 @@ title: Learn
 permalink: /learnold
 key: videos
 aside:
-    toc: true 
+    toc: true
 license: false
 show_date: true
 modify_date: "2019-05-16"
@@ -38,7 +38,7 @@ modify_date: "2019-05-16"
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">
-<span class="article-inner">![News](/assets/images/Article_1.jpg)[Improving Clinical Document Understanding on COVID-19 Research with Spark NLP](https://arxiv.org/abs/2012.04005?__hstc=162627875.7e2e14acbce8f704860db3c9a9f86d5f.1608308444598.1611854965224.1612279175672.32&__hssc=162627875.1.1612279175672&__hsfp=1326107387&hsCtaTracking=5ad1bb2e-ee9e-4ada-97a2-06fabb0f15ac%7C573cdf1c-4538-4a05-ad78-8cf40795d21f)</span><span class="video-descr">Veysel Kocaman, David Talby - 7 December, 2020</span>
+<span class="article-inner">![News](/assets/images/Article_1.jpg)[Improving Clinical Document Understanding on COVID-19 Research with Spark NLP](https://arxiv.org/abs/2012.04005?__hstc=162627875.7e2e14acbce8f704860db3c9a9f86d5f.1608308444598.1611854965224.1612279175672.32&__hssc=162627875.1.2612279175672&__hsfp=1326107387&hsCtaTracking=5ad1bb2e-ee9e-4ada-97a2-06fabb0f15ac%7C573cdf1c-4538-4a05-ad78-8cf40795d21f)</span><span class="video-descr">Veysel Kocaman, David Talby - 7 December, 2020</span>
 </div></div>
 
 <div class="cell cell--12 cell--lg-4 cell--sm-12"><div class="article-item" markdown="1">

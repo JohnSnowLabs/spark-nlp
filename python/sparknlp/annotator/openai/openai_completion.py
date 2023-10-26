@@ -14,10 +14,11 @@
 """Contains classes for OpenAICompletion."""
 from sparknlp.common import *
 
-"""Transformer that makes a request for OpenAI Completion API for each executor.
-   
-   See OpenAI API Doc: https://platform.openai.com/docs/api-reference/completions/create for reference 
-    
+class OpenAICompletion(AnnotatorModel):
+    """Transformer that makes a request for OpenAI Completion API for each executor.
+
+   See OpenAI API Doc: https://platform.openai.com/docs/api-reference/completions/create for reference
+
    ====================== ======================
    Input Annotation types Output Annotation type
    ====================== ======================
@@ -33,28 +34,28 @@ from sparknlp.common import *
    maxTokens
         The maximum number of tokens to generate in the completion.
    temperature
-        What sampling temperature to use, between 0 and 2 
+        What sampling temperature to use, between 0 and 2
    topP
         An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass
    numberOfCompletions
         How many completions to generate for each prompt.
    logprobs
         Include the log probabilities on the logprobs most likely tokens, as well the chosen tokens.
-   echo          
+   echo
        Echo back the prompt in addition to the completion
    stop
       Up to 4 sequences where the API will stop generating further tokens.
-   presencePenalty   
+   presencePenalty
       Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
    frequencyPenalty
       Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
-   bestOf      
+   bestOf
       Generates best_of completions server-side and returns the `best` (the one with the highest log probability per token).
    logitBias
       Modify the likelihood of specified tokens appearing in the completion.
    user
-      A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.      
-        
+      A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
+
    Examples
    --------
    >>> import sparknlp
@@ -87,9 +88,6 @@ from sparknlp.common import *
    |[{document, 0, 172, \n\n{ \n   "review": { \n      "overallRating": 4, \n      "reviewBody": "I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |
    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    """
-
-
-class OpenAICompletion(AnnotatorModel):
 
     name = "OpenAICompletion"
 

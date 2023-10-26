@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-title: Spark NLP - Quick Start
 seotitle: Spark NLP - Getting Started
+title: Spark NLP - Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
 modify_date: "2021-03-20"
@@ -82,10 +82,6 @@ It is full of fresh examples and even a docker container if you want to skip ins
 
 If you need more detailed information about how to install Spark NLP you can check the [Installation page](install)
 
-Detailed information about Spark NLP concepts, annotators and more may
-be found [HERE](annotators)
+Detailed information about Spark NLP concepts, annotators and more may be found [HERE](annotators)
 
-</div>
-
-
-</div>
+</div></div>

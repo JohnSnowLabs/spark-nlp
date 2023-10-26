@@ -62,7 +62,8 @@ private[johnsnowlabs] class ZeroShotNerClassification(
       documents: Seq[Annotation],
       maxSentenceLength: Int,
       caseSensitive: Boolean,
-      mergeTokenStrategy: String): Seq[Annotation] = {
+      mergeTokenStrategy: String,
+      engine: String): Seq[Annotation] = {
     val questionAnnot = Seq(documents.head)
     val contextAnnot = documents.drop(1)
 

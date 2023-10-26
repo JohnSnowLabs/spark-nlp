@@ -11,13 +11,14 @@ sidebar:
     nav: sparknlp
 ---
 
+<div class="h3-box" markdown="1">
+
 Pretrained Pipelines have moved to Models Hub.
 Please follow this link for the updated list of all models and pipelines:
-[Models Hub](https://sparknlp.org/modelss)
-{:.success}
+[Models Hub](https://sparknlp.org/models)
 {:.success}
 
-<div class="h3-box" markdown="1">
+</div><div class="h3-box" markdown="1">
 
 ## English
 
@@ -1000,7 +1001,7 @@ val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
 
 {% endhighlight %}
 
-</div>
+</div><div class="h3-box" markdown="1">
 
 ### Offline
 
@@ -1014,3 +1015,5 @@ val advancedPipeline = PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4
 advancedPipeline.transform(predictionDF)
 
 {% endhighlight %}
+
+</div>

@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.AlbertClassification
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -29,7 +30,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -124,6 +125,7 @@ class AlbertForSequenceClassification(override val uid: String)
     extends AnnotatorModel[AlbertForSequenceClassification]
     with HasBatchedAnnotate[AlbertForSequenceClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -239,13 +241,15 @@ class AlbertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
       spp: SentencePieceWrapper): AlbertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new AlbertClassification(
             tensorflowWrapper,
+            onnxWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -305,13 +309,26 @@ class AlbertForSequenceClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_albert_classification",
-      AlbertForSequenceClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_albert_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_albert_classification",
+          AlbertForSequenceClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          AlbertForSequenceClassification.onnxFile)
+    }
+
     writeSentencePieceModel(
       path,
       spark,
@@ -341,10 +358,14 @@ trait ReadablePretrainedAlbertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertForSequenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
+  override val onnxFile: String = "albert_classification_onnx"
   override val sppFile: String = "albert_spp"
 
   def readModel(
@@ -352,9 +373,27 @@ trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentence
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
-    instance.setModelIfNotSet(spark, tf, spp)
+
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tf =
+          readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_albert_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
   }
 
   addReader(readModel)
@@ -373,7 +412,7 @@ trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentence
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -386,7 +425,12 @@ trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentence
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, spModel)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

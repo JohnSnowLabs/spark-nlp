@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.1.0 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.1.3 documentation</title>
   
   
   
@@ -349,21 +349,102 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach" title="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Estimator`s that wrap Java/Scala</p></td>
+<td><p>Annotator that uses LSH techniques present in Spark ML lib to execute</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel" title="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Model`s that wrap Java/Scala</p></td>
+<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Model`s that wrap Java/Scala</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher" title="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id5"><span class="problematic" id="id6">`</span></a>Transformer`s that wrap Java/Scala</p></td>
+<td><p>Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerApproach</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id7"><span class="problematic" id="id8">`</span></a>Estimator`s that wrap Java/Scala
-implementations.</p>
+<dd><p>Annotator that uses LSH techniques present in Spark ML lib to execute
+approximate nearest neighbors search on top of sentence embeddings.</p>
+<p>It aims to capture the semantic meaning of a document in a dense,
+continuous vector space and return it to the ranker search.</p>
+<p>For instantiated/pretrained models, see DocumentSimilarityRankerModel.</p>
+<p>For extended examples of usage, see the jupyter notebook
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb">Document Similarity Ranker for Spark NLP</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SENTENCE_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOC_SIMILARITY_RANKINGS</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>enableCaching</strong></dt><dd><p>Whether to enable caching DataFrames or RDDs during the training</p>
+</dd>
+<dt><strong>similarityMethod</strong></dt><dd><p>The similarity method used to calculate the neighbours.
+(Default: ‘brp’,Bucketed Random Projection for Euclidean Distance)</p>
+</dd>
+<dt><strong>numberOfNeighbours</strong></dt><dd><p>The number of neighbours the model will return (Default:<cite>10</cite>)</p>
+</dd>
+<dt><strong>bucketLength</strong></dt><dd><p>Controls the average size of hash buckets. A larger bucket
+length (i.e., fewer buckets) increases the probability of features
+being hashed to the same bucket (increasing the numbers of true and false positives)</p>
+</dd>
+<dt><strong>numHashTables</strong></dt><dd><p>Number of hash tables, where increasing number of hash tables lowers the
+false negative rate, and decreasing it improves the running performance.</p>
+</dd>
+<dt><strong>visibleDistances</strong></dt><dd><p>“Whether to set visibleDistances in ranking output (Default: <cite>false</cite>).</p>
+</dd>
+<dt><strong>identityRanking</strong></dt><dd><p>Whether to include identity in ranking result set. Useful for debug. (Default: <cite>false</cite>).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator.similarity.document_similarity_ranker</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">E5Embeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_similarity_ranker</span> <span class="o">=</span> <span class="n">DocumentSimilarityRankerApproach</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;doc_similarity_rankings&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setSimilarityMethod</span><span class="p">(</span><span class="s2">&quot;brp&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setNumberOfNeighbours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setBucketLength</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setNumHashTables</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setVisibleDistances</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setIdentityRanking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_similarity_ranker_finisher</span> <span class="o">=</span> <span class="n">DocumentSimilarityRankerFinisher</span><span class="p">()</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;doc_similarity_rankings&quot;</span><span class="p">)</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="s2">&quot;finished_doc_similarity_rankings_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;finished_doc_similarity_rankings_neighbors&quot;</span><span class="p">)</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setExtractNearestNeighbor</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>            <span class="n">document_assembler</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">sentence_embeddings</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">document_similarity_ranker</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">document_similarity_ranker_finisher</span>
+<span class="gp">... </span>        <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">docSimRankerPipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">docSimRankerPipeline</span>
+<span class="gp">... </span>        <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>               <span class="s2">&quot;finished_doc_similarity_rankings_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="s2">&quot;finished_doc_similarity_rankings_neighbors&quot;</span>
+<span class="gp">... </span>        <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+<span class="go">|finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+<span class="go">|1510101612                         |[(1634839239,0.12448559591306324)]        |</span>
+<span class="go">|1634839239                         |[(1510101612,0.12448559591306324)]        |</span>
+<span class="go">|-612640902                         |[(1274183715,0.1220122862046063)]         |</span>
+<span class="go">|1274183715                         |[(-612640902,0.1220122862046063)]         |</span>
+<span class="go">|-1320876223                        |[(1293373212,0.17848855164122393)]        |</span>
+<span class="go">|1293373212                         |[(-1320876223,0.17848855164122393)]       |</span>
+<span class="go">|-1548374770                        |[(-1719102856,0.23297156732534166)]       |</span>
+<span class="go">|-1719102856                        |[(-1548374770,0.23297156732534166)]       |</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod">
 <span class="sig-name descname"><span class="pre">setSimilarityMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setSimilarityMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod" title="Permalink to this definition">#</a></dt>
@@ -459,7 +540,7 @@ Default(‘False’).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id9"><span class="problematic" id="id10">`</span></a>Model`s that wrap Java/Scala
+<dd><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Model`s that wrap Java/Scala
 implementations. Subclasses should inherit this class before
 param mix-ins, because this sets the UID from the Java model.</p>
 </dd></dl>
@@ -467,9 +548,28 @@ param mix-ins, because this sets the UID from the Java model.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerFinisher</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id11"><span class="problematic" id="id12">`</span></a>Transformer`s that wrap Java/Scala
-implementations. Subclasses should ensure they have the transformer Java object
-available as _java_obj.</p>
+<dd><p>Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the
+documentation of the main class.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SENTENCE_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOC_SIMILARITY_RANKINGS</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>extractNearestNeighbor</strong></dt><dd><p>Whether to extract the nearest neighbor document</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.setInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols" title="Permalink to this definition">#</a></dt>

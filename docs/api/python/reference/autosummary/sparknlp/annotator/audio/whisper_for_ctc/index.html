@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.audio.whisper_for_ctc &#8212; Spark NLP 5.1.0 documentation</title>
+    <title>sparknlp.annotator.audio.whisper_for_ctc &#8212; Spark NLP 5.1.3 documentation</title>
   
   
   
@@ -362,7 +362,8 @@ document.write(`
 multilingual and multitask supervised data collected from the web. It transcribe in multiple
 languages, as well as translate from those languages into English.</p>
 <p>The audio needs to be provided pre-processed an array of floats.</p>
-<p>Note that at the moment, this annotator only supports greedy search.</p>
+<p>Note that at the moment, this annotator only supports greedy search and only Spark Versions
+3.4 and up are supported.</p>
 <p>For multilingual models, the language and the task (transcribe or translate) can be set with
 <code class="docutils literal notranslate"><span class="pre">setLanguage</span></code> and <code class="docutils literal notranslate"><span class="pre">setTask</span></code>.</p>
 <p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>

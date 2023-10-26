@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.1.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC</title>
-          <meta name="description" content="Spark NLP 5.1.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC" />
-          <meta name="keywords" content="Spark NLP 5.1.0 ScalaDoc com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC" />
+          <title>Spark NLP 5.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC</title>
+          <meta name="description" content="Spark NLP 5.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC" />
+          <meta name="keywords" content="Spark NLP 5.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.1.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.1.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -235,7 +235,8 @@
 (CTC).</p><p>Whisper is an automatic speech recognition (ASR) system trained on 680,000 hours of
 multilingual and multitask supervised data collected from the web. It transcribe in multiple
 languages, as well as translate from those languages into English.</p><p>The audio needs to be provided pre-processed an array of floats.</p><p>For multilingual models, the language and the task (transcribe or translate) can be set with
-<code>setLanguage</code> and <code>setTask</code>.</p><p>Note that at the moment, this annotator only supports greedy search.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> speechToText = WhisperForCTC.pretrained()
+<code>setLanguage</code> and <code>setTask</code>.</p><p>Note that at the moment, this annotator only supports greedy search and only Spark Versions
+3.4 and up are supported.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> speechToText = WhisperForCTC.pretrained()
   .setInputCols(<span class="lit">"audio_assembler"</span>)
   .setOutputCol(<span class="lit">"text"</span>)</pre><p>The default model is <code>&quot;asr_whisper_tiny_opt&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended

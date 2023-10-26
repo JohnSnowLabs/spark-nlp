@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.1.0 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.1.3 documentation</title>
   
   
   
@@ -363,6 +363,100 @@ document.write(`
 
 
 <div class="viewcode-block" id="DocumentSimilarityRankerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach">[docs]</a><span class="k">class</span> <span class="nc">DocumentSimilarityRankerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that uses LSH techniques present in Spark ML lib to execute</span>
+<span class="sd">    approximate nearest neighbors search on top of sentence embeddings.</span>
+
+<span class="sd">    It aims to capture the semantic meaning of a document in a dense,</span>
+<span class="sd">    continuous vector space and return it to the ranker search.</span>
+
+<span class="sd">    For instantiated/pretrained models, see DocumentSimilarityRankerModel.</span>
+
+<span class="sd">    For extended examples of usage, see the jupyter notebook</span>
+<span class="sd">    `Document Similarity Ranker for Spark NLP &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb&gt;`__.</span>
+
+<span class="sd">    ======================= ===========================</span>
+<span class="sd">    Input Annotation types  Output Annotation type</span>
+<span class="sd">    ======================= ===========================</span>
+<span class="sd">    ``SENTENCE_EMBEDDINGS`` ``DOC_SIMILARITY_RANKINGS``</span>
+<span class="sd">    ======================= ===========================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    enableCaching</span>
+<span class="sd">        Whether to enable caching DataFrames or RDDs during the training</span>
+<span class="sd">    similarityMethod</span>
+<span class="sd">        The similarity method used to calculate the neighbours.</span>
+<span class="sd">        (Default: &#39;brp&#39;,Bucketed Random Projection for Euclidean Distance)</span>
+<span class="sd">    numberOfNeighbours</span>
+<span class="sd">        The number of neighbours the model will return (Default:`10`)</span>
+<span class="sd">    bucketLength</span>
+<span class="sd">        Controls the average size of hash buckets. A larger bucket</span>
+<span class="sd">        length (i.e., fewer buckets) increases the probability of features</span>
+<span class="sd">        being hashed to the same bucket (increasing the numbers of true and false positives)</span>
+<span class="sd">    numHashTables</span>
+<span class="sd">      Number of hash tables, where increasing number of hash tables lowers the</span>
+<span class="sd">      false negative rate, and decreasing it improves the running performance.</span>
+<span class="sd">    visibleDistances</span>
+<span class="sd">        &quot;Whether to set visibleDistances in ranking output (Default: `false`).</span>
+<span class="sd">    identityRanking</span>
+<span class="sd">        Whether to include identity in ranking result set. Useful for debug. (Default: `false`).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator.similarity.document_similarity_ranker import *</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \</span>
+<span class="sd">    ...             .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    ...             .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_embeddings = E5Embeddings.pretrained() \</span>
+<span class="sd">    ...             .setInputCols([&quot;document&quot;]) \</span>
+<span class="sd">    ...             .setOutputCol(&quot;sentence_embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; document_similarity_ranker = DocumentSimilarityRankerApproach() \</span>
+<span class="sd">    ...             .setInputCols(&quot;sentence_embeddings&quot;) \</span>
+<span class="sd">    ...             .setOutputCol(&quot;doc_similarity_rankings&quot;) \</span>
+<span class="sd">    ...             .setSimilarityMethod(&quot;brp&quot;) \</span>
+<span class="sd">    ...             .setNumberOfNeighbours(1) \</span>
+<span class="sd">    ...             .setBucketLength(2.0) \</span>
+<span class="sd">    ...             .setNumHashTables(3) \</span>
+<span class="sd">    ...             .setVisibleDistances(True) \</span>
+<span class="sd">    ...             .setIdentityRanking(False)</span>
+<span class="sd">    &gt;&gt;&gt; document_similarity_ranker_finisher = DocumentSimilarityRankerFinisher() \</span>
+<span class="sd">    ...         .setInputCols(&quot;doc_similarity_rankings&quot;) \</span>
+<span class="sd">    ...         .setOutputCols(</span>
+<span class="sd">    ...             &quot;finished_doc_similarity_rankings_id&quot;,</span>
+<span class="sd">    ...             &quot;finished_doc_similarity_rankings_neighbors&quot;) \</span>
+<span class="sd">    ...         .setExtractNearestNeighbor(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...             document_assembler,</span>
+<span class="sd">    ...             sentence_embeddings,</span>
+<span class="sd">    ...             document_similarity_ranker,</span>
+<span class="sd">    ...             document_similarity_ranker_finisher</span>
+<span class="sd">    ...         ])</span>
+<span class="sd">    &gt;&gt;&gt; docSimRankerPipeline = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; (</span>
+<span class="sd">    ...     docSimRankerPipeline</span>
+<span class="sd">    ...         .select(</span>
+<span class="sd">    ...                &quot;finished_doc_similarity_rankings_id&quot;,</span>
+<span class="sd">    ...                &quot;finished_doc_similarity_rankings_neighbors&quot;</span>
+<span class="sd">    ...         ).show(10, False)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    +-----------------------------------+------------------------------------------+</span>
+<span class="sd">    |finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|</span>
+<span class="sd">    +-----------------------------------+------------------------------------------+</span>
+<span class="sd">    |1510101612                         |[(1634839239,0.12448559591306324)]        |</span>
+<span class="sd">    |1634839239                         |[(1510101612,0.12448559591306324)]        |</span>
+<span class="sd">    |-612640902                         |[(1274183715,0.1220122862046063)]         |</span>
+<span class="sd">    |1274183715                         |[(-612640902,0.1220122862046063)]         |</span>
+<span class="sd">    |-1320876223                        |[(1293373212,0.17848855164122393)]        |</span>
+<span class="sd">    |1293373212                         |[(-1320876223,0.17848855164122393)]       |</span>
+<span class="sd">    |-1548374770                        |[(-1719102856,0.23297156732534166)]       |</span>
+<span class="sd">    |-1719102856                        |[(-1548374770,0.23297156732534166)]       |</span>
+<span class="sd">    +-----------------------------------+------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOC_SIMILARITY_RANKINGS</span>
@@ -497,7 +591,20 @@ document.write(`
 
 
 <div class="viewcode-block" id="DocumentSimilarityRankerFinisher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher">[docs]</a><span class="k">class</span> <span class="nc">DocumentSimilarityRankerFinisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the</span>
+<span class="sd">    documentation of the main class.</span>
 
+<span class="sd">    ======================= ===========================</span>
+<span class="sd">    Input Annotation types  Output Annotation type</span>
+<span class="sd">    ======================= ===========================</span>
+<span class="sd">    ``SENTENCE_EMBEDDINGS`` ``DOC_SIMILARITY_RANKINGS``</span>
+<span class="sd">    ======================= ===========================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    extractNearestNeighbor</span>
+<span class="sd">        Whether to extract the nearest neighbor document</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;name of input annotation cols containing document similarity ranker results&quot;</span><span class="p">,</span>

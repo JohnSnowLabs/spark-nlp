@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.openai.openai_completion &#8212; Spark NLP 5.1.0 documentation</title>
+    <title>sparknlp.annotator.openai.openai_completion &#8212; Spark NLP 5.1.3 documentation</title>
   
   
   
@@ -438,6 +438,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.normalizer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../stemmer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stemmer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../stop_words_cleaner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stop_words_cleaner</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token2_chunk</span></code></a></li>
 </ul>
 </div>
 </nav></div>
@@ -502,16 +503,81 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion" title="sparknlp.annotator.openai.openai_completion.OpenAICompletion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OpenAICompletion</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Model`s that wrap Java/Scala</p></td>
+<td><p>Transformer that makes a request for OpenAI Completion API for each executor.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OpenAICompletion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.ml.ai.OpenAICompletion'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Model`s that wrap Java/Scala
-implementations. Subclasses should inherit this class before
-param mix-ins, because this sets the UID from the Java model.</p>
+<dd><p>Transformer that makes a request for OpenAI Completion API for each executor.</p>
+<blockquote>
+<div><p>See OpenAI API Doc: <a class="reference external" href="https://platform.openai.com/docs/api-reference/completions/create">https://platform.openai.com/docs/api-reference/completions/create</a> for reference</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model</strong></dt><dd><p>ID of the OpenAI model to use</p>
+</dd>
+<dt><strong>suffix</strong></dt><dd><p>The suffix that comes after a completion of inserted text</p>
+</dd>
+<dt><strong>maxTokens</strong></dt><dd><p>The maximum number of tokens to generate in the completion.</p>
+</dd>
+<dt><strong>temperature</strong></dt><dd><p>What sampling temperature to use, between 0 and 2</p>
+</dd>
+<dt><strong>topP</strong></dt><dd><p>An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass</p>
+</dd>
+<dt><strong>numberOfCompletions</strong></dt><dd><p>How many completions to generate for each prompt.</p>
+</dd>
+<dt><strong>logprobs</strong></dt><dd><p>Include the log probabilities on the logprobs most likely tokens, as well the chosen tokens.</p>
+</dd>
+<dt><strong>echo</strong></dt><dd><p>Echo back the prompt in addition to the completion</p>
+</dd>
+<dt><strong>stop</strong></dt><dd><p>Up to 4 sequences where the API will stop generating further tokens.</p>
+</dd>
+<dt><strong>presencePenalty</strong></dt><dd><p>Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model’s likelihood to talk about new topics.</p>
+</dd>
+<dt><strong>frequencyPenalty</strong></dt><dd><p>Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model’s likelihood to repeat the same line verbatim.</p>
+</dd>
+<dt><strong>bestOf</strong></dt><dd><p>Generates best_of completions server-side and returns the <cite>best</cite> (the one with the highest log probability per token).</p>
+</dd>
+<dt><strong>logitBias</strong></dt><dd><p>Modify the likelihood of specified tokens appearing in the completion.</p>
+</dd>
+<dt><strong>user</strong></dt><dd><p>A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>I had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|</dt><dd><p><a href="#id1"><span class="problematic" id="id2">|</span></a>[{document, 0, 227,</p>
+</dd>
+<dt>I recently visited Barbecue Joe’s for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |</dt><dd><p><a href="#id3"><span class="problematic" id="id4">|</span></a>[{document, 0, 172,</p>
+</dd>
+</dl>
+<dl>
+<dt>{</dt><dd><dl class="simple">
+<dt>“review”: {</dt><dd><p>“overallRating”: 4,
+“reviewBody”: “I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |</p>
+</dd>
+</dl>
+<table class="table">
+<tbody>
+</tbody>
+</table>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.setModel">
 <span class="sig-name descname"><span class="pre">setModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.setModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setModel" title="Permalink to this definition">#</a></dt>

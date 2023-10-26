@@ -126,7 +126,7 @@ trait ReadOnnxModel {
 
     val wrappers = (modelNames map { modelName: String =>
       // 2. Copy to local dir
-      val localModelFile = modelName + suffix
+      val localModelFile = modelName
       fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
 
       val localPath = new Path(tmpFolder, localModelFile).toString

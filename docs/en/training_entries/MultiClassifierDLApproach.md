@@ -9,7 +9,7 @@ MultiClassifierDL uses a Bidirectional GRU with a convolutional model that we ha
 up to 100 classes.
 
 The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
-[UniversalSentenceEncoder](docs/en/transformers#universalsentenceencoder),
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
 [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings), or
 [SentenceEmbeddings](/docs/en/annotators#sentenceembeddings).
 

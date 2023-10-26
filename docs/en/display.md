@@ -28,7 +28,7 @@ The ability to quickly visualize the entities/relations/assertion statuses, etc.
 The  visualisation classes work with the outputs returned by both Pipeline.transform() function and LightPipeline.fullAnnotate().
 
 
-<br/>
+</div><div class="h3-box" markdown="1">
 
 ### Install Spark NLP Display
 
@@ -37,9 +37,12 @@ You can install the Spark NLP Display library via pip by using:
 ```bash
 pip install spark-nlp-display
 ```
+
 <br/>
 
 A complete guideline on how to use the Spark NLP Display library is available <a href="https://github.com/JohnSnowLabs/spark-nlp-display/blob/main/tutorials/Spark_NLP_Display.ipynb">here</a>.
+
+</div><div class="h3-box" markdown="1">
 
 ### Visualize a dependency tree
 
@@ -64,7 +67,7 @@ The following image gives an example of html output that is obtained for a test 
 <img class="image image--xl" src="/assets/images/dependency tree viz.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
-<br/>
+</div><div class="h3-box" markdown="1">
 
 ### Visualize extracted named entities
 
@@ -89,8 +92,7 @@ The following image gives an example of html output that is obtained for a coupl
 <img class="image image--xl" src="/assets/images/ner viz.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
-
-<br/>
+</div><div class="h3-box" markdown="1">
 
 ### Visualize relations
 
@@ -112,10 +114,7 @@ The following image gives an example of html output that is obtained for a coupl
 
 <img class="image image--xl" src="/assets/images/relations viz.png" style="width:100%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-
-
-
-<br/>
+</div><div class="h3-box" markdown="1">
 
 ### Visualize assertion status
 
@@ -141,14 +140,11 @@ The following image gives an example of html output that is obtained for a coupl
 
 <img class="image image--xl" src="/assets/images/assertion viz.png" style="width:80%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-
-
-
-<br/>
+</div><div class="h3-box" markdown="1">
 
 ### Visualize entity resolution
 
-**Entity resolution** refers to the normalization of named entities predicted by Spark NLP with respect to standard terminologies such as ICD-10, SNOMED, RxNorm etc. You can read more about the available entity resolvers <a href="/en/licensed_annotators#chunkentityresolver">here.</a>
+**Entity resolution** refers to the normalization of named entities predicted by Spark NLP with respect to standard terminologies such as ICD-10, SNOMED, RxNorm etc. You can read more about the available entity resolvers <a href="/docs/en/annotators">here.</a>
 
 The **EntityResolverVisualizer** will automatically display on top of the NER label the standard code (ICD10 CM, PCS, ICDO; CPT) that corresponds to that entity as well as the short description of the code. If no resolution code could be identified a regular NER-type of visualization will be displayed.
 
@@ -172,6 +168,4 @@ The following image gives an example of html output that is obtained for a coupl
 
 <img class="image image--xl" src="/assets/images/resolution viz.png" style="width:100%;align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-
-
-</div><div class="h3-box" markdown="1">
+</div>

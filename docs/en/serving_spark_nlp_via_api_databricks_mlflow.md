@@ -14,7 +14,9 @@ sidebar:
 <div class="h3-box" markdown="1">
 
 This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://www.mlflow.org/) Serve APIs.
-You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare [documentation](https://sparknlp.org/docs/en/licensed_install) page.
+
+[//]: <> You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare [documentation](https://sparknlp.org/docs/en/licensed_install) page.
+
 </div><div class="h3-box" markdown="1">
 
 ## Background
@@ -448,7 +450,7 @@ Check the Jobs [API](https://docs.databricks.com/dev-tools/api/latest/jobs.html)
 
 ## Do you want to know more?
 
-* Check how to productionize Spark NLP in our official documentation [here](https://sparknlp.org/docs/en/production-readiness)
+[//]: <> Check how to productionize Spark NLP in our official documentation [here](https://sparknlp.org/docs/en/production-readiness)
 
 * Visit [John Snow Labs](https://www.johnsnowlabs.com/) and [Spark NLP Technical Documentation](https://sparknlp.org/) websites
 
