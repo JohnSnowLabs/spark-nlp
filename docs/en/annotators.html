@@ -645,6 +645,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#documentcharactertextsplitter">DocumentCharacterTextSplitter</a></td>
+        <td>Annotator which splits large documents into chunks of roughly given size.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#documentnormalizer">DocumentNormalizer</a></td>
         <td>Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.</td>
         <td>Opensource</td>
@@ -3282,6 +3287,146 @@ can be used to pre-process the text (Default: <code class="language-plaintext hi
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">value</span><span class="k">:</span> <span class="kt">string</span> <span class="o">(</span><span class="kt">valueContainsNull</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">embeddings</span><span class="k">:</span> <span class="kt">array</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">element</span><span class="k">:</span> <span class="kt">float</span> <span class="o">(</span><span class="kt">containsNull</span> <span class="o">=</span> <span class="kt">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="documentcharactertextsplitter">DocumentCharacterTextSplitter</h2>
+
+  <p>Annotator which splits large documents into chunks of roughly given size.</p>
+
+  <p>DocumentCharacterTextSplitter takes a list of separators. It takes the separators in order and
+splits subtexts if they are over the chunk length, considering optional overlap of the chunks.</p>
+
+  <p>For example, given chunk size 20 and overlap 5:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"He was, I take it, the most perfect reasoning and observing machine that the world has seen."</span>
+
+<span class="p">[</span><span class="s">"He was, I take it,"</span><span class="p">,</span> <span class="s">"it, the most"</span><span class="p">,</span> <span class="s">"most perfect"</span><span class="p">,</span> <span class="s">"reasoning and"</span><span class="p">,</span> <span class="s">"and observing"</span><span class="p">,</span> <span class="s">"machine that the"</span><span class="p">,</span> <span class="s">"the world has seen."</span><span class="p">]</span>
+</code></pre></div>  </div>
+
+  <p>Additionally, you can set</p>
+
+  <ul>
+    <li>custom patterns with setSplitPatterns</li>
+    <li>whether patterns should be interpreted as regex with setPatternsAreRegex</li>
+    <li>whether to keep the separators with setKeepSeparators</li>
+    <li>whether to trim whitespaces with setTrimWhitespace</li>
+    <li>whether to explode the splits to individual rows with setExplodeSplits</li>
+  </ul>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitterTest.scala">DocumentCharacterTextSplitterTest</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/document_character_text_splitter/index.html#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter">DocumentCharacterTextSplitter</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitter">DocumentCharacterTextSplitter</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitter.scala">DocumentCharacterTextSplitter</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">textDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">text</span><span class="p">(</span>
+   <span class="s">"/home/ducha/Workspace/scala/spark-nlp/src/test/resources/spell/sherlockholmes.txt"</span><span class="p">,</span>
+   <span class="n">wholetext</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">textSplitter</span> <span class="o">=</span> <span class="n">DocumentCharacterTextSplitter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"splits"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setChunkSize</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setChunkOverlap</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setExplodeSplits</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">textSplitter</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">textDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">textDF</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span>
+      <span class="s">"splits.result"</span><span class="p">,</span>
+      <span class="s">"splits[0].begin"</span><span class="p">,</span>
+      <span class="s">"splits[0].end"</span><span class="p">,</span>
+      <span class="s">"splits[0].end - splits[0].begin as length"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">truncate</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+---------------+-------------+------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span><span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">begin</span><span class="o">|</span><span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">end</span><span class="o">|</span><span class="n">length</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+---------------+-------------+------+</span>
+<span class="o">|</span><span class="p">[</span> <span class="n">Project</span> <span class="n">Gutenberg</span><span class="s">'s The Adventures of Sherlock Holmes, by Arthur Conan Doyl...|              0|        19994| 19994|
+|["And Mademoiselle'</span><span class="n">s</span> <span class="n">address</span><span class="err">?</span><span class="s">" he asked.</span><span class="se">\n\n</span><span class="s">"</span><span class="n">Is</span> <span class="n">Briony</span> <span class="n">Lodge</span><span class="p">,</span> <span class="n">Serpentine</span> <span class="n">Aven</span><span class="p">...</span><span class="o">|</span>          <span class="mi">19798</span><span class="o">|</span>        <span class="mi">39395</span><span class="o">|</span> <span class="mi">19597</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="s">"How did that help you?"</span>\<span class="n">n</span>\<span class="n">n</span><span class="s">"It was all-important. When a woman thinks that ...|          39371|        59242| 19871|
+|["'But,'</span> <span class="n">said</span> <span class="n">I</span><span class="p">,</span> <span class="s">'there would be millions of red-headed men who</span><span class="se">\n</span><span class="s">would apply....|          59166|        77833| 18667|
+|[My friend was an enthusiastic musician, being himself not only a</span><span class="se">\n</span><span class="s">very capab...|          77835|        97769| 19934|
+|["And yet I am not convinced of it," I answered. "The cases which</span><span class="se">\n</span><span class="s">come to li...|          97771|       117248| 19477|
+|["Well, she had a slate-coloured, broad-brimmed straw hat, with a</span><span class="se">\n</span><span class="s">feather of...|         117250|       137242| 19992|
+|["That sounds a little paradoxical."</span><span class="se">\n\n</span><span class="s">"But it is profoundly True. Singulari...|         137244|       157171| 19927|
++--------------------------------------------------------------------------------+---------------+-------------+------+
+</span></code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">textDF</span> <span class="k">=</span>
+  <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+    <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"wholetext"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">text</span><span class="o">(</span><span class="s">"src/test/resources/spell/sherlockholmes.txt"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">().</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">textSplitter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentCharacterTextSplitter</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"splits"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setChunkSize</span><span class="o">(</span><span class="mi">20000</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setChunkOverlap</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setExplodeSplits</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">textSplitter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">textDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">textDF</span><span class="o">)</span>
+
+<span class="n">result</span>
+  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span>
+    <span class="s">"splits.result"</span><span class="o">,</span>
+    <span class="s">"splits[0].begin"</span><span class="o">,</span>
+    <span class="s">"splits[0].end"</span><span class="o">,</span>
+    <span class="s">"splits[0].end - splits[0].begin as length"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="mi">8</span><span class="o">,</span> <span class="n">truncate</span> <span class="k">=</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+---------------+-------------+------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span><span class="n">splits</span><span class="o">[</span><span class="err">0</span><span class="o">].</span><span class="py">begin</span><span class="o">|</span><span class="n">splits</span><span class="o">[</span><span class="err">0</span><span class="o">].</span><span class="py">end</span><span class="o">|</span><span class="n">length</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+---------------+-------------+------+</span>
+<span class="o">|[</span> <span class="kt">Project</span> <span class="kt">Gutenberg's</span> <span class="kt">The</span> <span class="kt">Adventures</span> <span class="kt">of</span> <span class="kt">Sherlock</span> <span class="kt">Holmes</span>, <span class="kt">by</span> <span class="kt">Arthur</span> <span class="kt">Conan</span> <span class="kt">Doyl...|</span>              <span class="err">0</span><span class="kt">|</span>        <span class="err">19994</span><span class="kt">|</span> <span class="err">19994</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">And</span> <span class="kt">Mademoiselle's</span> <span class="kt">address?</span><span class="err">"</span> <span class="kt">he</span> <span class="kt">asked.\n\n</span><span class="err">"</span><span class="kt">Is</span> <span class="kt">Briony</span> <span class="kt">Lodge</span>, <span class="kt">Serpentine</span> <span class="kt">Aven...|</span>          <span class="err">19798</span><span class="kt">|</span>        <span class="err">39395</span><span class="kt">|</span> <span class="err">19597</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">How</span> <span class="kt">did</span> <span class="kt">that</span> <span class="kt">help</span> <span class="kt">you?</span><span class="err">"</span><span class="kt">\n\n</span><span class="err">"</span><span class="kt">It</span> <span class="kt">was</span> <span class="kt">all-important.</span> <span class="kt">When</span> <span class="kt">a</span> <span class="kt">woman</span> <span class="kt">thinks</span> <span class="kt">that</span> <span class="kt">...|</span>          <span class="err">39371</span><span class="kt">|</span>        <span class="err">59242</span><span class="kt">|</span> <span class="err">19871</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">'But</span>,<span class="kt">'</span> <span class="kt">said</span> <span class="kt">I</span>, <span class="kt">'there</span> <span class="kt">would</span> <span class="kt">be</span> <span class="kt">millions</span> <span class="kt">of</span> <span class="kt">red-headed</span> <span class="kt">men</span> <span class="kt">who\nwould</span> <span class="kt">apply....|</span>          <span class="err">59166</span><span class="kt">|</span>        <span class="err">77833</span><span class="kt">|</span> <span class="err">18667</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="kt">My</span> <span class="kt">friend</span> <span class="kt">was</span> <span class="kt">an</span> <span class="kt">enthusiastic</span> <span class="kt">musician</span>, <span class="kt">being</span> <span class="kt">himself</span> <span class="kt">not</span> <span class="kt">only</span> <span class="kt">a\nvery</span> <span class="kt">capab...|</span>          <span class="err">77835</span><span class="kt">|</span>        <span class="err">97769</span><span class="kt">|</span> <span class="err">19934</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">And</span> <span class="kt">yet</span> <span class="kt">I</span> <span class="kt">am</span> <span class="kt">not</span> <span class="kt">convinced</span> <span class="kt">of</span> <span class="kt">it</span>,<span class="err">"</span> <span class="kt">I</span> <span class="kt">answered.</span> <span class="err">"</span><span class="kt">The</span> <span class="kt">cases</span> <span class="kt">which\ncome</span> <span class="kt">to</span> <span class="kt">li...|</span>          <span class="err">97771</span><span class="kt">|</span>       <span class="err">117248</span><span class="kt">|</span> <span class="err">19477</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">Well</span>, <span class="kt">she</span> <span class="kt">had</span> <span class="kt">a</span> <span class="kt">slate-coloured</span>, <span class="kt">broad-brimmed</span> <span class="kt">straw</span> <span class="kt">hat</span>, <span class="kt">with</span> <span class="kt">a\nfeather</span> <span class="kt">of...|</span>         <span class="err">117250</span><span class="kt">|</span>       <span class="err">137242</span><span class="kt">|</span> <span class="err">19992</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">"</span><span class="kt">That</span> <span class="kt">sounds</span> <span class="kt">a</span> <span class="kt">little</span> <span class="kt">paradoxical.</span><span class="err">"</span><span class="kt">\n\n</span><span class="err">"</span><span class="kt">But</span> <span class="kt">it</span> <span class="kt">is</span> <span class="kt">profoundly</span> <span class="kt">true.</span> <span class="kt">Singulari...|</span>         <span class="err">137244</span><span class="kt">|</span>       <span class="err">157171</span><span class="kt">|</span> <span class="err">19927</span><span class="kt">|</span>
+<span class="kt">+--------------------------------------------------------------------------------+---------------+-------------+------+</span>
 </code></pre></div>      </div>
 
     </div>
