@@ -401,14 +401,8 @@ private[johnsnowlabs] class RoBertaClassification(
     outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
-    
-    val endDim = endLogits.length / batchLength
-    val endScores: Array[Array[Float]] = endLogits.grouped(endDim).toArray
 
-    val startDim = startLogits.length / batchLength
-    val startScores: Array[Array[Float]] = startLogits.grouped(startDim).toArray
-
-    (startScores, endScores)
+    (startLogits, endLogits)
   }
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
