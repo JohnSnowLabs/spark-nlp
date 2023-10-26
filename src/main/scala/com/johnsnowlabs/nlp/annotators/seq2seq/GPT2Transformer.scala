@@ -402,8 +402,7 @@ class GPT2Transformer(override val uid: String)
         .forModel(
           "gpt2",
           merges = $$(merges),
-          vocab = $$(vocabulary),
-          padWithSentenceTokens = false)
+          vocab = $$(vocabulary))
         .asInstanceOf[Gpt2Tokenizer]
 
       _tfModel = Some(

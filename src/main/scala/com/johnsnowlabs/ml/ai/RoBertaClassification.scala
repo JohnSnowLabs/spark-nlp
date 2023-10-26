@@ -24,7 +24,7 @@ import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
-import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -71,7 +71,8 @@ private[johnsnowlabs] class RoBertaClassification(
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
+    val bpeTokenizer =
+      BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
 
     sentences.map { tokenIndex =>
       // filter empty and only whitespace tokens
@@ -114,7 +115,8 @@ private[johnsnowlabs] class RoBertaClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
     // we need the original form of the token
     // let's lowercase if needed right before the encoding
-    val bpeTokenizer = BpeTokenizer.forModel("roberta", merges, vocabulary)
+    val bpeTokenizer =
+      BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
     sentences.map { sentence =>
@@ -123,12 +125,10 @@ private[johnsnowlabs] class RoBertaClassification(
       val sentenceEnd = sentence.end
       val sentenceIndex = sentence.index
 
-      // TODO: we should implement dedicated the tokenize and tokenizeSubText methods for full a sentence rather than token by token
       val indexedTokens =
         bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
 
-      val wordpieceTokens =
-        indexedTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
+      val wordpieceTokens = bpeTokenizer.encode(indexedTokens).take(maxSeqLength)
 
       WordpieceTokenizedSentence(wordpieceTokens)
     }
@@ -401,8 +401,14 @@ private[johnsnowlabs] class RoBertaClassification(
     outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
+    
+    val endDim = endLogits.length / batchLength
+    val endScores: Array[Array[Float]] = endLogits.grouped(endDim).toArray
 
-    (startLogits, endLogits)
+    val startDim = startLogits.length / batchLength
+    val startScores: Array[Array[Float]] = startLogits.grouped(startDim).toArray
+
+    (startScores, endScores)
   }
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
@@ -449,6 +455,136 @@ private[johnsnowlabs] class RoBertaClassification(
       sentence: (WordpieceTokenizedSentence, Int),
       tokenPiece: TokenPiece): Option[IndexedToken] = {
     tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin)
+  }
+
+  /** Encodes two sequences to be compatible with the RoBerta models.
+    *
+    * Unlike other models, ReBerta requires two eos tokens to join two sequences.
+    *
+    * For example, the pair of sequences A, B should be joined to: `<s> A </s></s> B </s>`
+    */
+  override def encodeSequence(
+      seq1: Seq[WordpieceTokenizedSentence],
+      seq2: Seq[WordpieceTokenizedSentence],
+      maxSequenceLength: Int): Seq[Array[Int]] = {
+
+    val question = seq1
+      .flatMap { wpTokSentence =>
+        wpTokSentence.tokens.map(t => t.pieceId)
+      }
+      .toArray
+      .take(maxSequenceLength - 2) ++ Array(sentenceEndTokenId, sentenceEndTokenId)
+
+    val context = seq2
+      .flatMap { wpTokSentence =>
+        wpTokSentence.tokens.map(t => t.pieceId)
+      }
+      .toArray
+      .take(maxSequenceLength - question.length - 2) ++ Array(sentenceEndTokenId)
+
+    Seq(Array(sentenceStartTokenId) ++ question ++ context)
+  }
+
+  /** Calculates the normalized softmax probabilities.
+    *
+    * @param scores
+    *   Raw logits
+    * @return
+    *   Normalized softmax probabilities
+    */
+  private def normalizedSoftmax(scores: Array[Float]): Array[Float] = {
+    val max = scores.max
+    calculateSoftmax(scores.map(_ - max))
+  }
+
+  override def predictSpan(
+      documents: Seq[Annotation],
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      mergeTokenStrategy: String = MergeTokenStrategy.vocab,
+      engine: String = TensorFlow.name): Seq[Annotation] = {
+
+    val questionAnnot = Seq(documents.head)
+    val contextAnnot = documents.drop(1)
+
+    val wordPieceTokenizedQuestion =
+      tokenizeDocument(questionAnnot, maxSentenceLength, caseSensitive)
+    val wordPieceTokenizedContext =
+      tokenizeDocument(contextAnnot, maxSentenceLength, caseSensitive)
+    val questionLength = wordPieceTokenizedQuestion.head.tokens.length
+
+    val encodedInput =
+      encodeSequence(wordPieceTokenizedQuestion, wordPieceTokenizedContext, maxSentenceLength)
+    val (startLogits, endLogits) = tagSpan(encodedInput)
+
+    /** Sets log-logits to (almost) 0 for question and padding tokens so they can't contribute to
+      * the final softmax score.
+      *
+      * @param scores
+      *   Logits of the combined sequences
+      * @return
+      *   Scores, with unwanted tokens set to log-probability 0
+      */
+    def maskUndesiredTokens(scores: Array[Float]): Array[Float] = {
+      scores.zipWithIndex.map { case (score, i) =>
+        // 3 added special tokens in encoded sequence (1 bos, 2 eos)
+        if ((i > 0 && i < questionLength + 3) || i == encodedInput.head.length - 1)
+          -10000.0f
+        else score
+      }
+    }
+
+    val processedStartLogits = startLogits.map { scores =>
+      normalizedSoftmax(maskUndesiredTokens(scores))
+    }
+    val processedEndLogits = endLogits.map { scores =>
+      normalizedSoftmax(maskUndesiredTokens(scores))
+    }
+
+    val startScores = processedStartLogits.transpose.map(_.sum / startLogits.length)
+    val endScores = processedEndLogits.transpose.map(_.sum / endLogits.length)
+
+    // Drop BOS token from valid results
+    val startIndex = startScores.zipWithIndex.drop(1).maxBy(_._1)
+    val endIndex = endScores.zipWithIndex.drop(1).maxBy(_._1)
+
+    val offsetStartIndex = 3 // 3 added special tokens
+    val offsetEndIndex = offsetStartIndex - 1
+
+    val allTokenPieces =
+      wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
+    val decodedAnswer =
+      allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
+    val content =
+      mergeTokenStrategy match {
+        case MergeTokenStrategy.vocab =>
+          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
+        case MergeTokenStrategy.sentencePiece =>
+          val token = ""
+          decodedAnswer
+            .map(x =>
+              if (x.isWordStart) " " + token + x.token
+              else token + x.token)
+            .mkString("")
+            .trim
+      }
+
+    val totalScore = startIndex._1 * endIndex._1
+    Seq(
+      Annotation(
+        annotatorType = AnnotatorType.CHUNK,
+        begin = 0,
+        end = if (content.isEmpty) 0 else content.length - 1,
+        result = content,
+        metadata = Map(
+          "sentence" -> "0",
+          "chunk" -> "0",
+          "start" -> decodedAnswer.head.begin.toString,
+          "start_score" -> startIndex._1.toString,
+          "end" -> decodedAnswer.last.end.toString,
+          "end_score" -> endIndex._1.toString,
+          "score" -> totalScore.toString)))
+
   }
 
 }

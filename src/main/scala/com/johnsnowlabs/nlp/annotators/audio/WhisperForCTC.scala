@@ -34,8 +34,9 @@ import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.{Preprocessor, WhisperPreprocessor}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
@@ -53,7 +54,8 @@ import org.json4s.jackson.JsonMethods._
   * For multilingual models, the language and the task (transcribe or translate) can be set with
   * `setLanguage` and `setTask`.
   *
-  * Note that at the moment, this annotator only supports greedy search.
+  * Note that at the moment, this annotator only supports greedy search and only Spark Versions
+  * 3.4 and up are supported.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -424,7 +426,12 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
   override val onnxFile: String = "whisper_ctc_onnx"
   val suffix: String = "_whisper_ctc"
 
+  private def checkVersion(spark: SparkSession): Unit = {
+    val version = Version.parse(spark.version).toFloat
+    require(version >= 3.4, "WhisperForCTC requires Spark versions 3.4 and up.")
+  }
   def readModel(instance: WhisperForCTC, path: String, spark: SparkSession): Unit = {
+    checkVersion(spark)
 
     instance.getEngine match {
       case TensorFlow.name =>
@@ -457,6 +464,8 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): WhisperForCTC = {
+    checkVersion(spark)
+
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4s
 
     val (localModelPath, detectedEngine) =

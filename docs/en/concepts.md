@@ -66,7 +66,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==5.1.2 pyspark==3.3.1 jupyter
+$ pip install spark-nlp==5.1.3 pyspark==3.3.1 jupyter
 $ jupyter notebook
 ```
 

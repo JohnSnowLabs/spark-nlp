@@ -16,6 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
+import com.johnsnowlabs.nlp.annotators.common.Sentence
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
@@ -91,4 +93,26 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "d",
       "<|endoftext|>"),
     expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0))
+
+  it should "encode non latin tokens" taggedAs FastTest in {
+    val text = "吳天恩"
+
+    val vocab: Map[String, Int] =
+      "ĠåĲ³å¤©æģ©".map(_.toString).zipWithIndex.toMap ++ Seq(("<|endoftext|>", 100))
+
+    val merges: Map[(String, String), Int] = Map.empty
+
+    val bpeTokenizer =
+      BpeTokenizer.forModel(modelType, merges, vocab, alwaysAddPrefix = false)
+
+    val indexedTokens =
+      bpeTokenizer.tokenize(Sentence(text, 0, text.length, 0))
+
+    val encodedTokens = bpeTokenizer.encode(indexedTokens)
+
+    assert(
+      encodedTokens.forall(_.pieceId != bpeTokenizer.specialTokens.unk.id),
+      "Tokens should be able to be encoded.")
+
+  }
 }

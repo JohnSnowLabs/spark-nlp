@@ -46,7 +46,7 @@ private[johnsnowlabs] class Bart(
     with Generate {
 
   val bpeTokenizer: BartTokenizer = BpeTokenizer
-    .forModel("bart", merges = merges, vocab = vocabulary, padWithSentenceTokens = false)
+    .forModel("bart", merges = merges, vocab = vocabulary, padWithSequenceTokens = false)
     .asInstanceOf[BartTokenizer]
   private val _tfBartSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())

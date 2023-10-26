@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -97,7 +98,7 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val pipelineDF = pipelineModel.transform(data)
 
     Benchmark.time("Time to show RoBertaForQuestionAnswering results") {
-      pipelineDF.select("answer").show(10, false)
+      pipelineDF.select("answer").show(10, truncate = false)
     }
 
     Benchmark.time("Time to save RoBertaForQuestionAnswering results") {
@@ -107,6 +108,53 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
         .mode("overwrite")
         .parquet("./tmp_question_answering")
     }
+  }
 
+  "RoBertaForQuestionAnswering" should "produce correct score and index" taggedAs SlowTest in {
+
+    val context = "My name is Sarah and I live in London"
+    val ddd = Seq(("Where do I live?", context))
+      .toDF("question", "context")
+      .repartition(1)
+
+    val document = new MultiDocumentAssembler()
+      .setInputCols("question", "context")
+      .setOutputCols("document_question", "document_context")
+
+    val questionAnswering = RoBertaForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("document_question", "document_context"))
+      .setOutputCol("answer")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("answer").show(truncate = false)
+
+    /* Expected:
+       {
+           "score": 0.7772300839424133,
+           "start": 31,
+           "end": 37,
+           "answer": "London"
+       }
+     */
+    val expectedScore: Float = 0.7772300839424133f
+    val expectedAnswer: String = "London"
+    val result = Annotation.collect(pipelineDF, "answer").head.head
+
+    val indexedAnswer: String =
+      context.slice(result.metadata("start").toInt + 1, result.metadata("end").toInt + 1)
+    val score: Float = result.metadata("score").toFloat
+
+    assert(result.result == expectedAnswer)
+    assert(indexedAnswer == expectedAnswer, "Indexes don't seem to match")
+
+    import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
+    assert(score === expectedScore, "Score was not close enough")
   }
 }

@@ -294,8 +294,7 @@ class LongformerEmbeddings(override val uid: String)
     val bpeTokenizer = BpeTokenizer.forModel(
       "roberta",
       merges = $$(merges),
-      vocab = $$(vocabulary),
-      padWithSentenceTokens = false)
+      vocab = $$(vocabulary))
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens
