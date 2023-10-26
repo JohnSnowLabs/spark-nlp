@@ -336,7 +336,7 @@ Spark NLP 5.1.4 has been tested and is compatible with the following runtimes:
 - 13.2 ML & GPU
 - 13.3 ML & GPU
 - 14.0 ML & GPU
-- 14.0 ML & GPU
+- 14.1 ML & GPU
 
 ## EMR Support
 
