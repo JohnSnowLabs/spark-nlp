@@ -1,8 +1,8 @@
 ---
 layout: model
-title: English 6ep_bert_ft_cola_48 BertForSequenceClassification from Jeevesh8
+title: English finetuning_esg_sentiment_model_bert_nepal_bhasa_data BertForSequenceClassification from Bennet1996
 author: John Snow Labs
-name: 6ep_bert_ft_cola_48
+name: finetuning_esg_sentiment_model_bert_nepal_bhasa_data
 date: 2023-10-26
 tags: [bert, en, open_source, sequence_classification, onnx]
 task: Text Classification
@@ -19,17 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`6ep_bert_ft_cola_48` is a English model originally trained by Jeevesh8.
-
-## Predicted Entities
-
-
+Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`finetuning_esg_sentiment_model_bert_nepal_bhasa_data` is a English model originally trained by Bennet1996.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/6ep_bert_ft_cola_48_en_5.1.4_3.4_1698311945088.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/6ep_bert_ft_cola_48_en_5.1.4_3.4_1698311945088.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/finetuning_esg_sentiment_model_bert_nepal_bhasa_data_en_5.1.4_3.4_1698341111207.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/finetuning_esg_sentiment_model_bert_nepal_bhasa_data_en_5.1.4_3.4_1698341111207.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -38,6 +34,7 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -46,7 +43,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")  
     
-sequenceClassifier = BertForSequenceClassification.pretrained("6ep_bert_ft_cola_48","en")\
+sequenceClassifier = BertForSequenceClassification.pretrained("finetuning_esg_sentiment_model_bert_nepal_bhasa_data","en")\
             .setInputCols(["document","token"])\
             .setOutputCol("class")
 
@@ -55,8 +52,10 @@ pipeline = Pipeline().setStages([document_assembler, tokenizer, sequenceClassifi
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
+
 val document_assembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
@@ -65,7 +64,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")  
     
-val sequenceClassifier = BertForSequenceClassification.pretrained("6ep_bert_ft_cola_48","en")
+val sequenceClassifier = BertForSequenceClassification.pretrained("finetuning_esg_sentiment_model_bert_nepal_bhasa_data","en")
             .setInputCols(Array("document","token"))
             .setOutputCol("class")
 
@@ -74,6 +73,8 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, sequ
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
+
+
 ```
 </div>
 
@@ -82,7 +83,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|6ep_bert_ft_cola_48|
+|Model Name:|finetuning_esg_sentiment_model_bert_nepal_bhasa_data|
 |Compatibility:|Spark NLP 5.1.4+|
 |License:|Open Source|
 |Edition:|Official|
@@ -93,6 +94,4 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-References
-
-https://huggingface.co/Jeevesh8/6ep_bert_ft_cola-48
+https://huggingface.co/Bennet1996/finetuning-ESG-sentiment-model-bert_new_data

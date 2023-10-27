@@ -1,12 +1,12 @@
 ---
 layout: model
-title: English 6ep_bert_ft_cola_48 BertForSequenceClassification from Jeevesh8
+title: Multilingual bert_multilingual_passage_reranking_msmarco_fluid_ai BertForSequenceClassification from fluid-ai
 author: John Snow Labs
-name: 6ep_bert_ft_cola_48
-date: 2023-10-26
-tags: [bert, en, open_source, sequence_classification, onnx]
+name: bert_multilingual_passage_reranking_msmarco_fluid_ai
+date: 2023-10-27
+tags: [bert, xx, open_source, sequence_classification, onnx]
 task: Text Classification
-language: en
+language: xx
 edition: Spark NLP 5.1.4
 spark_version: 3.4
 supported: true
@@ -19,17 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`6ep_bert_ft_cola_48` is a English model originally trained by Jeevesh8.
-
-## Predicted Entities
-
-
+Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bert_multilingual_passage_reranking_msmarco_fluid_ai` is a Multilingual model originally trained by fluid-ai.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/6ep_bert_ft_cola_48_en_5.1.4_3.4_1698311945088.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/6ep_bert_ft_cola_48_en_5.1.4_3.4_1698311945088.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multilingual_passage_reranking_msmarco_fluid_ai_xx_5.1.4_3.4_1698375394207.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_multilingual_passage_reranking_msmarco_fluid_ai_xx_5.1.4_3.4_1698375394207.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -38,6 +34,7 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -46,7 +43,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")  
     
-sequenceClassifier = BertForSequenceClassification.pretrained("6ep_bert_ft_cola_48","en")\
+sequenceClassifier = BertForSequenceClassification.pretrained("bert_multilingual_passage_reranking_msmarco_fluid_ai","xx")\
             .setInputCols(["document","token"])\
             .setOutputCol("class")
 
@@ -55,8 +52,10 @@ pipeline = Pipeline().setStages([document_assembler, tokenizer, sequenceClassifi
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
+
 ```
 ```scala
+
 val document_assembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
@@ -65,7 +64,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")  
     
-val sequenceClassifier = BertForSequenceClassification.pretrained("6ep_bert_ft_cola_48","en")
+val sequenceClassifier = BertForSequenceClassification.pretrained("bert_multilingual_passage_reranking_msmarco_fluid_ai","xx")
             .setInputCols(Array("document","token"))
             .setOutputCol("class")
 
@@ -74,6 +73,8 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, sequ
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
+
+
 ```
 </div>
 
@@ -82,17 +83,15 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|6ep_bert_ft_cola_48|
+|Model Name:|bert_multilingual_passage_reranking_msmarco_fluid_ai|
 |Compatibility:|Spark NLP 5.1.4+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[documents, token]|
 |Output Labels:|[class]|
-|Language:|en|
-|Size:|409.4 MB|
+|Language:|xx|
+|Size:|627.7 MB|
 
 ## References
 
-References
-
-https://huggingface.co/Jeevesh8/6ep_bert_ft_cola-48
+https://huggingface.co/fluid-ai/bert-multilingual-passage-reranking-msmarco
