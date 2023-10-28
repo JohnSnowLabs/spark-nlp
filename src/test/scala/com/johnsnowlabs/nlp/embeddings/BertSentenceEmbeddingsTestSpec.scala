@@ -16,6 +16,8 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import ai.onnxruntime.{OrtEnvironment, OrtSession}
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
@@ -233,4 +235,30 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
+  it should "work with onnx" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val path = "onnx_models/bert-base-cased"
+    val embeddings = BertSentenceEmbeddings
+      .loadSavedModel(path, ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("bert")
+      .setMaxSentenceLength(512)
+
+    embeddings.write
+      .overwrite()
+      .save("bert_sent_onnx")
+
+    val loadedEmbeddings = BertSentenceEmbeddings.load("bert_sent_onnx")
+
+    val pipeline = new Pipeline().setStages(Array(document, loadedEmbeddings))
+
+    pipeline.fit(ddd).transform(ddd).select("bert").show(truncate = false)
+  }
 }

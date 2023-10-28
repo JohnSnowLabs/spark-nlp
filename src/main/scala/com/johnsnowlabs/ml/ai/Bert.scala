@@ -215,7 +215,7 @@ private[johnsnowlabs] class Bert(
           val results = runner.run(inputs)
           try {
             val embeddings = results
-              .get("pooler_output")
+              .get("last_hidden_state")
               .get()
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
@@ -281,64 +281,68 @@ private[johnsnowlabs] class Bert(
   }
 
   def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    detectedEngine match {
+      case ONNX.name =>
+        tagSequence(batch)
+      case TensorFlow.name =>
+        val tensors = new TensorResources()
 
-    val tensors = new TensorResources()
+        val maxSentenceLength = batch.map(x => x.length).max
+        val batchLength = batch.length
 
-    val maxSentenceLength = batch.map(x => x.length).max
-    val batchLength = batch.length
+        val tokenBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+        val maskBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+        val segmentBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
 
-    val tokenBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+        val shape = Array(batchLength.toLong, maxSentenceLength)
 
-    val shape = Array(batchLength.toLong, maxSentenceLength)
+        batch.zipWithIndex.foreach { case (sentence, idx) =>
+          val offset = idx * maxSentenceLength
+          tokenBuffers.offset(offset).write(sentence.map(_.toLong))
+          maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
+          segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
+        }
 
-    batch.zipWithIndex.foreach { case (sentence, idx) =>
-      val offset = idx * maxSentenceLength
-      tokenBuffers.offset(offset).write(sentence.map(_.toLong))
-      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
+        val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+        val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+        val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
+
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfBertSignatures.getOrElse(
+              ModelSignatureConstants.InputIdsV1.key,
+              "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+            maskTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+            segmentTensors)
+          .fetch(_tfBertSignatures
+            .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        val dim = embeddings.length / batchLength
+        embeddings.grouped(dim).toArray
     }
-
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
-
-    val runner = tensorflowWrapper.get
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
-
-    runner
-      .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-        maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
-        .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
-
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
-
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
-
-    val dim = embeddings.length / batchLength
-    embeddings.grouped(dim).toArray
   }
 
   def predict(
