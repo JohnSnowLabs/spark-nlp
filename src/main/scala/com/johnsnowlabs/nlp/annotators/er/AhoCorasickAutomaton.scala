@@ -123,7 +123,7 @@ class AhoCorasickAutomaton(
 
       if (state == 0 && previousState > 0) {
         val node = nodes(previousState).get
-        if (node.isLeaf) {
+        if (node.isLeaf && node.entity.nonEmpty) {
           val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
           chunkAnnotations.append(chunkAnnotation)
           chunk.clear()
@@ -135,8 +135,10 @@ class AhoCorasickAutomaton(
 
     if (chunk.nonEmpty) {
       val node = nodes(previousState).get
-      val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
-      chunkAnnotations.append(chunkAnnotation)
+      if (node.entity.nonEmpty) {
+        val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
+        chunkAnnotations.append(chunkAnnotation)
+      }
       chunk.clear()
     }
 

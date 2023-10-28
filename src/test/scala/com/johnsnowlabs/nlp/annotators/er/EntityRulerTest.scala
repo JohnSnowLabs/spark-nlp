@@ -791,7 +791,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedEntitiesFromText6, actualEntities)
   }
 
-  it should "work with LightPipeline" in {
+  it should "work with LightPipeline" taggedAs FastTest in {
     val externalResource =
       ExternalResource(s"$testPath/keywords_only.json", ReadAs.TEXT, Map("format" -> "json"))
     val entityRulerPipeline = getEntityRulerKeywordsPipeline(externalResource, useStorage = false)
