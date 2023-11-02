@@ -16,9 +16,10 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -45,6 +46,71 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
     pipelineDF.select("mpnet.embeddings").show(truncate = false)
 
+  }
+
+  it should "loadSaved ONNX model" in {
+    val mpnetEmbeddings = MPNetEmbeddings
+      .loadSavedModel(
+        "/home/danilo/IdeaProjects/MySpikes/python_spikes/src/nlp/hugging_face/onnx_models/mpnet/embeddings/sentence-transformers/all-mpnet-base-v2",
+        ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("mpnet")
+
+    mpnetEmbeddings.write.overwrite().save("tmp_mpnet_embeddings_onxx_spark_nlp")
+  }
+
+  it should "work for ONNX multi sentences" in {
+    import ResourceHelper.spark.implicits._
+    val testData = "I really enjoy my job. This is amazing"
+    val testDf = Seq(testData).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = SentenceDetectorDLModel
+      .pretrained("sentence_detector_dl", "en")
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    val embeddings = MPNetEmbeddings
+      .load("tmp_mpnet_embeddings_onxx_spark_nlp")
+      .setInputCols("sentences")
+      .setOutputCol("mpnet")
+
+    val pipeline = new Pipeline().setStages(Array(document, sentenceDetectorDL, embeddings))
+
+    val pipelineModel = pipeline.fit(testDf)
+    val pipelineDF = pipelineModel.transform(testDf)
+
+    pipelineDF.select("mpnet.embeddings").show()
+  }
+
+  it should "work with sentences" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+    val testData = "I really enjoy my job. This is amazing"
+    val testDf = Seq(testData).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = SentenceDetectorDLModel
+      .pretrained("sentence_detector_dl", "en")
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    val embeddings = MPNetEmbeddings
+      .pretrained()
+      .setInputCols("sentences")
+      .setOutputCol("mpnet")
+
+    val pipeline = new Pipeline().setStages(Array(document, sentenceDetectorDL, embeddings))
+
+    val pipelineModel = pipeline.fit(testDf)
+    val pipelineDF = pipelineModel.transform(testDf)
+
+    pipelineDF.select("mpnet.embeddings").show()
   }
 
 }

@@ -64,13 +64,23 @@ private[johnsnowlabs] class MPNet(
     *   sentence embeddings
     */
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        getSentenceEmbeddingFromOnnx(batch)
+        getSentenceEmbeddingFromOnnx(paddedBatch)
       case _ =>
-        getSentenceEmbeddingFromTF(batch)
+        getSentenceEmbeddingFromTF(paddedBatch)
     }
     embeddings
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
   }
 
   /** Get sentence embeddings for a batch of sentences
