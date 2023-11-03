@@ -348,9 +348,9 @@ trait ReadAlbertForTokenDLModel
 
     instance.getEngine match {
       case TensorFlow.name =>
-        val tf =
+        val tfWrapper =
           readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(
