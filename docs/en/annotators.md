@@ -61,6 +61,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="DocumentCharacterTextSplitter" summary="Annotator which splits large documents into chunks of roughly given size."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
 {% include templates/anno_table_entry.md path="" name="DocumentSimilarityRanker" summary="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."%}
+{% include templates/anno_table_entry.md path="" name="DocumentTokenSplitter" summary="Annotator that splits large documents into smaller documents based on the number of tokens in the text."%}
 {% include templates/anno_table_entry.md path="" name="EntityRuler" summary="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity."%}
 {% include templates/anno_table_entry.md path="" name="EmbeddingsFinisher" summary="Extracts embeddings from Annotations into a more easily usable form."%}
 {% include templates/anno_table_entry.md path="" name="Finisher" summary="Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP Pipelines."%}
