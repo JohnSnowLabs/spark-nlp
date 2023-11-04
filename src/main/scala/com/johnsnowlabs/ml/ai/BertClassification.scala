@@ -445,7 +445,7 @@ private[johnsnowlabs] class BertClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    (endLogits, startLogits)
+    (startLogits, endLogits)
   }
 
   private def computeLogitsWithOnnx(

@@ -19,7 +19,7 @@
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed
 environment.
-Spark NLP comes with **21000+** pretrained **pipelines** and **models** in more than **200+** languages.
+Spark NLP comes with **22000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Image to Text (captioning)**, **Automatic Speech Recognition**, **Zero-Shot Learning**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Facebook BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
@@ -80,6 +80,7 @@ documentation and examples
 - Stop Words Removal
 - Token Normalizer
 - Document Normalizer
+- Document & Text Splitter
 - Stemmer
 - Lemmatizer
 - NGrams
@@ -157,8 +158,8 @@ documentation and examples
 - Easy ONNX and TensorFlow integrations
 - GPU Support
 - Full integration with Spark ML functions
-- +15000 pre-trained models in +200 languages!
-- +5800 pre-trained pipelines in +200 languages!
+- +16800 pre-trained models in +200 languages!
+- +5900 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian,
   Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
 
@@ -167,11 +168,11 @@ documentation and examples
 To use Spark NLP you need the following requirements:
 
 - Java 8 and 11
-- Apache Spark 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x
+- Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x
 
 **GPU (optional):**
 
-Spark NLP 5.1.3 is built with ONNX 1.15.1 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
+Spark NLP 5.1.4 is built with ONNX 1.15.1 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
@@ -187,7 +188,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==5.1.3 pyspark==3.3.1
+$ pip install spark-nlp==5.1.4 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -232,23 +233,23 @@ For more examples, you can visit our dedicated [examples](https://github.com/Joh
 
 ## Apache Spark Support
 
-Spark NLP *5.1.3* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+Spark NLP *5.1.4* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
-| Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x | Apache Spark 3.4.x |
-|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 5.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | YES                |
-| 4.4.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | YES                |
-| 4.3.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
-| 4.2.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
-| 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
-| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
-| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                | NO                 |
-| 3.3.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
-| 3.2.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
-| 3.1.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
-| 3.0.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
-| 2.7.x     | YES                | YES                | NO                 | NO                 | NO                 | NO                 | NO                 |
-
+| Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
+|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 5.1.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 4.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 4.3.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 4.2.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 3.4.x     | NO                 | NO                 | N/A                | Partially          | YES                | YES                | YES                | YES                |
+| 3.3.x     | NO                 | NO                 | NO                 | NO                 | YES                | YES                | YES                | YES                |
+| 3.2.x     | NO                 | NO                 | NO                 | NO                 | YES                | YES                | YES                | YES                |
+| 3.1.x     | NO                 | NO                 | NO                 | NO                 | YES                | YES                | YES                | YES                |
+| 3.0.x     | NO                 | NO                 | NO                 | NO                 | YES                | YES                | YES                | YES                |
+| 2.7.x     | NO                 | NO                 | NO                 | NO                 | NO                 | NO                 | YES                | YES                |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
@@ -256,6 +257,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|------------|
+| 5.1.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.4.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.3.x     | YES        | YES        | YES        | YES        | YES        | NO         | YES        |
@@ -271,7 +273,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ## Databricks Support
 
-Spark NLP 5.1.3 has been tested and is compatible with the following runtimes:
+Spark NLP 5.1.4 has been tested and is compatible with the following runtimes:
 
 **CPU:**
 
@@ -309,6 +311,10 @@ Spark NLP 5.1.3 has been tested and is compatible with the following runtimes:
 - 13.2 ML
 - 13.3
 - 13.3 ML
+- 14.0
+- 14.0 ML
+- 14.1
+- 14.1 ML
 
 **GPU:**
 
@@ -329,10 +335,12 @@ Spark NLP 5.1.3 has been tested and is compatible with the following runtimes:
 - 13.1 ML & GPU
 - 13.2 ML & GPU
 - 13.3 ML & GPU
+- 14.0 ML & GPU
+- 14.1 ML & GPU
 
 ## EMR Support
 
-Spark NLP 5.1.3 has been tested and is compatible with the following EMR releases:
+Spark NLP 5.1.4 has been tested and is compatible with the following EMR releases:
 
 - emr-6.2.0
 - emr-6.3.0
@@ -346,6 +354,8 @@ Spark NLP 5.1.3 has been tested and is compatible with the following EMR release
 - emr-6.10.0
 - emr-6.11.0
 - emr-6.12.0
+- emr-6.13.0
+- emr-6.14.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 
@@ -357,10 +367,10 @@ NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-| Apache Spark        | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on AArch64 (linux)   | Spark NLP on Apple Silicon           |
-|---------------------|--------------------|----------------------------|--------------------------------|--------------------------------------|
-| 3.0/3.1/3.2/3.3/3.4 | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
-| Start Function      | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(apple_silicon=True)` |
+| Apache Spark            | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on AArch64 (linux)   | Spark NLP on Apple Silicon           |
+|-------------------------|--------------------|----------------------------|--------------------------------|--------------------------------------|
+| 3.0/3.1/3.2/3.3/3.4/3.5 | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
+| Start Function          | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(apple_silicon=True)` |
 
 NOTE: `M1/M2` and `AArch64` are under `experimental` support. Access and support to these architectures are limited by the
 community and we had to build most of the dependencies by ourselves to make them compatible. We support these two
@@ -370,18 +380,18 @@ architectures, however, they may not work in some environments.
 
 ### Command line (requires internet connection)
 
-Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, Apache Spark 3.3.x, and Apache Spark 3.4.x
+Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, Apache Spark 3.3.x, Apache Spark 3.4.x, and Apache Spark 3.5.x
 
-#### Apache Spark 3.x (3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x - Scala 2.12)
+#### Apache Spark 3.x (3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x - Scala 2.12)
 
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 The `spark-nlp` has been published to
@@ -390,11 +400,11 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.3
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.4
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.3
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.4
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.3
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.1.4
 
 ```
 
@@ -404,11 +414,11 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 ```sh
 # AArch64
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.3
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.4
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.3
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.4
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.3
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.1.4
 
 ```
 
@@ -418,11 +428,11 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 ```sh
 # M1/M2 (Apple Silicon)
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.3
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.4
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.3
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.4
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.3
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:5.1.4
 
 ```
 
@@ -436,7 +446,7 @@ set in your SparkSession:
 spark-shell \
   --driver-memory 16g \
   --conf spark.kryoserializer.buffer.max=2000M \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 ## Scala
@@ -447,14 +457,14 @@ coordinates:
 
 ### Maven
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x:
+**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x:
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.12</artifactId>
-    <version>5.1.3</version>
+    <version>5.1.4</version>
 </dependency>
 ```
 
@@ -465,7 +475,7 @@ coordinates:
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.12</artifactId>
-    <version>5.1.3</version>
+    <version>5.1.4</version>
 </dependency>
 ```
 
@@ -476,7 +486,7 @@ coordinates:
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-aarch64_2.12</artifactId>
-    <version>5.1.3</version>
+    <version>5.1.4</version>
 </dependency>
 ```
 
@@ -487,38 +497,38 @@ coordinates:
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-silicon_2.12</artifactId>
-    <version>5.1.3</version>
+    <version>5.1.4</version>
 </dependency>
 ```
 
 ### SBT
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x:
+**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "5.1.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "5.1.4"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "5.1.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "5.1.4"
 ```
 
 **spark-nlp-aarch64:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "5.1.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "5.1.4"
 ```
 
 **spark-nlp-silicon:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "5.1.3"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "5.1.4"
 ```
 
 Maven
@@ -540,7 +550,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==5.1.3
+pip install spark-nlp==5.1.4
 ```
 
 Conda:
@@ -569,7 +579,7 @@ spark = SparkSession.builder
     .config("spark.driver.memory", "16G")
     .config("spark.driver.maxResultSize", "0")
     .config("spark.kryoserializer.buffer.max", "2000M")
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4")
     .getOrCreate()
 ```
 
@@ -601,19 +611,19 @@ result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created
 
 #### spark-nlp
 
-- FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+- FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 ```bash
 sbt assembly
 ```
 
-- FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+- FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 ```bash
 sbt -Dis_gpu=true assembly
 ```
 
-- FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+- FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 ```bash
 sbt -Dis_silicon=true assembly
@@ -640,7 +650,7 @@ Use either one of the following options
 - Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 - Add a path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is
@@ -651,7 +661,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
 Apart from the previous step, install the python module through pip
 
 ```bash
-pip install spark-nlp==5.1.3
+pip install spark-nlp==5.1.4
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -679,7 +689,7 @@ launch the Jupyter from the same Python environment:
 $ conda create -n sparknlp python=3.8 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==5.1.3 pyspark==3.3.1 jupyter
+$ pip install spark-nlp==5.1.4 pyspark==3.3.1 jupyter
 $ jupyter notebook
 ```
 
@@ -696,7 +706,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -723,7 +733,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -s is for spark-nlp
 # -g will enable upgrading libcudnn8 to 8.1.0 on Google Colab for GPU usage
 # by default they are set to the latest
-!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 5.1.3
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 5.1.4
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb)
@@ -746,7 +756,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -s is for spark-nlp
 # -g will enable upgrading libcudnn8 to 8.1.0 on Kaggle for GPU usage
 # by default they are set to the latest
-!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 5.1.3
+!wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 5.1.4
 ```
 
 [Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live
@@ -765,9 +775,9 @@ demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp==5.1.3` -> Install
+   3.1. Install New -> PyPI -> `spark-nlp==5.1.4` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3` -> Install
+   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -818,7 +828,7 @@ A sample of your software configuration in JSON on S3 (must be public access):
       "spark.kryoserializer.buffer.max": "2000M",
       "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
       "spark.driver.maxResultSize": "0",
-      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3"
+      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4"
     }
 }]
 ```
@@ -827,7 +837,7 @@ A sample of AWS CLI to launch EMR cluster:
 
 ```.sh
 aws emr create-cluster \
---name "Spark NLP 5.1.3" \
+--name "Spark NLP 5.1.4" \
 --release-label emr-6.2.0 \
 --applications Name=Hadoop Name=Spark Name=Hive \
 --instance-type m4.4xlarge \
@@ -891,7 +901,7 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
   --enable-component-gateway \
   --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
   --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh \
-  --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+  --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
@@ -930,7 +940,7 @@ spark = SparkSession.builder
     .config("spark.kryoserializer.buffer.max", "2000m")
     .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
     .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4")
     .getOrCreate()
 ```
 
@@ -944,7 +954,7 @@ spark-shell \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 **pyspark:**
@@ -957,7 +967,7 @@ pyspark \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.3
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.1.4
 ```
 
 **Databricks:**
@@ -1229,16 +1239,16 @@ spark = SparkSession.builder
     .config("spark.driver.memory", "16G")
     .config("spark.driver.maxResultSize", "0")
     .config("spark.kryoserializer.buffer.max", "2000M")
-    .config("spark.jars", "/tmp/spark-nlp-assembly-5.1.3.jar")
+    .config("spark.jars", "/tmp/spark-nlp-assembly-5.1.4.jar")
     .getOrCreate()
 ```
 
 - You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases),
   please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark
-  version (3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x)
+  version (3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x)
 - If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need
   to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (
-  i.e., `hdfs:///tmp/spark-nlp-assembly-5.1.3.jar`)
+  i.e., `hdfs:///tmp/spark-nlp-assembly-5.1.4.jar`)
 
 Example of using pretrained Models and Pipelines in offline:
 

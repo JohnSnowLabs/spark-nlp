@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, RoBertaClassification}
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -220,12 +221,14 @@ class LongformerForQuestionAnswering(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): LongformerForQuestionAnswering = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): LongformerForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBertaClassification(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -282,7 +285,7 @@ class LongformerForQuestionAnswering(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_longformer_classification",
       LongformerForQuestionAnswering.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -321,9 +324,9 @@ trait ReadLongformerForQuestionAnsweringDLModel extends ReadTensorflowModel {
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
+    val tfWrapper =
       readTensorflowModel(path, spark, "_longformer_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tfWrapper), None)
   }
 
   addReader(readModel)
@@ -350,7 +353,7 @@ trait ReadLongformerForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -363,7 +366,7 @@ trait ReadLongformerForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

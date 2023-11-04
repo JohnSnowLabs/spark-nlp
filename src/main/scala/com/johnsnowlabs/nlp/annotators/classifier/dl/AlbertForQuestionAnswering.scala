@@ -31,7 +31,6 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 }
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}

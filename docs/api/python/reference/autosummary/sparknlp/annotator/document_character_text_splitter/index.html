@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp.annotator.document_character_text_splitter &#8212; Spark NLP 5.1.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../static/jquery.js"></script>
+    <script src="../../../../../static/underscore.js"></script>
+    <script src="../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../static/doctools.js"></script>
+    <script src="../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/annotator/document_character_text_splitter/index';</script>
+    <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/albert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/albert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/bart_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/camembert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.camembert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/camembert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.camembert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/deberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/deberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/distil_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/distil_bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/distil_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/roberta_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/xlm_roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/xlm_roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/xlm_roberta_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/xlnet_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classifier_dl/xlnet_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlnet_for_token_classification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../dependency/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dependency/dependency_parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency.dependency_parser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dependency/typed_dependency_parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency.typed_dependency_parser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/albert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.albert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/camembert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.camembert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/chunk_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.chunk_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/deberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.deberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/distil_bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.distil_bert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/doc2vec/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.doc2vec</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/e5_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.e5_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/elmo_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.elmo_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/instructor_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.instructor_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/longformer_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.longformer_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/mpnet_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.mpnet_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/roberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/roberta_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/universal_sentence_encoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.universal_sentence_encoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/word2vec/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.word2vec</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/word_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.word_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/xlm_roberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlm_roberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/xlm_roberta_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../embeddings/xlnet_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlnet_embeddings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../er/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.er</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../er/entity_ruler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.er.entity_ruler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../keyword_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.keyword_extraction</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../keyword_extraction/yake_keyword_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.keyword_extraction.yake_keyword_extraction</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ld_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ld_dl</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ld_dl/language_detector_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ld_dl.language_detector_dl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../matcher/big_text_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.big_text_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../matcher/date_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.date_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../matcher/multi_date_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.multi_date_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../matcher/regex_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.regex_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../matcher/text_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.text_matcher</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ner/ner_approach/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_approach</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ner/ner_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_converter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ner/ner_crf/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_crf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ner/ner_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ner/ner_overwriter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_overwriter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../openai/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../openai/openai_completion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_completion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openai/openai_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_embeddings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../param/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.param</span></code></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../pos/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pos/perceptron/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos.perceptron</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sentence/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sentence/sentence_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sentence/sentence_detector_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector_dl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sentiment/sentiment_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.sentiment_detector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sentiment/vivekn_sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.vivekn_sentiment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../seq2seq/bart_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.bart_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../seq2seq/gpt2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.gpt2_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../seq2seq/marian_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.marian_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../seq2seq/t5_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.t5_transformer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../spell_check/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spell_check/context_spell_checker/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.context_spell_checker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spell_check/norvig_sweeting/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.norvig_sweeting</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spell_check/symmetric_delete/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.symmetric_delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../token/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ws/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ws/word_segmenter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws.word_segmenter</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../chunk2_doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.chunk2_doc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chunker/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.chunker</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.date2_chunk</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../document_normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../graph_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.graph_extraction</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lemmatizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.lemmatizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../n_gram_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.n_gram_generator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stemmer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stemmer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stop_words_cleaner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stop_words_cleaner</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token2_chunk</span></code></a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.annotator.document_character_text_splitter">
+<span id="sparknlp-annotator-document-character-text-splitter"></span><h1><a class="reference internal" href="#module-sparknlp.annotator.document_character_text_splitter" title="sparknlp.annotator.document_character_text_splitter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></a><a class="headerlink" href="#module-sparknlp.annotator.document_character_text_splitter" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for the DocumentNormalizer</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter" title="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter</span></code></a></p></td>
+<td><p>Annotator which splits large documents into chunks of roughly given size.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentCharacterTextSplitter</span></span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotator which splits large documents into chunks of roughly given size.</p>
+<blockquote>
+<div><p>DocumentCharacterTextSplitter takes a list of separators. It takes the separators in order and
+splits subtexts if they are over the chunk length, considering optional overlap of the chunks.</p>
+<p>For example, given chunk size 20 and overlap 5:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;He was, I take it, the most perfect reasoning and observing machine that the world has seen.&quot;</span>
+
+<span class="p">[</span><span class="s2">&quot;He was, I take it,&quot;</span><span class="p">,</span> <span class="s2">&quot;it, the most&quot;</span><span class="p">,</span> <span class="s2">&quot;most perfect&quot;</span><span class="p">,</span> <span class="s2">&quot;reasoning and&quot;</span><span class="p">,</span> <span class="s2">&quot;and observing&quot;</span><span class="p">,</span> <span class="s2">&quot;machine that the&quot;</span><span class="p">,</span> <span class="s2">&quot;the world has seen.&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Additionally, you can set</p>
+<ul class="simple">
+<li><p>custom patterns with setSplitPatterns</p></li>
+<li><p>whether patterns should be interpreted as regex with setPatternsAreRegex</p></li>
+<li><p>whether to keep the separators with setKeepSeparators</p></li>
+<li><p>whether to trim whitespaces with setTrimWhitespace</p></li>
+<li><p>whether to explode the splits to individual rows with setExplodeSplits</p></li>
+</ul>
+<p>For extended examples of usage, see the
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitterTest.scala">DocumentCharacterTextSplitterTest</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>chunkSize</strong></dt><dd><blockquote>
+<div><p>Size of each chunk of text.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>chunkOverlap</dt><dd><p>Length of the overlap between text chunks , by default <cite>0</cite>.</p>
+</dd>
+<dt>splitPatterns</dt><dd><p>Patterns to separate the text by in decreasing priority , by default <a href="#id1"><span class="problematic" id="id2">`</span></a>[”</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>“, “</strong></dt><dd></dd>
+<dt><strong>“, “ “, “”]`.</strong></dt><dd><dl class="simple">
+<dt>patternsAreRegex</dt><dd><p>Whether to interpret the split patterns as regular expressions , by default <cite>False</cite>.</p>
+</dd>
+<dt>keepSeparators</dt><dd><p>Whether to keep the separators in the final result , by default <cite>True</cite>.</p>
+</dd>
+<dt>explodeSplits</dt><dd><p>Whether to explode split chunks to separate rows , by default <cite>False</cite>.</p>
+</dd>
+<dt>trimWhitespace</dt><dd><p>Whether to trim whitespaces of extracted chunks , by default <cite>True</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl>
+<dt>“Is Briony Lodge, Serpentine Aven…|          19798|        39395| 19597|</dt><dd><p><a href="#id3"><span class="problematic" id="id4">|</span></a>[“How did that help you?”</p>
+</dd>
+<dt>“It was all-important. When a woman thinks that …|          39371|        59242| 19871|</dt><dd><p><a href="#id5"><span class="problematic" id="id6">|</span></a>[“‘But,’ said I, ‘there would be millions of red-headed men who</p>
+</dd>
+<dt>would apply….|          59166|        77833| 18667|</dt><dd><p><a href="#id7"><span class="problematic" id="id8">|</span></a>[My friend was an enthusiastic musician, being himself not only a</p>
+</dd>
+<dt>very capab…|          77835|        97769| 19934|</dt><dd><p><a href="#id9"><span class="problematic" id="id10">|</span></a>[“And yet I am not convinced of it,” I answered. “The cases which</p>
+</dd>
+<dt>come to li…|          97771|       117248| 19477|</dt><dd><p><a href="#id11"><span class="problematic" id="id12">|</span></a>[“Well, she had a slate-coloured, broad-brimmed straw hat, with a</p>
+</dd>
+<dt>feather of…|         117250|       137242| 19992|</dt><dd><p><a href="#id13"><span class="problematic" id="id14">|</span></a>[“That sounds a little paradoxical.”</p>
+</dd>
+<dt>“But it is profoundly True. Singulari…|         137244|       157171| 19927|</dt><dd><table class="table">
+<tbody>
+</tbody>
+</table>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkSize">
+<span class="sig-name descname"><span class="pre">setChunkSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setChunkSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets size of each chunk of text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Size of each chunk of text</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkOverlap">
+<span class="sig-name descname"><span class="pre">setChunkOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setChunkOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkOverlap" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets length of the overlap between text chunks , by default <cite>0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Length of the overlap between text chunks</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setSplitPatterns">
+<span class="sig-name descname"><span class="pre">setSplitPatterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setSplitPatterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setSplitPatterns" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets patterns to separate the text by in decreasing priority , by default <a href="#id15"><span class="problematic" id="id16">`</span></a>[”</p>
+<p>“, ”
+“, “ “, “”]`.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Patterns to separate the text by in decreasing priority</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setPatternsAreRegex">
+<span class="sig-name descname"><span class="pre">setPatternsAreRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setPatternsAreRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setPatternsAreRegex" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to interpret the split patterns as regular expressions , by default <cite>False</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to interpret the split patterns as regular expressions</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setKeepSeparators">
+<span class="sig-name descname"><span class="pre">setKeepSeparators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setKeepSeparators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setKeepSeparators" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to keep the separators in the final result , by default <cite>True</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to keep the separators in the final result</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setExplodeSplits">
+<span class="sig-name descname"><span class="pre">setExplodeSplits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setExplodeSplits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setExplodeSplits" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode split chunks to separate rows , by default <cite>False</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to explode split chunks to separate rows</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setTrimWhitespace">
+<span class="sig-name descname"><span class="pre">setTrimWhitespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_character_text_splitter.html#DocumentCharacterTextSplitter.setTrimWhitespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setTrimWhitespace" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to trim whitespaces of extracted chunks , by default <cite>True</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to trim whitespaces of extracted chunks</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkSize"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setChunkSize()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setChunkOverlap"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setChunkOverlap()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setSplitPatterns"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setSplitPatterns()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setPatternsAreRegex"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setPatternsAreRegex()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setKeepSeparators"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setKeepSeparators()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setExplodeSplits"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setExplodeSplits()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_character_text_splitter.DocumentCharacterTextSplitter.setTrimWhitespace"><code class="docutils literal notranslate"><span class="pre">DocumentCharacterTextSplitter.setTrimWhitespace()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../../../../_sources/reference/autosummary/sparknlp/annotator/document_character_text_splitter/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -37,15 +37,16 @@ private[nlp] class XlmTokenizer(
     merges: Map[(String, String), Int],
     vocab: Map[String, Int],
     specialTokens: SpecialTokens,
-    padWithSentenceTokens: Boolean = false,
+    padWithSequenceTokens: Boolean = false,
     lang: String = "en",
     doLowercaseAndRemoveAccent: Boolean = true)
     extends BpeTokenizer(
       merges,
       vocab,
       specialTokens,
-      padWithSentenceTokens,
-      addPrefixSpace = false) {
+      padWithSequenceTokens,
+      addPrefixSpaceToSentence = false,
+      alwaysAddPrefix = false) {
   require(lang == "en", "Only English is supported currently.")
 
   /** Lowercase and strips accents from a piece of text based on
@@ -93,7 +94,7 @@ private[nlp] class XlmTokenizer(
     indexedTokens
   }
 
-  override val appendForPieceId: Option[String] = Some("</w>")
+  override val suffixForPieceId: Option[String] = Some("</w>")
 
   override def bpe(indToken: IndexedToken): Array[TokenPiece] = {
     val processedToken = preProcessTokenForBpe(indToken.token)

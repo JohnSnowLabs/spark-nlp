@@ -26,10 +26,17 @@ class Gpt2Tokenizer(
     merges: Map[(String, String), Int],
     vocab: Map[String, Int],
     specialTokens: SpecialTokens,
-    padWithSentenceTokens: Boolean = true,
+    padWithSequenceTokens: Boolean = true,
     prependString: String = "",
-    addPrefixSpace: Boolean = false)
-    extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens, addPrefixSpace) {
+    addPrefixSpaceToSentence: Boolean = false,
+    alwaysAddPrefix: Boolean = true)
+    extends BpeTokenizer(
+      merges,
+      vocab,
+      specialTokens,
+      padWithSequenceTokens,
+      addPrefixSpaceToSentence,
+      alwaysAddPrefix) {
 
   /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
     * improved model performance for gpt-2
@@ -53,7 +60,7 @@ class Gpt2Tokenizer(
   // Differs from Transformers, space is always prepended.
   // FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
   // such as '.' get space prepended and they should not.
-  override val prependForPieceId: Option[String] =
+  override val prefixForPieceId: Option[String] =
     if (prependString.nonEmpty) Some(prependString) else None
 
   protected val decoderVocab: Map[Int, String] = vocab.map(x => (x._2, x._1))
@@ -62,7 +69,10 @@ class Gpt2Tokenizer(
     bytesToUnicodeMapping.map(x => (x._2, x._1))
 
   override def preProcessTokenForBpe(token: String): String = {
-    token.foldLeft("")(_ + bytesToUnicodeMapping(_))
+    token
+      .getBytes("UTF-8")
+      .map { b => if (b < 0) 256 + b else b }
+      .foldLeft("")(_ + bytesToUnicodeMapping(_))
   }
 
   val splitPattern: Regex =
@@ -71,7 +81,7 @@ class Gpt2Tokenizer(
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
-      .findAllMatchIn(if (prependForPieceId.isDefined || text.startsWith(" ")) text
+      .findAllMatchIn(if (prefixForPieceId.isDefined || text.startsWith(" ")) text
       else " " + text) // Prepend space to the beginning of text
       .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
       .toArray

@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.ml.ai.{RoBertaClassification, ZeroShotNerClassification}
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN}
 import com.johnsnowlabs.nlp.annotator.RoBertaForQuestionAnswering
@@ -240,12 +241,14 @@ class ZeroShotNerModel(override val uid: String) extends RoBertaForQuestionAnswe
 
   override def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): ZeroShotNerModel = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): ZeroShotNerModel = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new ZeroShotNerClassification(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -452,8 +455,9 @@ trait ReadZeroShotNerDLModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: ZeroShotNerModel, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    val tfWrapper =
+      readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
+    instance.setModelIfNotSet(spark, Some(tfWrapper), None)
   }
 
   addReader(readTensorflow)
@@ -483,7 +487,7 @@ object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotN
       newModel.setSignatures(
         model.signatures.get.getOrElse(throw new RuntimeException("Signatures not set")))
 
-    newModel.setModelIfNotSet(spark, model.getModelIfNotSet.tensorflowWrapper)
+    newModel.setModelIfNotSet(spark, model.getModelIfNotSet.tensorflowWrapper, None)
 
     model
       .extractParamMap()
