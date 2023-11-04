@@ -739,4 +739,9 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter
   object DocumentCharacterTextSplitter
       extends ParamsAndFeaturesReadable[DocumentCharacterTextSplitter]
+
+  type DocumentTokenSplitter =
+    com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter
+
+  object DocumentTokenSplitter extends ParamsAndFeaturesReadable[DocumentTokenSplitter]
 }

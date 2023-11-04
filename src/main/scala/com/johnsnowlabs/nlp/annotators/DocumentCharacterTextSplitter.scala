@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.functions.ExplodeAnnotations
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.DataFrame
 
-import scala.collection.mutable
 import scala.util.matching.Regex
 
 /** Annotator which splits large documents into chunks of roughly given size.
@@ -186,7 +186,7 @@ class DocumentCharacterTextSplitter(override val uid: String)
   /** @group getParam */
   def getKeepSeparators: Boolean = $(keepSeparators)
 
-  /** Whether to explode split chunks to separate rows
+  /** Whether to explode split chunks to separate rows (Default: `false`)
     *
     * @group param
     */
@@ -199,6 +199,9 @@ class DocumentCharacterTextSplitter(override val uid: String)
   /** @group getParam */
   def getExplodeSplits: Boolean = $(explodeSplits)
 
+  /** Whether to trim whitespaces of extracted chunks (Default: `true`)
+    * @group param
+    */
   val trimWhitespace: BooleanParam =
     new BooleanParam(this, "trimWhitespace", "Whether to trim whitespaces of extracted chunks")
 
@@ -216,147 +219,7 @@ class DocumentCharacterTextSplitter(override val uid: String)
     splitPatterns -> Array("\n\n", "\n", " ", ""),
     trimWhitespace -> true)
 
-  private def joinDocs(currentDoc: Seq[String], separator: String): String = {
-    val joined = String.join(separator, currentDoc: _*)
-
-    if (getTrimWhitespace) joined.trim else joined
-  }
-
-  /** Splits the given text with the separator.
-    *
-    * The separator is assumed to be regex (which was optionally escaped).
-    *
-    * @param text
-    *   Text to split
-    * @param separator
-    *   Regex as String
-    * @return
-    */
-  private def splitTextWithRegex(text: String, separator: String): Seq[String] = {
-    val splits: Seq[String] = if (separator.nonEmpty) {
-      val pattern = if (getKeepSeparators) f"(?=$separator)" else separator
-      text.split(pattern)
-    } else Seq(text)
-
-    splits.filter(_.nonEmpty)
-  }
-
-  /** Combines smaller text chunks into one that has about the size of chunk size.
-    *
-    * @param splits
-    *   Splits from the previous separator
-    * @param separator
-    *   The current separator
-    * @return
-    */
-  private def mergeSplits(splits: Seq[String], separator: String): Seq[String] = {
-    val separatorLen = separator.length
-
-    var docs: mutable.Seq[String] = mutable.Seq()
-    var currentDoc: mutable.Seq[String] = mutable.Seq()
-    var total: Int = 0
-
-    splits.foreach { d =>
-      val len = d.length
-
-      def separatorLenNonEmpty = if (currentDoc.nonEmpty) separatorLen else 0
-      def separatorLenActualText =
-        if (currentDoc.length > 1) separatorLen
-        else 0
-
-      if (total + len + separatorLenNonEmpty > getChunkSize) {
-        if (currentDoc.nonEmpty) {
-          val doc = joinDocs(currentDoc, separator)
-          if (doc.nonEmpty) {
-            docs = docs :+ doc
-          }
-
-          def mergeLargerThanChunkSize =
-            total + len + separatorLenNonEmpty > getChunkSize && total > 0
-
-          while (total > getChunkOverlap || mergeLargerThanChunkSize) {
-            total -= currentDoc.head.length + separatorLenActualText
-            currentDoc = currentDoc.drop(1)
-          }
-        }
-      }
-
-      currentDoc = currentDoc :+ d
-      total += len + separatorLenActualText
-    }
-
-    val doc = joinDocs(currentDoc, separator)
-    if (doc.nonEmpty) {
-      docs = docs :+ doc
-    }
-
-    docs
-  }
-
-  // noinspection RegExpRedundantEscape
-  private def escapeRegexIfNeeded(text: String) =
-    if (getPatternsAreRegex) text
-    else text.replaceAll("([\\\\\\.\\[\\{\\(\\*\\+\\?\\^\\$\\|])", "\\\\$1")
-
-  /** Splits a text into chunks of roughly given chunk size. The separators are given in a list
-    * and will be used in order.
-    *
-    * Inspired by LangChain's RecursiveCharacterTextSplitter.
-    *
-    * @param text
-    *   Text to split
-    * @param separators
-    *   List of separators in decreasing priority
-    * @return
-    */
-  private def splitText(text: String, separators: Seq[String]): Seq[String] = {
-    // Get appropriate separator to use
-
-    val (separator: String, nextSeparators: Seq[String]) = separators
-      .map(escapeRegexIfNeeded)
-      .zipWithIndex
-      .collectFirst {
-        case (sep, _) if sep.length == 4 =>
-          (sep, Seq.empty)
-        case (sep, i) if sep.r.findFirstIn(text).isDefined =>
-          (sep, separators.drop(i + 1))
-      }
-      .getOrElse(("", Seq.empty))
-
-    val splits = splitTextWithRegex(text, separator)
-
-    // Now go merging things, recursively splitting longer texts.
-    var finalChunks: mutable.Seq[String] = mutable.Seq()
-    var goodSplits: mutable.Seq[String] = mutable.Seq.empty
-    val separatorStr = if (getKeepSeparators) "" else separator
-
-    splits.foreach { s =>
-      if (s.length < getChunkSize) {
-        goodSplits = goodSplits :+ s
-      } else {
-        if (goodSplits.nonEmpty) {
-          val mergedText = mergeSplits(goodSplits, separatorStr)
-          finalChunks = finalChunks ++ mergedText
-          goodSplits = mutable.Seq.empty
-        }
-        if (nextSeparators.isEmpty) {
-          finalChunks = finalChunks :+ s
-        } else {
-          val recursiveChunks = splitText(s, nextSeparators)
-          finalChunks = finalChunks ++ recursiveChunks
-        }
-      }
-    }
-
-    if (goodSplits.nonEmpty) {
-      val mergedText = mergeSplits(goodSplits, separatorStr)
-      finalChunks = finalChunks ++ mergedText
-    }
-
-    finalChunks
-  }
-
-  /** takes a document and annotations and produces new annotations of this annotator's annotation
+  /** Takes a document and annotations and produces new annotations of this annotator's annotation
     * type
     *
     * @param annotations
@@ -366,24 +229,33 @@ class DocumentCharacterTextSplitter(override val uid: String)
     *   relationship
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val textSplitter =
+      new TextSplitter(
+        getChunkSize,
+        getChunkOverlap,
+        getKeepSeparators,
+        getPatternsAreRegex,
+        getTrimWhitespace)
+
     annotations.zipWithIndex
       .flatMap { case (annotation, i) =>
         val text = annotation.result
 
-        val textChunks = splitText(text, getSplitPatterns)
+        val textChunks = textSplitter.splitText(text, getSplitPatterns)
 
         textChunks.zipWithIndex.map { case (textChunk, index) =>
-          val textChunkIndex = Regex.quote(textChunk).r.findFirstMatchIn(text) match {
+          val textChunkBegin = Regex.quote(textChunk).r.findFirstMatchIn(text) match {
             case Some(m) => m.start
             case None => -1
           }
+          val textChunkEnd = if (textChunkBegin >= 0) textChunkBegin + textChunk.length else -1
 
           (
             i,
             new Annotation(
               AnnotatorType.DOCUMENT,
-              textChunkIndex,
-              textChunkIndex + textChunk.length,
+              textChunkBegin,
+              textChunkEnd,
               textChunk,
               annotation.metadata ++ Map("document" -> index.toString),
               annotation.embeddings))
@@ -394,27 +266,7 @@ class DocumentCharacterTextSplitter(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    explodeAnnotations(dataset)
+    if (getExplodeSplits) dataset.explodeAnnotationsCol(getOutputCol, getOutputCol) else dataset
   }
 
-  /** Explodes the text chunks into separate rows if set
-    *
-    * @param dataset
-    *   Processed text chunks
-    * @return
-    *   Dataset with each chunk on a separate row
-    */
-  private def explodeAnnotations(dataset: DataFrame): DataFrame = {
-    import org.apache.spark.sql.functions.{array, col, explode}
-    if (getExplodeSplits) {
-      dataset
-        .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(
-          col(getOutputCol)).as("_tmp"): _*)
-        .withColumn(
-          getOutputCol,
-          array(col("_tmp"))
-            .as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
-        .drop("_tmp")
-    } else dataset
-  }
 }

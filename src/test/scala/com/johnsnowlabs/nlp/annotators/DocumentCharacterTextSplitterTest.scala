@@ -24,6 +24,7 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
   val textDocument: DataFrame = documentAssembler.transform(splitTextDF)
 
   def assertResult(text: String, result: Array[Annotation], expected: Seq[String]): Unit = {
+    assert(expected.length == result.length, "Length of results don't match.")
     result.zip(expected).zipWithIndex foreach { case ((res, exChunk), i) =>
       val chunk = res.result
       assert(chunk == exChunk, "Chunk was not equal")
