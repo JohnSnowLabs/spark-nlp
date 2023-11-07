@@ -64,10 +64,10 @@ import scala.collection.JavaConverters._
   *
   * @param tensorflowWrapper
   *   XlmRoberta Model wrapper with TensorFlowWrapper
- * @param onnxWrapper
- *   XlmRoberta Model wrapper with ONNX Wrapper
- * @param openvinoWrapper
- *   XlmRoberta Model wrapper with OpenVINO Wrapper
+  * @param onnxWrapper
+  *   XlmRoberta Model wrapper with ONNX Wrapper
+  * @param openvinoWrapper
+  *   XlmRoberta Model wrapper with OpenVINO Wrapper
   * @param spp
   *   XlmRoberta SentencePiece model with SentencePieceWrapper
   * @param caseSensitive
