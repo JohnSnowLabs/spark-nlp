@@ -49,8 +49,8 @@ class _AlbertQuestionAnsweringLoader(ExtendedJavaWrapper):
 
 
 class _BertLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
-        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadSavedModel", path, jspark)
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_BertLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BertEmbeddings.loadSavedModel", path, jspark, use_openvino)
 
 
 class _BertSentenceLoader(ExtendedJavaWrapper):
@@ -210,9 +210,9 @@ class _MPNetLoader(ExtendedJavaWrapper):
 
 
 class _RoBertaLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, use_openvino=False):
         super(_RoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings.loadSavedModel", path,
-                                             jspark)
+                                             jspark, use_openvino)
 
 
 class _RoBertaSentenceLoader(ExtendedJavaWrapper):
@@ -259,9 +259,9 @@ class _USELoader(ExtendedJavaWrapper):
 
 
 class _XlmRoBertaLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, use_openvino=False):
         super(_XlmRoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings.loadSavedModel",
-                                                path, jspark)
+                                                path, jspark, use_openvino)
 
 
 class _XlmRoBertaSentenceLoader(ExtendedJavaWrapper):
