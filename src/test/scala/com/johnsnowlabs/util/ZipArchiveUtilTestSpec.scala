@@ -18,6 +18,7 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers._
 import java.nio.file.{Files, Paths, Path}
 import java.io.File
 import com.johnsnowlabs.util.FileHelper
@@ -76,9 +77,11 @@ class ZipArchiveUtilTestSpec extends AnyFlatSpec with BeforeAndAfter {
   "listFilesRecursive" should "return a list with 3 items if give the dir folder" taggedAs FastTest in {
     val list = ZipArchiveUtil.listFilesRecursive(new File(tmpFolder, "dir"))
     assert(list.length == 3)
-    assert(list.head.equals(new File(tmpFolder, "dir/dir2/fileC")))
-    assert(list.tail.head.equals(new File(tmpFolder, "dir/fileA")))
-    assert(list.last.equals(new File(tmpFolder, "dir/fileB")))
+
+    list.toSet should contain theSameElementsAs Set(
+      new File(tmpFolder, "dir/dir2/fileC"),
+      new File(tmpFolder, "dir/fileA"),
+      new File(tmpFolder, "dir/fileB"))
   }
 
   "addFileToZipEntry" should "return zip entry with absolute setting" taggedAs FastTest in {
