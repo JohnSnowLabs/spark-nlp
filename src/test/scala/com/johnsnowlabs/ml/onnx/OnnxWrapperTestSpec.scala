@@ -63,7 +63,7 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
   }
 
   after {
-    // FileHelper.delete(tmpFolder)
+    FileHelper.delete(tmpFolder)
   }
 
   "a dummy onnx wrapper" should "get session correctly" taggedAs FastTest in {
@@ -76,15 +76,7 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     val modelBytes: Array[Byte] = Files.readAllBytes(Paths.get(modelPath))
     val dummyOnnxWrapper = new OnnxWrapper(modelBytes)
     dummyOnnxWrapper.saveToFile(Paths.get(tmpFolder, "modelFromTest.zip").toString)
-    // // verify file existence
+    // verify file existence
     assert(new File(tmpFolder, "modelFromTest.zip").exists())
   }
-
-  // "a dummy onnx wrapper" should "saveToFile with non-exist folder" taggedAs FastTest in {
-  //   val modelBytes: Array[Byte] = Files.readAllBytes(Paths.get(modelPath))
-  //   val dummyOnnxWrapper = new OnnxWrapper(modelBytes)
-  //   dummyOnnxWrapper.saveToFile(Paths.get(tmpFolder, "dir/modelFromTest.zip").toString)
-  //   // // verify file existence
-  //   assert(new File(Paths.get(tmpFolder, "dir", "modelFromTest.zip").toString).exists())
-  // }
 }
