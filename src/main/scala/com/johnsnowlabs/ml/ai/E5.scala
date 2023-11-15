@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import ai.onnxruntime.OnnxTensor
+import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -181,10 +181,11 @@ private[johnsnowlabs] class E5(
     // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape
       try {
-        val embeddings = results
-          .get("last_hidden_state")
-          .get()
+        val embeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
@@ -192,7 +193,7 @@ private[johnsnowlabs] class E5(
         maskTensors.close()
         segmentTensors.close()
 
-        val dim = embeddings.length / batch.length
+        val dim = shape.last.toInt
         val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
         sentenceEmbeddingsFloatsArray
       } finally if (results != null) results.close()

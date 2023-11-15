@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class E5EmbeddingsTestSpec extends AnyFlatSpec {
@@ -56,6 +57,37 @@ class E5EmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
+  it should "have embeddings of the same size" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+    val testDf = Seq(
+      "I like apples",
+      "I like bananas \\n and other things \\n like icream \\n and cats",
+      "I like rockets")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = E5Embeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("e5")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    val pipelineDF = pipeline.fit(testDf).transform(testDf)
+
+    val embeddingsDF = pipelineDF.withColumn("embeddings", col("e5.embeddings").getItem(0))
+
+    val sizesArray: Array[Int] = embeddingsDF
+      .select(size(col("embeddings")).as("size"))
+      .collect()
+      .map(row => row.getAs[Int]("size"))
+
+    assert(sizesArray.forall(_ == sizesArray.head))
+  }
+
   it should "work with sentences" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
     val testData = "I really enjoy my job. This is amazing"
@@ -80,4 +112,5 @@ class E5EmbeddingsTestSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(testDf).transform(testDf)
     pipelineDF.select("e5.embeddings").show()
   }
+
 }
