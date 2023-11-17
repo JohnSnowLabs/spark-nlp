@@ -1,8 +1,8 @@
 ---
 layout: model
-title: English BertForQuestionAnswering Base Cased model (from anas-awadalla)
+title: English BertForQuestionAnswering Cased model (from spasis)
 author: John Snow Labs
-name: bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4
+name: bert_qa_spasis_finetuned_squad_accelera
 date: 2023-11-15
 tags: [en, open_source, bert, question_answering, onnx]
 task: Question Answering
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `spanbert-base-cased-few-shot-k-512-finetuned-squad-seed-4` is a English model originally trained by `anas-awadalla`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert-finetuned-squad-accelerate` is a English model originally trained by `spasis`.
 
 ## Predicted Entities
 
@@ -28,8 +28,8 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4_en_5.2.0_3.0_1700062977896.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4_en_5.2.0_3.0_1700062977896.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_spasis_finetuned_squad_accelera_en_5.2.0_3.0_1700064116229.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_qa_spasis_finetuned_squad_accelera_en_5.2.0_3.0_1700064116229.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -42,7 +42,7 @@ documentAssembler = MultiDocumentAssembler() \
     .setInputCols(["question", "context"]) \
     .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_spasis_finetuned_squad_accelera","en") \
     .setInputCols(["document_question", "document_context"]) \
     .setOutputCol("answer")\
     .setCaseSensitive(True)
@@ -58,7 +58,7 @@ val documentAssembler = new MultiDocumentAssembler()
       .setInputCols(Array("question", "context")) 
       .setOutputCols(Array("document_question", "document_context"))
  
-val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4","en") 
+val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_spasis_finetuned_squad_accelera","en") 
     .setInputCols(Array("document", "token")) 
     .setOutputCol("answer")
     .setCaseSensitive(true)
@@ -73,7 +73,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.span_bert.squad.cased_seed_4_base_512d_finetuned_few_shot").predict("""What is my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("en.answer_question.bert.squad.finetuned_accelera.by_spasis").predict("""What is my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 </div>
 
@@ -82,14 +82,14 @@ nlu.load("en.answer_question.span_bert.squad.cased_seed_4_base_512d_finetuned_fe
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4|
+|Model Name:|bert_qa_spasis_finetuned_squad_accelera|
 |Compatibility:|Spark NLP 5.2.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|
 |Output Labels:|[answer]|
 |Language:|en|
-|Size:|386.7 MB|
+|Size:|403.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|512|
 
@@ -97,4 +97,4 @@ nlu.load("en.answer_question.span_bert.squad.cased_seed_4_base_512d_finetuned_fe
 
 References
 
-- https://huggingface.co/anas-awadalla/spanbert-base-cased-few-shot-k-512-finetuned-squad-seed-4
+- https://huggingface.co/spasis/bert-finetuned-squad-accelerate

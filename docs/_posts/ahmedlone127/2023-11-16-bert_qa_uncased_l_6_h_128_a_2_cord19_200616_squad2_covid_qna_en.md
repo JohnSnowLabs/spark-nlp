@@ -1,9 +1,9 @@
 ---
 layout: model
-title: English BertForQuestionAnswering Base Cased model (from anas-awadalla)
+title: English BertForQuestionAnswering Uncased model (from aodiniz)
 author: John Snow Labs
-name: bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4
-date: 2023-11-15
+name: bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna
+date: 2023-11-16
 tags: [en, open_source, bert, question_answering, onnx]
 task: Question Answering
 language: en
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `spanbert-base-cased-few-shot-k-512-finetuned-squad-seed-4` is a English model originally trained by `anas-awadalla`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `bert_uncased_L-6_H-128_A-2_cord19-200616_squad2_covid-qna` is a English model originally trained by `aodiniz`.
 
 ## Predicted Entities
 
@@ -28,8 +28,8 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4_en_5.2.0_3.0_1700062977896.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4_en_5.2.0_3.0_1700062977896.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna_en_5.2.0_3.0_1700123409113.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna_en_5.2.0_3.0_1700123409113.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -42,7 +42,7 @@ documentAssembler = MultiDocumentAssembler() \
     .setInputCols(["question", "context"]) \
     .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4","en") \
+spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna","en") \
     .setInputCols(["document_question", "document_context"]) \
     .setOutputCol("answer")\
     .setCaseSensitive(True)
@@ -58,7 +58,7 @@ val documentAssembler = new MultiDocumentAssembler()
       .setInputCols(Array("question", "context")) 
       .setOutputCols(Array("document_question", "document_context"))
  
-val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4","en") 
+val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna","en") 
     .setInputCols(Array("document", "token")) 
     .setOutputCol("answer")
     .setCaseSensitive(true)
@@ -73,7 +73,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("en.answer_question.span_bert.squad.cased_seed_4_base_512d_finetuned_few_shot").predict("""What is my name?|||"My name is Clara and I live in Berkeley.""")
+nlu.load("en.answer_question.bert.squadv2_covid_cord19.uncased_6l_128d_a2a_128d").predict("""What is my name?|||"My name is Clara and I live in Berkeley.""")
 ```
 </div>
 
@@ -82,19 +82,19 @@ nlu.load("en.answer_question.span_bert.squad.cased_seed_4_base_512d_finetuned_fe
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_qa_spanbert_base_cased_few_shot_k_512_finetuned_squad_seed_4|
+|Model Name:|bert_qa_uncased_l_6_h_128_a_2_cord19_200616_squad2_covid_qna|
 |Compatibility:|Spark NLP 5.2.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document_question, document_context]|
 |Output Labels:|[answer]|
 |Language:|en|
-|Size:|386.7 MB|
-|Case sensitive:|true|
+|Size:|19.6 MB|
+|Case sensitive:|false|
 |Max sentence length:|512|
 
 ## References
 
 References
 
-- https://huggingface.co/anas-awadalla/spanbert-base-cased-few-shot-k-512-finetuned-squad-seed-4
+- https://huggingface.co/aodiniz/bert_uncased_L-6_H-128_A-2_cord19-200616_squad2_covid-qna
