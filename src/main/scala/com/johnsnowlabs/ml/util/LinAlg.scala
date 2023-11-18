@@ -56,4 +56,30 @@ object LinAlg {
 
   }
 
+  /** Calculates softmax probabilities for an array of logits.
+    *
+    * @param logitValues
+    *   Predicted raw logits
+    * @return
+    *   Probabilities for each class
+    */
+  def softmax(logitValues: Array[Float]): Array[Float] = {
+    val maxLogit = logitValues.max
+    val logitsExp = logitValues.map(l => Math.exp(l - maxLogit))
+    val expSum = logitsExp.sum
+    logitsExp.map(exp => (exp / expSum).toFloat)
+  }
+
+  /** Gets the index with the highest score.
+    *
+    * @param scores
+    *   Array of Scores to max
+    * @return
+    *   Index of the highest score
+    */
+  def argmax(scores: Array[Float]): Int =
+    scores.zipWithIndex.maxBy { case (score, _) =>
+      score
+    }._2
+
 }

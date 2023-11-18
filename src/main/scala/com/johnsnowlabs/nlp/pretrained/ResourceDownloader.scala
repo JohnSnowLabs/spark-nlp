@@ -20,12 +20,7 @@ import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC, WhisperForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.{
-  ConvNextForImageClassification,
-  SwinForImageClassification,
-  ViTForImageClassification,
-  VisionEncoderDecoderForImageCaptioning
-}
+import com.johnsnowlabs.nlp.annotators.cv._
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -685,7 +680,8 @@ object PythonResourceDownloader {
     "BartForZeroShotClassification" -> BartForZeroShotClassification,
     "InstructorEmbeddings" -> InstructorEmbeddings,
     "E5Embeddings" -> E5Embeddings,
-    "MPNetEmbeddings" -> MPNetEmbeddings)
+    "MPNetEmbeddings" -> MPNetEmbeddings,
+    "CLIPForZeroShotClassification" -> CLIPForZeroShotClassification)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

@@ -139,7 +139,7 @@ object AnnotationImage {
       row.getInt(3),
       row.getInt(4),
       row.getInt(5),
-      row.getSeq[Byte](6).toArray,
+      row.getAs[Array[Byte]](6),
       row.getMap[String, String](7))
   }
 

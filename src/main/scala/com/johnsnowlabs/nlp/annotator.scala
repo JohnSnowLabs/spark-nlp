@@ -739,4 +739,12 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter
   object DocumentCharacterTextSplitter
       extends ParamsAndFeaturesReadable[DocumentCharacterTextSplitter]
+
+  type CLIPForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.cv.CLIPForZeroShotClassification
+
+  object CLIPForZeroShotClassification
+    extends ReadablePretrainedCLIPForZeroShotClassificationModel
+      with ReadCLIPForZeroShotClassificationModel
+
 }
