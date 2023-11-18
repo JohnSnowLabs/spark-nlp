@@ -72,7 +72,8 @@ object LinAlg {
     val sentenceEmbeddingsMatrix = embeddings.grouped(dim).toArray
     val attentionMaskMatrix = expandedAttentionMask.grouped(dim).toArray
 
-    val elementWiseProduct = computeElementWiseProduct(sentenceEmbeddingsMatrix, attentionMaskMatrix)
+    val elementWiseProduct =
+      computeElementWiseProduct(sentenceEmbeddingsMatrix, attentionMaskMatrix)
     val weightedSum: Array[Float] = elementWiseProduct.transpose.map(_.sum)
 
     val sumAlongDimension2: Array[Float] = attentionMaskMatrix.transpose.map(_.sum)
@@ -81,16 +82,17 @@ object LinAlg {
     computeElementWiseDivision(weightedSum, totalWeight)
   }
 
-  def computeElementWiseProduct(arrayA:  Array[Array[Float]], arrayB:  Array[Array[Float]]): Array[Array[Float]] = {
-    arrayA.zip(arrayB).map {
-      case (row1, row2) => row1.zip(row2).map { case (a, b) => a * b }
+  def computeElementWiseProduct(
+      arrayA: Array[Array[Float]],
+      arrayB: Array[Array[Float]]): Array[Array[Float]] = {
+    arrayA.zip(arrayB).map { case (row1, row2) =>
+      row1.zip(row2).map { case (a, b) => a * b }
     }
   }
 
-  def computeElementWiseDivision(arrayA:  Array[Float], arrayB:  Array[Float]): Array[Float] = {
-    arrayA.zip(arrayB).map {
-      case (a, b) =>
-        if (b != 0.0f) a / b else 0.0f // Avoid division by zero
+  def computeElementWiseDivision(arrayA: Array[Float], arrayB: Array[Float]): Array[Float] = {
+    arrayA.zip(arrayB).map { case (a, b) =>
+      if (b != 0.0f) a / b else 0.0f // Avoid division by zero
     }
   }
 
