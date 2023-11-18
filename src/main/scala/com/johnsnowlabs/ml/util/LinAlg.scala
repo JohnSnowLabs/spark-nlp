@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.util
 
 import breeze.linalg.{DenseMatrix, tile}
+import scala.math.sqrt
 
 object LinAlg {
 
@@ -54,6 +55,49 @@ object LinAlg {
       }
     }
 
+  }
+
+  def avgPooling(embeddings: Array[Float], attentionMask: Array[Long], dim: Int): Array[Float] = {
+    val expandedAttentionMask = new Array[Float](embeddings.length)
+    // Expand attentionMask to match the length of embeddings
+    var j = 0
+    for (i <- embeddings.indices) {
+      expandedAttentionMask(i) = attentionMask(j)
+      j += 1
+      if (j == attentionMask.length) {
+        j = 0 // reset j when we reach the end of attentionMask
+      }
+    }
+
+    val sentenceEmbeddingsMatrix = embeddings.grouped(dim).toArray
+    val attentionMaskMatrix = expandedAttentionMask.grouped(dim).toArray
+
+    val elementWiseProduct = computeElementWiseProduct(sentenceEmbeddingsMatrix, attentionMaskMatrix)
+    val weightedSum: Array[Float] = elementWiseProduct.transpose.map(_.sum)
+
+    val sumAlongDimension2: Array[Float] = attentionMaskMatrix.transpose.map(_.sum)
+    // Clamp each element to a minimum value of 1e-9
+    val totalWeight: Array[Float] = sumAlongDimension2.map(x => math.max(x, 1e-9.toFloat))
+    computeElementWiseDivision(weightedSum, totalWeight)
+  }
+
+  def computeElementWiseProduct(arrayA:  Array[Array[Float]], arrayB:  Array[Array[Float]]): Array[Array[Float]] = {
+    arrayA.zip(arrayB).map {
+      case (row1, row2) => row1.zip(row2).map { case (a, b) => a * b }
+    }
+  }
+
+  def computeElementWiseDivision(arrayA:  Array[Float], arrayB:  Array[Float]): Array[Float] = {
+    arrayA.zip(arrayB).map {
+      case (a, b) =>
+        if (b != 0.0f) a / b else 0.0f // Avoid division by zero
+    }
+  }
+
+  def normalizeArray(array: Array[Float]): Array[Float] = {
+    val l2Norm: Float = sqrt(array.map(x => x * x).sum).toFloat
+    // Normalize each element in the array
+    array.map(value => if (l2Norm != 0.0f) value / l2Norm else 0.0f)
   }
 
 }

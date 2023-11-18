@@ -110,7 +110,7 @@ class E5EmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, sentenceDetectorDL, embeddings))
 
     val pipelineDF = pipeline.fit(testDf).transform(testDf)
-    pipelineDF.select("e5.embeddings").show()
+    pipelineDF.select("e5.embeddings").show(false)
   }
 
 }

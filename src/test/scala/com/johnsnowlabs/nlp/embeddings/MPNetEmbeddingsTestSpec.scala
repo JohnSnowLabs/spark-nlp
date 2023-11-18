@@ -104,7 +104,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
     val pipelineModel = pipeline.fit(testDf)
     val pipelineDF = pipelineModel.transform(testDf)
 
-    pipelineDF.select("mpnet.embeddings").show()
+    pipelineDF.select("mpnet.embeddings").show(false)
   }
 
 }

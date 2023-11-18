@@ -20,7 +20,7 @@ import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -160,14 +160,13 @@ private[johnsnowlabs] class E5(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): Array[Array[Float]] = {
 
+    val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+
     val (runner, env) = onnxWrapper.get.getSession()
 
-    val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-    val maskTensors =
-      OnnxTensor.createTensor(
-        env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+    val tokenTensors = OnnxTensor.createTensor(env, inputIds)
+    val maskTensors = OnnxTensor.createTensor(env, attentionMask)
 
     val segmentTensors =
       OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
@@ -194,8 +193,10 @@ private[johnsnowlabs] class E5(
         segmentTensors.close()
 
         val dim = shape.last.toInt
-        val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
-        sentenceEmbeddingsFloatsArray
+        val avgPooling = LinAlg.avgPooling(embeddings, attentionMask(0), dim)
+        val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
+
+        Array(normalizedSentenceEmbeddings)
       } finally if (results != null) results.close()
     }
   }
