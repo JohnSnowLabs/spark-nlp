@@ -28,8 +28,8 @@ Pretrained DistilBertForTokenClassification model, adapted from Hugging Face and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_company_all_903429548_en_5.2.0_3.0_1700517570288.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_company_all_903429548_en_5.2.0_3.0_1700517570288.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_company_all_903429548_en_5.2.0_3.0_1700518019739.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_company_all_903429548_en_5.2.0_3.0_1700518019739.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -86,10 +86,12 @@ val result = pipeline.fit(data).transform(data)
 |Compatibility:|Spark NLP 5.2.0+|
 |License:|Open Source|
 |Edition:|Official|
-|Input Labels:|[documents, token]|
+|Input Labels:|[document, token]|
 |Output Labels:|[ner]|
 |Language:|en|
 |Size:|247.2 MB|
+|Case sensitive:|true|
+|Max sentence length:|128|
 
 ## References
 
