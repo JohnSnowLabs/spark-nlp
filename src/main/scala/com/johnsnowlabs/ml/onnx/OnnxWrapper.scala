@@ -20,7 +20,7 @@ import ai.onnxruntime.OrtSession.SessionOptions
 import ai.onnxruntime.OrtSession.SessionOptions.{ExecutionMode, OptLevel}
 import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper, ZipArchiveUtil}
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -37,18 +37,18 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
   }
 
   // Important for serialization on none-kyro serializers
-  @transient private var m_session: OrtSession = _
-  @transient private var m_env: OrtEnvironment = _
-  @transient private val logger = LoggerFactory.getLogger("OnnxWrapper")
+  @transient private var ortSession: OrtSession = _
+  @transient private var ortEnv: OrtEnvironment = _
 
-  def getSession(sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+  def getSession(onnxSessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
     this.synchronized {
-      if (m_session == null && m_env == null) {
-        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, sessionOptions)
-        m_env = env
-        m_session = session
+      // TODO: After testing it works remove the Map.empty
+      if (ortSession == null && ortEnv == null) {
+        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions)
+        ortEnv = env
+        ortSession = session
       }
-      (m_session, m_env)
+      (ortSession, ortEnv)
     }
 
   def saveToFile(file: String, zip: Boolean = true): Unit = {
@@ -81,18 +81,16 @@ object OnnxWrapper {
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
       onnxModel: Array[Byte],
-      sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+      sessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
-      val providers = OrtEnvironment.getAvailableProviders
-
-      val sessionOptionsConfig = if (providers.toArray.map(x => x.toString).contains("CUDA")) {
-        getCUDASessionConfig
+      val sessionOptionsObject = if (sessionOptions.isEmpty) {
+        new SessionOptions()
       } else {
-        getCPUSessionConfig
+        mapToSessionOptionsObject(sessionOptions)
       }
 
-      val session = env.createSession(onnxModel, sessionOptionsConfig)
+      val session = env.createSession(onnxModel, sessionOptionsObject)
       (session, env)
     }
 
@@ -100,8 +98,7 @@ object OnnxWrapper {
       modelPath: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      modelName: String = "model",
-      sessionOptions: Option[SessionOptions] = None): OnnxWrapper = {
+      modelName: String = "model"): OnnxWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -116,39 +113,39 @@ object OnnxWrapper {
       else
         modelPath
 
-    // TODO: simplify this logic of useBundle
-    val (session, env, modelBytes) =
-      if (useBundle) {
-        val onnxFile = Paths.get(modelPath, s"$modelName.onnx").toString
-        val modelFile = new File(onnxFile)
-        val modelBytes = FileUtils.readFileToByteArray(modelFile)
-        val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
-        (session, env, modelBytes)
-      } else {
-        val modelFile = new File(folder).list().head
-        val fullPath = Paths.get(folder, modelFile).toFile
-        val modelBytes = FileUtils.readFileToByteArray(fullPath)
-        val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
-        (session, env, modelBytes)
-      }
+    val sessionOptions = new OnnxSession().getSessionOptions
+    val onnxFile =
+      if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
+      else Paths.get(folder, new File(folder).list().head).toString
+    val modelFile = new File(onnxFile)
+    val modelBytes = FileUtils.readFileToByteArray(modelFile)
+    val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
 
     val onnxWrapper = new OnnxWrapper(modelBytes)
-    onnxWrapper.m_session = session
-    onnxWrapper.m_env = env
+    onnxWrapper.ortSession = session
+    onnxWrapper.ortEnv = env
     onnxWrapper
   }
 
-  private def getCUDASessionConfig: SessionOptions = {
+  private def mapToSessionOptionsObject(sessionOptions: Map[String, String]): SessionOptions = {
+    val providers = OrtEnvironment.getAvailableProviders
+    if (providers.toArray.map(x => x.toString).contains("CUDA")) {
+      mapToCUDASessionConfig(sessionOptions)
+    } else mapToCPUSessionConfig(sessionOptions)
+  }
+
+  private def mapToCUDASessionConfig(sessionOptionsMap: Map[String, String]): SessionOptions = {
 
     logger.info("Using CUDA")
+    println("Using CUDA")
     // it seems there is no easy way to use multiple GPUs
     // at least not without using multiple threads
     // TODO: add support for multiple GPUs
 
-    val gpuDeviceId = ConfigLoader.getConfigIntValue(ConfigHelper.onnxGpuDeviceId)
+    val gpuDeviceId = sessionOptionsMap(ConfigHelper.onnxGpuDeviceId).toInt
 
     val sessionOptions = new OrtSession.SessionOptions()
     logger.info(s"ONNX session option gpuDeviceId=$gpuDeviceId")
@@ -158,7 +155,7 @@ object OnnxWrapper {
     sessionOptions
   }
 
-  private def getCPUSessionConfig: SessionOptions = {
+  private def mapToCPUSessionConfig(sessionOptionsMap: Map[String, String]): SessionOptions = {
 
     val defaultExecutionMode = ExecutionMode.SEQUENTIAL
     val defaultOptLevel = OptLevel.ALL_OPT
@@ -186,17 +183,16 @@ object OnnxWrapper {
     }
 
     logger.info("Using CPUs")
+    println("Using CPUs")
     // TODO: the following configs can be tested for performance
     // However, so far, they seem to be slower than the ones used
     // opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
     // opts.setMemoryPatternOptimization(true)
     // opts.setCPUArenaAllocator(false)
 
-    val intraOpNumThreads = ConfigLoader.getConfigIntValue(ConfigHelper.onnxIntraOpNumThreads)
-    val optimizationLevel = getOptLevel(
-      ConfigLoader.getConfigStringValue(ConfigHelper.onnxOptimizationLevel))
-    val executionMode = getExecutionMode(
-      ConfigLoader.getConfigStringValue(ConfigHelper.onnxExecutionMode))
+    val intraOpNumThreads = sessionOptionsMap(ConfigHelper.onnxIntraOpNumThreads).toInt
+    val optimizationLevel = getOptLevel(sessionOptionsMap(ConfigHelper.onnxOptimizationLevel))
+    val executionMode = getExecutionMode(sessionOptionsMap(ConfigHelper.onnxExecutionMode))
 
     val sessionOptions = new OrtSession.SessionOptions()
     logger.info(s"ONNX session option intraOpNumThreads=$intraOpNumThreads")

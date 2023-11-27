@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
@@ -55,6 +55,7 @@ private[johnsnowlabs] class E5(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   /** Get sentence embeddings for a batch of sentences
     * @param batch
@@ -150,18 +151,14 @@ private[johnsnowlabs] class E5(
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
-    val (runner, env) = onnxWrapper.get.getSession()
-    val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-    val maskTensors =
-      OnnxTensor.createTensor(
-        env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
-
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val tokenTensors = OnnxTensor.createTensor(env, inputIds)
+    val maskTensors = OnnxTensor.createTensor(env, attentionMask)
     val segmentTensors =
       OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
-
     val inputs =
       Map(
         "input_ids" -> tokenTensors,
