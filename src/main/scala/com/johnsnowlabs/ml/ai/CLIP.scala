@@ -35,8 +35,7 @@ private[johnsnowlabs] class CLIP(
     val onnxWrapper: Option[OnnxWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     tokenizer: CLIPTokenizer,
-    preprocessor: Preprocessor,
-    signatures: Option[Map[String, String]] = None)
+    preprocessor: Preprocessor)
     extends Serializable {
 
   val detectedEngine: String =

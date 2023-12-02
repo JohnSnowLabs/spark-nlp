@@ -9,7 +9,6 @@ import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
 class CLIPForZeroShotClassificationTestSpec extends AnyFlatSpec {
-  import ResourceHelper.spark
 
   lazy val imageFolder = "src/test/resources/image/"
   lazy val imageDF: DataFrame = ResourceHelper.spark.read
