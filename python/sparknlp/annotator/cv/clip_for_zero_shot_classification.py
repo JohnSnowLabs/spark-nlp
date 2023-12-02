@@ -74,7 +74,7 @@ class CLIPForZeroShotClassification(AnnotatorModel,
     ...     .format("image") \\
     ...     .option("dropInvalid", value = True) \\
     ...     .load("src/test/resources/image/")
-    >>> imageAssembler: ImageAssembler = ImageAssembler() \\
+    >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
     >>> candidateLabels = [
