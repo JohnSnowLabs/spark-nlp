@@ -20,7 +20,7 @@ import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -64,19 +64,28 @@ private[johnsnowlabs] class E5(
     *   sentence embeddings
     */
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        getSentenceEmbeddingFromOnnx(batch)
+        getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength)
       case _ =>
-        getSentenceEmbeddingFromTF(batch)
+        getSentenceEmbeddingFromTF(paddedBatch, maxSentenceLength)
     }
     embeddings
   }
 
-  private def getSentenceEmbeddingFromTF(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    // get max sentence length
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
+
+  private def getSentenceEmbeddingFromTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Array[Float]] = {
     val batchLength = batch.length
 
     // encode batch
@@ -148,13 +157,15 @@ private[johnsnowlabs] class E5(
     sentenceEmbeddingsFloatsArray
   }
 
-  private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val batchLength = batch.length
-    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+  private def getSentenceEmbeddingFromOnnx(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Array[Float]] = {
+
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
     val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
-    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val (runner, env) = onnxWrapper.get.getSession()
+
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)
     val maskTensors = OnnxTensor.createTensor(env, attentionMask)
     val segmentTensors =
@@ -168,10 +179,11 @@ private[johnsnowlabs] class E5(
     // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape
       try {
-        val embeddings = results
-          .get("last_hidden_state")
-          .get()
+        val embeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
@@ -179,10 +191,11 @@ private[johnsnowlabs] class E5(
         maskTensors.close()
         segmentTensors.close()
 
-        val dim = embeddings.length / batchLength
-        // group embeddings
-        val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
-        sentenceEmbeddingsFloatsArray
+        val dim = shape.last.toInt
+        val avgPooling = LinAlg.avgPooling(embeddings, attentionMask(0), dim)
+        val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
+
+        Array(normalizedSentenceEmbeddings)
       } finally if (results != null) results.close()
     }
   }
@@ -210,11 +223,12 @@ private[johnsnowlabs] class E5(
       .grouped(batchSize)
       .toArray
       .flatMap { batch =>
-        val tokensBatch = batch.map(x => (x._1._1.tokens))
+        val tokensBatch = batch.map(x => x._1._1.tokens)
         val tokens = tokensBatch.map(x =>
           Array(sentenceStartTokenId) ++ x
             .map(y => y.pieceId)
             .take(maxSentenceLength - 2) ++ Array(sentenceEndTokenId))
+
         val sentenceEmbeddings = getSentenceEmbedding(tokens)
 
         batch.zip(sentenceEmbeddings).map { case (sentence, vectors) =>

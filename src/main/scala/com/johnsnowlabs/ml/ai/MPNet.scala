@@ -20,8 +20,8 @@ import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
@@ -65,13 +65,23 @@ private[johnsnowlabs] class MPNet(
     *   sentence embeddings
     */
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        getSentenceEmbeddingFromOnnx(batch)
+        getSentenceEmbeddingFromOnnx(paddedBatch)
       case _ =>
-        getSentenceEmbeddingFromTF(batch)
+        getSentenceEmbeddingFromTF(paddedBatch)
     }
     embeddings
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
   }
 
   /** Get sentence embeddings for a batch of sentences
@@ -156,7 +166,6 @@ private[johnsnowlabs] class MPNet(
   }
 
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val batchLength = batch.length
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
     val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
@@ -169,20 +178,22 @@ private[johnsnowlabs] class MPNet(
     // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape
       try {
-        val embeddings = results
-          .get("last_hidden_state")
-          .get()
+        val embeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
         tokenTensors.close()
         maskTensors.close()
 
-        val dim = embeddings.length / batchLength
-        // group embeddings
-        val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
-        sentenceEmbeddingsFloatsArray
+        val dim = shape.last.toInt
+        val avgPooling = LinAlg.avgPooling(embeddings, attentionMask(0), dim)
+        val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
+
+        Array(normalizedSentenceEmbeddings)
       } finally if (results != null) results.close()
     }
   }

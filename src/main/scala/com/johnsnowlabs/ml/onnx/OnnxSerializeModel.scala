@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.onnx
 
+import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
 import ai.onnxruntime.OrtSession.SessionOptions
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
