@@ -19,7 +19,7 @@ sidebar:
 # Install Spark NLP from PyPI
 pip install spark-nlp==5.2.0
 
-# Install Spark NLP from Anacodna/Conda
+# Install Spark NLP from Anaconda/Conda
 conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
