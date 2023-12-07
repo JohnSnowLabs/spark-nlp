@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import ai.onnxruntime.OnnxTensor
+import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -164,7 +164,7 @@ private[johnsnowlabs] class E5(
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
     val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)
     val maskTensors = OnnxTensor.createTensor(env, attentionMask)

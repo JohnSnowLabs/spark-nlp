@@ -51,6 +51,7 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
    *
    */
   private val modelPath: String = "src/test/resources/onnx/models/dummy_model.onnx"
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   private val tmpDirPath: String = UUID.randomUUID().toString.takeRight(12) + "_onnx"
   var tmpFolder: String = _
@@ -69,7 +70,7 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
   "a dummy onnx wrapper" should "get session correctly" taggedAs FastTest in {
     val modelBytes: Array[Byte] = Files.readAllBytes(Paths.get(modelPath))
     val dummyOnnxWrapper = new OnnxWrapper(modelBytes)
-    dummyOnnxWrapper.getSession()
+    dummyOnnxWrapper.getSession(onnxSessionOptions)
   }
 
   "a dummy onnx wrapper" should "saveToFile correctly" taggedAs FastTest in {

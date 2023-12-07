@@ -1,10 +1,8 @@
 package com.johnsnowlabs.ml.ai.seq2seq
 
 import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
-import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 
 import scala.jdk.CollectionConverters.{mapAsJavaMap, setAsJavaSet}
 
@@ -15,15 +13,16 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
     override val sppTrg: SentencePieceWrapper)
     extends MarianEncoderDecoder(sppSrc, sppTrg) {
 
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   sessionWarmup()
 
   protected val numLayers: Int = {
-    ((onnxDecoder.getSession()._1.getNumOutputs - 1) / 4).toInt
+    ((onnxDecoder.getSession(onnxSessionOptions)._1.getNumOutputs - 1) / 4).toInt
   }
 
   protected val numAttnHeads: Int = {
     onnxDecoder
-      .getSession()
+      .getSession(onnxSessionOptions)
       ._1
       .getInputInfo
       .get("past_key_values.0.decoder.value")
@@ -51,7 +50,7 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
-    val (encoder, env) = onnxEncoder.getSession()
+    val (encoder, env) = onnxEncoder.getSession(onnxSessionOptions)
 
     lazy val encoderCacheInputKeys: Array[String] =
       generateCacheKeys("encoder", "past_key_values")
@@ -109,7 +108,7 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
     var decoderInitResults: OrtSession.Result = null
     var decoderResults: OrtSession.Result = null
 
-    val (decoderSession, decoderEnv) = onnxDecoder.getSession()
+    val (decoderSession, decoderEnv) = onnxDecoder.getSession(onnxSessionOptions)
 
     val decoderProcessor = new DecoderProcessor(
       batchSize = batchSize,

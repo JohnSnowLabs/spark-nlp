@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
- import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}

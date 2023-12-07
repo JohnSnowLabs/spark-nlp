@@ -202,7 +202,7 @@ private[johnsnowlabs] class XlmRoberta(
 
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)

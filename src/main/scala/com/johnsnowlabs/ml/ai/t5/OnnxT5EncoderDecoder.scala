@@ -1,9 +1,8 @@
 package com.johnsnowlabs.ml.ai.t5
 
 import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
-import org.apache.hadoop.thirdparty.org.checkerframework.checker.units.qual.Temperature
 
 import scala.collection.JavaConverters.{mapAsJavaMap, setAsJavaSet}
 
@@ -14,13 +13,14 @@ class OnnxT5EncoderDecoder(
     override val additionalTokens: Map[Int, String] = Map())
     extends T5EncoderDecoder(spp, additionalTokens) {
 
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   protected val numLayers: Int = {
-    ((onnxDecoder.getSession()._1.getNumOutputs - 1) / 4).toInt
+    ((onnxDecoder.getSession(onnxSessionOptions)._1.getNumOutputs - 1) / 4).toInt
   }
 
   protected val numAttnHeads: Int = {
     onnxDecoder
-      .getSession()
+      .getSession(onnxSessionOptions)
       ._1
       .getInputInfo
       .get("past_key_values.0.decoder.value")
@@ -55,7 +55,7 @@ class OnnxT5EncoderDecoder(
 
     val inputDim = batch.length * maxSentenceLength
 
-    val (encoder, env) = onnxEncoder.getSession()
+    val (encoder, env) = onnxEncoder.getSession(onnxSessionOptions)
 
     // Run encoder
     val encoderInputBuffers = batch
@@ -158,7 +158,7 @@ class OnnxT5EncoderDecoder(
     var decoderOutputCache: Option[Array[OnnxTensor]] = None
     var decoderInitResults: OrtSession.Result = null
     var decoderResults: OrtSession.Result = null
-    val (decoderSession, decoderEnv) = onnxDecoder.getSession()
+    val (decoderSession, decoderEnv) = onnxDecoder.getSession(onnxSessionOptions)
 
     val decoderProcessor = new DecoderProcessor(
       batchSize = batchSize,
