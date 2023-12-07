@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   SuppressLogitProcessor
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
+import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
@@ -102,7 +103,7 @@ private[johnsnowlabs] class Whisper(
     else throw new IllegalArgumentException("No model engine defined.")
 
   private val tfTensorResources = new tensorflow.TensorResources()
-//  val onnxTensorResources = new onnx.TensorResources(OrtEnvironment.getEnvironment())
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   private object TfSignatures {
     object InputOps {
@@ -323,9 +324,10 @@ private[johnsnowlabs] class Whisper(
 
           tokenIds
         case ONNX.name =>
-          val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
-          val decoderSession = onnxWrappers.get.decoder.getSession()._1
-          val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
+          val (encoderSession, env) = onnxWrappers.get.encoder.getSession(onnxSessionOptions)
+          val decoderSession = onnxWrappers.get.decoder.getSession(onnxSessionOptions)._1
+          val decoderWithPastSession =
+            onnxWrappers.get.decoderWithPast.getSession(onnxSessionOptions)._1
 
           val encodedBatchTensor: OnnxTensor =
             encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]

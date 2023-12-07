@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
@@ -56,6 +56,7 @@ private[johnsnowlabs] class MPNet(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   /** Get sentence embeddings for a batch of sentences
     * @param batch
@@ -165,14 +166,12 @@ private[johnsnowlabs] class MPNet(
   }
 
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
     val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)
     val maskTensors = OnnxTensor.createTensor(env, attentionMask)
-
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
