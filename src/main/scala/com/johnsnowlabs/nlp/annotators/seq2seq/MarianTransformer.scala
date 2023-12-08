@@ -579,8 +579,8 @@ class MarianTransformer(override val uid: String)
           path,
           spark,
           obj.tensorflow,
-          "_t5",
-          T5Transformer.tfFile,
+          "_marian",
+          MarianTransformer.tfFile,
           configProtoBytes = getConfigProtoBytes,
           savedSignatures = getSignatures)
         writeSentencePieceModel(
