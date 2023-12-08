@@ -2960,6 +2960,158 @@ absolute improvement).</em></p>
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="clipforzeroshotclassification">CLIPForZeroShotClassification</h2>
+
+  <p>Zero Shot Image Classifier based on CLIP.</p>
+
+  <p>CLIP (Contrastive Language-Image Pre-Training) is a neural network that was trained on image
+and text pairs. It has the ability to predict images without training on any hard-coded
+labels. This makes it very flexible, as labels can be provided during inference. This is
+similar to the zero-shot capabilities of the GPT-2 and 3 models.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nv">CLIPForZeroShotClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"zero_shot_classifier_clip_vit_base_patch32"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Zero-Shot+Classification">Models Hub</a>.</p>
+
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/CLIPForZeroShotClassificationTestSpec.scala">CLIPForZeroShotClassificationTestSpec</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CATEGORY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="TODO: implement new for new scheme">CLIPForZeroShotClassification</a></td>
+        <td> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td><a href="/api/python/reference/autosummary/sparknlp/annotator/cv/clip_for_zero_shot_classification/index.html#sparknlp.annotator.cv.clip_for_zero_shot_classification.CLIPForZeroShotClassification">CLIPForZeroShotClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/CLIPForZeroShotClassification">CLIPForZeroShotClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/CLIPForZeroShotClassification.scala">CLIPForZeroShotClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"src/test/resources/image/"</span><span class="p">)</span>
+
+<span class="n">imageAssembler</span><span class="p">:</span> <span class="n">ImageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">candidateLabels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">"a photo of a bird"</span><span class="p">,</span>
+    <span class="s">"a photo of a cat"</span><span class="p">,</span>
+    <span class="s">"a photo of a dog"</span><span class="p">,</span>
+    <span class="s">"a photo of a hen"</span><span class="p">,</span>
+    <span class="s">"a photo of a hippo"</span><span class="p">,</span>
+    <span class="s">"a photo of a room"</span><span class="p">,</span>
+    <span class="s">"a photo of a tractor"</span><span class="p">,</span>
+    <span class="s">"a photo of an ostrich"</span><span class="p">,</span>
+    <span class="s">"a photo of an ox"</span><span class="p">]</span>
+
+<span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">CLIPForZeroShotClassification</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCandidateLabels</span><span class="p">(</span><span class="n">candidateLabels</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
+<span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">pipelineDF</span> \
+  <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="p">,</span> <span class="s">"label.result"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">ResourceHelper</span><span class="o">.</span><span class="py">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">candidateLabels</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
+  <span class="s">"a photo of a bird"</span><span class="o">,</span>
+  <span class="s">"a photo of a cat"</span><span class="o">,</span>
+  <span class="s">"a photo of a dog"</span><span class="o">,</span>
+  <span class="s">"a photo of a hen"</span><span class="o">,</span>
+  <span class="s">"a photo of a hippo"</span><span class="o">,</span>
+  <span class="s">"a photo of a room"</span><span class="o">,</span>
+  <span class="s">"a photo of a tractor"</span><span class="o">,</span>
+  <span class="s">"a photo of an ostrich"</span><span class="o">,</span>
+  <span class="s">"a photo of an ox"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nc">CLIPForZeroShotClassification</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCandidateLabels</span><span class="o">(</span><span class="n">candidateLabels</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>
+  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">model</span><span class="o">)).</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
+<span class="n">pipeline</span>
+  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"label.result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-----------------+-----------------------+</span>
+<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                 <span class="o">|</span>
+<span class="o">+-----------------+-----------------------+</span>
+<span class="o">|</span><span class="nv">palace</span><span class="o">.</span><span class="py">JPEG</span>      <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">room</span><span class="o">]</span>    <span class="o">|</span>
+<span class="o">|</span><span class="nv">egyptian_cat</span><span class="o">.</span><span class="py">jpeg</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">cat</span><span class="o">]</span>     <span class="o">|</span>
+<span class="o">|</span><span class="nv">hippopotamus</span><span class="o">.</span><span class="py">JPEG</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">hippo</span><span class="o">]</span>   <span class="o">|</span>
+<span class="o">|</span><span class="nv">hen</span><span class="o">.</span><span class="py">JPEG</span>         <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">hen</span><span class="o">]</span>     <span class="o">|</span>
+<span class="o">|</span><span class="nv">ostrich</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">an</span> <span class="kt">ostrich</span><span class="o">]|</span>
+<span class="o">|</span><span class="nv">junco</span><span class="o">.</span><span class="py">JPEG</span>       <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">bird</span><span class="o">]</span>    <span class="o">|</span>
+<span class="o">|</span><span class="nv">bluetick</span><span class="o">.</span><span class="py">jpg</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">dog</span><span class="o">]</span>     <span class="o">|</span>
+<span class="o">|</span><span class="nv">chihuahua</span><span class="o">.</span><span class="py">jpg</span>    <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">dog</span><span class="o">]</span>     <span class="o">|</span>
+<span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">tractor</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">an</span> <span class="kt">ox</span><span class="o">]</span>     <span class="o">|</span>
+<span class="o">+-----------------+-----------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="h3-box">
 
   <h2 id="camembertembeddings">CamemBertEmbeddings</h2>
