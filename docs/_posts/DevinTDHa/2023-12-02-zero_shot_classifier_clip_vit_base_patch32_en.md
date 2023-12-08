@@ -8,7 +8,7 @@ tags: [classification, image, en, zero_shot, open_source, onnx]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.2.0
-spark_version: 3.4
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: CLIPForZeroShotClassification
@@ -34,8 +34,8 @@ https://huggingface.co/openai/clip-vit-base-patch32
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_classifier_clip_vit_base_patch32_en_5.2.0_3.4_1701541274927.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_classifier_clip_vit_base_patch32_en_5.2.0_3.4_1701541274927.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_classifier_clip_vit_base_patch32_en_5.2.0_3.0_1701541274927.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_classifier_clip_vit_base_patch32_en_5.2.0_3.0_1701541274927.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
