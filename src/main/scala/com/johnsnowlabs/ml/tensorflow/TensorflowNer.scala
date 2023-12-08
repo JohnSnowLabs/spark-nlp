@@ -177,7 +177,7 @@ private[johnsnowlabs] class TensorflowNer(
       dropout: Float,
       batchSize: Int = 8,
       useBestModel: Boolean = false,
-      bestModelMetricPreference: String = ModelMetrics.microF1,
+      bestModelMetric: String = ModelMetrics.loss,
       startEpoch: Int = 0,
       endEpoch: Int,
       graphFileName: String = "",
@@ -191,21 +191,9 @@ private[johnsnowlabs] class TensorflowNer(
       outputLogsPath: String,
       uuid: String = Identifiable.randomUID("annotator")): Session = {
 
-    var bestModelMetric: String = ModelMetrics.loss
     var lastTestMircoF1, lastValMicroF1: Float = 0.0f
+    var lastTestMarcoF1, lastValMacroF1: Float = 0.0f
     var lastLoss: Float = Float.MaxValue
-
-    if (test.nonEmpty) {
-      bestModelMetric =
-        if (bestModelMetricPreference == ModelMetrics.microF1) ModelMetrics.testMicroF1
-        else ModelMetrics.testMacroF1
-    } else if (validationSplit > 0.0) {
-      bestModelMetric =
-        if (bestModelMetricPreference == ModelMetrics.microF1) ModelMetrics.valMicroF1
-        else ModelMetrics.valMacroF1
-    } else {
-      bestModelMetric = ModelMetrics.loss
-    }
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
     outputLog(
@@ -288,6 +276,10 @@ private[johnsnowlabs] class TensorflowNer(
         enableOutputLogs,
         outputLogsPath)
 
+      def logSavingBestModel(): Unit = {
+        logger.warn(s"bestModelMetric: $bestModelMetric. saved best model")
+      }
+
       if (validationSplit > 0.0) {
         println(
           s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
@@ -303,10 +295,23 @@ private[johnsnowlabs] class TensorflowNer(
           outputLogsPath = outputLogsPath,
           batchSize = batchSize,
           uuid = uuid)
-        if (useBestModel && bestModelMetric == ModelMetrics.valMicroF1) {
-          if (newValMicroF1 >= lastValMicroF1) {
-            lastCheckPoints = saveBestModel()
-            lastValMicroF1 = newValMicroF1
+        // check see if user needs bestModel
+        // keep track if user has chosen either `valMicroF1` or `valMacroF1` metrics for tracking
+        if (useBestModel) {
+          bestModelMetric match {
+            case ModelMetrics.valMicroF1 =>
+              if (newValMicroF1 >= lastValMicroF1) {
+                lastCheckPoints = saveBestModel()
+                lastValMicroF1 = newValMicroF1
+                logSavingBestModel()
+              }
+            case ModelMetrics.valMacroF1 =>
+              if (newValMacroF1 >= lastValMacroF1) {
+                lastCheckPoints = saveBestModel()
+                lastValMacroF1 = newValMacroF1
+                logSavingBestModel()
+              }
+            case _ => // Do nothing
           }
         }
       }
@@ -321,10 +326,23 @@ private[johnsnowlabs] class TensorflowNer(
           outputLogsPath = outputLogsPath,
           batchSize = batchSize,
           uuid = uuid)
-        if (useBestModel && bestModelMetric == ModelMetrics.testMicroF1) {
-          if (newTestMicroF1 >= lastTestMircoF1) {
-            lastCheckPoints = saveBestModel()
-            lastTestMircoF1 = newTestMicroF1
+        // check see if user needs bestModel
+        // keep track if user has chosen either `testMicroF1` or `testMacroF1` metrics for tracking
+        if (useBestModel) {
+          bestModelMetric match {
+            case ModelMetrics.testMicroF1 =>
+              if (newTestMicroF1 >= lastTestMircoF1) {
+                lastCheckPoints = saveBestModel()
+                lastTestMircoF1 = newTestMicroF1
+                logSavingBestModel()
+              }
+            case ModelMetrics.testMacroF1 =>
+              if (newTestMacroF1 >= lastTestMarcoF1) {
+                lastCheckPoints = saveBestModel()
+                lastTestMarcoF1 = newTestMacroF1
+                logSavingBestModel()
+              }
+            case _ => // Do nothing
           }
         }
       }
@@ -333,6 +351,7 @@ private[johnsnowlabs] class TensorflowNer(
         if (loss < lastLoss) {
           lastLoss = loss
           lastCheckPoints = saveBestModel()
+          logger.info(s"bestModelMetric: $bestModelMetric. saved best model")
         }
       }
 

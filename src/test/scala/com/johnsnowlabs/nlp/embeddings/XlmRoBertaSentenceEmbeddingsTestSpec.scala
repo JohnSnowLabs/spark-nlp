@@ -199,4 +199,25 @@ class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineModel.transform(ddd).show()
   }
 
+  "XlmRoBertaSentenceEmbeddings" should "work with onnx" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = XlmRoBertaSentenceEmbeddings
+      .loadSavedModel("onnx_models/xlm-roberta-base", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("sentence_embeddings")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    pipeline.fit(ddd).write.overwrite().save("./tmp_xlm_roberta_sent_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_xlm_roberta_sent_pipeline")
+
+    pipelineModel.transform(ddd).show()
+  }
 }

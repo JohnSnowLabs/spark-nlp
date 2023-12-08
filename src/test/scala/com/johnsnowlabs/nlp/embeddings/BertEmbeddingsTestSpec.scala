@@ -229,4 +229,5 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalTokens == totalEmbeddings)
 
   }
+
 }

@@ -747,4 +747,8 @@ package object annotator {
     extends ReadablePretrainedCLIPForZeroShotClassificationModel
       with ReadCLIPForZeroShotClassificationModel
 
+  type DocumentTokenSplitter =
+    com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter
+
+  object DocumentTokenSplitter extends ParamsAndFeaturesReadable[DocumentTokenSplitter]
 }
