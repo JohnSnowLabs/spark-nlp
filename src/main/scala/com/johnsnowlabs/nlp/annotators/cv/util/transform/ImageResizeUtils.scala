@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.cv.util.transform
 
-import java.awt.Color
+import java.awt.{Color, Graphics2D}
 import java.awt.geom.AffineTransform
 import java.awt.image.{AffineTransformOp, BufferedImage}
 import scala.collection.mutable.ArrayBuffer
@@ -168,10 +168,14 @@ private[johnsnowlabs] object ImageResizeUtils {
     val resizedImage =
       resizeBufferedImage(resizeWidth, resizeHeight, resample)(img)
 
-    // Crop at the center of the image
-    val cropLeft = (resizeWidth - requestedSize).abs / 2
-    val cropTop = (resizeHeight - requestedSize).abs / 2
+    centerCrop(resizedImage, requestedSize)
+  }
 
-    cropBufferedImage(resizedImage, cropLeft, cropTop, requestedSize, requestedSize)
+  private def centerCrop(image: BufferedImage, requestedSize: Int): BufferedImage = {
+    // Crop at the center of the image
+    val cropLeft = (image.getWidth() - requestedSize).abs / 2
+    val cropTop = (image.getHeight() - requestedSize).abs / 2
+
+    cropBufferedImage(image, cropLeft, cropTop, requestedSize, requestedSize)
   }
 }

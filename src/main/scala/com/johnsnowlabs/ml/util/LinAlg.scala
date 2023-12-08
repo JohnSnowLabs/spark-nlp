@@ -57,6 +57,32 @@ object LinAlg {
 
   }
 
+  /** Calculates softmax probabilities for an array of logits.
+    *
+    * @param logitValues
+    *   Predicted raw logits
+    * @return
+    *   Probabilities for each class
+    */
+  def softmax(logitValues: Array[Float]): Array[Float] = {
+    val maxLogit = logitValues.max
+    val logitsExp = logitValues.map(l => Math.exp(l - maxLogit))
+    val expSum = logitsExp.sum
+    logitsExp.map(exp => (exp / expSum).toFloat)
+  }
+
+  /** Gets the index with the highest score.
+    *
+    * @param scores
+    *   Array of Scores to max
+    * @return
+    *   Index of the highest score
+    */
+  def argmax(scores: Array[Float]): Int =
+    scores.zipWithIndex.maxBy { case (score, _) =>
+      score
+    }._2
+
   def avgPooling(embeddings: Array[Float], attentionMask: Array[Long], dim: Int): Array[Float] = {
     val expandedAttentionMask = new Array[Float](embeddings.length)
     // Expand attentionMask to match the length of embeddings
@@ -82,7 +108,7 @@ object LinAlg {
     computeElementWiseDivision(weightedSum, totalWeight)
   }
 
-  def computeElementWiseProduct(
+  private def computeElementWiseProduct(
       arrayA: Array[Array[Float]],
       arrayB: Array[Array[Float]]): Array[Array[Float]] = {
     arrayA.zip(arrayB).map { case (row1, row2) =>
@@ -90,7 +116,9 @@ object LinAlg {
     }
   }
 
-  def computeElementWiseDivision(arrayA: Array[Float], arrayB: Array[Float]): Array[Float] = {
+  private def computeElementWiseDivision(
+      arrayA: Array[Float],
+      arrayB: Array[Float]): Array[Float] = {
     arrayA.zip(arrayB).map { case (a, b) =>
       if (b != 0.0f) a / b else 0.0f // Avoid division by zero
     }

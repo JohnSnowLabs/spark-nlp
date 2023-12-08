@@ -30,6 +30,7 @@ import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
+import com.johnsnowlabs.ml.util.LinAlg.argmax
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{SpecialTokens, WhisperTokenDecoder}
@@ -457,18 +458,6 @@ private[johnsnowlabs] class Whisper(
 
     (logits, decoderStateTensor, encoderStateTensor)
   }
-
-  /** Gets the index with the highest score
-    *
-    * @param scores
-    *   Array of Scores to max
-    * @return
-    *   Index of the highest score
-    */
-  private def argmax(scores: Array[Float]): Int =
-    scores.zipWithIndex.maxBy { case (score, _) =>
-      score
-    }._2
 
   private def greedyGenerationFinished(
       decoderIds: Seq[Array[Int]],
