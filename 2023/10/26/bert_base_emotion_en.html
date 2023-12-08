@@ -13,7 +13,7 @@
   gtag('config', 'G-NMNWXW7PZM');
 </script><title>English bert_base_emotion BertForSequenceClassification from Anonymous1111 | bert_base_emotion | Spark NLP 5.1.4</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bert_base_emotion is a English model originally trained by Anonymous1111.Live DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  document_assem...">
+<meta name="description" content="DescriptionPretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bert_base_emotion is a English model originally trained by Anonymous1111.Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaN...">
 <link rel="canonical" href="/2023/10/26/bert_base_emotion_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,17 +421,18 @@
 
 <p>Pretrained BertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.<code class="language-plaintext highlighter-rouge">bert_base_emotion</code> is a English model originally trained by Anonymous1111.</p>
 
+<h2 id="predicted-entities">Predicted Entities</h2>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_emotion_en_5.1.4_3.4_1698294005799.zip" class="button button-orange button-orange-trans arr button-icon">Download</a>
-<a href="s3://auxdata.johnsnowlabs.com/public/models/bert_base_emotion_en_5.1.4_3.4_1698294005799.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_emotion_en_5.1.4_3.4_1698311943722.zip" class="button button-orange button-orange-trans arr button-icon">Download</a>
+<a href="s3://auxdata.johnsnowlabs.com/public/models/bert_base_emotion_en_5.1.4_3.4_1698311943722.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
@@ -448,10 +449,8 @@
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"PUT YOUR STRING HERE"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
@@ -468,8 +467,6 @@
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"PUT YOUR STRING HERE"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
-
 </code></pre></div>  </div>
 </div>
 
@@ -513,6 +510,8 @@
 </table>
 
 <h2 id="references">References</h2>
+
+<p>References</p>
 
 <p>https://huggingface.co/Anonymous1111/bert-base-emotion</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-10-26T00:00:00+00:00"><!-- start custom article footer snippet -->
@@ -673,7 +672,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/10/26/autonlp_alberti_stanza_names_34318169_en.html">English autonlp_alberti_stanza_names_34318169 BertForSequenceClassification from alvp</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/10/26/bert_base_mnli_en.html">English bert_base_mnli BertForSequenceClassification from aloxatel</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/10/26/bert_base_dutch_cased_hebban_reviews5_nl.html">Dutch, Flemish bert_base_dutch_cased_hebban_reviews5 BertForSequenceClassification from BramVanroy</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/10/26/bert_base_finetuned_sts_brcps12_en.html">English bert_base_finetuned_sts_brcps12 BertForSequenceClassification from brcps12</a></div></div></div>
 
 </div>
 </div>
