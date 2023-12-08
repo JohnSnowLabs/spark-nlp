@@ -316,10 +316,10 @@ class NerDLSpec extends AnyFlatSpec {
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val embeddings = WordEmbeddingsModel.pretrained()
+    val embeddings = WordEmbeddingsModel.pretrained("glove_100d")
 
     val nerModel = NerDLModel
-      .pretrained()
+      .pretrained("ner_dl", "en")
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .setIncludeConfidence(true)

@@ -16,9 +16,11 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.{Model, PipelineModel}
-import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** This trait implements logic that applies nlp using Spark ML Pipeline transformers Should
@@ -64,8 +66,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
               }
             }))
         case withBatchAnnotate: HasBatchedAnnotate[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] = getEncoder(inputDataset)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotate.batchProcess(partition)
           })
@@ -80,8 +81,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateImage: HasBatchedAnnotateImage[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] = getEncoder(inputDataset)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateImage.batchProcess(partition)
           })
@@ -96,8 +96,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateAudio: HasBatchedAnnotateAudio[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] = getEncoder(inputDataset)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateAudio.batchProcess(partition)
           })
@@ -114,6 +113,25 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
     }
 
     afterAnnotate(processedDataset)
+  }
+
+  private def getEncoder(inputDataset: Dataset[_]): ExpressionEncoder[Row] = {
+    val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
+    val sparkVersion = Version.parse(inputDataset.sparkSession.version).toFloat
+    if (sparkVersion >= 3.5f) {
+      ExpressionEncoder(newStructType)
+    } else {
+      try {
+        // Use reflection to access RowEncoder.apply in older Spark versions
+        val rowEncoderClass = Class.forName("org.apache.spark.sql.catalyst.encoders.RowEncoder")
+        val applyMethod = rowEncoderClass.getMethod("apply", classOf[StructType])
+        applyMethod.invoke(null, newStructType).asInstanceOf[ExpressionEncoder[Row]]
+      } catch {
+        case _: Throwable =>
+          throw new UnsupportedOperationException(
+            "RowEncoder.apply is not supported in this Spark version.")
+      }
+    }
   }
 
   /** Given requirements are met, this applies ML transformation within a Pipeline or stand-alone

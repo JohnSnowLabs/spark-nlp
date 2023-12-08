@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.common
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow.SentenceGrouper
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.catalyst.encoders.RowEncoder
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 
 import scala.reflect.ClassTag
 
@@ -27,7 +27,7 @@ object DatasetHelpers {
 
   implicit class DataFrameHelper(dataset: DataFrame) {
     def randomize: DataFrame = {
-      implicit val encoder = RowEncoder(dataset.schema)
+      implicit val encoder = ExpressionEncoder(dataset.schema)
       dataset.mapPartitions {
         new scala.util.Random().shuffle(_).toIterator
       }
