@@ -165,6 +165,7 @@ class T5Transformer(override val uid: String)
     with WriteOnnxModel
     with HasCaseSensitiveProperties
     with WriteSentencePieceModel
+    with HasProtectedParams
     with HasEngine {
 
   def this() = this(Identifiable.randomUID("T5TRANSFORMER"))
@@ -252,6 +253,7 @@ class T5Transformer(override val uid: String)
     */
   private[johnsnowlabs] val useCache =
     new BooleanParam(parent = this, name = "useCache", doc = "Cache internal state of the model")
+      .setProtected()
 
   private[johnsnowlabs] def setUseCache(value: Boolean): this.type = {
     set(useCache, value)
