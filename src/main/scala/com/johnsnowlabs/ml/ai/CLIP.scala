@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, TensorResources}
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, OnnxSession, TensorResources}
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.util.LinAlg.{argmax, softmax}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
@@ -43,6 +43,7 @@ private[johnsnowlabs] class CLIP(
     else if (onnxWrapper.isDefined) ONNX.name
     else throw new IllegalArgumentException("No model engine defined.")
 
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   private def sessionWarmup(): Unit = {
     val image =
       ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
@@ -61,7 +62,7 @@ private[johnsnowlabs] class CLIP(
 
     detectedEngine match {
       case ONNX.name =>
-        val (runner, _) = onnxWrapper.get.getSession()
+        val (runner, _) = onnxWrapper.get.getSession(onnxSessionOptions)
         val onnxTensorResources = new TensorResources()
 
         val tokenTensors = onnxTensorResources.createTensor(labels)

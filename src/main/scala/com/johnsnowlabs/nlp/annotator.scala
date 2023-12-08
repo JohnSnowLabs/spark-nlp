@@ -744,7 +744,7 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.cv.CLIPForZeroShotClassification
 
   object CLIPForZeroShotClassification
-    extends ReadablePretrainedCLIPForZeroShotClassificationModel
+      extends ReadablePretrainedCLIPForZeroShotClassificationModel
       with ReadCLIPForZeroShotClassificationModel
 
   type DocumentTokenSplitter =
