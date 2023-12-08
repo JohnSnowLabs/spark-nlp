@@ -1,4 +1,4 @@
-# Spark NLP: State-of-the-Art Natural Language Processing
+# Spark NLP: State-of-the-Art Natural Language Processing & LLMs Library
 
 <p align="center">
     <a href="https://github.com/JohnSnowLabs/spark-nlp/actions" alt="build">
@@ -19,7 +19,7 @@
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed
 environment.
-Spark NLP comes with **22000+** pretrained **pipelines** and **models** in more than **200+** languages.
+Spark NLP comes with **30000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Image to Text (captioning)**, **Automatic Speech Recognition**, **Zero-Shot Learning**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Facebook BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
@@ -142,7 +142,7 @@ documentation and examples
 - Longformer for Question Answering
 - Table Question Answering (TAPAS)
 - Zero-Shot NER Model
-- Zero Shot Text Classification by Transformers (ZSL)
+- Zero-Shot Text Classification by Transformers (ZSL)
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
@@ -151,6 +151,7 @@ documentation and examples
 - Swin Image Classification (Microsoft Swin Transformer)
 - ConvNext Image Classification (Facebook ConvNext)
 - Vision Encoder Decoder for image-to-text like captioning
+- Zero-Shot Image Classification by OpenAI's CLIP
 - Automatic Speech Recognition (Wav2Vec2)
 - Automatic Speech Recognition (HuBERT)
 - Automatic Speech Recognition (OpenAI Whisper)
@@ -158,8 +159,8 @@ documentation and examples
 - Easy ONNX and TensorFlow integrations
 - GPU Support
 - Full integration with Spark ML functions
-- +16800 pre-trained models in +200 languages!
-- +5900 pre-trained pipelines in +200 languages!
+- +24000 pre-trained models in +200 languages!
+- +6000 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian,
   Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
 
@@ -172,7 +173,7 @@ To use Spark NLP you need the following requirements:
 
 **GPU (optional):**
 
-Spark NLP 5.2.0 is built with ONNX 1.15.1 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
+Spark NLP 5.2.0 is built with ONNX 1.16.3 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
@@ -237,7 +238,8 @@ Spark NLP *5.2.0* has been built on top of Apache Spark 3.4 while fully supports
 
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 5.1.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.2.x     | Partially          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.1.x     | Partially          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 4.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 4.3.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -257,6 +259,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|------------|
+| 5.2.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.1.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.4.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
