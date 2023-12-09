@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.functions.ExplodeAnnotations
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.DataFrame
 
 import scala.util.matching.Regex
@@ -270,3 +270,8 @@ class DocumentCharacterTextSplitter(override val uid: String)
   }
 
 }
+
+/** This is the companion object of [[DocumentCharacterTextSplitter]]. Please refer to that class
+ * for the documentation.
+ */
+object DocumentCharacterTextSplitter extends DefaultParamsReadable[DocumentCharacterTextSplitter]

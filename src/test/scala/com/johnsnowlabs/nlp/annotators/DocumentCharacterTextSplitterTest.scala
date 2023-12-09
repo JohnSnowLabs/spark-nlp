@@ -1,9 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.annotator.DocumentCharacterTextSplitter
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -219,6 +221,44 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
 
     val expected = Seq("Hello", " World", "!")
     assertResult(sampleText, result, expected)
+  }
+
+  it should "be serializable" taggedAs SlowTest in {
+    val textSplitter = new DocumentCharacterTextSplitter()
+      .setInputCols("document")
+      .setOutputCol("splits")
+      .setChunkSize(1000)
+      .setChunkOverlap(100)
+      .setExplodeSplits(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, textSplitter))
+    val pipelineModel = pipeline.fit(splitTextDF)
+
+    pipelineModel.stages.last
+      .asInstanceOf[DocumentCharacterTextSplitter]
+      .write
+      .overwrite()
+      .save("./tmp_textSplitter")
+
+    val loadedTextSplitModel = DocumentCharacterTextSplitter.load("tmp_textSplitter")
+
+    loadedTextSplitModel.transform(textDocument).select("splits").show(truncate = false)
+  }
+
+  it should "be exportable to pipeline" taggedAs SlowTest in {
+    val textSplitter = new DocumentCharacterTextSplitter()
+      .setInputCols("document")
+      .setOutputCol("splits")
+      .setChunkSize(1000)
+      .setChunkOverlap(100)
+      .setExplodeSplits(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, textSplitter))
+    pipeline.write.overwrite().save("tmp_textsplitter_pipe")
+
+    val loadedPipelineModel = Pipeline.load("tmp_textsplitter_pipe")
+
+    loadedPipelineModel.fit(splitTextDF).transform(splitTextDF).select("splits").show()
   }
 
 }
