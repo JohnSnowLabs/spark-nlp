@@ -89,7 +89,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val embeddings = BGEEmbeddings.pretrained("e5_small", "en")
+  * val embeddings = BGEEmbeddings.pretrained("bge_base", "en")
   *   .setInputCols("document")
   *   .setOutputCol("bge_embeddings")
   *
@@ -144,8 +144,8 @@ import org.slf4j.{Logger, LoggerFactory}
   *   parameter values through setters and getters, respectively.
   */
 class BGEEmbeddings(override val uid: String)
-    extends AnnotatorModel[E5Embeddings]
-    with HasBatchedAnnotate[E5Embeddings]
+    extends AnnotatorModel[BGEEmbeddings]
+    with HasBatchedAnnotate[BGEEmbeddings]
     with WriteTensorflowModel
     with WriteOnnxModel
     with HasEmbeddingsProperties
@@ -201,12 +201,12 @@ class BGEEmbeddings(override val uid: String)
     */
   val signatures =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
-  private var _model: Option[Broadcast[E5]] = None
+  private var _model: Option[Broadcast[BGE]] = None
 
   def this() = this(Identifiable.randomUID("BGE_EMBEDDINGS"))
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): E5Embeddings.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): BGEEmbeddings.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group setParam */
@@ -233,11 +233,11 @@ class BGEEmbeddings(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): E5Embeddings = {
+      onnxWrapper: Option[OnnxWrapper]): BGEEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new E5(
+          new BGE(
             tensorflowWrapper,
             onnxWrapper,
             configProtoBytes = getConfigProtoBytes,

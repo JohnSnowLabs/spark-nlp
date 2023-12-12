@@ -31,7 +31,7 @@ class BGEEmbeddings(AnnotatorModel,
 
     >>> embeddings = BGEEmbeddings.pretrained() \\
     ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("e5_embeddings")
+    ...     .setOutputCol("bge_embeddings")
 
 
     The default model is ``"bge_base"``, if no name is provided.
