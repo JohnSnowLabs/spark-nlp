@@ -113,4 +113,35 @@ class E5EmbeddingsTestSpec extends AnyFlatSpec {
     pipelineDF.select("e5.embeddings").show(false)
   }
 
+  it should "not return empty embeddings" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+    val interests = Seq("I like music", "I like movies", "I like books", "I like sports",
+      "I like travel", "I like food", "I like games", "I like art",
+      "I like nature", "I like science", "I like technology", "I like history",
+      "I like fashion", "I like cars", "I like animals", "I like gardening")
+    val testDf = interests.toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = E5Embeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("e5")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    val pipelineDF = pipeline.fit(testDf).transform(testDf)
+
+    val embeddingsDF = pipelineDF.withColumn("embeddings", col("e5.embeddings").getItem(0))
+
+    val sizesArray: Array[Int] = embeddingsDF
+      .select(size(col("embeddings")).as("size"))
+      .collect()
+      .map(row => row.getAs[Int]("size"))
+
+    assert(sizesArray.forall(_ > 0))
+  }
+
 }

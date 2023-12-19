@@ -182,18 +182,16 @@ private[johnsnowlabs] class MPNet(
       val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
       val shape = info.getShape
       try {
-        val embeddings = lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
         tokenTensors.close()
         maskTensors.close()
 
-        val dim = shape.last.toInt
-        val avgPooling = LinAlg.avgPooling(embeddings, attentionMask(0), dim)
-        val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
-
-        Array(normalizedSentenceEmbeddings)
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
     }
   }
