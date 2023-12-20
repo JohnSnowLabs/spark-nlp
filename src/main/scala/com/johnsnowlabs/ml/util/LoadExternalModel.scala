@@ -55,8 +55,8 @@ object LoadExternalModel {
        |
        |├── assets/
        |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
-       |├── saved_model.xml
-       |├── saved_model.bin
+       |├── openvino_model.xml
+       |├── openvino_model.bin
        |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin

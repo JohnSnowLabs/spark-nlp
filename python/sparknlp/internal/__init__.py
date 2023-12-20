@@ -144,8 +144,8 @@ class _ElmoLoader(ExtendedJavaWrapper):
 
 
 class _E5Loader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
-        super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark, use_openvino)
 
 
 class _BGELoader(ExtendedJavaWrapper):

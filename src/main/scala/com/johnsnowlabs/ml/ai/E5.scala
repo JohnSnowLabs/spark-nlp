@@ -18,9 +18,10 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, Openvino, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -42,6 +43,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class E5(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -56,6 +58,7 @@ private[johnsnowlabs] class E5(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -69,6 +72,8 @@ private[johnsnowlabs] class E5(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
+      case Openvino.name =>
+        getSentenceEmbeddingFromOv(paddedBatch, maxSentenceLength)
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength)
       case _ =>
@@ -206,6 +211,47 @@ private[johnsnowlabs] class E5(
       maskTensors.close()
       segmentTensors.close()
     }
+  }
+
+  private def getSentenceEmbeddingFromOv(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Array[Float]] = {
+    val batchLength = batch.length
+    val inputIds = batch.flatMap(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors = new org.intel.openvino.Tensor(shape, inputIds)
+    val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
+    val segmentTensors =
+      new org.intel.openvino.Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
+
+    val model = openvinoWrapper.get.getCompiledModel()
+    val inferRequest = model.create_infer_request()
+
+    inferRequest.set_tensor(
+      signatures.get.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_ids"),
+      tokenTensors)
+    inferRequest.set_tensor(
+      signatures.get
+        .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_attention_mask"),
+      maskTensors)
+    inferRequest.set_tensor(
+      signatures.get
+        .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_token_type_ids"),
+      segmentTensors)
+    inferRequest.infer()
+    val embeddings = inferRequest
+      .get_tensor(
+        signatures.get
+          .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_last_hidden_state"))
+
+    val dim = embeddings.get_shape().last
+    val avgPooling =
+      LinAlg.avgPooling(embeddings.data(), attentionMask(0), dim)
+    val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
+
+    Array(normalizedSentenceEmbeddings)
   }
 
   /** Predict sentence embeddings for a batch of sentences
