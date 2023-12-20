@@ -16,7 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.ai.T5
+import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
+import com.johnsnowlabs.ml.ai.seq2seq.{
+  OnnxT5EncoderDecoder,
+  T5EncoderDecoder,
+  TensorflowT5EncoderDecoder
+}
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -32,7 +38,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -156,7 +162,10 @@ class T5Transformer(override val uid: String)
     with HasBatchedAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
+    with WriteOnnxModel
+    with HasCaseSensitiveProperties
     with WriteSentencePieceModel
+    with HasProtectedParams
     with HasEngine {
 
   def this() = this(Identifiable.randomUID("T5TRANSFORMER"))
@@ -185,6 +194,25 @@ class T5Transformer(override val uid: String)
     set(task, value)
     this
   }
+
+  /** Stop text generation when the end-of-sentence token is encountered.
+    *
+    * @group param
+    */
+  val stopAtEos =
+    new BooleanParam(parent = this, name = "stopAtEos", doc = "Stop at end-of-sentence token.")
+
+  /** Determines whether text generation stops when the end-of-sentence token is encountered.
+    *
+    * @group setParam
+    */
+  def setStopAtEos(value: Boolean): this.type = set(stopAtEos, value)
+
+  /** Checks whether text generation stops when the end-of-sentence token is encountered.
+    *
+    * @group getParam
+    */
+  def getStopAtEos: Boolean = $(stopAtEos)
 
   /** Minimum length of the sequence to be generated (Default: `0`)
     *
@@ -217,6 +245,38 @@ class T5Transformer(override val uid: String)
 
   /** @group getParam */
   def getMaxOutputLength: Int = $(this.maxOutputLength)
+
+  /** Cache internal state of the model to improve performance. This param can only be set when
+    * importing the model.
+    *
+    * @group param
+    */
+  private[johnsnowlabs] val useCache =
+    new BooleanParam(parent = this, name = "useCache", doc = "Cache internal state of the model")
+      .setProtected()
+
+  private[johnsnowlabs] def setUseCache(value: Boolean): this.type = {
+    set(useCache, value)
+    this
+  }
+
+  private[johnsnowlabs] def getUseCache: Boolean = $(useCache)
+
+  /** Maximum number of new tokens to be generated (Default: `20`)
+    *
+    * @group param
+    */
+  val maxNewTokens =
+    new IntParam(this, "maxNewTokens", "Maximum number of new tokens to be generated")
+
+  /** @group setParam */
+  def setMaxNewTokens(value: Int): T5Transformer.this.type = {
+    set(maxNewTokens, value)
+    this
+  }
+
+  /** @group getParam */
+  def getMaxNewTokens: Int = $(this.maxNewTokens)
 
   /** Whether or not to use sampling, use greedy decoding otherwise (Default: `false`)
     *
@@ -361,6 +421,8 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
 
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
     *
@@ -394,27 +456,40 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[T5]] = None
+  private var _model: Option[Broadcast[T5EncoderDecoder]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tfWrapper: TensorflowWrapper,
-      spp: SentencePieceWrapper): this.type = {
+      spp: SentencePieceWrapper,
+      useCache: Boolean): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new T5(
-            tfWrapper,
-            spp,
+          new TensorflowT5EncoderDecoder(
+            tensorflow = tfWrapper,
+            spp = spp,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            useCache = useCache)))
+    }
+    this
+  }
+
+  def setModelIfNotSet(
+      spark: SparkSession,
+      encoder: OnnxWrapper,
+      decoder: OnnxWrapper,
+      spp: SentencePieceWrapper): this.type = {
+    if (_model.isEmpty) {
+      _model = Some(spark.sparkContext.broadcast(new OnnxT5EncoderDecoder(encoder, decoder, spp)))
     }
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: T5 = _model.get.value
+  def getModelIfNotSet: T5EncoderDecoder = _model.get.value
 
   setDefault(
     task -> "",
@@ -427,7 +502,10 @@ class T5Transformer(override val uid: String)
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
     ignoreTokenIds -> Array(),
-    batchSize -> 1)
+    batchSize -> 1,
+    stopAtEos -> true,
+    maxNewTokens -> 512,
+    useCache -> false)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
@@ -441,18 +519,20 @@ class T5Transformer(override val uid: String)
     val processedAnnotations = if (allAnnotations.nonEmpty) {
       this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
-        batchSize = $(batchSize),
-        minOutputLength = $(minOutputLength),
-        maxOutputLength = $(maxOutputLength),
-        doSample = $(doSample),
-        temperature = $(temperature),
-        topK = $(topK),
-        topP = $(topP),
-        repetitionPenalty = $(repetitionPenalty),
-        noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
-        randomSeed = this.randomSeed,
-        ignoreTokenIds = $(ignoreTokenIds))
+        batchSize = getBatchSize,
+        maxTextLength = getMaxOutputLength,
+        maxNewTokens = getMaxNewTokens,
+        stopAtEos = getStopAtEos,
+        doSample = getDoSample,
+        topK = getTopK,
+        topP = getTopP,
+        temperature = getTemperature,
+        noRepeatNgramSize = getNoRepeatNgramSize,
+        repetitionPenalty = getRepetitionPenalty,
+        ignoreTokenIds = getIgnoreTokenIds,
+        isCaseSensitive = getCaseSensitive,
+        randomSeed = getRandomSeed)
     } else {
       Seq()
     }
@@ -476,16 +556,23 @@ class T5Transformer(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflow,
-      "_t5",
-      T5Transformer.tfFile,
-      configProtoBytes = getConfigProtoBytes,
-      savedSignatures = getSignatures)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5", T5Transformer.sppFile)
+    getModelIfNotSet match {
+      case obj: OnnxT5EncoderDecoder =>
+        writeOnnxModel(path, spark, obj.onnxEncoder, "", T5Transformer.onnxEncoderFile)
+        writeOnnxModel(path, spark, obj.onnxDecoder, "", T5Transformer.onnxDecoderFile)
+        writeSentencePieceModel(path, spark, obj.spp, "_med_seq2seq", T5Transformer.sppFile)
 
+      case obj: TensorflowT5EncoderDecoder =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          obj.tensorflow,
+          suffix = "_t5",
+          T5Transformer.tfFile,
+          configProtoBytes = getConfigProtoBytes,
+          savedSignatures = getSignatures)
+        writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_t5", T5Transformer.sppFile)
+    }
   }
 }
 
@@ -506,28 +593,46 @@ trait ReadablePretrainedT5TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadT5TransformerDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadT5TransformerDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[T5Transformer] =>
 
   override val tfFile: String = "t5_tensorflow"
   override val sppFile: String = "t5_spp"
 
+  val onnxEncoderFile: String = "encoder.onxx"
+  val onnxDecoderFile: String = "decoder.onxx"
+
+  override val onnxFile: String = ""
+
   def readModel(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(
-      path,
-      spark,
-      "_t5_tf",
-      savedSignatures = instance.getSignatures,
-      initAllTables = false)
+
     val spp = readSentencePieceModel(path, spark, "_t5_spp", sppFile)
-    instance.setModelIfNotSet(spark, tf, spp)
+
+    instance.getEngine.toLowerCase match {
+      case ONNX.name =>
+        OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
+        val onnxModels =
+          readOnnxModels(path, spark, Seq(onnxEncoderFile, onnxDecoderFile), suffix = "")
+        instance
+          .setModelIfNotSet(spark, onnxModels(onnxEncoderFile), onnxModels(onnxDecoderFile), spp)
+      case _ =>
+        val tf = readTensorflowModel(
+          path,
+          spark,
+          suffix = "_t5_tf",
+          savedSignatures = instance.getSignatures)
+        instance.setModelIfNotSet(spark, tf, spp, instance.getUseCache)
+    }
   }
 
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): T5Transformer = {
 
-    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath, isEncoderDecoder = true)
 
     /*Universal parameters for all engines*/
     val annotatorModel = new T5Transformer()
@@ -542,8 +647,7 @@ trait ReadT5TransformerDLModel extends ReadTensorflowModel with ReadSentencePiec
           localModelPath,
           zipped = false,
           useBundle = true,
-          tags = Array("serve"),
-          initAllTables = false)
+          tags = Array("serve"))
 
         val _signatures = signatures match {
           case Some(s) => s
@@ -554,9 +658,28 @@ trait ReadT5TransformerDLModel extends ReadTensorflowModel with ReadSentencePiec
           * setModelIfNotSet
           */
         annotatorModel
+          .setEngine(TensorFlow.name)
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, spModel)
+          .setModelIfNotSet(spark, wrapper, spModel, useCache = false)
 
+      case ONNX.name =>
+        OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
+
+        val onnxEncoder = OnnxWrapper.read(
+          modelPath,
+          modelName = "encoder_model",
+          zipped = false,
+          useBundle = true)
+
+        val onnxDecoder = OnnxWrapper.read(
+          modelPath,
+          modelName = "decoder_model_merged",
+          zipped = false,
+          useBundle = true)
+
+        annotatorModel
+          .setEngine(ONNX.name)
+          .setModelIfNotSet(spark, onnxEncoder, onnxDecoder, spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

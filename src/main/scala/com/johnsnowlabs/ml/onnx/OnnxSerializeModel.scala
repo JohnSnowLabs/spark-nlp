@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.onnx
 
+import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
 import ai.onnxruntime.OrtSession.SessionOptions
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
@@ -94,11 +95,7 @@ trait ReadOnnxModel {
     val localPath = new Path(tmpFolder, onnxFile).toString
 
     // 3. Read ONNX state
-    val onnxWrapper = OnnxWrapper.read(
-      localPath,
-      zipped = zipped,
-      useBundle = useBundle,
-      sessionOptions = sessionOptions)
+    val onnxWrapper = OnnxWrapper.read(localPath, zipped = zipped, useBundle = useBundle)
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
@@ -112,8 +109,7 @@ trait ReadOnnxModel {
       modelNames: Seq[String],
       suffix: String,
       zipped: Boolean = true,
-      useBundle: Boolean = false,
-      sessionOptions: Option[SessionOptions] = None): Map[String, OnnxWrapper] = {
+      useBundle: Boolean = false): Map[String, OnnxWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -132,11 +128,7 @@ trait ReadOnnxModel {
       val localPath = new Path(tmpFolder, localModelFile).toString
 
       // 3. Read ONNX state
-      val onnxWrapper = OnnxWrapper.read(
-        localPath,
-        zipped = zipped,
-        useBundle = useBundle,
-        sessionOptions = sessionOptions)
+      val onnxWrapper = OnnxWrapper.read(localPath, zipped = zipped, useBundle = useBundle)
 
       (modelName, onnxWrapper)
     }).toMap

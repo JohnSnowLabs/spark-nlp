@@ -3,7 +3,7 @@ layout: landing
 comment: no
 title: 'Spark NLP 🚀 <span>State of the Art Natural Language Processing</span>'
 excerpt: Experience the power of Large Language Models like never before! Unleash the full potential of Natural Language Processing with Spark NLP, the open-source library that delivers scalable LLMs
-seotitle: Spark NLP - State of the Art NLP Library for Large Language Models
+seotitle: Spark NLP - State of the Art NLP Library for Large Language Models (LLMs)
 permalink: /
 header: true
 article_header:

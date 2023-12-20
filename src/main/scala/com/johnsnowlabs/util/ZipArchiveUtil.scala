@@ -23,52 +23,47 @@ import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import scala.collection.JavaConverters._
 
 object ZipArchiveUtil {
-
-  private def listFiles(file: File, outputFilename: String): List[String] = {
+  // Recursively lists all files in a given directory, returning a list of their absolute paths
+  private[util] def listFilesRecursive(file: File): List[File] = {
     file match {
-      case file if file.isFile =>
-        if (file.getName != outputFilename)
-          List(file.getAbsoluteFile.toString)
-        else
-          List()
+      case file if file.isFile => List(new File(file.getAbsoluteFile.toString))
       case file if file.isDirectory =>
         val fList = file.list
         // Add all files in current dir to list and recur on subdirs
-        fList.foldLeft(List[String]())((pList: List[String], path: String) =>
-          pList ++ listFiles(new File(file, path), outputFilename))
+        fList.foldLeft(List[File]())((pList: List[File], path: String) =>
+          pList ++ listFilesRecursive(new File(file, path)))
       case _ => throw new IOException("Bad path. No file or directory found.")
     }
   }
 
-  private def addFileToZipEntry(
-      filename: String,
-      parentPath: String,
-      filePathsCount: Int): ZipEntry = {
-    if (filePathsCount <= 1)
-      new ZipEntry(new File(filename).getName)
-    else {
-      // use relative path to avoid adding absolute path directories
-      val relative = new File(parentPath).toURI.relativize(new File(filename).toURI).getPath
+  private[util] def addFileToZipEntry(
+      filename: File,
+      parentPath: File,
+      useRelativePath: Boolean = false): ZipEntry = {
+    if (!useRelativePath) // use absolute path
+      new ZipEntry(filename.getName)
+    else { // use relative path
+      val relative = parentPath.toURI.relativize(filename.toURI).getPath
       new ZipEntry(relative)
     }
   }
 
-  private def createZip(
-      filePaths: List[String],
-      outputFilename: String,
-      parentPath: String): Unit = {
+  private[util] def createZip(
+      filePaths: List[File],
+      outputFilePath: File,
+      parentPath: File): Unit = {
 
     val Buffer = 2 * 1024
     val data = new Array[Byte](Buffer)
     try {
-      val zipFileOS = new FileOutputStream(outputFilename)
+      val zipFileOS = new FileOutputStream(outputFilePath)
       val zip = new ZipOutputStream(zipFileOS)
       zip.setLevel(0)
-      filePaths.foreach((name: String) => {
-        val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
+      filePaths.foreach((file: File) => {
+        val zipEntry = addFileToZipEntry(file, parentPath, filePaths.size > 1)
         // add zip entry to output stream
         zip.putNextEntry(new ZipEntry(zipEntry))
-        val in = new BufferedInputStream(new FileInputStream(name), Buffer)
+        val in = new BufferedInputStream(new FileInputStream(file), Buffer)
         var b = in.read(data, 0, Buffer)
         while (b != -1) {
           zip.write(data, 0, b)
@@ -86,10 +81,36 @@ object ZipArchiveUtil {
     }
   }
 
-  def zip(fileName: String, outputFileName: String): Unit = {
-    val file = new File(fileName)
-    val filePaths = listFiles(file, outputFileName)
-    createZip(filePaths, outputFileName, fileName)
+  private[util] def zipFile(soureFile: File, outputFilePath: File): Unit = {
+    createZip(List(soureFile.getAbsoluteFile), outputFilePath, null)
+  }
+
+  private[util] def zipDir(sourceDir: File, outputFilePath: File): Unit = {
+    val filePaths = listFilesRecursive(sourceDir)
+    createZip(filePaths, outputFilePath, sourceDir)
+  }
+
+  def zip(sourcePath: String, outputFilePath: String): Unit = {
+    val sourceFile = new File(sourcePath)
+    val outputFile = new File(outputFilePath)
+    if (sourceFile.equals(outputFile))
+      throw new IllegalArgumentException("source path cannot be identical to target path")
+
+    if (!outputFile.getParentFile().exists)
+      throw new IOException("the parent directory of output file doesn't exist")
+
+    if (!sourceFile.exists())
+      throw new IOException("zip source path must exsit")
+
+    if (outputFile.exists())
+      throw new IOException("zip target file exsits")
+
+    if (sourceFile.isDirectory())
+      zipDir(sourceFile, outputFile)
+    else if (sourceFile.isFile())
+      zipFile(sourceFile, outputFile)
+    else
+      throw new IllegalArgumentException("only folder and file input are valid")
   }
 
   def unzip(file: File, destDirPath: Option[String] = None): String = {

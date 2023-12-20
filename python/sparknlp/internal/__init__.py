@@ -572,3 +572,10 @@ class _BartForZeroShotClassification(ExtendedJavaWrapper):
         super(_BartForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BartForZeroShotClassification.loadSavedModel", path,
             jspark)
+
+
+class _CLIPForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CLIPForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.CLIPForZeroShotClassification.loadSavedModel", path,
+            jspark)

@@ -18,8 +18,7 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
@@ -64,6 +63,7 @@ private[johnsnowlabs] class RoBerta(
     else if (onnxWrapper.isDefined) ONNX.name
     else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   private def sessionWarmup(): Unit = {
     val dummyInput =
@@ -86,7 +86,7 @@ private[johnsnowlabs] class RoBerta(
 
       case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
