@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}

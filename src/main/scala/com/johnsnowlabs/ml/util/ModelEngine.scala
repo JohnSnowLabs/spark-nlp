@@ -35,8 +35,8 @@ final case object ONNX extends ModelEngine {
 }
 final case object Openvino extends ModelEngine {
   val name = "openvino"
-  val modelXml = "saved_model.xml"
-  val modelBin = "saved_model.bin"
+  val modelXml = "openvino_model.xml"
+  val modelBin = "openvino_model.bin"
 }
 
 final case object Unknown extends ModelEngine {
