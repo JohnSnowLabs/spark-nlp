@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.2.0 ScalaDoc  - com.johnsnowlabs.ml.util.LinAlg</title>
-          <meta name="description" content="Spark NLP 5.2.0 ScalaDoc - com.johnsnowlabs.ml.util.LinAlg" />
-          <meta name="keywords" content="Spark NLP 5.2.0 ScalaDoc com.johnsnowlabs.ml.util.LinAlg" />
+          <title>Spark NLP 5.2.1 ScalaDoc  - com.johnsnowlabs.ml.util.LinAlg</title>
+          <meta name="description" content="Spark NLP 5.2.1 ScalaDoc - com.johnsnowlabs.ml.util.LinAlg" />
+          <meta name="keywords" content="Spark NLP 5.2.1 ScalaDoc com.johnsnowlabs.ml.util.LinAlg" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -333,10 +333,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#avgPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="avgPooling(embeddings:Array[Float],attentionMask:Array[Long],dim:Int):Array[Float]"></a><a id="avgPooling(Array[Float],Array[Long],Int):Array[Float]"></a>
+    </li><li name="com.johnsnowlabs.ml.util.LinAlg#avgPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="avgPooling(flattenEmbeddings:Array[Float],attentionMask:Array[Array[Long]],shape:Array[Long]):breeze.linalg.DenseMatrix[Float]"></a><a id="avgPooling(Array[Float],Array[Array[Long]],Array[Long]):DenseMatrix[Float]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#avgPooling(embeddings:Array[Float],attentionMask:Array[Long],dim:Int):Array[Float]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#avgPooling(flattenEmbeddings:Array[Float],attentionMask:Array[Array[Long]],shape:Array[Long]):breeze.linalg.DenseMatrix[Float]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -345,10 +345,18 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">avgPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]</span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>
+        <span class="name">avgPooling</span><span class="params">(<span name="flattenEmbeddings">flattenEmbeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>, <span name="shape">shape: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Float">Float</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Performs average pooling on embeddings using an attention mask.</p><div class="fullcomment"><div class="comment cmt"><p>Performs average pooling on embeddings using an attention mask.</p><p>This method takes flattened embeddings, an attention mask, and the shape of the embeddings,
+and computes the average pooling. The pooling is done by grouping the embeddings based on
+the attention mask and computing the weighted sum of these groups. The result is normalized
+by the total weight of the attention mask.
+</p></div><dl class="paramcmts block"><dt class="param">flattenEmbeddings</dt><dd class="cmt"><p>
+  Array of flattened embeddings</p></dd><dt class="param">attentionMask</dt><dd class="cmt"><p>
+  2D Array representing the attention mask</p></dd><dt class="param">shape</dt><dd class="cmt"><p>
+  Array representing the shape of the embeddings (dimensions)</p></dd><dt>returns</dt><dd class="cmt"><p>
+  A DenseMatrix of floats representing the average pooled embeddings</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -373,6 +381,27 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.util.LinAlg#denseMatrixToArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="denseMatrixToArray(matrix:breeze.linalg.DenseMatrix[Float]):Array[Array[Float]]"></a><a id="denseMatrixToArray(DenseMatrix[Float]):Array[Array[Float]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#denseMatrixToArray(matrix:breeze.linalg.DenseMatrix[Float]):Array[Array[Float]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">denseMatrixToArray</span><span class="params">(<span name="matrix">matrix: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Converts a DenseMatrix to a 2D array of floats.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a DenseMatrix to a 2D array of floats.</p><p>This method is used to transform a DenseMatrix[Float] into a two-dimensional array. It
+iterates over the rows and columns of the DenseMatrix, copying each element into the
+corresponding position in the newly created 2D array.
+</p></div><dl class="paramcmts block"><dt class="param">matrix</dt><dd class="cmt"><p>
+  DenseMatrix[Float] that needs to be converted to a 2D array</p></dd><dt>returns</dt><dd class="cmt"><p>
+  An 2D array representing the same data as the input DenseMatrix</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -481,6 +510,46 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.util.LinAlg#l2Normalize" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="l2Normalize(embeddings:breeze.linalg.DenseMatrix[Float]):breeze.linalg.DenseMatrix[Float]"></a><a id="l2Normalize(DenseMatrix[Float]):DenseMatrix[Float]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#l2Normalize(embeddings:breeze.linalg.DenseMatrix[Float]):breeze.linalg.DenseMatrix[Float]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">l2Normalize</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Float">Float</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Normalizes each row of a DenseMatrix using the L2 norm.</p><div class="fullcomment"><div class="comment cmt"><p>Normalizes each row of a DenseMatrix using the L2 norm.</p><p>This method applies L2 normalization to the embeddings. It first computes the L2 norm for
+each row (embedding) in the input matrix. Then, it creates a matrix where each row is the
+computed norms vector, ensuring the dimensions match the input embeddings. Finally, it
+normalizes each row in the embeddings by dividing by the corresponding L2 norm.</p><p>The result is a DenseMatrix where each row (embedding) is L2 normalized, ensuring that
+embeddings have a consistent scale for further processing.
+</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
+  DenseMatrix[Float] representing the embeddings to be normalized</p></dd><dt>returns</dt><dd class="cmt"><p>
+  DenseMatrix[Float] where each row is an L2 normalized version of the corresponding row in
+  the input matrix</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.util.LinAlg#lpNormalizeArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lpNormalizeArray(array:Array[Float],p:Int):Array[Float]"></a><a id="lpNormalizeArray(Array[Float],Int):Array[Float]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#lpNormalizeArray(array:Array[Float],p:Int):Array[Float]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lpNormalizeArray</span><span class="params">(<span name="array">array: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="p">p: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">2</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -497,22 +566,6 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#normalizeArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="normalizeArray(array:Array[Float]):Array[Float]"></a><a id="normalizeArray(Array[Float]):Array[Float]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#normalizeArray(array:Array[Float]):Array[Float]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">normalizeArray</span><span class="params">(<span name="array">array: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
