@@ -1,4 +1,28 @@
 ========
+5.2.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Add support for Spark and PySpark 3.5 major release
+* Support Databricks Runtimes of 14.0, 14.1, 14.2, 14.0 ML, 14.1 ML, 14.2 ML, 14.0 GPU, 14.1 GPU, and 14.2 GPU
+* **NEW:** Introducing the `BGEEmbeddings` annotator for Spark NLP. This annotator enables the integration of `BGE` models, based on the BERT architecture, into Spark NLP. The `BGEEmbeddings` annotator is designed for generating dense vectors suitable for a variety of applications, including `retrieval`, `classification`, `clustering`, and `semantic search`. Additionally, it is compatible with `vector databases` used in `Large Language Models (LLMs)`.
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForQuestionAnswering annotator
+* Add a new notebook to show how to import any model from `T5` family into Spark NLP with TensorFlow format
+* Add a new notebook to show how to import any model from `T5` family into Spark NLP with ONNX format
+* Add a new notebook to show how to import any model from `MarianNMT` family into Spark NLP with ONNX format
+
+
+----------------
+Bug Fixes
+----------------
+* Fix serialization issue in `DocumentTokenSplitter` annotator failing to be saved and loaded in a Pipeline
+* Fix serialization issue in `DocumentCharacterTextSplitter` annotator failing to be saved and loaded in a Pipeline
+
+
+========
 5.2.0
 ========
 ----------------

@@ -10,6 +10,7 @@ object Dependencies {
   val spark31Ver = "3.1.3"
   val spark32Ver = "3.2.3"
   val spark33Ver = "3.3.1"
+  val spark35Ver = "3.5.0"
 
   /* required for different hardware */
   val is_gpu: String = System.getProperty("is_gpu", "false")
@@ -23,8 +24,10 @@ object Dependencies {
   val is_spark32: String = System.getProperty("is_spark32", "false")
   val is_spark33: String = System.getProperty("is_spark33", "false")
   val is_spark34: String = System.getProperty("is_spark34", "true")
+  val is_spark35: String = System.getProperty("is_spark35", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34)
+  val sparkVer: String =
+    getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34, is_spark35)
 
   /** ------- Spark version end ------- */
 
@@ -46,7 +49,8 @@ object Dependencies {
       is_spark31: String,
       is_spark32: String,
       is_spark33: String,
-      is_spark34: String): String = {
+      is_spark34: String,
+      is_spark35: String): String = {
     if (is_spark30.equals("true")) {
       spark30Ver
     } else if (is_spark31.equals("true")) {
@@ -55,6 +59,8 @@ object Dependencies {
       spark32Ver
     } else if (is_spark33.equals("true")) {
       spark33Ver
+    } else if (is_spark35.equals("true")) {
+      spark35Ver
     } else {
       /* default spark version */
       spark34Ver
@@ -118,5 +124,6 @@ object Dependencies {
   val azureStorageVersion = "12.22.2"
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % "12.22.2" % Provided
+
   /** ------- Dependencies end  ------- */
 }

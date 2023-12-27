@@ -1,12 +1,27 @@
+/*
+ * Copyright 2017-2023 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.functions.ExplodeAnnotations
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.DataFrame
 
 import scala.util.matching.Regex
-import com.johnsnowlabs.nlp.functions.ExplodeAnnotations
 
 /** Annotator that splits large documents into smaller documents based on the number of tokens in
   * the text.
@@ -223,3 +238,8 @@ class DocumentTokenSplitter(override val uid: String)
     if (getExplodeSplits) dataset.explodeAnnotationsCol(getOutputCol, getOutputCol) else dataset
   }
 }
+
+/** This is the companion object of [[DocumentTokenSplitter]]. Please refer to that class for the
+  * documentation.
+  */
+object DocumentTokenSplitter extends DefaultParamsReadable[DocumentTokenSplitter]

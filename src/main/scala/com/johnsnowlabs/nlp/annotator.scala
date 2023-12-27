@@ -751,4 +751,9 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter
 
   object DocumentTokenSplitter extends ParamsAndFeaturesReadable[DocumentTokenSplitter]
+
+  type BGEEmbeddings = com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
+
+  object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
+
 }

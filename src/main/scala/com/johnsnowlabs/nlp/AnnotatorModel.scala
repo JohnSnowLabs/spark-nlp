@@ -16,8 +16,9 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.SparkNlpConfig
 import org.apache.spark.ml.{Model, PipelineModel}
-import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
@@ -48,7 +49,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
         s"${inputAnnotatorTypes.mkString(", ")}")
 
     val inputDataset = beforeAnnotate(dataset)
-
+    val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
     val processedDataset = {
       this match {
         case withAnnotate: HasSimpleAnnotate[M] =>
@@ -64,8 +65,8 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
               }
             }))
         case withBatchAnnotate: HasBatchedAnnotate[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] =
+            SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotate.batchProcess(partition)
           })
@@ -80,8 +81,8 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateImage: HasBatchedAnnotateImage[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] =
+            SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateImage.batchProcess(partition)
           })
@@ -96,8 +97,8 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateAudio: HasBatchedAnnotateAudio[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+          implicit val encoder: ExpressionEncoder[Row] =
+            SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateAudio.batchProcess(partition)
           })
