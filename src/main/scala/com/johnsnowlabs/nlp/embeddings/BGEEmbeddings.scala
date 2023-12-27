@@ -38,8 +38,9 @@ import org.slf4j.{Logger, LoggerFactory}
 
 /** Sentence embeddings using BGE.
   *
-  * BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense 
-  * vector which can be used for tasks like retrieval, classification, clustering, or semantic search.
+  * BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense
+  * vector which can be used for tasks like retrieval, classification, clustering, or semantic
+  * search.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -64,17 +65,16 @@ import org.slf4j.{Logger, LoggerFactory}
   * ''' Paper abstract '''
   *
   * ''We introduce C-Pack, a package of resources that significantly advance the field of general
-  * Chinese embeddings. C-Pack includes three critical resources. 
-  * 1) C-MTEB is a comprehensive benchmark for Chinese text embeddings covering 6 tasks and 35 datasets.
-  * 2) C-MTP is a massive text embedding dataset curated from labeled and unlabeled Chinese corpora
-  * for training embedding models.
-  * 3) C-TEM is a family of embedding models covering multiple sizes.
-  * Our models outperform all prior Chinese text embeddings on C-MTEB by up to +10% upon the 
-  * time of the release. We also integrate and optimize the entire suite of training methods for
-  * C-TEM. Along with our resources on general Chinese embedding, we release our data and models for
-  * English text embeddings. The English models achieve stateof-the-art performance on the MTEB
-  * benchmark; meanwhile, our released English data is 2 times larger than the Chinese data. All
-  * these resources are made publicly available at https://github.com/FlagOpen/FlagEmbedding.''
+  * Chinese embeddings. C-Pack includes three critical resources. 1) C-MTEB is a comprehensive
+  * benchmark for Chinese text embeddings covering 6 tasks and 35 datasets. 2) C-MTP is a massive
+  * text embedding dataset curated from labeled and unlabeled Chinese corpora for training
+  * embedding models. 3) C-TEM is a family of embedding models covering multiple sizes. Our models
+  * outperform all prior Chinese text embeddings on C-MTEB by up to +10% upon the time of the
+  * release. We also integrate and optimize the entire suite of training methods for C-TEM. Along
+  * with our resources on general Chinese embedding, we release our data and models for English
+  * text embeddings. The English models achieve stateof-the-art performance on the MTEB benchmark;
+  * meanwhile, our released English data is 2 times larger than the Chinese data. All these
+  * resources are made publicly available at https://github.com/FlagOpen/FlagEmbedding.''
   *
   * ==Example==
   * {{{

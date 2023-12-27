@@ -3,7 +3,6 @@ package com.johnsnowlabs.ml.util
 import breeze.linalg.{DenseMatrix, norm, sum, tile, *}
 import scala.math.{sqrt, pow}
 
-
 object LinAlg {
 
   object implicits {
@@ -84,24 +83,22 @@ object LinAlg {
       score
     }._2
 
-
-  /**
-   * Performs average pooling on embeddings using an attention mask.
-   *
-   * This method takes flattened embeddings, an attention mask, and the shape of the embeddings,
-   * and computes the average pooling. The pooling is done by grouping the embeddings based on the
-   * attention mask and computing the weighted sum of these groups. The result is normalized
-   * by the total weight of the attention mask.
-   *
-   * @param flattenEmbeddings
-   *   Array of flattened embeddings
-   * @param attentionMask
-   *   2D Array representing the attention mask
-   * @param shape
-   *   Array representing the shape of the embeddings (dimensions)
-   * @return
-   *   A DenseMatrix of floats representing the average pooled embeddings
-   */
+  /** Performs average pooling on embeddings using an attention mask.
+    *
+    * This method takes flattened embeddings, an attention mask, and the shape of the embeddings,
+    * and computes the average pooling. The pooling is done by grouping the embeddings based on
+    * the attention mask and computing the weighted sum of these groups. The result is normalized
+    * by the total weight of the attention mask.
+    *
+    * @param flattenEmbeddings
+    *   Array of flattened embeddings
+    * @param attentionMask
+    *   2D Array representing the attention mask
+    * @param shape
+    *   Array representing the shape of the embeddings (dimensions)
+    * @return
+    *   A DenseMatrix of floats representing the average pooled embeddings
+    */
   def avgPooling(
       flattenEmbeddings: Array[Float],
       attentionMask: Array[Array[Long]],
@@ -119,22 +116,22 @@ object LinAlg {
     weightedSum /:/ totalWeight
   }
 
-  /**
-   * Expands the attention mask to match the dimensions of the token embeddings.
-   *
-   * This method is responsible for aligning the attention mask with the embeddings. It transposes the
-   * attention mask and then replicates its values to match the dimensionality of the token embeddings.
-   * The expansion is done for each slice of the embeddings, ensuring that the expanded mask has the
-   * same number of rows as the token embeddings and the same number of columns as the embedding dimension.
-   *
-   * @param embeddings
-   *   Array of DenseMatrix[Float] representing the token embeddings
-   * @param attentionMask
-   *   DenseMatrix[Long] representing the initial attention mask
-   * @return
-   *   Array of DenseMatrix[Float] where each matrix is the expanded attention mask aligned with the
-   *   corresponding token embeddings
-   */
+  /** Expands the attention mask to match the dimensions of the token embeddings.
+    *
+    * This method is responsible for aligning the attention mask with the embeddings. It
+    * transposes the attention mask and then replicates its values to match the dimensionality of
+    * the token embeddings. The expansion is done for each slice of the embeddings, ensuring that
+    * the expanded mask has the same number of rows as the token embeddings and the same number of
+    * columns as the embedding dimension.
+    *
+    * @param embeddings
+    *   Array of DenseMatrix[Float] representing the token embeddings
+    * @param attentionMask
+    *   DenseMatrix[Long] representing the initial attention mask
+    * @return
+    *   Array of DenseMatrix[Float] where each matrix is the expanded attention mask aligned with
+    *   the corresponding token embeddings
+    */
 
   private def expandAttentionMask(
       embeddings: Array[DenseMatrix[Float]],
@@ -143,7 +140,8 @@ object LinAlg {
     val transposedMask = attentionMask.t
     val expectedEmbeddingSize = transposedMask.rows
     embeddings.map { embedding =>
-      require(embedding.rows == expectedEmbeddingSize,
+      require(
+        embedding.rows == expectedEmbeddingSize,
         s"Embedding dimension mismatch: expected $expectedEmbeddingSize, but found ${embedding.rows}")
 
       val embeddingSize = embedding.cols
@@ -157,22 +155,23 @@ object LinAlg {
     }
   }
 
-  /**
-   * Computes the weighted sum of embeddings based on an expanded input mask.
-   *
-   * This method applies a weight to each embedding using the corresponding expanded input mask.
-   * The weights are applied through element-wise multiplication of each embedding with its
-   * respective mask. After weighting, the method sums the embeddings across the sequence length
-   * dimension. The result is a DenseMatrix representing the weighted sum of the embeddings for
-   * each item in the batch.
-   *
-   * @param embeddings
-   *   Array of DenseMatrix[Float] representing the embeddings for each item in the batch
-   * @param inputMaskExpanded
-   *   Array of DenseMatrix[Float] representing the expanded input masks, aligned with the embeddings
-   * @return
-   *   DenseMatrix[Float] where each row corresponds to the weighted sum of embeddings for an item in the batch
-   */
+  /** Computes the weighted sum of embeddings based on an expanded input mask.
+    *
+    * This method applies a weight to each embedding using the corresponding expanded input mask.
+    * The weights are applied through element-wise multiplication of each embedding with its
+    * respective mask. After weighting, the method sums the embeddings across the sequence length
+    * dimension. The result is a DenseMatrix representing the weighted sum of the embeddings for
+    * each item in the batch.
+    *
+    * @param embeddings
+    *   Array of DenseMatrix[Float] representing the embeddings for each item in the batch
+    * @param inputMaskExpanded
+    *   Array of DenseMatrix[Float] representing the expanded input masks, aligned with the
+    *   embeddings
+    * @return
+    *   DenseMatrix[Float] where each row corresponds to the weighted sum of embeddings for an
+    *   item in the batch
+    */
   private def computeWeightSum(
       embeddings: Array[DenseMatrix[Float]],
       inputMaskExpanded: Array[DenseMatrix[Float]]): DenseMatrix[Float] = {
@@ -188,21 +187,22 @@ object LinAlg {
     resultMatrix
   }
 
-  /**
-   * Computes the total weight for each embedding in the batch based on the expanded input mask.
-   *
-   * This method calculates the sum of weights for each embedding slice across the sequence length
-   * dimension using the expanded input mask. The result is a DenseMatrix representing the total weight
-   * for each embedding in the batch. To ensure numerical stability, a clamp operation is applied to
-   * each sum to prevent values from falling below a minimum threshold.
-   *
-   * @param inputMaskExpanded
-   *   Array of DenseMatrix[Float] representing the expanded input masks for each item in the batch
-   * @param minValue
-   *   Float representing the minimum value to clamp the weights to, defaulting to 1e-9f
-   * @return
-   *   DenseMatrix[Float] where each row corresponds to the total weight of embeddings for an item in the batch
-   */
+  /** Computes the total weight for each embedding in the batch based on the expanded input mask.
+    *
+    * This method calculates the sum of weights for each embedding slice across the sequence
+    * length dimension using the expanded input mask. The result is a DenseMatrix representing the
+    * total weight for each embedding in the batch. To ensure numerical stability, a clamp
+    * operation is applied to each sum to prevent values from falling below a minimum threshold.
+    *
+    * @param inputMaskExpanded
+    *   Array of DenseMatrix[Float] representing the expanded input masks for each item in the
+    *   batch
+    * @param minValue
+    *   Float representing the minimum value to clamp the weights to, defaulting to 1e-9f
+    * @return
+    *   DenseMatrix[Float] where each row corresponds to the total weight of embeddings for an
+    *   item in the batch
+    */
   private def computeTotalWeight(
       inputMaskExpanded: Array[DenseMatrix[Float]],
       minValue: Float = 1e-9f): DenseMatrix[Float] = {
@@ -218,22 +218,22 @@ object LinAlg {
     totalWeight.mapValues(x => math.max(x, minValue))
   }
 
-  /**
-   * Normalizes each row of a DenseMatrix using the L2 norm.
-   *
-   * This method applies L2 normalization to the embeddings. It first computes the L2 norm for each row
-   * (embedding) in the input matrix. Then, it creates a matrix where each row is the computed norms vector,
-   * ensuring the dimensions match the input embeddings. Finally, it normalizes each row in the embeddings
-   * by dividing by the corresponding L2 norm.
-   *
-   * The result is a DenseMatrix where each row (embedding) is L2 normalized, ensuring that embeddings have
-   * a consistent scale for further processing.
-   *
-   * @param embeddings
-   *   DenseMatrix[Float] representing the embeddings to be normalized
-   * @return
-   *   DenseMatrix[Float] where each row is an L2 normalized version of the corresponding row in the input matrix
-   */
+  /** Normalizes each row of a DenseMatrix using the L2 norm.
+    *
+    * This method applies L2 normalization to the embeddings. It first computes the L2 norm for
+    * each row (embedding) in the input matrix. Then, it creates a matrix where each row is the
+    * computed norms vector, ensuring the dimensions match the input embeddings. Finally, it
+    * normalizes each row in the embeddings by dividing by the corresponding L2 norm.
+    *
+    * The result is a DenseMatrix where each row (embedding) is L2 normalized, ensuring that
+    * embeddings have a consistent scale for further processing.
+    *
+    * @param embeddings
+    *   DenseMatrix[Float] representing the embeddings to be normalized
+    * @return
+    *   DenseMatrix[Float] where each row is an L2 normalized version of the corresponding row in
+    *   the input matrix
+    */
   def l2Normalize(embeddings: DenseMatrix[Float]): DenseMatrix[Float] = {
     val norms = norm(embeddings(*, ::), 2)
 
@@ -245,18 +245,17 @@ object LinAlg {
     normalized
   }
 
-  /**
-   * Converts a DenseMatrix to a 2D array of floats.
-   *
-   * This method is used to transform a DenseMatrix[Float] into a two-dimensional array.
-   * It iterates over the rows and columns of the DenseMatrix, copying each element into the corresponding
-   * position in the newly created 2D array.
-   *
-   * @param matrix
-   *   DenseMatrix[Float] that needs to be converted to a 2D array
-   * @return
-   *   An 2D array representing the same data as the input DenseMatrix
-   */
+  /** Converts a DenseMatrix to a 2D array of floats.
+    *
+    * This method is used to transform a DenseMatrix[Float] into a two-dimensional array. It
+    * iterates over the rows and columns of the DenseMatrix, copying each element into the
+    * corresponding position in the newly created 2D array.
+    *
+    * @param matrix
+    *   DenseMatrix[Float] that needs to be converted to a 2D array
+    * @return
+    *   An 2D array representing the same data as the input DenseMatrix
+    */
   def denseMatrixToArray(matrix: DenseMatrix[Float]): Array[Array[Float]] = {
     val rows = matrix.rows
     val cols = matrix.cols

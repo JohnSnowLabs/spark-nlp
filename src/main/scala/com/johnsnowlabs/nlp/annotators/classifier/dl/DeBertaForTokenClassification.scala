@@ -19,8 +19,17 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.DeBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -322,7 +331,7 @@ trait ReadablePretrainedDeBertaForTokenModel
 }
 
 trait ReadDeBertaForTokenDLModel
-  extends ReadTensorflowModel
+    extends ReadTensorflowModel
     with ReadOnnxModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForTokenClassification] =>
@@ -332,9 +341,9 @@ trait ReadDeBertaForTokenDLModel
   override val sppFile: String = "deberta_spp"
 
   def readModel(
-                 instance: DeBertaForTokenClassification,
-                 path: String,
-                 spark: SparkSession): Unit = {
+      instance: DeBertaForTokenClassification,
+      path: String,
+      spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
 
     instance.getEngine match {

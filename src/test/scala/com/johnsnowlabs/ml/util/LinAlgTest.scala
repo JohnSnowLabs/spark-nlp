@@ -70,7 +70,9 @@ class LinAlgTest extends AnyFlatSpec with Matchers {
   "l2Normalize" should "correctly normalize a regular matrix" in {
     val matrix = DenseMatrix((1.0f, 2.0f), (3.0f, 4.0f))
     val normalized = l2Normalize(matrix)
-    assertEqualWithTolerance(normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat), Array(1.0f, 1.0f))
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
   }
 
   it should "handle a single row matrix" in {
@@ -82,7 +84,9 @@ class LinAlgTest extends AnyFlatSpec with Matchers {
   it should "handle a single column matrix" in {
     val matrix = DenseMatrix(1.0f, 2.0f, 3.0f)
     val normalized = l2Normalize(matrix)
-    assertEqualWithTolerance(normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat), Array(1.0f, 1.0f, 1.0f))
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f, 1.0f))
   }
 
   it should "handle a matrix with zero elements" in {
@@ -94,13 +98,17 @@ class LinAlgTest extends AnyFlatSpec with Matchers {
   it should "normalize each row to unit length" in {
     val matrix = DenseMatrix((1.0f, 0.0f), (0.0f, 1.0f))
     val normalized = l2Normalize(matrix)
-    assertEqualWithTolerance(normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat), Array(1.0f, 1.0f))
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
   }
 
   it should "correctly normalize a matrix with negative values" in {
     val matrix = DenseMatrix((-1.0f, -2.0f), (3.0f, -4.0f))
     val normalized = l2Normalize(matrix)
-    assertEqualWithTolerance(normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat), Array(1.0f, 1.0f))
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
   }
 
   "denseMatrixToArray" should "correctly convert a regular matrix" in {

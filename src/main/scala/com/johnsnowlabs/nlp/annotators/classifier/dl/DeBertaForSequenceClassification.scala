@@ -123,7 +123,8 @@ import org.apache.spark.sql.SparkSession
   */
 class DeBertaForSequenceClassification(override val uid: String)
     extends AnnotatorModel[DeBertaForSequenceClassification]
-    with HasBatchedAnnotate[DeBertaForSequenceClassification] with WriteOnnxModel
+    with HasBatchedAnnotate[DeBertaForSequenceClassification]
+    with WriteOnnxModel
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
@@ -359,7 +360,7 @@ trait ReadablePretrainedDeBertaForSequenceModel
 }
 
 trait ReadDeBertaForSequenceDLModel
-  extends ReadTensorflowModel
+    extends ReadTensorflowModel
     with ReadOnnxModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForSequenceClassification] =>

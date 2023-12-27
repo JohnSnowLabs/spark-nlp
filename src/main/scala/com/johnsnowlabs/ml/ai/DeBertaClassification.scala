@@ -182,7 +182,6 @@ private[johnsnowlabs] class DeBertaClassification(
     rawScores
   }
 
-
   private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     // [nb of encoded sentences , maxSentenceLength]
@@ -263,8 +262,7 @@ private[johnsnowlabs] class DeBertaClassification(
     (startScores, endScores)
   }
 
-
-  private def computeLogitsWithTF(batch: Seq[Array[Int]]): (Array[Float], Array[Float])={
+  private def computeLogitsWithTF(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -316,7 +314,6 @@ private[johnsnowlabs] class DeBertaClassification(
 
     (startLogits, endLogits)
   }
-
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences]
