@@ -166,10 +166,10 @@ trait SymmetricDeleteBehaviors {
             when(col("word") === col("finished_spell"), 1).otherwise(0))
           val rightCorrections = correctedData.filter(col("prediction") === 1).count()
           val wrongCorrections = correctedData.filter(col("prediction") === 0).count()
-          printf("Right Corrections: %d \n", rightCorrections)
-          printf("Wrong Corrections: %d \n", wrongCorrections)
+          println("Right Corrections: %d \n", rightCorrections)
+          println("Wrong Corrections: %d \n", wrongCorrections)
           val accuracy = rightCorrections.toFloat / (rightCorrections + wrongCorrections).toFloat
-          printf("Accuracy: %f\n", accuracy)
+          println("Accuracy: %f\n", accuracy)
         }
       }
   }
