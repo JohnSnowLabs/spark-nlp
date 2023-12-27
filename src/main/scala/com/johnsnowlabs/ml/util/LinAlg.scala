@@ -1,7 +1,7 @@
 package com.johnsnowlabs.ml.util
 
 import breeze.linalg.{DenseMatrix, tile}
-import scala.math.sqrt
+import scala.math.{sqrt, pow}
 
 object LinAlg {
 
@@ -128,6 +128,12 @@ object LinAlg {
     val l2Norm: Float = sqrt(array.map(x => x * x).sum).toFloat
     // Normalize each element in the array
     array.map(value => if (l2Norm != 0.0f) value / l2Norm else 0.0f)
+  }
+
+  def lpNormalizeArray(array: Array[Float], p: Int = 2): Array[Float] = {
+    val lpNorm: Float = pow(array.map(x => pow(x, p)).sum, 1.0 / p).toFloat
+    // Normalize each element in the array
+    array.map(value => if (lpNorm != 0.0f) value / lpNorm else 0.0f)
   }
 
 }
