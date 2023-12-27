@@ -147,6 +147,9 @@ class _E5Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
 
+class _BGELoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BGELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BGEEmbeddings.loadSavedModel", path, jspark)
 
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):

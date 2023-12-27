@@ -1,6 +1,8 @@
 package com.johnsnowlabs.ml.util
 
 import breeze.linalg.{DenseMatrix, norm, sum, tile, *}
+import scala.math.{sqrt, pow}
+
 
 object LinAlg {
 
@@ -268,6 +270,12 @@ object LinAlg {
     }
 
     array
+  }
+
+  def lpNormalizeArray(array: Array[Float], p: Int = 2): Array[Float] = {
+    val lpNorm: Float = pow(array.map(x => pow(x, p)).sum, 1.0 / p).toFloat
+    // Normalize each element in the array
+    array.map(value => if (lpNorm != 0.0f) value / lpNorm else 0.0f)
   }
 
 }

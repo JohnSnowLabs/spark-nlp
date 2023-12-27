@@ -17,18 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.{DeBertaClassification, MergeTokenStrategy}
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
@@ -116,6 +109,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[DeBertaForQuestionAnswering]
     with HasBatchedAnnotate[DeBertaForQuestionAnswering]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasEngine {
@@ -196,13 +190,15 @@ class DeBertaForQuestionAnswering(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
       spp: SentencePieceWrapper): DeBertaForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new DeBertaClassification(
             tensorflowWrapper,
+            onnxWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = Map.empty[String, Int],
@@ -253,13 +249,26 @@ class DeBertaForQuestionAnswering(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_deberta_classification",
-      DeBertaForQuestionAnswering.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_deberta_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          DeBertaForQuestionAnswering.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          DeBertaForQuestionAnswering.onnxFile)
+    }
+
     writeSentencePieceModel(
       path,
       spark,
@@ -292,21 +301,38 @@ trait ReadablePretrainedDeBertaForQAModel
 
 trait ReadDeBertaForQuestionAnsweringDLModel
     extends ReadTensorflowModel
+    with ReadOnnxModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForQuestionAnswering] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
+  override val onnxFile: String = "camembert_classification_onnx"
   override val sppFile: String = "deberta_spp"
 
   def readModel(
       instance: DeBertaForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
-
-    val tf =
-      readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
-    instance.setModelIfNotSet(spark, tf, spp)
+
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_deberta_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -324,7 +350,7 @@ trait ReadDeBertaForQuestionAnsweringDLModel
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -337,7 +363,11 @@ trait ReadDeBertaForQuestionAnsweringDLModel
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, spModel)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
