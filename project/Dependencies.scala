@@ -95,7 +95,7 @@ object Dependencies {
   val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val awsjavasdkbundleVersion = "1.11.828"
+  val awsjavasdkbundleVersion = "1.12.500"
   val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
 
   val liblevenshteinVersion = "3.0.0"
@@ -108,7 +108,6 @@ object Dependencies {
   val junit = "junit" % "junit" % junitVersion % Test
 
   val tensorflowVersion = "0.4.4"
-
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
@@ -117,9 +116,9 @@ object Dependencies {
   val onnxRuntimeVersion = "1.16.3"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
+
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
-
   val azureIdentityVersion = "1.9.1"
   val azureStorageVersion = "12.22.2"
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided

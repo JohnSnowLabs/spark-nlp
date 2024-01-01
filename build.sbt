@@ -153,8 +153,7 @@ lazy val utilDependencies = Seq(
   gcpStorage,
   greex,
   azureIdentity,
-  azureStorage
-)
+  azureStorage)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
