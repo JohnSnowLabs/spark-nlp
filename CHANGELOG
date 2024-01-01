@@ -30,7 +30,6 @@ New Features & Enhancements
 * Add a new notebook to show how to import any model from `T5` family into Spark NLP with ONNX format
 * Add a new notebook to show how to import any model from `MarianNMT` family into Spark NLP with ONNX format
 
-
 ----------------
 Bug Fixes
 ----------------
