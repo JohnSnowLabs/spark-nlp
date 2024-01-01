@@ -17,11 +17,11 @@ from sparknlp.common import *
 
 
 class BGEEmbeddings(AnnotatorModel,
-                           HasEmbeddingsProperties,
-                           HasCaseSensitiveProperties,
-                           HasStorageRef,
-                           HasBatchedAnnotate,
-                           HasMaxSentenceLengthLimit):
+                    HasEmbeddingsProperties,
+                    HasCaseSensitiveProperties,
+                    HasStorageRef,
+                    HasBatchedAnnotate,
+                    HasMaxSentenceLengthLimit):
     """Sentence embeddings using BGE.
 
    BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense 
@@ -124,7 +124,6 @@ class BGEEmbeddings(AnnotatorModel,
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
-
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
