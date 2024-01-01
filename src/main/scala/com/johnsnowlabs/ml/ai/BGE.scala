@@ -183,7 +183,7 @@ private[johnsnowlabs] class BGE(
       val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
       val shape = info.getShape
       try {
-        val embeddings = lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
@@ -191,12 +191,9 @@ private[johnsnowlabs] class BGE(
         maskTensors.close()
         segmentTensors.close()
 
-        val dim = shape.last.toInt
-        // Perfom CLS pooling (the first element of each sequence)
-        val clsPooling = embeddings.grouped(dim).map(_.head).toArray
-        val normalizedSentenceEmbeddings = LinAlg.lpNormalizeArray(clsPooling, 2)
-
-        Array(normalizedSentenceEmbeddings)
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
     }
   }
