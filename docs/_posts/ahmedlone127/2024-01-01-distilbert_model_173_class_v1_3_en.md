@@ -21,11 +21,15 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`distilbert_model_173_class_v1_3` is a English model originally trained by MoumitaNettoJanaManna.
 
+## Predicted Entities
+
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704114220921.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704114220921.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -34,7 +38,6 @@ Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -52,10 +55,8 @@ pipeline = Pipeline().setStages([document_assembler, tokenizer, sequenceClassifi
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
-
 ```
 ```scala
-
 val document_assembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
@@ -73,8 +74,6 @@ val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, sequ
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
-
-
 ```
 </div>
 
@@ -93,5 +92,7 @@ val result = pipeline.fit(data).transform(data)
 |Size:|250.0 MB|
 
 ## References
+
+References
 
 https://huggingface.co/MoumitaNettoJanaManna/distilbert_model_173_class_v1_3
