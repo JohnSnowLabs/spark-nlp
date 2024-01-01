@@ -35,3 +35,4 @@ from sparknlp.annotator.embeddings.word_embeddings import *
 from sparknlp.annotator.embeddings.xlm_roberta_embeddings import *
 from sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings import *
 from sparknlp.annotator.embeddings.xlnet_embeddings import *
+from sparknlp.annotator.embeddings.bge_embeddings import *
