@@ -2,6 +2,22 @@
 5.2.1
 ========
 ----------------
+Enhancements
+----------------
+* Update `aws-java-sdk-bundle` dependency to a version without any CVEs
+
+----------------
+Bug Fixes
+----------------
+* Fix the missing `BGEEmbeddings` from annotator in Python
+* Add a new BGE notebook to import models into Spark NLP
+* Upload the new true `BGE` models to Spark NLP for text embeddings
+
+
+========
+5.2.1
+========
+----------------
 New Features & Enhancements
 ----------------
 * Add support for Spark and PySpark 3.5 major release
