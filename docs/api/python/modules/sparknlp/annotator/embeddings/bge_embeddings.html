@@ -360,11 +360,11 @@ document.write(`
 
 
 <div class="viewcode-block" id="BGEEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">BGEEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
-                           <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
-                           <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                           <span class="n">HasStorageRef</span><span class="p">,</span>
-                           <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                           <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
+                    <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                    <span class="n">HasStorageRef</span><span class="p">,</span>
+                    <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                    <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sentence embeddings using BGE.</span>
 
 <span class="sd">   BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense </span>
@@ -467,7 +467,6 @@ document.write(`
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="BGEEmbeddings.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
