@@ -149,7 +149,7 @@ private[johnsnowlabs] class BertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name =>
-        getRowScoresWithOnnx(batch, maxSentenceLength)
+        getRawScoresWithOnnx(batch, maxSentenceLength)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -218,7 +218,7 @@ private[johnsnowlabs] class BertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(
+  private def getRawScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): Array[Float] = {
 
@@ -265,7 +265,7 @@ private[johnsnowlabs] class BertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val rawScores = detectedEngine match {
       case ONNX.name =>
-        getRowScoresWithOnnx(batch, maxSentenceLength)
+        getRawScoresWithOnnx(batch, maxSentenceLength)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
