@@ -682,7 +682,8 @@ object PythonResourceDownloader {
     "E5Embeddings" -> E5Embeddings,
     "MPNetEmbeddings" -> MPNetEmbeddings,
     "CLIPForZeroShotClassification" -> CLIPForZeroShotClassification,
-    "BGEEmbeddings" -> BGEEmbeddings)
+    "BGEEmbeddings" -> BGEEmbeddings,
+    "MPNetForSequenceClassification" -> MPNetForSequenceClassification)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

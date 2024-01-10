@@ -756,4 +756,10 @@ package object annotator {
 
   object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
 
+  type MPNetForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification
+
+  object MPNetForSequenceClassification
+      extends ReadablePretrainedMPNetForSequenceModel
+      with ReadMPNetForSequenceDLModel
 }
