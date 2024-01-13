@@ -762,4 +762,11 @@ package object annotator {
   object MPNetForSequenceClassification
       extends ReadablePretrainedMPNetForSequenceModel
       with ReadMPNetForSequenceDLModel
+
+  type MPNetForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering
+
+  object MPNetForQuestionAnswering
+      extends ReadablePretrainedMPNetForQAModel
+      with ReadMPNetForQuestionAnsweringDLModel
 }

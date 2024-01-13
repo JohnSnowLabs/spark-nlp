@@ -591,3 +591,10 @@ class _MPNetForSequenceClassificationLoader(ExtendedJavaWrapper):
         super(_MPNetForSequenceClassificationLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _MPNetForQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MPNetForQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering.loadSavedModel", path,
+            jspark)
