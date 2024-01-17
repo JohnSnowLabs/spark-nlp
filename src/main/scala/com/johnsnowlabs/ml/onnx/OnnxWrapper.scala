@@ -94,6 +94,21 @@ object OnnxWrapper {
       (session, env)
     }
 
+  private def withSafeOnnxModelPathLoader(
+      onnxModelPath: String,
+      sessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
+    this.synchronized {
+      val env = OrtEnvironment.getEnvironment()
+      val sessionOptionsObject = if (sessionOptions.isEmpty) {
+        new SessionOptions()
+      } else {
+        mapToSessionOptionsObject(sessionOptions)
+      }
+
+      val session = env.createSession(onnxModelPath, sessionOptionsObject)
+      (session, env)
+    }
+
   def read(
       modelPath: String,
       zipped: Boolean = true,
@@ -119,7 +134,20 @@ object OnnxWrapper {
       else Paths.get(folder, new File(folder).list().head).toString
     val modelFile = new File(onnxFile)
     val modelBytes = FileUtils.readFileToByteArray(modelFile)
-    val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+    var session: OrtSession = null
+    var env: OrtEnvironment = null
+    try {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+      session = _session
+      env = _env
+    } catch {
+      case e: Exception => {
+        println("Error loading model from file, trying to load from path")
+        val (_session, _env) = withSafeOnnxModelPathLoader(onnxFile, sessionOptions)
+        session = _session
+        env = _env
+      }
+    }
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
@@ -209,4 +237,6 @@ object OnnxWrapper {
       encoder: OnnxWrapper,
       decoder: OnnxWrapper,
       decoderWithPast: OnnxWrapper)
+
+  case class DecoderWrappers(decoder: OnnxWrapper)
 }

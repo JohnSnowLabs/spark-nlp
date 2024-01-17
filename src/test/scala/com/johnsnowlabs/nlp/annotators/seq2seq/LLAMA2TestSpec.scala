@@ -38,9 +38,7 @@ class LLAMA2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = LLAMA2Transformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/BART/custom_whisper_onnx/",
-        ResourceHelper.spark)
+      .loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/llama2_7b/", ResourceHelper.spark)
       .setInputCols(Array("documents"))
       .setDoSample(false)
       .setMaxOutputLength(50)

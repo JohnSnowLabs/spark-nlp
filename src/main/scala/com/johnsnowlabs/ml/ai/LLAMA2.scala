@@ -18,10 +18,12 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
+import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.Annotation
+
 import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 
@@ -30,7 +32,7 @@ private[johnsnowlabs] class LLAMA2(
     val spp: SentencePieceWrapper,
     generationConfig: GenerationConfig)
     extends Serializable {
-
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   private val GenerationConfig(
     bosTokenId: Int,
     _,
@@ -84,7 +86,7 @@ private[johnsnowlabs] class LLAMA2(
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
       maxInputLength: Int): Array[Array[Int]] = {
-    val (encoderSession, env) = onnxWrappers.decoder.getSession()
+    val (encoderSession, env) = onnxWrappers.decoder.getSession(onnxSessionOptions)
     val ignoreTokenIdsInt = ignoreTokenIds
     val expandedEncoderInputIdsVals =
       batch.flatMap(x => List.fill(beamSize)(x.take(maxInputLength)))
@@ -250,13 +252,10 @@ private[johnsnowlabs] class LLAMA2(
         Array(getDecoderOutputs(generatedIds, onnxSession).last)
 
       val nextTokenIds: Array[Int] = batchLogits.map(argmax)
-      nextTokenIds.foreach(x => println(s"new ids:$x"))
       generatedIds =
         generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
           currentIds ++ Array(nextId)
         }
-      // print lens of generatedIds
-      generatedIds.foreach(x => println(x.length))
     }
     generatedIds
   }
