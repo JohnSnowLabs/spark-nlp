@@ -81,7 +81,8 @@ object OnnxWrapper {
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
       onnxModel: Array[Byte],
-      sessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
+      sessionOptions: Map[String, String],
+      onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
       val sessionOptionsObject = if (sessionOptions.isEmpty) {
@@ -89,24 +90,13 @@ object OnnxWrapper {
       } else {
         mapToSessionOptionsObject(sessionOptions)
       }
-
-      val session = env.createSession(onnxModel, sessionOptionsObject)
-      (session, env)
-    }
-
-  private def withSafeOnnxModelPathLoader(
-      onnxModelPath: String,
-      sessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
-    this.synchronized {
-      val env = OrtEnvironment.getEnvironment()
-      val sessionOptionsObject = if (sessionOptions.isEmpty) {
-        new SessionOptions()
+      if (onnxModelPath.isDefined) {
+        val session = env.createSession(onnxModelPath.get, sessionOptionsObject)
+        (session, env)
       } else {
-        mapToSessionOptionsObject(sessionOptions)
+        val session = env.createSession(onnxModel, sessionOptionsObject)
+        (session, env)
       }
-
-      val session = env.createSession(onnxModelPath, sessionOptionsObject)
-      (session, env)
     }
 
   def read(
@@ -132,23 +122,29 @@ object OnnxWrapper {
     val onnxFile =
       if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
       else Paths.get(folder, new File(folder).list().head).toString
+
+    // see if the onnx model has a .onnx_data file
+    val onnxDataFile: Boolean = if (useBundle) {
+      val onnxDataFile = Paths.get(modelPath, s"$modelName.onnx_data").toFile
+      onnxDataFile.exists()
+    } else {
+      val onnxDataFile = Paths.get(folder, new File(folder).list().head + "_data").toFile
+      onnxDataFile.exists()
+    }
     val modelFile = new File(onnxFile)
     val modelBytes = FileUtils.readFileToByteArray(modelFile)
     var session: OrtSession = null
     var env: OrtEnvironment = null
-    try {
+    if (onnxDataFile) {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
+      session = _session
+      env = _env
+    } else {
       val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
       session = _session
       env = _env
-    } catch {
-      case e: Exception => {
-        println("Error loading model from file, trying to load from path")
-        val (_session, _env) = withSafeOnnxModelPathLoader(onnxFile, sessionOptions)
-        session = _session
-        env = _env
-      }
-    }
 
+    }
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
 

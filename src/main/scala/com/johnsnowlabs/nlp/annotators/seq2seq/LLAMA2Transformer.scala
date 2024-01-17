@@ -257,8 +257,6 @@ class LLAMA2Transformer(override val uid: String)
       .flatMap { case (annotations, i) =>
         annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
-    println(s"allAnnotations: ${allAnnotations.length}")
-    println(s"${allAnnotations.head._1}")
     val processedAnnotations = if (allAnnotations.nonEmpty) {
       this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
@@ -278,23 +276,6 @@ class LLAMA2Transformer(override val uid: String)
     } else {
       Seq()
     }
-
-    // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
-//    batchedAnnotations.indices.map(rowIndex => {
-//      val rowAnnotations = processedAnnotations
-//        // zip each annotation with its corresponding row index
-//        .zip(allAnnotations)
-//        // select the sentences belonging to the current row
-//        .filter(_._2._2 == rowIndex)
-//        // leave the annotation only
-//        .map(_._1)
-//
-//      if (rowAnnotations.nonEmpty)
-//        rowAnnotations
-//      else
-//        Seq.empty[Annotation]
-//    })
-//    Seq(Seq.empty[Annotation])
     Seq(processedAnnotations)
   }
 
