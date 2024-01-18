@@ -323,8 +323,6 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LLAMA2Transformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
-    // print model path
-    println(s"$modelPath")
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
     val modelConfig: JValue =
