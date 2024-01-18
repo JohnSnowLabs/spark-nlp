@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/spark-nlp-{{ version }}.tar.gz
-  sha256: 116c623fc851dc7c173824e0f0c523d1362cb03311e0cc7226e4fd65e59daa6d
+  sha256: bdad9912c6f4fa36aef2169a4d7e4c33cd32d79d6ff0c628c04876d9354252e9
 
 build:
   noarch: python
