@@ -1,8 +1,8 @@
 ---
 layout: model
-title: English distilbert_model_173_class_v1_3 DistilBertForSequenceClassification from MoumitaNettoJanaManna
+title: English nlp1_distillbertfreezed DistilBertForSequenceClassification from aduverger
 author: John Snow Labs
-name: distilbert_model_173_class_v1_3
+name: nlp1_distillbertfreezed
 date: 2024-01-01
 tags: [bert, en, open_source, sequence_classification, onnx]
 task: Text Classification
@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`distilbert_model_173_class_v1_3` is a English model originally trained by MoumitaNettoJanaManna.
+Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`nlp1_distillbertfreezed` is a English model originally trained by aduverger.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nlp1_distillbertfreezed_en_5.2.2_3.0_1704138527505.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/nlp1_distillbertfreezed_en_5.2.2_3.0_1704138527505.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,7 +43,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")  
     
-sequenceClassifier = DistilBertForSequenceClassification.pretrained("distilbert_model_173_class_v1_3","en")\
+sequenceClassifier = DistilBertForSequenceClassification.pretrained("nlp1_distillbertfreezed","en")\
             .setInputCols(["document","token"])\
             .setOutputCol("class")
 
@@ -64,7 +64,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")  
     
-val sequenceClassifier = DistilBertForSequenceClassification.pretrained("distilbert_model_173_class_v1_3","en")
+val sequenceClassifier = DistilBertForSequenceClassification.pretrained("nlp1_distillbertfreezed","en")
             .setInputCols(Array("document","token"))
             .setOutputCol("class")
 
@@ -74,8 +74,8 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
-```
 
+```
 </div>
 
 {:.model-param}
@@ -83,15 +83,15 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|distilbert_model_173_class_v1_3|
+|Model Name:|nlp1_distillbertfreezed|
 |Compatibility:|Spark NLP 5.2.2+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[documents, token]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|250.0 MB|
+|Size:|249.4 MB|
 
 ## References
 
-https://huggingface.co/MoumitaNettoJanaManna/distilbert_model_173_class_v1_3
+https://huggingface.co/aduverger/NLP1-DistillBertFreezed

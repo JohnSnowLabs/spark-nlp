@@ -1,9 +1,9 @@
 ---
 layout: model
-title: English distilbert_model_173_class_v1_3 DistilBertForSequenceClassification from MoumitaNettoJanaManna
+title: English model_garchema DistilBertForSequenceClassification from gArchema
 author: John Snow Labs
-name: distilbert_model_173_class_v1_3
-date: 2024-01-01
+name: model_garchema
+date: 2024-01-02
 tags: [bert, en, open_source, sequence_classification, onnx]
 task: Text Classification
 language: en
@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`distilbert_model_173_class_v1_3` is a English model originally trained by MoumitaNettoJanaManna.
+Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`model_garchema` is a English model originally trained by gArchema.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_model_173_class_v1_3_en_5.2.2_3.0_1704096371676.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/model_garchema_en_5.2.2_3.0_1704163559416.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/model_garchema_en_5.2.2_3.0_1704163559416.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,7 +43,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")  
     
-sequenceClassifier = DistilBertForSequenceClassification.pretrained("distilbert_model_173_class_v1_3","en")\
+sequenceClassifier = DistilBertForSequenceClassification.pretrained("model_garchema","en")\
             .setInputCols(["document","token"])\
             .setOutputCol("class")
 
@@ -64,7 +64,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")  
     
-val sequenceClassifier = DistilBertForSequenceClassification.pretrained("distilbert_model_173_class_v1_3","en")
+val sequenceClassifier = DistilBertForSequenceClassification.pretrained("model_garchema","en")
             .setInputCols(Array("document","token"))
             .setOutputCol("class")
 
@@ -74,8 +74,8 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
-```
 
+```
 </div>
 
 {:.model-param}
@@ -83,15 +83,15 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|distilbert_model_173_class_v1_3|
+|Model Name:|model_garchema|
 |Compatibility:|Spark NLP 5.2.2+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[documents, token]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|250.0 MB|
+|Size:|507.6 MB|
 
 ## References
 
-https://huggingface.co/MoumitaNettoJanaManna/distilbert_model_173_class_v1_3
+https://huggingface.co/gArchema/model
