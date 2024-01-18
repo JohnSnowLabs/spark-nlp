@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "5.2.2"
+version := "5.2.3"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -140,7 +140,7 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   typesafe,
   rocksdbjni,
-  awsjavasdkbundle
+  awsJavaSdkS3
     exclude ("com.fasterxml.jackson.core", "jackson-annotations")
     exclude ("com.fasterxml.jackson.core", "jackson-databind")
     exclude ("com.fasterxml.jackson.core", "jackson-core")

@@ -109,7 +109,7 @@ private[johnsnowlabs] class DeBertaClassification(
     val batchLength = batch.length
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
       case _ => getRawScoresWithTF(batch)
     }
 
@@ -182,7 +182,7 @@ private[johnsnowlabs] class DeBertaClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
+  private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
@@ -219,7 +219,7 @@ private[johnsnowlabs] class DeBertaClassification(
     val batchLength = batch.length
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
       case _ => getRawScoresWithTF(batch)
     }
 

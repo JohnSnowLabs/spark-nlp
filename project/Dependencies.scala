@@ -95,8 +95,8 @@ object Dependencies {
   val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val awsjavasdkbundleVersion = "1.12.500"
-  val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
+  val awsJavaSdkS3Version = "1.12.500"
+  val awsJavaSdkS3 = "com.amazonaws" % "aws-java-sdk-s3" % awsJavaSdkS3Version
 
   val liblevenshteinVersion = "3.0.0"
   val liblevenshtein = "com.github.universal-automata" % "liblevenshtein" % liblevenshteinVersion

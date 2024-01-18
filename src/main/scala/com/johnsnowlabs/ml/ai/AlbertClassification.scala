@@ -108,7 +108,7 @@ private[johnsnowlabs] class AlbertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -128,7 +128,7 @@ private[johnsnowlabs] class AlbertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -203,7 +203,7 @@ private[johnsnowlabs] class AlbertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(
+  private def getRawScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
       sequence: Boolean): Array[Float] = {
