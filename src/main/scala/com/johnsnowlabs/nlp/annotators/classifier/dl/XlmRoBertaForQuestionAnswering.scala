@@ -19,8 +19,16 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, XlmRoBertaClassification}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -293,7 +301,7 @@ trait ReadablePretrainedXlmRoBertaForQAModel
 }
 
 trait ReadXlmRoBertaForQuestionAnsweringDLModel
-  extends ReadTensorflowModel
+    extends ReadTensorflowModel
     with ReadOnnxModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForQuestionAnswering] =>
@@ -375,6 +383,5 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
   * for the documentation.
   */
 object XlmRoBertaForQuestionAnswering
-  extends ReadablePretrainedXlmRoBertaForQAModel
+    extends ReadablePretrainedXlmRoBertaForQAModel
     with ReadXlmRoBertaForQuestionAnsweringDLModel
-

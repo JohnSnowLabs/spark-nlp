@@ -30,25 +30,25 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 import scala.collection.JavaConverters._
 
 /** @param tensorflowWrapper
- *   XLM-RoBERTa Model wrapper with TensorFlow Wrapper
- * @param spp
- *   XlmRoberta SentencePiece model with SentencePieceWrapper
- * @param configProtoBytes
- *   Configuration for TensorFlow session
- * @param tags
- *   labels which model was trained with in order
- * @param signatures
- *   TF v2 signatures in Spark NLP
- */
+  *   XLM-RoBERTa Model wrapper with TensorFlow Wrapper
+  * @param spp
+  *   XlmRoberta SentencePiece model with SentencePieceWrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param tags
+  *   labels which model was trained with in order
+  * @param signatures
+  *   TF v2 signatures in Spark NLP
+  */
 private[johnsnowlabs] class XlmRoBertaClassification(
-                                                      val tensorflowWrapper: Option[TensorflowWrapper],
-                                                      val onnxWrapper: Option[OnnxWrapper],
-                                                      val spp: SentencePieceWrapper,
-                                                      configProtoBytes: Option[Array[Byte]] = None,
-                                                      tags: Map[String, Int],
-                                                      signatures: Option[Map[String, String]] = None,
-                                                      threshold: Float = 0.5f)
-  extends Serializable
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
+    val spp: SentencePieceWrapper,
+    configProtoBytes: Option[Array[Byte]] = None,
+    tags: Map[String, Int],
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
+    extends Serializable
     with XXXForClassification {
 
   val _tfXlmRoBertaSignatures: Map[String, String] =
@@ -67,9 +67,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
-                             sentences: Seq[TokenizedSentence],
-                             maxSeqLength: Int,
-                             caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      sentences: Seq[TokenizedSentence],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val encoder =
       new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
@@ -84,9 +84,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   def tokenizeSeqString(
-                         candidateLabels: Seq[String],
-                         maxSeqLength: Int,
-                         caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder =
@@ -101,9 +101,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     })
   }
   def tokenizeDocument(
-                        docs: Seq[Annotation],
-                        maxSeqLength: Int,
-                        caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+      docs: Seq[Annotation],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val encoder =
       new SentencepieceEncoder(
@@ -234,7 +234,6 @@ private[johnsnowlabs] class XlmRoBertaClassification(
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
-
     val dim = rawScores.length / batchLength
     val batchScores: Array[Array[Float]] =
       rawScores
@@ -251,10 +250,10 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -339,8 +338,8 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   private def computeLogitsWithTF(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     val batchLength = batch.length
     val tensors = new TensorResources()
 
@@ -432,11 +431,10 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     }
   }
 
-
   def findIndexedToken(
-                        tokenizedSentences: Seq[TokenizedSentence],
-                        sentence: (WordpieceTokenizedSentence, Int),
-                        tokenPiece: TokenPiece): Option[IndexedToken] = {
+      tokenizedSentences: Seq[TokenizedSentence],
+      sentence: (WordpieceTokenizedSentence, Int),
+      tokenPiece: TokenPiece): Option[IndexedToken] = {
     tokenizedSentences(sentence._2).indexedTokens.find(p =>
       p.begin == tokenPiece.begin && tokenPiece.isWordStart)
   }
