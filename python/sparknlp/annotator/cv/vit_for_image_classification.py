@@ -102,7 +102,7 @@ class ViTForImageClassification(AnnotatorModel,
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
-    >>> imageDF: DataFrame = spark.read \\
+    >>> imageDF = spark.read \\
     ...     .format("image") \\
     ...     .option("dropInvalid", value = True) \\
     ...     .load("src/test/resources/image/")

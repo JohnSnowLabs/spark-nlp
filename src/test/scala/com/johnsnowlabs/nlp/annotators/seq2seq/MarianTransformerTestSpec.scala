@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MarianTransformerTestSpec extends AnyFlatSpec {

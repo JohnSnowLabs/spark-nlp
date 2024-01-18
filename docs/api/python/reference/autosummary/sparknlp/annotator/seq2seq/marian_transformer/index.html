@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.marian_transformer &#8212; Spark NLP 5.1.4 documentation</title>
+    <title>sparknlp.annotator.seq2seq.marian_transformer &#8212; Spark NLP 5.2.2 documentation</title>
   
   
   
@@ -333,6 +333,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/albert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.albert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/camembert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.camembert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/chunk_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.chunk_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/deberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.deberta_embeddings</span></code></a></li>
@@ -433,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.date2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../document_character_text_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../document_normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../document_token_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_token_splitter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../graph_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.graph_extraction</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lemmatizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.lemmatizer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../n_gram_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.n_gram_generator</span></code></a></li>
@@ -685,6 +687,111 @@ by default 40.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setDoSample">
+<span class="sig-name descname"><span class="pre">setDoSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setDoSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setDoSample" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use sampling; use greedy decoding otherwise</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTemperature">
+<span class="sig-name descname"><span class="pre">setTemperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setTemperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTemperature" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the value used to module the next token probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The value used to module the next token probabilities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopK">
+<span class="sig-name descname"><span class="pre">setTopK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setTopK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopK" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of highest probability vocabulary tokens to keep for
+top-k-filtering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of highest probability vocabulary tokens to keep</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopP">
+<span class="sig-name descname"><span class="pre">setTopP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setTopP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopP" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the top cumulative probability for vocabulary tokens.</p>
+<p>If set to float &lt; 1, only the most probable tokens with probabilities
+that add up to <code class="docutils literal notranslate"><span class="pre">topP</span></code> or higher are kept for generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Cumulative probability for vocabulary tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRepetitionPenalty">
+<span class="sig-name descname"><span class="pre">setRepetitionPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setRepetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRepetitionPenalty" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the parameter for repetition penalty. 1.0 means no penalty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The repetition penalty</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>See <a class="reference external" href="https://arxiv.org/pdf/1909.05858.pdf">Ctrl: A Conditional Transformer Language Model For Controllable
+Generation</a> for more details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setNoRepeatNgramSize">
+<span class="sig-name descname"><span class="pre">setNoRepeatNgramSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setNoRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setNoRepeatNgramSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets size of n-grams that can only occur once.</p>
+<p>If set to int &gt; 0, all ngrams of that size can only occur once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>N-gram size can only occur once</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRandomSeed">
+<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setRandomSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRandomSeed" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets random seed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Random seed</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.loadSavedModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.loadSavedModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Loads a locally saved model.</p>
@@ -774,6 +881,13 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setLangId"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setLangId()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setMaxInputLength"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setMaxInputLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setMaxOutputLength"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setMaxOutputLength()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setDoSample"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setDoSample()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTemperature"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setTemperature()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopK"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setTopK()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setTopP"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setTopP()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRepetitionPenalty"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setRepetitionPenalty()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setNoRepeatNgramSize"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setNoRepeatNgramSize()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setRandomSeed"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.setRandomSeed()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.pretrained"><code class="docutils literal notranslate"><span class="pre">MarianTransformer.pretrained()</span></code></a></li>
 </ul>

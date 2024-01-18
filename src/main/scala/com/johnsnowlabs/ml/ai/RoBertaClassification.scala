@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
@@ -63,6 +63,7 @@ private[johnsnowlabs] class RoBertaClassification(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   protected val sigmoidThreshold: Float = threshold
 
@@ -209,7 +210,7 @@ private[johnsnowlabs] class RoBertaClassification(
   private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -407,7 +408,7 @@ private[johnsnowlabs] class RoBertaClassification(
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)

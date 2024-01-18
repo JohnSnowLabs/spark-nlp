@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 5.1.4 documentation</title>
+    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 5.2.2 documentation</title>
   
   
   
@@ -534,6 +534,23 @@ document.write(`
                            <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
+    <span class="n">useCache</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useCache&quot;</span><span class="p">,</span> <span class="s2">&quot;Cache internal state of the model to improve performance&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">stopAtEos</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;stopAtEos&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Stop text generation when the end-of-sentence token is encountered.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span>
+
+    <span class="n">maxNewTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;maxNewTokens&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Maximum number of new tokens to be generated&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span>
+
 <div class="viewcode-block" id="T5Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
 
@@ -583,6 +600,26 @@ document.write(`
 <span class="sd">            Maximum length of output text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setStopAtEos"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setStopAtEos">[docs]</a>    <span class="k">def</span> <span class="nf">setStopAtEos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop text generation when the end-of-sentence token is encountered.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
+<span class="sd">            whether to stop at end-of-sentence token or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stopAtEos</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="T5Transformer.setMaxNewTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxNewTokens">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxNewTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum number of new tokens to be generated</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            the maximum number of new tokens to be generated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxNewTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
@@ -655,6 +692,16 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="T5Transformer.setUseCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setUseCache">[docs]</a>    <span class="k">def</span> <span class="nf">setUseCache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cache internal state of the model to improve performance</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not to use cache</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCache</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">T5Transformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -672,7 +719,10 @@ document.write(`
             <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
             <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span>
-            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">stopAtEos</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">maxNewTokens</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">useCache</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>

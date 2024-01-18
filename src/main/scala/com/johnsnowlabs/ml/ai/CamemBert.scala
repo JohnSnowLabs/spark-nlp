@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -54,6 +54,7 @@ private[johnsnowlabs] class CamemBert(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   /** HACK: These tokens were added by fairseq but don't seem to be actually used when duplicated
     * in the actual # sentencepiece vocabulary (this is the case for '''<s>''' and '''</s>''')
@@ -82,7 +83,7 @@ private[johnsnowlabs] class CamemBert(
 
       case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
-        val (runner, env) = onnxWrapper.get.getSession()
+        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)

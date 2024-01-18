@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.CamemBertClassification
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -29,7 +30,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -124,6 +125,7 @@ class CamemBertForSequenceClassification(override val uid: String)
     extends AnnotatorModel[CamemBertForSequenceClassification]
     with HasBatchedAnnotate[CamemBertForSequenceClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -239,13 +241,15 @@ class CamemBertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
       spp: SentencePieceWrapper): CamemBertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new CamemBertClassification(
             tensorflowWrapper,
+            onnxWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -305,13 +309,26 @@ class CamemBertForSequenceClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_camembert_classification",
-      CamemBertForSequenceClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_camembert_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          CamemBertForSequenceClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          CamemBertForSequenceClassification.onnxFile)
+    }
+
     writeSentencePieceModel(
       path,
       spark,
@@ -344,10 +361,14 @@ trait ReadablePretrainedCamemBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadCamemBertForSequenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertForSequenceClassification] =>
 
   override val tfFile: String = "camembert_classification_tensorflow"
+  override val onnxFile: String = "camembert_classification_onnx"
   override val sppFile: String = "camembert_spp"
 
   def readModel(
@@ -355,10 +376,27 @@ trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSente
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
-      readTensorflowModel(path, spark, "_camembert_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_camembert_spp", sppFile)
-    instance.setModelIfNotSet(spark, tf, spp)
+
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_camembert_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_camembert_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
   }
 
   addReader(readModel)
@@ -379,7 +417,7 @@ trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSente
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -392,8 +430,11 @@ trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSente
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, spModel)
-
+          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

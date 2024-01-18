@@ -24,11 +24,13 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   SuppressLogitProcessor
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
+import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
+import com.johnsnowlabs.ml.util.LinAlg.argmax
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{SpecialTokens, WhisperTokenDecoder}
@@ -102,7 +104,7 @@ private[johnsnowlabs] class Whisper(
     else throw new IllegalArgumentException("No model engine defined.")
 
   private val tfTensorResources = new tensorflow.TensorResources()
-//  val onnxTensorResources = new onnx.TensorResources(OrtEnvironment.getEnvironment())
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   private object TfSignatures {
     object InputOps {
@@ -323,9 +325,10 @@ private[johnsnowlabs] class Whisper(
 
           tokenIds
         case ONNX.name =>
-          val (encoderSession, env) = onnxWrappers.get.encoder.getSession()
-          val decoderSession = onnxWrappers.get.decoder.getSession()._1
-          val decoderWithPastSession = onnxWrappers.get.decoderWithPast.getSession()._1
+          val (encoderSession, env) = onnxWrappers.get.encoder.getSession(onnxSessionOptions)
+          val decoderSession = onnxWrappers.get.decoder.getSession(onnxSessionOptions)._1
+          val decoderWithPastSession =
+            onnxWrappers.get.decoderWithPast.getSession(onnxSessionOptions)._1
 
           val encodedBatchTensor: OnnxTensor =
             encode(featuresBatch, None, Some((encoderSession, env))).asInstanceOf[OnnxTensor]
@@ -455,18 +458,6 @@ private[johnsnowlabs] class Whisper(
 
     (logits, decoderStateTensor, encoderStateTensor)
   }
-
-  /** Gets the index with the highest score
-    *
-    * @param scores
-    *   Array of Scores to max
-    * @return
-    *   Index of the highest score
-    */
-  private def argmax(scores: Array[Float]): Int =
-    scores.zipWithIndex.maxBy { case (score, _) =>
-      score
-    }._2
 
   private def greedyGenerationFinished(
       decoderIds: Seq[Array[Int]],

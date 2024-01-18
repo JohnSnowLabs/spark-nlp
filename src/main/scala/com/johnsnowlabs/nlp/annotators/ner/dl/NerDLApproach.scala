@@ -435,12 +435,12 @@ class NerDLApproach(override val uid: String)
 
   /** @group setParam */
   def setBestModelMetric(value: String): NerDLApproach.this.type = {
+    require(
+      ModelMetrics.values.contains(value),
+      s"Invalid metric: $value. Allowed metrics are: ${ModelMetrics.values.mkString(", ")}")
 
-    if (value == ModelMetrics.macroF1)
-      set(bestModelMetric, value)
-    else
-      set(bestModelMetric, ModelMetrics.microF1)
-    this
+    set(this.bestModelMetric, value)
+
   }
 
   setDefault(
@@ -455,7 +455,7 @@ class NerDLApproach(override val uid: String)
     includeAllConfidenceScores -> false,
     enableMemoryOptimizer -> false,
     useBestModel -> false,
-    bestModelMetric -> ModelMetrics.microF1)
+    bestModelMetric -> ModelMetrics.loss)
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
 

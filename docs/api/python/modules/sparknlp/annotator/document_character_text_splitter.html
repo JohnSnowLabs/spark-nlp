@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.document_character_text_splitter &#8212; Spark NLP 5.1.4 documentation</title>
+    <title>sparknlp.annotator.document_character_text_splitter &#8212; Spark NLP 5.2.2 documentation</title>
   
   
   
@@ -415,7 +415,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
 <span class="sd">    &gt;&gt;&gt; textDF = spark.read.text(</span>
-<span class="sd">    ...    &quot;/home/ducha/Workspace/scala/spark-nlp/src/test/resources/spell/sherlockholmes.txt&quot;,</span>
+<span class="sd">    ...    &quot;sherlockholmes.txt&quot;,</span>
 <span class="sd">    ...    wholetext=True</span>
 <span class="sd">    ... ).toDF(&quot;text&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;)</span>

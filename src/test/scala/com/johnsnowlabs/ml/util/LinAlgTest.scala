@@ -2,8 +2,11 @@ package com.johnsnowlabs.ml.util
 
 import breeze.linalg._
 import com.johnsnowlabs.ml.util.LinAlg.implicits.ExtendedDenseMatrix
+import com.johnsnowlabs.ml.util.LinAlg.{denseMatrixToArray, l2Normalize}
 import org.scalatest.flatspec.AnyFlatSpec
-class LinAlgTest extends AnyFlatSpec {
+import org.scalatest.matchers.should.Matchers
+
+class LinAlgTest extends AnyFlatSpec with Matchers {
 
   behavior of "LinAlgTest"
 
@@ -54,4 +57,88 @@ class LinAlgTest extends AnyFlatSpec {
     val expected = DenseMatrix(Seq(2.0d, 3.0d), Seq(2.0d, 3.0d), Seq(2.0d, 3.0d), Seq(2.0d, 3.0d))
     assert(ab == expected)
   }
+
+  val tolerance = 1e-6f
+
+  def assertEqualWithTolerance(actual: Array[Float], expected: Array[Float]): Unit = {
+    assert(actual.length == expected.length, "Array lengths differ")
+    for ((a, e) <- actual.zip(expected)) {
+      assert(math.abs(a - e) <= tolerance, s"Expected $e, got $a within tolerance $tolerance")
+    }
+  }
+
+  "l2Normalize" should "correctly normalize a regular matrix" in {
+    val matrix = DenseMatrix((1.0f, 2.0f), (3.0f, 4.0f))
+    val normalized = l2Normalize(matrix)
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
+  }
+
+  it should "handle a single row matrix" in {
+    val matrix = DenseMatrix((1.0f, 2.0f, 3.0f))
+    val normalized = l2Normalize(matrix)
+    assert(math.abs(norm(normalized.toDenseVector, 2) - 1.0f) <= tolerance)
+  }
+
+  it should "handle a single column matrix" in {
+    val matrix = DenseMatrix(1.0f, 2.0f, 3.0f)
+    val normalized = l2Normalize(matrix)
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f, 1.0f))
+  }
+
+  it should "handle a matrix with zero elements" in {
+    val matrix = DenseMatrix((0.0f, 0.0f), (0.0f, 0.0f))
+    val normalized = l2Normalize(matrix)
+    assert(normalized === matrix)
+  }
+
+  it should "normalize each row to unit length" in {
+    val matrix = DenseMatrix((1.0f, 0.0f), (0.0f, 1.0f))
+    val normalized = l2Normalize(matrix)
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
+  }
+
+  it should "correctly normalize a matrix with negative values" in {
+    val matrix = DenseMatrix((-1.0f, -2.0f), (3.0f, -4.0f))
+    val normalized = l2Normalize(matrix)
+    assertEqualWithTolerance(
+      normalized(*, ::).map(norm(_, 2)).toArray.map(_.toFloat),
+      Array(1.0f, 1.0f))
+  }
+
+  "denseMatrixToArray" should "correctly convert a regular matrix" in {
+    val matrix = DenseMatrix((1.0f, 2.0f), (3.0f, 4.0f))
+    val array = denseMatrixToArray(matrix)
+    assert(array === Array(Array(1.0f, 2.0f), Array(3.0f, 4.0f)))
+  }
+
+  it should "handle a single row matrix" in {
+    val matrix = DenseMatrix.create(1, 3, Array(1.0f, 2.0f, 3.0f))
+    val array = denseMatrixToArray(matrix)
+    assert(array === Array(Array(1.0f, 2.0f, 3.0f)))
+  }
+
+  it should "handle a single column matrix" in {
+    val matrix = DenseMatrix.create(3, 1, Array(1.0f, 2.0f, 3.0f))
+    val array = denseMatrixToArray(matrix)
+    assert(array === Array(Array(1.0f), Array(2.0f), Array(3.0f)))
+  }
+
+  it should "handle an empty matrix" in {
+    val matrix = DenseMatrix.zeros[Float](0, 0)
+    val array = denseMatrixToArray(matrix)
+    assert(array === Array[Array[Float]]())
+  }
+
+  it should "correctly convert a matrix with various values" in {
+    val matrix = DenseMatrix((-1.0f, 0.0f), (3.0f, -4.0f))
+    val array = denseMatrixToArray(matrix)
+    assert(array === Array(Array(-1.0f, 0.0f), Array(3.0f, -4.0f)))
+  }
+
 }

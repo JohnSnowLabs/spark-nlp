@@ -129,12 +129,13 @@ object Verbose extends Enumeration {
 
 object ModelMetrics {
 
-  val microF1 = "f1_micro"
-  val macroF1 = "f1_macro"
   val testMicroF1 = "test_micro_f1"
   val testMacroF1 = "test_macro_f1"
   val valMicroF1 = "val_micro_f1"
   val valMacroF1 = "val_macro_f1"
   val loss = "loss"
+
+  val values: Set[String] =
+    Set(testMicroF1, testMacroF1, valMicroF1, valMacroF1, loss)
 
 }

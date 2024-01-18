@@ -1,9 +1,25 @@
+/*
+ * Copyright 2017-2023 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -24,6 +40,7 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
   val textDocument: DataFrame = documentAssembler.transform(splitTextDF)
 
   def assertResult(text: String, result: Array[Annotation], expected: Seq[String]): Unit = {
+    assert(expected.length == result.length, "Length of results don't match.")
     result.zip(expected).zipWithIndex foreach { case ((res, exChunk), i) =>
       val chunk = res.result
       assert(chunk == exChunk, "Chunk was not equal")
@@ -218,6 +235,44 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
 
     val expected = Seq("Hello", " World", "!")
     assertResult(sampleText, result, expected)
+  }
+
+  it should "be serializable" taggedAs SlowTest in {
+    val textSplitter = new DocumentCharacterTextSplitter()
+      .setInputCols("document")
+      .setOutputCol("splits")
+      .setChunkSize(1000)
+      .setChunkOverlap(100)
+      .setExplodeSplits(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, textSplitter))
+    val pipelineModel = pipeline.fit(splitTextDF)
+
+    pipelineModel.stages.last
+      .asInstanceOf[DocumentCharacterTextSplitter]
+      .write
+      .overwrite()
+      .save("./tmp_textSplitter")
+
+    val loadedTextSplitModel = DocumentCharacterTextSplitter.load("tmp_textSplitter")
+
+    loadedTextSplitModel.transform(textDocument).select("splits").show(truncate = false)
+  }
+
+  it should "be exportable to pipeline" taggedAs SlowTest in {
+    val textSplitter = new DocumentCharacterTextSplitter()
+      .setInputCols("document")
+      .setOutputCol("splits")
+      .setChunkSize(1000)
+      .setChunkOverlap(100)
+      .setExplodeSplits(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, textSplitter))
+    pipeline.write.overwrite().save("tmp_textsplitter_pipe")
+
+    val loadedPipelineModel = Pipeline.load("tmp_textsplitter_pipe")
+
+    loadedPipelineModel.fit(splitTextDF).transform(splitTextDF).select("splits").show()
   }
 
 }

@@ -41,7 +41,7 @@ class Gpt2Tokenizer(
   /** Mapping for bytes to a different set of unicode characters (especially white spaces). This
     * improved model performance for gpt-2
     */
-  private val bytesToUnicodeMapping: Map[Int, String] = {
+  protected val bytesToUnicodeMapping: Map[Int, String] = {
     val bytes: ListBuffer[Int] =
       ListBuffer.range('!', '~' + 1) ++ ListBuffer.range('¡', '¬' + 1) ++ ListBuffer
         .range('®', 'ÿ' + 1)

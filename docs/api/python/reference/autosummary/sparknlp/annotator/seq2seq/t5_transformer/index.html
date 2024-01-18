@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 5.1.4 documentation</title>
+    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 5.2.2 documentation</title>
   
   
   
@@ -333,6 +333,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/albert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.albert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/camembert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.camembert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/chunk_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.chunk_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/deberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.deberta_embeddings</span></code></a></li>
@@ -433,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.date2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../document_character_text_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../document_normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../document_token_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_token_splitter</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../graph_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.graph_extraction</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lemmatizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.lemmatizer</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../n_gram_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.n_gram_generator</span></code></a></li>
@@ -706,6 +708,34 @@ our data set, pre-trained models, and code.</em></p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setStopAtEos">
+<span class="sig-name descname"><span class="pre">setStopAtEos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/t5_transformer.html#T5Transformer.setStopAtEos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setStopAtEos" title="Permalink to this definition">#</a></dt>
+<dd><p>Stop text generation when the end-of-sentence token is encountered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">bool</span></dt><dd><p>whether to stop at end-of-sentence token or not</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxNewTokens">
+<span class="sig-name descname"><span class="pre">setMaxNewTokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/t5_transformer.html#T5Transformer.setMaxNewTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxNewTokens" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximum number of new tokens to be generated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>the maximum number of new tokens to be generated</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample">
 <span class="sig-name descname"><span class="pre">setDoSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/t5_transformer.html#T5Transformer.setDoSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p>
@@ -790,6 +820,20 @@ Generation</a> for more details.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>N-gram size can only occur once</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setUseCache">
+<span class="sig-name descname"><span class="pre">setUseCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/t5_transformer.html#T5Transformer.setUseCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setUseCache" title="Permalink to this definition">#</a></dt>
+<dd><p>Cache internal state of the model to improve performance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use cache</p>
 </dd>
 </dl>
 </dd>
@@ -886,12 +930,15 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTask"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setTask()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMinOutputLength"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setMinOutputLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxOutputLength"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setMaxOutputLength()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setStopAtEos"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setStopAtEos()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxNewTokens"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setMaxNewTokens()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setDoSample()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTemperature"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setTemperature()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopK"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setTopK()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopP"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setTopP()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setRepetitionPenalty"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setRepetitionPenalty()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setNoRepeatNgramSize"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setNoRepeatNgramSize()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setUseCache"><code class="docutils literal notranslate"><span class="pre">T5Transformer.setUseCache()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">T5Transformer.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.pretrained"><code class="docutils literal notranslate"><span class="pre">T5Transformer.pretrained()</span></code></a></li>
 </ul>

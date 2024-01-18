@@ -43,7 +43,7 @@ from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
 textDF = spark.read.text(
-   "/home/ducha/Workspace/scala/spark-nlp/src/test/resources/spell/sherlockholmes.txt",
+   "sherlockholmes.txt",
    wholetext=True
 ).toDF("text")
 

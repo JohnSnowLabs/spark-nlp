@@ -16,12 +16,12 @@
 
 package com.johnsnowlabs.ml.ai
 
-import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import ai.onnxruntime.{OnnxTensor, TensorInfo}
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
@@ -56,6 +56,7 @@ private[johnsnowlabs] class MPNet(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   /** Get sentence embeddings for a batch of sentences
     * @param batch
@@ -64,13 +65,23 @@ private[johnsnowlabs] class MPNet(
     *   sentence embeddings
     */
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
       case ONNX.name =>
-        getSentenceEmbeddingFromOnnx(batch)
+        getSentenceEmbeddingFromOnnx(paddedBatch)
       case _ =>
-        getSentenceEmbeddingFromTF(batch)
+        getSentenceEmbeddingFromTF(paddedBatch)
     }
     embeddings
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
   }
 
   /** Get sentence embeddings for a batch of sentences
@@ -155,41 +166,32 @@ private[johnsnowlabs] class MPNet(
   }
 
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val batchLength = batch.length
-    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
 
-    val (runner, env) = onnxWrapper.get.getSession()
-    val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-    val maskTensors =
-      OnnxTensor.createTensor(
-        env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
-
-    val segmentTensors =
-      OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
-
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val tokenTensors = OnnxTensor.createTensor(env, inputIds)
+    val maskTensors = OnnxTensor.createTensor(env, attentionMask)
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape
       try {
-        val embeddings = results
-          .get("last_hidden_state")
-          .get()
+        val flattenEmbeddings = lastHiddenState
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
         tokenTensors.close()
         maskTensors.close()
-        segmentTensors.close()
 
-        val dim = embeddings.length / batchLength
-        // group embeddings
-        val sentenceEmbeddingsFloatsArray = embeddings.grouped(dim).toArray
-        sentenceEmbeddingsFloatsArray
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
     }
   }

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.1.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter</title>
-          <meta name="description" content="Spark NLP 5.1.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter" />
-          <meta name="keywords" content="Spark NLP 5.1.4 ScalaDoc com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter" />
+          <title>Spark NLP 5.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter</title>
+          <meta name="description" content="Spark NLP 5.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter" />
+          <meta name="keywords" content="Spark NLP 5.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.1.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.2.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -522,13 +522,17 @@
                         <a class="trait" href="DateMatcherUtils.html" title=""></a>
                         <a href="DateMatcherUtils.html" title="">DateMatcherUtils</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="DocumentCharacterTextSplitter$.html" title="This is the companion object of DocumentCharacterTextSplitter."></a>
                         <a class="class" href="" title="Annotator which splits large documents into chunks of roughly given size."></a>
                         <a href="" title="Annotator which splits large documents into chunks of roughly given size.">DocumentCharacterTextSplitter</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="DocumentNormalizer$.html" title="This is the companion object of DocumentNormalizer."></a>
                         <a class="class" href="DocumentNormalizer.html" title="Annotator which normalizes raw text from tagged text, e.g."></a>
                         <a href="DocumentNormalizer.html" title="Annotator which normalizes raw text from tagged text, e.g.">DocumentNormalizer</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="DocumentTokenSplitter$.html" title="This is the companion object of DocumentTokenSplitter."></a>
+                        <a class="class" href="DocumentTokenSplitter.html" title="Annotator that splits large documents into smaller documents based on the number of tokens in the text."></a>
+                        <a href="DocumentTokenSplitter.html" title="Annotator that splits large documents into smaller documents based on the number of tokens in the text.">DocumentTokenSplitter</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
@@ -630,6 +634,10 @@
                         <a class="class" href="TextMatcherModel.html" title="Instantiated model of the TextMatcher."></a>
                         <a href="TextMatcherModel.html" title="Instantiated model of the TextMatcher.">TextMatcherModel</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TextSplitter.html" title="Splits texts recursively to match given length"></a>
+                        <a href="TextSplitter.html" title="Splits texts recursively to match given length">TextSplitter</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="Token2Chunk$.html" title="This is the companion object of Token2Chunk."></a>
                         <a class="class" href="Token2Chunk.html" title="Converts TOKEN type Annotations to CHUNK type."></a>
                         <a href="Token2Chunk.html" title="Converts TOKEN type Annotations to CHUNK type.">Token2Chunk</a>
@@ -648,14 +656,16 @@
           <div id="content">
             <body class="class type">
       <div id="definition">
-        <div class="big-circle class">c</div>
+        <a href="DocumentCharacterTextSplitter$.html" title="See companion object"><div class="big-circle class-companion-object">c</div></a>
         <p id="owner"><a href="../../../index.html" class="extype" name="com">com</a>.<a href="../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></p>
-        <h1>DocumentCharacterTextSplitter<span class="permalink">
+        <h1><a href="DocumentCharacterTextSplitter$.html" title="See companion object">DocumentCharacterTextSplitter</a><span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitter.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
-        <h3><span class="morelinks"></span></h3>
+        <h3><span class="morelinks"><div>
+            Companion <a href="DocumentCharacterTextSplitter$.html" title="See companion object">object DocumentCharacterTextSplitter</a>
+          </div></span></h3>
       </div>
 
       <h4 id="signature" class="signature">
@@ -1019,9 +1029,9 @@ UserDefinedTypes to @developerAPI
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <a href="../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <a href="../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation
+      <p class="shortcomment cmt">Takes a document and annotations and produces new annotations of this annotator's annotation
 type
-</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation
+</p><div class="fullcomment"><div class="comment cmt"><p>Takes a document and annotations and produces new annotations of this annotator's annotation
 type
 </p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>
   Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>
@@ -1298,7 +1308,7 @@ type
         <span class="name">explodeSplits</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to explode split chunks to separate rows
+      <p class="shortcomment cmt">Whether to explode split chunks to separate rows (Default: <code>false</code>)
 </p>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#extraValidate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean"></a><a id="extraValidate(StructType):Boolean"></a>
@@ -2902,7 +2912,7 @@ information outside its content
                 <span class="name">@DeveloperApi</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter#trimWhitespace" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter#trimWhitespace" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="trimWhitespace:org.apache.spark.ml.param.BooleanParam"></a><a id="trimWhitespace:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/DocumentCharacterTextSplitter.html#trimWhitespace:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -2917,7 +2927,7 @@ information outside its content
         <span class="name">trimWhitespace</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Whether to trim whitespaces of extracted chunks (Default: <code>true</code>)</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter#uid" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="uid:String"></a>
       <span class="permalink">

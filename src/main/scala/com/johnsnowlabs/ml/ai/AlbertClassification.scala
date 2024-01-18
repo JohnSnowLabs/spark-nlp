@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -56,6 +56,7 @@ private[johnsnowlabs] class AlbertClassification(
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   // keys representing the input and output tensors of the ALBERT model
   protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("[pad]")
@@ -210,7 +211,7 @@ private[johnsnowlabs] class AlbertClassification(
     val output = if (sequence) "logits" else "last_hidden_state"
 
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
@@ -348,7 +349,7 @@ private[johnsnowlabs] class AlbertClassification(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
-    val (runner, env) = onnxWrapper.get.getSession()
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)

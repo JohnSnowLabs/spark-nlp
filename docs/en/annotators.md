@@ -61,6 +61,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="DocumentCharacterTextSplitter" summary="Annotator which splits large documents into chunks of roughly given size."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
 {% include templates/anno_table_entry.md path="" name="DocumentSimilarityRanker" summary="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."%}
+{% include templates/anno_table_entry.md path="" name="DocumentTokenSplitter" summary="Annotator that splits large documents into smaller documents based on the number of tokens in the text."%}
 {% include templates/anno_table_entry.md path="" name="EntityRuler" summary="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity."%}
 {% include templates/anno_table_entry.md path="" name="EmbeddingsFinisher" summary="Extracts embeddings from Annotations into a more easily usable form."%}
 {% include templates/anno_table_entry.md path="" name="Finisher" summary="Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP Pipelines."%}
@@ -124,6 +125,7 @@ Additionally, these transformers are available.
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForQuestionAnswering" summary="CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD"%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForSequenceClassification" summary="amemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForTokenClassification" summary="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top"%}
+{% include templates/anno_table_entry.md path="./transformers" name="CLIPForZeroShotClassification" summary="Zero Shot Image Classifier based on CLIP"%}
 {% include templates/anno_table_entry.md path="./transformers" name="ConvNextForImageClassification" summary="ConvNextForImageClassification is an image classifier based on ConvNet models"%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaEmbeddings" summary="DeBERTa builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaForQuestionAnswering" summary="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}

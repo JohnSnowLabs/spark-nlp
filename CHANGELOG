@@ -1,4 +1,73 @@
 ========
+5.2.1
+========
+----------------
+Enhancements
+----------------
+* Update `aws-java-sdk-bundle` dependency to a version without any CVEs
+
+----------------
+Bug Fixes
+----------------
+* Fix the missing `BGEEmbeddings` from annotator in Python
+* Add a new BGE notebook to import models into Spark NLP
+* Upload the new true `BGE` models to Spark NLP for text embeddings
+
+
+========
+5.2.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Add support for Spark and PySpark 3.5 major release
+* Support Databricks Runtimes of 14.0, 14.1, 14.2, 14.0 ML, 14.1 ML, 14.2 ML, 14.0 GPU, 14.1 GPU, and 14.2 GPU
+* **NEW:** Introducing the `BGEEmbeddings` annotator for Spark NLP. This annotator enables the integration of `BGE` models, based on the BERT architecture, into Spark NLP. The `BGEEmbeddings` annotator is designed for generating dense vectors suitable for a variety of applications, including `retrieval`, `classification`, `clustering`, and `semantic search`. Additionally, it is compatible with `vector databases` used in `Large Language Models (LLMs)`.
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in DeBertaForQuestionAnswering annotator
+* Add a new notebook to show how to import any model from `T5` family into Spark NLP with TensorFlow format
+* Add a new notebook to show how to import any model from `T5` family into Spark NLP with ONNX format
+* Add a new notebook to show how to import any model from `MarianNMT` family into Spark NLP with ONNX format
+
+----------------
+Bug Fixes
+----------------
+* Fix serialization issue in `DocumentTokenSplitter` annotator failing to be saved and loaded in a Pipeline
+* Fix serialization issue in `DocumentCharacterTextSplitter` annotator failing to be saved and loaded in a Pipeline
+
+
+========
+5.2.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introduceding the `CLIPForZeroShotClassification` for Zero-Shot Image Classification using OpenAI's CLIP models
+* **NEW:** Introduceding the `DocumentTokenSplitter` which allows users to split large documents into smaller chunks to be used in RAG with LLM models
+* **NEW:** Introducing support for ONNX Runtime in T5Transformer annotator
+* **NEW:** Introducing support for ONNX Runtime in MarianTransformer annotator
+* **NEW:** Introducing support for ONNX Runtime in BertSentenceEmbeddings annotator
+* **NEW:** Introducing support for ONNX Runtime in XlmRoBertaSentenceEmbeddings annotator
+* **NEW:** Introducing support for ONNX Runtime in CamemBertForQuestionAnswering, CamemBertForTokenClassification, and CamemBertForSequenceClassification annotators
+* Adding a caching support for newly imported T5 models in TF format to improve the performance to be competitive to ONNX version
+* Improve ZIP util and add tests for both ZipArchiveUtil and OnnxWrapper
+* Refactor ONNX and add OnnxSession to broadcast
+* Update ONNX Runtime to 1.16.3
+* Add a new notebook fro structure streaming
+
+----------------
+Bug Fixes
+----------------
+* Fix random dimension mismatch in E5Embeddings and MPNetEmbeddings due to a missing average_pool after last_hidden_state in the output
+* Fix batching exception in E5 and MPNet embeddings annotators failing when sentence is used instead of document
+* Fix chunk construction when an entity is found
+* Fix a bug in library's version in Scala
+* Fix Whisper models not downloading due to wrong library's version
+* Fix and refactor saving best model based on given metrics during NerDL training
+
+
+========
 5.1.4
 ========
 ----------------

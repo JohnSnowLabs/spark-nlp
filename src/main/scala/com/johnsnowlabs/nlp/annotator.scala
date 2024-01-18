@@ -739,4 +739,21 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.DocumentCharacterTextSplitter
   object DocumentCharacterTextSplitter
       extends ParamsAndFeaturesReadable[DocumentCharacterTextSplitter]
+
+  type CLIPForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.cv.CLIPForZeroShotClassification
+
+  object CLIPForZeroShotClassification
+      extends ReadablePretrainedCLIPForZeroShotClassificationModel
+      with ReadCLIPForZeroShotClassificationModel
+
+  type DocumentTokenSplitter =
+    com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter
+
+  object DocumentTokenSplitter extends ParamsAndFeaturesReadable[DocumentTokenSplitter]
+
+  type BGEEmbeddings = com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
+
+  object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
+
 }
