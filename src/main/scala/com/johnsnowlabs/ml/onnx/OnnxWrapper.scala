@@ -23,17 +23,18 @@ import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
-
+import org.apache.hadoop.fs.{FileSystem, Path}
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
+class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] = None)
+    extends Serializable {
 
   /** For Deserialization */
   def this() = {
-    this(null)
+    this(null, null)
   }
 
   // Important for serialization on none-kyro serializers
@@ -44,7 +45,8 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
     this.synchronized {
       // TODO: After testing it works remove the Map.empty
       if (ortSession == null && ortEnv == null) {
-        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions)
+        val (session, env) =
+          OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions, onnxModelPath)
         ortEnv = env
         ortSession = session
       }
@@ -123,24 +125,25 @@ object OnnxWrapper {
       if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
       else Paths.get(folder, new File(folder).list().head).toString
 
+    var onnxDataFile: File = null
     // see if the onnx model has a .onnx_data file
-    val onnxDataFile: Boolean = if (useBundle) {
-      val onnxDataFile = Paths.get(modelPath, s"$modelName.onnx_data").toFile
+    val onnxDataFileExist: Boolean = if (useBundle) {
+      onnxDataFile = Paths.get(modelPath, s"$modelName.onnx_data").toFile
       onnxDataFile.exists()
     } else {
-      val onnxDataFile = Paths.get(folder, new File(folder).list().head + "_data").toFile
+      onnxDataFile = Paths.get(folder, new File(folder).list().head + "_data").toFile
       onnxDataFile.exists()
     }
     val modelFile = new File(onnxFile)
     val modelBytes = FileUtils.readFileToByteArray(modelFile)
     var session: OrtSession = null
     var env: OrtEnvironment = null
-    if (onnxDataFile) {
+    if (onnxDataFileExist) {
       val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
       session = _session
       env = _env
     } else {
-      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
       session = _session
       env = _env
 
@@ -148,7 +151,7 @@ object OnnxWrapper {
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
 
-    val onnxWrapper = new OnnxWrapper(modelBytes)
+    val onnxWrapper = new OnnxWrapper(modelBytes, Option(onnxFile))
     onnxWrapper.ortSession = session
     onnxWrapper.ortEnv = env
     onnxWrapper

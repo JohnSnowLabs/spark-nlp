@@ -52,6 +52,13 @@ trait WriteOnnxModel {
 
       // 3. Copy to dest folder
       fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
+
+      // 4. check if there is a onnx_data file
+
+      val onnxDataFile = Paths.get(onnxWrapper.onnxModelPath.get + "_data").toFile
+      if (onnxDataFile.exists()) {
+        fs.copyFromLocalFile(new Path(onnxDataFile.getAbsolutePath), new Path(path))
+      }
     }
 
     // 4. Remove tmp folder

@@ -25,7 +25,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class LLAMA2TestSpec extends AnyFlatSpec {
 
-  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
+  "llama-7b" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -38,7 +38,9 @@ class LLAMA2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = LLAMA2Transformer
-      .loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/llama2_7b/", ResourceHelper.spark)
+      .loadSavedModel(
+        "/home/prabod/Projects/ModelZoo/BART/BART/llama2_7b/onnx/",
+        ResourceHelper.spark)
       .setInputCols(Array("documents"))
       .setDoSample(false)
       .setMaxOutputLength(50)
