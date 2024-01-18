@@ -158,6 +158,10 @@ class _GPT2Loader(ExtendedJavaWrapper):
         super(_GPT2Loader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer.loadSavedModel", path, jspark)
 
+class _LLAMA2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LLAMA2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer.loadSavedModel", path, jspark)
 
 class _LLAMA2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
