@@ -203,13 +203,24 @@ private[johnsnowlabs] class LLAMA2(
     val inputIdsLong: Array[Array[Long]] =
       inputIds.map { tokenIds => tokenIds.map(_.toLong) }
 
+    val inputPositionIDsLong: Array[Array[Long]] =
+      inputIds.map { tokenIds =>
+        tokenIds.zipWithIndex.map { case (_, i) =>
+          i.toLong
+        }
+      }
+
     val inputIdsLongTensor: OnnxTensor =
       OnnxTensor.createTensor(env, inputIdsLong)
     val decoderAttentionMask: OnnxTensor =
       OnnxTensor.createTensor(env, inputIdsLong.map(_.map(_ => 1L)))
+    val decoderPositionIDs: OnnxTensor =
+      OnnxTensor.createTensor(env, inputPositionIDsLong)
+
     val decoderInputs: java.util.Map[String, OnnxTensor] = Map(
       OnnxSignatures.decoderInputIDs -> inputIdsLongTensor,
-      OnnxSignatures.decoderAttentionMask -> decoderAttentionMask).asJava
+      OnnxSignatures.decoderAttentionMask -> decoderAttentionMask,
+      OnnxSignatures.decoderPositionIDs -> decoderPositionIDs).asJava
     val sessionOutput = session.run(decoderInputs)
     val logits = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
     inputIdsLongTensor.close()
@@ -263,6 +274,8 @@ private[johnsnowlabs] class LLAMA2(
   private object OnnxSignatures {
     val decoderInputIDs: String = "input_ids"
     val decoderAttentionMask: String = "attention_mask"
+    val decoderPositionIDs: String = "position_ids"
+
     // create decoder past for 32 layers of key and value eg. past_key_values.0.key and past_key_values.0.value
     val decoderPast: Array[String] = (0 until 32)
       .flatMap(i => Seq(s"past_key_values.$i.key", s"past_key_values.$i.value"))
