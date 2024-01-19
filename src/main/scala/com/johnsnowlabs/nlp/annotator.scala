@@ -756,4 +756,10 @@ package object annotator {
 
   object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
 
+  type DeBertaForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification
+
+  object DeBertaForZeroShotClassification
+      extends ReadablePretrainedDeBertaForZeroShotModel
+      with ReadDeBertaForZeroShotDLModel
 }
