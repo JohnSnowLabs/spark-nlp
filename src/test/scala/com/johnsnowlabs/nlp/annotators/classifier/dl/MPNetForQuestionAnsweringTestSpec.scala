@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.base.{LightPipeline, MultiDocumentAssembler}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
+import org.scalactic.TolerantNumerics
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
@@ -99,7 +100,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     println(result, score)
 
-    import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
+    implicit val tolerantEq = TolerantNumerics.tolerantFloatEquality(1e-2f)
     assert(result == expectedAnswer, "Wrong Answer")
     assert(start == expectedStart, "Wrong start index")
     assert(end == expectedEnd, "Wrong end index")

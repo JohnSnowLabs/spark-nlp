@@ -409,10 +409,9 @@ private[johnsnowlabs] class MPNetClassification(
       *   Scores, with unwanted tokens set to log-probability 0
       */
     def maskUndesiredTokens(scores: Array[Float]): Array[Float] = {
-      val numSpecialTokens = 3
-      val totalLength = questionLength + contextLength + numSpecialTokens
+      val numSpecialTokens = 4 // 4 added special tokens in encoded sequence (1 bos, 2 eos, 1 eos)
+      val totalLength = scores.length
       scores.zipWithIndex.map { case (score, i) =>
-        // 3 added special tokens in encoded sequence (1 bos, 2 eos)
         val inQuestionTokens = i > 0 && i < questionLength + numSpecialTokens
         val isEosToken = i == totalLength - 1
 
