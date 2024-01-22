@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
-import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
+import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
@@ -26,22 +26,27 @@ import com.johnsnowlabs.nlp.Annotation
 
 import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import org.tensorflow.{Session, Tensor}
 
 private[johnsnowlabs] class LLAMA2(
     val onnxWrappers: DecoderWrappers,
     val spp: SentencePieceWrapper,
     generationConfig: GenerationConfig)
-    extends Serializable {
+    extends Serializable
+    with Generate {
+
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
+
   private val GenerationConfig(
     bosTokenId: Int,
-    _,
+    paddingTokenId: Int,
     eosTokenId: Int,
     vocabSize: Int,
     beginSuppressTokens,
     suppressTokenIds,
     forcedDecoderIds) =
     generationConfig
+
   private val pieceSize = spp.getSppModel.getPieceSize
 
   /** Decode a sequence of sentences
@@ -60,8 +65,6 @@ private[johnsnowlabs] class LLAMA2(
   /** Encode a sequence of sentences
     * @param sentences
     *   Sequence of sentences
-    * @param task
-    *   Task
     * @return
     *   Sequence of encoded sentences
     */
@@ -88,9 +91,8 @@ private[johnsnowlabs] class LLAMA2(
       maxInputLength: Int): Array[Array[Int]] = {
     val (encoderSession, env) = onnxWrappers.decoder.getSession(onnxSessionOptions)
     val ignoreTokenIdsInt = ignoreTokenIds
-    val expandedEncoderInputIdsVals =
-      batch.flatMap(x => List.fill(beamSize)(x.take(maxInputLength)))
-    val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
+    val expandedDecoderInputsVals = batch
+    val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
     val numReturn_sequences = 1
@@ -98,21 +100,52 @@ private[johnsnowlabs] class LLAMA2(
 
     var effectiveBatch_size = 1
     var effectiveBatch_mult = 1
+
     if (doSample) {
-      effectiveBatch_size = expandedEncoderInputIdsVals.length * numReturn_sequences
+      effectiveBatch_size = expandedDecoderInputsVals.length * numReturn_sequences
       effectiveBatch_mult = numReturn_sequences
     } else {
-      effectiveBatch_size = expandedEncoderInputIdsVals.length
+      effectiveBatch_size = expandedDecoderInputsVals.length
       effectiveBatch_mult = 1
     }
 
     // Run the prompt through the decoder and get the past
-    val decoderOutputs =
-      generateGreedyOnnx(
-        expandedEncoderInputIdsVals.toArray,
-        (encoderSession, env),
-        maxOutputLength)
-    decoderOutputs
+//    val decoderOutputs =
+//      generateGreedyOnnx(
+//        expandedDecoderInputsVals.toArray,
+//        (encoderSession, env),
+//        maxOutputLength)
+
+    // dummy tensors for decoder encode state and attention mask
+    val decoderEncoderStateTensors = Right(OnnxTensor.createTensor(env, Array(0)))
+    val encoderAttentionMaskTensors = Right(OnnxTensor.createTensor(env, Array(1)))
+
+    // output with beam search
+    val modelOutputs = generate(
+      batch,
+      decoderEncoderStateTensors,
+      encoderAttentionMaskTensors,
+      expandedDecoderInputsVals.toArray,
+      maxOutputLength + maxSentenceLength,
+      minOutputLength,
+      doSample,
+      beamSize,
+      1,
+      temperature,
+      topK,
+      topP,
+      repetitionPenalty,
+      noRepeatNgramSize,
+      this.vocabSize,
+      this.eosTokenId,
+      this.paddingTokenId,
+      randomSeed,
+      ignoreTokenIdsInt,
+      Right((env, encoderSession)),
+      applySoftmax = false)
+
+//    decoderOutputs
+    modelOutputs
   }
 
   def predict(
@@ -195,6 +228,27 @@ private[johnsnowlabs] class LLAMA2(
 
   }
 
+  override def getModelOutput(
+      encoderInputIds: Seq[Array[Int]],
+      decoderInputIds: Seq[Array[Int]],
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
+      maxLength: Int,
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+
+    session.fold(
+      tfSession => {
+        // not implemented yet
+        Array()
+      },
+      onnxSession => {
+        val (env, decoderSession) = onnxSession
+        val decoderOutputs =
+          getDecoderOutputs(decoderInputIds.toArray, onnxSession = (decoderSession, env))
+        decoderOutputs
+      })
+
+  }
   private def getDecoderOutputs(
       inputIds: Array[Array[Int]],
       onnxSession: (OrtSession, OrtEnvironment)): (Array[Array[Float]]) = {
@@ -222,11 +276,25 @@ private[johnsnowlabs] class LLAMA2(
       OnnxSignatures.decoderAttentionMask -> decoderAttentionMask,
       OnnxSignatures.decoderPositionIDs -> decoderPositionIDs).asJava
     val sessionOutput = session.run(decoderInputs)
-    val logits = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
-    inputIdsLongTensor.close()
-    val batchLogits = logits.grouped(vocabSize).toArray
-    batchLogits
 
+    val sequenceLength = inputIds.head.length
+    val batchSize = inputIds.length
+
+//    val logits = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
+//    inputIdsLongTensor.close()
+//    decoderPositionIDs.close()
+//    decoderAttentionMask.close()
+//    val batchLogits = logits.grouped(vocabSize).toArray
+//    batchLogits
+
+    val logitsRaw = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
+    val decoderOutputs = (0 until batchSize).map(i => {
+      logitsRaw
+        .slice(
+          i * sequenceLength * vocabSize + (sequenceLength - 1) * vocabSize,
+          i * sequenceLength * vocabSize + sequenceLength * vocabSize)
+    })
+    decoderOutputs.toArray
   }
 
   /** Gets the index with the highest score

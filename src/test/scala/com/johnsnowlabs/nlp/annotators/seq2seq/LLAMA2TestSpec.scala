@@ -39,12 +39,13 @@ class LLAMA2TestSpec extends AnyFlatSpec {
 
     val bart = LLAMA2Transformer
       .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/BART/llama2_7b/onnx/",
+        "/home/prabod/Projects/ModelZoo/LLAMA2/llama2-7b-int4-cpu-no-merged/",
         ResourceHelper.spark)
       .setInputCols(Array("documents"))
-      .setDoSample(false)
+      .setDoSample(true)
       .setMaxOutputLength(50)
       .setOutputCol("generation")
+      .setBeamSize(2)
     new Pipeline()
       .setStages(Array(documentAssembler, bart))
       .fit(testData)
