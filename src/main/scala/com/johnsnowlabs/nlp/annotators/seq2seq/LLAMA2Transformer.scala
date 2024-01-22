@@ -227,7 +227,7 @@ class LLAMA2Transformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
-    maxInputLength -> 512)
+    maxInputLength -> 4096)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
