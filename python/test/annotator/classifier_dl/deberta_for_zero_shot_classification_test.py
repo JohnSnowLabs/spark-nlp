@@ -21,7 +21,7 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class DeBertaForZeroShotClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
+class DeBertaForZeroShotClassificationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.text = "I have a problem with my iphone that needs to be resolved asap!!"
