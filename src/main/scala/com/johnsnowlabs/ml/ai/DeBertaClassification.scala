@@ -74,7 +74,7 @@ private[johnsnowlabs] class DeBertaClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 0)
 
     val sentenceTokenPieces = sentences.map { s =>
       val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
@@ -92,7 +92,7 @@ private[johnsnowlabs] class DeBertaClassification(
 
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 0)
 
     val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
 
@@ -155,12 +155,14 @@ private[johnsnowlabs] class DeBertaClassification(
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
+
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers
           .offset(offset)
           .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
         segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
+
 
     val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
