@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+header div[data-testid="stDecoration"] {
+    display: none;
+}
+
+
+
+/* sidebar */
+section[data-testid="stSidebar"] > div:first-child {
+    background: #ecf9ff;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] h1 {
+	font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    background: none;
+    color: #1E77B7;
+    margin-bottom: 10px;
+}
+
+section[data-testid="stSidebar"] button[title="View fullscreen"] {
+	right: 9px;
+	top: 5px;
+}
+
+section[data-testid="stSidebar"] button[kind="icon"] svg path,
+section[data-testid="stSidebar"] button[title="View fullscreen"] svg path {
+    fill: #3e4095;
+}
+
+section[data-testid="stSidebar"] button[title="View fullscreen"] svg {
+    position: relative;
+    top: -2px;
+}
+
+div.scroll {
+	background: transparent !important;
+}
+
+section[data-testid="stSidebar"] button[kind="icon"]:active {
+    background-color: #fff;
+}
+
+section[data-testid="stSidebar"] button[kind="icon"]:active,
+section[data-testid="stSidebar"] button[kind="icon"]:focus {
+    box-shadow: #3e4095 0px 0px 0px 0.2rem;
+    border-color: #3e4095;
+    color: #3e4095;
+}
+section[data-testid="stSidebar"] button[kind="icon"]:hover {
+    border-color: #3e4095;
+    color: #3e4095;
+}
+
+
+/* markdown container */
+div[data-testid="stMarkdownContainer"] {
+    font-family: Montserrat, sans-serif;
+}
+
+section[data-testid="stSidebar"] .element-container .stSelectbox label:empty {
+    display: none;
+}
+
+section[data-testid="stSidebar"] .element-container .stSlider div[data-testid="stTickBarMin"],
+section[data-testid="stSidebar"] .element-container .stSlider div[data-testid="stTickBarMax"],
+section[data-testid="stSidebar"] .element-container .stRadio label,
+section[data-testid="stSidebar"] .element-container .stRadio label div,
+section[data-testid="stSidebar"] .element-container .stMarkdown p,
+section[data-testid="stSidebar"] .element-container .stSlider label div,
+section[data-testid="stSidebar"] .element-container .stSlider label,
+section[data-testid="stSidebar"] .element-container .stCheckbox label div,
+section[data-testid="stSidebar"] .element-container .stCheckbox label {
+    color: rgb(49, 51, 63) !important;
+}
+
+section[data-testid="stSidebar"] .element-container .stSlider div[data-testid="stThumbValue"] {
+    color: rgb(255, 75, 75) !important;
+}
+
+section[data-testid="stSidebar"] .element-container label {
+    margin-top: 50px;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stTable"] {
+    padding: 0;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] p {
+    margin: 0;
+}
+
+section[data-testid="stSidebar"]{
+    color: grey;
+}
+
+div[data-testid="stMarkdownContainer"] h1 {
+    font-family: Montserrat, sans-serif;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 55px;
+    color: #1E77B7;
+}
+
+div[data-testid="stMarkdownContainer"] h2 {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    color: #1E77B7;
+}
+
+div[data-testid="stMarkdownContainer"] h3 {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1E77B7;
+}
+
+div[data-testid="stMarkdownContainer"] code {
+    font-family: Montserrat, sans-serif;
+}
+
+/* selectbox */
+div[data-baseweb="select"] > div {
+    box-shadow: 0px 4px 10px rgba(0, 152, 218, 0.3);
+    border-radius: 2px;
+    min-height: 40px;
+    background: #ffffff;
+    border: none;
+}
+
+div[data-baseweb="select"] .st-bb.st-bc.st-b4.st-cy.st-by.st-cz.st-d0 svg {
+    fill: #BAD0DA;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+}
+
+.stSelectbox > label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1E77B7;
+}
+
+div[data-baseweb="select"] > div > div > div {
+    font-family: Montserrat, sans-serif;
+    font-size: 14px !important;
+    line-height: 26px !important;
+    color: #536B76 !important;
+}
+
+div[role="listbox"] ul li {
+    color: rgb(128, 132, 149);
+}
+
+div[role="listbox"] ul li[aria-selected="true"],
+div[role="listbox"] ul li:hover {
+    color: #000;
+}
+
+/* multiselect */
+.stMultiSelect label {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500;
+    font-size: 18px !important;
+    line-height: 22px;
+    background: none;
+    color: #1E77B7 !important;
+    margin-bottom: 10px !important;
+}
+
+.stMarkdown>div {
+    margin: 0;
+}
+
+.stMultiSelect span[data-baseweb="tag"] {
+    font-family: Montserrat, sans-serif;
+    background: #3E4095;
+    color: #fff !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+}
+
+.stMultiSelect span[data-baseweb="tag"] span[role="presentation"] {
+    width: 21px;
+    height: 21px;
+    fill: #BAD0DA;
+}
+
+/* checkbox */
+label[data-baseweb="checkbox"] > span[role="checkbox"] {
+    border-color: #5334AE;
+    background-color: #5334AE;
+}
+
+label[data-baseweb="checkbox"] > div {
+}
+
+label[data-baseweb="checkbox"] label.st-ex {
+    background: red !important;
+}
+
+/* button */
+
+button[kind="primary"] {
+    box-shadow: 0px 4px 10px rgba(0, 152, 218, 0.3);
+    border-radius: 2px;
+    min-height: 40px;
+    background: #ffffff;
+    border: none;
+    color: grey;
+}
+
+button[kind="primary"]:hover {
+    color: grey;;
+}
+
+button[kind="primary"]:active {
+    background: #ffffff;
+}
+
+/* table */
+div[data-testid="stTable"] table {
+    width: 100%;
+    background: #ffffff;
+}
+
+div[data-testid="stTable"] th {
+    background: #3E4095;
+    vertical-align: middle;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 28px;
+    height: 30px;
+    padding: 10px;
+    text-align: left;
+    min-width: 103px;
+}
+
+div[data-testid="stTable"] tbody tr th,
+div[data-testid="stTable"] thead tr th:first-child {
+    display: none;
+}
+
+div[data-testid="stTable"] table tbody tr td {
+    font-family: Montserrat, sans-serif;
+    height: 50px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    color:#536B76;
+    border-bottom: 1px solid #E7EDF0;
+    text-align: left;
+}
+
+div[data-testid="stTable"] tr:nth-child(odd) {
+    box-shadow: inset 0px 0px 35px rgba(0, 152, 218, 0.05);
+}
+
+div[data-testid="stTable"] tr:nth-child(even) {
+    box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.05);
+}
+
+/* entities */
+.scroll.entities {
+    border: 1px solid #E7EDF0;
+    border-radius: 3px;
+    text-align: justify;
+}
+
+.scroll.entities span {    
+    font-size: 14px;
+    line-height: 24px;
+    color: #536B76;
+    font-family: Montserrat, sans-serif;
+}
+.entity-wrapper {
+    border-radius: 3px;
+    padding: 1px;
+    margin: 0 2px 5px 2px;
+}
+
+.scroll.entities span .entity-type {
+    font-weight: 500;
+    color: #ffffff;
+    display: block;
+    padding: 3px 5px;
+}
+
+.scroll.entities span .entity-name {
+	border-radius: 3px;
+	padding: 2px 5px;
+	display: block;
+	margin: 3px 2px;
+}
+
+@media (min-width: 1199px) {
+    section[data-testid="stSidebar"]>div {
+        width: 23rem;
+    }
+    .reportview-container .main .block-container {
+        padding-right: 3rem;
+        padding-left: 3rem;
+    }
+}
+
+@media (max-width: 1199px) {
+    .reportview-container .main .block-container {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 991px) {
+    div[data-testid="stMarkdownContainer"] h1 {
+        font-size: 32px;
+        line-height: 38px;
+    }
+    section[data-testid="stSidebar"] > div:first-child {
+        padding: 2rem 1rem;
+    }
+    div[data-testid="stMarkdownContainer"] h2 {
+        padding-top: 0;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    div[data-testid="stMarkdownContainer"] h1 {
+        font-size: 27px;
+        line-height: 33px;
+    }
+    .block-container .element-container .scroll.entities {
+        padding: 10px !important;
+    }
+}
+
+div.scroll {
+    background: transparent;
+}
