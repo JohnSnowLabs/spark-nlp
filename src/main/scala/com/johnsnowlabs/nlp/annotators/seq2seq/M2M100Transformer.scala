@@ -47,7 +47,7 @@ import org.json4s.jackson.JsonMethods._
   * multilingual translation. It was introduced in this paper and first released in this
   * repository.
   *
-  * The model that can directly translate between the 9,900 directions of 100 languages.
+  * The model can directly translate between the 9,900 directions of 100 languages.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -112,7 +112,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val m2m100 = M2M100Transformer.pretrained("m2m100-7b")
+  * val m2m100 = M2M100Transformer.pretrained("m2m100-480m")
   *   .setInputCols(Array("documents"))
   *   .setSrcLang("zh")
   *   .serTgtLang("en")
