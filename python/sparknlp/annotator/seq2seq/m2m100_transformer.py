@@ -20,8 +20,7 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """M2M100 : multilingual translation model
 
     M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
-    multilingual translation. It was introduced in this paper and first released in this
-    repository.
+    multilingual translation.
 
     The model can directly translate between the 9,900 directions of 100 languages.
 
