@@ -36,9 +36,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = M2M100Transformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/M2M100/onnx_models/facebook/m2m100_418M_wo/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("zh")
       .setTgtLang("en")
@@ -67,9 +65,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = M2M100Transformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/M2M100/onnx_models/facebook/m2m100_418M_wo/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("hi")
       .setTgtLang("fr")
@@ -98,9 +94,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = M2M100Transformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/M2M100/onnx_models/facebook/m2m100_418M_wo/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("si")
       .setTgtLang("en")
