@@ -83,6 +83,39 @@ private[johnsnowlabs] class M2M100(
     encodedIds
   }
 
+  /** Translates a batch of sentences from a source language to a target language
+    * @param batch
+    *   a batch of sentences to translate
+    * @param minOutputLength
+    *   minimum length of the output
+    * @param maxOutputLength
+    *   maximum length of the output
+    * @param doSample
+    *   whether to sample or not
+    * @param temperature
+    *   temperature for sampling
+    * @param topK
+    *   topK for sampling
+    * @param topP
+    *   topP for sampling
+    * @param repetitionPenalty
+    *   repetition penalty for sampling
+    * @param noRepeatNgramSize
+    *   no repeat ngram size for sampling
+    * @param randomSeed
+    *   random seed for sampling
+    * @param ignoreTokenIds
+    *   token ids to ignore
+    * @param beamSize
+    *   beam size for beam search
+    * @param maxInputLength
+    *   maximum length of the input
+    * @param srcLangToken
+    *   source language token
+    * @param tgtLangToken
+    *   target language token
+    * @return
+    */
   def tag(
       batch: Seq[Array[Int]],
       minOutputLength: Int,
@@ -129,17 +162,6 @@ private[johnsnowlabs] class M2M100(
       effectiveBatch_mult = 1
     }
 
-    // Run the prompt through the decoder and get the past
-    //    val decoderOutputs =
-    //      generateGreedyOnnx(
-    //        expandedEncoderInputsVals.toArray,
-    //        (encoderSession, env),
-    //        maxOutputLength)
-
-//    // dummy tensors for decoder encode state and attention mask
-//    val decoderEncoderStateTensors = Right(OnnxTensor.createTensor(env, Array(0)))
-//    val encoderAttentionMaskTensors = Right(OnnxTensor.createTensor(env, Array(1)))
-
     // run encoder
     val decoderEncoderStateTensors =
       getEncoderOutput(expandedEncoderInputsVals, Right((encoderEnv, encoderSession)))
@@ -173,10 +195,70 @@ private[johnsnowlabs] class M2M100(
       Right((decoderEnv, decoderSession)),
       applySoftmax = false)
 
+    // Run the prompt through the decoder and get the past
+//    val decoderOutputs =
+//      generateGreedyOnnx(
+//        decoderInputIds,
+//        decoderEncoderStateTensors,
+//        encoderAttentionMaskTensors,
+//        onnxSession = (decoderSession, decoderEnv))
+
+    // close sessions
+    decoderEncoderStateTensors.fold(
+      tfTensor => {
+        // not implemented yet
+      },
+      onnxTensor => onnxTensor.close())
+
+    encoderAttentionMaskTensors.fold(
+      tfTensor => {
+        // not implemented yet
+      },
+      onnxTensor => onnxTensor.close())
+
+    encoderSession.close()
+    decoderSession.close()
+    encoderEnv.close()
+    decoderEnv.close()
+
     //    decoderOutputs
     modelOutputs
   }
 
+  /** Translates a batch of sentences from a source language to a target language
+    * @param sentences
+    *   a batch of sentences to translate
+    * @param batchSize
+    *   batch size
+    * @param minOutputLength
+    *   minimum length of the output
+    * @param maxOutputLength
+    *   maximum length of the output
+    * @param doSample
+    *   whether to sample or not
+    * @param temperature
+    *   temperature for sampling
+    * @param topK
+    *   topK for sampling
+    * @param topP
+    *   topP for sampling
+    * @param repetitionPenalty
+    *   repetition penalty for sampling
+    * @param noRepeatNgramSize
+    *   no repeat ngram size for sampling
+    * @param randomSeed
+    *   random seed for sampling
+    * @param ignoreTokenIds
+    *   token ids to ignore
+    * @param beamSize
+    *   beam size for beam search
+    * @param maxInputLength
+    *   maximum length of the input
+    * @param srcLangToken
+    *   source language token
+    * @param tgtLangToken
+    * @return
+    */
   def predict(
       sentences: Seq[Annotation],
       batchSize: Int,
@@ -232,6 +314,14 @@ private[johnsnowlabs] class M2M100(
     annotations
   }
 
+  /** Generates a sequence of tokens using beam search
+    * @param encoderInputIds
+    *   Input IDs for the Encoder
+    * @param session
+    *   Tensorflow/ONNX Session
+    * @return
+    *   Last hidden state of the encoder
+    */
   private def getEncoderOutput(
       encoderInputIds: Seq[Array[Int]],
       session: Either[Session, (OrtEnvironment, OrtSession)]): Either[Tensor, OnnxTensor] = {
@@ -283,6 +373,22 @@ private[johnsnowlabs] class M2M100(
       })
   }
 
+  /** Gets the model output
+    * @param encoderInputIds
+    *   Input IDs for the Encoder
+    * @param decoderInputIds
+    *   Input IDs for the Decoder
+    * @param decoderEncoderStateTensors
+    *   Tensor of encoded input for the decoder
+    * @param encoderAttentionMaskTensors
+    *   Tensor for encoder attention mask
+    * @param maxLength
+    *   Max length of the input
+    * @param session
+    *   Tensorflow/ONNX Session
+    * @return
+    *   Logits for the input
+    */
   override def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
@@ -308,6 +414,19 @@ private[johnsnowlabs] class M2M100(
       })
 
   }
+
+  /** Gets the decoder outputs
+    * @param inputIds
+    *   input ids
+    * @param decoderEncoderStateTensors
+    *   decoder encoder state tensors
+    * @param encoderAttentionMaskTensors
+    *   encoder attention mask tensors
+    * @param onnxSession
+    *   onnx session
+    * @return
+    *   decoder outputs
+    */
   private def getDecoderOutputs(
       inputIds: Array[Array[Int]],
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
@@ -344,13 +463,6 @@ private[johnsnowlabs] class M2M100(
     val sequenceLength = inputIds.head.length
     val batchSize = inputIds.length
 
-    //    val logits = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
-    //    inputIdsLongTensor.close()
-    //    decoderPositionIDs.close()
-    //    decoderAttentionMask.close()
-    //    val batchLogits = logits.grouped(vocabSize).toArray
-    //    batchLogits
-
     val logitsRaw = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
     val decoderOutputs = (0 until batchSize).map(i => {
       logitsRaw
@@ -378,30 +490,41 @@ private[johnsnowlabs] class M2M100(
       maxOutputLength: Int): Boolean =
     decoderIds.map(_.last).forall(_ == eosTokenId) || decoderIds.head.length == maxOutputLength
 
-//  private def generateGreedyOnnx(
-//      inputIds: Array[Array[Int]],
-//      onnxSession: (OrtSession, OrtEnvironment),
-//      maxOutputLength: Int): (Array[Array[Int]]) = {
-//
-//    val sequencesLength = inputIds.map(x => x.length).toArray
-//    val maxSentenceLength = sequencesLength.max // - curLen
-//    var generatedIds: Array[Array[Int]] = inputIds
-//    while (!greedyGenerationFinished(
-//        generatedIds,
-//        eosTokenId,
-//        maxOutputLength + maxSentenceLength)) {
-//
-//      val (batchLogits: Array[Array[Float]]) =
-//        Array(getDecoderOutputs(generatedIds, onnxSession).last)
-//
-//      val nextTokenIds: Array[Int] = batchLogits.map(argmax)
-//      generatedIds =
-//        generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
-//          currentIds ++ Array(nextId)
-//        }
-//    }
-//    generatedIds
-//  }
+  private def generateGreedyOnnx(
+      decoderInputIds: Array[Array[Int]],
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
+      session: Either[Session, (OrtEnvironment, OrtSession)]): (Array[Array[Int]]) = {
+
+    val sequencesLength = decoderInputIds.map(x => x.length).toArray
+    val maxSentenceLength = sequencesLength.max // - curLen
+    var generatedIds: Array[Array[Int]] = Array()
+
+    while (!greedyGenerationFinished(generatedIds, eosTokenId, maxSentenceLength)) {
+
+      session.fold(
+        tfSession => {
+          // not implemented yet
+          Array()
+        },
+        onnxSession => {
+          val (env, decoderSession) = onnxSession
+          val decoderOutputs =
+            getDecoderOutputs(
+              decoderInputIds.toArray,
+              decoderEncoderStateTensors,
+              encoderAttentionMaskTensors,
+              onnxSession = (decoderSession, env))
+
+          val nextTokenIds: Array[Int] = decoderOutputs.map(argmax)
+          generatedIds =
+            generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
+              currentIds ++ Array(nextId)
+            }
+        })
+    }
+    generatedIds
+  }
 
   private object OnnxSignatures {
     val encoderInputIDs: String = "input_ids"
@@ -413,13 +536,7 @@ private[johnsnowlabs] class M2M100(
     val decoderEncoderAttentionMask: String = "encoder_attention_mask"
     val decoderEncoderState: String = "encoder_hidden_states"
 
-    // create decoder past for 32 layers of key and value eg. past_key_values.0.key and past_key_values.0.value
-    val decoderPast: Array[String] = (0 until 32)
-      .flatMap(i => Seq(s"past_key_values.$i.key", s"past_key_values.$i.value"))
-      .toArray
     val decoderOutput: String = "logits"
-    val decoderPresent: Array[String] =
-      (0 until 32).flatMap(i => Seq(s"present.$i.key", s"present.$i.value")).toArray
   }
 
 }

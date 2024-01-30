@@ -33,29 +33,21 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
-import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
-import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
-/** Llama 2: Open Foundation and Fine-Tuned Chat Models
+/** M2M100 : multilingual translation model
   *
-  * The Llama 2 release introduces a family of pretrained and fine-tuned LLMs, ranging in scale
-  * from 7B to 70B parameters (7B, 13B, 70B). The pretrained models come with significant
-  * improvements over the Llama 1 models, including being trained on 40% more tokens, having a
-  * much longer context length (4k tokens 🤯), and using grouped-query attention for fast
-  * inference of the 70B model🔥!
+  * M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
+  * multilingual translation. It was introduced in this paper and first released in this
+  * repository.
   *
-  * However, the most exciting part of this release is the fine-tuned models (Llama 2-Chat), which
-  * have been optimized for dialogue applications using Reinforcement Learning from Human Feedback
-  * (RLHF). Across a wide range of helpfulness and safety benchmarks, the Llama 2-Chat models
-  * perform better than most open models and achieve comparable performance to ChatGPT according
-  * to human evaluations.
+  * The model that can directly translate between the 9,900 directions of 100 languages.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -63,31 +55,51 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"m2m100-7b"`, if no name is provided. For available pretrained models
+  * The default model is `"m2m100-480m"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=m2m100 Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/M2M100TestSpec.scala M2M100TestSpec]].
   *
   * '''References:'''
-  *   - [[https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/ Llama 2: Open Foundation and Fine-Tuned Chat Models]]
-  *   - [[https://github.com/facebookresearch/llama]]
+  *   - [[https://arxiv.org/pdf/2010.11125.pdf Beyond English-Centric Multilingual Machine Translation]]
+  *   - [[https://github.com/pytorch/fairseq/tree/master/examples/m2m_100]]
   *
   * '''Paper Abstract:'''
   *
-  * ''In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
-  * large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
-  * fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
-  * outperform open-source chat models on most benchmarks we tested, and based on our human
-  * evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
-  * We provide a detailed description of our approach to fine-tuning and safety improvements of
-  * Llama 2-Chat in order to enable the community to build on our work and contribute to the
-  * responsible development of LLMs.''
+  * ''Existing work in translation demonstrated the potential of massively multilingual machine
+  * translation by training a single model able to translate between any pair of languages.
+  * However, much of this work is English-Centric by training only on data which was translated
+  * from or to English. While this is supported by large sources of training data, it does not
+  * reflect translation needs worldwide. In this work, we create a true Many-to-Many multilingual
+  * translation model that can translate directly between any pair of 100 languages. We build and
+  * open source a training dataset that covers thousands of language directions with supervised
+  * data, created through large-scale mining. Then, we explore how to effectively increase model
+  * capacity through a combination of dense scaling and language-specific sparse parameters to
+  * create high quality models. Our focus on non-English-Centric models brings gains of more than
+  * 10 BLEU when directly translating between non-English directions while performing
+  * competitively to the best single systems of WMT. We open-source our scripts so that others may
+  * reproduce the data, evaluation, and final M2M-100 model.''
   *
-  * '''Note:'''
+  * '''Languages Covered:'''
   *
-  * This is a very computationally expensive module especially on larger sequence. The use of an
-  * accelerator such as GPU is recommended.
+  * Afrikaans (af), Amharic (am), Arabic (ar), Asturian (ast), Azerbaijani (az), Bashkir (ba),
+  * Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian
+  * (ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English
+  * (en), Spanish (es), Estonian (et), Persian (fa), Fulah (ff), Finnish (fi), French (fr),
+  * Western Frisian (fy), Irish (ga), Gaelic; Scottish Gaelic (gd), Galician (gl), Gujarati (gu),
+  * Hausa (ha), Hebrew (he), Hindi (hi), Croatian (hr), Haitian; Haitian Creole (ht), Hungarian
+  * (hu), Armenian (hy), Indonesian (id), Igbo (ig), Iloko (ilo), Icelandic (is), Italian (it),
+  * Japanese (ja), Javanese (jv), Georgian (ka), Kazakh (kk), Central Khmer (km), Kannada (kn),
+  * Korean (ko), Luxembourgish; Letzeburgesch (lb), Ganda (lg), Lingala (ln), Lao (lo), Lithuanian
+  * (lt), Latvian (lv), Malagasy (mg), Macedonian (mk), Malayalam (ml), Mongolian (mn), Marathi
+  * (mr), Malay (ms), Burmese (my), Nepali (ne), Dutch; Flemish (nl), Norwegian (no), Northern
+  * Sotho (ns), Occitan (post 1500) (oc), Oriya (or), Panjabi; Punjabi (pa), Polish (pl), Pushto;
+  * Pashto (ps), Portuguese (pt), Romanian; Moldavian; Moldovan (ro), Russian (ru), Sindhi (sd),
+  * Sinhala; Sinhalese (si), Slovak (sk), Slovenian (sl), Somali (so), Albanian (sq), Serbian
+  * (sr), Swati (ss), Sundanese (su), Swedish (sv), Swahili (sw), Tamil (ta), Thai (th), Tagalog
+  * (tl), Tswana (tn), Turkish (tr), Ukrainian (uk), Urdu (ur), Uzbek (uz), Vietnamese (vi), Wolof
+  * (wo), Xhosa (xh), Yiddish (yi), Yoruba (yo), Chinese (zh), Zulu (zu)
   *
   * ==Example==
   * {{{
@@ -102,26 +114,25 @@ import org.json4s.jackson.JsonMethods._
   *
   * val m2m100 = M2M100Transformer.pretrained("m2m100-7b")
   *   .setInputCols(Array("documents"))
-  *   .setMinOutputLength(10)
-  *   .setMaxOutputLength(50)
+  *   .setSrcLang("zh")
+  *   .serTgtLang("en")
+  *   .setMaxOutputLength(100)
   *   .setDoSample(false)
-  *   .setTopK(50)
-  *   .setNoRepeatNgramSize(3)
   *   .setOutputCol("generation")
   *
   * val pipeline = new Pipeline().setStages(Array(documentAssembler, m2m100))
   *
   * val data = Seq(
-  *   "My name is Leonardo."
+  *   "生活就像一盒巧克力。"
   * ).toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
   * results.select("generation.result").show(truncate = false)
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |result                                                                                                                                                                                              |
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[ My name is Leonardo. I am a man of letters. I have been a man for many years. I was born in the year 1776. I came to the United States in 1776, and I have lived in the United Kingdom since 1776]|
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * +-------------------------------------------------------------------------------------------+
+  * |result                                                                                     |
+  * +-------------------------------------------------------------------------------------------+
+  * |[ Life is like a box of chocolate.]                                                        |
+  * +-------------------------------------------------------------------------------------------+
   * }}}
   *
   * @param uid
@@ -371,8 +382,8 @@ class M2M100Transformer(override val uid: String)
   def getModelIfNotSet: M2M100 = _model.get.value
 
   setDefault(
-    minOutputLength -> 0,
-    maxOutputLength -> 20,
+    minOutputLength -> 10,
+    maxOutputLength -> 200,
     doSample -> false,
     temperature -> 1.0,
     topK -> 50,
@@ -382,7 +393,7 @@ class M2M100Transformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
-    maxInputLength -> 4096,
+    maxInputLength -> 1024,
     srcLang -> "en",
     tgtLang -> "fr")
 
@@ -456,7 +467,7 @@ class M2M100Transformer(override val uid: String)
 trait ReadablePretrainedM2M100TransformerModel
     extends ParamsAndFeaturesReadable[M2M100Transformer]
     with HasPretrained[M2M100Transformer] {
-  override val defaultModelName: Some[String] = Some("m2m100")
+  override val defaultModelName: Some[String] = Some("m2m100-480m")
 
   /** Java compliant-overrides */
   override def pretrained(): M2M100Transformer = super.pretrained()
