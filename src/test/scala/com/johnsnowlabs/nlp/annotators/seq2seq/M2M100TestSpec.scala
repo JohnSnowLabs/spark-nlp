@@ -55,7 +55,7 @@ class M2M100TestSpec extends AnyFlatSpec {
 
   }
 
-  "m2m100" should "should translate hindi to french" taggedAs FastTest in {
+  "m2m100" should "should translate hindi to french" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -73,6 +73,37 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setInputCols(Array("documents"))
       .setSrcLang("hi")
       .setTgtLang("fr")
+      .setDoSample(false)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(1)
+
+    new Pipeline()
+      .setStages(Array(documentAssembler, bart))
+      .fit(testData)
+      .transform(testData)
+      .show(truncate = false)
+
+  }
+
+  "m2m100" should "should translate Sinhala to English" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "ජීවිතය චොකලට් බෝතලයක් වගේ.")))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = M2M100Transformer
+      .loadSavedModel(
+        "/home/prabod/Projects/ModelZoo/M2M100/onnx_models/facebook/m2m100_418M_wo/",
+        ResourceHelper.spark)
+      .setInputCols(Array("documents"))
+      .setSrcLang("si")
+      .setTgtLang("en")
       .setDoSample(false)
       .setMaxOutputLength(50)
       .setOutputCol("generation")
