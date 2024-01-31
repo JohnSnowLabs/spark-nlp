@@ -126,14 +126,22 @@ object OnnxWrapper {
       else Paths.get(folder, new File(folder).list().head).toString
 
     var onnxDataFile: File = null
+
     // see if the onnx model has a .onnx_data file
-    val onnxDataFileExist: Boolean = if (useBundle) {
-      onnxDataFile = Paths.get(modelPath, s"$modelName.onnx_data").toFile
-      onnxDataFile.exists()
-    } else {
-      onnxDataFile = Paths.get(folder, new File(folder).list().head + "_data").toFile
+    // get parent directory of onnx file if modelPath is a file
+    val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
+
+    val onnxDataFileExist: Boolean = {
+      onnxDataFile = Paths.get(parentDir, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
       onnxDataFile.exists()
     }
+
+    if (onnxDataFileExist) {
+      val onnxDataFileTmp =
+        Paths.get(tmpFolder, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
+      FileUtils.copyFile(onnxDataFile, onnxDataFileTmp)
+    }
+
     val modelFile = new File(onnxFile)
     val modelBytes = FileUtils.readFileToByteArray(modelFile)
     var session: OrtSession = null

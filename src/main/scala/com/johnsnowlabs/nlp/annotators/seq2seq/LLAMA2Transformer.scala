@@ -148,6 +148,7 @@ class LLAMA2Transformer(override val uid: String)
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
     with HasGeneratorProperties
+    with WriteSentencePieceModel
     with HasEngine {
 
   def this() = this(Identifiable.randomUID("LLAMA2TRANSFORMER"))
@@ -278,6 +279,13 @@ class LLAMA2Transformer(override val uid: String)
           spark,
           Seq((wrappers.decoder, "decoder_model.onnx")),
           LLAMA2Transformer.suffix)
+        val obj = getModelIfNotSet
+        writeSentencePieceModel(
+          path,
+          spark,
+          obj.spp,
+          LLAMA2Transformer.suffix,
+          LLAMA2Transformer.sppFile)
     }
   }
 }
@@ -309,9 +317,10 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
   def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case ONNX.name =>
-        val wrappers = readOnnxModels(path, spark, Seq("decoder_model"), suffix)
+        val wrappers =
+          readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
         val onnxWrappers =
-          DecoderWrappers(decoder = wrappers("decoder_model"))
+          DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
         instance.setModelIfNotSet(spark, onnxWrappers, spp)
       case _ =>

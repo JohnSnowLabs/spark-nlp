@@ -134,8 +134,18 @@ trait ReadOnnxModel {
 
       val localPath = new Path(tmpFolder, localModelFile).toString
 
-      // 3. Read ONNX state
-      val onnxWrapper = OnnxWrapper.read(localPath, zipped = zipped, useBundle = useBundle)
+      val fsPath = new Path(path, localModelFile).toString
+
+      // 3. Copy onnx_data file if exists
+      val onnxDataFile = Paths.get(fsPath + "_data").toFile
+
+      if (onnxDataFile.exists()) {
+        fs.copyToLocalFile(new Path(path, localModelFile + "_data"), new Path(tmpFolder))
+      }
+
+      // 4. Read ONNX state
+      val onnxWrapper =
+        OnnxWrapper.read(localPath, zipped = zipped, useBundle = useBundle, modelName = modelName)
 
       (modelName, onnxWrapper)
     }).toMap
