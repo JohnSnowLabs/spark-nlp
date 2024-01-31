@@ -446,12 +446,12 @@ class M2M100Transformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.encoder, "encoder_model.onnx")),
+          Seq((wrappers.encoder, "encoder_model")),
           M2M100Transformer.suffix)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.decoder, "decoder_model.onnx")),
+          Seq((wrappers.decoder, "decoder_model")),
           M2M100Transformer.suffix)
         writeSentencePieceModel(
           path,
