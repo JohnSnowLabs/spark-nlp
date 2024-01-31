@@ -122,9 +122,7 @@ private[johnsnowlabs] class ViTClassifier(
               .map(_._1)
               .getOrElse(
                 tags
-                  .find(
-                    _._2 == score.zipWithIndex.maxBy(_._1)._2.toString
-                  ) // TODO: We shouldn't compare unrelated types: BigInt and String
+                  .find(_._2.asInstanceOf[String] == score.zipWithIndex.maxBy(_._1)._2.toString)
                   .map(_._1)
                   .getOrElse("NA"))
           val meta = score.zipWithIndex.flatMap(x =>

@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -91,6 +92,8 @@ private[johnsnowlabs] class Albert(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[pad]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
+  protected val logger: Logger = LoggerFactory.getLogger("Albert")
+
   private def sessionWarmup(): Unit = {
     val dummyInput =
       Array(101, 2292, 1005, 1055, 4010, 6279, 1996, 5219, 2005, 1996, 2034, 28937, 1012, 102)
@@ -143,6 +146,12 @@ private[johnsnowlabs] class Albert(
 
             embeddings
           } finally if (results != null) results.close()
+        } catch {
+          case e: Exception =>
+            // Log the exception as a warning
+            logger.warn("Exception: ", e)
+            // Rethrow the exception to propagate it further
+            throw e
         }
       case _ =>
         val tensors = new TensorResources()

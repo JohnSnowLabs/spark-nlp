@@ -26,6 +26,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer
 import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -50,6 +51,8 @@ private[johnsnowlabs] class DeBertaClassification(
     threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
+
+  protected val logger: Logger = LoggerFactory.getLogger("DeBertaClassification")
 
   val _tfDeBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
@@ -211,6 +214,12 @@ private[johnsnowlabs] class DeBertaClassification(
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 
@@ -351,6 +360,12 @@ private[johnsnowlabs] class DeBertaClassification(
 
         (startLogits, endLogits)
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

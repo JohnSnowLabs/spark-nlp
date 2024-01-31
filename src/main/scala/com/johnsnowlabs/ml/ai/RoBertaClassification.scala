@@ -26,6 +26,7 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -57,6 +58,7 @@ private[johnsnowlabs] class RoBertaClassification(
     extends Serializable
     with XXXForClassification {
 
+  protected val logger: Logger = LoggerFactory.getLogger("RoBertaClassification")
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
@@ -236,6 +238,12 @@ private[johnsnowlabs] class RoBertaClassification(
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 
@@ -442,6 +450,12 @@ private[johnsnowlabs] class RoBertaClassification(
 
         (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

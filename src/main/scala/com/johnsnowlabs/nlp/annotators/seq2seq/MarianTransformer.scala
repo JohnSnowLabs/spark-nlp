@@ -475,12 +475,7 @@ class MarianTransformer(override val uid: String)
   /** @group setParam * */
   def getModelIfNotSet: MarianEncoderDecoder = _model.get.value
 
-  def getVocabulary: Array[String] = {
-    if ($(vocabulary).isInstanceOf[java.util.ArrayList[String]]) {
-      val arrayListValue = $(vocabulary).asInstanceOf[java.util.ArrayList[String]]
-      arrayListValue.asScala.toArray
-    } else $(vocabulary)
-  }
+  def getVocabulary: Array[String] = $(vocabulary)
 
   setDefault(
     maxInputLength -> 40,

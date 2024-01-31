@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -77,6 +78,7 @@ private[johnsnowlabs] class DistilBert(
     modelArch: String = ModelArch.wordEmbeddings)
     extends Serializable {
 
+  protected val logger: Logger = LoggerFactory.getLogger("DistilBert")
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
@@ -131,6 +133,12 @@ private[johnsnowlabs] class DistilBert(
 
             embeddings
           } finally if (results != null) results.close()
+        } catch {
+          case e: Exception =>
+            // Log the exception as a warning
+            logger.warn("Exception: ", e)
+            // Rethrow the exception to propagate it further
+            throw e
         }
       case _ =>
         val tensors = new TensorResources()
