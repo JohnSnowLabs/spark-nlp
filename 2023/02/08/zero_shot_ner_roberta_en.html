@@ -444,7 +444,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
     
-<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clincial/models"</span><span class="p">)</span>\
+<span class="n">zero_shot_ner</span> <span class="o">=</span> <span class="n">ZeroShotNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"zero_shot_ner"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setEntityDefinitions</span><span class="p">(</span>
@@ -481,7 +481,7 @@
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
     
-<span class="k">val</span> <span class="nv">zero_shot_ner</span> <span class="k">=</span> <span class="nv">ZeroShotNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clincial/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">zero_shot_ner</span> <span class="k">=</span> <span class="nv">ZeroShotNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"zero_shot_ner_roberta"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"zero_shot_ner"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setEntityDefinitions</span><span class="o">(</span><span class="nc">Map</span><span class="o">(</span>
