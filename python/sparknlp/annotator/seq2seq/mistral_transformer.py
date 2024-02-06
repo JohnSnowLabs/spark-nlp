@@ -91,9 +91,9 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     References
     ----------
-    - `Llama 2: Open Foundation and Fine-Tuned Chat Models
-      <https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/>`__
-    - https://github.com/facebookresearch/llama
+    - `Mistral 7B
+      <https://mistral.ai/news/announcing-mistral-7b/>`__
+    - https://github.com/mistralai/mistral-src
 
     **Paper Abstract:**
 
