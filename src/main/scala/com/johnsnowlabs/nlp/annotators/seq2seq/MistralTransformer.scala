@@ -224,11 +224,11 @@ class MistralTransformer(override val uid: String)
 
   setDefault(
     minOutputLength -> 0,
-    maxOutputLength -> 20,
+    maxOutputLength -> 200,
     doSample -> false,
-    temperature -> 0.6,
+    temperature -> 1,
     topK -> 50,
-    topP -> 0.9,
+    topP -> 1,
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
