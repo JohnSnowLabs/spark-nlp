@@ -682,6 +682,7 @@ object PythonResourceDownloader {
     "E5Embeddings" -> E5Embeddings,
     "MPNetEmbeddings" -> MPNetEmbeddings,
     "CLIPForZeroShotClassification" -> CLIPForZeroShotClassification,
+    "DeBertaForZeroShotClassification" -> DeBertaForZeroShotClassification,
     "BGEEmbeddings" -> BGEEmbeddings,
     "MPNetForSequenceClassification" -> MPNetForSequenceClassification,
     "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering)

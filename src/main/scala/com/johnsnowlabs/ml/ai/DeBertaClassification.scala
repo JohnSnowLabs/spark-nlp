@@ -23,6 +23,7 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer
 import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
@@ -72,7 +73,8 @@ private[johnsnowlabs] class DeBertaClassification(
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
 
     val sentenceTokenPieces = sentences.map { s =>
       val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
@@ -86,7 +88,20 @@ private[johnsnowlabs] class DeBertaClassification(
   def tokenizeSeqString(
       candidateLabels: Seq[String],
       maxSeqLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
+
+    labelsToSentences.map(label => {
+      val tokens = basicTokenizer.tokenize(label)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    })
+  }
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -242,7 +257,75 @@ private[johnsnowlabs] class DeBertaClassification(
       batch: Seq[Array[Int]],
       entailmentId: Int,
       contradictionId: Int,
-      activation: String): Array[Array[Float]] = ???
+      activation: String): Array[Array[Float]] = {
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        val sentenceEndTokenIndex = sentence.indexOf(sentenceEndTokenId)
+        segmentBuffers
+          .offset(offset)
+          .write(
+            sentence.indices
+              .map(i =>
+                if (i < sentenceEndTokenIndex) 0
+                else if (i == sentenceEndTokenIndex) 1
+                else 1)
+              .toArray)
+      }
+
+    val session = tensorflowWrapper.get.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
+
+    runner
+      .feed(
+        _tfDeBertaSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfDeBertaSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .feed(
+        _tfDeBertaSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfDeBertaSignatures
+        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+
+    val outs = runner.run().asScala
+    val rawScores = TensorResources.extractFloats(outs.head)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length

@@ -590,6 +590,13 @@ class _CLIPForZeroShotClassification(ExtendedJavaWrapper):
             jspark)
 
 
+class _DeBertaForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DeBertaForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification.loadSavedModel", path,
+            jspark)
+        
+        
 class _MPNetForSequenceClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MPNetForSequenceClassificationLoader, self).__init__(
