@@ -22,7 +22,6 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
@@ -30,34 +29,29 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 import scala.collection.JavaConverters._
 
 /** @param tensorflowWrapper
-  *   Bert Model wrapper with TensorFlow Wrapper
+  *   TensorFlow Wrapper
   * @param sentenceStartTokenId
   *   Id of sentence start Token
   * @param sentenceEndTokenId
   *   Id of sentence end Token.
-  * @param configProtoBytes
-  *   Configuration for TensorFlow session
   * @param tags
   *   labels which model was trained with in order
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-private[johnsnowlabs] class RoBertaClassification(
+private[johnsnowlabs] class MPNetClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,
-    val sentencePadTokenId: Int,
-    configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
-    merges: Map[(String, String), Int],
     vocabulary: Map[String, Int],
     threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
-  val _tfRoBertaSignatures: Map[String, String] =
+  val _tfMPNetSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
@@ -65,15 +59,17 @@ private[johnsnowlabs] class RoBertaClassification(
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
+  protected val sentencePadTokenId = 1
   protected val sigmoidThreshold: Float = threshold
+  val unkToken = "<unk>"
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val bpeTokenizer =
-      BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder = new WordpieceEncoder(vocabulary)
 
     sentences.map { tokenIndex =>
       // filter empty and only whitespace tokens
@@ -84,12 +80,11 @@ private[johnsnowlabs] class RoBertaClassification(
             val sentenceBegin = token.begin
             val sentenceEnd = token.end
             val sentenceIndex = tokenIndex.sentenceIndex
-            val result =
-              bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
+            val result = basicTokenizer.tokenize(
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
             if (result.nonEmpty) result.head else IndexedToken("")
         }
-      val wordpieceTokens =
-        bertTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSeqLength)
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -100,7 +95,7 @@ private[johnsnowlabs] class RoBertaClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val basicTokenizer = new BasicTokenizer(caseSensitive)
-    val encoder = new WordpieceEncoder(vocabulary, unkToken = "<unk>")
+    val encoder = new WordpieceEncoder(vocabulary)
 
     val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
 
@@ -110,30 +105,40 @@ private[johnsnowlabs] class RoBertaClassification(
       WordpieceTokenizedSentence(wordpieceTokens)
     })
   }
+
   def tokenizeDocument(
       docs: Seq[Annotation],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+
     // we need the original form of the token
     // let's lowercase if needed right before the encoding
-    val bpeTokenizer =
-      BpeTokenizer.forModel("roberta", merges, vocabulary, alwaysAddPrefix = false)
+    val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
+    val encoder = new WordpieceEncoder(vocabulary, unkToken = unkToken)
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
     sentences.map { sentence =>
-      val content = if (caseSensitive) sentence.content else sentence.content.toLowerCase()
-      val sentenceBegin = sentence.start
-      val sentenceEnd = sentence.end
-      val sentenceIndex = sentence.index
+      val tokens = basicTokenizer.tokenize(sentence)
 
-      val indexedTokens =
-        bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
+      val wordpieceTokens = if (caseSensitive) {
+        tokens.flatMap(token => encoder.encode(token))
+      } else {
+        // now we can lowercase the tokens since we have the original form already
+        val normalizedTokens =
+          tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
+        val normalizedWordPiece = normalizedTokens.flatMap(token => encoder.encode(token))
 
-      val wordpieceTokens = bpeTokenizer.encode(indexedTokens).take(maxSeqLength)
+        normalizedWordPiece.map { t =>
+          val orgToken = tokens
+            .find(org => t.begin == org.begin && t.isWordStart)
+            .map(x => x.token)
+            .getOrElse(t.token)
+          TokenPiece(t.wordpiece, orgToken, t.pieceId, t.isWordStart, t.begin, t.end)
+        }
+      }
 
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -141,8 +146,8 @@ private[johnsnowlabs] class RoBertaClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRawScoresWithOnnx(batch)
-      case _ => getRawScoresWithTF(batch, maxSentenceLength)
+      case ONNX.name => getRowScoresWithOnnx(batch)
+      case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
@@ -156,60 +161,8 @@ private[johnsnowlabs] class RoBertaClassification(
     batchScores
   }
 
-  private def getRawScoresWithTF(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Float] = {
-    val tensors = new TensorResources()
+  private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
-    val batchLength = batch.length
-
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-
-    // [nb of encoded sentences , maxSentenceLength]
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers
-          .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-      }
-
-    val session = tensorflowWrapper.get.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      savedSignatures = signatures,
-      initAllTables = false)
-    val runner = session.runner
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-
-    runner
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
-        maskTensors)
-      .fetch(_tfRoBertaSignatures
-        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
-
-    val outs = runner.run().asScala
-    val rawScores = TensorResources.extractFloats(outs.head)
-
-    outs.foreach(_.close())
-    tensors.clearSession(outs)
-    tensors.clearTensors()
-
-    rawScores
-  }
-
-  private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
-
-    // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
@@ -241,11 +194,10 @@ private[johnsnowlabs] class RoBertaClassification(
 
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
     val batchLength = batch.length
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRawScoresWithOnnx(batch)
-      case _ => getRawScoresWithTF(batch, maxSentenceLength)
+      case ONNX.name => getRowScoresWithOnnx(batch)
+      case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
     val dim = rawScores.length / batchLength
@@ -298,7 +250,7 @@ private[johnsnowlabs] class RoBertaClassification(
       }
 
     val session = tensorflowWrapper.get.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
+      configProtoBytes = None,
       savedSignatures = signatures,
       initAllTables = false)
     val runner = session.runner
@@ -308,15 +260,15 @@ private[johnsnowlabs] class RoBertaClassification(
 
     runner
       .feed(
-        _tfRoBertaSignatures.getOrElse(
+        _tfMPNetSignatures.getOrElse(
           ModelSignatureConstants.InputIds.key,
           "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfRoBertaSignatures
+        _tfMPNetSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfRoBertaSignatures
+      .fetch(_tfMPNetSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -332,12 +284,18 @@ private[johnsnowlabs] class RoBertaClassification(
       .toArray
   }
 
+  /** Computes probabilities for the start and end indexes for question answering.
+    *
+    * @param batch
+    *   Batch of questions with context, encoded with [[encodeSequence]].
+    * @return
+    *   Raw logits containing scores for the start and end indexes
+    */
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch)
-      case _ => computeLogitsWithTF(batch, maxSentenceLength)
+      case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
     val endDim = endLogits.length / batchLength
@@ -351,67 +309,11 @@ private[johnsnowlabs] class RoBertaClassification(
     (startScores, endScores)
   }
 
-  private def computeLogitsWithTF(
-      batch: Seq[Array[Int]],
-      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
-    val batchLength = batch.length
-    val tensors = new TensorResources()
-
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-
-    // [nb of encoded sentences , maxSentenceLength]
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers
-          .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-      }
-
-    val session = tensorflowWrapper.get.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      savedSignatures = signatures,
-      initAllTables = false)
-    val runner = session.runner
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-
-    runner
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
-        maskTensors)
-      .fetch(_tfRoBertaSignatures
-        .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
-      .fetch(_tfRoBertaSignatures
-        .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
-
-    val outs = runner.run().asScala
-    val endLogits = TensorResources.extractFloats(outs.head)
-    val startLogits = TensorResources.extractFloats(outs.last)
-
-    outs.foreach(_.close())
-    tensors.clearSession(outs)
-    tensors.clearTensors()
-
-    (startLogits, endLogits)
-  }
-
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
-    // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
     val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+      OnnxTensor.createTensor(env, batch.map(x => x.map(_.toLong)).toArray)
     val maskTensors =
       OnnxTensor.createTensor(env, batch.map(sentence => Array.fill(sentence.length)(1L)).toArray)
 
@@ -450,9 +352,9 @@ private[johnsnowlabs] class RoBertaClassification(
     tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin)
   }
 
-  /** Encodes two sequences to be compatible with the RoBerta models.
+  /** Encodes two sequences to be compatible with the MPNet models.
     *
-    * Unlike other models, ReBerta requires two eos tokens to join two sequences.
+    * Similarly to RoBerta models, MPNet requires two eos tokens to join two sequences.
     *
     * For example, the pair of sequences A, B should be joined to: `<s> A </s></s> B </s>`
     */
