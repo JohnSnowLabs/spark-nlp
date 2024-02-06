@@ -17,14 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.BertClassification
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -50,7 +50,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"bert_base_cased_zero_shot_classifier_xnli"`, if no name is provided.
+  * The default model is `"bert_zero_shot_classifier_mnli"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
@@ -124,6 +124,7 @@ class BertForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[BertForZeroShotClassification]
     with HasBatchedAnnotate[BertForZeroShotClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine
@@ -338,13 +339,25 @@ class BertForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_bert_classification",
-      BertForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_bert_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          BertForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          BertForZeroShotClassification.onnxFile)
+    }
   }
 
 }
@@ -352,7 +365,8 @@ class BertForZeroShotClassification(override val uid: String)
 trait ReadablePretrainedBertForZeroShotModel
     extends ParamsAndFeaturesReadable[BertForZeroShotClassification]
     with HasPretrained[BertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_cased_zero_shot_classifier_xnli")
+  override val defaultModelName: Some[String] = Some("bert_zero_shot_classifier_mnli")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): BertForZeroShotClassification = super.pretrained()
@@ -368,19 +382,29 @@ trait ReadablePretrainedBertForZeroShotModel
       remoteLoc: String): BertForZeroShotClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForZeroShotDLModel extends ReadTensorflowModel {
+trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[BertForZeroShotClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
+  override val onnxFile: String = "bert_classification_onnx"
 
   def readModel(
       instance: BertForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tensorFlow =
-      readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tensorFlow), None)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tensorFlow =
+          readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tensorFlow), None)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_bert_classification_onnx")
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -436,6 +460,11 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel {
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
