@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
     .setInputCols(["sentence"]) \
     .setOutputCol("token")
     
-zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")\
+zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("zero_shot_ner")\
     .setEntityDefinitions(
@@ -89,7 +89,7 @@ val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence")) 
     .setOutputCol("token")
     
-val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")
+val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("zero_shot_ner")
     .setEntityDefinitions(Map(

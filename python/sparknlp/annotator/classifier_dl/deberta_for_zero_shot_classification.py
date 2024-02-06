@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,52 +11,40 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for BertForSequenceClassification."""
+"""Contains classes for DeBertaForZeroShotClassification."""
 
 from sparknlp.common import *
 
 
-class BertForZeroShotClassification(AnnotatorModel,
-                                    HasCaseSensitiveProperties,
-                                    HasBatchedAnnotate,
-                                    HasClassifierActivationProperties,
-                                    HasCandidateLabelsProperties,
-                                    HasEngine,
-                                    HasMaxSentenceLengthLimit):
-    """BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
-    inference) tasks. Equivalent of `BertForSequenceClassification` models, but these models don't require a hardcoded
+class DeBertaForZeroShotClassification(AnnotatorModel,
+                                          HasCaseSensitiveProperties,
+                                          HasBatchedAnnotate,
+                                          HasClassifierActivationProperties,
+                                          HasCandidateLabelsProperties,
+                                          HasEngine):
+    """DeBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
+    inference) tasks. Equivalent of `DeBertaForSequenceClassification` models, but these models don't require a hardcoded
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
     flexible.
-
-    Note that the model will loop through all provided labels. So the more labels you have, the
-    longer this process will take.
-
     Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis
     pair and passed to the pretrained model.
-
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
-
-    >>> sequenceClassifier = BertForZeroShotClassification.pretrained() \\
+    >>> sequenceClassifier = DeBertaForZeroShotClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-
-    The default model is ``"bert_zero_shot_classifier_mnli"``, if no name is
+    The default model is ``"deberta_base_zero_shot_classifier_mnli_anli_v3"``, if no name is
     provided.
-
     For available pretrained models please see the `Models Hub
     <https://sparknlp.orgtask=Text+Classification>`__.
-
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``CATEGORY``
     ====================== ======================
-
     Parameters
     ----------
     batchSize
@@ -76,7 +64,6 @@ class BertForZeroShotClassification(AnnotatorModel,
     activation
         Whether to calculate logits via Softmax or Sigmoid, by default
         `"softmax"`.
-
     Examples
     --------
     >>> import sparknlp
@@ -89,7 +76,7 @@ class BertForZeroShotClassification(AnnotatorModel,
     >>> tokenizer = Tokenizer() \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("token")
-    >>> sequenceClassifier = BertForZeroShotClassification.pretrained() \\
+    >>> sequenceClassifier = DeBertaForZeroShotClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
@@ -98,7 +85,7 @@ class BertForZeroShotClassification(AnnotatorModel,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([["I loved this movie when I was a child."], ["It was pretty boring."]]).toDF("text")
+    >>> data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------+
@@ -108,11 +95,16 @@ class BertForZeroShotClassification(AnnotatorModel,
     |[neg] |
     +------+
     """
-    name = "BertForZeroShotClassification"
+    name = "DeBertaForZeroShotClassification"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     outputAnnotatorType = AnnotatorType.CATEGORY
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -131,7 +123,6 @@ class BertForZeroShotClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
-
         Parameters
         ----------
         b : List[int]
@@ -139,12 +130,20 @@ class BertForZeroShotClassification(AnnotatorModel,
         """
         return self._set(configProtoBytes=b)
 
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process, by default 128.
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
     def setCoalesceSentences(self, value):
         """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as BERT
+        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as DeBerta
         (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the probabilities
         for the entire document instead of probabilities per sentence. (Default: true)
-
         Parameters
         ----------
         value : bool
@@ -153,9 +152,9 @@ class BertForZeroShotClassification(AnnotatorModel,
         return self._set(coalesceSentences=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification",
                  java_model=None):
-        super(BertForZeroShotClassification, self).__init__(
+        super(DeBertaForZeroShotClassification, self).__init__(
             classname=classname,
             java_model=java_model
         )
@@ -164,49 +163,44 @@ class BertForZeroShotClassification(AnnotatorModel,
             maxSentenceLength=128,
             caseSensitive=True,
             coalesceSentences=False,
-            activation="softmax",
-            multilabel=False
+            activation="softmax"
         )
 
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
-
         Parameters
         ----------
         folder : str
             Folder of the saved model
             spark_session : pyspark.sql.SparkSession
             The current SparkSession
-
         Returns
         -------
-        BertForZeroShotClassification
+        DeBertaForZeroShotClassification
             The restored model
         """
-        from sparknlp.internal import _BertZeroShotClassifierLoader
-        jModel = _BertZeroShotClassifierLoader(folder, spark_session._jsparkSession)._java_obj
-        return BertForZeroShotClassification(java_model=jModel)
+        from sparknlp.internal import _DeBertaForZeroShotClassification
+        jModel = _DeBertaForZeroShotClassification(folder, spark_session._jsparkSession)._java_obj
+        return DeBertaForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_zero_shot_classifier_mnli", lang="xx", remote_loc=None):
+    def pretrained(name="deberta_base_zero_shot_classifier_mnli_anli_v3", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
-
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "bert_zero_shot_classifier_mnli"
-        lang : str, optional
+            "deberta_base_zero_shot_classifier_mnli_anli_v3"
+            lang : str, optional
             Language of the pretrained model, by default "en"
-        remote_loc : str, optional
+            remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
-
         Returns
         -------
-        BertForZeroShotClassification
+        DeBertaForZeroShotClassification
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForZeroShotClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(DeBertaForZeroShotClassification, name, lang, remote_loc)

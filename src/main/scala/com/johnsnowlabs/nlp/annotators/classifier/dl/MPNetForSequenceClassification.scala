@@ -16,9 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.ai.BertClassification
+import com.johnsnowlabs.ml.ai.MPNetClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
@@ -29,75 +28,74 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
-  * language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
-  * models don't require a hardcoded number of potential classes, they can be chosen at runtime.
-  * It usually means it's slower but it is much more flexible.
+/** MPNetForSequenceClassification can load MPNet Models with sequence classification/regression
+  * head on top (a linear layer on top of the pooled output) e.g. for multi-class document
+  * classification tasks.
   *
-  * Note that the model will loop through all provided labels. So the more labels you have, the
-  * longer this process will take.
-  *
-  * Any combination of sequences and labels can be passed and each combination will be posed as a
-  * premise/hypothesis pair and passed to the pretrained model.
+  * Note that currently, only SetFit models can be imported.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
+  * val sequenceClassifier = MPNetForSequenceClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"bert_zero_shot_classifier_mnli"`, if no name is provided.
+  * The default model is `"mpnet_sequence_classifier_ukr_message"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MPNetForSequenceClassificationTestSpec.scala MPNetForSequenceClassificationTestSpec]].
   *
   * ==Example==
   * {{{
-  * import spark.implicits._
   * import com.johnsnowlabs.nlp.base._
   * import com.johnsnowlabs.nlp.annotator._
   * import org.apache.spark.ml.Pipeline
+  * import spark.implicits._
   *
-  * val documentAssembler = new DocumentAssembler()
+  * val document = new DocumentAssembler()
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
   * val tokenizer = new Tokenizer()
-  *   .setInputCols("document")
+  *   .setInputCols(Array("document"))
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
-  *   .setInputCols("token", "document")
+  * val sequenceClassifier = MPNetForSequenceClassification
+  *   .pretrained()
+  *   .setInputCols(Array("document", "token"))
   *   .setOutputCol("label")
-  *   .setCaseSensitive(true)
   *
-  * val pipeline = new Pipeline().setStages(Array(
-  *   documentAssembler,
-  *   tokenizer,
-  *   sequenceClassifier
-  * ))
+  * val texts = Seq(
+  *   "I love driving my car.",
+  *   "The next bus will arrive in 20 minutes.",
+  *   "pineapple on pizza is the worst 🤮")
+  * val data = texts.toDF("text")
   *
-  * val data = Seq("I loved this movie when I was a child.", "It was pretty boring.").toDF("text")
-  * val result = pipeline.fit(data).transform(data)
+  * val pipeline = new Pipeline().setStages(Array(document, tokenizer, sequenceClassifier))
+  * val pipelineModel = pipeline.fit(data)
+  * val results = pipelineModel.transform(data)
   *
-  * result.select("label.result").show(false)
-  * +------+
-  * |result|
-  * +------+
-  * |[pos] |
-  * |[neg] |
-  * +------+
+  * results.select("label.result").show()
+  * +--------------------+
+  * |              result|
+  * +--------------------+
+  * |     [TRANSPORT/CAR]|
+  * |[TRANSPORT/MOVEMENT]|
+  * |              [FOOD]|
+  * +--------------------+
   * }}}
   *
   * @see
-  *   [[BertForZeroShotClassification]] for sequence-level classification
+  *   [[MPNetForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
   *   based classifiers
@@ -120,20 +118,18 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class BertForZeroShotClassification(override val uid: String)
-    extends AnnotatorModel[BertForZeroShotClassification]
-    with HasBatchedAnnotate[BertForZeroShotClassification]
-    with WriteTensorflowModel
+class MPNetForSequenceClassification(override val uid: String)
+    extends AnnotatorModel[MPNetForSequenceClassification]
+    with HasBatchedAnnotate[MPNetForSequenceClassification]
     with WriteOnnxModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
-    with HasEngine
-    with HasCandidateLabelsProperties {
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("BERT_FOR_ZERO_SHOT_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("MPNetForSequenceClassification"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -150,12 +146,12 @@ class BertForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
+    $$(vocabulary)("<s>")
   }
 
   /** @group setParam */
   def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
+    $$(vocabulary)("</s>")
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -165,10 +161,7 @@ class BertForZeroShotClassification(override val uid: String)
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = {
-    set(vocabulary, value)
-    this
-  }
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** Labels used to decode predicted IDs back to string tags
     *
@@ -177,11 +170,7 @@ class BertForZeroShotClassification(override val uid: String)
   val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
-  def setLabels(value: Map[String, Int]): this.type = {
-    if (get(labels).isEmpty)
-      set(labels, value)
-    this
-  }
+  def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
   /** Returns labels used to train this model */
   def getClasses: Array[String] = {
@@ -200,30 +189,13 @@ class BertForZeroShotClassification(override val uid: String)
   val coalesceSentences = new BooleanParam(
     this,
     "coalesceSentences",
-    "If sets to true the output of  all sentences will be averaged to one output instead of one output per sentence. Defaults to false.")
+    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
 
   /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
 
   /** @group getParam */
   def getCoalesceSentences: Boolean = $(coalesceSentences)
-
-  /** ConfigProto from tensorflow, serialized into byte array. Get with
-    * `config_proto.SerializeToString()`
-    *
-    * @group param
-    */
-  val configProtoBytes = new IntArrayParam(
-    this,
-    "configProtoBytes",
-    "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-
-  /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForZeroShotClassification.this.type =
-    set(this.configProtoBytes, bytes)
-
-  /** @group getParam */
-  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process (Default: `128`)
     *
@@ -236,7 +208,7 @@ class BertForZeroShotClassification(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "MPNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -261,22 +233,20 @@ class BertForZeroShotClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[BertClassification]] = None
+  private var _model: Option[Broadcast[MPNetClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): BertForZeroShotClassification = {
+      onnxWrapper: Option[OnnxWrapper]): MPNetForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BertClassification(
-            tensorflowWrapper,
+          new MPNetClassification(
+            None,
             onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
-            configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
             signatures = getSignatures,
             $$(vocabulary),
@@ -287,9 +257,9 @@ class BertForZeroShotClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: BertClassification = _model.get.value
+  def getModelIfNotSet: MPNetClassification = _model.get.value
 
-  /** Whether to lowercase tokens or not (Default: `true`).
+  /** Whether to lowercase tokens or not
     *
     * @group setParam
     */
@@ -318,19 +288,15 @@ class BertForZeroShotClassification(override val uid: String)
       val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
 
       if (tokenizedSentences.nonEmpty) {
-        getModelIfNotSet.predictSequenceWithZeroShot(
+        getModelIfNotSet.predictSequence(
           tokenizedSentences,
           sentences,
-          $(candidateLabels),
-          $(entailmentIdParam),
-          $(contradictionIdParam),
           $(batchSize),
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
           $$(labels),
-          getActivation)
-
+          $(activation))
       } else {
         Seq.empty[Annotation]
       }
@@ -339,133 +305,92 @@ class BertForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    val suffix = "_bert_classification"
+    val suffix = "_MPNet_classification"
 
     getEngine match {
-      case TensorFlow.name =>
-        writeTensorflowModelV2(
-          path,
-          spark,
-          getModelIfNotSet.tensorflowWrapper.get,
-          suffix,
-          BertForZeroShotClassification.tfFile,
-          configProtoBytes = getConfigProtoBytes)
       case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
           getModelIfNotSet.onnxWrapper.get,
           suffix,
-          BertForZeroShotClassification.onnxFile)
+          MPNetForSequenceClassification.onnxFile)
     }
+
   }
 
 }
 
-trait ReadablePretrainedBertForZeroShotModel
-    extends ParamsAndFeaturesReadable[BertForZeroShotClassification]
-    with HasPretrained[BertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some("bert_zero_shot_classifier_mnli")
-  override val defaultLang: String = "xx"
+trait ReadablePretrainedMPNetForSequenceModel
+    extends ParamsAndFeaturesReadable[MPNetForSequenceClassification]
+    with HasPretrained[MPNetForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("mpnet_sequence_classifier_ukr_message")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForZeroShotClassification = super.pretrained()
+  override def pretrained(): MPNetForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForZeroShotClassification = super.pretrained(name)
+  override def pretrained(name: String): MPNetForSequenceClassification =
+    super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForZeroShotClassification =
+  override def pretrained(name: String, lang: String): MPNetForSequenceClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): BertForZeroShotClassification = super.pretrained(name, lang, remoteLoc)
+      remoteLoc: String): MPNetForSequenceClassification =
+    super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel {
-  this: ParamsAndFeaturesReadable[BertForZeroShotClassification] =>
+trait ReadMPNetForSequenceDLModel extends ReadOnnxModel {
+  this: ParamsAndFeaturesReadable[MPNetForSequenceClassification] =>
 
-  override val tfFile: String = "bert_classification_tensorflow"
-  override val onnxFile: String = "bert_classification_onnx"
+  override val onnxFile: String = "mpnet_classification_onnx"
 
   def readModel(
-      instance: BertForZeroShotClassification,
+      instance: MPNetForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
 
     instance.getEngine match {
-      case TensorFlow.name =>
-        val tensorFlow =
-          readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tensorFlow), None)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_bert_classification_onnx")
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+          readOnnxModel(
+            path,
+            spark,
+            "_mpnet_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
+
   }
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): BertForZeroShotClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): MPNetForSequenceClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
     val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
-    val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
-    val contradictionIds =
-      labels.filter(x => x._1.toLowerCase().startsWith("contradict")).values.toArray
-
-    require(
-      entailmentIds.length == 1 && contradictionIds.length == 1,
-      s"""This annotator supports classifiers trained on NLI datasets. You must have only at least 2 or maximum 3 labels in your dataset:
-
-          example with 3 labels: 'contradict', 'neutral', 'entailment'
-          example with 2 labels: 'contradict', 'entailment'
-
-          You can modify assets/labels.txt file to match the above format.
-
-          Current labels: ${labels.keys.mkString(", ")}
-          """)
-
-    val annotatorModel = new BertForZeroShotClassification()
+    val annotatorModel = new MPNetForSequenceClassification()
       .setVocabulary(vocabs)
       .setLabels(labels)
-      .setCandidateLabels(labels.keys.toArray)
 
-    /* set the entailment id */
-    annotatorModel.set(annotatorModel.entailmentIdParam, entailmentIds.head)
-    /* set the contradiction id */
-    annotatorModel.set(annotatorModel.contradictionIdParam, contradictionIds.head)
-    /* set the engine */
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
-          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
-
-        val _signatures = signatures match {
-          case Some(s) => s
-          case None => throw new Exception("Cannot load signature definitions from model!")
-        }
-
-        /** the order of setSignatures is important if we use getSignatures inside
-          * setModelIfNotSet
-          */
-        annotatorModel
-          .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
-
+        throw new NotImplementedError("Tensorflow Models are currently not supported.")
       case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper))
-
+          .setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -474,9 +399,9 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
   }
 }
 
-/** This is the companion object of [[BertForZeroShotClassification]]. Please refer to that class
+/** This is the companion object of [[MPNetForSequenceClassification]]. Please refer to that class
   * for the documentation.
   */
-object BertForZeroShotClassification
-    extends ReadablePretrainedBertForZeroShotModel
-    with ReadBertForZeroShotDLModel
+object MPNetForSequenceClassification
+    extends ReadablePretrainedMPNetForSequenceModel
+    with ReadMPNetForSequenceDLModel

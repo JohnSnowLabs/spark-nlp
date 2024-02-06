@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,21 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.ai.BertClassification
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.ai.DeBertaClassification
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -33,10 +39,10 @@ import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
-  * language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
-  * models don't require a hardcoded number of potential classes, they can be chosen at runtime.
-  * It usually means it's slower but it is much more flexible.
+/** DeBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI
+  * (natural language inference) tasks. Equivalent of `DeBertaForZeroShotClassification ` models,
+  * but these models don't require a hardcoded number of potential classes, they can be chosen at
+  * runtime. It usually means it's slower but it is much more flexible.
   *
   * Note that the model will loop through all provided labels. So the more labels you have, the
   * longer this process will take.
@@ -46,11 +52,12 @@ import org.apache.spark.sql.SparkSession
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
+  * val sequenceClassifier = DeBertaForZeroShotClassification .pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"bert_zero_shot_classifier_mnli"`, if no name is provided.
+  * The default model is `"deberta_base_zero_shot_classifier_mnli_anli_v3"`, if no name is
+  * provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
@@ -73,7 +80,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
+  * val sequenceClassifier = DeBertaForZeroShotClassification .pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -97,7 +104,7 @@ import org.apache.spark.sql.SparkSession
   * }}}
   *
   * @see
-  *   [[BertForZeroShotClassification]] for sequence-level classification
+  *   [[DeBertaForZeroShotClassification]] for sequence-level classification
   * @see
   *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
   *   based classifiers
@@ -120,11 +127,11 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class BertForZeroShotClassification(override val uid: String)
-    extends AnnotatorModel[BertForZeroShotClassification]
-    with HasBatchedAnnotate[BertForZeroShotClassification]
+class DeBertaForZeroShotClassification(override val uid: String)
+    extends AnnotatorModel[DeBertaForZeroShotClassification]
+    with HasBatchedAnnotate[DeBertaForZeroShotClassification]
     with WriteTensorflowModel
-    with WriteOnnxModel
+    with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine
@@ -133,7 +140,7 @@ class BertForZeroShotClassification(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("BERT_FOR_ZERO_SHOT_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("DEBERTA_FOR_ZERO_SHOT_CLASSIFICATION"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -147,28 +154,6 @@ class BertForZeroShotClassification(override val uid: String)
     * @group anno
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
-
-  /** @group setParam */
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = {
-    set(vocabulary, value)
-    this
-  }
 
   /** Labels used to decode predicted IDs back to string tags
     *
@@ -191,8 +176,8 @@ class BertForZeroShotClassification(override val uid: String)
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
     * by averaging probabilities in all sentences (Default: `false`).
     *
-    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens),
-    * this parameter helps feeding all the sentences into the model and averaging all the
+    * Due to max sequence length limit in almost all transformer models such as DeBerta (512
+    * tokens), this parameter helps feeding all the sentences into the model and averaging all the
     * probabilities for the entire document instead of probabilities per sentence.
     *
     * @group param
@@ -219,7 +204,7 @@ class BertForZeroShotClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForZeroShotClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): DeBertaForZeroShotClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -236,7 +221,7 @@ class BertForZeroShotClassification(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "DeBerta models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -261,33 +246,31 @@ class BertForZeroShotClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[BertClassification]] = None
+  private var _model: Option[Broadcast[DeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): BertForZeroShotClassification = {
+      onnxWrapper: Option[OnnxWrapper],
+      spp: SentencePieceWrapper): DeBertaForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BertClassification(
+          new DeBertaClassification(
             tensorflowWrapper,
             onnxWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures,
-            $$(vocabulary),
-            threshold = $(threshold))))
+            signatures = getSignatures)))
     }
 
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: BertClassification = _model.get.value
+  def getModelIfNotSet: DeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -339,81 +322,70 @@ class BertForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    val suffix = "_bert_classification"
-
-    getEngine match {
-      case TensorFlow.name =>
-        writeTensorflowModelV2(
-          path,
-          spark,
-          getModelIfNotSet.tensorflowWrapper.get,
-          suffix,
-          BertForZeroShotClassification.tfFile,
-          configProtoBytes = getConfigProtoBytes)
-      case ONNX.name =>
-        writeOnnxModel(
-          path,
-          spark,
-          getModelIfNotSet.onnxWrapper.get,
-          suffix,
-          BertForZeroShotClassification.onnxFile)
-    }
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper.get,
+      "_deberta_classification",
+      DeBertaForZeroShotClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_deberta",
+      DeBertaForZeroShotClassification.sppFile)
   }
 
 }
 
-trait ReadablePretrainedBertForZeroShotModel
-    extends ParamsAndFeaturesReadable[BertForZeroShotClassification]
-    with HasPretrained[BertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some("bert_zero_shot_classifier_mnli")
-  override val defaultLang: String = "xx"
+trait ReadablePretrainedDeBertaForZeroShotModel
+    extends ParamsAndFeaturesReadable[DeBertaForZeroShotClassification]
+    with HasPretrained[DeBertaForZeroShotClassification] {
+  override val defaultModelName: Some[String] = Some(
+    "deberta_base_zero_shot_classifier_mnli_anli_v3")
+  override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForZeroShotClassification = super.pretrained()
+  override def pretrained(): DeBertaForZeroShotClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForZeroShotClassification = super.pretrained(name)
+  override def pretrained(name: String): DeBertaForZeroShotClassification =
+    super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForZeroShotClassification =
+  override def pretrained(name: String, lang: String): DeBertaForZeroShotClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): BertForZeroShotClassification = super.pretrained(name, lang, remoteLoc)
+      remoteLoc: String): DeBertaForZeroShotClassification =
+    super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel {
-  this: ParamsAndFeaturesReadable[BertForZeroShotClassification] =>
+trait ReadDeBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[DeBertaForZeroShotClassification] =>
 
-  override val tfFile: String = "bert_classification_tensorflow"
-  override val onnxFile: String = "bert_classification_onnx"
+  override val tfFile: String = "deberta_classification_tensorflow"
+  override val sppFile: String = "deberta_spp"
 
   def readModel(
-      instance: BertForZeroShotClassification,
+      instance: DeBertaForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    instance.getEngine match {
-      case TensorFlow.name =>
-        val tensorFlow =
-          readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tensorFlow), None)
-      case ONNX.name =>
-        val onnxWrapper =
-          readOnnxModel(path, spark, "_bert_classification_onnx")
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
-      case _ =>
-        throw new Exception(notSupportedEngineError)
-    }
+    val tf =
+      readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
+    instance.setModelIfNotSet(spark, Some(tf), None, spp)
   }
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): BertForZeroShotClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForZeroShotClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "spm.model")
     val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
     val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
@@ -432,8 +404,7 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
           Current labels: ${labels.keys.mkString(", ")}
           """)
 
-    val annotatorModel = new BertForZeroShotClassification()
-      .setVocabulary(vocabs)
+    val annotatorModel = new DeBertaForZeroShotClassification()
       .setLabels(labels)
       .setCandidateLabels(labels.keys.toArray)
 
@@ -459,12 +430,7 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
-
-      case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
-        annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper))
+          .setModelIfNotSet(spark, Some(wrapper), None, spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -474,9 +440,9 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
   }
 }
 
-/** This is the companion object of [[BertForZeroShotClassification]]. Please refer to that class
-  * for the documentation.
+/** This is the companion object of [[DeBertaForZeroShotClassification]]. Please refer to that
+  * class for the documentation.
   */
-object BertForZeroShotClassification
-    extends ReadablePretrainedBertForZeroShotModel
-    with ReadBertForZeroShotDLModel
+object DeBertaForZeroShotClassification
+    extends ReadablePretrainedDeBertaForZeroShotModel
+    with ReadDeBertaForZeroShotDLModel

@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class BertForZeroShotClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
+class DeBertaForZeroShotClassificationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.text = "I have a problem with my iphone that needs to be resolved asap!!"
         self.inputDataset = self.spark.createDataFrame([[self.text]]) \
             .toDF("text")
 
-        self.tested_annotator = BertForZeroShotClassification \
+        self.tested_annotator = DeBertaForZeroShotClassification \
             .pretrained() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("class") \

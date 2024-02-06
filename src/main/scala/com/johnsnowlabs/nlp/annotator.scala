@@ -756,4 +756,24 @@ package object annotator {
 
   object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
 
+  type DeBertaForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification
+
+  object DeBertaForZeroShotClassification
+      extends ReadablePretrainedDeBertaForZeroShotModel
+      with ReadDeBertaForZeroShotDLModel
+
+  type MPNetForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification
+
+  object MPNetForSequenceClassification
+      extends ReadablePretrainedMPNetForSequenceModel
+      with ReadMPNetForSequenceDLModel
+
+  type MPNetForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering
+
+  object MPNetForQuestionAnswering
+      extends ReadablePretrainedMPNetForQAModel
+      with ReadMPNetForQuestionAnsweringDLModel
 }
