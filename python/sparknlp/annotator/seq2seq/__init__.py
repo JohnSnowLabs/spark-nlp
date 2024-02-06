@@ -18,3 +18,4 @@ from sparknlp.annotator.seq2seq.marian_transformer import *
 from sparknlp.annotator.seq2seq.t5_transformer import *
 from sparknlp.annotator.seq2seq.bart_transformer import *
 from sparknlp.annotator.seq2seq.llama2_transformer import *
+from sparknlp.annotator.seq2seq.m2m100_transformer import *

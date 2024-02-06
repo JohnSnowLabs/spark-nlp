@@ -246,4 +246,7 @@ object OnnxWrapper {
       decoderWithPast: OnnxWrapper)
 
   case class DecoderWrappers(decoder: OnnxWrapper)
+
+  case class EncoderDecoderWithoutPastWrappers(encoder: OnnxWrapper, decoder: OnnxWrapper)
+
 }

@@ -191,6 +191,12 @@ class _LongformerQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark)
 
 
+class _M2M100Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_M2M100Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer.loadSavedModel", path, jspark)
+
+
 class _MarianLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MarianLoader, self).__init__(
