@@ -140,7 +140,7 @@ lazy val testDependencies = Seq(
 lazy val utilDependencies = Seq(
   typesafe,
   rocksdbjni,
-  awsjavasdkbundle
+  awsJavaSdkS3
     exclude ("com.fasterxml.jackson.core", "jackson-annotations")
     exclude ("com.fasterxml.jackson.core", "jackson-databind")
     exclude ("com.fasterxml.jackson.core", "jackson-core")

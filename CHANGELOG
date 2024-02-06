@@ -1,5 +1,31 @@
 ========
-5.2.1
+5.2.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing support for ONNX Runtime in XLMRoBertaForTokenClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in XLMRoBertaForSequenceClassification annotator
+* **NEW:** Introducing support for ONNX Runtime in XLMRoBertaForQuestionAnswering annotator
+* Refactoring AWS SDK use in Spark NLP to reduce the overal size of the library. We have dropped the use of `bundle` and started to directly using `S3` SDK. This will also minimize incompatibilities with other libraries that use AWS SDKs
+* Add new notebooks to import DeBertaForQuestionAnswering, DebertaForSequenceClassification, and DeBertaForTokenClassification models from HuggingFace
+* Add a new `DocumentTokenSplitter` notebook
+* Add a new trainig NER notebook by using DeBerta Embeddings
+* Add a new trainig text classification notebook by using INSTRUCTOR Embeddings
+* Update `RoBertaForTokenClassification` notebook
+* Update `RoBertaForSequenceClassification` notebook
+* Update `OpenAICompletion` notebook with new `gpt-3.5-turbo-instruct` model
+
+
+----------------
+Bug Fixes
+----------------
+* Fix `BGEEmbeddings` not downloading in Python
+
+
+
+========
+5.2.2
 ========
 ----------------
 Enhancements

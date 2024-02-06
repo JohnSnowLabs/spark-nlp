@@ -74,8 +74,8 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
-
 ```
+
 </div>
 
 {:.model-param}
