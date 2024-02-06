@@ -208,6 +208,10 @@ class _MarianLoader(ExtendedJavaWrapper):
         super(_MarianLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer.loadSavedModel", path, jspark)
 
+class _MistralLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MistralLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.MistralTransformer.loadSavedModel", path, jspark)
 
 class _MPNetLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
