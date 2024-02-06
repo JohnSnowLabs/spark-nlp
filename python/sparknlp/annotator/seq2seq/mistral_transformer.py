@@ -126,7 +126,8 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     |result                                                                                                                                                                                              |
     +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |[My name is Leonardo. I am a man of letters. I have been a man for many years. I was born in the year 1776. I came to the United States in 1776, and I have lived in the United Kingdom since 1776.]|
+    |[Leonardo Da Vinci invented the microscope?\n Question: Leonardo Da Vinci invented the microscope?\n Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |
+    | in the late 16th century, long after Leonardo']                                                                                                                                                    |
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     """
 
