@@ -24,6 +24,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{SparkSession, SparkSessionExtensions}
+import org.apache.spark.sql.catalyst.expressions.{Alias, Expression}
+import org.apache.spark.sql.connector.expressions.Expression
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.io.Source
@@ -249,6 +252,54 @@ class NerDLSpec extends AnyFlatSpec {
       .setOutputCol("ner")
 
     nerModel.getClasses.foreach(x => println(x))
+
+  }
+
+  "NerDLModel" should "avoid mappartition" taggedAs FastTest in {
+
+    import org.apache.spark.sql.catalyst.plans.logical._
+    import org.apache.spark.sql.catalyst.rules.Rule
+
+    // Define a custom optimization rule
+    case class OptimizeMapPartitions(sparkSession: SparkSession) extends Rule[LogicalPlan] {
+      override def apply(plan: LogicalPlan): LogicalPlan = plan transformUp {
+        case mapPartitions @ MapPartitions(func, objAttr, child) =>
+
+          // Does the plan look for the NER?
+          val callLambda = plan.toString().contains("ner")
+
+          if (callLambda)
+            mapPartitions
+          else
+            child // we do nothing here!
+
+        case other => other // No change for other operations
+      }
+    }
+
+    // Register your Catalyst plugin
+    ResourceHelper.spark.experimental.extraOptimizations = Seq(OptimizeMapPartitions(ResourceHelper.spark))
+
+    val nerModel = NerDLModel
+      .pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val pipeline = new Pipeline()
+      .setStages(Array(embeddings, nerModel))
+
+    //map Partitions not called
+    pipeline.fit(training_data).transform(training_data).select("token").collect()
+
+    //map Partitions called
+    pipeline.fit(training_data).transform(training_data).select("ner").collect()
+
 
   }
 
