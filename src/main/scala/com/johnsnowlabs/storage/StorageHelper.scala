@@ -84,19 +84,11 @@ object StorageHelper {
       sparkContext: SparkContext): Unit = {
     destinationScheme match {
       case "file" => {
-        val sourceFileSystem = source.getFileSystem(sparkContext.hadoopConfiguration)
-        if (sourceFileSystem.getScheme == "file") {
-          val tmpIndexStorageLocalPath =
-            RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
-          if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
-            !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
-            copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
-          }
-        } else {
-          val isLocalMode = sparkContext.master.startsWith("local")
-          if (isLocalMode) {
-            copyIndexToCluster(source, clusterFilePath, sparkContext)
-          }
+        val tmpIndexStorageLocalPath =
+          RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
+        if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
+          !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
+          copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
         }
       }
       case _ => {
@@ -116,7 +108,10 @@ object StorageHelper {
     fileSystem.exists(localPath)
   }
 
-  private def copyIndexToCluster(sourcePath: Path, dst: Path, sparkContext: SparkContext): String = {
+  private def copyIndexToCluster(
+      sourcePath: Path,
+      dst: Path,
+      sparkContext: SparkContext): String = {
     if (!new File(SparkFiles.get(dst.getName)).exists()) {
       val srcFS = sourcePath.getFileSystem(sparkContext.hadoopConfiguration)
       val dstFS = dst.getFileSystem(sparkContext.hadoopConfiguration)
@@ -157,7 +152,10 @@ object StorageHelper {
         source.toString,
         destination.toString,
         isIndex = true)
-      sparkContext.addFile(destination.toString, recursive = true)
+      val isLocalMode = sparkContext.master.startsWith("local")
+      if (isLocalMode) {
+        sparkContext.addFile(destination.toString, recursive = true)
+      }
     }
   }
 
