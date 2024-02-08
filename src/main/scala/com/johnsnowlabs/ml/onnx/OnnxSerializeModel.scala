@@ -116,7 +116,8 @@ trait ReadOnnxModel {
       modelNames: Seq[String],
       suffix: String,
       zipped: Boolean = true,
-      useBundle: Boolean = false): Map[String, OnnxWrapper] = {
+      useBundle: Boolean = false,
+      dataFileSuffix: String = "_data"): Map[String, OnnxWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
@@ -137,10 +138,10 @@ trait ReadOnnxModel {
       val fsPath = new Path(path, localModelFile).toString
 
       // 3. Copy onnx_data file if exists
-      val onnxDataFile = Paths.get(fsPath + "_data").toFile
+      val onnxDataFile = Paths.get(fsPath + dataFileSuffix).toFile
 
       if (onnxDataFile.exists()) {
-        fs.copyToLocalFile(new Path(path, localModelFile + "_data"), new Path(tmpFolder))
+        fs.copyToLocalFile(new Path(path, localModelFile + dataFileSuffix), new Path(tmpFolder))
       }
 
       // 4. Read ONNX state
