@@ -35,6 +35,8 @@ import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLMo
 import com.johnsnowlabs.nlp.annotators.seq2seq.{
   BartTransformer,
   GPT2Transformer,
+  LLAMA2Transformer,
+  M2M100Transformer,
   MarianTransformer,
   T5Transformer
 }
@@ -685,7 +687,9 @@ object PythonResourceDownloader {
     "DeBertaForZeroShotClassification" -> DeBertaForZeroShotClassification,
     "BGEEmbeddings" -> BGEEmbeddings,
     "MPNetForSequenceClassification" -> MPNetForSequenceClassification,
-    "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering)
+    "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering,
+    "LLAMA2Transformer" -> LLAMA2Transformer,
+    "M2M100Transformer" -> M2M100Transformer)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
