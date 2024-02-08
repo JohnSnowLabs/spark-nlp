@@ -448,7 +448,8 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             path,
             spark,
             Seq("encoder_model", "decoder_model", "decoder_with_past_model"),
-            WhisperForCTC.suffix)
+            WhisperForCTC.suffix,
+            dataFileSuffix = ".onnx_data")
 
         val onnxWrappers = EncoderDecoderWrappers(
           wrappers("encoder_model"),
