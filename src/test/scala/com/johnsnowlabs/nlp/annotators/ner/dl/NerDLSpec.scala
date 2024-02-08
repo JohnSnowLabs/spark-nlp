@@ -25,7 +25,7 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{SparkSession, SparkSessionExtensions}
-import org.apache.spark.sql.catalyst.expressions.{Alias, Expression}
+import org.apache.spark.sql.catalyst.expressions.{Alias, Expression, NamedExpression}
 import org.apache.spark.sql.connector.expressions.Expression
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -262,18 +262,37 @@ class NerDLSpec extends AnyFlatSpec {
 
     // Define a custom optimization rule
     case class OptimizeMapPartitions(sparkSession: SparkSession) extends Rule[LogicalPlan] {
-      override def apply(plan: LogicalPlan): LogicalPlan = plan transformUp {
-        case mapPartitions @ MapPartitions(func, objAttr, child) =>
+      override def apply(plan: LogicalPlan): LogicalPlan = {
 
-          // Does the plan look for the NER?
-          val callLambda = plan.toString().contains("ner")
+        plan transformUp {
+          case mapPartitions@MapPartitions(func, objAttr, child) =>
 
-          if (callLambda)
-            mapPartitions
-          else
-            child // we do nothing here!
+            // Does the plan look for the NER?
+            val callLambda = shouldCallLambda(mapPartitions, plan)
+            if (callLambda)
+              mapPartitions
+            else
+              child // we do nothing here!
+          case other => other // No change for other operations
+        }
+      }
 
-        case other => other // No change for other operations
+      private def shouldCallLambda(mapPartitions: MapPartitions, plan: LogicalPlan): Boolean = {
+        // things you have to do for money :)
+        var condition = false
+
+        plan transformUp {
+          // IMPORTANT:: here we determine whether the plan will require the NER or not!!
+          // child is the input to the projection, not used
+          case projection@Project(projectList, child) =>
+            // need to find a projection for which this mapPartition is present
+            // and the projection must include an NER column
+            if (projection.containsChild.head.children.contains(mapPartitions) && // must contain mapPartitions
+              projectList.exists(_.name.startsWith("ner")))
+              condition = true
+            projection
+        }
+        condition
       }
     }
 
