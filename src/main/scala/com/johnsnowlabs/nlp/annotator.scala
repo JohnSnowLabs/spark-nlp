@@ -776,4 +776,17 @@ package object annotator {
   object MPNetForQuestionAnswering
       extends ReadablePretrainedMPNetForQAModel
       with ReadMPNetForQuestionAnsweringDLModel
+
+  type LLAMA2Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer
+
+  object LLAMA2Transformer
+      extends ReadablePretrainedLLAMA2TransformerModel
+      with ReadLLAMA2TransformerDLModel
+
+  type M2M100Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer
+
+  object M2M100Transformer
+      extends ReadablePretrainedM2M100TransformerModel
+      with ReadM2M100TransformerDLModel
+
 }
