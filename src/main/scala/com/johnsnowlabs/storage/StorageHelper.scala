@@ -84,17 +84,39 @@ object StorageHelper {
       sparkContext: SparkContext): Unit = {
     destinationScheme match {
       case "file" => {
-        val destination = new Path(RocksDBConnection.getLocalPath(clusterFileName))
-        copyIndexToLocal(source, destination, sparkContext)
+        val sourceFileSystem = source.getFileSystem(sparkContext.hadoopConfiguration)
+        if (sourceFileSystem.getScheme == "file") {
+          val tmpIndexStorageLocalPath =
+            RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
+          if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
+            !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
+            copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+          }
+        } else {
+          val isLocalMode = sparkContext.master.startsWith("local")
+          if (isLocalMode) {
+            copyIndexToCluster(source, clusterFilePath, sparkContext)
+          }
+        }
       }
-      case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
+      case _ => {
+        copyIndexToCluster(source, clusterFilePath, sparkContext)
+      }
     }
   }
 
-  private def copyIndexToCluster(
-      sourcePath: Path,
-      dst: Path,
-      sparkContext: SparkContext): String = {
+  private def doesDirectoryExistJava(path: String): Boolean = {
+    val directory = new File(path)
+    directory.exists && directory.isDirectory
+  }
+
+  private def doesDirectoryExistHadoop(path: String, sparkContext: SparkContext): Boolean = {
+    val localPath = new Path(path)
+    val fileSystem = localPath.getFileSystem(sparkContext.hadoopConfiguration)
+    fileSystem.exists(localPath)
+  }
+
+  private def copyIndexToCluster(sourcePath: Path, dst: Path, sparkContext: SparkContext): String = {
     if (!new File(SparkFiles.get(dst.getName)).exists()) {
       val srcFS = sourcePath.getFileSystem(sparkContext.hadoopConfiguration)
       val dstFS = dst.getFileSystem(sparkContext.hadoopConfiguration)
@@ -122,28 +144,20 @@ object StorageHelper {
       source: Path,
       destination: Path,
       sparkContext: SparkContext): Unit = {
-
     /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage
       * because of bad crc
       */
     val fileSystemDestination = destination.getFileSystem(sparkContext.hadoopConfiguration)
     val fileSystemSource = source.getFileSystem(sparkContext.hadoopConfiguration)
 
-    if (fileSystemDestination.exists(destination)) {
-      return
-    }
-
-    if (fileSystemSource.getScheme == "s3a" && fileSystemDestination.getScheme == "file") {
+    if (fileSystemSource.getScheme == "file") {
+      fileSystemDestination.copyFromLocalFile(false, true, source, destination)
+    } else {
       CloudResources.downloadBucketToLocalTmp(
         source.toString,
         destination.toString,
         isIndex = true)
       sparkContext.addFile(destination.toString, recursive = true)
-      return
-    }
-
-    if (fileSystemDestination.getScheme != "s3a") {
-      fileSystemDestination.copyFromLocalFile(false, true, source, destination)
     }
   }
 
