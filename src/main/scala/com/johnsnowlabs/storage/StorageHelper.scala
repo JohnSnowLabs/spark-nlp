@@ -84,11 +84,19 @@ object StorageHelper {
       sparkContext: SparkContext): Unit = {
     destinationScheme match {
       case "file" => {
+        val sourceFileSystemScheme = source.getFileSystem(sparkContext.hadoopConfiguration)
         val tmpIndexStorageLocalPath =
           RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
-        if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
-          !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
-          copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+        sourceFileSystemScheme.getScheme match {
+          case "file" => {
+            if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
+              !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
+              copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+            }
+          }
+          case "s3a" =>
+            copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+          case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
         }
       }
       case _ => {
@@ -139,6 +147,7 @@ object StorageHelper {
       source: Path,
       destination: Path,
       sparkContext: SparkContext): Unit = {
+
     /** if we don't do a copy, and just move, it will all fail when re-saving utilized storage
       * because of bad crc
       */
