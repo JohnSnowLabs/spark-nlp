@@ -552,13 +552,13 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
       case ONNX.name =>
         val onnxWrapperEncoder =
           OnnxWrapper.read(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "encoder_model")
         val onnxWrapperDecoder =
           OnnxWrapper.read(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_model")

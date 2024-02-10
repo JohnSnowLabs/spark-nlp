@@ -378,7 +378,7 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
-            modelPath,
+            localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_model")
