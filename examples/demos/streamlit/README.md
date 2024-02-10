@@ -10,7 +10,7 @@ This is the directory for examples on how to use Spark NLP demos in [Google cola
 
 This is a quick example of how to run Spark NLP demos on Colab
 
-Download the demo you want to run from our repo [here](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/demo)
+Download the demo you want to run from our repo [here](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/demos/streamlit/run_streamlit_demos.ipynb)
 
 Open our [colab notebook for demos]() and drop the zip in!
 
