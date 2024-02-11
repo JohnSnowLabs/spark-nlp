@@ -105,7 +105,8 @@ object OnnxWrapper {
       modelPath: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      modelName: String = "model"): OnnxWrapper = {
+      modelName: String = "model",
+      dataFileSuffix: String = "_data"): OnnxWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -132,13 +133,13 @@ object OnnxWrapper {
     val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
 
     val onnxDataFileExist: Boolean = {
-      onnxDataFile = Paths.get(parentDir, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
+      onnxDataFile = Paths.get(parentDir, modelName + dataFileSuffix).toFile
       onnxDataFile.exists()
     }
 
     if (onnxDataFileExist) {
       val onnxDataFileTmp =
-        Paths.get(tmpFolder, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
+        Paths.get(tmpFolder, modelName + dataFileSuffix).toFile
       FileUtils.copyFile(onnxDataFile, onnxDataFileTmp)
     }
 
