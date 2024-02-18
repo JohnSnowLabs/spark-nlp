@@ -44,19 +44,18 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** Llama 2: Open Foundation and Fine-Tuned Chat Models
+/** Phi-2: Textbooks Are All You Need.
   *
-  * The Llama 2 release introduces a family of pretrained and fine-tuned LLMs, ranging in scale
-  * from 7B to 70B parameters (7B, 13B, 70B). The pretrained models come with significant
-  * improvements over the Llama 1 models, including being trained on 40% more tokens, having a
-  * much longer context length (4k tokens 🤯), and using grouped-query attention for fast
-  * inference of the 70B model🔥!
+  * Phi-2 is a Transformer with 2.7 billion parameters. It was trained using the same data sources
+  * as Phi-1.5, augmented with a new data source that consists of various NLP synthetic texts and
+  * filtered websites (for safety and educational value). When assessed against benchmarks testing
+  * common sense, language understanding, and logical reasoning, Phi-2 showcased a nearly
+  * state-of-the-art performance among models with less than 13 billion parameters.
   *
-  * However, the most exciting part of this release is the fine-tuned models (Llama 2-Chat), which
-  * have been optimized for dialogue applications using Reinforcement Learning from Human Feedback
-  * (RLHF). Across a wide range of helpfulness and safety benchmarks, the Llama 2-Chat models
-  * perform better than most open models and achieve comparable performance to ChatGPT according
-  * to human evaluations.
+  * Phi-2 hasn't been fine-tuned through reinforcement learning from human feedback. The intention
+  * behind crafting this open-source model is to provide the research community with a
+  * non-restricted small model to explore vital safety challenges, such as reducing toxicity,
+  * understanding societal biases, enhancing controllability, and more.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -64,26 +63,38 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"Phi2-7b"`, if no name is provided. For available pretrained models
+  * The default model is `"Phi2-13b"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=Phi2 Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Phi2TestSpec.scala Phi2TestSpec]].
   *
   * '''References:'''
-  *   - [[https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/ Llama 2: Open Foundation and Fine-Tuned Chat Models]]
-  *   - [[https://github.com/facebookresearch/llama]]
+  *   - [[https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/ Phi-2: Textbooks Are All You Need.]]
+  *   - [[https://huggingface.co/microsoft/phi-2]]
   *
   * '''Paper Abstract:'''
   *
-  * ''In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
-  * large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
-  * fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
-  * outperform open-source chat models on most benchmarks we tested, and based on our human
-  * evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
-  * We provide a detailed description of our approach to fine-tuning and safety improvements of
-  * Llama 2-Chat in order to enable the community to build on our work and contribute to the
-  * responsible development of LLMs.''
+  * ''The massive increase in the size of language models to hundreds of billions of parameters
+  * has unlocked a host of emerging capabilities that have redefined the landscape of natural
+  * language processing. A question remains whether such emergent abilities can be achieved at a
+  * smaller scale using strategic choices for training, e.g., data selection.''
+  *
+  * ''Our line of work with the Phi models aims to answer this question by training SLMs that
+  * achieve performance on par with models of much higher scale (yet still far from the frontier
+  * models). Our key insights for breaking the conventional language model scaling laws with Phi-2
+  * are twofold:''
+  *
+  * ''Firstly, training data quality plays a critical role in model performance. This has been
+  * known for decades, but we take this insight to its extreme by focusing on “textbook-quality”
+  * data, following upon our prior work “Textbooks Are All You Need.” Our training data mixture
+  * contains synthetic datasets specifically created to teach the model common sense reasoning and
+  * general knowledge, including science, daily activities, and theory of mind, among others. We
+  * further augment our training corpus with carefully selected web data that is filtered based on
+  * educational value and content quality. Secondly, we use innovative techniques to scale up,
+  * starting from our 1.3 billion parameter model, Phi-1.5, and embedding its knowledge within the
+  * 2.7 billion parameter Phi-2. This scaled knowledge transfer not only accelerates training
+  * convergence but shows clear boost in Phi-2 benchmark scores.''
   *
   * '''Note:'''
   *
@@ -121,7 +132,8 @@ import org.json4s.jackson.JsonMethods._
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
   * |result                                                                                                                                                                                              |
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[ My name is Leonardo. I am a man of letters. I have been a man for many years. I was born in the year 1776. I came to the United States in 1776, and I have lived in the United Kingdom since 1776]|
+  * |[ My name is Leonardo . I am a student of the University of California, Berkeley. I am interested in the field of Artificial Intelligence and its applications in the real world. I have a strong   |
+  * | passion for learning and am always looking for ways to improve my knowledge and skills]                                                                                                            |
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
   * }}}
   *
