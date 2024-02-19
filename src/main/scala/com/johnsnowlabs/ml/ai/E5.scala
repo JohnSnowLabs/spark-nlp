@@ -189,9 +189,6 @@ private[johnsnowlabs] class E5(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-        tokenTensors.close()
-        maskTensors.close()
-        segmentTensors.close()
 
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
@@ -199,10 +196,15 @@ private[johnsnowlabs] class E5(
       } finally if (results != null) results.close()
     } catch {
       case e: Exception =>
-        // Log the exception as a warning
-        logger.warn("Exception: ", e)
-        // Rethrow the exception to propagate it further
-        throw e
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Array[Float]] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
+      segmentTensors.close()
     }
   }
 
