@@ -50,11 +50,8 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     val groupedRows = rows.grouped(getBatchSize)
 
     groupedRows.flatMap {
-      case batchRow: Seq[_] =>
-        batchRow.headOption match {
-          case Some(_: Row) => processBatchRows(batchRow.asInstanceOf[Seq[Row]])
-          case _ => Seq(Row.empty)
-        }
+      case batchRow: Seq[Row] => processBatchRows(batchRow)
+      case singleRow: Row => processBatchRows(Seq(singleRow))
       case _ => Seq(Row.empty)
     }
   }
