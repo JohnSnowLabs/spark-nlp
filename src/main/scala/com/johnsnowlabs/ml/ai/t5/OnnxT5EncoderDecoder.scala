@@ -124,10 +124,9 @@ class OnnxT5EncoderDecoder(
       modelOutputs
     } catch {
       case e: Exception =>
-        // Log the exception as a warning
-        logger.warn("Exception: ", e)
-        // Rethrow the exception to propagate it further
-        throw e
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Array[Int]] // Return an empty array or appropriate error handling
     }
   }
 
