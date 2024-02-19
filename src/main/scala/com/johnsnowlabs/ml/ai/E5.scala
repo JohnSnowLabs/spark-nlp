@@ -23,6 +23,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -47,6 +48,7 @@ private[johnsnowlabs] class E5(
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
+  protected val logger: Logger = LoggerFactory.getLogger("E5")
   private val _tfInstructorSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 0
@@ -195,6 +197,12 @@ private[johnsnowlabs] class E5(
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
         LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

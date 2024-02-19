@@ -25,6 +25,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -54,6 +55,7 @@ private[johnsnowlabs] class BertClassification(
     extends Serializable
     with XXXForClassification {
 
+  protected val logger: Logger = LoggerFactory.getLogger("BertClassification")
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   protected val sentencePadTokenId = 0
@@ -256,6 +258,12 @@ private[johnsnowlabs] class BertClassification(
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
 
   }
@@ -560,6 +568,12 @@ private[johnsnowlabs] class BertClassification(
 
         (startLogits, endLogits)
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

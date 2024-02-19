@@ -475,6 +475,7 @@ class MarianTransformer(override val uid: String)
   /** @group setParam * */
   def getModelIfNotSet: MarianEncoderDecoder = _model.get.value
 
+  /** do not remove or replace with $(vocabulary) due to a bug in some models */
   def getVocabulary: Array[String] = {
     if ($(vocabulary).isInstanceOf[java.util.ArrayList[String]]) {
       val arrayListValue = $(vocabulary).asInstanceOf[java.util.ArrayList[String]]
