@@ -108,7 +108,7 @@ class DeBerta(
             // Log the exception as a warning
             logger.warn("Exception: ", e)
             // Rethrow the exception to propagate it further
-            throw e
+            // throw e
         }
       case _ =>
         val tensors = new TensorResources()
