@@ -125,29 +125,19 @@ private[johnsnowlabs] object Preprocessor {
 
     def parseSize(config: PreprocessorConfig) = {
       config.size match {
-        case sizeMap: Map[_, _] if sizeMap.forall { case (key, value) =>
-              key.isInstanceOf[String] && value.isInstanceOf[BigInt]
-            } =>
-          sizeMap.asInstanceOf[Map[String, BigInt]] match {
-            case map if map.contains("width") =>
-              val width = map("width")
-              require(
-                width == map("height"),
-                "Different sizes for width and height are currently not supported.")
-              width.toInt
-            case map if map.contains("shortest_edge") =>
-              map("shortest_edge").toInt
-            case _ =>
-              throw new IllegalArgumentException(
-                "Unsupported format for size. Should either be int or dict with entries 'width' and 'height' or 'shortest_edge'")
-          }
-
-        case sizeInt: BigInt =>
-          sizeInt.toInt
-
+        case sizeMap: Map[String, BigInt] if sizeMap.contains("width") =>
+          val width = sizeMap("width")
+          require(
+            width == sizeMap("height"),
+            "Different sizes for width and height are currently not supported.")
+          width.toInt
+        case sizeMap: Map[String, BigInt] if sizeMap.contains("shortest_edge") =>
+          // ConvNext case: Size of the output image after `resize` has been applied
+          sizeMap("shortest_edge").toInt
+        case sizeInt: BigInt => sizeInt.toInt
         case _ =>
           throw new IllegalArgumentException(
-            "Unsupported format for size. Should either be int or a Map with specific keys.")
+            "Unsupported format for size. Should either be int or dict with entries \'width\' and \'height\' or \'shortest_edge\'")
       }
     }
 
