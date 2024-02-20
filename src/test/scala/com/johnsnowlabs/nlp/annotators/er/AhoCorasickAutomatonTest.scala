@@ -148,7 +148,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     val actualOutput = automaton.searchPatternsInText(sentence)
 
     val expectedOutput = Seq(
-      Annotation(CHUNK, 0, 3, "abc", Map("entity" -> "PER", "sentence" -> "0"))
+      Annotation(CHUNK, 0, 2, "abc", Map("entity" -> "PER", "sentence" -> "0"))
     )
     assert(actualOutput == expectedOutput)
 
@@ -169,7 +169,7 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
     val actualOutput = automaton.searchPatternsInText(sentence)
 
     val expectedOutput = Seq(
-      Annotation(CHUNK, 1, 4, "bcx", Map("entity" -> "PER", "sentence" -> "0"))
+      Annotation(CHUNK, 1, 3, "bcx", Map("entity" -> "PER", "sentence" -> "0"))
     )
     assert(actualOutput == expectedOutput)
 
