@@ -133,4 +133,46 @@ class AhoCorasickAutomatonTest extends AnyFlatSpec {
 
   }
 
+  it should "not miss a match when hopping from a leaf node through a suffix link" taggedAs FastTest in {
+    val englishAlphabet =
+      "abcdefghijklmnopqrstuvwxyz," + "abcdefghijklmnopqrstuvwxyz".toUpperCase()
+    val entityPatterns = Array(
+      EntityPattern(
+        "PER",
+        Seq("abc", "cdef"))
+    )
+    val text = "abcd"
+    val sentence = Sentence(text, 0, text.length, 0)
+
+    val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns)
+    val actualOutput = automaton.searchPatternsInText(sentence)
+
+    val expectedOutput = Seq(
+      Annotation(CHUNK, 0, 3, "abc", Map("entity" -> "PER", "sentence" -> "0"))
+    )
+    assert(actualOutput == expectedOutput)
+
+  }
+
+  it should "not return merged chunks when overlapping through suffix links" taggedAs FastTest in {
+    val englishAlphabet =
+      "abcdefghijklmnopqrstuvwxyz," + "abcdefghijklmnopqrstuvwxyz".toUpperCase()
+    val entityPatterns = Array(
+      EntityPattern(
+        "PER",
+        Seq("abcy", "bcx"))
+    )
+    val text = "abcx"
+    val sentence = Sentence(text, 0, text.length, 0)
+
+    val automaton = new AhoCorasickAutomaton(englishAlphabet, entityPatterns)
+    val actualOutput = automaton.searchPatternsInText(sentence)
+
+    val expectedOutput = Seq(
+      Annotation(CHUNK, 1, 4, "bcx", Map("entity" -> "PER", "sentence" -> "0"))
+    )
+    assert(actualOutput == expectedOutput)
+
+  }
+
 }
