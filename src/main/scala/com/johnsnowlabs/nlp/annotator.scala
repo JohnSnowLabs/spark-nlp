@@ -789,4 +789,6 @@ package object annotator {
       extends ReadablePretrainedM2M100TransformerModel
       with ReadM2M100TransformerDLModel
 
+  type UAEEmbeddings = com.johnsnowlabs.nlp.embeddings.UAEEmbeddings
+  object UAEEmbeddings extends ReadablePretrainedUAEModel with ReadUAEDLModel
 }
