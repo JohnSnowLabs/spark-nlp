@@ -4,9 +4,21 @@ This is the directory for examples on how to use Spark NLP demos in [Google cola
 
 ## Available demos
 
-* Text Summarization
 * CLIPForZeroShotClassification
+* VIT Image Classification
 * Speech recognition with whisper
+* T5 Active Passive
+* T5 Formal Informal
+* T5 Grammer
+* T5 Linguistic
+* T5 SQL
+* Text Finder EN
+* Text Preprocessing
+* Text Summarization
+* Text summarization with BART
+* Translation Marian
+* Typo Detector
+
 
 ## Quick Start
 
