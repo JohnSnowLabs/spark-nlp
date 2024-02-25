@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2023 John Snow Labs
+ * Copyright 2017-2024 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val bart = M2M100Transformer
+    val m2m100 = M2M100Transformer
       .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("zh")
@@ -46,7 +46,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setBeamSize(1)
 
     new Pipeline()
-      .setStages(Array(documentAssembler, bart))
+      .setStages(Array(documentAssembler, m2m100))
       .fit(testData)
       .transform(testData)
       .show(truncate = false)
@@ -64,7 +64,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val bart = M2M100Transformer
+    val m2m100 = M2M100Transformer
       .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("hi")
@@ -75,7 +75,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setBeamSize(1)
 
     new Pipeline()
-      .setStages(Array(documentAssembler, bart))
+      .setStages(Array(documentAssembler, m2m100))
       .fit(testData)
       .transform(testData)
       .show(truncate = false)
@@ -93,7 +93,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val bart = M2M100Transformer
+    val m2m100 = M2M100Transformer
       .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("si")
@@ -104,7 +104,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setBeamSize(1)
 
     new Pipeline()
-      .setStages(Array(documentAssembler, bart))
+      .setStages(Array(documentAssembler, m2m100))
       .fit(testData)
       .transform(testData)
       .show(truncate = false)

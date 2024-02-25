@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2023 John Snow Labs
+ * Copyright 2017-2024 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,19 +38,26 @@ class LLAMA2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = LLAMA2Transformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/LLAMA2/llama2-7b-int4-cpu-no-merged/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setDoSample(true)
       .setMaxOutputLength(50)
       .setOutputCol("generation")
       .setBeamSize(2)
-    new Pipeline()
+
+    val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, bart))
-      .fit(testData)
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
       .transform(testData)
       .show(truncate = false)
 
+    pipelineModel.stages.last
+      .asInstanceOf[LLAMA2Transformer]
+      .write
+      .overwrite()
+      .save("/tmp/llama-7b-4bit-model")
   }
 }

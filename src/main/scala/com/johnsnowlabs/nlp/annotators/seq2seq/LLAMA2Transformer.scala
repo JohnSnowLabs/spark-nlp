@@ -62,7 +62,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama2-7b"`, if no name is provided. For available pretrained models
+  * The default model is `"llama_2_7b_chat_hf_int4"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=llama2 Models Hub]].
   *
   * For extended examples of usage, see
@@ -99,7 +99,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val llama2 = LLAMA2Transformer.pretrained("llama2-7b")
+  * val llama2 = LLAMA2Transformer.pretrained("llama_2_7b_chat_hf_int4")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -293,7 +293,7 @@ class LLAMA2Transformer(override val uid: String)
 trait ReadablePretrainedLLAMA2TransformerModel
     extends ParamsAndFeaturesReadable[LLAMA2Transformer]
     with HasPretrained[LLAMA2Transformer] {
-  override val defaultModelName: Some[String] = Some("llama2-7b")
+  override val defaultModelName: Some[String] = Some("llama_2_7b_chat_hf_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): LLAMA2Transformer = super.pretrained()
