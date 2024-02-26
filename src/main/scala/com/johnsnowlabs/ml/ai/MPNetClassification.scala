@@ -321,28 +321,38 @@ private[johnsnowlabs] class MPNetClassification(
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
-      val output = runner.run(inputs)
+      val results = runner.run(inputs)
       try {
-        val startLogits = output
+        val startLogits = results
           .get("start_logits")
           .get()
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
 
-        val endLogits = output
+        val endLogits = results
           .get("end_logits")
           .get()
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-
-        tokenTensors.close()
-        maskTensors.close()
-
         (startLogits, endLogits)
-      } finally if (output != null) output.close()
+      } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        (
+          Array.empty[Float],
+          Array.empty[Float]
+        ) // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
     }
+
   }
 
   def findIndexedToken(
