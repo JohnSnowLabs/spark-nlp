@@ -1,4 +1,37 @@
 ========
+5.3.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing Llama-2 and all the models fine-tuned based on this architecutre. This our very first CasualLM annotator in ONNX and it comes with support for quantization in INT4 and INT8 for CPUs.
+* **NEW:** Introducing `MPNetForSequenceClassification` annotator for sequence classification tasks. This annotator is based on the MPNet architecture and is designed to classify sequences of text into a set of predefined classes.
+* **NEW:** Introducing `MPNetForQuestionAnswering` annotator for question answering tasks. This annotator is based on the MPNet architecture and is designed to answer questions based on a given context.
+* **NEW:** Introducing `M2M100` state-of-the-art multilingual translation. M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many multilingual translation. The model can directly translate between the 9,900 directions of 100 languages.
+* **NEW:** Introducing a new `DeBertaForZeroShotClassification` annotator for zero-shot classification tasks. This annotator is based on the DeBERTa architecture and is designed to classify sequences of text into a set of predefined classes.
+* **NEW:** Implement retreival feature in our `DocumentSimilarity`annotator. The new DocumentSimilarity ranker is a powerful tool for ranking documents based on their similarity to a given query document. It is designed to be efficient and scalable, making it ideal for a variety of RAG applications/
+* Add ONNNX support for `BertForZeroShotClassification` annotator.
+* Add support for in-memory use of `WordEmbeddingsModel` annotator in server-less cluster. We initially introduced in-memory feature for this annotator for users inside Kubernetes cluster without any `HDFS`, however, today it runs without any issue `locally`, Google `Colab`, `Kaggle`, `Databricks`, `AWS EMR`, `GCP`, and `AWS Glue`.
+* New Whisper Large and Distil models.
+* Update ONNX Runtime to 1.17.0
+* Support new Databricks Runtimes of 14.2, 14.3, 14.2 ML, 14.3 ML, 14.2 GPU, 14.3 GPU
+* Support new EMR 6.15.0 and 7.0.0 versions
+* Add nobteook to fine-tune a BERT for Sentence Embeddings in Hugging Face and import it to Spark NLP
+* Add notebook to import BERT for Zero-Shot classification from Hugging Face
+* Add notebook to import DeBERTa for Zero-Shot classification from Hugging Face
+* Update EntityRuler documentation
+* Improve SBT project and resolve warnings (almost!)
+
+----------------
+Bug Fixes
+----------------
+* Fix Spark NLP Configuration's to set `cluster_tmp_dir` on Databricks' DBFS via `spark.jsl.settings.storage.cluster_tmp_dir` https://github.com/JohnSnowLabs/spark-nlp/issues/14129
+* Fix score calculation in `RoBertaForQuestionAnswering` annotator https://github.com/JohnSnowLabs/spark-nlp/pull/14147
+* Fix optional input col validations https://github.com/JohnSnowLabs/spark-nlp/pull/14153
+* Fix notebooks for importing DeBERTa classifiers https://github.com/JohnSnowLabs/spark-nlp/pull/14154
+* Fix GPT2 deserialization over the cluster (Databricks) https://github.com/JohnSnowLabs/spark-nlp/pull/14177
+
+========
 5.2.3
 ========
 ----------------
