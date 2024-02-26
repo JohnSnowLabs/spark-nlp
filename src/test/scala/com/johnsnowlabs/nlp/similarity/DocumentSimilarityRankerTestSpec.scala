@@ -299,6 +299,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     transformed.show(false)
 
     assert(transformed.count() === 3)
-    assert(transformed.columns.contains("nearest_neighbor_id", "nearest_neighbor_distance"))
+    assert(transformed.columns.contains("nearest_neighbor_id"))
+    assert(transformed.columns.contains("nearest_neighbor_distance"))
   }
 }
