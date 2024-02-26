@@ -54,7 +54,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"m2m100_480m"`, if no name is provided. For available pretrained models
+  * The default model is `"m2m100_418M"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=m2m100 Models Hub]].
   *
   * For extended examples of usage, see
@@ -111,7 +111,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val m2m100 = M2M100Transformer.pretrained("m2m100_480m")
+  * val m2m100 = M2M100Transformer.pretrained("m2m100_418M")
   *   .setInputCols(Array("documents"))
   *   .setSrcLang("zh")
   *   .serTgtLang("en")
@@ -466,7 +466,8 @@ class M2M100Transformer(override val uid: String)
 trait ReadablePretrainedM2M100TransformerModel
     extends ParamsAndFeaturesReadable[M2M100Transformer]
     with HasPretrained[M2M100Transformer] {
-  override val defaultModelName: Some[String] = Some("m2m100_480m")
+  override val defaultModelName: Some[String] = Some("m2m100_418M")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): M2M100Transformer = super.pretrained()

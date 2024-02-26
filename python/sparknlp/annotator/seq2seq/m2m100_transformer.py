@@ -32,7 +32,7 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"m2m100_480m"``, if no name is provided. For available
+    The default model is ``"m2m100_418M"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=m2m100>`__.
 
@@ -125,7 +125,7 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> m2m100 = M2M100Transformer.pretrained("m2m100_480m") \\
+    >>> m2m100 = M2M100Transformer.pretrained("m2m100_418M") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation") \\
@@ -370,13 +370,13 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return M2M100Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="m2m100_480m", lang="en", remote_loc=None):
+    def pretrained(name="m2m100_418M", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "m2m100_480m"
+            Name of the pretrained model, by default "m2m100_418M"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
