@@ -22,7 +22,7 @@ environment.
 Spark NLP comes with **36000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Image to Text (captioning)**, **Automatic Speech Recognition**, **Zero-Shot Learning**, and many more [NLP tasks](#features).
 
-**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Facebook BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, **Vision Transformers (ViT)**, **OpenAI Whisper**, and many more not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Llama-2**, **M2M100**, **BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, **Vision Transformers (ViT)**, **OpenAI Whisper**, and many more not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -111,42 +111,34 @@ documentation and examples
 - BERT Sentence Embeddings (TF Hub & HuggingFace models)
 - RoBerta Sentence Embeddings (HuggingFace models)
 - XLM-RoBerta Sentence Embeddings (HuggingFace models)
-- Instructor Embeddings (HuggingFace models)
+- INSTRUCTOR Embeddings (HuggingFace models)
 - E5 Embeddings (HuggingFace models)
 - MPNet Embeddings (HuggingFace models)
 - OpenAI Embeddings
-- Sentence Embeddings
-- Chunk Embeddings
+- Sentence & Chunk Embeddings
 - Unsupervised keywords extraction
 - Language Detection & Identification (up to 375 languages)
-- Multi-class Sentiment analysis (Deep learning)
-- Multi-label Sentiment analysis (Deep learning)
+- Multi-class & Multi-labe Sentiment analysis (Deep learning)
 - Multi-class Text Classification (Deep learning)
-- BERT for Token & Sequence Classification
-- DistilBERT for Token & Sequence Classification
-- CamemBERT for Token & Sequence Classification
-- ALBERT for Token & Sequence Classification
-- RoBERTa for Token & Sequence Classification
-- DeBERTa for Token & Sequence Classification
-- XLM-RoBERTa for Token & Sequence Classification
+- BERT for Token & Sequence Classification & Question Answering
+- DistilBERT for Token & Sequence Classification & Question Answering
+- CamemBERT for Token & Sequence Classification & Question Answering
+- ALBERT for Token & Sequence Classification & Question Answering
+- RoBERTa for Token & Sequence Classification & Question Answering
+- DeBERTa for Token & Sequence Classification & Question Answering
+- XLM-RoBERTa for Token & Sequence Classification & Question Answering
+- Longformer for Token & Sequence Classification & Question Answering
+- MPnet for Token & Sequence Classification & Question Answering
 - XLNet for Token & Sequence Classification
-- Longformer for Token & Sequence Classification
-- BERT for Token & Sequence Classification
-- BERT for Question Answering
-- CamemBERT for Question Answering
-- DistilBERT for Question Answering
-- ALBERT for Question Answering
-- RoBERTa for Question Answering
-- DeBERTa for Question Answering
-- XLM-RoBERTa for Question Answering
-- Longformer for Question Answering
-- Table Question Answering (TAPAS)
 - Zero-Shot NER Model
 - Zero-Shot Text Classification by Transformers (ZSL)
 - Neural Machine Translation (MarianMT)
+- Many-to-Many multilingual translation model (Facebook M2M100)
+- Table Question Answering (TAPAS)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
 - Seq2Seq for NLG, Translation, and Comprehension (Facebook BART)
+- Chat and Conversational LLMs (Facebook Llama-22)
 - Vision Transformer (Google ViT)
 - Swin Image Classification (Microsoft Swin Transformer)
 - ConvNext Image Classification (Facebook ConvNext)
@@ -173,7 +165,7 @@ To use Spark NLP you need the following requirements:
 
 **GPU (optional):**
 
-Spark NLP 5.3.0 is built with ONNX 1.16.3 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
+Spark NLP 5.3.0 is built with ONNX 1.17.0 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
@@ -238,7 +230,8 @@ Spark NLP *5.3.0* has been built on top of Apache Spark 3.4 while fully supports
 
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 5.2.x     | YES          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.3.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.2.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.1.x     | Partially          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 4.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -259,6 +252,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|------------|
+| 5.3.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.2.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.1.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
@@ -318,6 +312,10 @@ Spark NLP 5.3.0 has been tested and is compatible with the following runtimes:
 - 14.0 ML
 - 14.1
 - 14.1 ML
+- 14.2
+- 14.2 ML
+- 14.3
+- 14.3 ML
 
 **GPU:**
 
@@ -340,6 +338,8 @@ Spark NLP 5.3.0 has been tested and is compatible with the following runtimes:
 - 13.3 ML & GPU
 - 14.0 ML & GPU
 - 14.1 ML & GPU
+- 14.2 ML & GPU
+- 14.3 ML & GPU
 
 ## EMR Support
 
@@ -359,8 +359,11 @@ Spark NLP 5.3.0 has been tested and is compatible with the following EMR release
 - emr-6.12.0
 - emr-6.13.0
 - emr-6.14.0
+- emr-6.15.0
+- emr-7.0.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
+Full list of [Amazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
 
 NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
