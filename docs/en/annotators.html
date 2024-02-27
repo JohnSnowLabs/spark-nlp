@@ -1066,6 +1066,16 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#mpnetforquestionanswering">MPNetForQuestionAnswering</a></td>
+        <td>MPNet Models with a span classification head on top for extractive question-answering tasks like SQuAD.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#mpnetforsequenceclassification">MPNetForSequenceClassification</a></td>
+        <td>MPNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#openaicompletion">OpenAICompletion</a></td>
         <td>Transformer that makes a request for OpenAI Completion API for each executor.</td>
         <td>Opensource</td>
@@ -4101,8 +4111,6 @@ named entity. The definitions can contain any number of named entities.</p>
 set as the “format” field in the <code class="language-plaintext highlighter-rouge">option</code> parameter map and depending on the file type, additional parameters might
 need to be set.</p>
 
-    <p>To enable regex extraction, <code class="language-plaintext highlighter-rouge">setEnablePatternRegex(true)</code> needs to be called.</p>
-
     <p>If the file is in a JSON format, then the rule definitions need to be given in a list with the fields “id”, “label”
 and “patterns”:</p>
     <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [
@@ -4183,8 +4191,7 @@ LOCATION|Winterfell
       <span class="s">"patterns.csv"</span><span class="p">,</span>
       <span class="n">ReadAs</span><span class="p">.</span><span class="n">TEXT</span><span class="p">,</span>
       <span class="p">{</span><span class="s">"format"</span><span class="p">:</span> <span class="s">"csv"</span><span class="p">,</span> <span class="s">"delimiter"</span><span class="p">:</span> <span class="s">"</span><span class="se">\\</span><span class="s">|"</span><span class="p">}</span>
-    <span class="p">)</span> \
-    <span class="p">.</span><span class="n">setEnablePatternRegex</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
@@ -4234,7 +4241,6 @@ LOCATION|Winterfell
     <span class="nv">ReadAs</span><span class="o">.</span><span class="py">TEXT</span><span class="o">,</span>
     <span class="o">{</span><span class="s">"format"</span><span class="k">:</span> <span class="err">"</span><span class="kt">csv</span><span class="err">"</span><span class="o">,</span> <span class="s">"delimiter"</span><span class="k">:</span> <span class="err">"</span><span class="kt">|</span><span class="err">"</span><span class="o">)}</span>
   <span class="o">)</span>
-  <span class="o">.</span><span class="py">setEnablePatternRegex</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span>
