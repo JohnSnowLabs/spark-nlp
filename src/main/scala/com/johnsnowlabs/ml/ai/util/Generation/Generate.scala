@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai.util.Generation
 
+import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   MinLengthLogitProcessor,
   NoRepeatNgramsLogitProcessor,
@@ -82,8 +83,8 @@ trait Generate {
     */
   def generate(
       inputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       decoderInputs: Array[Array[Int]],
       maxOutputLength: Int,
       minOutputLength: Int,
@@ -100,7 +101,7 @@ trait Generate {
       paddingTokenId: Int,
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
-      session: Session,
+      session: Either[Session, (OrtEnvironment, OrtSession)],
       applySoftmax: Boolean = true): Array[Array[Int]] = {
 
     // TODO: Add support for ignoreTokenIds
@@ -178,8 +179,8 @@ trait Generate {
   def beamSearch(
       encoderInputIdsVals: Seq[Array[Int]],
       inputIdsVal: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       beamScorer: BeamScorer,
       logitProcessor: LogitProcessorList,
       maxLength: Int,
@@ -187,7 +188,7 @@ trait Generate {
       eosTokenId: Int,
       doSample: Boolean,
       randomSeed: Option[Long],
-      session: Session,
+      session: Either[Session, (OrtEnvironment, OrtSession)],
       applySoftmax: Boolean): Array[Array[Int]] = {
     val inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
@@ -434,10 +435,10 @@ trait Generate {
   def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Session): Array[Array[Float]]
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]]
 
   /** Samples from a multinomial distribution using the provided logits.
     *
