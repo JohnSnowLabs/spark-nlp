@@ -789,4 +789,10 @@ package object annotator {
       extends ReadablePretrainedM2M100TransformerModel
       with ReadM2M100TransformerDLModel
 
+  type MPNetForTokenClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification
+
+  object MPNetForTokenClassification
+      extends ReadablePretrainedMPNetForTokenDLModel
+      with ReadMPNetForTokenDLModel
 }

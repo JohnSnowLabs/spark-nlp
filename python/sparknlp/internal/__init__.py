@@ -615,3 +615,10 @@ class _MPNetForQuestionAnsweringLoader(ExtendedJavaWrapper):
         super(_MPNetForQuestionAnsweringLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering.loadSavedModel", path,
             jspark)
+
+
+class _MPNetForTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MPNetForTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification.loadSavedModel", path,
+            jspark)
