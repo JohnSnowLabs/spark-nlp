@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "5.2.3"
+version := "5.3.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -144,13 +144,17 @@ lazy val utilDependencies = Seq(
     exclude ("com.fasterxml.jackson.core", "jackson-annotations")
     exclude ("com.fasterxml.jackson.core", "jackson-databind")
     exclude ("com.fasterxml.jackson.core", "jackson-core")
+    exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor")
     exclude ("commons-configuration", "commons-configuration"),
   liblevenshtein
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3")
     exclude ("com.google.code.findbugs", "annotations")
     exclude ("org.slf4j", "slf4j-api"),
-  gcpStorage,
+  gcpStorage
+    exclude ("com.fasterxml.jackson.core", "jackson-core")
+    exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor")
+  ,
   greex,
   azureIdentity,
   azureStorage)

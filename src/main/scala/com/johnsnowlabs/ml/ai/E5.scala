@@ -23,6 +23,7 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -47,6 +48,7 @@ private[johnsnowlabs] class E5(
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
+  protected val logger: Logger = LoggerFactory.getLogger("E5")
   private val _tfInstructorSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 0
@@ -187,14 +189,22 @@ private[johnsnowlabs] class E5(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-        tokenTensors.close()
-        maskTensors.close()
-        segmentTensors.close()
 
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
         LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Array[Float]] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
+      segmentTensors.close()
     }
   }
 

@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
+import org.scalactic.TolerantNumerics
 import org.scalatest.flatspec.AnyFlatSpec
 
 class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
@@ -135,26 +136,20 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("answer").show(truncate = false)
 
-    /* Expected:
-       {
-           "score": 0.7772300839424133,
-           "start": 31,
-           "end": 37,
-           "answer": "London"
-       }
-     */
-    val expectedScore: Float = 0.7772300839424133f
-    val expectedAnswer: String = "London"
     val result = Annotation.collect(pipelineDF, "answer").head.head
-
-    val indexedAnswer: String =
-      context.slice(result.metadata("start").toInt + 1, result.metadata("end").toInt + 1)
+    val start = result.metadata("start").toInt + 1
+    val end = result.metadata("end").toInt + 1
     val score: Float = result.metadata("score").toFloat
 
-    assert(result.result == expectedAnswer)
-    assert(indexedAnswer == expectedAnswer, "Indexes don't seem to match")
+    val expectedScore: Float = 0.7772300839424133f
+    val expectedStart = 31
+    val expectedEnd = 37
+    val expectedAnswer: String = "London"
+    assert(result.result == expectedAnswer, "Wrong answer")
+    assert(start == expectedStart, "Wrong start")
+    assert(end == expectedEnd, "Wrong end")
 
-    import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
+    implicit val tolerantEq = TolerantNumerics.tolerantFloatEquality(1e-2f)
     assert(score === expectedScore, "Score was not close enough")
   }
 }

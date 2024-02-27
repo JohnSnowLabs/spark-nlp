@@ -48,3 +48,6 @@ from sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification i
 from sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification import *
+from sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification import *
+from sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification import *
+from sparknlp.annotator.classifier_dl.mpnet_for_question_answering import *

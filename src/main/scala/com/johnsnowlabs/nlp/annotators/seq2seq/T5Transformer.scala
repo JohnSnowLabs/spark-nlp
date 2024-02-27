@@ -666,13 +666,13 @@ trait ReadT5TransformerDLModel
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
 
         val onnxEncoder = OnnxWrapper.read(
-          modelPath,
+          localModelPath,
           modelName = "encoder_model",
           zipped = false,
           useBundle = true)
 
         val onnxDecoder = OnnxWrapper.read(
-          modelPath,
+          localModelPath,
           modelName = "decoder_model_merged",
           zipped = false,
           useBundle = true)

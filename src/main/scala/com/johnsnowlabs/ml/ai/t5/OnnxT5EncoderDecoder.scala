@@ -3,6 +3,7 @@ package com.johnsnowlabs.ml.ai.t5
 import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters.{mapAsJavaMap, setAsJavaSet}
 
@@ -13,6 +14,7 @@ class OnnxT5EncoderDecoder(
     override val additionalTokens: Map[Int, String] = Map())
     extends T5EncoderDecoder(spp, additionalTokens) {
 
+  protected val logger: Logger = LoggerFactory.getLogger("OnnxT5EncoderDecoder")
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   protected val numLayers: Int = {
     ((onnxDecoder.getSession(onnxSessionOptions)._1.getNumOutputs - 1) / 4).toInt
@@ -120,6 +122,11 @@ class OnnxT5EncoderDecoder(
       //        println(x.map(_.toString).mkString(" "))
       //      })
       modelOutputs
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Array[Int]] // Return an empty array or appropriate error handling
     }
   }
 

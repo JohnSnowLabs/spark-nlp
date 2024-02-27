@@ -84,11 +84,36 @@ object StorageHelper {
       sparkContext: SparkContext): Unit = {
     destinationScheme match {
       case "file" => {
-        val destination = new Path(RocksDBConnection.getLocalPath(clusterFileName))
-        copyIndexToLocal(source, destination, sparkContext)
+        val sourceFileSystemScheme = source.getFileSystem(sparkContext.hadoopConfiguration)
+        val tmpIndexStorageLocalPath =
+          RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
+        sourceFileSystemScheme.getScheme match {
+          case "file" => {
+            if (!doesDirectoryExistJava(tmpIndexStorageLocalPath) ||
+              !doesDirectoryExistHadoop(tmpIndexStorageLocalPath, sparkContext)) {
+              copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+            }
+          }
+          case "s3a" =>
+            copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
+          case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
+        }
       }
-      case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
+      case _ => {
+        copyIndexToCluster(source, clusterFilePath, sparkContext)
+      }
     }
+  }
+
+  private def doesDirectoryExistJava(path: String): Boolean = {
+    val directory = new File(path)
+    directory.exists && directory.isDirectory
+  }
+
+  private def doesDirectoryExistHadoop(path: String, sparkContext: SparkContext): Boolean = {
+    val localPath = new Path(path)
+    val fileSystem = localPath.getFileSystem(sparkContext.hadoopConfiguration)
+    fileSystem.exists(localPath)
   }
 
   private def copyIndexToCluster(
@@ -129,21 +154,17 @@ object StorageHelper {
     val fileSystemDestination = destination.getFileSystem(sparkContext.hadoopConfiguration)
     val fileSystemSource = source.getFileSystem(sparkContext.hadoopConfiguration)
 
-    if (fileSystemDestination.exists(destination)) {
-      return
-    }
-
-    if (fileSystemSource.getScheme == "s3a" && fileSystemDestination.getScheme == "file") {
+    if (fileSystemSource.getScheme == "file") {
+      fileSystemDestination.copyFromLocalFile(false, true, source, destination)
+    } else {
       CloudResources.downloadBucketToLocalTmp(
         source.toString,
         destination.toString,
         isIndex = true)
-      sparkContext.addFile(destination.toString, recursive = true)
-      return
-    }
-
-    if (fileSystemDestination.getScheme != "s3a") {
-      fileSystemDestination.copyFromLocalFile(false, true, source, destination)
+      val isLocalMode = sparkContext.master.startsWith("local")
+      if (isLocalMode) {
+        sparkContext.addFile(destination.toString, recursive = true)
+      }
     }
   }
 
