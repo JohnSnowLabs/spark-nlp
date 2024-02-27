@@ -246,12 +246,11 @@ private[johnsnowlabs] class E5(
         signatures.get
           .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_last_hidden_state"))
 
-    val dim = embeddings.get_shape().last
+    val dim = embeddings.get_shape().map(_.toLong)
     val avgPooling =
-      LinAlg.avgPooling(embeddings.data(), attentionMask(0), dim)
-    val normalizedSentenceEmbeddings = LinAlg.normalizeArray(avgPooling)
-
-    Array(normalizedSentenceEmbeddings)
+      LinAlg.avgPooling(embeddings.data(), attentionMask, dim)
+    val normalizedEmbeddings = LinAlg.l2Normalize(avgPooling)
+    LinAlg.denseMatrixToArray(normalizedEmbeddings)
   }
 
   /** Predict sentence embeddings for a batch of sentences
