@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class QwenTransformerTextGenerationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
