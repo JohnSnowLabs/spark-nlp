@@ -161,6 +161,7 @@ object OpenvinoWrapper {
     */
   def fromOpenvinoFormat(
       path: String,
+      modelName: String = "openvino_model",
       zipped: Boolean = true,
       device: String = "AUTO",
       properties: Map[String, String] = Map.empty): (OpenvinoWrapper, Map[String, String]) = {
@@ -176,8 +177,8 @@ object OpenvinoWrapper {
       else
         path
 
-    val modelPath = Paths.get(folder, Openvino.modelXml)
-    val weightsPath = Paths.get(folder, Openvino.modelBin)
+    val modelPath = Paths.get(folder, s"$modelName.xml")
+    val weightsPath = Paths.get(folder, s"$modelName.bin")
 
     logger.debug(s"Reading and compiling IR model on device: $device...")
     val modelBytes = FileUtils.readFileToByteArray(modelPath.toFile)

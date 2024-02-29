@@ -58,6 +58,17 @@ object LoadExternalModel {
        |├── openvino_model.xml
        |├── openvino_model.bin
        |
+       |A typical imported OpenVINO model for Seq2Seq has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── openvino_encoder_model.xml
+       |├── openvino_encoder_model.bin
+       |├── openvino_decoder_model.xml
+       |├── openvino_decoder_model.bin
+       |├── openvino_decoder_with_past_model.xml
+       |├── openvino_decoder_with_past_model.bin
+       |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
   }
@@ -91,10 +102,23 @@ object LoadExternalModel {
 
   }
 
-  def isOpenvinoModel(modelPath: String): Boolean = {
-    val modelXml = new File(modelPath, Openvino.modelXml)
-    val modelBin = new File(modelPath, Openvino.modelBin)
-    modelXml.exists() && modelBin.exists()
+  def isOpenvinoModel(modelPath: String, isEncoderDecoder: Boolean): Boolean = {
+    if (isEncoderDecoder) {
+      val ovEncoderModelXml = new File(modelPath, Openvino.encoderModelXml)
+      val ovEncoderModelBin = new File(modelPath, Openvino.encoderModelBin)
+      val ovDecoderModelXml = new File(modelPath, Openvino.decoderModelXml)
+      val ovDecoderModelBin = new File(modelPath, Openvino.decoderModelBin)
+      val ovDecoderModelWithPastXml = new File(modelPath, Openvino.decoderModelWithPastXml)
+      val ovDecoderModelWithPastBin = new File(modelPath, Openvino.decoderModelWithPastBin)
+
+      ovEncoderModelXml.exists() && ovEncoderModelBin.exists() &&
+        ovDecoderModelXml.exists() && ovDecoderModelBin.exists() &&
+        ovDecoderModelWithPastXml.exists() && ovDecoderModelWithPastBin.exists()
+    } else {
+      val modelXml = new File(modelPath, Openvino.modelXml)
+      val modelBin = new File(modelPath, Openvino.modelBin)
+      modelXml.exists() && modelBin.exists()
+    }
   }
 
   def detectEngine(
@@ -121,7 +145,7 @@ object LoadExternalModel {
     val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast, isDecoder)
 
     /*Openvino required model files*/
-    val openvinoModelExist = isOpenvinoModel(modelPath)
+    val openvinoModelExist = isOpenvinoModel(modelPath, isEncoderDecoder)
 
     if (tfSavedModelExist) {
       TensorFlow.name

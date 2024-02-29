@@ -37,6 +37,12 @@ final case object Openvino extends ModelEngine {
   val name = "openvino"
   val modelXml = "openvino_model.xml"
   val modelBin = "openvino_model.bin"
+  val encoderModelXml = "openvino_encoder_model.xml"
+  val encoderModelBin = "openvino_encoder_model.bin"
+  val decoderModelXml = "openvino_decoder_model.xml"
+  val decoderModelBin = "openvino_decoder_model.bin"
+  val decoderModelWithPastXml = "openvino_decoder_with_past_model.xml"
+  val decoderModelWithPastBin = "openvino_decoder_with_past_model.bin"
 }
 
 final case object Unknown extends ModelEngine {
