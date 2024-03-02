@@ -54,6 +54,10 @@ class LLAMA2TestSpec extends AnyFlatSpec {
       .transform(testData)
       .show(truncate = false)
 
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
     pipelineModel.stages.last
       .asInstanceOf[LLAMA2Transformer]
       .write
