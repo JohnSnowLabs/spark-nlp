@@ -101,6 +101,7 @@ object OnnxWrapper {
       }
     }
 
+  // TODO: the parts related to onnx_data should be refactored once we support addFile()
   def read(
       modelPath: String,
       zipped: Boolean = true,
@@ -152,7 +153,7 @@ object OnnxWrapper {
       session = _session
       env = _env
     } else {
-      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, None)
       session = _session
       env = _env
 
@@ -160,7 +161,9 @@ object OnnxWrapper {
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
 
-    val onnxWrapper = new OnnxWrapper(modelBytes, Option(onnxFile))
+    val onnxWrapper =
+      if (onnxDataFileExist) new OnnxWrapper(modelBytes, Option(onnxFile))
+      else new OnnxWrapper(modelBytes)
     onnxWrapper.ortSession = session
     onnxWrapper.ortEnv = env
     onnxWrapper
