@@ -459,7 +459,8 @@ trait ReadZeroShotNerDLModel extends ReadTensorflowModel with ReadOnnxModel {
   def readModel(instance: ZeroShotNerModel, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case TensorFlow.name => {
-        val tfWrapper = readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
         instance.setModelIfNotSet(spark, Some(tfWrapper), None)
       }
       case ONNX.name => {
