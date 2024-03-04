@@ -1,4 +1,16 @@
 ========
+5.3.1
+========
+----------------
+Bug Fixes
+----------------
+* Fix M2M100 not working on the second run (closing the ONNX Session by mistake)
+* Fix ONNX models failing in clusters like Databricks
+* Fix `ZeroShotNerClassification` issue with NerConverter
+* adding colab notebook for M2M100
+
+
+========
 5.3.0
 ========
 ----------------
