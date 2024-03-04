@@ -196,12 +196,12 @@ private[johnsnowlabs] class M2M100(
       applySoftmax = false)
 
     // Run the prompt through the decoder and get the past
-//    val decoderOutputs =
-//      generateGreedyOnnx(
-//        decoderInputIds,
-//        decoderEncoderStateTensors,
-//        encoderAttentionMaskTensors,
-//        onnxSession = (decoderSession, decoderEnv))
+    //    val decoderOutputs =
+    //      generateGreedyOnnx(
+    //        decoderInputIds,
+    //        decoderEncoderStateTensors,
+    //        encoderAttentionMaskTensors,
+    //        onnxSession = (decoderSession, decoderEnv))
 
     // close sessions
     decoderEncoderStateTensors.fold(
@@ -216,8 +216,6 @@ private[johnsnowlabs] class M2M100(
       },
       onnxTensor => onnxTensor.close())
 
-    encoderSession.close()
-    decoderSession.close()
     encoderEnv.close()
     decoderEnv.close()
 

@@ -88,7 +88,7 @@ private[johnsnowlabs] class ZeroShotNerClassification(
 
     val allTokenPieces =
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
-    val decodedAnswer = allTokenPieces.slice(startIndex._2 - 2, endIndex._2 - 1)
+    val decodedAnswer = allTokenPieces.slice(startIndex._2 - 3, endIndex._2 - 2)
     // Check if the answer span starts at the CLS symbol 0 - if so return empty string
     val content =
       if (startIndex._2 > 0)
@@ -141,4 +141,5 @@ private[johnsnowlabs] class ZeroShotNerClassification(
     }
 
   }
+
 }
