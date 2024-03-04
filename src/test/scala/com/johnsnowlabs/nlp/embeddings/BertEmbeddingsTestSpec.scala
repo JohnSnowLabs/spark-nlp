@@ -176,6 +176,36 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineModel.transform(ddd)
   }
 
+  "Bert Embeddings" should "correctly load custom model with OpenVINO" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tfModelPath = "src/test/resources/tf-hub-bert/model"
+
+    val embeddings = BertEmbeddings
+      .loadSavedModel(tfModelPath, ResourceHelper.spark, useOpenvino = true)
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("bert")
+      .setStorageRef("ov_bert_test")
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
+
+    pipelineModel.transform(ddd)
+  }
+
   "Bert Embeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
