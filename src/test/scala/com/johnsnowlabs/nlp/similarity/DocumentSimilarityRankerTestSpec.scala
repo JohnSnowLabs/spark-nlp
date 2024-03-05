@@ -302,4 +302,72 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     assert(transformed.columns.contains("nearest_neighbor_id"))
     assert(transformed.columns.contains("nearest_neighbor_distance"))
   }
+
+  "Pipeline" should "should not fail if I use the outputCol and inputCols feature" taggedAs SlowTest in {
+    val nbOfNeighbors = 3
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = AlbertEmbeddings
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val embeddingsSentence = new SentenceEmbeddings()
+      .setInputCols(Array("document", "embeddings"))
+      .setOutputCol("sentence_embeddings_")
+      .setPoolingStrategy("AVERAGE")
+
+    val sentenceFinisher = new EmbeddingsFinisher()
+      .setInputCols("sentence_embeddings_")
+      .setOutputCols("finished_sentence_embeddings")
+      .setCleanAnnotations(false)
+
+    val query = "Fifth document, Florence in Italy, is among the most beautiful cities in Europe."
+
+    val docSimilarityRanker = new DocumentSimilarityRankerApproach()
+      .setInputCols("sentence_embeddings_")
+      .setOutputCol(DOC_SIMILARITY_RANKINGS)
+      .setSimilarityMethod("brp")
+      .setNumberOfNeighbours(nbOfNeighbors)
+      .setVisibleDistances(true)
+      .setIdentityRanking(true)
+      .asRetriever(query)
+
+    val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
+      .setInputCols("doc_similarity_rankings")
+      .setOutputCols(
+        "finished_doc_similarity_rankings_id",
+        "finished_doc_similarity_rankings_neighbors")
+
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          sentenceFinisher,
+          docSimilarityRanker,
+          documentSimilarityFinisher))
+
+    val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
+
+    transformed.show(false)
+
+    assert(transformed.count() === 3)
+    assert(transformed.columns.contains("nearest_neighbor_id"))
+    assert(transformed.columns.contains("nearest_neighbor_distance"))
+  }
 }
