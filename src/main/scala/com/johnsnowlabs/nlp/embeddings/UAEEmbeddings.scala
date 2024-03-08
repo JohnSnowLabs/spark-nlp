@@ -115,7 +115,7 @@ import scala.util.Try
   * val data = Seq("hello world", "hello moon").toDF("text")
   * val result = pipeline.fit(data).transform(data)
   *
-  * result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
+  * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
   * +--------------------------------------------------------------------------------+
   * |                                                                          result|
   * +--------------------------------------------------------------------------------+
