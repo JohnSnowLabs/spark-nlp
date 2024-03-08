@@ -9,23 +9,23 @@ import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
 
 class UAEEmbeddingsTestSpec extends AnyFlatSpec {
-  val spark = ResourceHelper.spark
+  lazy val spark = ResourceHelper.spark
   import spark.implicits._
   behavior of "UAEEmbeddings"
 
-  val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
-  val model = UAEEmbeddings
+  lazy val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  lazy val model = UAEEmbeddings
     .pretrained()
     .setInputCols("document")
     .setOutputCol("embeddings")
 
-  val rawData: Seq[String] = Seq("hello world", "hello moon")
-  val data = rawData.toDF("text")
-  val embeddingsFinisher = new EmbeddingsFinisher()
+  lazy val rawData: Seq[String] = Seq("hello world", "hello moon")
+  lazy val data = rawData.toDF("text")
+  lazy val embeddingsFinisher = new EmbeddingsFinisher()
     .setInputCols("embeddings")
     .setOutputCols("embeddings")
 
-  val pipeline = new Pipeline().setStages(Array(document, model, embeddingsFinisher))
+  lazy val pipeline = new Pipeline().setStages(Array(document, model, embeddingsFinisher))
 
   /** Asserts the first 16 values of the embeddings are within tolerance.
     *
