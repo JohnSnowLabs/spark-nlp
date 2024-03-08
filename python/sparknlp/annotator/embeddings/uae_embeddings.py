@@ -22,9 +22,13 @@ class UAEEmbeddings(AnnotatorModel,
                     HasStorageRef,
                     HasBatchedAnnotate,
                     HasMaxSentenceLengthLimit):
-    """Sentence embeddings using UAE.
+    """Sentence embeddings using Universal AnglE Embedding (UAE).
 
-    UAE, a weakly supervised text embedding model that can generate text embeddings tailored to any task (e.g., classification, retrieval, clustering, text evaluation, etc.)
+    UAE is a novel angle-optimized text embedding model, designed to improve semantic textual
+    similarity tasks, which are crucial for Large Language Model (LLM) applications. By
+    introducing angle optimization in a complex space, AnglE effectively mitigates saturation of
+    the cosine similarity function.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
@@ -33,7 +37,7 @@ class UAEEmbeddings(AnnotatorModel,
     ...     .setOutputCol("UAE_embeddings")
 
 
-    The default model is ``"UAE_small"``, if no name is provided.
+    The default model is ``"uae_large_v1"``, if no name is provided.
 
     For available pretrained models please see the
     `Models Hub <https://sparknlp.org/models?q=UAE>`__.
@@ -60,23 +64,28 @@ class UAEEmbeddings(AnnotatorModel,
 
     References
     ----------
-    `Text Embeddings by Weakly-Supervised Contrastive Pre-training <https://arxiv.org/pdf/2212.03533>`__
 
-    https://github.com/microsoft/unilm/tree/master/UAE
+    `AnglE-optimized Text Embeddings <https://arxiv.org/abs/2309.12871>`__
+    `UAE Github Repository <https://github.com/baochi0212/uae-embedding>`__
 
     **Paper abstract**
 
-    *This paper presents UAE, a family of state-of-the-art text embeddings that transfer
-    well to a wide range of tasks. The model is trained in a contrastive manner with
-    weak supervision signals from our curated large-scale text pair dataset (called
-    CCPairs). UAE can be readily used as a general-purpose embedding model for any
-    tasks requiring a single-vector representation of texts such as retrieval, clustering,
-    and classification, achieving strong performance in both zero-shot and fine-tuned
-    settings. We conduct extensive evaluations on 56 datasets from the BEIR and
-    MTEB benchmarks. For zero-shot settings, UAE is the first model that outperforms
-    the strong BM25 baseline on the BEIR retrieval benchmark without using any
-    labeled data. When fine-tuned, UAE obtains the best results on the MTEB benchmark,
-    beating existing embedding models with 40× more parameters.*
+    *High-quality text embedding is pivotal in improving semantic textual similarity (STS) tasks,
+    which are crucial components in Large Language Model (LLM) applications. However, a common
+    challenge existing text embedding models face is the problem of vanishing gradients, primarily
+    due to their reliance on the cosine function in the optimization objective, which has
+    saturation zones. To address this issue, this paper proposes a novel angle-optimized text
+    embedding model called AnglE. The core idea of AnglE is to introduce angle optimization in a
+    complex space. This novel approach effectively mitigates the adverse effects of the saturation
+    zone in the cosine function, which can impede gradient and hinder optimization processes. To
+    set up a comprehensive STS evaluation, we experimented on existing short-text STS datasets and
+    a newly collected long-text STS dataset from GitHub Issues. Furthermore, we examine
+    domain-specific STS scenarios with limited labeled data and explore how AnglE works with
+    LLM-annotated data. Extensive experiments were conducted on various tasks including short-text
+    STS, long-text STS, and domain-specific STS tasks. The results show that AnglE outperforms the
+    state-of-the-art (SOTA) STS models that ignore the cosine saturation zone. These findings
+    demonstrate the ability of AnglE to generate high-quality text embeddings and the usefulness
+    of angle optimization in STS.*
 
     Examples
     --------
