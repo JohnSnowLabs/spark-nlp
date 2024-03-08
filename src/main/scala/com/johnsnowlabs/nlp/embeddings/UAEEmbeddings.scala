@@ -319,7 +319,12 @@ class UAEEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 1024, batchSize -> 8, maxSentenceLength -> 512, caseSensitive -> false)
+  setDefault(
+    dimension -> 1024,
+    batchSize -> 8,
+    maxSentenceLength -> 512,
+    caseSensitive -> false,
+    poolingStrategy -> "cls")
 
   def tokenize(sentences: Seq[Annotation]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))

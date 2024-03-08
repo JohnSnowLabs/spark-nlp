@@ -156,6 +156,7 @@ class UAEEmbeddings(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=512,
             caseSensitive=False,
+            poolingStrategy="cls"
         )
 
     @staticmethod
