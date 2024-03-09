@@ -68,7 +68,7 @@ private[johnsnowlabs] object PrepareEmbeddings {
       sentencePadTokenId: Int = 0): (org.intel.openvino.Tensor, org.intel.openvino.Tensor) = {
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors =
-      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(x => x.toLong)).toArray)
+      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
     val maskTensors = new org.intel.openvino.Tensor(
       shape,
       batch

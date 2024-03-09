@@ -499,13 +499,9 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOp
               zipped = false)
             tmpFolder
           }
-        val (ovWrapper: OpenvinoWrapper, tensorNames: Map[String, String]) =
+        val ovWrapper: OpenvinoWrapper =
           OpenvinoWrapper.fromOpenvinoFormat(irModelFolder, zipped = false)
 
-        /** the order of setSignatures is important if we use getSignatures inside
-          * setModelIfNotSet
-          */
-        annotatorModel.setSignatures(tensorNames)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
         FileHelper.delete(tmpFolder)

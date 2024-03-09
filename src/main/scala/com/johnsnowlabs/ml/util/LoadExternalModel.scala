@@ -104,19 +104,19 @@ object LoadExternalModel {
 
   def isOpenvinoModel(modelPath: String, isEncoderDecoder: Boolean): Boolean = {
     if (isEncoderDecoder) {
-      val ovEncoderModelXml = new File(modelPath, Openvino.encoderModelXml)
-      val ovEncoderModelBin = new File(modelPath, Openvino.encoderModelBin)
-      val ovDecoderModelXml = new File(modelPath, Openvino.decoderModelXml)
-      val ovDecoderModelBin = new File(modelPath, Openvino.decoderModelBin)
-      val ovDecoderModelWithPastXml = new File(modelPath, Openvino.decoderModelWithPastXml)
-      val ovDecoderModelWithPastBin = new File(modelPath, Openvino.decoderModelWithPastBin)
+      val ovEncoderModelXml = new File(modelPath, s"${Openvino.encoderModel}.xml")
+      val ovEncoderModelBin = new File(modelPath, s"${Openvino.encoderModel}.bin")
+      val ovDecoderModelXml = new File(modelPath, s"${Openvino.decoderModel}.xml")
+      val ovDecoderModelBin = new File(modelPath, s"${Openvino.decoderModel}.bin")
+      val ovDecoderModelWithPastXml = new File(modelPath, s"${Openvino.decoderModelWithPast}.xml")
+      val ovDecoderModelWithPastBin = new File(modelPath, s"${Openvino.decoderModelWithPast}.bin")
 
       ovEncoderModelXml.exists() && ovEncoderModelBin.exists() &&
-        ovDecoderModelXml.exists() && ovDecoderModelBin.exists() &&
-        ovDecoderModelWithPastXml.exists() && ovDecoderModelWithPastBin.exists()
+      ovDecoderModelXml.exists() && ovDecoderModelBin.exists() &&
+      ovDecoderModelWithPastXml.exists() && ovDecoderModelWithPastBin.exists()
     } else {
-      val modelXml = new File(modelPath, Openvino.modelXml)
-      val modelBin = new File(modelPath, Openvino.modelBin)
+      val modelXml = new File(modelPath, s"${Openvino.ovModel}.xml")
+      val modelBin = new File(modelPath, s"${Openvino.ovModel}.bin")
       modelXml.exists() && modelBin.exists()
     }
   }

@@ -17,7 +17,6 @@
 package com.johnsnowlabs.ml.openvino
 
 import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
-import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
@@ -29,7 +28,10 @@ import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.collection.JavaConverters._
 
-class OpenvinoWrapper(modelBytes: Array[Byte], weightsBytes: Array[Array[Byte]])
+class OpenvinoWrapper(
+    modelBytes: Array[Byte],
+    weightsBytes: Array[Array[Byte]],
+    modelPath: Option[String] = None)
     extends Serializable {
 
   /** For Deserialization */
@@ -42,30 +44,14 @@ class OpenvinoWrapper(modelBytes: Array[Byte], weightsBytes: Array[Array[Byte]])
   @transient private var compiledModel: CompiledModel = _
 
   def getCompiledModel(
-      device: String = "AUTO",
-      properties: Map[String, String] = Map.empty): CompiledModel =
+      properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
       if (compiledModel == null) {
-        val path = Files
-          .createTempDirectory(
-            UUID.randomUUID().toString.takeRight(12) + OpenvinoWrapper.ModelSuffix)
-          .toAbsolutePath
-          .toString
-        val tmpModelPath = Paths.get(path, Openvino.modelXml)
-        val tmpWeightsPath = Paths.get(path, Openvino.modelBin)
-
-        // save the binary data of the model and weights to files
-        FileUtils.writeByteArrayToFile(tmpModelPath.toFile, modelBytes)
-        ChunkBytes.writeByteChunksInFile(tmpWeightsPath, weightsBytes)
-
-        compiledModel = OpenvinoWrapper.core.compile_model(
-          tmpModelPath.toAbsolutePath.toString,
-          device,
-          properties.asJava)
-
-        logger.debug(
-          s"Compiled OpenVINO IR model on device: $device with properties: $properties")
-        FileHelper.delete(path)
+        compiledModel = OpenvinoWrapper.withSafeOvModelLoader(
+          modelBytes,
+          weightsBytes,
+          modelPath,
+          properties = properties)
       }
       compiledModel
     }
@@ -76,8 +62,9 @@ class OpenvinoWrapper(modelBytes: Array[Byte], weightsBytes: Array[Array[Byte]])
       .toAbsolutePath
       .toString
 
-    FileUtils.writeByteArrayToFile(Paths.get(tmpFolder, Openvino.modelXml).toFile, modelBytes)
-    ChunkBytes.writeByteChunksInFile(Paths.get(tmpFolder, Openvino.modelBin), weightsBytes)
+    val fileName = Paths.get(file).getFileName.toString
+    FileUtils.writeByteArrayToFile(Paths.get(tmpFolder, s"${fileName}.xml").toFile, modelBytes)
+    ChunkBytes.writeByteChunksInFile(Paths.get(tmpFolder, s"${fileName}.bin"), weightsBytes)
 
     ZipArchiveUtil.zip(tmpFolder, file)
     FileHelper.delete(tmpFolder)
@@ -139,8 +126,8 @@ object OpenvinoWrapper {
       }
 
     val model: Model = core.read_model(srcModelPath)
-    val ovModelPath = Paths.get(targetPath, Openvino.modelXml).toAbsolutePath.toString
-    val ovWeightsPath = Paths.get(targetPath, Openvino.modelBin).toAbsolutePath.toString
+    val ovModelPath = Paths.get(targetPath, s"${Openvino.ovModel}.xml").toAbsolutePath.toString
+    val ovWeightsPath = Paths.get(targetPath, s"${Openvino.ovModel}.bin").toAbsolutePath.toString
     org.intel.openvino.Openvino.serialize(model, ovModelPath, ovWeightsPath)
 
     FileHelper.delete(tmpFolder)
@@ -161,10 +148,10 @@ object OpenvinoWrapper {
     */
   def fromOpenvinoFormat(
       path: String,
-      modelName: String = "openvino_model",
+      modelName: String = Openvino.ovModel,
       zipped: Boolean = true,
       device: String = "AUTO",
-      properties: Map[String, String] = Map.empty): (OpenvinoWrapper, Map[String, String]) = {
+      properties: Map[String, String] = Map.empty): OpenvinoWrapper = {
 
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + ModelSuffix)
@@ -183,18 +170,52 @@ object OpenvinoWrapper {
     logger.debug(s"Reading and compiling IR model on device: $device...")
     val modelBytes = FileUtils.readFileToByteArray(modelPath.toFile)
     val weightsBytes = ChunkBytes.readFileInByteChunks(weightsPath, BUFFER_SIZE)
-    val compiledModel: CompiledModel =
-      core.compile_model(modelPath.toAbsolutePath.toString, device, properties.asJava)
+    val compiledModel: CompiledModel = withSafeOvModelLoader(
+      modelBytes,
+      weightsBytes,
+      Some(modelPath.toAbsolutePath.toString),
+      device,
+      properties)
 
     val openvinoWrapper = new OpenvinoWrapper(modelBytes, weightsBytes)
     openvinoWrapper.compiledModel = compiledModel
 
-    val tensorNamesMap = (compiledModel.outputs().asScala ++ compiledModel.inputs().asScala)
-      .map(_.get_any_name())
-      .map(tensorName => ModelSignatureConstants.toAdoptedKeys(tensorName) -> tensorName)
-      .toMap
-
     FileHelper.delete(tmpFolder)
-    (openvinoWrapper, tensorNamesMap)
+    openvinoWrapper
   }
+
+  def withSafeOvModelLoader(
+      modelBytes: Array[Byte],
+      weightsBytes: Array[Array[Byte]],
+      modelPath: Option[String] = None,
+      device: String = "AUTO",
+      properties: Map[String, String] = Map.empty[String, String]): CompiledModel = {
+    if (modelPath.isDefined) {
+      val compiledModel = core.compile_model(modelPath.get, device, properties.asJava)
+      compiledModel
+    } else {
+      val path = Files
+        .createTempDirectory(
+          UUID.randomUUID().toString.takeRight(12) + OpenvinoWrapper.ModelSuffix)
+        .toAbsolutePath
+        .toString
+      val tmpModelPath = Paths.get(path, s"${Openvino.ovModel}.xml")
+      val tmpWeightsPath = Paths.get(path, s"${Openvino.ovModel}.bin")
+
+      // save the binary data of the model and weights to files
+      FileUtils.writeByteArrayToFile(tmpModelPath.toFile, modelBytes)
+      ChunkBytes.writeByteChunksInFile(tmpWeightsPath, weightsBytes)
+
+      val xmlPath = tmpModelPath.toAbsolutePath.toString
+      val compiledModel = core.compile_model(xmlPath, device, properties.asJava)
+
+      FileHelper.delete(path)
+      compiledModel
+    }
+  }
+
+  case class EncoderDecoderWrappers(
+      encoder: OpenvinoWrapper,
+      decoder: OpenvinoWrapper,
+      decoderWithPast: OpenvinoWrapper)
 }

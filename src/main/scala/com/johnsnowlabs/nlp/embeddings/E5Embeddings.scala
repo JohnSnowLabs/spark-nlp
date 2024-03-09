@@ -507,10 +507,9 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
               zipped = false)
             tmpFolder
           }
-        val (ovWrapper: OpenvinoWrapper, tensorNames: Map[String, String]) =
+        val ovWrapper: OpenvinoWrapper =
           OpenvinoWrapper.fromOpenvinoFormat(irModelFolder, zipped = false)
 
-        annotatorModel.setSignatures(tensorNames)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
         FileHelper.delete(tmpFolder)
