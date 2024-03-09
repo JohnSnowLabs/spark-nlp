@@ -1,23 +1,21 @@
 package com.johnsnowlabs.ml.ai.seq2seq
 
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import org.intel.openvino.Tensor
 
 class OpenvinoT5EncoderDecoder(
-    val ovEncoder: OpenvinoWrapper,
-    val ovDecoder: OpenvinoWrapper,
-    val ovDecoderWithPast: OpenvinoWrapper,
+    val openvinoWrapper: EncoderDecoderWrappers,
     override val spp: SentencePieceWrapper,
     override val additionalTokens: Map[Int, String] = Map())
     extends T5EncoderDecoder(spp, additionalTokens) {
 
   protected val numLayers: Int = {
-    (ovDecoder.getCompiledModel().outputs().size() - 1) / 4
+    (openvinoWrapper.decoder.getCompiledModel().outputs().size() - 1) / 4
   }
 
   protected val numAttnHeads: Int = {
-    ovDecoderWithPast
+    openvinoWrapper.decoderWithPast
       .getCompiledModel()
       .inputs()
       .stream()
@@ -50,7 +48,7 @@ class OpenvinoT5EncoderDecoder(
     val numReturn_sequences = 1
     val vocabSize = 32128
 
-    val encInferRequest = ovEncoder.getCompiledModel().create_infer_request()
+    val encInferRequest = openvinoWrapper.encoder.getCompiledModel().create_infer_request()
 
     // Run encoder
     val encoderInputBuffers = batch
@@ -152,7 +150,7 @@ class OpenvinoT5EncoderDecoder(
         // First pass of the decoder
         val decoderInputIdsTensor = new Tensor(decoderInputShape, decoderInputIds.flatten)
 
-        val decoderReq = ovDecoder.getCompiledModel().create_infer_request()
+        val decoderReq = openvinoWrapper.decoder.getCompiledModel().create_infer_request()
         decoderReq.set_tensor("input_ids", decoderInputIdsTensor)
         decoderReq.set_tensor("encoder_attention_mask", encoderAttentionMaskTensors)
         decoderReq.set_tensor("encoder_hidden_states", encoderStateTensors)
@@ -169,7 +167,7 @@ class OpenvinoT5EncoderDecoder(
         // Subsequent passes of the decoder
         val decoderInputIdsTensor =
           new Tensor(decoderInputShape, decoderInputIds.map(x => x.last))
-        val decoderReq = ovDecoderWithPast.getCompiledModel().create_infer_request()
+        val decoderReq = openvinoWrapper.decoderWithPast.getCompiledModel().create_infer_request()
 
         decoderReq.set_tensor("input_ids", decoderInputIdsTensor)
         decoderReq.set_tensor("encoder_attention_mask", encoderAttentionMaskTensors)

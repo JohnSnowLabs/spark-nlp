@@ -44,6 +44,7 @@ class OpenvinoWrapper(
   @transient private var compiledModel: CompiledModel = _
 
   def getCompiledModel(
+      device: String = "AUTO",
       properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
       if (compiledModel == null) {
@@ -51,6 +52,7 @@ class OpenvinoWrapper(
           modelBytes,
           weightsBytes,
           modelPath,
+          device = device,
           properties = properties)
       }
       compiledModel
