@@ -170,20 +170,13 @@ private[johnsnowlabs] class XlmRoberta(
           batchLength = batchLength)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-        inferRequest.set_tensor(
-          _tfRoBertaSignatures.getOrElse(
-            ModelSignatureConstants.InputIds.key,
-            "missing_input_id_key"),
-          tokenTensors)
-        inferRequest.set_tensor(
-          _tfRoBertaSignatures
-            .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
-          maskTensors)
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
 
-        inferRequest.infer()
+        inferRequest.start_async()
+        inferRequest.wait_async()
 
-        val result = inferRequest.get_tensor(_tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+        val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()
 
         embeddings

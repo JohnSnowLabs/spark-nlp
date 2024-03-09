@@ -143,34 +143,20 @@ private[johnsnowlabs] class Bert(
           segmentTensors.close()
         }
       case Openvino.name =>
-        val (tokenTensors, maskTensors, segmentTensors) =
-          PrepareEmbeddings.prepareOvIntBatchTensorsWithSegment(
-            batch = batch,
-            maxSentenceLength = maxSentenceLength,
-            batchLength = batchLength)
+        val shape = Array(batchLength, maxSentenceLength)
+        val (tokenTensors, maskTensors) =
+          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-        inferRequest.set_tensor(
-          _tfBertSignatures.getOrElse(
-            ModelSignatureConstants.InputIdsV1.key,
-            "missing_input_id_key"),
-          tokenTensors)
-        inferRequest.set_tensor(
-          _tfBertSignatures
-            .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-          maskTensors)
-        inferRequest.set_tensor(
-          _tfBertSignatures
-            .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-          segmentTensors)
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
+        inferRequest.set_tensor("token_type_ids", segmentTensors)
 
-        inferRequest.infer()
+        inferRequest.start_async()
+        inferRequest.wait_async()
 
-        val result = inferRequest.get_tensor(
-          _tfBertSignatures
-            .getOrElse(
-              ModelSignatureConstants.LastHiddenStateV1.key,
-              "missing_sequence_output_key"))
+        val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()
 
         embeddings
@@ -283,32 +269,20 @@ private[johnsnowlabs] class Bert(
             throw e
         }
       case Openvino.name =>
-        val (tokenTensors, maskTensors, segmentTensors) =
-          PrepareEmbeddings.prepareOvIntBatchTensorsWithSegment(
-            batch = batch,
-            maxSentenceLength = maxSentenceLength,
-            batchLength = batchLength)
+        val shape = Array(batchLength, maxSentenceLength)
+        val (tokenTensors, maskTensors) =
+          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
 
-        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request
-        inferRequest.set_tensor(
-          _tfBertSignatures.getOrElse(
-            ModelSignatureConstants.InputIdsV1.key,
-            "missing_input_id_key"),
-          tokenTensors)
-        inferRequest.set_tensor(
-          _tfBertSignatures
-            .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-          maskTensors)
-        inferRequest.set_tensor(
-          _tfBertSignatures
-            .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-          segmentTensors)
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
+        inferRequest.set_tensor("token_type_ids", segmentTensors)
 
-        inferRequest.infer()
+        inferRequest.start_async()
+        inferRequest.wait_async()
 
-        val result = inferRequest.get_tensor(
-          _tfBertSignatures
-            .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+        val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()
         embeddings
       case _ =>

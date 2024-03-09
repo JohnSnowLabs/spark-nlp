@@ -229,22 +229,14 @@ private[johnsnowlabs] class E5(
     val model = openvinoWrapper.get.getCompiledModel()
     val inferRequest = model.create_infer_request()
 
-    inferRequest.set_tensor(
-      signatures.get.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_ids"),
-      tokenTensors)
-    inferRequest.set_tensor(
-      signatures.get
-        .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_attention_mask"),
-      maskTensors)
-    inferRequest.set_tensor(
-      signatures.get
-        .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_token_type_ids"),
-      segmentTensors)
-    inferRequest.infer()
-    val embeddings = inferRequest
-      .get_tensor(
-        signatures.get
-          .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_last_hidden_state"))
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.start_async()
+    inferRequest.wait_async()
+
+    val embeddings = inferRequest.get_tensor("last_hidden_state")
 
     val dim = embeddings.get_shape().map(_.toLong)
     val avgPooling =
