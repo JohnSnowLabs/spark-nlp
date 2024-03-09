@@ -139,6 +139,8 @@ object OpenvinoWrapper {
     *
     * @param path
     *   Path to the IR model folder
+    * @param modelName
+    *   The model filename
     * @param zipped
     *   Unpack zipped model
     * @param device
@@ -146,7 +148,7 @@ object OpenvinoWrapper {
     * @param properties
     *   Properties for this load operation
     * @return
-    *   The OpenVINO model wrapper and the normalized tensor name map for the model
+    *   The OpenVINO model wrapper
     */
   def fromOpenvinoFormat(
       path: String,
