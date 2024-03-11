@@ -64,7 +64,7 @@ def compatible_editions(editions, model_editions, edition)
     selection_lambda = lambda {|_| false }
   end
 
-  editions = editions.select &selection_lambda
+  selected_editions = editions.select &selection_lambda
   model_editions = model_editions.select &selection_lambda
 
   curr_index = model_editions.index(edition)
@@ -72,7 +72,7 @@ def compatible_editions(editions, model_editions, edition)
 
   min = edition
   max = model_editions[curr_index + 1].nil? ? nil : model_editions[curr_index + 1]
-  editions.select do |v|
+  selected_editions.select do |v|
     if min && max
       (Version.new(min) <= Version.new(v)) && (Version.new(v) < Version.new(max))
     elsif max
@@ -495,10 +495,12 @@ Jekyll::Hooks.register :site, :post_render do |site|
   is_incremental = site.config['incremental']
   bulk_indexer = BulkIndexer.new(client)
 
+
   uniq_to_models_mapping.each do |uniq, items|
     items.sort_by! { |v| v[:edition_short] }
     model_editions = items.map { |v| v[:edition_short] }.uniq
     items.each do |model|
+
       next_edition_short = compatible_editions(
         editions,
         model_editions,
