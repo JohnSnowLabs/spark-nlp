@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.openvino
 
 import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
-import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.intel.openvino.{CompiledModel, Core, Model}
 import org.slf4j.{Logger, LoggerFactory}
@@ -43,16 +43,13 @@ class OpenvinoWrapper(
   @transient private val logger = LoggerFactory.getLogger(this.getClass.toString)
   @transient private var compiledModel: CompiledModel = _
 
-  def getCompiledModel(
-      device: String = "AUTO",
-      properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
+  def getCompiledModel(properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
       if (compiledModel == null) {
         compiledModel = OpenvinoWrapper.withSafeOvModelLoader(
           modelBytes,
           weightsBytes,
           modelPath,
-          device = device,
           properties = properties)
       }
       compiledModel
@@ -143,8 +140,6 @@ object OpenvinoWrapper {
     *   The model filename
     * @param zipped
     *   Unpack zipped model
-    * @param device
-    *   Device to load model on
     * @param properties
     *   Properties for this load operation
     * @return
@@ -154,7 +149,6 @@ object OpenvinoWrapper {
       path: String,
       modelName: String = Openvino.ovModel,
       zipped: Boolean = true,
-      device: String = "AUTO",
       properties: Map[String, String] = Map.empty): OpenvinoWrapper = {
 
     val tmpFolder = Files
@@ -171,14 +165,12 @@ object OpenvinoWrapper {
     val modelPath = Paths.get(folder, s"$modelName.xml")
     val weightsPath = Paths.get(folder, s"$modelName.bin")
 
-    logger.debug(s"Reading and compiling IR model on device: $device...")
     val modelBytes = FileUtils.readFileToByteArray(modelPath.toFile)
     val weightsBytes = ChunkBytes.readFileInByteChunks(weightsPath, BUFFER_SIZE)
     val compiledModel: CompiledModel = withSafeOvModelLoader(
       modelBytes,
       weightsBytes,
       Some(modelPath.toAbsolutePath.toString),
-      device,
       properties)
 
     val openvinoWrapper = new OpenvinoWrapper(modelBytes, weightsBytes)
@@ -192,8 +184,9 @@ object OpenvinoWrapper {
       modelBytes: Array[Byte],
       weightsBytes: Array[Array[Byte]],
       modelPath: Option[String] = None,
-      device: String = "AUTO",
-      properties: Map[String, String] = Map.empty[String, String]): CompiledModel = {
+      properties: Map[String, String]): CompiledModel = {
+    val device = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
+    logger.info(s"Using $device device for compiling model")
     if (modelPath.isDefined) {
       val compiledModel = core.compile_model(modelPath.get, device, properties.asJava)
       compiledModel

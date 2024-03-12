@@ -58,7 +58,8 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.onnxGpuDeviceId, "0") ++
       getConfigInfo(ConfigHelper.onnxIntraOpNumThreads, "6") ++
       getConfigInfo(ConfigHelper.onnxOptimizationLevel, "ALL_OPT") ++
-      getConfigInfo(ConfigHelper.onnxExecutionMode, "SEQUENTIAL")
+      getConfigInfo(ConfigHelper.onnxExecutionMode, "SEQUENTIAL") ++
+      getConfigInfo(ConfigHelper.openvinoDevice, "CPU")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
