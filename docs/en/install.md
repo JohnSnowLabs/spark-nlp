@@ -72,18 +72,27 @@ jupyter notebook
 
 </div><div class="h3-box" markdown="1">
 
-#### Start Spark NLP Session from python
+#### Start Spark NLP Session from Python
 
-If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them, you can manually start the SparkSession:
+ Spark session for Spark NLP can be created (or retrieved) by using `sparknlp.start()`:
+
+```python
+import sparknlp
+spark = sparknlp.start()
+```
+
+If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them,
+you can manually start the SparkSession with:
 
 ```python
 spark = SparkSession.builder \
-    .appName("Spark NLP")\
-    .master("local[*]")\
-    .config("spark.driver.memory","16G")\
+    .appName("Spark NLP") \
+    .master("local[*]") \
+    .config("spark.driver.memory", "16G") \
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+    .config("spark.kryoserializer.buffer.max", "2000M") \
     .config("spark.driver.maxResultSize", "0") \
-    .config("spark.kryoserializer.buffer.max", "2000M")\
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.1")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.1") \
     .getOrCreate()
 ```
 
