@@ -342,7 +342,7 @@ trait ReadXlmRoBertaForTokenDLModel
     instance.getEngine match {
       case TensorFlow.name =>
         val tfWrapper =
-          readTensorflowModel(path, spark, "xlm_roberta_classification_tensorflow", initAllTables = false)
+          readTensorflowModel(path, spark, "xlm_roberta_classification_tf", initAllTables = false)
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
       case ONNX.name =>
         val onnxWrapper =
