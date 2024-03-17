@@ -5,8 +5,32 @@ This is the directory for examples on how to use Spark NLP demos in [Google cola
 ## Available demos
 
 * CLIPForZeroShotClassification
-* VIT Image Classification
+* Question Answering Closed Book
+* Question Answering Open Book
+* Sentence Detector
+* Sentence Grammer
+* Sentence Similarity
+* Sentiment Cyber Bullying
+* Sentiment DA
+* Sentiment DE
+* Sentiment EN Emotion
+* Sentiment EN Finance
+* Sentiment EN Sarcasm
+* Sentiment EN Toxic
+* Sentiment EN
+* Sentiment FR
+* Sentiment SW
+* Sentiment TR
+* Sentiment UR
+* Sentiment VI
+* Speech Recognition
 * Speech recognition with whisper
+* Spell Checker EN
+* StopWords African
+* StopWords East Asain
+* StopWords European
+* StopWords Indiand
+* StopWords Middle Eastern
 * T5 Active Passive
 * T5 Formal Informal
 * T5 Grammer
@@ -18,7 +42,7 @@ This is the directory for examples on how to use Spark NLP demos in [Google cola
 * Text summarization with BART
 * Translation Marian
 * Typo Detector
-
+* VIT Image Classification
 
 ## Quick Start
 
