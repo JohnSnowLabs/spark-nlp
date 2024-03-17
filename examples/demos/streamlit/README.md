@@ -52,7 +52,7 @@ This is a quick example of how to run Spark NLP demos on Colab
 
 Open our [colab notebook for select and run demos](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/demos/streamlit/run_demos.ipynb) and follow the instructions with in!
 
-<img src="https://github.com/AbdullahMubeenAnwar/spark-nlp/assets/77073730/515f6c17-39cd-4a85-abfe-c67922374165" width="500" height="300">
+<img src="https://github.com/AbdullahMubeenAnwar/spark-nlp/assets/77073730/8b966625-54c5-48ba-8541-66bd23c7724a" width="500" height="300">
 
 ### local upload
 
@@ -65,6 +65,5 @@ Open our [colab notebook for demos](https://github.com/JohnSnowLabs/spark-nlp/tr
 
 And just run the notebook, and follow the instructions with in!
 
-<img src="https://github.com/AbdullahMubeenAnwar/spark-nlp/assets/77073730/8b966625-54c5-48ba-8541-66bd23c7724a" width="500" height="300">
 
 Enjoy the demo!
