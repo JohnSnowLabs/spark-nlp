@@ -135,7 +135,7 @@ object ZipArchiveUtil {
       val entryName = entry.getName
       val entryPath = {
         if (entryName.startsWith(basename))
-          entryName.substring(basename.length)
+          entryName.substring(0, basename.length)
         else
           entryName
       }
@@ -161,4 +161,5 @@ object ZipArchiveUtil {
 
     destDir.getPath
   }
+
 }

@@ -18,8 +18,8 @@ package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.ml.ai.Whisper
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
-import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.EncoderDecoderWrappersLlm
+import com.johnsnowlabs.ml.onnx.{OnnxLlmWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -323,7 +323,7 @@ class WhisperForCTC(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrappers: Option[EncoderDecoderWrappers]): this.type = {
+      onnxWrappers: Option[EncoderDecoderWrappersLlm]): this.type = {
     if (_model.isEmpty) {
       val preprocessor = getPreprocessor
 
@@ -356,7 +356,7 @@ class WhisperForCTC(override val uid: String)
           savedSignatures = getSignatures)
       case ONNX.name =>
         val wrappers = getModelIfNotSet.onnxWrappers.get
-        writeOnnxModels(
+        writeOnnxLlModels(
           path,
           spark,
           Seq(
@@ -444,14 +444,14 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val wrappers =
-          readOnnxModels(
+          readOnnxLlModels(
             path,
             spark,
             Seq("encoder_model", "decoder_model", "decoder_with_past_model"),
             WhisperForCTC.suffix,
             dataFileSuffix = ".onnx_data")
 
-        val onnxWrappers = EncoderDecoderWrappers(
+        val onnxWrappers = EncoderDecoderWrappersLlm(
           wrappers("encoder_model"),
           decoder = wrappers("decoder_model"),
           decoderWithPast = wrappers("decoder_with_past_model"))
@@ -579,27 +579,30 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val onnxWrapperEncoder =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "encoder_model")
 
         val onnxWrapperDecoder =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_model")
 
         val onnxWrapperDecoderWithPast =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_with_past_model")
 
-        val onnxWrappers = EncoderDecoderWrappers(
+        val onnxWrappers = EncoderDecoderWrappersLlm(
           onnxWrapperEncoder,
           onnxWrapperDecoder,
           onnxWrapperDecoderWithPast)
