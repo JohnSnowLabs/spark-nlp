@@ -47,7 +47,7 @@ import org.json4s.jackson.JsonMethods._
   * NLLB is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
   * multilingual translation.
   *
-  * The model can directly translate between the 9,900 directions of 100 languages.
+  * The model can directly translate between 200+ languages.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -154,8 +154,8 @@ import org.json4s.jackson.JsonMethods._
   *
   * val nllb = NLLBTransformer.pretrained("nllb_418M")
   *   .setInputCols(Array("documents"))
-  *   .setSrcLang("zh")
-  *   .serTgtLang("en")
+  *   .setSrcLang("zho_Hans")
+  *   .serTgtLang("eng_Latn")
   *   .setMaxOutputLength(100)
   *   .setDoSample(false)
   *   .setOutputCol("generation")
