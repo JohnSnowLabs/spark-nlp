@@ -1,19 +1,3 @@
-/*
- * Copyright 2017-2022 John Snow Labs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.johnsnowlabs.ml.onnx
 
 import ai.onnxruntime.OrtSession.SessionOptions
@@ -21,15 +5,18 @@ import ai.onnxruntime.OrtSession.SessionOptions.{ExecutionMode, OptLevel}
 import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
+import org.apache.spark.SparkFiles
+import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
-import java.io._
+import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] = None)
+class OnnxLlmWrapper(
+    var modelFileName: Option[String] = None,
+    val dataFileDirectory: Option[String])
     extends Serializable {
 
   /** For Deserialization */
@@ -43,10 +30,16 @@ class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] 
 
   def getSession(onnxSessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
     this.synchronized {
-      // TODO: After testing it works remove the Map.empty
       if (ortSession == null && ortEnv == null) {
+        // TODO: Validate when modelFileName or tmpFolder is None??
+        val modelFilePath = if (modelFileName.isDefined) {
+          SparkFiles.get(modelFileName.get)
+        } else {
+          throw new UnsupportedOperationException("modelFileName not defined")
+        }
+
         val (session, env) =
-          OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions, onnxModelPath)
+          OnnxLlmWrapper.withSafeOnnxModelLoader(onnxSessionOptions, Some(modelFilePath))
         ortEnv = env
         ortSession = session
       }
@@ -60,29 +53,22 @@ class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] 
       .toAbsolutePath
       .toString
 
-    // 2. Save onnx model
-    val fileName = Paths.get(file).getFileName.toString
-    val onnxFile = Paths
-      .get(tmpFolder, fileName)
-      .toString
+    val tmpModelFilePath = SparkFiles.get(modelFileName.get)
+    // 2. Zip folder
+    if (zip) ZipArchiveUtil.zip(tmpModelFilePath, file)
 
-    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
-    // 4. Zip folder
-    if (zip) ZipArchiveUtil.zip(tmpFolder, file)
-
-    // 5. Remove tmp directory
+    // 3. Remove tmp directory
     FileHelper.delete(tmpFolder)
   }
 
 }
 
 /** Companion object */
-object OnnxWrapper {
-  private[OnnxWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
+object OnnxLlmWrapper {
+  private[OnnxLlmWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
-      onnxModel: Array[Byte],
       sessionOptions: Map[String, String],
       onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
@@ -96,18 +82,18 @@ object OnnxWrapper {
         val session = env.createSession(onnxModelPath.get, sessionOptionsObject)
         (session, env)
       } else {
-        val session = env.createSession(onnxModel, sessionOptionsObject)
-        (session, env)
+        throw new UnsupportedOperationException("onnxModelPath not defined")
       }
     }
 
-  // TODO: the parts related to onnx_data should be refactored once we support addFile()
   def read(
+      sparkSession: SparkSession,
       modelPath: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
+      deleteTmpFolder: Boolean = true,
       modelName: String = "model",
-      dataFileSuffix: String = "_data"): OnnxWrapper = {
+      dataFileSuffix: String = "_data"): OnnxLlmWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -122,7 +108,6 @@ object OnnxWrapper {
       else
         modelPath
 
-    val sessionOptions = new OnnxSession().getSessionOptions
     val onnxFile =
       if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
       else Paths.get(folder, new File(folder).list().head).toString
@@ -139,34 +124,20 @@ object OnnxWrapper {
     }
 
     if (onnxDataFileExist) {
-      val onnxDataFileTmp =
-        Paths.get(tmpFolder, modelName + dataFileSuffix).toFile
-      FileUtils.copyFile(onnxDataFile, onnxDataFileTmp)
+      sparkSession.sparkContext.addFile(onnxDataFile.toString)
     }
 
-    val modelFile = new File(onnxFile)
-    val modelBytes = FileUtils.readFileToByteArray(modelFile)
-    var session: OrtSession = null
-    var env: OrtEnvironment = null
-    if (onnxDataFileExist) {
-      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
-      session = _session
-      env = _env
-    } else {
-      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, None)
-      session = _session
-      env = _env
+    sparkSession.sparkContext.addFile(onnxFile)
 
-    }
+    val onnxFileName = Some(new File(onnxFile).getName)
+    val dataFileDirectory = if (onnxDataFileExist) Some(onnxDataFile.toString) else None
+    val onnxWrapperLight = new OnnxLlmWrapper(onnxFileName, dataFileDirectory)
+
     // 4. Remove tmp folder
-    FileHelper.delete(tmpFolder)
-
-    val onnxWrapper =
-      if (onnxDataFileExist) new OnnxWrapper(modelBytes, Option(onnxFile))
-      else new OnnxWrapper(modelBytes)
-    onnxWrapper.ortSession = session
-    onnxWrapper.ortEnv = env
-    onnxWrapper
+    if (deleteTmpFolder) {
+      FileHelper.delete(tmpFolder)
+    }
+    onnxWrapperLight
   }
 
   private def mapToSessionOptionsObject(sessionOptions: Map[String, String]): SessionOptions = {
@@ -244,13 +215,14 @@ object OnnxWrapper {
     sessionOptions
   }
 
-  case class EncoderDecoderWrappers(
-      encoder: OnnxWrapper,
-      decoder: OnnxWrapper,
-      decoderWithPast: OnnxWrapper)
+  case class EncoderDecoderWrappersLlm(
+      encoder: OnnxLlmWrapper,
+      decoder: OnnxLlmWrapper,
+      decoderWithPast: OnnxLlmWrapper)
 
-  case class DecoderWrappers(decoder: OnnxWrapper)
+  case class DecoderWrappersLlm(decoder: OnnxLlmWrapper)
 
-  case class EncoderDecoderWithoutPastWrappers(encoder: OnnxWrapper, decoder: OnnxWrapper)
-
+  case class EncoderDecoderWithoutPastWrappersLlm(
+      encoder: OnnxLlmWrapper,
+      decoder: OnnxLlmWrapper)
 }

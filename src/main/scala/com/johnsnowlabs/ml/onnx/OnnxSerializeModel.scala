@@ -65,6 +65,46 @@ trait WriteOnnxModel {
     FileUtils.deleteDirectory(new File(tmpFolder))
   }
 
+  def writeOnnxLlModels(
+      path: String,
+      spark: SparkSession,
+      onnxWrappersWithNames: Seq[(OnnxLlmWrapper, String)],
+      suffix: String,
+      dataFileSuffix: String = "_data"): Unit = {
+
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp folder
+    val tmpFolder = Files
+      .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+      .toAbsolutePath
+      .toString
+
+    println("before foreach")
+    onnxWrappersWithNames foreach { case (onnxWrapper, modelName) =>
+      val onnxFile = Paths.get(tmpFolder, modelName).toString
+
+      // 2. Save ONNX state
+      onnxWrapper.saveToFile(onnxFile)
+
+      // 3. Copy to dest folder
+      fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
+
+      // 4. check if there is a onnx_data file
+      if (onnxWrapper.dataFileDirectory.isDefined) {
+        val onnxDataFile = new Path(onnxWrapper.dataFileDirectory.get)
+        if (fs.exists(onnxDataFile)) {
+          fs.copyFromLocalFile(onnxDataFile, new Path(path))
+        }
+      }
+
+    }
+
+    // 4. Remove tmp folder
+    FileUtils.deleteDirectory(new File(tmpFolder))
+  }
+
   def writeOnnxModel(
       path: String,
       spark: SparkSession,
@@ -162,6 +202,63 @@ trait ReadOnnxModel {
 
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
+
+    wrappers
+  }
+
+  def readOnnxLlModels(
+      path: String,
+      spark: SparkSession,
+      modelNames: Seq[String],
+      suffix: String,
+      zipped: Boolean = true,
+      useBundle: Boolean = false,
+      deleteTmpFolder: Boolean = true,
+      dataFileSuffix: String = "_data"): Map[String, OnnxLlmWrapper] = {
+    println(
+      s"In OnnxSerializeModel.readOnnxModelsLight zipped=$zipped, deleteTmpFolder: $deleteTmpFolder")
+    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+
+    // 1. Create tmp directory
+    val tmpFolder = Files
+      .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+      .toAbsolutePath
+      .toString
+
+    val wrappers = (modelNames map { modelName: String =>
+      // 2. Copy to local dir
+      val localModelFile = modelName
+      fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
+
+      val localPath = new Path(tmpFolder, localModelFile).toString
+
+      val fsPath = new Path(path, localModelFile).toString
+
+      // 3. Copy onnx_data file if exists
+      val onnxDataFile = new Path(fsPath + dataFileSuffix)
+
+      if (fs.exists(onnxDataFile)) {
+        fs.copyToLocalFile(onnxDataFile, new Path(tmpFolder))
+      }
+
+      // 4. Read ONNX state
+      val onnxWrapper =
+        OnnxLlmWrapper.read(
+          spark,
+          localPath,
+          zipped = zipped,
+          useBundle = useBundle,
+          deleteTmpFolder = deleteTmpFolder,
+          modelName = modelName)
+
+      (modelName, onnxWrapper)
+    }).toMap
+
+    // 4. Remove tmp folder
+    if (deleteTmpFolder) {
+      FileHelper.delete(tmpFolder)
+    }
 
     wrappers
   }

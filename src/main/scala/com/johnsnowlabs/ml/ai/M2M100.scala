@@ -18,18 +18,18 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
+import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.EncoderDecoderWithoutPastWrappersLlm
 import com.johnsnowlabs.ml.onnx.OnnxSession
-import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.Annotation
-
-import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.tensorflow.{Session, Tensor}
 
+import scala.collection.JavaConverters._
+
 private[johnsnowlabs] class M2M100(
-    val onnxWrappers: EncoderDecoderWithoutPastWrappers,
+    val onnxWrappers: EncoderDecoderWithoutPastWrappersLlm,
     val spp: SentencePieceWrapper,
     generationConfig: GenerationConfig,
     vocab: Map[String, Int])

@@ -18,7 +18,8 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.M2M100
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.EncoderDecoderWithoutPastWrappersLlm
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, OnnxLlmWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
@@ -38,6 +39,7 @@ import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
+import com.johnsnowlabs.util.FileHelper
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -363,7 +365,7 @@ class M2M100Transformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrappers: EncoderDecoderWithoutPastWrappers,
+      onnxWrappers: EncoderDecoderWithoutPastWrappersLlm,
       spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
@@ -443,12 +445,12 @@ class M2M100Transformer(override val uid: String)
       case ONNX.name =>
         val wrappers = getModelIfNotSet.onnxWrappers
         val obj = getModelIfNotSet
-        writeOnnxModels(
+        writeOnnxLlModels(
           path,
           spark,
           Seq((wrappers.encoder, "encoder_model.onnx")),
           M2M100Transformer.suffix)
-        writeOnnxModels(
+        writeOnnxLlModels(
           path,
           spark,
           Seq((wrappers.decoder, "decoder_model.onnx")),
@@ -492,11 +494,21 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
     instance.getEngine match {
       case ONNX.name =>
         val decoderWrappers =
-          readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
+          readOnnxLlModels(
+            path,
+            spark,
+            Seq("decoder_model.onnx"),
+            suffix,
+            deleteTmpFolder = false)
         val encoderWrappers =
-          readOnnxModels(path, spark, Seq("encoder_model.onnx"), suffix)
+          readOnnxLlModels(
+            path,
+            spark,
+            Seq("encoder_model.onnx"),
+            suffix,
+            deleteTmpFolder = false)
         val onnxWrappers =
-          EncoderDecoderWithoutPastWrappers(
+          EncoderDecoderWithoutPastWrappersLlm(
             decoder = decoderWrappers("decoder_model.onnx"),
             encoder = encoderWrappers("encoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_m2m100_spp", sppFile)
@@ -552,26 +564,27 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
     detectedEngine match {
       case ONNX.name =>
         val onnxWrapperEncoder =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "encoder_model")
         val onnxWrapperDecoder =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_model")
 
         val onnxWrappers =
-          EncoderDecoderWithoutPastWrappers(
+          EncoderDecoderWithoutPastWrappersLlm(
             encoder = onnxWrapperEncoder,
             decoder = onnxWrapperDecoder)
 
         annotatorModel
           .setModelIfNotSet(spark, onnxWrappers, spModel)
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
