@@ -1,4 +1,19 @@
 ========
+5.3.2
+========
+----------------
+Bug Fixes
+----------------
+* Fix and add notebooks to import models from Hugging Face
+ * Add ONNX and TensorFlow notebooks
+ * Fix XlnetForSeqeunceClassification and added XlnetForTokenClassificaiton
+ * Rename DistilBertForZeroShotClassification
+ * Add missing notebooks
+* Add MPNetEmbeddings to annotator
+* Fix XLMRoBertaForQuestionAnswering, XLMRoBertaForTokenClassification, and XLMRoBertaForSequenceClassification: Reverted the change in tfFile naming that was causing exceptions while loading and saving the models
+* Fix documentation for sparknlp.start()
+
+========
 5.3.1
 ========
 ----------------
