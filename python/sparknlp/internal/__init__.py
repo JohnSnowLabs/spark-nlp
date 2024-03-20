@@ -251,6 +251,11 @@ class _BartLoader(ExtendedJavaWrapper):
         super(_BartLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer.loadSavedModel", path, jspark, useCache)
 
+class _QwenLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_QwenLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer.loadSavedModel", path, jspark)
+
 
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, loadsp):
