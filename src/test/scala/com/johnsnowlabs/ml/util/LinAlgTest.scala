@@ -141,4 +141,86 @@ class LinAlgTest extends AnyFlatSpec with Matchers {
     assert(array === Array(Array(-1.0f, 0.0f), Array(3.0f, -4.0f)))
   }
 
+  "tokenPooling" should "correctly pool tokens for one index" in {
+    val tokens: Array[Float] = Array(1, 2, 3, 4, 1, 2, 3, 4)
+    val shape = Array(2, 4, 1)
+    val embeddings = tokens.grouped(shape(2)).toArray.grouped(shape(1)).toArray
+    val pooled = LinAlg.tokenPooling(embeddings, index = 0)
+
+    assert(pooled.flatten sameElements Array(1.0f, 1.0f))
+  }
+
+  it should "correctly pool tokens for one index per sequence" in {
+    val tokens: Array[Float] = Array(1, 2, 3, 4, 1, 2, 3, 4)
+    val shape = Array(2, 4, 1)
+    val embeddings = tokens.grouped(shape(2)).toArray.grouped(shape(1)).toArray
+    val pooled =
+      LinAlg.tokenPooling(embeddings, indexes = Array(0, 3))
+
+    assert(pooled.flatten sameElements Array(1.0f, 4.0f))
+  }
+
+  "maxPooling" should "correctly pool tokens for one index" in {
+    val embeddings: Array[Array[Array[Float]]] =
+      Array(
+        Array(Array(1.0f, 1.0f), Array(2.0f, 2.0f)),
+        Array(Array(3.0f, 3.0f), Array(4.0f, 4.0f)))
+    val attentionMask = Array(Array(1L, 1L), Array(1L, 1L))
+    val pooled: Array[Array[Float]] = LinAlg.maxPooling(embeddings, attentionMask)
+
+    assert(pooled(0) sameElements Array(2.0f, 2.0f))
+    assert(pooled(1) sameElements Array(4.0f, 4.0f))
+  }
+
+  it should "consider attention mask" in {
+    val embeddings: Array[Array[Array[Float]]] =
+      Array(
+        Array(Array(1.0f, 1.0f), Array(2.0f, 2.0f)),
+        Array(Array(3.0f, 3.0f), Array(4.0f, 4.0f)))
+    val attentionMask = Array(Array(1L, 0L), Array(1L, 0L))
+    val pooled: Array[Array[Float]] = LinAlg.maxPooling(embeddings, attentionMask)
+
+    assert(pooled(0) sameElements Array(1.0f, 1.0f))
+    assert(pooled(1) sameElements Array(3.0f, 3.0f))
+  }
+
+  "clsAvgPooling" should "correctly pool tokens" in {
+    val embeddings: Array[Array[Array[Float]]] =
+      Array(
+        Array(Array(1.0f, 2.0f), Array(1.0f, 2.0f)),
+        Array(Array(3.0f, 4.0f), Array(3.0f, 4.0f)))
+    val attentionMask = Array(Array(1L, 1L), Array(1L, 1L))
+    val pooled: Array[Array[Float]] =
+      LinAlg.clsAvgPooling(embeddings, attentionMask)
+
+    assert(pooled(0) sameElements Array(1f, 2f))
+    assert(pooled(1) sameElements Array(3f, 4f))
+  }
+
+  "lastPooling" should "correctly pool tokens" in {
+    val embeddings: Array[Array[Array[Float]]] =
+      Array(
+        Array(Array(1.0f, 1.0f), Array(2.0f, 2.0f)),
+        Array(Array(3.0f, 3.0f), Array(4.0f, 4.0f)))
+    val attentionMask = Array(Array(1L, 1L), Array(1L, 1L))
+    val pooled: Array[Array[Float]] =
+      LinAlg.lastPooling(embeddings, attentionMask)
+
+    assert(pooled(0) sameElements Array(2f, 2f))
+    assert(pooled(1) sameElements Array(4f, 4f))
+  }
+
+  it should "correctly pool with padded sequences" in {
+    val embeddings: Array[Array[Array[Float]]] =
+      Array(
+        Array(Array(1.0f, 1.0f), Array(2.0f, 2.0f), Array(-1f, -1f)),
+        Array(Array(3.0f, 3.0f), Array(4.0f, 4.0f), Array(4.0f, 4.0f)))
+    val attentionMask = Array(Array(1L, 1L, 0L), Array(1L, 1L, 1L))
+    val pooled: Array[Array[Float]] =
+      LinAlg.lastPooling(embeddings, attentionMask)
+
+    assert(pooled(0) sameElements Array(2f, 2f))
+    assert(pooled(1) sameElements Array(4f, 4f))
+  }
+
 }

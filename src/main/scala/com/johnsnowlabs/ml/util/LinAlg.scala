@@ -1,7 +1,8 @@
 package com.johnsnowlabs.ml.util
 
-import breeze.linalg.{DenseMatrix, norm, sum, tile, *}
-import scala.math.{sqrt, pow}
+import breeze.linalg.{*, DenseMatrix, DenseVector, max, norm, sum, tile}
+
+import scala.math.pow
 
 object LinAlg {
 
@@ -277,4 +278,120 @@ object LinAlg {
     array.map(value => if (lpNorm != 0.0f) value / lpNorm else 0.0f)
   }
 
+  /** Creates pooled embeddings by selecting the token at the index position.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @param indexes
+    *   Array of Index Positions to select for each sequence in the batch
+    * @return
+    *   A 2D array representing the pooled embeddings
+    */
+  def tokenPooling(
+      embeddings: Array[Array[Array[Float]]],
+      indexes: Array[Int]): Array[Array[Float]] = {
+    val batchSize = embeddings.length
+    require(indexes.length == batchSize, "Indexes length should be equal to batch size")
+
+    embeddings.zip(indexes).map { case (tokens: Array[Array[Float]], index: Int) =>
+      tokens(index)
+    }
+  }
+
+  /** Creates pooled embeddings by selecting the token at the index position.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @param index
+    *   Index Position to select for each sequence in the batch
+    * @return
+    *   A 2D array representing the pooled embeddings
+    */
+  def tokenPooling(embeddings: Array[Array[Array[Float]]], index: Int): Array[Array[Float]] =
+    tokenPooling(embeddings, Array.fill(embeddings.length)(index))
+
+  /** Creates pooled embeddings by taking the maximum of the embedding features along the
+    * sequence.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @return
+    *   A 2D array representing the pooled embeddings
+    */
+  def maxPooling(
+      embeddings: Array[Array[Array[Float]]],
+      attentionMask: Array[Array[Long]]): Array[Array[Float]] = {
+    val embeddingsMatrix = embeddings.map(embedding => DenseMatrix(embedding: _*))
+
+    val maskedEmbeddings: Array[DenseMatrix[Float]] =
+      embeddingsMatrix.zip(attentionMask).map {
+        case (embedding: DenseMatrix[Float], mask: Array[Long]) =>
+          val maskVector: DenseVector[Float] = new DenseVector(mask.map(_.toFloat))
+          embedding(::, *) *:* maskVector
+      }
+
+    maskedEmbeddings.map { seqEmbeddings: DenseMatrix[Float] =>
+      max(seqEmbeddings(::, *)).t.toArray
+    }
+  }
+
+  /** Creates pooled embeddings by using the CLS token as the representative embedding of the
+    * sequence.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @param attentionMask
+    *   Attention mask in shape (batchSize, sequenceLength)
+    * @return
+    *   The pooled embeddings in shape (batchSize, embeddingDim)
+    */
+  def clsPooling(
+      embeddings: Array[Array[Array[Float]]],
+      attentionMask: Array[Array[Long]]): Array[Array[Float]] = {
+    tokenPooling(embeddings, 0) // CLS embedding is at the front of each sequence
+  }
+
+  /** Creates pooled embeddings by averaging the embeddings of the CLS token and the average
+    * embedding the sequence.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @param attentionMask
+    *   Attention mask in shape (batchSize, sequenceLength)
+    * @return
+    *   The pooled embeddings in shape (batchSize, embeddingDim)
+    */
+  def clsAvgPooling(
+      embeddings: Array[Array[Array[Float]]],
+      attentionMask: Array[Array[Long]]): Array[Array[Float]] = {
+    val clsEmbeddings = DenseMatrix(clsPooling(embeddings, attentionMask): _*)
+    val shape: Array[Long] =
+      Array(embeddings.length, embeddings.head.length, embeddings.head.head.length)
+
+    val flatEmbeddings: Array[Float] = embeddings.flatten.flatten
+    val meanEmbeddings = avgPooling(flatEmbeddings, attentionMask, shape)
+
+    val clsAvgEmbeddings = (clsEmbeddings +:+ meanEmbeddings) / 2.0f
+    clsAvgEmbeddings.t.toArray // Breeze uses column-major order
+      .grouped(meanEmbeddings.cols)
+      .toArray
+  }
+
+  /** Creates pooled embeddings by taking the last token embedding of the sequence. Assumes right
+    * padding.
+    *
+    * @param embeddings
+    *   Embeddings in shape (batchSize, sequenceLength, embeddingDim)
+    * @param attentionMask
+    *   Attention mask in shape (batchSize, sequenceLength)
+    * @return
+    *   The pooled embeddings in shape (batchSize, embeddingDim)
+    */
+  def lastPooling(
+      embeddings: Array[Array[Array[Float]]],
+      attentionMask: Array[Array[Long]]): Array[Array[Float]] = {
+    val lastTokenIndexes = attentionMask.map(_.sum.toInt - 1)
+
+    tokenPooling(embeddings, lastTokenIndexes)
+  }
 }
