@@ -357,7 +357,7 @@ trait ReadXlmRoBertaForSequenceDLModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
 
-  override val tfFile: String = "xlm_roberta_classification_tf"
+  override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val onnxFile: String = "xlm_roberta_classification_onnx"
   override val sppFile: String = "xlmroberta_spp"
 
