@@ -104,33 +104,50 @@ class AhoCorasickAutomaton(
     if (pattern.id.isDefined) nodes(state).get.id = pattern.id.get
   }
 
+  def buildSuffixFromLinkedState(state: Int, chunk: ArrayBuffer[(Char, Int)]): ArrayBuffer[(Char, Int)] = {
+    def getToParent(recState: Int, curSuffix: ArrayBuffer[(Char, Int)]): ArrayBuffer[(Char, Int)] = {
+      val parentState = nodes(recState).get.parentState
+      val parentNode = nodes(parentState).get
+      if(parentState == 0)
+        curSuffix
+      else
+        getToParent(parentState, (parentNode.charFromParent.get, curSuffix.head._2 - 1) +=: curSuffix)
+    }
+    getToParent(state, ArrayBuffer(chunk.last))
+  }
+
   /** Second step of Aho-Corasick algorithm: The algorithm starts at the input text’s beginning
-    * and in the root state during searching for patterns. It processes the input string in a
-    * single pass, and all occurrences of keywords are found, even if they overlap each other.
-    */
+   * and in the root state during searching for patterns. It processes the input string in a
+   * single pass, and all occurrences of keywords are found, even if they overlap each other.
+   */
   def searchPatternsInText(sentence: Sentence): Seq[Annotation] = {
     var previousState = 0
     val chunk: ArrayBuffer[(Char, Int)] = ArrayBuffer.empty
     val chunkAnnotations: ArrayBuffer[Annotation] = ArrayBuffer.empty
-
+    var adjustedPreviousState = 0
     sentence.content.zipWithIndex.foreach { case (char, index) =>
       val currentChar = if (caseSensitive) char else char.toLower
-      val state = findNextState(previousState, currentChar)
+      val state = findNextState(adjustedPreviousState, currentChar)
 
       if (state > 0) {
         chunk.append((char, index))
       }
-
-      if (state == 0 && previousState > 0) {
+      adjustedPreviousState = state
+      if (state - previousState != 1 && previousState > 0) { // Used a suffix link or went back to 0
         val node = nodes(previousState).get
-        if (node.isLeaf && node.entity.nonEmpty) {
-          val chunkAnnotation = buildAnnotation(chunk, node.entity, node.id, sentence)
+        val suffix = if(state!=0) buildSuffixFromLinkedState(state, chunk) else ArrayBuffer.empty[(Char, Int)]
+        if (node.isLeaf && node.entity.nonEmpty && suffix != chunk) {
+          val actualMatch = if(state==0) chunk else chunk.init
+          val chunkAnnotation = buildAnnotation(actualMatch, node.entity, node.id, sentence)
           chunkAnnotations.append(chunkAnnotation)
+          adjustedPreviousState = 0
+          chunk.clear() // Clear chunk always when hopping from a leaf
+        } else if (state > 0 && chunk.nonEmpty && suffix != chunk){ // Build full suffix when hopping with suffix link
           chunk.clear()
-        } else chunk.clear()
+          suffix.foreach(chunk.append(_))
+        }
       }
-
-      previousState = state
+      previousState = adjustedPreviousState
     }
 
     if (chunk.nonEmpty) {
