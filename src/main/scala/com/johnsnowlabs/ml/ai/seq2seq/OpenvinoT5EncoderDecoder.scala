@@ -66,8 +66,7 @@ class OpenvinoT5EncoderDecoder(
     encInferRequest.set_tensor("input_ids", encoderInputTensors)
     encInferRequest.set_tensor("attention_mask", encoderAttentionMaskTensors)
 
-    encInferRequest.start_async()
-    encInferRequest.wait_async()
+    encInferRequest.infer()
 
     val encoderStateTensors = encInferRequest.get_tensor("last_hidden_state")
 
@@ -155,8 +154,7 @@ class OpenvinoT5EncoderDecoder(
         decoderReq.set_tensor("encoder_attention_mask", encoderAttentionMaskTensors)
         decoderReq.set_tensor("encoder_hidden_states", encoderStateTensors)
 
-        decoderReq.start_async()
-        decoderReq.wait_async()
+        decoderReq.infer()
 
         val logitsTensors = decoderReq.get_tensor("logits")
         logitsRaw = logitsTensors.data()
@@ -188,8 +186,7 @@ class OpenvinoT5EncoderDecoder(
           decoderReq.set_tensor(k, v)
         }
 
-        decoderReq.start_async()
-        decoderReq.wait_async()
+        decoderReq.infer()
 
         val logitsTensors = decoderReq.get_tensor("logits")
         logitsRaw = logitsTensors.data()

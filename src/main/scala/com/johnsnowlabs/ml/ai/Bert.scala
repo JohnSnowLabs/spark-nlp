@@ -153,8 +153,7 @@ private[johnsnowlabs] class Bert(
         inferRequest.set_tensor("attention_mask", maskTensors)
         inferRequest.set_tensor("token_type_ids", segmentTensors)
 
-        inferRequest.start_async()
-        inferRequest.wait_async()
+        inferRequest.infer()
 
         val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()
@@ -279,8 +278,7 @@ private[johnsnowlabs] class Bert(
         inferRequest.set_tensor("attention_mask", maskTensors)
         inferRequest.set_tensor("token_type_ids", segmentTensors)
 
-        inferRequest.start_async()
-        inferRequest.wait_async()
+        inferRequest.infer()
 
         val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()

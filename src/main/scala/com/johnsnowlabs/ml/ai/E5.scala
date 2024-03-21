@@ -233,8 +233,7 @@ private[johnsnowlabs] class E5(
     inferRequest.set_tensor("attention_mask", maskTensors)
     inferRequest.set_tensor("token_type_ids", segmentTensors)
 
-    inferRequest.start_async()
-    inferRequest.wait_async()
+    inferRequest.infer()
 
     val embeddings = inferRequest.get_tensor("last_hidden_state")
 

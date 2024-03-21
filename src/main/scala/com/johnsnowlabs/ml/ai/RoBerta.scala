@@ -136,8 +136,7 @@ private[johnsnowlabs] class RoBerta(
         inferRequest.set_tensor("input_ids", tokenTensors)
         inferRequest.set_tensor("attention_mask", maskTensors)
 
-        inferRequest.start_async()
-        inferRequest.wait_async()
+        inferRequest.infer()
 
         val result = inferRequest.get_tensor("last_hidden_state")
         val embeddings = result.data()
