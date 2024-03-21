@@ -43,7 +43,8 @@ class OpenvinoWrapper(
   @transient private val logger = LoggerFactory.getLogger(this.getClass.toString)
   @transient private var compiledModel: CompiledModel = _
 
-  def getCompiledModel(properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
+  def getCompiledModel(
+      properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
       if (compiledModel == null) {
         compiledModel = OpenvinoWrapper.withSafeOvModelLoader(

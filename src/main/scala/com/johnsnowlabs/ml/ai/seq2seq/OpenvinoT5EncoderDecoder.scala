@@ -24,7 +24,7 @@ class OpenvinoT5EncoderDecoder(
       .get()
       .get_partial_shape()
       .get_dimension(1)
-      .toInt
+      .get_length()
   }
 
   sessionWarmup()
