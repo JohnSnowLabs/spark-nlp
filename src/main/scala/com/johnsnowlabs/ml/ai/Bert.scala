@@ -338,6 +338,8 @@ private[johnsnowlabs] class Bert(
 
   def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     detectedEngine match {
+      case Openvino.name =>
+        tagSequence(batch)
       case ONNX.name =>
         tagSequence(batch)
       case TensorFlow.name =>
