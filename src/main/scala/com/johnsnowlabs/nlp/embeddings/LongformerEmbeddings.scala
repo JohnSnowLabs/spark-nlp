@@ -256,6 +256,7 @@ class LongformerEmbeddings(override val uid: String)
           new RoBerta(
             tensorflowWrapper,
             onnxWrapper,
+            None,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,

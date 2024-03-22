@@ -3,9 +3,6 @@ package com.johnsnowlabs.ml.ai.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
-import scala.collection.mutable
-import scala.math.exp
-
 abstract class T5EncoderDecoder(
     val spp: SentencePieceWrapper,
     val additionalTokens: Map[Int, String] = Map()) {
