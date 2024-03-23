@@ -180,6 +180,8 @@ val onnxDependencies: Seq[sbt.ModuleID] =
   else
     Seq(onnxCPU)
 
+val llamaCppDependencies = Seq(llamaCpp)
+
 val openVinoDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(openVinoGPU)
@@ -202,6 +204,7 @@ lazy val root = (project in file("."))
         utilDependencies ++
         tensorflowDependencies ++
         onnxDependencies ++
+        llamaCppDependencies ++
         openVinoDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?
