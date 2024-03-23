@@ -480,6 +480,12 @@ trait ReadBertSentenceDLModel
             None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
       }
+
+      case Openvino.name => {
+        val ovWrapper =
+          readOpenvinoModel(path, spark, "_bert_sentence_ov")
+        instance.setModelIfNotSet(spark, None, None, Some(ovWrapper))
+      }
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -487,7 +493,10 @@ trait ReadBertSentenceDLModel
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): BertSentenceEmbeddings = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): BertSentenceEmbeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -497,12 +506,17 @@ trait ReadBertSentenceDLModel
     val annotatorModel = new BertSentenceEmbeddings()
       .setVocabulary(vocabs)
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    detectedEngine match {
+    modelEngine match {
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
-          OpenvinoWrapper.fromOpenvinoFormat(localModelPath, zipped = false)
+          OpenvinoWrapper.read(localModelPath, zipped = false, detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
       case TensorFlow.name =>

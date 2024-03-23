@@ -97,7 +97,7 @@ trait ReadOpenvinoModel {
       val localPath = new Path(tmpFolder, localModelFile).toString
 
       val ovWrapper =
-        OpenvinoWrapper.fromOpenvinoFormat(localPath, zipped = zipped, modelName = modelName)
+        OpenvinoWrapper.read(localPath, zipped = zipped, modelName = modelName)
       (modelName, ovWrapper)
     }).toMap
 

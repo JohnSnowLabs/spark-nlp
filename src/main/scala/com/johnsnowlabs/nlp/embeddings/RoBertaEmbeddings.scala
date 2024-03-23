@@ -532,32 +532,10 @@ trait ReadRobertaDLModel extends ReadTensorflowModel with ReadOnnxModel with Rea
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val tmpFolder = Files
-          .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_ov_model")
-          .toAbsolutePath
-          .toString
-
-        /** Convert the model from the detected framework to Openvino Intermediate format */
-        val irModelFolder =
-          if (detectedEngine == Openvino.name) {
-            localModelPath
-          } else {
-            OpenvinoWrapper.convertToOpenvinoFormat(
-              modelPath = localModelPath,
-              targetPath = tmpFolder,
-              detectedEngine = detectedEngine,
-              zipped = false)
-            tmpFolder
-          }
         val ovWrapper: OpenvinoWrapper =
-          OpenvinoWrapper.fromOpenvinoFormat(irModelFolder, zipped = false)
-
-        /** the order of setSignatures is important if we use getSignatures inside
-          * setModelIfNotSet
-          */
+          OpenvinoWrapper.read(localModelPath, zipped = false, detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-        FileHelper.delete(tmpFolder)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

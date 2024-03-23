@@ -725,15 +725,11 @@ trait ReadT5TransformerDLModel
           .setModelIfNotSet(spark, onnxEncoder, onnxDecoder, spModel)
 
       case Openvino.name =>
-        val ovEncoder = OpenvinoWrapper.fromOpenvinoFormat(
-          modelPath,
-          modelName = Openvino.encoderModel,
-          zipped = false)
-        val ovDecoder = OpenvinoWrapper.fromOpenvinoFormat(
-          modelPath,
-          modelName = Openvino.decoderModel,
-          zipped = false)
-        val ovDecoderWithPast = OpenvinoWrapper.fromOpenvinoFormat(
+        val ovEncoder =
+          OpenvinoWrapper.read(modelPath, modelName = Openvino.encoderModel, zipped = false)
+        val ovDecoder =
+          OpenvinoWrapper.read(modelPath, modelName = Openvino.decoderModel, zipped = false)
+        val ovDecoderWithPast = OpenvinoWrapper.read(
           modelPath,
           modelName = Openvino.decoderModelWithPast,
           zipped = false)
