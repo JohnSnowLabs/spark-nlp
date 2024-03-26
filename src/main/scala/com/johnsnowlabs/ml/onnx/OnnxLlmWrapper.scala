@@ -108,7 +108,8 @@ object OnnxLlmWrapper {
       useBundle: Boolean = false,
       deleteTmpFolder: Boolean = true,
       modelName: String = "model",
-      dataFileSuffix: String = "_data"): OnnxLlmWrapper = {
+      dataFileSuffix: String = "_data",
+      onnxFileSuffix: Option[String]): OnnxLlmWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -119,7 +120,7 @@ object OnnxLlmWrapper {
     // 2. Unpack archive
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder))
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), onnxFileSuffix)
       else
         modelPath
 
@@ -134,8 +135,11 @@ object OnnxLlmWrapper {
     val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
 
     val onnxDataFileExist: Boolean = {
-      onnxDataFile = Paths.get(parentDir, modelName + dataFileSuffix).toFile
-      onnxDataFile.exists()
+      if (onnxFileSuffix.isDefined) {
+        val onnxDataFilePath = s"${onnxFileSuffix.get}_$modelName$dataFileSuffix"
+        onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
+        onnxDataFile.exists()
+      } else false
     }
 
     if (onnxDataFileExist) {

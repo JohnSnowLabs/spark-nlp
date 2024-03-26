@@ -54,10 +54,11 @@ trait WriteOnnxModel {
       fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
 
       // 4. check if there is a onnx_data file
-
-      val onnxDataFile = new Path(onnxWrapper.onnxModelPath.get + dataFileSuffix)
-      if (fs.exists(onnxDataFile)) {
-        fs.copyFromLocalFile(onnxDataFile, new Path(path))
+      if (onnxWrapper.onnxModelPath.isDefined) {
+        val onnxDataFile = new Path(onnxWrapper.onnxModelPath.get + dataFileSuffix)
+        if (fs.exists(onnxDataFile)) {
+          fs.copyFromLocalFile(onnxDataFile, new Path(path))
+        }
       }
     }
 
@@ -69,11 +70,10 @@ trait WriteOnnxModel {
       path: String,
       spark: SparkSession,
       onnxWrappersWithNames: Seq[(OnnxLlmWrapper, String)],
-      suffix: String,
-      dataFileSuffix: String = "_data"): Unit = {
+      suffix: String): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val fileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -81,7 +81,6 @@ trait WriteOnnxModel {
       .toAbsolutePath
       .toString
 
-    println("before foreach")
     onnxWrappersWithNames foreach { case (onnxWrapper, modelName) =>
       val onnxFile = Paths.get(tmpFolder, modelName).toString
 
@@ -89,13 +88,13 @@ trait WriteOnnxModel {
       onnxWrapper.saveToFile(onnxFile)
 
       // 3. Copy to dest folder
-      fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
+      fileSystem.copyFromLocalFile(new Path(onnxFile), new Path(path))
 
       // 4. check if there is a onnx_data file
       if (onnxWrapper.dataFileDirectory.isDefined) {
         val onnxDataFile = new Path(onnxWrapper.dataFileDirectory.get)
-        if (fs.exists(onnxDataFile)) {
-          fs.copyFromLocalFile(onnxDataFile, new Path(path))
+        if (fileSystem.exists(onnxDataFile)) {
+          fileSystem.copyFromLocalFile(onnxDataFile, new Path(path))
         }
       }
 
@@ -214,43 +213,41 @@ trait ReadOnnxModel {
       zipped: Boolean = true,
       useBundle: Boolean = false,
       deleteTmpFolder: Boolean = true,
-      dataFileSuffix: String = "_data"): Map[String, OnnxLlmWrapper] = {
-    println(
-      s"In OnnxSerializeModel.readOnnxModelsLight zipped=$zipped, deleteTmpFolder: $deleteTmpFolder")
+      dataFilePostfix: String = "_data"): Map[String, OnnxLlmWrapper] = {
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
     val tmpFolder = Files
-      .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
+      .createTempDirectory(s"${UUID.randomUUID().toString.takeRight(12)}_$suffix")
       .toAbsolutePath
       .toString
 
     val wrappers = (modelNames map { modelName: String =>
       // 2. Copy to local dir
       val localModelFile = modelName
-      fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
-
-      val localPath = new Path(tmpFolder, localModelFile).toString
-
-      val fsPath = new Path(path, localModelFile).toString
+      val srcPath = new Path(path, localModelFile)
+      fs.copyToLocalFile(srcPath, new Path(tmpFolder))
 
       // 3. Copy onnx_data file if exists
-      val onnxDataFile = new Path(fsPath + dataFileSuffix)
-
-      if (fs.exists(onnxDataFile)) {
-        fs.copyToLocalFile(onnxDataFile, new Path(tmpFolder))
+      val fsPath = new Path(path, localModelFile).toString
+      val onnxDataFile = fsPath.replaceAll(modelName, s"${suffix}_$modelName$dataFilePostfix")
+      val onnxDataFilePath = new Path(onnxDataFile)
+      if (fs.exists(onnxDataFilePath)) {
+        fs.copyToLocalFile(onnxDataFilePath, new Path(tmpFolder))
       }
 
       // 4. Read ONNX state
+      val onnxFileTmpPath = new Path(tmpFolder, localModelFile).toString
       val onnxWrapper =
         OnnxLlmWrapper.read(
           spark,
-          localPath,
+          onnxFileTmpPath,
           zipped = zipped,
           useBundle = useBundle,
           deleteTmpFolder = deleteTmpFolder,
-          modelName = modelName)
+          modelName = modelName,
+          onnxFileSuffix = Some(suffix))
 
       (modelName, onnxWrapper)
     }).toMap
