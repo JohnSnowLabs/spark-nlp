@@ -569,14 +569,16 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "encoder_model")
+            modelName = "encoder_model",
+            onnxFileSuffix = None)
         val onnxWrapperDecoder =
           OnnxLlmWrapper.read(
             spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            onnxFileSuffix = None)
 
         val onnxWrappers =
           EncoderDecoderWithoutPastWrappersLlm(
