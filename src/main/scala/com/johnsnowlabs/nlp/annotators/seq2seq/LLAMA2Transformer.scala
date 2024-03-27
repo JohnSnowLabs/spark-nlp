@@ -18,7 +18,8 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.LLAMA2
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.DecoderWrappersLlm
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, OnnxLlmWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
@@ -203,7 +204,7 @@ class LLAMA2Transformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrappers: DecoderWrappers,
+      onnxWrappers: DecoderWrappersLlm,
       spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
@@ -274,7 +275,7 @@ class LLAMA2Transformer(override val uid: String)
     getEngine match {
       case ONNX.name =>
         val wrappers = getModelIfNotSet.onnxWrappers
-        writeOnnxModels(
+        writeOnnxLlModels(
           path,
           spark,
           Seq((wrappers.decoder, "decoder_model.onnx")),
@@ -311,16 +312,21 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
   this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
 
   override val onnxFile: String = "llama2_onnx"
-  val suffix: String = "_llama2"
+  val suffix: String = "llama2"
   override val sppFile: String = "llama2_spp"
 
   def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case ONNX.name =>
         val wrappers =
-          readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
+          readOnnxLlModels(
+            path,
+            spark,
+            Seq("decoder_model.onnx"),
+            suffix,
+            deleteTmpFolder = false)
         val onnxWrappers =
-          DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
+          DecoderWrappersLlm(decoder = wrappers("decoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
         instance.setModelIfNotSet(spark, onnxWrappers, spp)
       case _ =>
@@ -377,13 +383,16 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
     detectedEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
-          OnnxWrapper.read(
+          OnnxLlmWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            dataFileSuffix = ".onnx_data",
+            onnxFileSuffix = Some(suffix))
 
-        val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
+        val onnxWrappers = DecoderWrappersLlm(onnxWrapperDecoder)
 
         annotatorModel
           .setModelIfNotSet(spark, onnxWrappers, spModel)

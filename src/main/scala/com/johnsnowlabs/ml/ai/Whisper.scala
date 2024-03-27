@@ -24,6 +24,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   SuppressLogitProcessor
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
+import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.EncoderDecoderWrappersLlm
 import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
@@ -57,7 +58,7 @@ import scala.collection.JavaConverters._
   */
 private[johnsnowlabs] class Whisper(
     val tensorflowWrapper: Option[TensorflowWrapper],
-    val onnxWrappers: Option[EncoderDecoderWrappers],
+    val onnxWrappers: Option[EncoderDecoderWrappersLlm],
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None,
     preprocessor: WhisperPreprocessor,
@@ -297,7 +298,10 @@ private[johnsnowlabs] class Whisper(
         case TensorFlow.name =>
           val session =
             tensorflowWrapper.get
-              .getTFSessionWithSignature(configProtoBytes, savedSignatures = signatures)
+              .getTFSessionWithSignature(
+                configProtoBytes,
+                savedSignatures = signatures,
+                initAllTables = false)
 
           val encodedBatchFeatures: Tensor =
             encode(featuresBatch, Some(session), None).asInstanceOf[Tensor]
