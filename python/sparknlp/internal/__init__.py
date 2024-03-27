@@ -378,6 +378,9 @@ class _BartLoader(ExtendedJavaWrapper):
             useCache,
         )
 
+class _NomicLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_NomicLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.NomicEmbeddings.loadSavedModel", path, jspark)
 
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, loadsp):

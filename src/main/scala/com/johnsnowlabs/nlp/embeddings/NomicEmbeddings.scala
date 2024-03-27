@@ -38,9 +38,8 @@ import org.slf4j.{Logger, LoggerFactory}
 
 /** Sentence embeddings using NomicEmbeddings.
   *
-  * NomicEmbeddings, an instruction-finetuned text embedding model that can generate text
-  * embeddings tailored to any task (e.g., classification, retrieval, clustering, text evaluation,
-  * etc.)
+  * nomic-embed-text-v1 is 8192 context length text encoder that surpasses OpenAI
+  * text-embedding-ada-002 and text-embedding-3-small performance on short and long context tasks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -58,23 +57,19 @@ import org.slf4j.{Logger, LoggerFactory}
   *
   * '''Sources''' :
   *
-  * [[https://arxiv.org/pdf/2212.03533 Text Embeddings by Weakly-Supervised Contrastive Pre-training]]
+  * [[https://static.nomic.ai/reports/2024_Nomic_Embed_Text_Technical_Report.pdf Nomic Embed: Training a Reproducible Long Context Text Embedder]]
   *
-  * [[https://github.com/microsoft/unilm/tree/master/nomic NomicEmbeddings Github Repository]]
+  * [[https://github.com/nomicai/contrastors NomicEmbeddings Github Repository]]
   *
   * ''' Paper abstract '''
   *
-  * ''This paper presents NomicEmbeddings, a family of state-of-the-art text embeddings that
-  * transfer well to a wide range of tasks. The model is trained in a contrastive manner with weak
-  * supervision signals from our curated large-scale text pair dataset (called CCPairs).
-  * NomicEmbeddings can be readily used as a general-purpose embedding model for any tasks
-  * requiring a single-vector representation of texts such as retrieval, clustering, and
-  * classification, achieving strong performance in both zero-shot and fine-tuned settings. We
-  * conduct extensive evaluations on 56 datasets from the BEIR and MTEB benchmarks. For zero-shot
-  * settings, NomicEmbeddings is the first model that outperforms the strong BM25 baseline on the
-  * BEIR retrieval benchmark without using any labeled data. When fine-tuned, NomicEmbeddings
-  * obtains the best results on the MTEB benchmark, beating existing embedding models with 40×
-  * more parameters.''
+  * ''This technical report describes the training of nomic-embed-text-v1, the first fully
+  * reproducible, open-source, open-weights, opendata, 8192 context length English text embedding
+  * model that outperforms both OpenAI Ada-002 and OpenAI text-embedding-3-small on short and
+  * long-context tasks. We release the training code and model weights under an Apache 2 license.
+  * In contrast with other open-source models, we release a training data loader with 235 million
+  * curated text pairs that allows for the full replication of nomic-embedtext-v1. You can find
+  * code and data to replicate the model at https://github.com/nomicai/contrastors.''
   *
   * ==Example==
   * {{{
@@ -202,8 +197,8 @@ class NomicEmbeddings(override val uid: String)
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
     require(
-      value <= 512,
-      "NomicEmbeddings models do not support sequences longer than 512 because of trainable positional embeddings.")
+      value <= 8192,
+      "NomicEmbeddings models do not support sequences longer than 8192 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this

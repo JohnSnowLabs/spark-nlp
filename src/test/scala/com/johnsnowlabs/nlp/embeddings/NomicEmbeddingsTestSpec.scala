@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{SlowTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
