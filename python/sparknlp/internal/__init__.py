@@ -54,9 +54,9 @@ class _BertLoader(ExtendedJavaWrapper):
 
 
 class _BertSentenceLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, use_openvino=False):
         super(_BertSentenceLoader, self).__init__(
-            "com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings.loadSavedModel", path, jspark, use_openvino)
 
 
 class _BertSequenceClassifierLoader(ExtendedJavaWrapper):
