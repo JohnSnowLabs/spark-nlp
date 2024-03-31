@@ -26,6 +26,7 @@ import com.johnsnowlabs.nlp.Annotation
 
 import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
 private[johnsnowlabs] class M2M100(
@@ -393,7 +394,8 @@ private[johnsnowlabs] class M2M100(
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
       encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+      session: Either[Session, (OrtEnvironment, OrtSession)],
+      ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
 
     session.fold(
       tfSession => {
