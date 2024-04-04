@@ -37,15 +37,15 @@ Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+  
 ```python
-document_assembler = DocumentAssembler() \
-    .setInputCol("text") \
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
     .setOutputCol("documents")
     
-    
-embeddings =MPNetEmbeddings.pretrained("mpnet_embeddings_biolord_2023_c ","en") \
-            .setInputCols(["documents"]) \
-            .setOutputCol("mpnet_embeddings")
+embeddings =MPNetEmbeddings.pretrained("mpnet_embeddings_biolord_2023_c","en")\
+    .setInputCols(["documents"])\
+    .setOutputCol("mpnet_embeddings")
 
 pipeline = Pipeline().setStages([document_assembler, embeddings])
 
@@ -57,16 +57,13 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("documents")
     
 val embeddings = MPNetEmbeddings 
-    .pretrained("mpnet_embeddings_biolord_2023_c ", "en")
+    .pretrained("mpnet_embeddings_biolord_2023_c", "en")
     .setInputCols(Array("documents")) 
     .setOutputCol("mpnet_embeddings") 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings))
 
 val result = pipeline.fit(data).transform(data)
-
-
-
 ```
 </div>
 
