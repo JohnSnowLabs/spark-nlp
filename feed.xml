@@ -1,5 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-03-20T19:26:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English distil_asr_whisper_large_v2 WhisperForCTC from distil-whisper</title><link href="/2024/02/26/distil_asr_whisper_large_v2_en.html" rel="alternate" type="text/html" title="English distil_asr_whisper_large_v2 WhisperForCTC from distil-whisper" /><published>2024-02-26T00:00:00+00:00</published><updated>2024-02-26T00:00:00+00:00</updated><id>/2024/02/26/distil_asr_whisper_large_v2_en</id><content type="html" xml:base="/2024/02/26/distil_asr_whisper_large_v2_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-04-05T15:50:39+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English BioLORD-2023-C MPNetEmbeddings from FremyCompany</title><link href="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html" rel="alternate" type="text/html" title="English BioLORD-2023-C MPNetEmbeddings from FremyCompany" /><published>2024-04-04T00:00:00+00:00</published><updated>2024-04-04T00:00:00+00:00</updated><id>/2024/04/04/mpnet_embeddings_biolord_2023_c_en</id><content type="html" xml:base="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mpnet_embeddings_biolord_2023_c&lt;/code&gt; is a English model originally trained by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FremyCompany&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mpnet_embeddings_biolord_2023_c_en_5.3.1_3.0_1712265672474.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/mpnet_embeddings_biolord_2023_c_en_5.3.1_3.0_1712265672474.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings_biolord_2023_c&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MPNetEmbeddings&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings_biolord_2023_c&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;mpnet_embeddings_biolord_2023_c&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.3.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[MPNet]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://huggingface.co/FremyCompany/BioLORD-2023-C&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="mpnet" /><category term="embeddings" /><category term="biolord" /><category term="open_source" /><category term="onnx" /><summary type="html">Description Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP mpnet_embeddings_biolord_2023_c is a English model originally trained by FremyCompany. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;documents&quot;) embeddings =MPNetEmbeddings.pretrained(&quot;mpnet_embeddings_biolord_2023_c&quot;,&quot;en&quot;)\ .setInputCols([&quot;documents&quot;])\ .setOutputCol(&quot;mpnet_embeddings&quot;) pipeline = Pipeline().setStages([document_assembler, embeddings]) result = pipeline.fit(data).transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;documents&quot;) val embeddings = MPNetEmbeddings .pretrained(&quot;mpnet_embeddings_biolord_2023_c&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;mpnet_embeddings&quot;) val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings)) val result = pipeline.fit(data).transform(data) Model Information Model Name: mpnet_embeddings_biolord_2023_c Compatibility: Spark NLP 5.3.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [MPNet] Language: en Size: 406.9 MB References https://huggingface.co/FremyCompany/BioLORD-2023-C</summary></entry><entry><title type="html">English distil_asr_whisper_large_v2 WhisperForCTC from distil-whisper</title><link href="/2024/02/26/distil_asr_whisper_large_v2_en.html" rel="alternate" type="text/html" title="English distil_asr_whisper_large_v2 WhisperForCTC from distil-whisper" /><published>2024-02-26T00:00:00+00:00</published><updated>2024-02-26T00:00:00+00:00</updated><id>/2024/02/26/distil_asr_whisper_large_v2_en</id><content type="html" xml:base="/2024/02/26/distil_asr_whisper_large_v2_en.html">## Description
 
 Pretrained WhisperForCTC model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.distil_asr_whisper_large_v2 is a English model originally trained by distil-whisper.
 
@@ -699,85 +783,4 @@ val pipelineDF = pipelineModel.transform(data)
 
 ## References
 
-https://huggingface.co/konverner/8bit-distilcamembert-base-ner</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="fr" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.8bit_distilcamembert_base_ner is a French model originally trained by konverner. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;8bit_distilcamembert_base_ner&quot;,&quot;fr&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;8bit_distilcamembert_base_ner&quot;, &quot;fr&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 8bit_distilcamembert_base_ner Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: fr Size: 252.5 MB References https://huggingface.co/konverner/8bit-distilcamembert-base-ner</summary></entry><entry><title type="html">English argument_wangchanberta2 CamemBertForTokenClassification from pitiwat</title><link href="/2024/01/21/argument_wangchanberta2_en.html" rel="alternate" type="text/html" title="English argument_wangchanberta2 CamemBertForTokenClassification from pitiwat" /><published>2024-01-21T00:00:00+00:00</published><updated>2024-01-21T00:00:00+00:00</updated><id>/2024/01/21/argument_wangchanberta2_en</id><content type="html" xml:base="/2024/01/21/argument_wangchanberta2_en.html">## Description
-
-Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`argument_wangchanberta2` is a English model originally trained by pitiwat.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/argument_wangchanberta2_en_5.2.4_3.0_1705835802208.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/argument_wangchanberta2_en_5.2.4_3.0_1705835802208.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-documentAssembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;document&quot;)
-    
-tokenizer = Tokenizer() \
-        .setInputCols([&quot;document&quot;]) \
-        .setOutputCol(&quot;token&quot;)
-        
-    
-tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;argument_wangchanberta2&quot;,&quot;en&quot;) \
-            .setInputCols([&quot;document&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;ner&quot;)
-
-pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier])
-
-pipelineModel = pipeline.fit(data)
-
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-
-val documentAssembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
-
-val tokenizer = Tokenizer() \
-        .setInputCols(Array(&quot;document&quot;)) \
-        .setOutputCol(&quot;token&quot;)
-
-val tokenClassifier = CamemBertForTokenClassification  
-    .pretrained(&quot;argument_wangchanberta2&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;ner&quot;) 
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier))
-
-val pipelineModel = pipeline.fit(data)
-
-val pipelineDF = pipelineModel.transform(data)
-
-
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|argument_wangchanberta2|
-|Compatibility:|Spark NLP 5.2.4+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[ner]|
-|Language:|en|
-|Size:|392.1 MB|
-
-## References
-
-https://huggingface.co/pitiwat/argument_wangchanberta2</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="en" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.argument_wangchanberta2 is a English model originally trained by pitiwat. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;argument_wangchanberta2&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;argument_wangchanberta2&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: argument_wangchanberta2 Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: en Size: 392.1 MB References https://huggingface.co/pitiwat/argument_wangchanberta2</summary></entry></feed>
+https://huggingface.co/konverner/8bit-distilcamembert-base-ner</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="fr" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.8bit_distilcamembert_base_ner is a French model originally trained by konverner. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;8bit_distilcamembert_base_ner&quot;,&quot;fr&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;8bit_distilcamembert_base_ner&quot;, &quot;fr&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 8bit_distilcamembert_base_ner Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: fr Size: 252.5 MB References https://huggingface.co/konverner/8bit-distilcamembert-base-ner</summary></entry></feed>
