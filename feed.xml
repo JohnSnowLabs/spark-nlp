@@ -1,5 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-04-05T17:24:15+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English BioLORD-2023-C MPNetEmbeddings from FremyCompany</title><link href="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html" rel="alternate" type="text/html" title="English BioLORD-2023-C MPNetEmbeddings from FremyCompany" /><published>2024-04-04T00:00:00+00:00</published><updated>2024-04-04T00:00:00+00:00</updated><id>/2024/04/04/mpnet_embeddings_biolord_2023_c_en</id><content type="html" xml:base="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-04-05T17:31:49+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">UAE-Large-V1 for Sentence Embeddings</title><link href="/2024/04/05/uae_large_v1_en.html" rel="alternate" type="text/html" title="UAE-Large-V1 for Sentence Embeddings" /><published>2024-04-05T00:00:00+00:00</published><updated>2024-04-05T00:00:00+00:00</updated><id>/2024/04/05/uae_large_v1_en</id><content type="html" xml:base="/2024/04/05/uae_large_v1_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;UAE is a novel angle-optimized text embedding model, designed to improve semantic textual
+similarity tasks, which are crucial for Large Language Model (LLM) applications. By
+introducing angle optimization in a complex space, AnglE effectively mitigates saturation of
+the cosine similarity function.&lt;/p&gt;
+
+&lt;p&gt;This model is based on UAE-Large-V1 and was orignally exported from https://huggingface.co/WhereIsAI/UAE-Large-V1. Several embedding pooling strategies can be set. Please refer to the class for more information.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/uae_large_v1_en_5.3.3_3.0_1712335736995.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/uae_large_v1_en_5.3.3_3.0_1712335736995.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UAEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EmbeddingsFinisher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputAsVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hello moon&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(finished_embeddings) as result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base.DocumentAssembler&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotators.Tokenizer&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.embeddings.UAEEmbeddings&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.EmbeddingsFinisher&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;UAEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UAE_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddingsFinisher&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmbeddingsFinisher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UAE_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputAsVector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hello moon&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(finished_embeddings) as result&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[0.50387806, 0.5861606, 0.35129607, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.76046336, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.32446072, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.117674336, 0...|
+|[0.6660665, 0.961762, 0.24854276, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.1018044, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.6569202, 0.027635604, 0.1915...|
++--------------------------------------------------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;uae_large_v1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.3.3+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;1.2 GB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="uae" /><category term="en" /><category term="sentence" /><category term="embeddings" /><category term="open_source" /><category term="onnx" /><summary type="html">Description UAE is a novel angle-optimized text embedding model, designed to improve semantic textual similarity tasks, which are crucial for Large Language Model (LLM) applications. By introducing angle optimization in a complex space, AnglE effectively mitigates saturation of the cosine similarity function. This model is based on UAE-Large-V1 and was orignally exported from https://huggingface.co/WhereIsAI/UAE-Large-V1. Several embedding pooling strategies can be set. Please refer to the class for more information. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = UAEEmbeddings.pretrained() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) embeddingsFinisher = EmbeddingsFinisher() \ .setInputCols(&quot;embeddings&quot;) \ .setOutputCols(&quot;finished_embeddings&quot;) \ .setOutputAsVector(True) pipeline = Pipeline().setStages([ documentAssembler, embeddings, embeddingsFinisher ]) data = spark.createDataFrame([[&quot;hello world&quot;, &quot;hello moon&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(5, 80) import spark.implicits._ import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.annotators.Tokenizer import com.johnsnowlabs.nlp.embeddings.UAEEmbeddings import com.johnsnowlabs.nlp.EmbeddingsFinisher import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = UAEEmbeddings.pretrained() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;UAE_embeddings&quot;) val embeddingsFinisher = new EmbeddingsFinisher() .setInputCols(&quot;UAE_embeddings&quot;) .setOutputCols(&quot;finished_embeddings&quot;) .setOutputAsVector(true) val pipeline = new Pipeline().setStages(Array( documentAssembler, embeddings, embeddingsFinisher )) val data = Seq(&quot;hello world&quot;, &quot;hello moon&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(5, 80) Results +--------------------------------------------------------------------------------+ | result| +--------------------------------------------------------------------------------+ |[0.50387806, 0.5861606, 0.35129607, -0.76046336, -0.32446072, -0.117674336, 0...| |[0.6660665, 0.961762, 0.24854276, -0.1018044, -0.6569202, 0.027635604, 0.1915...| +--------------------------------------------------------------------------------+ Model Information Model Name: uae_large_v1 Compatibility: Spark NLP 5.3.3+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English BioLORD-2023-C MPNetEmbeddings from FremyCompany</title><link href="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html" rel="alternate" type="text/html" title="English BioLORD-2023-C MPNetEmbeddings from FremyCompany" /><published>2024-04-04T00:00:00+00:00</published><updated>2024-04-04T00:00:00+00:00</updated><id>/2024/04/04/mpnet_embeddings_biolord_2023_c_en</id><content type="html" xml:base="/2024/04/04/mpnet_embeddings_biolord_2023_c_en.html">## Description
 
 Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP `mpnet_embeddings_biolord_2023_c` is a English model originally trained by `FremyCompany`.
 
@@ -684,85 +801,4 @@ val pipelineDF = pipelineModel.transform(data)
 
 ## References
 
-https://huggingface.co/bjubert/6_epochs_camembert_jb</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="en" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.6_epochs_camembert_jb is a English model originally trained by bjubert. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;6_epochs_camembert_jb&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;6_epochs_camembert_jb&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 6_epochs_camembert_jb Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: en Size: 411.9 MB References https://huggingface.co/bjubert/6_epochs_camembert_jb</summary></entry><entry><title type="html">French 8bit_distilcamembert_base_ner CamemBertForTokenClassification from konverner</title><link href="/2024/01/21/8bit_distilcamembert_base_ner_fr.html" rel="alternate" type="text/html" title="French 8bit_distilcamembert_base_ner CamemBertForTokenClassification from konverner" /><published>2024-01-21T00:00:00+00:00</published><updated>2024-01-21T00:00:00+00:00</updated><id>/2024/01/21/8bit_distilcamembert_base_ner_fr</id><content type="html" xml:base="/2024/01/21/8bit_distilcamembert_base_ner_fr.html">## Description
-
-Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`8bit_distilcamembert_base_ner` is a French model originally trained by konverner.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/8bit_distilcamembert_base_ner_fr_5.2.4_3.0_1705834120473.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/8bit_distilcamembert_base_ner_fr_5.2.4_3.0_1705834120473.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-
-documentAssembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;document&quot;)
-    
-tokenizer = Tokenizer() \
-        .setInputCols([&quot;document&quot;]) \
-        .setOutputCol(&quot;token&quot;)
-        
-    
-tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;8bit_distilcamembert_base_ner&quot;,&quot;fr&quot;) \
-            .setInputCols([&quot;document&quot;,&quot;token&quot;]) \
-            .setOutputCol(&quot;ner&quot;)
-
-pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier])
-
-pipelineModel = pipeline.fit(data)
-
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-
-val documentAssembler = new DocumentAssembler()
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
-
-val tokenizer = Tokenizer() \
-        .setInputCols(Array(&quot;document&quot;)) \
-        .setOutputCol(&quot;token&quot;)
-
-val tokenClassifier = CamemBertForTokenClassification  
-    .pretrained(&quot;8bit_distilcamembert_base_ner&quot;, &quot;fr&quot;)
-    .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;ner&quot;) 
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier))
-
-val pipelineModel = pipeline.fit(data)
-
-val pipelineDF = pipelineModel.transform(data)
-
-
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|8bit_distilcamembert_base_ner|
-|Compatibility:|Spark NLP 5.2.4+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents, token]|
-|Output Labels:|[ner]|
-|Language:|fr|
-|Size:|252.5 MB|
-
-## References
-
-https://huggingface.co/konverner/8bit-distilcamembert-base-ner</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="fr" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.8bit_distilcamembert_base_ner is a French model originally trained by konverner. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;8bit_distilcamembert_base_ner&quot;,&quot;fr&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;8bit_distilcamembert_base_ner&quot;, &quot;fr&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 8bit_distilcamembert_base_ner Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: fr Size: 252.5 MB References https://huggingface.co/konverner/8bit-distilcamembert-base-ner</summary></entry></feed>
+https://huggingface.co/bjubert/6_epochs_camembert_jb</content><author><name>John Snow Labs</name></author><category term="camembert" /><category term="en" /><category term="open_source" /><category term="token_classification" /><category term="onnx" /><summary type="html">Description Pretrained CamemBertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.6_epochs_camembert_jb is a English model originally trained by bjubert. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) tokenClassifier = CamemBertForTokenClassification.pretrained(&quot;6_epochs_camembert_jb&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() \ .setInputCols(Array(&quot;document&quot;)) \ .setOutputCol(&quot;token&quot;) val tokenClassifier = CamemBertForTokenClassification .pretrained(&quot;6_epochs_camembert_jb&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 6_epochs_camembert_jb Compatibility: Spark NLP 5.2.4+ License: Open Source Edition: Official Input Labels: [documents, token] Output Labels: [ner] Language: en Size: 411.9 MB References https://huggingface.co/bjubert/6_epochs_camembert_jb</summary></entry></feed>
