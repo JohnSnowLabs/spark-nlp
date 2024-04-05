@@ -318,7 +318,7 @@ private[johnsnowlabs] class LLAMA2(
 
     val result = inferRequest.get_tensor("logits")
     val logitsRaw = result.data()
-    nextPositionId = Some(Array(inputIds.head.length))
+    nextPositionId = Some(inputIds.map(tokenIds => tokenIds.length.toLong))
 
     val sequenceLength = inputIdsLong.length / batchSize
     val decoderOutputs = (0 until batchSize).map(i => {

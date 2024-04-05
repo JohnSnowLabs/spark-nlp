@@ -19,7 +19,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.LLAMA2
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
@@ -148,6 +148,7 @@ class LLAMA2Transformer(override val uid: String)
     with HasBatchedAnnotate[LLAMA2Transformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasGeneratorProperties
     with WriteSentencePieceModel
     with HasEngine {
@@ -292,6 +293,21 @@ class LLAMA2Transformer(override val uid: String)
           obj.spp,
           LLAMA2Transformer.suffix,
           LLAMA2Transformer.sppFile)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModel(
+          path,
+          spark,
+          wrappers.get,
+          LLAMA2Transformer.suffix,
+          "decoder_model.onnx")
+        val obj = getModelIfNotSet
+        writeSentencePieceModel(
+          path,
+          spark,
+          obj.spp,
+          LLAMA2Transformer.suffix,
+          LLAMA2Transformer.sppFile)
     }
   }
 }
@@ -313,12 +329,16 @@ trait ReadablePretrainedLLAMA2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceModel {
+trait ReadLLAMA2TransformerDLModel
+    extends ReadOnnxModel
+    with ReadOpenvinoModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
 
   override val onnxFile: String = "llama2_onnx"
   val suffix: String = "_llama2"
   override val sppFile: String = "llama2_spp"
+  override val openvinoFile: String = "llama2_openvino"
 
   def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -329,6 +349,11 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
         instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
+      case Openvino.name =>
+        val ovWrapper =
+          readOpenvinoModel(path, spark, suffix)
+        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
