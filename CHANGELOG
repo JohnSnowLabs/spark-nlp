@@ -1,4 +1,27 @@
 ========
+5.3.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introduce UAEEmbeddings for sentence embeddings using Universal AnglE Embedding, aimed at improving semantic textual similarity tasks
+* Introduce critical enhancements and optimizations to the processing of the CoNLL-U format for Dependency Parsers training, including enhanced multiword token handling and improved handling of missing uPos values
+* Add example notebook for `DocumentCharacterTextSplitter`
+* Add example notebook for `DeBertaForZeroShotClassification`
+* Add example notebooks for `BGEEmbeddings` and `MPNetEmbeddings`
+* Add example notebook for `MPNetForQuestionAnswering`
+* Add example notebook for `MPNetForSequenceClassification`
+* Implement cache mechanism for `metadata.json`, enhancing efficiency by avoiding unnecessary downloads
+
+----------------
+Bug Fixes
+----------------
+* Address a bug with serializing ONNX models that lack a `.onnx_data` file, ensuring better reliability in model serialization processes
+* Delete redundant `Multilingual_Translation_with_M2M100.ipynb` notebook entries
+* Fix Colab link for the M2M100 notebook
+
+
+========
 5.3.2
 ========
 ----------------
