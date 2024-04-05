@@ -54,10 +54,11 @@ trait WriteOnnxModel {
       fs.copyFromLocalFile(new Path(onnxFile), new Path(path))
 
       // 4. check if there is a onnx_data file
-
-      val onnxDataFile = new Path(onnxWrapper.onnxModelPath.get + dataFileSuffix)
-      if (fs.exists(onnxDataFile)) {
-        fs.copyFromLocalFile(onnxDataFile, new Path(path))
+      if (onnxWrapper.onnxModelPath.isDefined) {
+        val onnxDataFile = new Path(onnxWrapper.onnxModelPath.get + dataFileSuffix)
+        if (fs.exists(onnxDataFile)) {
+          fs.copyFromLocalFile(onnxDataFile, new Path(path))
+        }
       }
     }
 
