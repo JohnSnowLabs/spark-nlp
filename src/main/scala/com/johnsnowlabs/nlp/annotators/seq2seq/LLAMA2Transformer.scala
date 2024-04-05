@@ -300,7 +300,7 @@ class LLAMA2Transformer(override val uid: String)
           spark,
           wrappers.get,
           LLAMA2Transformer.suffix,
-          "decoder_model.onnx")
+          LLAMA2Transformer.openvinoFile)
         val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
