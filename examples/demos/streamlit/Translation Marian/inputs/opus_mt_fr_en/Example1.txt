@@ -1,0 +1,2 @@
+Example1.txt
+Outre le roi du nord, John Snow est un médecin anglais et un chef de file dans le développement de l'anesthésie et de l'hygiène.. Il est considéré comme le premier à utiliser les données pour guérir l'épidémie de choléra en 1854.

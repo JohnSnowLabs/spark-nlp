@@ -1,0 +1,3 @@
+streamlit
+spark-nlp
+pyspark

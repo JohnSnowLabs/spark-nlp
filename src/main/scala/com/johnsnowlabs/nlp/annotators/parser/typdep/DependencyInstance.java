@@ -233,7 +233,6 @@ public class DependencyInstance implements Serializable {
         }
 
         // set special pos
-        //TODO: Check if this is used somewhere
         specialPos = new SpecialPos[length];
         for (int i = 0; i < length; ++i) {
             if (coarseMap.containsKey(uPosTags[i])) {
@@ -249,6 +248,9 @@ public class DependencyInstance implements Serializable {
                 else
                     specialPos[i] = SpecialPos.OTHER;
             } else {
+                if (forms[i] == null || uPosTags[i] == null) {
+                    continue;
+                }
                 specialPos[i] = getSpecialPos(forms[i], uPosTags[i]);
             }
         }
@@ -265,7 +267,9 @@ public class DependencyInstance implements Serializable {
     // 	(http://groups.csail.mit.edu/nlp/egstra/).
     //
     private SpecialPos getSpecialPos(String form, String tag) {
-
+        if (tag == null || form == null) {
+            return SpecialPos.OTHER;
+        }
         if (tag.charAt(0) == 'v' || tag.charAt(0) == 'V')
             return SpecialPos.V;
         else if (tag.charAt(0) == 'n' || tag.charAt(0) == 'N')
