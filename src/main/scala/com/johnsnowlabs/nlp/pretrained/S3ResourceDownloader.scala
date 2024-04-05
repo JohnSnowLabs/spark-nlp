@@ -50,7 +50,8 @@ class S3ResourceDownloader(
     val metadataFilePath = awsGateway.getS3File(s3Path, folder, "metadata.json")
     val metadataObject = awsGateway.client.getObject(bucket, metadataFilePath)
     val lastModifiedTimeInS3 = metadataObject.getObjectMetadata.getLastModified
-    val needToRefresh = lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
+    val needToRefresh =
+      lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
     if (!needToRefresh) {
       lastMetadataState.get.metadata
     } else {

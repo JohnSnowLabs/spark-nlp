@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-
 /** Describes state of repository Repository could be any s3 folder that has metadata.json
   * describing list of resources inside
   */
