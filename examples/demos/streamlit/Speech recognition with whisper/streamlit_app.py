@@ -18,6 +18,7 @@ import pyspark.sql.functions as F
 
 spark = sparknlp.start()
 
+@st.cache_resource
 def create_pipeline(model):
     
     audio_assembler = AudioAssembler() \
