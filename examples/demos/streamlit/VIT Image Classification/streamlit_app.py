@@ -15,6 +15,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 spark = sparknlp.start()
 
+@st.cache_resource
 def create_pipeline(model):
 
     image_assembler = ImageAssembler() \
