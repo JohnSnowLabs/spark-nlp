@@ -14,6 +14,7 @@ from sparknlp.pretrained import PretrainedPipeline
     
 spark = sparknlp.start()
 
+@st.cache_resource
 def create_pipeline(model, max_out_length):
     document_assembler = DocumentAssembler()\
         .setInputCol("text")\
