@@ -26,6 +26,8 @@ class BGEEmbeddings(AnnotatorModel,
 
    BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense 
   vector which can be used for tasks like retrieval, classification, clustering, or semantic search.
+
+  Note that this annotator is only supported for Spark Versions 3.4 and up.
   
   Pretrained models can be loaded with `pretrained` of the companion object:
 

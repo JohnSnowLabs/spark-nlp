@@ -45,6 +45,7 @@ There are two types of Annotators:
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
+{% include templates/anno_table_entry.md path="" name="BGEEmbeddings" summary="Sentence embeddings using BGE."%}
 {% include templates/anno_table_entry.md path="" name="BigTextMatcher" summary="Annotator to match exact phrases (by token) provided in a file against a Document."%}
 {% include templates/anno_table_entry.md path="" name="Chunk2Doc" summary="Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do further analysis on a `CHUNK` result."%}
 {% include templates/anno_table_entry.md path="" name="ChunkEmbeddings" summary="This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs."%}

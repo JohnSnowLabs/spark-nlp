@@ -28,6 +28,8 @@ class MPNetEmbeddings(AnnotatorModel,
     to inherit the advantages of masked language modeling and permuted language modeling for
     natural language understanding.
 
+    Note that this annotator is only supported for Spark Versions 3.4 and up.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 

@@ -42,6 +42,8 @@ import org.slf4j.{Logger, LoggerFactory}
   * vector which can be used for tasks like retrieval, classification, clustering, or semantic
   * search.
   *
+  * Note that this annotator is only supported for Spark Versions 3.4 and up.
+  *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val embeddings = BGEEmbeddings.pretrained()
@@ -117,7 +119,7 @@ import org.slf4j.{Logger, LoggerFactory}
   * |                                                                          result|
   * +--------------------------------------------------------------------------------+
   * |[[8.0190285E-4, -0.005974853, -0.072875895, 0.007944068, 0.026059335, -0.0080...|
-  * [[0.050514214, 0.010061974, -0.04340176, -0.020937217, 0.05170225, 0.01157857...|
+  * |[[0.050514214, 0.010061974, -0.04340176, -0.020937217, 0.05170225, 0.01157857...|
   * +--------------------------------------------------------------------------------+
   * }}}
   *
