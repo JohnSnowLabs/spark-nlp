@@ -696,12 +696,14 @@ trait ReadMarianMTDLModel
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
 
         val onnxEncoder = OnnxWrapper.read(
+          spark,
           localModelPath,
           modelName = "encoder_model",
           zipped = false,
           useBundle = true)
 
         val onnxDecoder = OnnxWrapper.read(
+          spark,
           localModelPath,
           modelName = "decoder_model_merged",
           zipped = false,

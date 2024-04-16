@@ -18,8 +18,8 @@ package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.ml.ai.Whisper
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
-import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.EncoderDecoderWrappersLlm
-import com.johnsnowlabs.ml.onnx.{OnnxLlmWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -323,7 +323,7 @@ class WhisperForCTC(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrappers: Option[EncoderDecoderWrappersLlm]): this.type = {
+      onnxWrappers: Option[EncoderDecoderWrappers]): this.type = {
     if (_model.isEmpty) {
       val preprocessor = getPreprocessor
 
@@ -356,7 +356,7 @@ class WhisperForCTC(override val uid: String)
           savedSignatures = getSignatures)
       case ONNX.name =>
         val wrappers = getModelIfNotSet.onnxWrappers.get
-        writeOnnxLlModels(
+        writeOnnxModels(
           path,
           spark,
           Seq(
@@ -444,14 +444,14 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val wrappers =
-          readOnnxLlModels(
+          readOnnxModels(
             path,
             spark,
             Seq("encoder_model", "decoder_model", "decoder_with_past_model"),
             WhisperForCTC.suffix,
             dataFilePostfix = ".onnx_data")
 
-        val onnxWrappers = EncoderDecoderWrappersLlm(
+        val onnxWrappers = EncoderDecoderWrappers(
           wrappers("encoder_model"),
           decoder = wrappers("decoder_model"),
           decoderWithPast = wrappers("decoder_with_past_model"))
@@ -579,7 +579,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
 
       case ONNX.name =>
         val onnxWrapperEncoder =
-          OnnxLlmWrapper.read(
+          OnnxWrapper.read(
             spark,
             localModelPath,
             zipped = false,
@@ -588,7 +588,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             onnxFileSuffix = None)
 
         val onnxWrapperDecoder =
-          OnnxLlmWrapper.read(
+          OnnxWrapper.read(
             spark,
             localModelPath,
             zipped = false,
@@ -597,7 +597,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             onnxFileSuffix = None)
 
         val onnxWrapperDecoderWithPast =
-          OnnxLlmWrapper.read(
+          OnnxWrapper.read(
             spark,
             localModelPath,
             zipped = false,
@@ -605,7 +605,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             modelName = "decoder_with_past_model",
             onnxFileSuffix = None)
 
-        val onnxWrappers = EncoderDecoderWrappersLlm(
+        val onnxWrappers = EncoderDecoderWrappers(
           onnxWrapperEncoder,
           onnxWrapperDecoder,
           onnxWrapperDecoderWithPast)

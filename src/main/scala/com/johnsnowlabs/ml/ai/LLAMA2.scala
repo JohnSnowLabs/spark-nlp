@@ -20,7 +20,6 @@ import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
-import com.johnsnowlabs.ml.onnx.OnnxLlmWrapper.DecoderWrappersLlm
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.Annotation
@@ -30,7 +29,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.tensorflow.{Session, Tensor}
 
 private[johnsnowlabs] class LLAMA2(
-    val onnxWrappers: DecoderWrappersLlm,
+    val onnxWrappers: DecoderWrappers,
     val spp: SentencePieceWrapper,
     generationConfig: GenerationConfig)
     extends Serializable
