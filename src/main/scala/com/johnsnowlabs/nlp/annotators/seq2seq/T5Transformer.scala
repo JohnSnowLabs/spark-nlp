@@ -726,12 +726,24 @@ trait ReadT5TransformerDLModel
 
       case Openvino.name =>
         val ovEncoder =
-          OpenvinoWrapper.read(modelPath, modelName = Openvino.encoderModel, zipped = false)
+          OpenvinoWrapper.read(
+            spark,
+            modelPath,
+            modelName = Openvino.encoderModel,
+            useBundle = true,
+            zipped = false)
         val ovDecoder =
-          OpenvinoWrapper.read(modelPath, modelName = Openvino.decoderModel, zipped = false)
+          OpenvinoWrapper.read(
+            spark,
+            modelPath,
+            modelName = Openvino.decoderModel,
+            useBundle = true,
+            zipped = false)
         val ovDecoderWithPast = OpenvinoWrapper.read(
+          spark,
           modelPath,
           modelName = Openvino.decoderModelWithPast,
+          useBundle = true,
           zipped = false)
 
         val ovWrapper = EncoderDecoderWrappers(ovEncoder, ovDecoder, ovDecoderWithPast)

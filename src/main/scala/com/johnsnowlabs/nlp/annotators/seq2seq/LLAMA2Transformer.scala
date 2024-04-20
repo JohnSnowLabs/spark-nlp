@@ -429,7 +429,12 @@ trait ReadLLAMA2TransformerDLModel
 
       case Openvino.name =>
         val openvinoWrapper =
-          OpenvinoWrapper.read(localModelPath, zipped = false, detectedEngine = detectedEngine)
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
         annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper), spModel)
 
       case _ =>

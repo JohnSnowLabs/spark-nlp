@@ -491,7 +491,12 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
-          OpenvinoWrapper.read(localModelPath, zipped = false, detectedEngine = detectedEngine)
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
 

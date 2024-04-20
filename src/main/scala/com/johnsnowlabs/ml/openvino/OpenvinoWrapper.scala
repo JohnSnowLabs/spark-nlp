@@ -16,27 +16,26 @@
 
 package com.johnsnowlabs.ml.openvino
 
-import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
+import com.johnsnowlabs.ml.util.LoadExternalModel.notSupportedEngineError
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper, ZipArchiveUtil}
-import org.apache.commons.io.FileUtils
+import org.apache.commons.io.{FileUtils, FilenameUtils}
+import org.apache.spark.SparkFiles
+import org.apache.spark.sql.SparkSession
+import org.intel.openvino.Openvino.save_model
 import org.intel.openvino.{CompiledModel, Core, Model}
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Path, Paths}
 import java.util.UUID
 import scala.collection.JavaConverters._
 
-class OpenvinoWrapper(
-    modelBytes: Array[Byte],
-    weightsBytes: Array[Array[Byte]],
-    modelPath: Option[String] = None)
-    extends Serializable {
+class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable {
 
   /** For Deserialization */
   def this() = {
-    this(null, null)
+    this(null)
   }
 
   // Important for serialization on none-kyro serializers
@@ -46,10 +45,11 @@ class OpenvinoWrapper(
       properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
       if (compiledModel == null) {
+        val modelPath = SparkFiles.get(s"${modelName.get}.xml")
+        val device = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
         compiledModel = OpenvinoWrapper.withSafeOvModelLoader(
-          modelBytes,
-          weightsBytes,
-          modelPath,
+          Some(modelPath),
+          device = device,
           properties = properties)
       }
       compiledModel
@@ -61,9 +61,11 @@ class OpenvinoWrapper(
       .toAbsolutePath
       .toString
 
-    val fileName = Paths.get(file).getFileName.toString
-    FileUtils.writeByteArrayToFile(Paths.get(tmpFolder, s"${fileName}.xml").toFile, modelBytes)
-    ChunkBytes.writeByteChunksInFile(Paths.get(tmpFolder, s"${fileName}.bin"), weightsBytes)
+    val xmlFile: String = s"${modelName.get}.xml"
+    val binFile: String = s"${modelName.get}.bin"
+
+    FileUtils.copyFile(new File(SparkFiles.get(xmlFile)), Paths.get(tmpFolder, xmlFile).toFile)
+    FileUtils.copyFile(new File(SparkFiles.get(binFile)), Paths.get(tmpFolder, binFile).toFile)
 
     ZipArchiveUtil.zip(tmpFolder, file)
     FileHelper.delete(tmpFolder)
@@ -77,20 +79,21 @@ object OpenvinoWrapper {
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
   private[OpenvinoWrapper] val core: Core = new Core
 
-  // size of bytes store in each chunk/array
-  private val BUFFER_SIZE = 1024 * 1024
-
   private val ModelSuffix = "_ov_model"
 
   /** Read the model from the given path, unpack if zipped, and return the loaded OpenvinoWrapper.
     * If source model is not in OpenVINO format, it is converted first.
     *
-    * @param path
+    * @param sparkSession
+    *   The Spark Session
+    * @param modelPath
     *   Path to the model
     * @param modelName
     *   The model filename
     * @param zipped
     *   Unpack zipped model
+    * @param useBundle
+    *   Load exported model
     * @param detectedEngine
     *   The source model format
     * @param properties
@@ -99,9 +102,11 @@ object OpenvinoWrapper {
     *   The resulting OpenVINO model wrapper
     */
   def read(
-      path: String,
+      sparkSession: SparkSession,
+      modelPath: String,
       modelName: String = Openvino.ovModel,
       zipped: Boolean = true,
+      useBundle: Boolean = false,
       detectedEngine: String = Openvino.name,
       properties: Map[String, String] = Map.empty): OpenvinoWrapper = {
 
@@ -112,54 +117,71 @@ object OpenvinoWrapper {
 
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(path), Some(tmpFolder))
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder))
       else
-        path
+        modelPath
 
-    val (modelPath, weightsPath) =
+    val (ovModelPath, ovWeightsPath) =
       detectedEngine match {
         case TensorFlow.name =>
-          val model: Model = core.read_model(folder)
-          val ovModelPath = Paths.get(tmpFolder, s"${Openvino.ovModel}.xml")
-          val ovWeightsPath = Paths.get(tmpFolder, s"${Openvino.ovModel}.bin")
-          org.intel.openvino.Openvino
-            .save_model(model, ovModelPath.toAbsolutePath.toString, false)
-          (ovModelPath, ovWeightsPath)
+          convertToOpenvinoFormat(folder, tmpFolder)
         case ONNX.name =>
-          val model: Model = core.read_model(Paths.get(folder, ONNX.modelName).toString)
-          val ovModelPath = Paths.get(tmpFolder, s"${Openvino.ovModel}.xml")
-          val ovWeightsPath = Paths.get(tmpFolder, s"${Openvino.ovModel}.bin")
-          org.intel.openvino.Openvino
-            .save_model(model, ovModelPath.toAbsolutePath.toString, false)
-          (ovModelPath, ovWeightsPath)
+          if (useBundle)
+            convertToOpenvinoFormat(Paths.get(folder, ONNX.modelName).toString, tmpFolder)
+          else
+            convertToOpenvinoFormat(Paths.get(folder, s"$modelName.onnx").toString, tmpFolder)
+        case Openvino.name =>
+          if (useBundle)
+            (Paths.get(folder, s"$modelName.xml"), Paths.get(folder, s"$modelName.bin"))
+          else
+            (
+              Paths.get(folder, s"${Openvino.ovModel}.xml"),
+              Paths.get(folder, s"${Openvino.ovModel}.bin"))
         case _ =>
-          (Paths.get(folder, s"$modelName.xml"), Paths.get(folder, s"$modelName.bin"))
+          throw new Exception(notSupportedEngineError)
       }
+    sparkSession.sparkContext.addFile(ovModelPath.toString)
+    sparkSession.sparkContext.addFile(ovWeightsPath.toString)
 
-    val modelBytes = FileUtils.readFileToByteArray(modelPath.toFile)
-    val weightsBytes = ChunkBytes.readFileInByteChunks(weightsPath, BUFFER_SIZE)
-    val device = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
-    val compiledModel: CompiledModel = withSafeOvModelLoader(
-      modelBytes,
-      weightsBytes,
-      Some(modelPath.toAbsolutePath.toString),
-      device,
-      properties)
+    val ovFileName = Some(FilenameUtils.getBaseName(ovModelPath.toFile.getName))
+    val openvinoWrapper = new OpenvinoWrapper(ovFileName)
 
-    val openvinoWrapper = new OpenvinoWrapper(modelBytes, weightsBytes)
+    val device: String = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
+    val compiledModel: CompiledModel =
+      withSafeOvModelLoader(Some(ovModelPath.toString), device = device, properties = properties)
     openvinoWrapper.compiledModel = compiledModel
 
     FileHelper.delete(tmpFolder)
     openvinoWrapper
   }
 
+  /** Convert the model at srcPath to OpenVINO IR Format and export to exportPath.
+    *
+    * @param srcPath
+    *   Path to the source model
+    * @param exportPath
+    *   Path to export converted model to
+    * @param compressToFp16
+    *   Whether to perform weight compression to FP16
+    * @return
+    *   Paths to the exported XML and BIN files
+    */
+  def convertToOpenvinoFormat(
+      srcPath: String,
+      exportPath: String,
+      compressToFp16: Boolean = false): (Path, Path) = {
+    logger.debug(s"Converting model from ${srcPath}, compresToFp16 = ${compressToFp16}")
+    val model: Model = core.read_model(srcPath)
+    val ovXmlPath = Paths.get(exportPath, s"${Openvino.ovModel}.xml")
+    val ovBinPath = Paths.get(exportPath, s"${Openvino.ovModel}.bin")
+
+    save_model(model, ovXmlPath.toAbsolutePath.toString, compressToFp16)
+    (ovXmlPath, ovBinPath)
+  }
+
   /** Prepare the model for inference by compiling into a device-specific graph representation.
     * Returns the compiled model object.
     *
-    * @param modelBytes
-    *   Model xml file as byte array
-    * @param weightsBytes
-    *   The model weights as byte array
     * @param modelPath
     *   Optional path to the model directory
     * @param device
@@ -170,34 +192,12 @@ object OpenvinoWrapper {
     *   Object representing the compiled model
     */
   def withSafeOvModelLoader(
-      modelBytes: Array[Byte],
-      weightsBytes: Array[Array[Byte]],
       modelPath: Option[String] = None,
       device: String = "CPU",
       properties: Map[String, String]): CompiledModel = {
     logger.info(s"Compiling OpenVINO model to device: $device")
-    if (modelPath.isDefined) {
-      val compiledModel = core.compile_model(modelPath.get, device, properties.asJava)
-      compiledModel
-    } else {
-      val path = Files
-        .createTempDirectory(
-          UUID.randomUUID().toString.takeRight(12) + OpenvinoWrapper.ModelSuffix)
-        .toAbsolutePath
-        .toString
-      val tmpModelPath = Paths.get(path, s"${Openvino.ovModel}.xml")
-      val tmpWeightsPath = Paths.get(path, s"${Openvino.ovModel}.bin")
-
-      // save the binary data of the model and weights to files
-      FileUtils.writeByteArrayToFile(tmpModelPath.toFile, modelBytes)
-      ChunkBytes.writeByteChunksInFile(tmpWeightsPath, weightsBytes)
-
-      val xmlPath = tmpModelPath.toAbsolutePath.toString
-      val compiledModel = core.compile_model(xmlPath, device, properties.asJava)
-
-      FileHelper.delete(path)
-      compiledModel
-    }
+    val compiledModel = core.compile_model(modelPath.get, device, properties.asJava)
+    compiledModel
   }
 
   case class EncoderDecoderWrappers(

@@ -34,7 +34,7 @@ trait WriteOpenvinoModel {
       suffix: String): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val fileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -45,7 +45,7 @@ trait WriteOpenvinoModel {
     ovWrappersWithNames foreach { case (ovWrapper, modelName) =>
       val savedOvModel = Paths.get(tmpFolder, modelName).toString
       ovWrapper.saveToFile(savedOvModel)
-      fs.copyFromLocalFile(new Path(savedOvModel), new Path(path))
+      fileSystem.copyFromLocalFile(new Path(savedOvModel), new Path(path))
     }
 
     // 4. Remove tmp folder
@@ -82,7 +82,7 @@ trait ReadOpenvinoModel {
       zipped: Boolean = true): Map[String, OpenvinoWrapper] = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
-    val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val fileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
     val tmpFolder = Files
@@ -93,11 +93,11 @@ trait ReadOpenvinoModel {
     val wrappers = (modelNames map { modelName: String =>
       // 2. Copy to local dir
       val localModelFile = modelName
-      fs.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
+      fileSystem.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
       val localPath = new Path(tmpFolder, localModelFile).toString
 
       val ovWrapper =
-        OpenvinoWrapper.read(localPath, zipped = zipped, modelName = modelName)
+        OpenvinoWrapper.read(spark, localPath, zipped = zipped, modelName = modelName)
       (modelName, ovWrapper)
     }).toMap
 
