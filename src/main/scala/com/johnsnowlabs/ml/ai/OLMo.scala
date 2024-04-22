@@ -59,7 +59,6 @@ private[johnsnowlabs] class OLMo(
     *   Sequence of decoded sentences
     */
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
-    println(sentences.map(_.mkString(" ")).mkString("\n"))
     sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
   }
 
