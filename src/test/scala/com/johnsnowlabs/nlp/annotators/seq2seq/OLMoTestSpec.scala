@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class OLMoTestSpec extends AnyFlatSpec {
 
-  "phi2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "olmo" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -36,9 +36,7 @@ class OLMoTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = OLMoTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/OLMO/onnx_models/allenai/OLMo-1B-hf_int4/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setDoSample(false)
       .setMaxOutputLength(100)

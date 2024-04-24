@@ -44,18 +44,10 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** Phi-2: Textbooks Are All You Need.
+/** OLMo: Open Language Models
   *
-  * Phi-2 is a Transformer with 2.7 billion parameters. It was trained using the same data sources
-  * as Phi-1.5, augmented with a new data source that consists of various NLP synthetic texts and
-  * filtered websites (for safety and educational value). When assessed against benchmarks testing
-  * common sense, language understanding, and logical reasoning, Phi-2 showcased a nearly
-  * state-of-the-art performance among models with less than 13 billion parameters.
-  *
-  * Phi-2 hasn't been fine-tuned through reinforcement learning from human feedback. The intention
-  * behind crafting this open-source model is to provide the research community with a
-  * non-restricted small model to explore vital safety challenges, such as reducing toxicity,
-  * understanding societal biases, enhancing controllability, and more.
+  * OLMo is a series of Open Language Models designed to enable the science of language models.
+  * The OLMo models are trained on the Dolma dataset.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -63,38 +55,31 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"OLMo-13b"`, if no name is provided. For available pretrained models
+  * The default model is `"OLMo-1b"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=OLMo Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/OLMoTestSpec.scala OLMoTestSpec]].
   *
   * '''References:'''
-  *   - [[https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/ Phi-2: Textbooks Are All You Need.]]
-  *   - [[https://huggingface.co/microsoft/phi-2]]
+  *   - [[https://allenai.org/olmo OLMo Project Page.]]
+  *   - [[https://github.com/allenai/OLMo OLMo GitHub Repository.]]
+  *   - [[https://arxiv.org/pdf/2402.00838.pdf OLMo: Accelerating the Science of Language Models]]
   *
   * '''Paper Abstract:'''
   *
-  * ''The massive increase in the size of language models to hundreds of billions of parameters
-  * has unlocked a host of emerging capabilities that have redefined the landscape of natural
-  * language processing. A question remains whether such emergent abilities can be achieved at a
-  * smaller scale using strategic choices for training, e.g., data selection.''
-  *
-  * ''Our line of work with the Phi models aims to answer this question by training SLMs that
-  * achieve performance on par with models of much higher scale (yet still far from the frontier
-  * models). Our key insights for breaking the conventional language model scaling laws with Phi-2
-  * are twofold:''
-  *
-  * ''Firstly, training data quality plays a critical role in model performance. This has been
-  * known for decades, but we take this insight to its extreme by focusing on “textbook-quality”
-  * data, following upon our prior work “Textbooks Are All You Need.” Our training data mixture
-  * contains synthetic datasets specifically created to teach the model common sense reasoning and
-  * general knowledge, including science, daily activities, and theory of mind, among others. We
-  * further augment our training corpus with carefully selected web data that is filtered based on
-  * educational value and content quality. Secondly, we use innovative techniques to scale up,
-  * starting from our 1.3 billion parameter model, Phi-1.5, and embedding its knowledge within the
-  * 2.7 billion parameter Phi-2. This scaled knowledge transfer not only accelerates training
-  * convergence but shows clear boost in Phi-2 benchmark scores.''
+  * ''Language models (LMs) have become ubiquitous in both NLP research and in commercial product
+  * offerings. As their commercial importance has surged, the most powerful models have become
+  * closed off, gated behind proprietary interfaces, with important details of their training
+  * data, architectures, and development undisclosed. Given the importance of these details in
+  * scientifically studying these models, including their biases and potential risks, we believe
+  * it is essential for the research community to have access to powerful, truly open LMs. To this
+  * end, this technical report details the first release of OLMo, a state-of-the-art, truly Open
+  * Language Model and its framework to build and study the science of language modeling. Unlike
+  * most prior efforts that have only released model weights and inference code, we release OLMo
+  * and the whole framework, including training data and training and evaluation code. We hope
+  * this release will empower and strengthen the open research community and inspire a new wave of
+  * innovation.''
   *
   * '''Note:'''
   *
