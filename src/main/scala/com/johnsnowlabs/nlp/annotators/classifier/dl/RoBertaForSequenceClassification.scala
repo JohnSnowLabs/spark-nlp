@@ -400,7 +400,7 @@ trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadOnnxMod
           readOnnxModel(
             path,
             spark,
-            "roberta_classification_onnx",
+            "roberta_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

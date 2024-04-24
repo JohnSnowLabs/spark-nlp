@@ -326,7 +326,7 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
           readOnnxModel(
             path,
             spark,
-            "xlm_roberta_classification_onnx",
+            "xlm_roberta_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

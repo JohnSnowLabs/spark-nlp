@@ -349,7 +349,7 @@ trait ReadXlmRoBertaForTokenDLModel
           readOnnxModel(
             path,
             spark,
-            "xlm_roberta_classification_onnx",
+            "xlm_roberta_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

@@ -99,7 +99,6 @@ object OnnxWrapper {
       }
     }
 
-  // TODO: the parts related to onnx_data should be refactored once we support addFile()
   def read(
       sparkSession: SparkSession,
       modelPath: String,
@@ -108,7 +107,6 @@ object OnnxWrapper {
       modelName: String = "model",
       dataFileSuffix: Option[String] = Some("_data"),
       onnxFileSuffix: Option[String] = None): OnnxWrapper = {
-    // TODO: onnxFileSuffix default none??
     // 1. Create tmp folder
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_onnx")
@@ -136,7 +134,6 @@ object OnnxWrapper {
       if (onnxFileSuffix.isDefined && dataFileSuffix.isDefined) {
         val onnxDataFilePath = s"${onnxFileSuffix.get}_$modelName${dataFileSuffix.get}"
         onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
-        // TODO: Here is the error it does not exist
         onnxDataFile.exists()
       } else false
     }

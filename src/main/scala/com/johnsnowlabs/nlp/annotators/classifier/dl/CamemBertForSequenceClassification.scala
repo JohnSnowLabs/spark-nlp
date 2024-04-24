@@ -388,7 +388,7 @@ trait ReadCamemBertForSequenceDLModel
           readOnnxModel(
             path,
             spark,
-            "_camembert_classification_onnx",
+            "camembert_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

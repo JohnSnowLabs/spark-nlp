@@ -370,7 +370,7 @@ trait ReadRoBertaForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel 
           readOnnxModel(
             path,
             spark,
-            "roberta_classification_onnx",
+            "roberta_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

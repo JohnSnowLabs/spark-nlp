@@ -336,7 +336,7 @@ trait ReadCamemBertForQADLModel
           readOnnxModel(
             path,
             spark,
-            "_camembert_classification_onnx",
+            "camembert_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

@@ -358,7 +358,7 @@ trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxMod
           readOnnxModel(
             path,
             spark,
-            "_distilbert_classification_onnx",
+            "distilbert_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

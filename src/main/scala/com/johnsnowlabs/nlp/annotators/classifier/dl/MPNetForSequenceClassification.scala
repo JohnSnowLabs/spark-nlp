@@ -358,7 +358,7 @@ trait ReadMPNetForSequenceDLModel extends ReadOnnxModel {
           readOnnxModel(
             path,
             spark,
-            "_mpnet_classification_onnx",
+            "mpnet_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

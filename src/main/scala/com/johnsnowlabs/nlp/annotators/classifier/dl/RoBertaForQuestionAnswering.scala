@@ -348,7 +348,7 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with Re
           readOnnxModel(
             path,
             spark,
-            "roberta_classification_onnx",
+            "roberta_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

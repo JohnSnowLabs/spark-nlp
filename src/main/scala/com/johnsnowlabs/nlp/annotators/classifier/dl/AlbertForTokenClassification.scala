@@ -353,12 +353,7 @@ trait ReadAlbertForTokenDLModel
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_albert_classification_onnx",
-            zipped = true,
-            useBundle = false)
+          readOnnxModel(path, spark, "albert_token_classification_onnx")
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)

@@ -388,7 +388,7 @@ trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnx
           readOnnxModel(
             path,
             spark,
-            "_albert_classification_onnx",
+            "distilbert_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

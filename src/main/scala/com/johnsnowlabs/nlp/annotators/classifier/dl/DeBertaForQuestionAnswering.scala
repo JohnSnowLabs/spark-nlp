@@ -333,7 +333,7 @@ trait ReadDeBertaForQuestionAnsweringDLModel
           readOnnxModel(
             path,
             spark,
-            "_deberta_classification_onnx",
+            "deberta_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

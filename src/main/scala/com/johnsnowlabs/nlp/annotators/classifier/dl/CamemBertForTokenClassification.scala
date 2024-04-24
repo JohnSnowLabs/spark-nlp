@@ -357,7 +357,7 @@ trait ReadCamemBertForTokenDLModel
           readOnnxModel(
             path,
             spark,
-            "_camembert_classification_onnx",
+            "camembert_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

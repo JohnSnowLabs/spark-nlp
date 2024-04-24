@@ -336,7 +336,7 @@ trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel with
           readOnnxModel(
             path,
             spark,
-            "_distilbert_classification_onnx",
+            "distilbert_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)

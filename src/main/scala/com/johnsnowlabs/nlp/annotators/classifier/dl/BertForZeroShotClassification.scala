@@ -400,7 +400,7 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
         instance.setModelIfNotSet(spark, Some(tensorFlow), None)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_bert_classification_onnx")
+          readOnnxModel(path, spark, "bert_zs_classification_onnx")
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)

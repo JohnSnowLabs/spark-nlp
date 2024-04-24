@@ -356,7 +356,7 @@ trait ReadDeBertaForTokenDLModel
           readOnnxModel(
             path,
             spark,
-            "_deberta_classification_onnx",
+            "deberta_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
