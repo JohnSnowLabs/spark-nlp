@@ -452,7 +452,7 @@ trait ReadBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOp
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "_bert_openvino")
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_bert_ov")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)

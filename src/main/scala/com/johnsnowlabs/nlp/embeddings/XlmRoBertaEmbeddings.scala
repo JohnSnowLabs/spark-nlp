@@ -431,7 +431,7 @@ trait ReadXlmRobertaDLModel
 
       case Openvino.name => {
         val openvinoWrapper =
-          readOpenvinoModel(path, spark, "_xlmroberta_openvino")
+          readOpenvinoModel(path, spark, "_xlmroberta_ov")
         val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
       }

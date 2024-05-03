@@ -471,7 +471,7 @@ trait ReadRobertaDLModel extends ReadTensorflowModel with ReadOnnxModel with Rea
 
       case Openvino.name => {
         val openvinoWrapper =
-          readOpenvinoModel(path, spark, "_roberta_openvino")
+          readOpenvinoModel(path, spark, "_roberta_ov")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
       }
       case _ =>

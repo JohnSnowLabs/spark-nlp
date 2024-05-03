@@ -351,7 +351,7 @@ trait ReadLLAMA2TransformerDLModel
         instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
       case Openvino.name =>
         val ovWrapper =
-          readOpenvinoModel(path, spark, suffix)
+          readOpenvinoModel(path, spark, "_llama2_ov")
         val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
         instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
       case _ =>

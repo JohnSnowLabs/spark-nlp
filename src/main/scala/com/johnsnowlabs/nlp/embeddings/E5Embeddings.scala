@@ -432,7 +432,7 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "_e5_openvino", zipped = true)
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_e5_ov", zipped = true)
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
 
       case _ =>

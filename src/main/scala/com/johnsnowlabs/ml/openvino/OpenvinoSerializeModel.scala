@@ -92,12 +92,17 @@ trait ReadOpenvinoModel {
 
     val wrappers = (modelNames map { modelName: String =>
       // 2. Copy to local dir
-      val localModelFile = modelName
-      fileSystem.copyToLocalFile(new Path(path, localModelFile), new Path(tmpFolder))
-      val localPath = new Path(tmpFolder, localModelFile).toString
+      val srcPath = new Path(path, modelName)
+      fileSystem.copyToLocalFile(srcPath, new Path(tmpFolder))
+      val localPath = new Path(tmpFolder, modelName).toString
 
       val ovWrapper =
-        OpenvinoWrapper.read(spark, localPath, zipped = zipped, modelName = modelName)
+        OpenvinoWrapper.read(
+          spark,
+          localPath,
+          zipped = zipped,
+          modelName = modelName,
+          ovFileSuffix = Some(suffix))
       (modelName, ovWrapper)
     }).toMap
 

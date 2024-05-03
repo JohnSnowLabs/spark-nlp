@@ -108,7 +108,8 @@ object OpenvinoWrapper {
       zipped: Boolean = true,
       useBundle: Boolean = false,
       detectedEngine: String = Openvino.name,
-      properties: Map[String, String] = Map.empty): OpenvinoWrapper = {
+      properties: Map[String, String] = Map.empty,
+      ovFileSuffix: Option[String] = None): OpenvinoWrapper = {
 
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + ModelSuffix)
@@ -117,7 +118,7 @@ object OpenvinoWrapper {
 
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder))
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), ovFileSuffix)
       else
         modelPath
 
@@ -135,8 +136,8 @@ object OpenvinoWrapper {
             (Paths.get(folder, s"$modelName.xml"), Paths.get(folder, s"$modelName.bin"))
           else
             (
-              Paths.get(folder, s"${Openvino.ovModel}.xml"),
-              Paths.get(folder, s"${Openvino.ovModel}.bin"))
+              Paths.get(folder, s"${ovFileSuffix.get}_${Openvino.ovModel}.xml"),
+              Paths.get(folder, s"${ovFileSuffix.get}_${Openvino.ovModel}.bin"))
         case _ =>
           throw new Exception(notSupportedEngineError)
       }
@@ -151,7 +152,6 @@ object OpenvinoWrapper {
       withSafeOvModelLoader(Some(ovModelPath.toString), device = device, properties = properties)
     openvinoWrapper.compiledModel = compiledModel
 
-    FileHelper.delete(tmpFolder)
     openvinoWrapper
   }
 
