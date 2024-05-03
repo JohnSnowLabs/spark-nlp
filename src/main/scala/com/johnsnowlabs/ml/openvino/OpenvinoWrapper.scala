@@ -46,11 +46,8 @@ class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable
     this.synchronized {
       if (compiledModel == null) {
         val modelPath = SparkFiles.get(s"${modelName.get}.xml")
-        val device = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
-        compiledModel = OpenvinoWrapper.withSafeOvModelLoader(
-          Some(modelPath),
-          device = device,
-          properties = properties)
+        compiledModel =
+          OpenvinoWrapper.withSafeOvModelLoader(Some(modelPath), properties = properties)
       }
       compiledModel
     }
@@ -147,9 +144,8 @@ object OpenvinoWrapper {
     val ovFileName = Some(FilenameUtils.getBaseName(ovModelPath.toFile.getName))
     val openvinoWrapper = new OpenvinoWrapper(ovFileName)
 
-    val device: String = ConfigLoader.getConfigStringValue(ConfigHelper.openvinoDevice)
     val compiledModel: CompiledModel =
-      withSafeOvModelLoader(Some(ovModelPath.toString), device = device, properties = properties)
+      withSafeOvModelLoader(Some(ovModelPath.toString), properties = properties)
     openvinoWrapper.compiledModel = compiledModel
 
     openvinoWrapper
@@ -195,6 +191,7 @@ object OpenvinoWrapper {
       modelPath: Option[String] = None,
       device: String = "CPU",
       properties: Map[String, String]): CompiledModel = {
+    // TODO: Let user pick inference device through Spark Config
     logger.info(s"Compiling OpenVINO model to device: $device")
     val compiledModel = core.compile_model(modelPath.get, device, properties.asJava)
     compiledModel

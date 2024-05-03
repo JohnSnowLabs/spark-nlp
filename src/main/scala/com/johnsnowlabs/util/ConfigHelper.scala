@@ -75,9 +75,6 @@ object ConfigHelper {
   val onnxOptimizationLevel = "spark.jsl.settings.onnx.optimizationLevel"
   val onnxExecutionMode = "spark.jsl.settings.onnx.executionMode"
 
-  // Configs for OpenVINO
-  val openvinoDevice = "spark.jsl.settings.openvino.device"
-
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }
