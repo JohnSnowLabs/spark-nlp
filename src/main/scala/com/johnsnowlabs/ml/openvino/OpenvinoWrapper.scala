@@ -131,10 +131,10 @@ object OpenvinoWrapper {
         case Openvino.name =>
           if (useBundle)
             (Paths.get(folder, s"$modelName.xml"), Paths.get(folder, s"$modelName.bin"))
-          else
-            (
-              Paths.get(folder, s"${ovFileSuffix.get}_${Openvino.ovModel}.xml"),
-              Paths.get(folder, s"${ovFileSuffix.get}_${Openvino.ovModel}.bin"))
+          else {
+            val ovModelName = FilenameUtils.getBaseName(new File(folder).list().head)
+            (Paths.get(folder, s"${ovModelName}.xml"), Paths.get(folder, s"${ovModelName}.bin"))
+          }
         case _ =>
           throw new Exception(notSupportedEngineError)
       }
