@@ -75,6 +75,7 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
 
   }
 
+
   "XlmRoBertaForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
@@ -110,7 +111,7 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       pipelineModel.write.overwrite().save("./tmp_xlmrobertafortoken_pipeline")
     }
 
-    Benchmark.time("Time to save BertForTokenClassification model") {
+    Benchmark.time("Time to save XlmRoBertaForTokenClassification model") {
       pipelineModel.stages.last
         .asInstanceOf[XlmRoBertaForTokenClassification]
         .write

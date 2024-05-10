@@ -257,6 +257,12 @@ class XlmRoBertaForQuestionAnswering(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlmroberta",
+      XlmRoBertaForSequenceClassification.sppFile)
     val suffix = "_xlm_roberta_classification"
 
     getEngine match {
