@@ -33,7 +33,7 @@ on:
 jobs:
   spark34:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -41,9 +41,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'adopt'
           java-version: '8'
           cache: 'sbt'
       - name: Install Python 3.7
@@ -57,7 +57,6 @@ jobs:
           pip install pyspark==3.4.0 numpy pytest
       - name: Build Spark NLP on Apache Spark 3.4.0
         run: |
-          brew install sbt
           sbt -mem 4096 -Dis_spark34=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.4.x
         run: |
@@ -73,7 +72,7 @@ jobs:
           python3.7 -m pytest -v -m fast
   spark35:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -109,7 +108,7 @@ jobs:
 
   spark33:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
