@@ -77,7 +77,7 @@ private[johnsnowlabs] class DeBertaClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 0)
 
     val sentenceTokenPieces = sentences.map { s =>
       val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
@@ -95,7 +95,7 @@ private[johnsnowlabs] class DeBertaClassification(
 
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 0)
 
     val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
 
