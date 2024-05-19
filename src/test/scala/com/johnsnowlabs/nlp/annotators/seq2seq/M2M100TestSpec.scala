@@ -53,7 +53,6 @@ class M2M100TestSpec extends AnyFlatSpec {
     val result = pipelineModel.transform(testData)
 
     result.show(truncate = false)
-    result.show(truncate = false)
 
   }
 
