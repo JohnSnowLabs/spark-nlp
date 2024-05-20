@@ -24,8 +24,8 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716206411954.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716206411954.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716207024326.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716207024326.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,10 +35,14 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
  
-document_assembler = DocumentAssembler()     .setInputCol("text")     .setOutputCol("documents")
+document_assembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("documents")
     
     
-embeddings =BertEmbeddings.pretrained("math_albert","en")             .setInputCols(["documents","token"])             .setOutputCol("embeddings")
+embeddings =BertEmbeddings.pretrained("math_albert","en") \
+            .setInputCols(["documents","token"]) \
+            .setOutputCol("embeddings")
 
 pipeline = Pipeline().setStages([document_assembler, embeddings])
 
