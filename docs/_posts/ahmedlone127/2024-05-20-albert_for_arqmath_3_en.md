@@ -24,8 +24,8 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_for_arqmath_3_en_5.2.4_3.0_1716202661492.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_for_arqmath_3_en_5.2.4_3.0_1716202661492.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_for_arqmath_3_en_5.2.4_3.0_1716203266154.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_for_arqmath_3_en_5.2.4_3.0_1716203266154.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,11 +35,11 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
             
-documentAssembler = DocumentAssembler()         .setInputCol("text")         .setOutputCol("document")
+documentAssembler = DocumentAssembler()     .setInputCol("text")     .setOutputCol("document")
     
-tokenizer = Tokenizer()         .setInputCols("document")         .setOutputCol("token")
+tokenizer = Tokenizer()     .setInputCols("document")     .setOutputCol("token")
 
-embeddings = AlbertEmbeddings.pretrained("albert_for_arqmath_3","en")         .setInputCols(["document", "token"])         .setOutputCol("embeddings")
+embeddings = AlbertEmbeddings.pretrained("albert_for_arqmath_3","en")     .setInputCols(["document", "token"])     .setOutputCol("embeddings")
         
         
 pipeline = Pipeline().setStages([documentAssembler, tokenizer, embeddings])
@@ -51,12 +51,12 @@ pipelineDF = pipelineModel.transform(data)
 
 
 val documentAssembler = new DocumentAssembler() 
-        .setInputCol("text") 
-        .setOutputCol("document")
+    .setInputCol("text") 
+    .setOutputCol("document")
     
 val tokenizer = new Tokenizer() 
-        .setInputCols(Array("document"))
-        .setOutputCol("token")
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val embeddings = AlbertEmbeddings.pretrained("albert_for_arqmath_3","en") 
     .setInputCols(Array("document", "token")) 
