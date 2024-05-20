@@ -24,8 +24,8 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716203516059.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716203516059.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716204047083.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/math_albert_en_5.2.4_3.0_1716204047083.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -34,15 +34,21 @@ Pretrained AlbertEmbeddings model, adapted from Hugging Face and curated to prov
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-            
-documentAssembler = MultiDocumentAssembler()     .setInputCol(["question", "context"])     .setOutputCol(["document_question", "document_context"])
+ 
+        
+                   
+documentAssembler = DocumentAssembler()     .setInputCol("text")     .setOutputCol("document")
     
-spanClassifier = CamemBertForQuestionAnswering.pretrained("math_albert","en")     .setInputCols(["document_question","document_context"])     .setOutputCol("answer")
+tokenizer = Tokenizer()     .setInputCols("document")     .setOutputCol("token")
 
-pipeline = Pipeline().setStages([documentAssembler, spanClassifier])
-data = spark.createDataFrame([["Où est-ce que je vis?","Mon nom est Wolfgang et je vis à Berlin."]]).toDF("document_question", "document_context")
+embeddings = AlbertEmbeddings.pretrained("math_albert","en")     .setInputCols(["document", "token"])     .setOutputCol("embeddings")
+        
+        
+pipeline = Pipeline().setStages([documentAssembler, tokenizer, embeddings])
+data = spark.createDataFrame([["Saya suka Spark NLP"]]).toDF("text")
 pipelineModel = pipeline.fit(data)
 pipelineDF = pipelineModel.transform(data)
+
 ```
 ```scala
 
