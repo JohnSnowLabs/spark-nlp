@@ -153,8 +153,7 @@ lazy val utilDependencies = Seq(
     exclude ("org.slf4j", "slf4j-api"),
   gcpStorage
     exclude ("com.fasterxml.jackson.core", "jackson-core")
-    exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor")
-  ,
+    exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor"),
   greex,
   azureIdentity,
   azureStorage)
@@ -181,6 +180,16 @@ val onnxDependencies: Seq[sbt.ModuleID] =
   else
     Seq(onnxCPU)
 
+val openVinoDependencies: Seq[sbt.ModuleID] =
+//  if (is_gpu.equals("true"))
+//    Seq(openVinoGPU)
+//  else if (is_silicon.equals("true"))
+//    Seq(openVinoCPU)
+//  else if (is_aarch64.equals("true"))
+//    Seq(openVinoCPU)
+//  else
+  Seq(openVinoCPU)
+
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
@@ -192,6 +201,7 @@ lazy val root = (project in file("."))
         utilDependencies ++
         tensorflowDependencies ++
         onnxDependencies ++
+        openVinoDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?
     mavenProps := {
