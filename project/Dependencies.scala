@@ -117,6 +117,9 @@ object Dependencies {
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
+  val openVinoRuntimeVersion = "0.1.0-rc1"
+  val openVinoCPU = "com.johnsnowlabs.nlp" % "jsl-openvino-cpu_2.12" % openVinoRuntimeVersion
+
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
   val azureIdentityVersion = "1.9.1"
