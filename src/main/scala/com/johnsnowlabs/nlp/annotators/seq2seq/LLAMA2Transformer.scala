@@ -311,7 +311,7 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
   this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
 
   override val onnxFile: String = "llama2_onnx"
-  val suffix: String = "_llama2"
+  val suffix: String = "llama2"
   override val sppFile: String = "llama2_spp"
 
   def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
@@ -378,10 +378,13 @@ trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            dataFileSuffix = Some(".onnx_data"),
+            onnxFileSuffix = Some(suffix))
 
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 

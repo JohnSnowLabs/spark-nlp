@@ -377,7 +377,7 @@ trait ReadXlmRoBertaForSequenceDLModel
           readOnnxModel(
             path,
             spark,
-            "xlm_roberta_classification_onnx",
+            "xlm_roberta_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -421,7 +421,8 @@ trait ReadXlmRoBertaForSequenceDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

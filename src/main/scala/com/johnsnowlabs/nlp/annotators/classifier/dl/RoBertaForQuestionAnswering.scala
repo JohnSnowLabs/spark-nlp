@@ -348,7 +348,7 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with Re
           readOnnxModel(
             path,
             spark,
-            "roberta_classification_onnx",
+            "roberta_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -397,7 +397,8 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with Re
           .setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

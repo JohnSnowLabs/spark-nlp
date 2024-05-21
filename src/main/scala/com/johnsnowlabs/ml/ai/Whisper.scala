@@ -297,7 +297,10 @@ private[johnsnowlabs] class Whisper(
         case TensorFlow.name =>
           val session =
             tensorflowWrapper.get
-              .getTFSessionWithSignature(configProtoBytes, savedSignatures = signatures)
+              .getTFSessionWithSignature(
+                configProtoBytes,
+                savedSignatures = signatures,
+                initAllTables = false)
 
           val encodedBatchFeatures: Tensor =
             encode(featuresBatch, Some(session), None).asInstanceOf[Tensor]

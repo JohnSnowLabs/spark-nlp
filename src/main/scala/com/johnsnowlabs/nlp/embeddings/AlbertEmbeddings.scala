@@ -405,7 +405,7 @@ trait ReadAlbertDLModel
 
       case ONNX.name => {
         val onnxWrapper =
-          readOnnxModel(path, spark, "_albert_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(path, spark, "_albert_onnx", zipped = true, useBundle = false)
         val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       }
@@ -445,7 +445,12 @@ trait ReadAlbertDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          spark,
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          onnxFileSuffix = None)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

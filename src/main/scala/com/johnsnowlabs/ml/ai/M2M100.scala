@@ -23,10 +23,10 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.Annotation
-
-import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.tensorflow.{Session, Tensor}
+
+import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class M2M100(
     val onnxWrappers: EncoderDecoderWithoutPastWrappers,

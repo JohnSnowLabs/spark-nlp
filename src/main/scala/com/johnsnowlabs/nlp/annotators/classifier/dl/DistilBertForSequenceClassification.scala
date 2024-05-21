@@ -388,7 +388,7 @@ trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnx
           readOnnxModel(
             path,
             spark,
-            "_albert_classification_onnx",
+            "distilbert_sequence_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -433,7 +433,8 @@ trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnx
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>

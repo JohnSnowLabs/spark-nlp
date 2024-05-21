@@ -382,13 +382,7 @@ trait ReadAlbertForSequenceDLModel
         instance.setModelIfNotSet(spark, Some(tf), None, spp)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_albert_classification_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, "albert_sequence_classification_onnx")
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -428,7 +422,12 @@ trait ReadAlbertForSequenceDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(
+          spark,
+          localModelPath,
+          zipped = false,
+          useBundle = true,
+          onnxFileSuffix = None)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 
