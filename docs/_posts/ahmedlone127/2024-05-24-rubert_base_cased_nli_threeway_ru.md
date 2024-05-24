@@ -24,8 +24,8 @@ Pretrained BertForZeroShotClassification model, adapted from Hugging Face and cu
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/rubert_base_cased_nli_threeway_ru_5.2.4_3.0_1716510491928.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/rubert_base_cased_nli_threeway_ru_5.2.4_3.0_1716510491928.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/rubert_base_cased_nli_threeway_ru_5.2.4_3.0_1716530886962.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/rubert_base_cased_nli_threeway_ru_5.2.4_3.0_1716530886962.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
