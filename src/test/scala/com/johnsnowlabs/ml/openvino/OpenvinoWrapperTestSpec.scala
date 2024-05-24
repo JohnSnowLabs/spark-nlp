@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.openvino
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.FileHelper
 import org.scalatest.BeforeAndAfter
 import org.scalatest.flatspec.AnyFlatSpec
@@ -73,14 +73,14 @@ class OpenvinoWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     FileHelper.delete(tmpFolder)
   }
 
-  "a dummy openvino wrapper" should "compile a model correctly" taggedAs FastTest in {
+  "a dummy openvino wrapper" should "compile a model correctly" taggedAs SlowTest in {
     ResourceHelper.spark.sparkContext.addFile(modelXmlPath)
     ResourceHelper.spark.sparkContext.addFile(modelBinPath)
     val openvinoWrapper = new OpenvinoWrapper(Some("dummy_model"))
     openvinoWrapper.getCompiledModel()
   }
 
-  "a dummy openvino wrapper" should "saveToFile correctly" taggedAs FastTest in {
+  "a dummy openvino wrapper" should "saveToFile correctly" taggedAs SlowTest in {
     ResourceHelper.spark.sparkContext.addFile(modelXmlPath)
     ResourceHelper.spark.sparkContext.addFile(modelBinPath)
     val openvinoWrapper = new OpenvinoWrapper(Some("dummy_model"))
