@@ -5404,6 +5404,8 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.</p>
   <p>E5, an instruction-finetuned text embedding model that can generate text embeddings tailored
 to any task (e.g., classification, retrieval, clustering, text evaluation, etc.)</p>
 
+  <p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
+
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">E5Embeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
@@ -7165,6 +7167,8 @@ Models from the HuggingFace 🤗 Transformers library are also compatible with S
 Understanding by Kaitao Song, Xu Tan, Tao Qin, Jianfeng Lu, Tie-Yan Liu. MPNet adopts a novel
 pre-training method, named masked and permuted language modeling, to inherit the advantages of
 masked language modeling and permuted language modeling for natural language understanding.</p>
+
+  <p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
 
@@ -9643,6 +9647,154 @@ model</span><span class="se">\
 <span class="o">|</span><span class="nc">How</span> <span class="n">much</span> <span class="n">they</span> <span class="n">all</span> <span class="n">earn</span><span class="o">?|</span><span class="nc">COUNT</span><span class="o">(</span><span class="n">$100</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span> <span class="n">$20</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span><span class="mi">000</span><span class="o">)|</span>
 <span class="o">|</span><span class="nc">How</span> <span class="n">old</span> <span class="n">are</span> <span class="n">they</span><span class="o">?</span>      <span class="o">|</span><span class="nc">AVERAGE</span><span class="o">(</span><span class="mi">75</span><span class="o">,</span> <span class="mi">55</span><span class="o">)</span>                         <span class="o">|</span>
 <span class="o">+-----------------------+----------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="uaeembeddings">UAEEmbeddings</h2>
+
+  <p>Sentence embeddings using Universal AnglE Embedding (UAE).</p>
+
+  <p>UAE is a novel angle-optimized text embedding model, designed to improve semantic textual
+similarity tasks, which are crucial for Large Language Model (LLM) applications. By
+introducing angle optimization in a complex space, AnglE effectively mitigates saturation of
+the cosine similarity function.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UAEEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"UAE_embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"uae_large_v1"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=UAE">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UAEEmbeddingsTestSpec.scala">UAEEmbeddingsTestSpec</a>.</p>
+
+  <p><strong>Sources</strong> :</p>
+
+  <p><a href="https://arxiv.org/abs/2309.12871">AnglE-optimized Text Embeddings</a></p>
+
+  <p><a href="https://github.com/baochi0212/uae-embedding">UAE Github Repository</a></p>
+
+  <p><strong>Paper abstract</strong></p>
+
+  <p><em>High-quality text embedding is pivotal in improving semantic textual similarity (STS) tasks,
+which are crucial components in Large Language Model (LLM) applications. However, a common
+challenge existing text embedding models face is the problem of vanishing gradients, primarily
+due to their reliance on the cosine function in the optimization objective, which has
+saturation zones. To address this issue, this paper proposes a novel angle-optimized text
+embedding model called AnglE. The core idea of AnglE is to introduce angle optimization in a
+complex space. This novel approach effectively mitigates the adverse effects of the saturation
+zone in the cosine function, which can impede gradient and hinder optimization processes. To
+set up a comprehensive STS evaluation, we experimented on existing short-text STS datasets and
+a newly collected long-text STS dataset from GitHub Issues. Furthermore, we examine
+domain-specific STS scenarios with limited labeled data and explore how AnglE works with
+LLM-annotated data. Extensive experiments were conducted on various tasks including short-text
+STS, long-text STS, and domain-specific STS tasks. The results show that AnglE outperforms the
+state-of-the-art (SOTA) STS models that ignore the cosine saturation zone. These findings
+demonstrate the ability of AnglE to generate high-quality text embeddings and the usefulness
+of angle optimization in STS.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/embeddings/uae_embeddings/index.html#sparknlp.annotator.embeddings.uae_embeddings.UAEEmbeddings">UAEEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/UAEEmbeddings">UAEEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/UAEEmbeddings.scala">UAEEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UAEEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"finished_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">embeddingsFinisher</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"hello world"</span><span class="p">,</span> <span class="s">"hello moon"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">0.50387806</span><span class="p">,</span> <span class="mf">0.5861606</span><span class="p">,</span> <span class="mf">0.35129607</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.76046336</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.32446072</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.117674336</span><span class="p">,</span> <span class="mf">0.</span><span class="p">..</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">0.6660665</span><span class="p">,</span> <span class="mf">0.961762</span><span class="p">,</span> <span class="mf">0.24854276</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1018044</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6569202</span><span class="p">,</span> <span class="mf">0.027635604</span><span class="p">,</span> <span class="mf">0.1915</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.UAEEmbeddings</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UAEEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"UAE_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingsFinisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EmbeddingsFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"UAE_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"finished_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsVector</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">embeddingsFinisher</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"hello world"</span><span class="o">,</span> <span class="s">"hello moon"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="err">0</span><span class="kt">.</span><span class="err">50387806</span>, <span class="err">0</span><span class="kt">.</span><span class="err">5861606</span>, <span class="err">0</span><span class="kt">.</span><span class="err">35129607</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">76046336</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">32446072</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">117674336</span>, <span class="err">0</span><span class="kt">...|</span>
+<span class="kt">|</span><span class="o">[</span><span class="err">0</span><span class="kt">.</span><span class="err">6660665</span>, <span class="err">0</span><span class="kt">.</span><span class="err">961762</span>, <span class="err">0</span><span class="kt">.</span><span class="err">24854276</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">1018044</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">6569202</span>, <span class="err">0</span><span class="kt">.</span><span class="err">027635604</span>, <span class="err">0</span><span class="kt">.</span><span class="err">1915</span><span class="kt">...|</span>
+<span class="kt">+--------------------------------------------------------------------------------+</span>
 </code></pre></div>      </div>
 
     </div>

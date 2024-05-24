@@ -580,6 +580,11 @@ in the DataFrames.</li>
     </thead>
     <tbody>
       <tr>
+        <td><a href="#bgeembeddings">BGEEmbeddings</a></td>
+        <td>Sentence embeddings using BGE.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#bigtextmatcher">BigTextMatcher</a></td>
         <td>Annotator to match exact phrases (by token) provided in a file against a Document.</td>
         <td>Opensource</td>
@@ -1245,6 +1250,158 @@ in the DataFrames.</li>
     });
 });
  */ </script>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="bgeembeddings">BGEEmbeddings</h2>
+
+  <p>Sentence embeddings using BGE.</p>
+
+  <p>BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense
+vector which can be used for tasks like retrieval, classification, clustering, or semantic
+search.</p>
+
+  <p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BGEEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"bge_base"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=BGE">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BGEEmbeddingsTestSpec.scala">BGEEmbeddingsTestSpec</a>.</p>
+
+  <p><strong>Sources</strong> :</p>
+
+  <p><a href="https://arxiv.org/pdf/2309.07597">C-Pack: Packaged Resources To Advance General Chinese Embedding</a></p>
+
+  <p><a href="https://github.com/FlagOpen/FlagEmbedding">BGE Github Repository</a></p>
+
+  <p><strong>Paper abstract</strong></p>
+
+  <p><em>We introduce C-Pack, a package of resources that significantly advance the field of general
+Chinese embeddings. C-Pack includes three critical resources. 1) C-MTEB is a comprehensive
+benchmark for Chinese text embeddings covering 6 tasks and 35 datasets. 2) C-MTP is a massive
+text embedding dataset curated from labeled and unlabeled Chinese corpora for training
+embedding models. 3) C-TEM is a family of embedding models covering multiple sizes. Our models
+outperform all prior Chinese text embeddings on C-MTEB by up to +10% upon the time of the
+release. We also integrate and optimize the entire suite of training methods for C-TEM. Along
+with our resources on general Chinese embedding, we release our data and models for English
+text embeddings. The English models achieve stateof-the-art performance on the MTEB benchmark;
+meanwhile, our released English data is 2 times larger than the Chinese data. All these
+resources are made publicly available at https://github.com/FlagOpen/FlagEmbedding.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings">BGEEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/BGEEmbeddings">BGEEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BGEEmbeddings.scala">BGEEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BGEEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bge_embeddings"</span><span class="p">)</span>
+<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"bge_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"finished_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">embeddingsFinisher</span>
+<span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"query: how much protein should a female eat"</span><span class="p">,</span>
+<span class="s">"passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day."</span> <span class="o">+</span> \
+<span class="s">"But, as you can see from this chart, you'll need to increase that if you're expecting or training for a"</span> <span class="o">+</span> \
+<span class="s">"marathon. Check out the chart below to see how much protein you should be eating each day."</span><span class="p">,</span>
+<span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[[</span><span class="mf">8.0190285E-4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005974853</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.072875895</span><span class="p">,</span> <span class="mf">0.007944068</span><span class="p">,</span> <span class="mf">0.026059335</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0080</span><span class="p">...</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[[</span><span class="mf">0.050514214</span><span class="p">,</span> <span class="mf">0.010061974</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04340176</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.020937217</span><span class="p">,</span> <span class="mf">0.05170225</span><span class="p">,</span> <span class="mf">0.01157857</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.BGEEmbeddings</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BGEEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bge_base"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"bge_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingsFinisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EmbeddingsFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"bge_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"finished_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsVector</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">embeddingsFinisher</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"query: how much protein should a female eat"</span><span class="o">,</span>
+<span class="s">"passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day."</span> <span class="o">+</span>
+<span class="nc">But</span><span class="o">,</span> <span class="n">as</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span> <span class="n">from</span> <span class="k">this</span> <span class="n">chart</span><span class="o">,</span> <span class="n">you</span><span class="ss">'ll</span> <span class="n">need</span> <span class="n">to</span> <span class="n">increase</span> <span class="n">that</span> <span class="k">if</span> <span class="n">you</span><span class="ss">'re</span> <span class="n">expecting</span> <span class="n">or</span> <span class="n">training</span> <span class="k">for</span> <span class="n">a</span><span class="s">" +
+marathon. Check out the chart below to see how much protein you should be eating each day."</span>
+
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|[[</span><span class="err">8</span><span class="kt">.</span><span class="err">0190285</span><span class="kt">E-</span><span class="err">4</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">005974853</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">072875895</span>, <span class="err">0</span><span class="kt">.</span><span class="err">007944068</span>, <span class="err">0</span><span class="kt">.</span><span class="err">026059335</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">0080</span><span class="kt">...|</span>
+<span class="kt">|</span><span class="o">[[</span><span class="err">0</span><span class="kt">.</span><span class="err">050514214</span>, <span class="err">0</span><span class="kt">.</span><span class="err">010061974</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">04340176</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">020937217</span>, <span class="err">0</span><span class="kt">.</span><span class="err">05170225</span>, <span class="err">0</span><span class="kt">.</span><span class="err">01157857</span><span class="kt">...|</span>
+<span class="kt">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
 
 <div class="tabs-box tabs-new">
 
