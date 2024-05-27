@@ -66,7 +66,7 @@ import com.johnsnowlabs.nlp.Annotation
 **Examples:**
 
 Complete usage examples can be seen here:
-https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb
+[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/234-release-candidate/jupyter/annotation/english/spark-nlp-basics/spark-nlp-basics-functions.ipynb)
 
 <div class="tabs-box tabs-new" markdown="1">
 
