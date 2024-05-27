@@ -760,7 +760,7 @@ Finally, use **jupyter_notebook_config.json** for the password:
 
 In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: [https://github.com/JohnSnowLabs/spark-nlp/discussions/1022](https://github.com/JohnSnowLabs/spark-nlp/discussions/1022)
 
-</div><div class="h3-box" markdown="1">\
+</div><div class="h3-box" markdown="1">
 
 ### How to correctly install Spark NLP on Windows
 
