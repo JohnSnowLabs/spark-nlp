@@ -354,6 +354,13 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case "clip" =>
         new CLIPTokenizer(merges, vocab, modelSpecialTokens())
+      case "qwen" =>
+        new QwenTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
