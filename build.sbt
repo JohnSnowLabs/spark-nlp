@@ -181,14 +181,15 @@ val onnxDependencies: Seq[sbt.ModuleID] =
     Seq(onnxCPU)
 
 val openVinoDependencies: Seq[sbt.ModuleID] =
-//  if (is_gpu.equals("true"))
-//    Seq(openVinoGPU)
+  if (is_gpu.equals("true"))
+    Seq(openVinoGPU)
+  else
 //  else if (is_silicon.equals("true"))
 //    Seq(openVinoCPU)
 //  else if (is_aarch64.equals("true"))
 //    Seq(openVinoCPU)
 //  else
-  Seq(openVinoCPU)
+    Seq(openVinoCPU)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
