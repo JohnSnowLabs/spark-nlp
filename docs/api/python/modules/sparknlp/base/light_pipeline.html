@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 5.3.3 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 5.2.3 documentation</title>
   
   
   
@@ -418,7 +418,7 @@ document.write(`
                 <span class="n">input_cols</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">input_cols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
                     <span class="n">input_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_cols</span><span class="p">]</span>
-                <span class="n">input_annotator_types</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span> <span class="o">+</span> <span class="n">stage</span><span class="o">.</span><span class="n">optionalInputAnnotatorTypes</span>
+                <span class="n">input_annotator_types</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span>
                 <span class="k">for</span> <span class="n">input_col</span> <span class="ow">in</span> <span class="n">input_cols</span><span class="p">:</span>
                     <span class="n">annotator_type</span> <span class="o">=</span> <span class="n">annotator_types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">input_col</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">annotator_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">annotator_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_annotator_types</span><span class="p">:</span>

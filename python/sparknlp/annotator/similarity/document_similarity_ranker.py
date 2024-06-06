@@ -152,12 +152,6 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProper
                             "Whether to include identity in ranking result set. Useful for debug. (Default: `false`).",
                             typeConverter=TypeConverters.toBoolean)
 
-    asRetrieverQuery = Param(Params._dummy(),
-                             "asRetrieverQuery",
-                             "Whether to set the model as retriever RAG with a specific query string."
-                             "(Default: `empty`)",
-                             typeConverter=TypeConverters.toString)
-
     def setSimilarityMethod(self, value):
         """Sets the similarity method used to calculate the neighbours.
             (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
@@ -222,17 +216,6 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProper
         """
         return self._set(identityRanking=value)
 
-    def asRetriever(self, value):
-        """Sets the query to use the document similarity ranker as a retriever in a RAG fashion.
-            (Default: `""`, empty if this annotator is not used as retriever)
-
-        Parameters
-        ----------
-        value : str
-             the query to use to select nearest neighbors in the retrieval process.
-        """
-        return self._set(asRetrieverQuery=value)
-
     @keyword_only
     def __init__(self):
         super(DocumentSimilarityRankerApproach, self)\
@@ -243,8 +226,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProper
             bucketLength=2.0,
             numHashTables=3,
             visibleDistances=False,
-            identityRanking=False,
-            asRetrieverQuery=""
+            identityRanking=False
         )
 
     def _create_model(self, java_model):

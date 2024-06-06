@@ -64,24 +64,4 @@ class EntityRulerOneColumnTestSpec(unittest.TestCase):
         self.assertTrue(result.select("entity").count() > 0)
 
 
-@pytest.mark.fast
-class EntityRulerLightPipelineTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.empty_df = SparkContextForTest.spark.createDataFrame([[""]]).toDF("text")
-        self.path = os.getcwd() + "/../src/test/resources/entity-ruler/url_regex.json"
 
-    def runTest(self):
-        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
-        tokenizer = Tokenizer().setInputCols('document').setOutputCol('token')
-
-        entity_ruler = EntityRulerApproach() \
-            .setInputCols(["document", "token"]) \
-            .setOutputCol("entity") \
-            .setPatternsResource(self.path)
-
-        pipeline = Pipeline(stages=[document_assembler, tokenizer, entity_ruler])
-        pipeline_model = pipeline.fit(self.empty_df)
-        light_pipeline = LightPipeline(pipeline_model)
-        result = light_pipeline.annotate("This is Google's URI http://google.com. And this is Yahoo's URI http://yahoo.com")
-
-        self.assertTrue(len(result["entity"]) == 2)

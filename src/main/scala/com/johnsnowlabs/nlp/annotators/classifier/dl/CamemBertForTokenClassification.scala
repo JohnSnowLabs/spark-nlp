@@ -357,7 +357,7 @@ trait ReadCamemBertForTokenDLModel
           readOnnxModel(
             path,
             spark,
-            "camembert_token_classification_onnx",
+            "_camembert_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -399,8 +399,7 @@ trait ReadCamemBertForTokenDLModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
       case _ =>

@@ -42,9 +42,9 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
   }
 
   def findLocalIndex: String = {
-    val tmpIndexStorageLocalPath = RocksDBConnection.getTmpIndexStorageLocalPath(path)
-    if (new File(tmpIndexStorageLocalPath).exists()) {
-      tmpIndexStorageLocalPath
+    val localPath = RocksDBConnection.getLocalPath(path)
+    if (new File(localPath).exists()) {
+      localPath
     } else if (new File(path).exists()) {
       path
     } else {
@@ -135,7 +135,7 @@ object RocksDBConnection {
   def getOrCreate(database: Database.Name, refName: String): RocksDBConnection =
     getOrCreate(database.toString, refName)
 
-  def getTmpIndexStorageLocalPath(fileName: String): String = {
+  def getLocalPath(fileName: String): String = {
     Path
       .mergePaths(new Path(SparkFiles.getRootDirectory()), new Path("/storage/" + fileName))
       .toString

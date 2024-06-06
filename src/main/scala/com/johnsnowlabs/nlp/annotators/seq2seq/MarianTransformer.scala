@@ -475,7 +475,6 @@ class MarianTransformer(override val uid: String)
   /** @group setParam * */
   def getModelIfNotSet: MarianEncoderDecoder = _model.get.value
 
-  /** do not remove or replace with $(vocabulary) due to a bug in some models */
   def getVocabulary: Array[String] = {
     if ($(vocabulary).isInstanceOf[java.util.ArrayList[String]]) {
       val arrayListValue = $(vocabulary).asInstanceOf[java.util.ArrayList[String]]
@@ -696,15 +695,13 @@ trait ReadMarianMTDLModel
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
 
         val onnxEncoder = OnnxWrapper.read(
-          spark,
-          localModelPath,
+          modelPath,
           modelName = "encoder_model",
           zipped = false,
           useBundle = true)
 
         val onnxDecoder = OnnxWrapper.read(
-          spark,
-          localModelPath,
+          modelPath,
           modelName = "decoder_model_merged",
           zipped = false,
           useBundle = true)

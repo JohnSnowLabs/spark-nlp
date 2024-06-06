@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.ml.util.LinAlg</title>
-          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.ml.util.LinAlg" />
-          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.ml.util.LinAlg" />
+          <title>Spark NLP 5.2.3 ScalaDoc  - com.johnsnowlabs.ml.util.LinAlg</title>
+          <meta name="description" content="Spark NLP 5.2.3 ScalaDoc - com.johnsnowlabs.ml.util.LinAlg" />
+          <meta name="keywords" content="Spark NLP 5.2.3 ScalaDoc com.johnsnowlabs.ml.util.LinAlg" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -381,50 +381,6 @@ by the total weight of the attention mask.
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#clsAvgPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clsAvgPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]"></a><a id="clsAvgPooling(Array[Array[Array[Float]]],Array[Array[Long]]):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#clsAvgPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">clsAvgPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by averaging the embeddings of the CLS token and the average
-embedding the sequence.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by averaging the embeddings of the CLS token and the average
-embedding the sequence.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt class="param">attentionMask</dt><dd class="cmt"><p>
-  Attention mask in shape (batchSize, sequenceLength)</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The pooled embeddings in shape (batchSize, embeddingDim)</p></dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#clsPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clsPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]"></a><a id="clsPooling(Array[Array[Array[Float]]],Array[Array[Long]]):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#clsPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">clsPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by using the CLS token as the representative embedding of the
-sequence.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by using the CLS token as the representative embedding of the
-sequence.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt class="param">attentionMask</dt><dd class="cmt"><p>
-  Attention mask in shape (batchSize, sequenceLength)</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The pooled embeddings in shape (batchSize, embeddingDim)</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.util.LinAlg#denseMatrixToArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="denseMatrixToArray(matrix:breeze.linalg.DenseMatrix[Float]):Array[Array[Float]]"></a><a id="denseMatrixToArray(DenseMatrix[Float]):Array[Array[Float]]"></a>
       <span class="permalink">
@@ -578,27 +534,6 @@ embeddings have a consistent scale for further processing.
   DenseMatrix[Float] representing the embeddings to be normalized</p></dd><dt>returns</dt><dd class="cmt"><p>
   DenseMatrix[Float] where each row is an L2 normalized version of the corresponding row in
   the input matrix</p></dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#lastPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lastPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]"></a><a id="lastPooling(Array[Array[Array[Float]]],Array[Array[Long]]):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#lastPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lastPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by taking the last token embedding of the sequence.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by taking the last token embedding of the sequence. Assumes right
-padding.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt class="param">attentionMask</dt><dd class="cmt"><p>
-  Attention mask in shape (batchSize, sequenceLength)</p></dd><dt>returns</dt><dd class="cmt"><p>
-  The pooled embeddings in shape (batchSize, embeddingDim)</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.util.LinAlg#lpNormalizeArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="lpNormalizeArray(array:Array[Float],p:Int):Array[Float]"></a><a id="lpNormalizeArray(Array[Float],Int):Array[Float]"></a>
       <span class="permalink">
@@ -615,27 +550,6 @@ padding.
       </span>
       
       
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#maxPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="maxPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]"></a><a id="maxPooling(Array[Array[Array[Float]]],Array[Array[Long]]):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#maxPooling(embeddings:Array[Array[Array[Float]]],attentionMask:Array[Array[Long]]):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">maxPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="attentionMask">attentionMask: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Long">Long</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by taking the maximum of the embedding features along the
-sequence.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by taking the maximum of the embedding features along the
-sequence.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt>returns</dt><dd class="cmt"><p>
-  A 2D array representing the pooled embeddings</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -741,46 +655,6 @@ sequence.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#tokenPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tokenPooling(embeddings:Array[Array[Array[Float]]],index:Int):Array[Array[Float]]"></a><a id="tokenPooling(Array[Array[Array[Float]]],Int):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#tokenPooling(embeddings:Array[Array[Array[Float]]],index:Int):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tokenPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="index">index: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by selecting the token at the index position.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by selecting the token at the index position.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt class="param">index</dt><dd class="cmt"><p>
-  Index Position to select for each sequence in the batch</p></dd><dt>returns</dt><dd class="cmt"><p>
-  A 2D array representing the pooled embeddings</p></dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.util.LinAlg#tokenPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tokenPooling(embeddings:Array[Array[Array[Float]]],indexes:Array[Int]):Array[Array[Float]]"></a><a id="tokenPooling(Array[Array[Array[Float]]],Array[Int]):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/util/LinAlg$.html#tokenPooling(embeddings:Array[Array[Array[Float]]],indexes:Array[Int]):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tokenPooling</span><span class="params">(<span name="embeddings">embeddings: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]]</span>, <span name="indexes">indexes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates pooled embeddings by selecting the token at the index position.</p><div class="fullcomment"><div class="comment cmt"><p>Creates pooled embeddings by selecting the token at the index position.
-</p></div><dl class="paramcmts block"><dt class="param">embeddings</dt><dd class="cmt"><p>
-  Embeddings in shape (batchSize, sequenceLength, embeddingDim)</p></dd><dt class="param">indexes</dt><dd class="cmt"><p>
-  Array of Index Positions to select for each sequence in the batch</p></dd><dt>returns</dt><dd class="cmt"><p>
-  A 2D array representing the pooled embeddings</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

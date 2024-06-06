@@ -48,9 +48,6 @@ public class LocalFeatureData {
     private float[][] scoresOrProbabilities;
     private float[][][] labelScores;
 
-    private static final int FORWARD_DIRECTION = 1;
-    private static final int BACKWARD_DIRECTION = 2;
-
     LocalFeatureData(DependencyInstance dependencyInstance,
                      TypedDependencyParser parser) {
         this.dependencyInstance = dependencyInstance;
@@ -119,135 +116,55 @@ public class LocalFeatureData {
         return fv;
     }
 
-    void predictLabels(int[] heads, int[] dependencyLabelIds, boolean addLoss) {
-        DependencyArcList arcLis = new DependencyArcList(heads);
-        predictLabelsDependencyParser(heads, dependencyLabelIds, addLoss, arcLis);
-    }
+    private void predictLabelsDP(int[] heads, int[] dependencyLabelIds, boolean addLoss, DependencyArcList arcLis) {
 
-    private void predictLabelsDependencyParser(int[] heads,
-                                               int[] dependencyLabelIds,
-                                               boolean addLoss,
-                                               DependencyArcList arcList) {
         int startLabelIndex = addLoss ? 0 : 1;
-        for (int modifier = 1; modifier < sentenceLength; ++modifier) {
+
+        for (int mod = 1; mod < sentenceLength; ++mod) {
+            int head = heads[mod];
+            int dir = head > mod ? 1 : 2;
+            int gp = heads[head];
+            int pdir = gp > head ? 1 : 2;
             for (int labelIndex = startLabelIndex; labelIndex < numberOfLabelTypes; ++labelIndex) {
-                processLabel(
-                    heads,
-                    modifier,
-                    startLabelIndex,
-                    labelIndex,
-                    addLoss,
-                    dependencyLabelIds);
+                int[] posTagIds = dependencyInstance.getXPosTagIds();
+                boolean pruneLabel = pipe.getPruneLabel()[posTagIds[head]][posTagIds[mod]][labelIndex];
+                if (pruneLabel) {
+                    dependencyLabelIds[mod] = labelIndex;
+                    float s1 = 0;
+                    if (gammaL > 0)
+                        s1 += gammaL * getLabelScoreTheta(heads, dependencyLabelIds, mod, 1);
+                    if (gammaL < 1)
+                        s1 += (1 - gammaL) * parameters.dotProductL(wpU[head], wpV[mod], labelIndex, dir);
+                    for (int q = startLabelIndex; q < numberOfLabelTypes; ++q) {
+                        float s2 = 0;
+                        if (gp != -1) {
+                            if (pipe.getPruneLabel()[posTagIds[gp]][posTagIds[head]][q]) {
+                                dependencyLabelIds[head] = q;
+                                if (gammaL > 0)
+                                    s2 += gammaL * getLabelScoreTheta(heads, dependencyLabelIds, mod, 2);
+                                if (gammaL < 1)
+                                    s2 += (1 - gammaL) * parameters.dotProduct2L(wpU2[gp], wpV2[head], wpW2[mod], q, labelIndex, pdir, dir);
+                            } else {
+                                s2 = Float.NEGATIVE_INFINITY;
+                            }
+                        }
+                        labelScores[mod][labelIndex][q] = s1 + s2 + (addLoss && dependencyInstance.getDependencyLabelIds()[mod] != labelIndex ? 1.0f : 0.0f);
+                    }
+                } else {
+                    Arrays.fill(labelScores[mod][labelIndex], Float.NEGATIVE_INFINITY);
+                }
             }
         }
-        finalizePredictions(arcList, startLabelIndex, dependencyLabelIds);
+
+        treeDP(0, arcLis, startLabelIndex);
+        dependencyLabelIds[0] = dependencyInstance.getDependencyLabelIds()[0];
+        computeDependencyLabels(0, arcLis, dependencyLabelIds, startLabelIndex);
     }
 
-    private int getDirection(int from, int to) {
-        return from > to ? FORWARD_DIRECTION : BACKWARD_DIRECTION;
-    }
-
-    private void processLabel(
-      int[] heads,
-      int modifier,
-      int startLabelIndex,
-      int labelIndex,
-      boolean addLoss,
-      int[] dependencyLabelIds
-    ) {
-        int head = heads[modifier];
-        if (!shouldPruneLabel(head, modifier, labelIndex)) {
-            Arrays.fill(labelScores[modifier][labelIndex], Float.NEGATIVE_INFINITY);
-            return;
-        }
-
-        dependencyLabelIds[modifier] = labelIndex;
-        float score = calculateInitialScore(heads, dependencyLabelIds, modifier, labelIndex);
-        for (int index = startLabelIndex; index < numberOfLabelTypes; ++index) {
-            float adjustedScore =
-                adjustScoreForGrandparent(
-                    heads,
-                    modifier,
-                    labelIndex,
-                    index,
-                    addLoss,
-                    dependencyLabelIds);
-            labelScores[modifier][labelIndex][index] = score + adjustedScore;
-        }
-    }
-
-    private float adjustScoreForGrandparent(
-        int[] heads,
-        int modifier,
-        int labelIndex,
-        int currentLabelIndex,
-        boolean addLoss,
-        int[] dependencyLabelIds
-    ) {
-        float score = Float.NEGATIVE_INFINITY;
-
-        int head = heads[modifier];
-        int grandParent = heads[head];
-        int direction = getDirection(head, modifier);
-        int parentDirection = getDirection(grandParent, head);
-
-        if (grandParent != -1 && shouldPruneLabel(grandParent, head, currentLabelIndex)) {
-            dependencyLabelIds[head] = currentLabelIndex;
-            score = 0; // Reset score for new calculations
-            if (gammaL > 0)
-                score += gammaL * getLabelScoreTheta(heads, dependencyLabelIds, head, BACKWARD_DIRECTION);
-            if (gammaL < 1) {
-                float dotProduct2L = parameters.dotProduct2L(
-                    wpU2[grandParent],
-                    wpV2[head],
-                    wpW2[modifier],
-                    currentLabelIndex,
-                    labelIndex,
-                    parentDirection,
-                    direction);
-                score += (1 - gammaL) * dotProduct2L;
-            }
-            score += (addLoss && dependencyInstance.getDependencyLabelIds()[modifier] != labelIndex ? 1.0f : 0.0f);
-        }
-        return score;
-    }
-
-    private boolean shouldPruneLabel(int dim1, int dim2, int dim3) {
-        int[] posTagIds = dependencyInstance.getXPosTagIds();
-        return pipe.getPruneLabel()[posTagIds[dim1]][posTagIds[dim2]][dim3];
-    }
-
-    private float calculateInitialScore(
-        int[] heads,
-        int[] dependencyLabelIds,
-        int modifier,
-        int labelIndex
-    ) {
-        int head = heads[modifier];
-        int direction = getDirection(head, modifier);
-        float score = 0;
-        if (gammaL > 0)
-            score += gammaL * getLabelScoreTheta(heads, dependencyLabelIds, modifier, FORWARD_DIRECTION);
-        if (gammaL < 1)
-            score += (1 - gammaL) * parameters.dotProductL(wpU[head], wpV[modifier], labelIndex, direction);
-        return score;
-    }
-
-    private float getLabelScoreTheta(
-        int[] heads,
-        int[] types,
-        int mod,
-        int order
-    ) {
+    private float getLabelScoreTheta(int[] heads, int[] types, int mod, int order) {
         ScoreCollector collector = new ScoreCollector(parameters.getParamsL());
         synFactory.createLabelFeatures(collector, dependencyInstance, heads, types, mod, order);
         return collector.getScore();
-    }
-
-    private void finalizePredictions(DependencyArcList arcList, int startLabelIndex, int[] dependencyLabelIds) {
-        treeDP(0, arcList, startLabelIndex);
-        dependencyLabelIds[0] = dependencyInstance.getDependencyLabelIds()[0];
-        computeDependencyLabels(0, arcList, dependencyLabelIds, startLabelIndex);
     }
 
     private void treeDP(int indexNode, DependencyArcList dependencyArcs, int startLabelIndex) {
@@ -298,6 +215,11 @@ public class LocalFeatureData {
             dependencyLabelIds[currentNode] = bestLabel;
             computeDependencyLabels(currentNode, dependencyArcs, dependencyLabelIds, startLabelIndex);
         }
+    }
+
+    void predictLabels(int[] heads, int[] dependencyLabelIds, boolean addLoss) {
+        DependencyArcList arcLis = new DependencyArcList(heads);
+        predictLabelsDP(heads, dependencyLabelIds, addLoss, arcLis);
     }
 
 }

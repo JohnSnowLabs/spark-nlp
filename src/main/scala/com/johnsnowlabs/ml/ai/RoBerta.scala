@@ -19,24 +19,18 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
 /** TensorFlow backend for '''RoBERTa''' and '''Longformer'''
   *
   * @param tensorflowWrapper
-  *   Model wrapper with TensorFlow Wrapper
-  * @param onnxWrapper
-  *   Model wrapper with ONNX Wrapper
-  * @param openvinoWrapper
-  *   Model wrapper with OpenVINO Wrapper
+  *   tensorflowWrapper class
   * @param sentenceStartTokenId
   *   special token id for `<s>`
   * @param sentenceEndTokenId
@@ -49,7 +43,6 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class RoBerta(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
-    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     padTokenId: Int,
@@ -58,13 +51,11 @@ private[johnsnowlabs] class RoBerta(
     modelArch: String = ModelArch.wordEmbeddings)
     extends Serializable {
 
-  protected val logger: Logger = LoggerFactory.getLogger("Roberta")
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
-    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -111,37 +102,12 @@ private[johnsnowlabs] class RoBerta(
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
               .array()
-
+            tokenTensors.close()
+            maskTensors.close()
             embeddings
+
           } finally if (results != null) results.close()
-        } catch {
-          case e: Exception =>
-            // Handle exceptions by logging or other means.
-            e.printStackTrace()
-            Array.empty[Float] // Return an empty array or appropriate error handling
-        } finally {
-          // Close tensors outside the try-catch to avoid repeated null checks.
-          // These resources are initialized before the try-catch, so they should be closed here.
-          tokenTensors.close()
-          maskTensors.close()
         }
-      case Openvino.name =>
-        val (tokenTensors, maskTensors) = PrepareEmbeddings.prepareOvLongBatchTensors(
-          batch = batch,
-          maxSentenceLength = maxSentenceLength,
-          batchLength = batchLength,
-          sentencePadTokenId = padTokenId)
-
-        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-        inferRequest.set_tensor("input_ids", tokenTensors)
-        inferRequest.set_tensor("attention_mask", maskTensors)
-
-        inferRequest.infer()
-
-        val result = inferRequest.get_tensor("last_hidden_state")
-        val embeddings = result.data()
-
-        embeddings
       case _ =>
         val tensors = new TensorResources()
 

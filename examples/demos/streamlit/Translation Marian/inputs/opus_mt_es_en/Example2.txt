@@ -1,2 +1,0 @@
-Example2.txt
-Titanic es una película épica estadounidense de 1997 sobre desastres y romance dirigida, escrita, coproducida y coeditada por James Cameron. Incorpora aspectos históricos y ficticios, y se basa en relatos del hundimiento del RMS Titanic. Está protagonizada por Leonardo DiCaprio y Kate Winslet como miembros de diferentes clases sociales que se enamoran a bordo del barco durante su desafortunado viaje inaugural.

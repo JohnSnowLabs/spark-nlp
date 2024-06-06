@@ -370,7 +370,7 @@ trait ReadRoBertaForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel 
           readOnnxModel(
             path,
             spark,
-            "roberta_token_classification_onnx",
+            "roberta_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -418,8 +418,7 @@ trait ReadRoBertaForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel 
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

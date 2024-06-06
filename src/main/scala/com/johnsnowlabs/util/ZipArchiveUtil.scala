@@ -113,10 +113,7 @@ object ZipArchiveUtil {
       throw new IllegalArgumentException("only folder and file input are valid")
   }
 
-  def unzip(
-      file: File,
-      destDirPath: Option[String] = None,
-      suffix: Option[String] = None): String = {
+  def unzip(file: File, destDirPath: Option[String] = None): String = {
     val fileName = file.getName
 
     val basename = if (fileName.indexOf('.') >= 0) {
@@ -135,10 +132,10 @@ object ZipArchiveUtil {
 
     val zip = new ZipFile(file)
     zip.entries.asScala foreach { entry =>
-      val entryName = if (suffix.isDefined) suffix.get + "_" + entry.getName else entry.getName
+      val entryName = entry.getName
       val entryPath = {
         if (entryName.startsWith(basename))
-          entryName.substring(0, basename.length)
+          entryName.substring(basename.length)
         else
           entryName
       }
@@ -164,5 +161,4 @@ object ZipArchiveUtil {
 
     destDir.getPath
   }
-
 }

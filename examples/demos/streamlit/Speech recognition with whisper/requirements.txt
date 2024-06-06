@@ -1,5 +1,0 @@
-streamlit
-spark-nlp
-pyspark
-librosa
-pandas

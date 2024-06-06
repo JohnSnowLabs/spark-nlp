@@ -66,7 +66,7 @@ class TFNerDLGraphBuilder(Estimator, DefaultParamsWritable, DefaultParamsReadabl
 
         Parameters
         ----------
-        *value : List[str]
+        *value : str
             Input columns for the annotator
         """
         if type(value[0]) == str or type(value[0]) == list:

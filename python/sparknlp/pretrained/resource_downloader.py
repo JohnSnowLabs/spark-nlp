@@ -58,6 +58,7 @@ class ResourceDownloader(object):
 
     """
 
+
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
         """Downloads and loads a model with the default downloader. Usually this method
@@ -66,8 +67,8 @@ class ResourceDownloader(object):
 
         Parameters
         ----------
-        reader : obj
-           Class to read the model for
+        reader : str
+            Name of the class to read the model for
         name : str
             Name of the pretrained model
         language : str

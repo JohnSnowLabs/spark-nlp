@@ -18,28 +18,23 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.E5
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
-import com.johnsnowlabs.util.FileHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
-
-import java.nio.file.Files
-import java.util.UUID
 
 /** Sentence embeddings using E5.
   *
@@ -151,7 +146,6 @@ class E5Embeddings(override val uid: String)
     with HasBatchedAnnotate[E5Embeddings]
     with WriteTensorflowModel
     with WriteOnnxModel
-    with WriteOpenvinoModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -237,15 +231,13 @@ class E5Embeddings(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper],
-      openvinoWrapper: Option[OpenvinoWrapper]): E5Embeddings = {
+      onnxWrapper: Option[OnnxWrapper]): E5Embeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new E5(
             tensorflowWrapper,
             onnxWrapper,
-            openvinoWrapper,
             configProtoBytes = getConfigProtoBytes,
             sentenceStartTokenId = sentenceStartTokenId,
             sentenceEndTokenId = sentenceEndTokenId,
@@ -366,13 +358,7 @@ class E5Embeddings(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           E5Embeddings.onnxFile)
-      case Openvino.name =>
-        writeOpenvinoModel(
-          path,
-          spark,
-          getModelIfNotSet.openvinoWrapper.get,
-          suffix,
-          E5Embeddings.openvinoFile)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -412,28 +398,23 @@ trait ReadablePretrainedE5Model
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[E5Embeddings] =>
 
   override val tfFile: String = "e5_tensorflow"
   override val onnxFile: String = "e5_onnx"
-  override val openvinoFile: String = "e5_openvino"
 
   def readModel(instance: E5Embeddings, path: String, spark: SparkSession): Unit = {
 
     instance.getEngine match {
       case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_e5_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "_e5_onnx", zipped = true, useBundle = false, None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-
-      case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "_e5_ov", zipped = true)
-        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -443,10 +424,7 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
 
   addReader(readModel)
 
-  def loadSavedModel(
-      modelPath: String,
-      spark: SparkSession,
-      useOpenvino: Boolean = false): E5Embeddings = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): E5Embeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -455,14 +433,10 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
     /*Universal parameters for all engines*/
     val annotatorModel = new E5Embeddings()
       .setVocabulary(vocabs)
-    val modelEngine =
-      if (useOpenvino)
-        Openvino.name
-      else
-        detectedEngine
-    annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    modelEngine match {
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
       case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(
@@ -482,24 +456,12 @@ trait ReadE5DLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpen
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None, None)
+          .setModelIfNotSet(spark, Some(wrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-
-      case Openvino.name =>
-        val ovWrapper: OpenvinoWrapper =
-          OpenvinoWrapper.read(
-            spark,
-            localModelPath,
-            zipped = false,
-            useBundle = true,
-            detectedEngine = detectedEngine)
-        annotatorModel
-          .setModelIfNotSet(spark, None, None, Some(ovWrapper))
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

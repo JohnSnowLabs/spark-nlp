@@ -133,9 +133,7 @@ private[johnsnowlabs] class GPT2(
       effectiveBatch_size = batch.length
     }
 
-    val session = tensorflow.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      initAllTables = false)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
 
     val maxSentenceLength = batch.map(_.length).max
 

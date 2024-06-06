@@ -16,15 +16,12 @@
 
 package com.johnsnowlabs.ml.onnx
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
-
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Paths, Path}
 import java.io.File
 import com.johnsnowlabs.util.FileHelper
 import org.scalatest.BeforeAndAfter
-
 import java.util.UUID
 
 class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
@@ -71,19 +68,16 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
   }
 
   "a dummy onnx wrapper" should "get session correctly" taggedAs FastTest in {
-    ResourceHelper.spark.sparkContext.addFile(modelPath)
-    val onnxFileName = Some(new File(modelPath).getName)
-    val dummyOnnxWrapper = new OnnxWrapper(onnxFileName, None)
+    val modelBytes: Array[Byte] = Files.readAllBytes(Paths.get(modelPath))
+    val dummyOnnxWrapper = new OnnxWrapper(modelBytes)
     dummyOnnxWrapper.getSession(onnxSessionOptions)
   }
 
   "a dummy onnx wrapper" should "saveToFile correctly" taggedAs FastTest in {
-    ResourceHelper.spark.sparkContext.addFile(modelPath)
-    val onnxFileName = Some(new File(modelPath).getName)
-    val dummyOnnxWrapper = new OnnxWrapper(onnxFileName, None)
+    val modelBytes: Array[Byte] = Files.readAllBytes(Paths.get(modelPath))
+    val dummyOnnxWrapper = new OnnxWrapper(modelBytes)
     dummyOnnxWrapper.saveToFile(Paths.get(tmpFolder, "modelFromTest.zip").toString)
     // verify file existence
     assert(new File(tmpFolder, "modelFromTest.zip").exists())
   }
-
 }

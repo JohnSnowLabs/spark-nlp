@@ -448,8 +448,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
             path,
             spark,
             Seq("encoder_model", "decoder_model", "decoder_with_past_model"),
-            WhisperForCTC.suffix,
-            dataFilePostfix = ".onnx_data")
+            WhisperForCTC.suffix)
 
         val onnxWrappers = EncoderDecoderWrappers(
           wrappers("encoder_model"),
@@ -580,30 +579,24 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
       case ONNX.name =>
         val onnxWrapperEncoder =
           OnnxWrapper.read(
-            spark,
-            localModelPath,
+            modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "encoder_model",
-            onnxFileSuffix = None)
+            modelName = "encoder_model")
 
         val onnxWrapperDecoder =
           OnnxWrapper.read(
-            spark,
-            localModelPath,
+            modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model",
-            onnxFileSuffix = None)
+            modelName = "decoder_model")
 
         val onnxWrapperDecoderWithPast =
           OnnxWrapper.read(
-            spark,
-            localModelPath,
+            modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_with_past_model",
-            onnxFileSuffix = None)
+            modelName = "decoder_with_past_model")
 
         val onnxWrappers = EncoderDecoderWrappers(
           onnxWrapperEncoder,

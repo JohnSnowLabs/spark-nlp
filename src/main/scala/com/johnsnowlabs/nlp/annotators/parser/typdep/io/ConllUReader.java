@@ -23,20 +23,29 @@ import java.util.ArrayList;
 
 public class ConllUReader extends DependencyReader {
 
-    private static final String ROOT = "<root>";
-    private static final String ROOT_LEMMA = "<root-LEMMA>";
-    private static final String ROOT_POS = "<root-POS>";
-    private static final String NO_TYPE = "<no-type>";
+    /**
+     * CoNLL Universal Dependency format:
+     * 0 ID
+     * 1 FORM
+     * 2 LEMMA
+     * 3 UPOS
+     * 4 XPOS
+     * 5 FEATS
+     * 6 HEAD
+     * 7 DEPREL
+     * 8 MISC
+     */
 
     @Override
     public DependencyInstance nextInstance() throws IOException {
 
-        ArrayList<String[]> lines = getFileContentAsArray();
-        if (lines.isEmpty()) {
+        ArrayList<String[]> lstLines = getFileContentAsArray();
+
+        if (lstLines.isEmpty()) {
             return null;
         }
-        int length = lines.size();
 
+        int length = lstLines.size();
         String[] forms = new String[length + 1];
         String[] lemmas = new String[length + 1];
         String[] uPos = new String[length + 1];
@@ -45,69 +54,43 @@ public class ConllUReader extends DependencyReader {
         String[] deprels = new String[length + 1];
         int[] heads = new int[length + 1];
 
-        initializeRoot(forms, lemmas, uPos, xPos, deprels, heads);
-        boolean hasLemma = parseLines(lines, forms, lemmas, uPos, xPos, feats, deprels, heads);
+        forms[0] = "<root>";
+        lemmas[0] = "<root-LEMMA>";
+        uPos[0] = "<root-POS>";
+        xPos[0] = "<root-POS>";
+        deprels[0] = "<no-type>";
+        heads[0] = -1;
+
+        boolean hasLemma = false;
+
+        for (int i = 1; i < length + 1; ++i) {
+            String[] parts = lstLines.get(i - 1);
+            forms[i] = parts[1];
+            if (!parts[2].equals("_")) {
+                lemmas[i] = parts[2];
+                hasLemma = true;
+            }
+
+            uPos[i] = parts[3];
+            xPos[i] = parts[4];
+
+            if (!parts[5].equals("_")) {
+                feats[i] = parts[5].split("\\|");
+            }
+
+            if (parts[6].equals("_")) {
+                System.out.println("Error in sentence:\n");
+                System.out.println(parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3]);
+            }
+
+            heads[i] = Integer.parseInt(parts[6]);
+            deprels[i] = parts[7];
+
+        }
         if (!hasLemma) lemmas = null;
 
         return new DependencyInstance(forms, lemmas, uPos, xPos, feats, heads, deprels, null, null);
     }
-
-    private void initializeRoot(String[] forms, String[] lemmas, String[] uPos, String[] xPos, String[] deprels, int[] heads) {
-        forms[0] = ROOT;
-        lemmas[0] = ROOT_LEMMA;
-        uPos[0] = ROOT_POS;
-        xPos[0] = ROOT_POS;
-        deprels[0] = NO_TYPE;
-        heads[0] = -1;
-    }
-
-    private boolean parseLines(
-        ArrayList<String[]> lines,
-        String[] forms,
-        String[] lemmas,
-        String[] uPosList,
-        String[] xPosList,
-        String[][] featsMatrix,
-        String[] depRels,
-        int[] heads
-    ) {
-        boolean hasLemma = false;
-        for (int i = 1; i <= lines.size(); i++) {
-            String[] parts = lines.get(i - 1);
-            // CoNLL Universal Dependency format
-            String id = parts[0];
-            String form = parts[1];
-            String lemma = parts[2];
-            String uPos = parts[3];
-            String xPos = parts[4];
-            String feats = parts[5];
-            String head = parts[6];
-            String depRel = parts[7];
-            //String misc = parts[8];
-
-            if (skipIteration(id, head, uPos, xPos)) continue;
-
-            forms[i] = form;
-            lemmas[i] = valueAvailable(lemma) ? lemma : null;
-            hasLemma |= lemmas[i] != null;
-            uPosList[i] = valueAvailable(uPos) ? uPos : xPos;
-            xPosList[i] = valueAvailable(xPos) ? xPos : uPos;
-            featsMatrix[i] = valueAvailable(feats) ? feats.split("\\|") : null;
-            heads[i] = Integer.parseInt(head);
-            depRels[i] = depRel;
-        }
-        return hasLemma;
-    }
-
-    private boolean skipIteration(String id, String head, String uPos, String xPos) {
-        return valueIsNotNumber(id) || (valueIsNotNumber(head)) || (!valueAvailable(uPos) && !valueAvailable(xPos));
-    }
-
-    private boolean valueAvailable(String value) {
-        return !value.equals("_");
-    }
-    private boolean valueIsNotNumber(String value) { return !value.matches("\\d+"); }
-
 
     private ArrayList<String[]> getFileContentAsArray() throws IOException {
 

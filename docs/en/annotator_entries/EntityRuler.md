@@ -36,6 +36,8 @@ There are multiple ways and formats to set the extraction resource. It is possib
 set as the "format" field in the `option` parameter map and depending on the file type, additional parameters might
 need to be set.
 
+To enable regex extraction, `setEnablePatternRegex(true)` needs to be called.
+
 If the file is in a JSON format, then the rule definitions need to be given in a list with the fields "id", "label"
 and "patterns":
 ```
@@ -108,7 +110,8 @@ entityRuler = EntityRulerApproach() \
       "patterns.csv",
       ReadAs.TEXT,
       {"format": "csv", "delimiter": "\\|"}
-    )
+    ) \
+    .setEnablePatternRegex(True)
 pipeline = Pipeline().setStages([
     documentAssembler,
     tokenizer,
@@ -160,6 +163,7 @@ val entityRuler = new EntityRulerApproach()
     ReadAs.TEXT,
     {"format": "csv", "delimiter": "|")}
   )
+  .setEnablePatternRegex(true)
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,

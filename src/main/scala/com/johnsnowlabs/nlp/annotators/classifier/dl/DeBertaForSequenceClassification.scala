@@ -385,7 +385,7 @@ trait ReadDeBertaForSequenceDLModel
           readOnnxModel(
             path,
             spark,
-            "deberta_sequence_classification_onnx",
+            "_deberta_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -427,8 +427,7 @@ trait ReadDeBertaForSequenceDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
       case _ =>

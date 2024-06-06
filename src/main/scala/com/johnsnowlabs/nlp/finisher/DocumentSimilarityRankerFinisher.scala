@@ -9,8 +9,6 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{IntegerType, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-import scala.util.hashing.MurmurHash3
-
 case class DocumentSimilarityRankerFinisher(override val uid: String)
     extends Transformer
     with DefaultParamsWritable {
@@ -145,53 +143,14 @@ case class DocumentSimilarityRankerFinisher(override val uid: String)
             "nearest_neighbor_id",
             element_at(col(s"split_$neighborsColName"), 1).cast(IntegerType))
           .withColumn("nearest_neighbor_distance", element_at(col(s"split_$neighborsColName"), 2))
-      else {
-        val mh3Func = (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
-        val mh3UDF = udf { mh3Func }
+      else
+        formatted
 
-        val removeRoundBracketsFunc = (x: String) => x.replaceAll("\\(", "").replaceAll("\\)", "")
-        val removeRoundBracketsUDF = udf { removeRoundBracketsFunc }
-
-        val neighbors = formatted
-          .where(col("finished_doc_similarity_rankings_neighbors") =!= "[]")
-          .select(col("finished_doc_similarity_rankings_neighbors"))
-          .withColumn(
-            "finished_doc_similarity_rankings_neighbors",
-            regexp_replace(col("finished_doc_similarity_rankings_neighbors"), "\\[", ""))
-          .withColumn(
-            "finished_doc_similarity_rankings_neighbors",
-            regexp_replace(col("finished_doc_similarity_rankings_neighbors"), "\\]", ""))
-          .withColumn(
-            "split_nearest_neighbors",
-            split(col("finished_doc_similarity_rankings_neighbors"), "\\),\\("))
-          .select(
-            col("finished_doc_similarity_rankings_neighbors"),
-            col("split_nearest_neighbors"))
-          .withColumn("nearest_neighbors_array_exploded", explode(col("split_nearest_neighbors")))
-          .withColumn(
-            "nearest_neighbors_array_exploded_cleaned",
-            removeRoundBracketsUDF(col("nearest_neighbors_array_exploded")))
-          .withColumn(
-            "nearest_neighbor_id",
-            split(col("nearest_neighbors_array_exploded_cleaned"), ",")(0))
-          .withColumn(
-            "nearest_neighbor_distance",
-            split(col("nearest_neighbors_array_exploded_cleaned"), ",")(1))
-          .select("nearest_neighbor_id", "nearest_neighbor_distance")
-
-        dataset
-          .withColumn("nearest_neighbor_id", mh3UDF(col("text")))
-          .join(neighbors, usingColumn = "nearest_neighbor_id")
-          .select("text", "nearest_neighbor_id", "nearest_neighbor_distance")
-      }
-
-    result
-      .where(col("nearest_neighbor_id").isNotNull)
-      .drop(
-        s"no_squared_$neighborsColName",
-        s"tuple_extract_$neighborsColName",
-        s"no_rounded_$neighborsColName",
-        s"split_$neighborsColName")
+    result.drop(
+      s"no_squared_$neighborsColName",
+      s"tuple_extract_$neighborsColName",
+      s"no_rounded_$neighborsColName",
+      s"split_$neighborsColName")
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)

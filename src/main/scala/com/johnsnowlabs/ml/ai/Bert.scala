@@ -19,14 +19,11 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
-import org.intel.openvino.Tensor
 
 import scala.collection.JavaConverters._
 
@@ -42,8 +39,6 @@ import scala.collection.JavaConverters._
   *   Bert Model wrapper with TensorFlow Wrapper
   * @param onnxWrapper
   *   Bert Model wrapper with ONNX Wrapper
-  * @param openvinoWrapper
-  *   Bert Model wrapper with OpenVINO Wrapper
   * @param sentenceStartTokenId
   *   Id of sentence start Token
   * @param sentenceEndTokenId
@@ -58,7 +53,6 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Bert(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
-    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -67,12 +61,10 @@ private[johnsnowlabs] class Bert(
     isSBert: Boolean = false)
     extends Serializable {
 
-  protected val logger: Logger = LoggerFactory.getLogger("Bert")
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
-    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -127,38 +119,15 @@ private[johnsnowlabs] class Bert(
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
               .array()
-
+            tokenTensors.close()
+            maskTensors.close()
+            segmentTensors.close()
+            //    runner.close()
+            //    env.close()
+            //
             embeddings
           } finally if (results != null) results.close()
-        } catch {
-          case e: Exception =>
-            // Handle exceptions by logging or other means.
-            e.printStackTrace()
-            Array.empty[Float] // Return an empty array or appropriate error handling
-        } finally {
-          // Close tensors outside the try-catch to avoid repeated null checks.
-          // These resources are initialized before the try-catch, so they should be closed here.
-          tokenTensors.close()
-          maskTensors.close()
-          segmentTensors.close()
         }
-      case Openvino.name =>
-        val shape = Array(batchLength, maxSentenceLength)
-        val (tokenTensors, maskTensors) =
-          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
-
-        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-        inferRequest.set_tensor("input_ids", tokenTensors)
-        inferRequest.set_tensor("attention_mask", maskTensors)
-        inferRequest.set_tensor("token_type_ids", segmentTensors)
-
-        inferRequest.infer()
-
-        val result = inferRequest.get_tensor("last_hidden_state")
-        val embeddings = result.data()
-
-        embeddings
       case _ =>
         val tensors = new TensorResources()
 
@@ -260,29 +229,7 @@ private[johnsnowlabs] class Bert(
             //
             embeddings
           } finally if (results != null) results.close()
-        } catch {
-          case e: Exception =>
-            // Log the exception as a warning
-            logger.warn("Exception: ", e)
-            // Rethrow the exception to propagate it further
-            throw e
         }
-      case Openvino.name =>
-        val shape = Array(batchLength, maxSentenceLength)
-        val (tokenTensors, maskTensors) =
-          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
-
-        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-        inferRequest.set_tensor("input_ids", tokenTensors)
-        inferRequest.set_tensor("attention_mask", maskTensors)
-        inferRequest.set_tensor("token_type_ids", segmentTensors)
-
-        inferRequest.infer()
-
-        val result = inferRequest.get_tensor("last_hidden_state")
-        val embeddings = result.data()
-        embeddings
       case _ =>
         val tensors = new TensorResources()
 
@@ -336,8 +283,6 @@ private[johnsnowlabs] class Bert(
 
   def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     detectedEngine match {
-      case Openvino.name =>
-        tagSequence(batch)
       case ONNX.name =>
         tagSequence(batch)
       case TensorFlow.name =>

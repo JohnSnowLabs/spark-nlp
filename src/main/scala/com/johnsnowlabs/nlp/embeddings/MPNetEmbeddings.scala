@@ -453,8 +453,7 @@ trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel {
           .setModelIfNotSet(spark, Some(wrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

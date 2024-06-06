@@ -33,7 +33,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
 
-  "BertForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "BertForSBertForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
       "I have a problem with my iphone that needs to be resolved asap!!",

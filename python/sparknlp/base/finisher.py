@@ -123,7 +123,7 @@ class Finisher(AnnotatorTransformer):
 
         Parameters
         ----------
-        *value : List[str]
+        *value : str
             Input columns for the annotator
         """
         if len(value) == 1 and type(value[0]) == list:

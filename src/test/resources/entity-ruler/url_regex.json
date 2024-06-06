@@ -1,8 +1,0 @@
-[
-  {
-    "id": "url-google",
-    "label": "URL",
-    "patterns": ["((?:(?:http|https)://)?(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.(?:com|org|net|int|edu|gov|mil)(?:\\.[-a-zA-Z0-9:%_\\+~#?&//=]+)?)"],
-    "regex": true
-  }
-]

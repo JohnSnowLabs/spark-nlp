@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.3.3 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.2.3 documentation</title>
   
   
   
@@ -495,12 +495,6 @@ document.write(`
                             <span class="s2">&quot;Whether to include identity in ranking result set. Useful for debug. (Default: `false`).&quot;</span><span class="p">,</span>
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-    <span class="n">asRetrieverQuery</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                             <span class="s2">&quot;asRetrieverQuery&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;Whether to set the model as retriever RAG with a specific query string.&quot;</span>
-                             <span class="s2">&quot;(Default: `empty`)&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-
 <div class="viewcode-block" id="DocumentSimilarityRankerApproach.setSimilarityMethod"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod">[docs]</a>    <span class="k">def</span> <span class="nf">setSimilarityMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the similarity method used to calculate the neighbours.</span>
 <span class="sd">            (Default: `&quot;brp&quot;`, Bucketed Random Projection for Euclidean Distance)</span>
@@ -565,17 +559,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">identityRanking</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.asRetriever"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever">[docs]</a>    <span class="k">def</span> <span class="nf">asRetriever</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the query to use the document similarity ranker as a retriever in a RAG fashion.</span>
-<span class="sd">            (Default: `&quot;&quot;`, empty if this annotator is not used as retriever)</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">             the query to use to select nearest neighbors in the retrieval process.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">asRetrieverQuery</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DocumentSimilarityRankerApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>\
@@ -586,8 +569,7 @@ document.write(`
             <span class="n">bucketLength</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
             <span class="n">numHashTables</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">visibleDistances</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">identityRanking</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">asRetrieverQuery</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+            <span class="n">identityRanking</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>

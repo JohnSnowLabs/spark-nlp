@@ -180,7 +180,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session, use_openvino=False):
+    def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
 
         Parameters
@@ -189,8 +189,6 @@ class BertSentenceEmbeddings(AnnotatorModel,
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
-        use_openvino: bool
-            Use OpenVINO backend
 
         Returns
         -------
@@ -198,7 +196,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.internal import _BertSentenceLoader
-        jModel = _BertSentenceLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
+        jModel = _BertSentenceLoader(folder, spark_session._jsparkSession)._java_obj
         return BertSentenceEmbeddings(java_model=jModel)
 
     @staticmethod

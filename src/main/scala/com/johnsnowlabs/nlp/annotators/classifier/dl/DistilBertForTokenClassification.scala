@@ -358,7 +358,7 @@ trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxMod
           readOnnxModel(
             path,
             spark,
-            "distilbert_token_classification_onnx",
+            "_distilbert_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -401,8 +401,7 @@ trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxMod
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>

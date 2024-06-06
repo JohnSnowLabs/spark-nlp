@@ -18,13 +18,11 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, Openvino, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -43,14 +41,12 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class E5(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
-    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
-  protected val logger: Logger = LoggerFactory.getLogger("E5")
   private val _tfInstructorSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 0
@@ -58,7 +54,6 @@ private[johnsnowlabs] class E5(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
-    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -72,8 +67,6 @@ private[johnsnowlabs] class E5(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
     val embeddings = detectedEngine match {
-      case Openvino.name =>
-        getSentenceEmbeddingFromOv(paddedBatch, maxSentenceLength)
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength)
       case _ =>
@@ -194,54 +187,15 @@ private[johnsnowlabs] class E5(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
 
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
         LinAlg.denseMatrixToArray(normalizedEmbeddings)
       } finally if (results != null) results.close()
-    } catch {
-      case e: Exception =>
-        // Handle exceptions by logging or other means.
-        e.printStackTrace()
-        Array.empty[Array[Float]] // Return an empty array or appropriate error handling
-    } finally {
-      // Close tensors outside the try-catch to avoid repeated null checks.
-      // These resources are initialized before the try-catch, so they should be closed here.
-      tokenTensors.close()
-      maskTensors.close()
-      segmentTensors.close()
     }
-  }
-
-  private def getSentenceEmbeddingFromOv(
-      batch: Seq[Array[Int]],
-      maxSentenceLength: Int): Array[Array[Float]] = {
-    val batchLength = batch.length
-    val inputIds = batch.flatMap(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
-
-    val shape = Array(batchLength, maxSentenceLength)
-    val tokenTensors = new org.intel.openvino.Tensor(shape, inputIds)
-    val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
-    val segmentTensors =
-      new org.intel.openvino.Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
-
-    val model = openvinoWrapper.get.getCompiledModel()
-    val inferRequest = model.create_infer_request()
-
-    inferRequest.set_tensor("input_ids", tokenTensors)
-    inferRequest.set_tensor("attention_mask", maskTensors)
-    inferRequest.set_tensor("token_type_ids", segmentTensors)
-
-    inferRequest.infer()
-
-    val embeddings = inferRequest.get_tensor("last_hidden_state")
-
-    val dim = embeddings.get_shape().map(_.toLong)
-    val avgPooling =
-      LinAlg.avgPooling(embeddings.data(), attentionMask, dim)
-    val normalizedEmbeddings = LinAlg.l2Normalize(avgPooling)
-    LinAlg.denseMatrixToArray(normalizedEmbeddings)
   }
 
   /** Predict sentence embeddings for a batch of sentences

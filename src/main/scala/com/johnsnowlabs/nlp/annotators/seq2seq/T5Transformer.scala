@@ -19,13 +19,10 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import ai.onnxruntime.{OrtEnvironment, OrtLoggingLevel}
 import com.johnsnowlabs.ml.ai.seq2seq.{
   OnnxT5EncoderDecoder,
-  OpenvinoT5EncoderDecoder,
   T5EncoderDecoder,
   TensorflowT5EncoderDecoder
 }
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.EncoderDecoderWrappers
-import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -41,7 +38,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -166,7 +163,6 @@ class T5Transformer(override val uid: String)
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteOnnxModel
-    with WriteOpenvinoModel
     with HasCaseSensitiveProperties
     with WriteSentencePieceModel
     with HasProtectedParams
@@ -492,17 +488,6 @@ class T5Transformer(override val uid: String)
     this
   }
 
-  def setModelIfNotSet(
-      spark: SparkSession,
-      openvinoWrapper: EncoderDecoderWrappers,
-      spp: SentencePieceWrapper): this.type = {
-    if (_model.isEmpty) {
-      _model = Some(
-        spark.sparkContext.broadcast(new OpenvinoT5EncoderDecoder(openvinoWrapper, spp)))
-    }
-    this
-  }
-
   /** @group getParam */
   def getModelIfNotSet: T5EncoderDecoder = _model.get.value
 
@@ -572,17 +557,6 @@ class T5Transformer(override val uid: String)
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet match {
-      case obj: OpenvinoT5EncoderDecoder =>
-        writeOpenvinoModels(
-          path,
-          spark,
-          Seq(
-            (obj.openvinoWrapper.encoder, T5Transformer.ovEncoderFile),
-            (obj.openvinoWrapper.decoder, T5Transformer.ovDecoderFile),
-            (obj.openvinoWrapper.decoderWithPast, T5Transformer.ovDecoderWithPastFile)),
-          "")
-        writeSentencePieceModel(path, spark, obj.spp, "_med_seq2seq", T5Transformer.sppFile)
-
       case obj: OnnxT5EncoderDecoder =>
         writeOnnxModel(path, spark, obj.onnxEncoder, "", T5Transformer.onnxEncoderFile)
         writeOnnxModel(path, spark, obj.onnxDecoder, "", T5Transformer.onnxDecoderFile)
@@ -622,8 +596,7 @@ trait ReadablePretrainedT5TransformerModel
 trait ReadT5TransformerDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel
-    with ReadOnnxModel
-    with ReadOpenvinoModel {
+    with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[T5Transformer] =>
 
   override val tfFile: String = "t5_tensorflow"
@@ -632,11 +605,6 @@ trait ReadT5TransformerDLModel
   val onnxEncoderFile: String = "encoder.onxx"
   val onnxDecoderFile: String = "decoder.onxx"
 
-  val ovEncoderFile: String = "encoder"
-  val ovDecoderFile: String = "decoder"
-  val ovDecoderWithPastFile: String = "decoder_with_past"
-
-  override val openvinoFile = ""
   override val onnxFile: String = ""
 
   def readModel(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
@@ -644,17 +612,6 @@ trait ReadT5TransformerDLModel
     val spp = readSentencePieceModel(path, spark, "_t5_spp", sppFile)
 
     instance.getEngine.toLowerCase match {
-      case Openvino.name =>
-        val ovModels = readOpenvinoModels(
-          path,
-          spark,
-          Seq(ovEncoderFile, ovDecoderFile, ovDecoderWithPastFile),
-          suffix = "")
-        val ovWrapper = EncoderDecoderWrappers(
-          ovModels(ovEncoderFile),
-          ovModels(ovDecoderFile),
-          ovModels(ovDecoderWithPastFile))
-        instance.setModelIfNotSet(spark, ovWrapper, spp)
       case ONNX.name =>
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
         val onnxModels =
@@ -709,15 +666,13 @@ trait ReadT5TransformerDLModel
         OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR)
 
         val onnxEncoder = OnnxWrapper.read(
-          spark,
-          localModelPath,
+          modelPath,
           modelName = "encoder_model",
           zipped = false,
           useBundle = true)
 
         val onnxDecoder = OnnxWrapper.read(
-          spark,
-          localModelPath,
+          modelPath,
           modelName = "decoder_model_merged",
           zipped = false,
           useBundle = true)
@@ -725,33 +680,6 @@ trait ReadT5TransformerDLModel
         annotatorModel
           .setEngine(ONNX.name)
           .setModelIfNotSet(spark, onnxEncoder, onnxDecoder, spModel)
-
-      case Openvino.name =>
-        val ovEncoder =
-          OpenvinoWrapper.read(
-            spark,
-            modelPath,
-            modelName = Openvino.encoderModel,
-            useBundle = true,
-            zipped = false)
-        val ovDecoder =
-          OpenvinoWrapper.read(
-            spark,
-            modelPath,
-            modelName = Openvino.decoderModel,
-            useBundle = true,
-            zipped = false)
-        val ovDecoderWithPast = OpenvinoWrapper.read(
-          spark,
-          modelPath,
-          modelName = Openvino.decoderModelWithPast,
-          useBundle = true,
-          zipped = false)
-
-        val ovWrapper = EncoderDecoderWrappers(ovEncoder, ovDecoder, ovDecoderWithPast)
-        annotatorModel
-          .setEngine(Openvino.name)
-          .setModelIfNotSet(spark, ovWrapper, spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

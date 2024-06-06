@@ -26,7 +26,6 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
-import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -58,7 +57,6 @@ private[johnsnowlabs] class RoBertaClassification(
     extends Serializable
     with XXXForClassification {
 
-  protected val logger: Logger = LoggerFactory.getLogger("RoBertaClassification")
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
@@ -233,19 +231,11 @@ private[johnsnowlabs] class RoBertaClassification(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
+        tokenTensors.close()
+        maskTensors.close()
 
         embeddings
       } finally if (results != null) results.close()
-    } catch {
-      case e: Exception =>
-        // Handle exceptions by logging or other means.
-        e.printStackTrace()
-        Array.empty[Float] // Return an empty array or appropriate error handling
-    } finally {
-      // Close tensors outside the try-catch to avoid repeated null checks.
-      // These resources are initialized before the try-catch, so they should be closed here.
-      tokenTensors.close()
-      maskTensors.close()
     }
   }
 
@@ -423,7 +413,9 @@ private[johnsnowlabs] class RoBertaClassification(
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
     val maskTensors =
-      OnnxTensor.createTensor(env, batch.map(sentence => Array.fill(sentence.length)(1L)).toArray)
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
@@ -448,14 +440,8 @@ private[johnsnowlabs] class RoBertaClassification(
         tokenTensors.close()
         maskTensors.close()
 
-        (startLogits, endLogits)
+        (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
       } finally if (output != null) output.close()
-    } catch {
-      case e: Exception =>
-        // Log the exception as a warning
-        logger.warn("Exception: ", e)
-        // Rethrow the exception to propagate it further
-        throw e
     }
   }
 
@@ -494,50 +480,16 @@ private[johnsnowlabs] class RoBertaClassification(
     Seq(Array(sentenceStartTokenId) ++ question ++ context)
   }
 
-  /** Processes logits, so that undesired logits do contribute to the output probabilities (such
-    * as question and special tokens).
+  /** Calculates the normalized softmax probabilities.
     *
-    * @param startLogits
-    *   Raw logits for the start index
-    * @param endLogits
-    *   Raw logits for the end index
-    * @param questionLength
-    *   Length of the question tokens
-    * @param contextLength
-    *   Length of the context tokens
+    * @param scores
+    *   Raw logits
     * @return
-    *   Probabilities for the start and end indexes
+    *   Normalized softmax probabilities
     */
-  private def processLogits(
-      startLogits: Array[Float],
-      endLogits: Array[Float],
-      questionLength: Int,
-      contextLength: Int): (Array[Float], Array[Float]) = {
-
-    /** Sets log-logits to (almost) 0 for question and padding tokens so they can't contribute to
-      * the final softmax score.
-      *
-      * @param scores
-      *   Logits of the combined sequences
-      * @return
-      *   Scores, with unwanted tokens set to log-probability 0
-      */
-    def maskUndesiredTokens(scores: Array[Float]): Array[Float] = {
-      val numSpecialTokens = 4 // 4 added special tokens in encoded sequence (1 bos, 2 eos, 1 eos)
-      val totalLength = scores.length
-      scores.zipWithIndex.map { case (score, i) =>
-        val inQuestionTokens = i > 0 && i < questionLength + numSpecialTokens
-        val isEosToken = i == totalLength - 1
-
-        if (inQuestionTokens || isEosToken) -10000.0f
-        else score
-      }
-    }
-
-    val processedStartLogits = calculateSoftmax(maskUndesiredTokens(startLogits))
-    val processedEndLogits = calculateSoftmax(maskUndesiredTokens(endLogits))
-
-    (processedStartLogits, processedEndLogits)
+  private def normalizedSoftmax(scores: Array[Float]): Array[Float] = {
+    val max = scores.max
+    calculateSoftmax(scores.map(_ - max))
   }
 
   override def predictSpan(
@@ -554,14 +506,38 @@ private[johnsnowlabs] class RoBertaClassification(
       tokenizeDocument(questionAnnot, maxSentenceLength, caseSensitive)
     val wordPieceTokenizedContext =
       tokenizeDocument(contextAnnot, maxSentenceLength, caseSensitive)
-    val contextLength = wordPieceTokenizedContext.head.tokens.length
     val questionLength = wordPieceTokenizedQuestion.head.tokens.length
 
     val encodedInput =
       encodeSequence(wordPieceTokenizedQuestion, wordPieceTokenizedContext, maxSentenceLength)
-    val (rawStartLogits, rawEndLogits) = tagSpan(encodedInput)
-    val (startScores, endScores) =
-      processLogits(rawStartLogits.head, rawEndLogits.head, questionLength, contextLength)
+    val (startLogits, endLogits) = tagSpan(encodedInput)
+
+    /** Sets log-logits to (almost) 0 for question and padding tokens so they can't contribute to
+      * the final softmax score.
+      *
+      * @param scores
+      *   Logits of the combined sequences
+      * @return
+      *   Scores, with unwanted tokens set to log-probability 0
+      */
+    def maskUndesiredTokens(scores: Array[Float]): Array[Float] = {
+      scores.zipWithIndex.map { case (score, i) =>
+        // 3 added special tokens in encoded sequence (1 bos, 2 eos)
+        if ((i > 0 && i < questionLength + 3) || i == encodedInput.head.length - 1)
+          -10000.0f
+        else score
+      }
+    }
+
+    val processedStartLogits = startLogits.map { scores =>
+      normalizedSoftmax(maskUndesiredTokens(scores))
+    }
+    val processedEndLogits = endLogits.map { scores =>
+      normalizedSoftmax(maskUndesiredTokens(scores))
+    }
+
+    val startScores = processedStartLogits.transpose.map(_.sum / startLogits.length)
+    val endScores = processedEndLogits.transpose.map(_.sum / endLogits.length)
 
     // Drop BOS token from valid results
     val startIndex = startScores.zipWithIndex.drop(1).maxBy(_._1)

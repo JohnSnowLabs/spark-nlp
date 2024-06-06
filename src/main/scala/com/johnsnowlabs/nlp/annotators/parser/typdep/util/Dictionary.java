@@ -73,9 +73,8 @@ public class Dictionary implements Serializable {
      * Return -1 (in old trove version) or 0 (in trove current verion) if entry isn't present.
      */
     public int lookupIndex(String entry) {
-        if (entry == null) {
-            return 0;
-        }
+        if (entry == null)
+            throw new IllegalArgumentException("Can't lookup \"null\" in an Alphabet.");
         int ret = (map.get(entry) == null) ? 0 : map.get(entry);
         if (ret <= 0 && !growthStopped) {
             numEntries++;

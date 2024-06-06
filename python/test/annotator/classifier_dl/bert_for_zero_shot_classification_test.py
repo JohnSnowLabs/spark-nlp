@@ -29,7 +29,7 @@ class BertForZeroShotClassificationTestSpec(unittest.TestCase, HasMaxSentenceLen
             .toDF("text")
 
         self.tested_annotator = BertForZeroShotClassification \
-            .pretrained() \
+            .pretrained("bert_base_cased_zero_shot_classifier_xnli") \
             .setInputCols(["document", "token"]) \
             .setOutputCol("class") \
             .setCandidateLabels(["urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology"])

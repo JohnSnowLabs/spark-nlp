@@ -266,7 +266,7 @@ end
 
 editions = Set.new
 # Add the editions that are absent in the existing models yet
-editions << 'Spark NLP 5.3'
+editions << 'Visual NLP 4.2'
 uniq_to_models_mapping = {}
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}

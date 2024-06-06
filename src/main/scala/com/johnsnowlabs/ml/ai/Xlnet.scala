@@ -122,19 +122,19 @@ private[johnsnowlabs] class Xlnet(
     runner
       .feed(
         _tfXlnetSignatures.getOrElse(
-          ModelSignatureConstants.InputIds.key,
+          ModelSignatureConstants.InputIdsV1.key,
           "missing_input_id_key"),
         tokenTensors)
       .feed(
         _tfXlnetSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
         maskTensors)
       .feed(
         _tfXlnetSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
+          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
         segmentTensors)
       .fetch(_tfXlnetSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)

@@ -16,15 +16,27 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.dep
 
-import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{Sentence, WordData}
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
-
 import scala.language.existentials
 
-class DependencyParserApproachTestSpec extends AnyFlatSpec with SparkSessionTest {
+class DependencyParserApproachTestSpec extends AnyFlatSpec {
+
+  private val spark = SparkSession
+    .builder()
+    .appName("benchmark")
+    .master("local[*]")
+    .config("spark.driver.memory", "4G")
+    .config("spark.kryoserializer.buffer.max", "200M")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .getOrCreate()
+
+  import spark.implicits._
+
+  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
 
   "A dependency parser that sets TreeBank and CoNLL-U format files " should "raise an error" taggedAs FastTest in {
 
