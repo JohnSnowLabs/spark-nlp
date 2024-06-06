@@ -210,6 +210,10 @@ class _MPNetLoader(ExtendedJavaWrapper):
         super(_MPNetLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings.loadSavedModel", path, jspark)
 
+class _Phi2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_Phi2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer.loadSavedModel", path, jspark)
 
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
