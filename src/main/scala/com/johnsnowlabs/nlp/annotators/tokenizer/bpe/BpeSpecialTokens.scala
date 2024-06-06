@@ -137,6 +137,14 @@ private[johnsnowlabs] object SpecialTokens {
           unkTokenString = "<unk>",
           maskTokenString = "<mask>",
           padTokenString = "<pad>")
+      case "olmo" =>
+        SpecialTokens(
+          vocab,
+          startTokenString = "<|endoftext|>",
+          endTokenString = "<|endoftext|>",
+          unkTokenString = "<|endoftext|>",
+          maskTokenString = "<|endoftext|>",
+          padTokenString = "<|padding|>")
       case "clip" =>
         SpecialTokens(
           vocab,
