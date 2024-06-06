@@ -21,16 +21,15 @@ import ai.onnxruntime.OrtSession.SessionOptions.{ExecutionMode, OptLevel}
 import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
-import org.apache.spark.SparkFiles
-import org.apache.spark.sql.SparkSession
+import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
-
+import org.apache.hadoop.fs.{FileSystem, Path}
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class OnnxWrapper(var modelFileName: Option[String] = None, var dataFileDirectory: Option[String])
+class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] = None)
     extends Serializable {
 
   /** For Deserialization */
@@ -44,15 +43,10 @@ class OnnxWrapper(var modelFileName: Option[String] = None, var dataFileDirector
 
   def getSession(onnxSessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
     this.synchronized {
+      // TODO: After testing it works remove the Map.empty
       if (ortSession == null && ortEnv == null) {
-        val modelFilePath = if (modelFileName.isDefined) {
-          SparkFiles.get(modelFileName.get)
-        } else {
-          throw new UnsupportedOperationException("modelFileName not defined")
-        }
-
         val (session, env) =
-          OnnxWrapper.withSafeOnnxModelLoader(onnxSessionOptions, Some(modelFilePath))
+          OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions, onnxModelPath)
         ortEnv = env
         ortSession = session
       }
@@ -66,11 +60,17 @@ class OnnxWrapper(var modelFileName: Option[String] = None, var dataFileDirector
       .toAbsolutePath
       .toString
 
-    val tmpModelFilePath = SparkFiles.get(modelFileName.get)
-    // 2. Zip folder
-    if (zip) ZipArchiveUtil.zip(tmpModelFilePath, file)
+    // 2. Save onnx model
+    val fileName = Paths.get(file).getFileName.toString
+    val onnxFile = Paths
+      .get(tmpFolder, fileName)
+      .toString
 
-    // 3. Remove tmp directory
+    FileUtils.writeByteArrayToFile(new File(onnxFile), onnxModel)
+    // 4. Zip folder
+    if (zip) ZipArchiveUtil.zip(tmpFolder, file)
+
+    // 5. Remove tmp directory
     FileHelper.delete(tmpFolder)
   }
 
@@ -82,6 +82,7 @@ object OnnxWrapper {
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
+      onnxModel: Array[Byte],
       sessionOptions: Map[String, String],
       onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
@@ -95,18 +96,17 @@ object OnnxWrapper {
         val session = env.createSession(onnxModelPath.get, sessionOptionsObject)
         (session, env)
       } else {
-        throw new UnsupportedOperationException("onnxModelPath not defined")
+        val session = env.createSession(onnxModel, sessionOptionsObject)
+        (session, env)
       }
     }
 
   def read(
-      sparkSession: SparkSession,
       modelPath: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      modelName: String = "model",
-      dataFileSuffix: Option[String] = Some("_data"),
-      onnxFileSuffix: Option[String] = None): OnnxWrapper = {
+      modelName: String = "model"): OnnxWrapper = {
+
     // 1. Create tmp folder
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_onnx")
@@ -116,10 +116,11 @@ object OnnxWrapper {
     // 2. Unpack archive
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), onnxFileSuffix)
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder))
       else
         modelPath
 
+    val sessionOptions = new OnnxSession().getSessionOptions
     val onnxFile =
       if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
       else Paths.get(folder, new File(folder).list().head).toString
@@ -131,23 +132,36 @@ object OnnxWrapper {
     val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
 
     val onnxDataFileExist: Boolean = {
-      if (onnxFileSuffix.isDefined && dataFileSuffix.isDefined) {
-        val onnxDataFilePath = s"${onnxFileSuffix.get}_$modelName${dataFileSuffix.get}"
-        onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
-        onnxDataFile.exists()
-      } else false
+      onnxDataFile = Paths.get(parentDir, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
+      onnxDataFile.exists()
     }
 
     if (onnxDataFileExist) {
-      sparkSession.sparkContext.addFile(onnxDataFile.toString)
+      val onnxDataFileTmp =
+        Paths.get(tmpFolder, s"${modelName.replace(".onnx", "")}.onnx_data").toFile
+      FileUtils.copyFile(onnxDataFile, onnxDataFileTmp)
     }
 
-    sparkSession.sparkContext.addFile(onnxFile)
+    val modelFile = new File(onnxFile)
+    val modelBytes = FileUtils.readFileToByteArray(modelFile)
+    var session: OrtSession = null
+    var env: OrtEnvironment = null
+    if (onnxDataFileExist) {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
+      session = _session
+      env = _env
+    } else {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
+      session = _session
+      env = _env
 
-    val onnxFileName = Some(new File(onnxFile).getName)
-    val dataFileDirectory = if (onnxDataFileExist) Some(onnxDataFile.toString) else None
-    val onnxWrapper = new OnnxWrapper(onnxFileName, dataFileDirectory)
+    }
+    // 4. Remove tmp folder
+    FileHelper.delete(tmpFolder)
 
+    val onnxWrapper = new OnnxWrapper(modelBytes, Option(onnxFile))
+    onnxWrapper.ortSession = session
+    onnxWrapper.ortEnv = env
     onnxWrapper
   }
 
@@ -232,7 +246,4 @@ object OnnxWrapper {
       decoderWithPast: OnnxWrapper)
 
   case class DecoderWrappers(decoder: OnnxWrapper)
-
-  case class EncoderDecoderWithoutPastWrappers(encoder: OnnxWrapper, decoder: OnnxWrapper)
-
 }

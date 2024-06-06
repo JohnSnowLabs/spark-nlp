@@ -110,7 +110,7 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> llama2 = LLAMA2Transformer.pretrained("llama_2_7b_chat_hf_int4") \\
+    >>> llama2 = LLAMA2Transformer.pretrained("llama2-7b") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -301,7 +301,7 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session, use_openvino = False):
+    def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
 
         Parameters
@@ -317,17 +317,17 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _LLAMA2Loader
-        jModel = _LLAMA2Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
+        jModel = _LLAMA2Loader(folder, spark_session._jsparkSession)._java_obj
         return LLAMA2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llama_2_7b_chat_hf_int4", lang="en", remote_loc=None):
+    def pretrained(name="llama2-7b", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "llama_2_7b_chat_hf_int4"
+            Name of the pretrained model, by default "llama2-7b"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,13 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.LLAMA2
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, Openvino}
+import com.johnsnowlabs.ml.util.ONNX
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -63,8 +62,8 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama_2_7b_chat_hf_int4"`, if no name is provided. For available
-  * pretrained models please see the [[https://sparknlp.org/models?q=llama2 Models Hub]].
+  * The default model is `"llama2-7b"`, if no name is provided. For available pretrained models
+  * please see the [[https://sparknlp.org/models?q=llama2 Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2TestSpec.scala LLAMA2TestSpec]].
@@ -100,7 +99,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val llama2 = LLAMA2Transformer.pretrained("llama_2_7b_chat_hf_int4")
+  * val llama2 = LLAMA2Transformer.pretrained("llama2-7b")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -148,7 +147,6 @@ class LLAMA2Transformer(override val uid: String)
     with HasBatchedAnnotate[LLAMA2Transformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
-    with WriteOpenvinoModel
     with HasGeneratorProperties
     with WriteSentencePieceModel
     with HasEngine {
@@ -205,17 +203,12 @@ class LLAMA2Transformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrappers: Option[DecoderWrappers],
-      openvinoWrapper: Option[OpenvinoWrapper],
+      onnxWrappers: DecoderWrappers,
       spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new LLAMA2(
-            onnxWrappers,
-            openvinoWrapper,
-            spp = spp,
-            generationConfig = getGenerationConfig)))
+          new LLAMA2(onnxWrappers, spp = spp, generationConfig = getGenerationConfig)))
     }
     this
   }
@@ -284,23 +277,8 @@ class LLAMA2Transformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.get.decoder, "decoder_model.onnx")),
+          Seq((wrappers.decoder, "decoder_model.onnx")),
           LLAMA2Transformer.suffix)
-        val obj = getModelIfNotSet
-        writeSentencePieceModel(
-          path,
-          spark,
-          obj.spp,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.sppFile)
-      case Openvino.name =>
-        val wrappers = getModelIfNotSet.openvinoWrapper
-        writeOpenvinoModel(
-          path,
-          spark,
-          wrappers.get,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.openvinoFile)
         val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
@@ -315,7 +293,7 @@ class LLAMA2Transformer(override val uid: String)
 trait ReadablePretrainedLLAMA2TransformerModel
     extends ParamsAndFeaturesReadable[LLAMA2Transformer]
     with HasPretrained[LLAMA2Transformer] {
-  override val defaultModelName: Some[String] = Some("llama_2_7b_chat_hf_int4")
+  override val defaultModelName: Some[String] = Some("llama2-7b")
 
   /** Java compliant-overrides */
   override def pretrained(): LLAMA2Transformer = super.pretrained()
@@ -329,16 +307,12 @@ trait ReadablePretrainedLLAMA2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLLAMA2TransformerDLModel
-    extends ReadOnnxModel
-    with ReadOpenvinoModel
-    with ReadSentencePieceModel {
+trait ReadLLAMA2TransformerDLModel extends ReadOnnxModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
 
   override val onnxFile: String = "llama2_onnx"
-  val suffix: String = "llama2"
+  val suffix: String = "_llama2"
   override val sppFile: String = "llama2_spp"
-  override val openvinoFile: String = "llama2_openvino"
 
   def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -348,12 +322,7 @@ trait ReadLLAMA2TransformerDLModel
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
-        instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
-      case Openvino.name =>
-        val ovWrapper =
-          readOpenvinoModel(path, spark, "_llama2_ov")
-        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
-        instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
+        instance.setModelIfNotSet(spark, onnxWrappers, spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -361,10 +330,7 @@ trait ReadLLAMA2TransformerDLModel
 
   addReader(readModel)
 
-  def loadSavedModel(
-      modelPath: String,
-      spark: SparkSession,
-      useOpenvino: Boolean = false): LLAMA2Transformer = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): LLAMA2Transformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -406,39 +372,21 @@ trait ReadLLAMA2TransformerDLModel
           arrayOrNone(forcedDecoderIds)))
     val spModel = loadSentencePieceAsset(localModelPath, "tokenizer.model")
 
-    val modelEngine =
-      if (useOpenvino)
-        Openvino.name
-      else
-        detectedEngine
-    annotatorModel.set(annotatorModel.engine, modelEngine)
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
-    modelEngine match {
+    detectedEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
-            spark,
-            localModelPath,
+            modelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model",
-            dataFileSuffix = Some(".onnx_data"),
-            onnxFileSuffix = Some(suffix))
+            modelName = "decoder_model")
 
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, Some(onnxWrappers), None, spModel)
-
-      case Openvino.name =>
-        val openvinoWrapper =
-          OpenvinoWrapper.read(
-            spark,
-            localModelPath,
-            zipped = false,
-            useBundle = true,
-            detectedEngine = detectedEngine)
-        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper), spModel)
+          .setModelIfNotSet(spark, onnxWrappers, spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

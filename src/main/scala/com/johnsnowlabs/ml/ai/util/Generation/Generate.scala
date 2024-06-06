@@ -29,7 +29,6 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
   TopPLogitWarper
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Search.{BeamScorer, BeamSearchScorer}
-import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
 import scala.math._
@@ -103,8 +102,7 @@ trait Generate {
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
       session: Either[Session, (OrtEnvironment, OrtSession)],
-      applySoftmax: Boolean = true,
-      ovInferRequest: Option[InferRequest] = None): Array[Array[Int]] = {
+      applySoftmax: Boolean = true): Array[Array[Int]] = {
 
     // TODO: Add support for ignoreTokenIds
 
@@ -147,8 +145,7 @@ trait Generate {
       doSample,
       randomSeed,
       session,
-      applySoftmax,
-      ovInferRequest)
+      applySoftmax)
   }
 
   /** Beam Search for text generation
@@ -192,8 +189,7 @@ trait Generate {
       doSample: Boolean,
       randomSeed: Option[Long],
       session: Either[Session, (OrtEnvironment, OrtSession)],
-      applySoftmax: Boolean,
-      ovInferRequest: Option[InferRequest] = None): Array[Array[Int]] = {
+      applySoftmax: Boolean): Array[Array[Int]] = {
     val inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
     val numBeams = beamScorer.getNumBeams
@@ -221,8 +217,7 @@ trait Generate {
             decoderEncoderStateTensors,
             encoderAttentionMaskTensors,
             maxLength,
-            session,
-            ovInferRequest)
+            session)
 
         // Optionally Apply log softmax to model outputs
         var nextTokenScores =
@@ -443,8 +438,7 @@ trait Generate {
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
       encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Either[Session, (OrtEnvironment, OrtSession)],
-      ovInferRequest: Option[InferRequest] = None): Array[Array[Float]]
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]]
 
   /** Samples from a multinomial distribution using the provided logits.
     *

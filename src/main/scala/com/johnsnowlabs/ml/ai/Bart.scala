@@ -23,7 +23,6 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BartTokenizer, BpeTokenizer}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
@@ -367,8 +366,7 @@ private[johnsnowlabs] class Bart(
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
       encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Either[Session, (OrtEnvironment, OrtSession)],
-      ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
 
     // extract decoderEncoderStateTensors, encoderAttentionMaskTensors and Session from LEFT
     assert(decoderEncoderStateTensors.isLeft)
