@@ -20,6 +20,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.Phi2
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
@@ -27,7 +28,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ONNX
+import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -161,6 +162,7 @@ class Phi2Transformer(override val uid: String)
     with HasBatchedAnnotate[Phi2Transformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasGeneratorProperties
     with HasEngine {
 
@@ -232,12 +234,16 @@ class Phi2Transformer(override val uid: String)
   def getGenerationConfig: GenerationConfig = $$(generationConfig)
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, onnxWrappers: DecoderWrappers): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      onnxWrappers: Option[DecoderWrappers],
+      openvinoWrapper: Option[OpenvinoWrapper]): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new Phi2(
             onnxWrappers,
+            openvinoWrapper,
             $$(merges),
             $$(vocabulary),
             generationConfig = getGenerationConfig)))
@@ -309,8 +315,16 @@ class Phi2Transformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.decoder, "decoder_model.onnx")),
+          Seq((wrappers.get.decoder, "decoder_model.onnx")),
           Phi2Transformer.suffix)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModel(
+          path,
+          spark,
+          wrappers.get,
+          LLAMA2Transformer.suffix,
+          LLAMA2Transformer.openvinoFile)
     }
   }
 }
@@ -332,11 +346,12 @@ trait ReadablePretrainedPhi2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadPhi2TransformerDLModel extends ReadOnnxModel {
+trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[Phi2Transformer] =>
 
   override val onnxFile: String = "phi2_onnx"
   val suffix: String = "_phi2"
+  override val openvinoFile: String = "llama2_openvino"
 
   def readModel(instance: Phi2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -345,7 +360,11 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel {
           readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
-        instance.setModelIfNotSet(spark, onnxWrappers)
+        instance.setModelIfNotSet(spark, Some(onnxWrappers), None)
+      case Openvino.name =>
+        val ovWrapper =
+          readOpenvinoModel(path, spark, "_llama2_ov")
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -353,7 +372,10 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel {
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): Phi2Transformer = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): Phi2Transformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -405,12 +427,18 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
     detectedEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
@@ -419,7 +447,16 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel {
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, onnxWrappers)
+          .setModelIfNotSet(spark, Some(onnxWrappers), None)
+      case Openvino.name =>
+        val openvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

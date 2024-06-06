@@ -590,11 +590,8 @@ private[johnsnowlabs] class M2M100(
         }
         (inpIdsLong, posIdsLong)
       }
-    val attentionMask: Array[Long] =
-      inputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }
 
     val batchSize: Int = inputIds.length
-    val beamIdx: Array[Int] = new Array[Int](batchSize)
     val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
 
     val inputIdsLongTensor: org.intel.openvino.Tensor =
@@ -694,6 +691,7 @@ private[johnsnowlabs] class M2M100(
 
     val decoderInputIDs: String = "input_ids"
     val decoderEncoderAttentionMask: String = "encoder_attention_mask"
+    val decoderAttentionMask: String = "attention_mask"
     val decoderEncoderState: String = "encoder_hidden_states"
 
     val decoderOutput: String = "logits"
