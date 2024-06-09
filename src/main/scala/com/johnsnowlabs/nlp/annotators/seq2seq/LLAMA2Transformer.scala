@@ -227,7 +227,7 @@ class LLAMA2Transformer(override val uid: String)
     minOutputLength -> 0,
     maxOutputLength -> 20,
     doSample -> false,
-    temperature -> 0.6,
+    temperature -> 0.9,
     topK -> 50,
     topP -> 0.9,
     repetitionPenalty -> 1.0,
