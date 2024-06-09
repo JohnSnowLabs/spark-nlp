@@ -49,7 +49,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"xlm_roberta_base_token_classifier_conll03"`, if no name is provided.
+  * The default model is `"mpnet_base_token_classifier"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
@@ -305,7 +305,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
 trait ReadablePretrainedXlmRoBertaForTokenModel
     extends ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification]
     with HasPretrained[XlmRoBertaForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("xlm_roberta_base_token_classifier_conll03")
+  override val defaultModelName: Some[String] = Some("mpnet_base_token_classifier")
 
   /** Java compliant-overrides */
   override def pretrained(): XlmRoBertaForTokenClassification = super.pretrained()

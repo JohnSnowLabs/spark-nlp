@@ -15,9 +15,6 @@
  */
 
 
-//TODO change this xlm_roberta_base_token_classifier_conll03
-
-
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -111,7 +108,7 @@ class MPNetForTokenClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("label.result").show(false)
 
     Benchmark.time("Time to save MPNetForTokenClassification pipeline model") {
-      pipelineModel.write.overwrite().save("./tmp_mpnet_pipeline")
+      pipelineModel.write.overwrite().save("./tmp_mpnetfortoken_pipeline")
     }
 
     Benchmark.time("Time to save BertForTokenClassification model") {

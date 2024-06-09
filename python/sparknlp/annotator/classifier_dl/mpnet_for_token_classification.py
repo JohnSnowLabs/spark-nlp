@@ -31,7 +31,7 @@ class MPNetForTokenClassification(AnnotatorModel,
     >>> token_classifier = MPNetForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-    The default model is ``"xlm_roberta_base_token_classifier_conll03"``, if no
+    The default model is ``"mpnet_base_token_classifier"``, if no
     name is provided.
 
     For available pretrained models please see the `Models Hub
@@ -150,14 +150,14 @@ class MPNetForTokenClassification(AnnotatorModel,
         return MPNetForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlm_roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
+    def pretrained(name="mpnet_base_token_classifier", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "xlm_roberta_base_token_classifier_conll03"
+            "mpnet_base_token_classifier"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

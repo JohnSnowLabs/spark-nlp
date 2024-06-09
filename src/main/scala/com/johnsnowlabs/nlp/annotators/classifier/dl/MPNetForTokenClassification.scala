@@ -49,7 +49,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"xlm_roberta_base_token_classifier_conll03"`, if no name is provided.
+  * The default model is `"mpnet_base_token_classifier"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
@@ -316,7 +316,7 @@ class MPNetForTokenClassification(override val uid: String)
 trait ReadablePretrainedMPNetForTokenDLModel
     extends ParamsAndFeaturesReadable[MPNetForTokenClassification]
     with HasPretrained[MPNetForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("xlm_roberta_base_token_classifier_conll03")
+  override val defaultModelName: Some[String] = Some("mpnet_base_token_classifier")
 
   /** Java compliant-overrides */
   override def pretrained(): MPNetForTokenClassification = super.pretrained()
@@ -335,7 +335,7 @@ trait ReadablePretrainedMPNetForTokenDLModel
 
 trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
   this: ParamsAndFeaturesReadable[MPNetForTokenClassification] =>
-  override val onnxFile: String = "mpnet_token_classification_onnx"
+  override val onnxFile: String = "mpnet_classification_onnx"
 
   def readModel(
       instance: MPNetForTokenClassification,
@@ -345,13 +345,7 @@ trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
     instance.getEngine match {
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "mpnet_token_classification_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
         throw new NotImplementedError("Tensorflow models are not supported.")
