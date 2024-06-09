@@ -194,9 +194,9 @@ class _LongformerQuestionAnsweringLoader(ExtendedJavaWrapper):
 
 
 class _M2M100Loader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, use_openvino=False):
         super(_M2M100Loader, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer.loadSavedModel", path, jspark, use_openvino)
 
 
 class _MarianLoader(ExtendedJavaWrapper):
@@ -211,9 +211,9 @@ class _MPNetLoader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings.loadSavedModel", path, jspark)
 
 class _Phi2Loader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, use_openvino=False):
         super(_Phi2Loader, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer.loadSavedModel", path, jspark, use_openvino)
 
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):

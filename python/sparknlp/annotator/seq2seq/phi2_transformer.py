@@ -284,7 +284,7 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             repetitionPenalty=1.0, noRepeatNgramSize=0, ignoreTokenIds=[], batchSize=1)
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -300,7 +300,7 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _Phi2Loader
-        jModel = _Phi2Loader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _Phi2Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return Phi2Transformer(java_model=jModel)
 
     @staticmethod
