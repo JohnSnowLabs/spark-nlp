@@ -20,27 +20,26 @@ import scala.collection.mutable.ArrayBuffer
 class TopKLogitWarper(
     val k: Int,
     val filterValue: Float = Float.NegativeInfinity,
-    val minTokensToKeep: Int = 1)
+    val minTokensToKeep: Int = 100)
     extends LogitWarper {
   override def call(
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    var logitsUpd = scores
-    val logitsShape = Array(scores.length, scores(0).length)
+    var logitsUpd = scores.clone() // Make a copy to update
+
     if (k > 0) {
+      val scoresFiltered = scores.map(_.filterNot(_.isInfinite)) // Filter out infinite values
+      val logitsShape = Array(scoresFiltered.length, scoresFiltered(0).length)
       val topKup = k.max(minTokensToKeep).min(logitsShape.last) // Safety check
 
-      /** Remove all tokens with a probability less than the last token of the top-k */
-
-      val topKLogits = new ArrayBuffer[Array[Float]]()
-      for (logits <- scores) {
+      for ((logits, i) <- scores.zipWithIndex) {
         val topKIndices = getTopKIndices(logits, topKup)
         val maskedValues = maskNotTopKValues(logits, topKIndices)
-        topKLogits += maskedValues
+        logitsUpd(i) = maskedValues
       }
-      topKLogits.toArray
     }
+
     logitsUpd
   }
 

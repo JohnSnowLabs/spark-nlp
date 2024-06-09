@@ -249,7 +249,7 @@ trait Generate {
 
         if (doSample) {
           val nextKIndices = nextTokenScores.map(x => {
-            multinomialSampling(x, 2 * numBeams, randomSeed)
+            sample(x, 2 * numBeams, randomSeed)
           })
           nextKTopTokenScores = Array.ofDim[Float](nextKIndices.length, nextKIndices.head.length)
           for (i <- nextKIndices.indices) {
@@ -389,7 +389,7 @@ trait Generate {
       for (i <- 0 until k) {
         var rand = scala.util.Random.nextDouble()
         if (seed.isDefined) {
-          rand = new scala.util.Random(seed.get).nextDouble()
+          rand = seededRandom.nextDouble()
         }
         var cumProb = 0.0
         var j = 0
@@ -451,24 +451,63 @@ trait Generate {
     * @return
     *   The sampled indices
     */
-  def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {
-    val maxLogit = logits.max
-    val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
+//  def sample(logits: Seq[Float], k: Int, seed: Option[Long]): Array[Int] = {
+//    var seeds: Option[Long] = seed match {
+//      case Some(value) => Some(value)
+//      case None => Some(42)
+//    }
+//    val maxLogit = logits.max
+//    val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
+//    val sumExp = logitsExp.sum
+//    val probs = logitsExp.map(exp => exp / sumExp)
+//    val SeededRandom = new scala.util.Random(seeds.get)
+//    val randSeq = Seq.fill(k)(SeededRandom.nextDouble())
+//    var cumProb = 0.0
+//    var index = 0
+//    var results = Seq[Int]()
+//    for (rand <- randSeq) {
+//      while (index < probs.length - 1 && cumProb + probs(index) < rand) {
+//        cumProb += probs(index)
+//        index += 1
+//      }
+//      results :+= index
+//    }
+//    results.toArray
+//  }
+  def sample(logits: Seq[Float], k: Int, seed: Option[Long]): Array[Int] = {
+    // Handle seed option
+    val randomSeed = seed.getOrElse(42L)
+    val random = new scala.util.Random(randomSeed)
+
+    // Filter out negative infinity logits and keep track of their original indices
+    val finiteLogitsWithIndices = logits.zipWithIndex.filter(!_._1.isInfinite)
+    val finiteLogits = finiteLogitsWithIndices.map(_._1)
+    val originalIndices = finiteLogitsWithIndices.map(_._2)
+
+    // Find the maximum value among finite logits
+    val maxLogit = if (finiteLogits.isEmpty) 0.0 else finiteLogits.max
+
+    // Adjust probabilities for remaining logits
+    val logitsExp = finiteLogits.map(logit => math.exp(logit - maxLogit))
     val sumExp = logitsExp.sum
     val probs = logitsExp.map(exp => exp / sumExp)
-    val SeededRandom = new scala.util.Random(seed)
-    val randSeq = Seq.fill(k)(SeededRandom.nextDouble())
-    var cumProb = 0.0
-    var index = 0
-    var results = Seq[Int]()
-    for (rand <- randSeq) {
-      while (index < probs.length - 1 && cumProb + probs(index) < rand) {
-        cumProb += probs(index)
+
+    // Sample k indices using multinomial sampling
+    val sampledIndices = Array.fill(k)(0)
+    for (i <- 0 until k) {
+      var cumulativeProb = 0.0
+      val rand = random.nextDouble()
+      var index = 0
+      while (index < probs.length) {
+        cumulativeProb += probs(index)
+        if (rand <= cumulativeProb) {
+          sampledIndices(i) = originalIndices(index) // Map back to original index
+          index = probs.length // Exit loop when index found
+        }
         index += 1
       }
-      results :+= index
     }
-    results.toArray
+    sampledIndices
   }
 
   def softmax(logitValues: Array[Float]): Array[Float] = {

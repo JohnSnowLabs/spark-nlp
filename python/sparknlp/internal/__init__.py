@@ -110,6 +110,11 @@ class _CamemBertLoader(ExtendedJavaWrapper):
                                                path,
                                                jspark)
 
+class _CPMLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CPMLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer.loadSavedModel", path, jspark)
+
 
 class _DistilBertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
