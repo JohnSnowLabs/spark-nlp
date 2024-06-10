@@ -164,7 +164,7 @@ private[johnsnowlabs] class LLAMA2(
       randomSeed,
       ignoreTokenIdsInt,
       session,
-      applySoftmax = false,
+      applySoftmax = true,
       ovInferRequest = ovInferRequest)
 
     modelOutputs
