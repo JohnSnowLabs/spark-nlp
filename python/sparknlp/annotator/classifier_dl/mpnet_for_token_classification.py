@@ -11,24 +11,24 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for XlmRoBertaForTokenClassification."""
+"""Contains classes for MPNetForTokenClassification."""
 
 from sparknlp.common import *
 
 
-class XlmRoBertaForTokenClassification(AnnotatorModel,
+class MPNetForTokenClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate,
                                        HasEngine,
                                        HasMaxSentenceLengthLimit):
-    """XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token
+    """MPNetForTokenClassification can load XLM-RoBERTa Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> token_classifier = XlmRoBertaForTokenClassification.pretrained() \\
+    >>> token_classifier = MPNetForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
     The default model is ``"mpnet_base_token_classifier"``, if no
@@ -71,7 +71,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     >>> tokenizer = Tokenizer() \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("token")
-    >>> tokenClassifier = XlmRoBertaForTokenClassification.pretrained() \\
+    >>> tokenClassifier = MPNetForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
@@ -89,7 +89,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
-    name = "XlmRoBertaForTokenClassification"
+    name = "MPNetForTokenClassification"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
@@ -117,9 +117,9 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification",
                  java_model=None):
-        super(XlmRoBertaForTokenClassification, self).__init__(
+        super(MPNetForTokenClassification, self).__init__(
             classname=classname,
             java_model=java_model
         )
@@ -145,9 +145,9 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         XlmRoBertaForTokenClassification
             The restored model
         """
-        from sparknlp.internal import _XlmRoBertaTokenClassifierLoader
-        jModel = _XlmRoBertaTokenClassifierLoader(folder, spark_session._jsparkSession)._java_obj
-        return XlmRoBertaForTokenClassification(java_model=jModel)
+        from sparknlp.internal import _MPNetForTokenClassifierLoader
+        jModel = _MPNetForTokenClassifierLoader(folder, spark_session._jsparkSession)._java_obj
+        return MPNetForTokenClassification(java_model=jModel)
 
     @staticmethod
     def pretrained(name="mpnet_base_token_classifier", lang="en", remote_loc=None):
@@ -170,4 +170,4 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlmRoBertaForTokenClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MPNetForTokenClassification, name, lang, remote_loc)

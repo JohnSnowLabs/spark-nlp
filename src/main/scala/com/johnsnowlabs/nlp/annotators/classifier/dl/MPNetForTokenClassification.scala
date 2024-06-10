@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
+import com.johnsnowlabs.ml.ai.MPNetClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -39,13 +39,13 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head
-  * on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition
-  * (NER) tasks.
+/** MPNetForTokenClassification can load MPNet Models with a token classification head on top (a
+  * linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER)
+  * tasks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val tokenClassifier = XlmRoBertaForTokenClassification.pretrained()
+  * val tokenClassifier = MPNetForTokenClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
@@ -55,7 +55,7 @@ import org.apache.spark.sql.SparkSession
   * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
   *
   * and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassificationTestSpec.scala XlmRoBertaForTokenClassificationTestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MPNetForTokenClassificationTestSpec.scala MPNetForTokenClassificationTestSpec]].
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
@@ -74,7 +74,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val tokenClassifier = XlmRoBertaForTokenClassification.pretrained()
+  * val tokenClassifier = MPNetForTokenClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -97,7 +97,7 @@ import org.apache.spark.sql.SparkSession
   * }}}
   *
   * @see
-  *   [[XlmRoBertaForTokenClassification]] for token-level classification
+  *   [[MPNetForTokenClassification]] for token-level classification
   * @see
   *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
   *   based classifiers
@@ -120,9 +120,9 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class XlmRoBertaForTokenClassification(override val uid: String)
-    extends AnnotatorModel[XlmRoBertaForTokenClassification]
-    with HasBatchedAnnotate[XlmRoBertaForTokenClassification]
+class MPNetForTokenClassification(override val uid: String)
+    extends AnnotatorModel[MPNetForTokenClassification]
+    with HasBatchedAnnotate[MPNetForTokenClassification]
     with WriteOnnxModel
     with WriteTensorflowModel
     with WriteSentencePieceModel
@@ -132,7 +132,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("XlmRoBertaForTokenClassification"))
+  def this() = this(Identifiable.randomUID("MPNetForTokenClassification"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -146,6 +146,25 @@ class XlmRoBertaForTokenClassification(override val uid: String)
     * @group anno
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
+
+  /** @group setParam */
+  def sentenceStartTokenId: Int = {
+    $$(vocabulary)("<s>")
+  }
+
+  /** @group setParam */
+  def sentenceEndTokenId: Int = {
+    $$(vocabulary)("</s>")
+  }
+
+  /** Vocabulary used to encode the words to ids with WordPieceEncoder
+    *
+    * @group param
+    */
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
+
+  /** @group setParam */
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** Labels used to decode predicted IDs back to string tags
     *
@@ -172,7 +191,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): XlmRoBertaForTokenClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): MPNetForTokenClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -189,7 +208,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "MPNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -214,31 +233,30 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[XlmRoBertaClassification]] = None
+  private var _model: Option[Broadcast[MPNetClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper],
-      spp: SentencePieceWrapper): XlmRoBertaForTokenClassification = {
+      onnxWrapper: Option[OnnxWrapper]): MPNetForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new XlmRoBertaClassification(
-            tensorflowWrapper,
+          new MPNetClassification(
+            None,
             onnxWrapper,
-            spp,
-            configProtoBytes = getConfigProtoBytes,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
             tags = $$(labels),
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            $$(vocabulary))))
     }
 
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: XlmRoBertaClassification = _model.get.value
+  def getModelIfNotSet: MPNetClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -280,127 +298,84 @@ class XlmRoBertaForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeSentencePieceModel(
-      path,
-      spark,
-      getModelIfNotSet.spp,
-      "_xlmroberta",
-      XlmRoBertaForSequenceClassification.sppFile)
-    val suffix = "_xlm_roberta_classification"
+    val suffix = "_MPNet_classification"
 
     getEngine match {
-      case TensorFlow.name =>
-        writeTensorflowModelV2(
-          path,
-          spark,
-          getModelIfNotSet.tensorflowWrapper.get,
-          suffix,
-          XlmRoBertaForTokenClassification.tfFile,
-          configProtoBytes = getConfigProtoBytes)
       case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
           getModelIfNotSet.onnxWrapper.get,
           suffix,
-          XlmRoBertaForTokenClassification.onnxFile)
+          MPNetForSequenceClassification.onnxFile)
     }
+
   }
 }
 
-trait ReadablePretrainedXlmRoBertaForTokenModel
-    extends ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification]
-    with HasPretrained[XlmRoBertaForTokenClassification] {
+trait ReadablePretrainedMPNetForTokenDLModel
+    extends ParamsAndFeaturesReadable[MPNetForTokenClassification]
+    with HasPretrained[MPNetForTokenClassification] {
   override val defaultModelName: Some[String] = Some("mpnet_base_token_classifier")
 
   /** Java compliant-overrides */
-  override def pretrained(): XlmRoBertaForTokenClassification = super.pretrained()
+  override def pretrained(): MPNetForTokenClassification = super.pretrained()
 
-  override def pretrained(name: String): XlmRoBertaForTokenClassification = super.pretrained(name)
+  override def pretrained(name: String): MPNetForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): XlmRoBertaForTokenClassification =
+  override def pretrained(name: String, lang: String): MPNetForTokenClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): XlmRoBertaForTokenClassification =
+      remoteLoc: String): MPNetForTokenClassification =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForTokenDLModel
-    extends ReadTensorflowModel
-    with ReadOnnxModel
-    with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification] =>
-
-  override val tfFile: String = "xlm_roberta_classification_tensorflow"
-  override val onnxFile: String = "xlm_roberta_classification_onnx"
-  override val sppFile: String = "xlmroberta_spp"
+trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
+  this: ParamsAndFeaturesReadable[MPNetForTokenClassification] =>
+  override val onnxFile: String = "mpnet_classification_onnx"
 
   def readModel(
-      instance: XlmRoBertaForTokenClassification,
+      instance: MPNetForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-
     instance.getEngine match {
-      case TensorFlow.name =>
-        val tfWrapper =
-          readTensorflowModel(path, spark, "xlm_roberta_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "xlm_roberta_token_classification_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
-        throw new Exception(notSupportedEngineError)
+        throw new NotImplementedError("Tensorflow models are not supported.")
     }
+
   }
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaForTokenClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): MPNetForTokenClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
     val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
-    val annotatorModel = new XlmRoBertaForTokenClassification()
+
+    /*Universal parameters for all engines*/
+    val annotatorModel = new MPNetForTokenClassification()
+      .setVocabulary(vocabs)
       .setLabels(labels)
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (tfWrapper, signatures) =
-          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
-
-        val _signatures = signatures match {
-          case Some(s) => s
-          case None => throw new Exception("Cannot load signature definitions from model!")
-        }
-
-        /** the order of setSignatures is important if we use getSignatures inside
-          * setModelIfNotSet
-          */
-        annotatorModel
-          .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
-
+        throw new NotImplementedError("Tensorflow models are not supported.")
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
-
+          .setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -409,9 +384,9 @@ trait ReadXlmRoBertaForTokenDLModel
   }
 }
 
-/** This is the companion object of [[XlmRoBertaForTokenClassification]]. Please refer to that
-  * class for the documentation.
+/** This is the companion object of [[MPNetForTokenClassification]]. Please refer to that class
+  * for the documentation.
   */
-object XlmRoBertaForTokenClassification
-    extends ReadablePretrainedXlmRoBertaForTokenModel
-    with ReadXlmRoBertaForTokenDLModel
+object MPNetForTokenClassification
+    extends ReadablePretrainedMPNetForTokenDLModel
+    with ReadMPNetForTokenDLModel
