@@ -201,4 +201,6 @@ object OpenvinoWrapper {
       encoder: OpenvinoWrapper,
       decoder: OpenvinoWrapper,
       decoderWithPast: OpenvinoWrapper)
+  case class DecoderWrappers(decoder: OpenvinoWrapper)
+  case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
 }
