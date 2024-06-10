@@ -25,13 +25,13 @@ import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.Annotation
-
-import scala.collection.JavaConverters._
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
-private[johnsnowlabs] class LLAMA2(
+import scala.collection.JavaConverters._
+
+private[johnsnowlabs] class Mistral(
     val onnxWrappers: Option[DecoderWrappers],
     val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
@@ -40,7 +40,6 @@ private[johnsnowlabs] class LLAMA2(
     with Generate {
 
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
-
   val detectedEngine: String =
     if (onnxWrappers.isDefined) ONNX.name
     else if (openvinoWrapper.isDefined) Openvino.name
@@ -141,7 +140,6 @@ private[johnsnowlabs] class LLAMA2(
       case ONNX.name => None
       case Openvino.name => Some(openvinoWrapper.get.getCompiledModel().create_infer_request())
     }
-
     // output with beam search
     val modelOutputs = generate(
       batch,
@@ -167,6 +165,7 @@ private[johnsnowlabs] class LLAMA2(
       applySoftmax = false,
       ovInferRequest = ovInferRequest)
 
+//    decoderOutputs
     modelOutputs
   }
 
@@ -276,6 +275,7 @@ private[johnsnowlabs] class LLAMA2(
             ovInferRequest.get)
         decoderOutputs
     }
+
   }
 
   private def getDecoderOutputsOv(

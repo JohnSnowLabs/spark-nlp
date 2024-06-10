@@ -20,3 +20,4 @@ from sparknlp.annotator.seq2seq.bart_transformer import *
 from sparknlp.annotator.seq2seq.llama2_transformer import *
 from sparknlp.annotator.seq2seq.m2m100_transformer import *
 from sparknlp.annotator.seq2seq.phi2_transformer import *
+from sparknlp.annotator.seq2seq.mistral_transformer import *
