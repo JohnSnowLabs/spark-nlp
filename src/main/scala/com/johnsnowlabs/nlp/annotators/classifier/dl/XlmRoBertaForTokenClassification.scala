@@ -49,7 +49,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"xlm_roberta_base_token_classifier_conll03"`, if no name is provided.
+  * The default model is `"mpnet_base_token_classifier"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
@@ -280,6 +280,12 @@ class XlmRoBertaForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlmroberta",
+      XlmRoBertaForSequenceClassification.sppFile)
     val suffix = "_xlm_roberta_classification"
 
     getEngine match {
@@ -305,7 +311,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
 trait ReadablePretrainedXlmRoBertaForTokenModel
     extends ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification]
     with HasPretrained[XlmRoBertaForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("xlm_roberta_base_token_classifier_conll03")
+  override val defaultModelName: Some[String] = Some("mpnet_base_token_classifier")
 
   /** Java compliant-overrides */
   override def pretrained(): XlmRoBertaForTokenClassification = super.pretrained()
@@ -349,7 +355,7 @@ trait ReadXlmRoBertaForTokenDLModel
           readOnnxModel(
             path,
             spark,
-            "xlm_roberta_classification_onnx",
+            "xlm_roberta_token_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -390,7 +396,8 @@ trait ReadXlmRoBertaForTokenDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 
