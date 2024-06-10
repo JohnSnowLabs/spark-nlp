@@ -276,6 +276,11 @@ class _M2M100Loader(ExtendedJavaWrapper):
         )
 
 
+class _MistralLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_MistralLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.MistralTransformer.loadSavedModel", path, jspark, use_openvino)
+
 class _MarianLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MarianLoader, self).__init__(
