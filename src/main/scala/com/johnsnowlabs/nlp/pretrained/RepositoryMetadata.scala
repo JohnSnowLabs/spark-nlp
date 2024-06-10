@@ -16,19 +16,15 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import java.sql.Timestamp
-
 /** Describes state of repository Repository could be any s3 folder that has metadata.json
   * describing list of resources inside
   */
-case class RepositoryMetadata(
-    // Path to repository metadata file
-    metadataFile: String,
-    // Path to repository folder
+protected case class RepositoryMetadata(
+    // Path to repository folder like 'public/models'
     repoFolder: String,
-    // Aws file metadata.json version
-    version: String,
+    // Last modified time of metadata.json in s3
+    lastModified: java.util.Date,
     // Last time metadata was downloaded
-    lastMetadataDownloaded: Timestamp,
+    lastMetadataDownloaded: java.util.Date,
     // List of all available resources in repository
     metadata: List[ResourceMetadata])

@@ -1,4 +1,54 @@
 ========
+5.3.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introduce UAEEmbeddings for sentence embeddings using Universal AnglE Embedding, aimed at improving semantic textual similarity tasks
+* Introduce critical enhancements and optimizations to the processing of the CoNLL-U format for Dependency Parsers training, including enhanced multiword token handling and improved handling of missing uPos values
+* Add example notebook for `DocumentCharacterTextSplitter`
+* Add example notebook for `DeBertaForZeroShotClassification`
+* Add example notebooks for `BGEEmbeddings` and `MPNetEmbeddings`
+* Add example notebook for `MPNetForQuestionAnswering`
+* Add example notebook for `MPNetForSequenceClassification`
+* Implement cache mechanism for `metadata.json`, enhancing efficiency by avoiding unnecessary downloads
+
+----------------
+Bug Fixes
+----------------
+* Address a bug with serializing ONNX models that lack a `.onnx_data` file, ensuring better reliability in model serialization processes
+* Delete redundant `Multilingual_Translation_with_M2M100.ipynb` notebook entries
+* Fix Colab link for the M2M100 notebook
+
+
+========
+5.3.2
+========
+----------------
+Bug Fixes
+----------------
+* Fix and add notebooks to import models from Hugging Face
+ * Add ONNX and TensorFlow notebooks
+ * Fix XlnetForSeqeunceClassification and added XlnetForTokenClassificaiton
+ * Rename DistilBertForZeroShotClassification
+ * Add missing notebooks
+* Add MPNetEmbeddings to annotator
+* Fix XLMRoBertaForQuestionAnswering, XLMRoBertaForTokenClassification, and XLMRoBertaForSequenceClassification: Reverted the change in tfFile naming that was causing exceptions while loading and saving the models
+* Fix documentation for sparknlp.start()
+
+========
+5.3.1
+========
+----------------
+Bug Fixes
+----------------
+* Fix M2M100 not working on the second run (closing the ONNX Session by mistake)
+* Fix ONNX models failing in clusters like Databricks
+* Fix `ZeroShotNerClassification` issue with NerConverter
+* adding colab notebook for M2M100
+
+
+========
 5.3.0
 ========
 ----------------

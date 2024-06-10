@@ -81,9 +81,6 @@ public abstract class DependencyReader {
 
             uPos[i] = conllValues.getUPos();
             xPos[i] = conllValues.getXPos();
-
-            //TODO: Add feats
-
             heads[i] = conllValues.getHead();
             deprels[i] = conllValues.getDepRel();
 

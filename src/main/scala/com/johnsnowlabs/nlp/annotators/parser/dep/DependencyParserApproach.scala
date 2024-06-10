@@ -302,7 +302,7 @@ class DependencyParserApproach(override val uid: String)
 
     val sentences = cleanConllUSentence.map { conllUWord =>
       val wordArray = conllUWord.split(SEPARATOR)
-      if (!wordArray(ID_INDEX).contains(".")) {
+      if (wordArray(ID_INDEX).matches("\\d+") && !wordArray(ID_INDEX).contains(".")) {
         var head = wordArray(HEAD_INDEX).toInt
         if (head == 0) {
           head = cleanConllUSentence.length

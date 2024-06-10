@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 5.3.0 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 5.3.3 documentation</title>
   
   
   
@@ -401,7 +401,6 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ResourceDownloader.downloadModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span> <span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;PythonResourceDownloader&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a model with the default downloader. Usually this method</span>
@@ -410,8 +409,8 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        reader : str</span>
-<span class="sd">            Name of the class to read the model for</span>
+<span class="sd">        reader : obj</span>
+<span class="sd">           Class to read the model for</span>
 <span class="sd">        name : str</span>
 <span class="sd">            Name of the pretrained model</span>
 <span class="sd">        language : str</span>

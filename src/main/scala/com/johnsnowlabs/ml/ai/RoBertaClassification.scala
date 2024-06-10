@@ -352,11 +352,11 @@ private[johnsnowlabs] class RoBertaClassification(
 
     val endDim = endLogits.length / batchLength
     val endScores: Array[Array[Float]] =
-      endLogits.grouped(endDim).toArray
+      endLogits.grouped(endDim).map(scores => calculateSoftmax(scores)).toArray
 
     val startDim = startLogits.length / batchLength
     val startScores: Array[Array[Float]] =
-      startLogits.grouped(startDim).toArray
+      startLogits.grouped(startDim).map(scores => calculateSoftmax(scores)).toArray
 
     (startScores, endScores)
   }

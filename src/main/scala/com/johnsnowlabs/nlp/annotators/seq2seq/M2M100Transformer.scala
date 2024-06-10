@@ -38,6 +38,7 @@ import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
+import com.johnsnowlabs.util.FileHelper
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -553,16 +554,20 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
       case ONNX.name =>
         val onnxWrapperEncoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "encoder_model")
+            modelName = "encoder_model",
+            onnxFileSuffix = None)
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            onnxFileSuffix = None)
 
         val onnxWrappers =
           EncoderDecoderWithoutPastWrappers(
@@ -571,7 +576,6 @@ trait ReadM2M100TransformerDLModel extends ReadOnnxModel with ReadSentencePieceM
 
         annotatorModel
           .setModelIfNotSet(spark, onnxWrappers, spModel)
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

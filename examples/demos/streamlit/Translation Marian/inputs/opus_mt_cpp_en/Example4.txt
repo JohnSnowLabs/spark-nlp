@@ -1,0 +1,2 @@
+Example4.txt
+A Mona Lisa é uma pintura a óleo do século 16 criada por Leonardo. É realizado no Louvre, em Paris.

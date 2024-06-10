@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.0 ScalaDoc  - com.johnsnowlabs.nlp.pretrained</title>
-          <meta name="description" content="Spark NLP 5.3.0 ScalaDoc - com.johnsnowlabs.nlp.pretrained" />
-          <meta name="keywords" content="Spark NLP 5.3.0 ScalaDoc com.johnsnowlabs.nlp.pretrained" />
+          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.nlp.pretrained</title>
+          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.nlp.pretrained" />
+          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.nlp.pretrained" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -383,7 +383,7 @@ annotation.select(<span class="lit">"entities.result"</span>).show(<span class="
   Name of the Pipeline Model</p></dd><dt class="param">lang</dt><dd class="cmt"><p>
   Language of the defined pipeline (Default: &quot;en&quot;)</p></dd><dt class="param">source</dt><dd class="cmt"><p>
   Source where to get the Pipeline Model</p></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.pretrained.RepositoryMetadata" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.pretrained.RepositoryMetadata" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RepositoryMetadataextendsProductwithSerializable"></a><a id="RepositoryMetadata:RepositoryMetadata"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/pretrained/RepositoryMetadata.html" title="Permalink">
@@ -395,12 +395,14 @@ annotation.select(<span class="lit">"entities.result"</span>).show(<span class="
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="Describes state of repository Repository could be any s3 folder that has metadata.json describing list of resources inside" href="RepositoryMetadata.html"><span class="name">RepositoryMetadata</span></a><span class="params">(<span name="metadataFile">metadataFile: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="repoFolder">repoFolder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="version">version: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lastMetadataDownloaded">lastMetadataDownloaded: <span class="extype" name="java.sql.Timestamp">Timestamp</span></span>, <span name="metadata">metadata: <a href="../../../../scala/index.html#List[+A]=List[A]" class="extmbr" name="scala.List">List</a>[<a href="ResourceMetadata.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceMetadata">ResourceMetadata</a>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="Describes state of repository Repository could be any s3 folder that has metadata.json describing list of resources inside" href="RepositoryMetadata.html"><span class="name">RepositoryMetadata</span></a><span class="params">(<span name="repoFolder">repoFolder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lastModified">lastModified: <span class="extype" name="java.util.Date">Date</span></span>, <span name="lastMetadataDownloaded">lastMetadataDownloaded: <span class="extype" name="java.util.Date">Date</span></span>, <span name="metadata">metadata: <a href="../../../../scala/index.html#List[+A]=List[A]" class="extmbr" name="scala.List">List</a>[<a href="ResourceMetadata.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceMetadata">ResourceMetadata</a>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       <p class="shortcomment cmt">Describes state of repository Repository could be any s3 folder that has metadata.json
 describing list of resources inside
-</p>
+</p><div class="fullcomment"><div class="comment cmt"><p>Describes state of repository Repository could be any s3 folder that has metadata.json
+describing list of resources inside
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.pretrained.ResourceDownloader" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ResourceDownloaderextendsAnyRef"></a><a id="ResourceDownloader:ResourceDownloader"></a>
       <span class="permalink">

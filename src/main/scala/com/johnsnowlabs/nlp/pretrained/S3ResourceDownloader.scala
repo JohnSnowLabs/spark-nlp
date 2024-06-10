@@ -24,8 +24,6 @@ import org.apache.hadoop.fs.Path
 
 import java.io.File
 import java.nio.file.Files
-import java.sql.Timestamp
-import java.util.Calendar
 import java.util.zip.ZipInputStream
 import scala.collection.mutable
 
@@ -48,16 +46,24 @@ class S3ResourceDownloader(
   lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
-    val lastState = repoFolder2Metadata.get(folder)
-
-    val fiveMinsBefore = getTimestamp(-5)
-    val needToRefresh = lastState.isEmpty || lastState.get.lastMetadataDownloaded
-      .before(fiveMinsBefore)
-
+    val lastMetadataState = repoFolder2Metadata.get(folder)
+    val metadataFilePath = awsGateway.getS3File(s3Path, folder, "metadata.json")
+    val metadataObject = awsGateway.client.getObject(bucket, metadataFilePath)
+    val lastModifiedTimeInS3 = metadataObject.getObjectMetadata.getLastModified
+    val needToRefresh =
+      lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
     if (!needToRefresh) {
-      lastState.get.metadata
+      metadataObject.close()
+      lastMetadataState.get.metadata
     } else {
-      awsGateway.getMetadata(s3Path, folder, bucket)
+      val metadata = ResourceMetadata.readResources(metadataObject.getObjectContent)
+      metadataObject.close()
+      repoFolder2Metadata(folder) = RepositoryMetadata(
+        folder,
+        lastModifiedTimeInS3,
+        java.util.Date.from(java.time.Instant.now()),
+        metadata)
+      metadata
     }
   }
 
@@ -244,14 +250,6 @@ class S3ResourceDownloader(
           fileSystem.delete(unzippedFile, true)
       }
     }
-  }
-
-  private def getTimestamp(addMinutes: Int = 0): Timestamp = {
-    val cal = Calendar.getInstance()
-    cal.add(Calendar.MINUTE, addMinutes)
-    val timestamp = new Timestamp(cal.getTime.getTime)
-    cal.clear()
-    timestamp
   }
 
 }

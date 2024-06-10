@@ -45,11 +45,14 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setOutputCol("generation")
       .setBeamSize(1)
 
-    new Pipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, m2m100))
-      .fit(testData)
-      .transform(testData)
-      .show(truncate = false)
+
+    val pipelineModel = pipeline.fit(testData)
+
+    val result = pipelineModel.transform(testData)
+
+    result.show(truncate = false)
 
   }
 

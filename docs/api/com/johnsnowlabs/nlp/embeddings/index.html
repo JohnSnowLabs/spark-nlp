@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
-          <meta name="description" content="Spark NLP 5.3.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
-          <meta name="keywords" content="Spark NLP 5.3.0 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
+          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
+          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
+          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -279,6 +279,10 @@
                         <a href="ReadRobertaSentenceDLModel.html" title="">ReadRobertaSentenceDLModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadUAEDLModel.html" title=""></a>
+                        <a href="ReadUAEDLModel.html" title="">ReadUAEDLModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadUSEDLModel.html" title=""></a>
                         <a href="ReadUSEDLModel.html" title="">ReadUSEDLModel</a>
                       </li><li class="current-entities indented4">
@@ -355,6 +359,10 @@
                         <a href="ReadablePretrainedRobertaSentenceModel.html" title="">ReadablePretrainedRobertaSentenceModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedUAEModel.html" title=""></a>
+                        <a href="ReadablePretrainedUAEModel.html" title="">ReadablePretrainedUAEModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedUSEModel.html" title=""></a>
                         <a href="ReadablePretrainedUSEModel.html" title="">ReadablePretrainedUSEModel</a>
                       </li><li class="current-entities indented4">
@@ -393,6 +401,10 @@
                         <a class="object" href="SentenceEmbeddings$.html" title="This is the companion object of SentenceEmbeddings."></a>
                         <a class="class" href="SentenceEmbeddings.html" title="Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols)."></a>
                         <a href="SentenceEmbeddings.html" title="Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).">SentenceEmbeddings</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="UAEEmbeddings$.html" title="This is the companion object of UAEEmbeddings."></a>
+                        <a class="class" href="UAEEmbeddings.html" title="Sentence embeddings using Universal AnglE Embedding (UAE)."></a>
+                        <a href="UAEEmbeddings.html" title="Sentence embeddings using Universal AnglE Embedding (UAE).">UAEEmbeddings</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="UniversalSentenceEncoder$.html" title="This is the companion object of UniversalSentenceEncoder."></a>
                         <a class="class" href="UniversalSentenceEncoder.html" title="The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks."></a>
@@ -2038,6 +2050,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadUAEDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadUAEDLModelextendsReadTensorflowModelwithReadOnnxModel"></a><a id="ReadUAEDLModel:ReadUAEDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadUAEDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadUAEDLModel.html"><span class="name">ReadUAEDLModel</span></a><span class="result"> extends <a href="../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a> with <a href="../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.embeddings.ReadUSEDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadUSEDLModelextendsReadTensorflowModel"></a><a id="ReadUSEDLModel:ReadUSEDLModel"></a>
       <span class="permalink">
@@ -2339,6 +2367,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedRobertaSentenceModel.html"><span class="name">ReadablePretrainedRobertaSentenceModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="RoBertaSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings">RoBertaSentenceEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="RoBertaSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings">RoBertaSentenceEmbeddings</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedUAEModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedUAEModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.UAEEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.UAEEmbeddings]"></a><a id="ReadablePretrainedUAEModel:ReadablePretrainedUAEModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadablePretrainedUAEModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedUAEModel.html"><span class="name">ReadablePretrainedUAEModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>]</span>
       </span>
       
       
@@ -2712,6 +2756,81 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+
 |[-<span class="num">0.22093398869037628</span>,<span class="num">0.25130119919776917</span>,<span class="num">0.41810303926467896</span>,-<span class="num">0.380883991718</span>...|
 +--------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="UAEEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.UAEEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.UAEEmbeddings]withWriteTensorflowModelwithWriteOnnxModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="UAEEmbeddings:UAEEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/UAEEmbeddings.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Sentence embeddings using Universal AnglE Embedding (UAE)." href="UAEEmbeddings.html"><span class="name">UAEEmbeddings</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>] with <a href="../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>] with <a href="../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a> with <a href="../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a> with <a href="../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Sentence embeddings using Universal AnglE Embedding (UAE).</p><div class="fullcomment"><div class="comment cmt"><p>Sentence embeddings using Universal AnglE Embedding (UAE).</p><p>UAE is a novel angle-optimized text embedding model, designed to improve semantic textual
+similarity tasks, which are crucial for Large Language Model (LLM) applications. By
+introducing angle optimization in a complex space, AnglE effectively mitigates saturation of
+the cosine similarity function.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = UAEEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"UAE_embeddings"</span>)</pre><p>The default model is <code>&quot;uae_large_v1&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=UAE" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UAEEmbeddingsTestSpec.scala" target="_blank">UAEEmbeddingsTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/2309.12871" target="_blank">AnglE-optimized Text Embeddings</a></p><p><a href="https://github.com/baochi0212/uae-embedding" target="_blank">UAE Github Repository</a></p><p><b> Paper abstract </b></p><p><i>High-quality text embedding is pivotal in improving semantic textual similarity (STS) tasks,
+which are crucial components in Large Language Model (LLM) applications. However, a common
+challenge existing text embedding models face is the problem of vanishing gradients, primarily
+due to their reliance on the cosine function in the optimization objective, which has
+saturation zones. To address this issue, this paper proposes a novel angle-optimized text
+embedding model called AnglE. The core idea of AnglE is to introduce angle optimization in a
+complex space. This novel approach effectively mitigates the adverse effects of the saturation
+zone in the cosine function, which can impede gradient and hinder optimization processes. To
+set up a comprehensive STS evaluation, we experimented on existing short-text STS datasets and
+a newly collected long-text STS dataset from GitHub Issues. Furthermore, we examine
+domain-specific STS scenarios with limited labeled data and explore how AnglE works with
+LLM-annotated data. Extensive experiments were conducted on various tasks including short-text
+STS, long-text STS, and domain-specific STS tasks. The results show that AnglE outperforms the
+state-of-the-art (SOTA) STS models that ignore the cosine saturation zone. These findings
+demonstrate the ability of AnglE to generate high-quality text embeddings and the usefulness
+of angle optimization in STS. </i></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.UAEEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.nlp.EmbeddingsFinisher
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> embeddings = UAEEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"UAE_embeddings"</span>)
+
+<span class="kw">val</span> embeddingsFinisher = <span class="kw">new</span> EmbeddingsFinisher()
+  .setInputCols(<span class="lit">"UAE_embeddings"</span>)
+  .setOutputCols(<span class="lit">"finished_embeddings"</span>)
+  .setOutputAsVector(<span class="kw">true</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  embeddings,
+  embeddingsFinisher
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"hello world"</span>, <span class="lit">"hello moon"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</span>).show(<span class="num">5</span>, <span class="num">80</span>)
++--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[<span class="num">0.50387806</span>, <span class="num">0.5861606</span>, <span class="num">0.35129607</span>, -<span class="num">0.76046336</span>, -<span class="num">0.32446072</span>, -<span class="num">0.117674336</span>, <span class="num">0.</span>..|
+|[<span class="num">0.6660665</span>, <span class="num">0.961762</span>, <span class="num">0.24854276</span>, -<span class="num">0.1018044</span>, -<span class="num">0.6569202</span>, <span class="num">0.027635604</span>, <span class="num">0.1915</span>...|
++--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="UniversalSentenceEncoderextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder]withHasEmbeddingsPropertieswithHasStorageRefwithWriteTensorflowModelwithHasEngine"></a><a id="UniversalSentenceEncoder:UniversalSentenceEncoder"></a>
       <span class="permalink">
@@ -3737,6 +3856,24 @@ the documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="UAEEmbeddings"></a><a id="UAEEmbeddings:UAEEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/UAEEmbeddings$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of UAEEmbeddings." href="UAEEmbeddings$.html"><span class="name">UAEEmbeddings</span></a><span class="result"> extends <a href="ReadablePretrainedUAEModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedUAEModel">ReadablePretrainedUAEModel</a> with <a href="ReadUAEDLModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadUAEDLModel">ReadUAEDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="UAEEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.UAEEmbeddings">UAEEmbeddings</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

@@ -17,40 +17,20 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.parser.dep.{
   DependencyParserApproach,
   DependencyParserModel
 }
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
+import com.johnsnowlabs.nlp.{Finisher, SparkAccessor}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
-class TypedDependencyModelTestSpec extends AnyFlatSpec {
+class TypedDependencyModelTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   System.gc()
-
-  val spark: SparkSession = ResourceHelper.spark
-
-  import spark.implicits._
-
-  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
-
-  private val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-  private val sentenceDetector = new SentenceDetector()
-    .setInputCols(Array("document"))
-    .setOutputCol("sentence")
-
-  private val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
 
   private val posTagger = getPerceptronModel
 

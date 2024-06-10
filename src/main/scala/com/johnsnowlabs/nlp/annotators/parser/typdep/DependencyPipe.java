@@ -290,7 +290,7 @@ public class DependencyPipe implements Serializable {
         if (dependencyInstance == null) {
             return null;
         }
-        //TODO: Here is where cpostagids are set
+        //Here is where cpostagids are set
         dependencyInstance.setInstIds(dictionariesSet, coarseMap, conjWord);
 
         return dependencyInstance;
@@ -298,24 +298,25 @@ public class DependencyPipe implements Serializable {
 
     public void pruneLabel(DependencyInstance[] dependencyInstances) {
         int numPOS = dictionariesSet.getDictionarySize(POS) + 1;
-        int numLab = dictionariesSet.getDictionarySize(DEP_LABEL) + 1;
-        this.pruneLabel = new boolean[numPOS][numPOS][numLab];
+        int numLabel = dictionariesSet.getDictionarySize(DEP_LABEL) + 1;
+        this.pruneLabel = new boolean[numPOS][numPOS][numLabel];
         int num = 0;
 
         for (DependencyInstance dependencyInstance : dependencyInstances) {
             int n = dependencyInstance.getLength();
             for (int mod = 1; mod < n; ++mod) {
                 int head = dependencyInstance.getHeads()[mod];
-                int lab = dependencyInstance.getDependencyLabelIds()[mod];
-                if (!this.pruneLabel[dependencyInstance.getXPosTagIds()[head]][dependencyInstance.getXPosTagIds()[mod]][lab]) {
-                    this.pruneLabel[dependencyInstance.getXPosTagIds()[head]][dependencyInstance.getXPosTagIds()[mod]][lab] = true;
+                int label = dependencyInstance.getDependencyLabelIds()[mod];
+                int [] posTagIds = dependencyInstance.getXPosTagIds();
+                if (!this.pruneLabel[posTagIds[head]][posTagIds[mod]][label]) {
+                    this.pruneLabel[posTagIds[head]][posTagIds[mod]][label] = true;
                     num++;
                 }
             }
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format("Prune label: %d/%d", num, numCPOS * numCPOS * numLab));
+            logger.debug(String.format("Prune label: %d/%d", num, numCPOS * numCPOS * numLabel));
         }
 
     }

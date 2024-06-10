@@ -23,10 +23,11 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import org.intel.openvino.InferRequest
+import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
-import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import org.tensorflow.{Session, Tensor}
 
 private[johnsnowlabs] class M2M100(
     val onnxWrappers: EncoderDecoderWithoutPastWrappers,
@@ -196,12 +197,12 @@ private[johnsnowlabs] class M2M100(
       applySoftmax = false)
 
     // Run the prompt through the decoder and get the past
-//    val decoderOutputs =
-//      generateGreedyOnnx(
-//        decoderInputIds,
-//        decoderEncoderStateTensors,
-//        encoderAttentionMaskTensors,
-//        onnxSession = (decoderSession, decoderEnv))
+    //    val decoderOutputs =
+    //      generateGreedyOnnx(
+    //        decoderInputIds,
+    //        decoderEncoderStateTensors,
+    //        encoderAttentionMaskTensors,
+    //        onnxSession = (decoderSession, decoderEnv))
 
     // close sessions
     decoderEncoderStateTensors.fold(
@@ -216,8 +217,6 @@ private[johnsnowlabs] class M2M100(
       },
       onnxTensor => onnxTensor.close())
 
-    encoderSession.close()
-    decoderSession.close()
     encoderEnv.close()
     decoderEnv.close()
 
@@ -395,7 +394,8 @@ private[johnsnowlabs] class M2M100(
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
       encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+      session: Either[Session, (OrtEnvironment, OrtSession)],
+      ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
 
     session.fold(
       tfSession => {
