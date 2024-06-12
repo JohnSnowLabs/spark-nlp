@@ -43,6 +43,8 @@ import org.slf4j.{Logger, LoggerFactory}
   * pre-training method, named masked and permuted language modeling, to inherit the advantages of
   * masked language modeling and permuted language modeling for natural language understanding.
   *
+  * Note that this annotator is only supported for Spark Versions 3.4 and up.
+  *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val embeddings = MPNetEmbeddings.pretrained()

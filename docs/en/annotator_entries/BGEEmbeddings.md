@@ -1,49 +1,51 @@
 {%- capture title -%}
-E5Embeddings
+BGEEmbeddings
 {%- endcapture -%}
 
 {%- capture description -%}
-Sentence embeddings using E5.
+Sentence embeddings using BGE.
 
-E5, an instruction-finetuned text embedding model that can generate text embeddings tailored
-to any task (e.g., classification, retrieval, clustering, text evaluation, etc.)
+BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense
+vector which can be used for tasks like retrieval, classification, clustering, or semantic
+search.
 
 Note that this annotator is only supported for Spark Versions 3.4 and up.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 
 ```scala
-val embeddings = E5Embeddings.pretrained()
+val embeddings = BGEEmbeddings.pretrained()
   .setInputCols("document")
-  .setOutputCol("e5_embeddings")
+  .setOutputCol("embeddings")
 ```
 
-The default model is `"e5_small"`, if no name is provided.
+The default model is `"bge_base"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://sparknlp.org/models?q=E5).
+[Models Hub](https://sparknlp.org/models?q=BGE).
 
 For extended examples of usage, see
-[E5EmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/E5EmbeddingsTestSpec.scala).
+[BGEEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BGEEmbeddingsTestSpec.scala).
 
 **Sources** :
 
-[Text Embeddings by Weakly-Supervised Contrastive Pre-training](https://arxiv.org/pdf/2212.03533)
+[C-Pack: Packaged Resources To Advance General Chinese Embedding](https://arxiv.org/pdf/2309.07597)
 
-[E5 Github Repository](https://github.com/microsoft/unilm/tree/master/e5)
+[BGE Github Repository](https://github.com/FlagOpen/FlagEmbedding)
 
 **Paper abstract**
 
-*This paper presents E5, a family of state-of-the-art text embeddings that transfer well to a
-wide range of tasks. The model is trained in a contrastive manner with weak supervision
-signals from our curated large-scale text pair dataset (called CCPairs). E5 can be readily
-used as a general-purpose embedding model for any tasks requiring a single-vector
-representation of texts such as retrieval, clustering, and classification, achieving strong
-performance in both zero-shot and fine-tuned settings. We conduct extensive evaluations on 56
-datasets from the BEIR and MTEB benchmarks. For zero-shot settings, E5 is the first model that
-outperforms the strong BM25 baseline on the BEIR retrieval benchmark without using any labeled
-data. When fine-tuned, E5 obtains the best results on the MTEB benchmark, beating existing
-embedding models with 40× more parameters.*
+*We introduce C-Pack, a package of resources that significantly advance the field of general
+Chinese embeddings. C-Pack includes three critical resources. 1) C-MTEB is a comprehensive
+benchmark for Chinese text embeddings covering 6 tasks and 35 datasets. 2) C-MTP is a massive
+text embedding dataset curated from labeled and unlabeled Chinese corpora for training
+embedding models. 3) C-TEM is a family of embedding models covering multiple sizes. Our models
+outperform all prior Chinese text embeddings on C-MTEB by up to +10% upon the time of the
+release. We also integrate and optimize the entire suite of training methods for C-TEM. Along
+with our resources on general Chinese embedding, we release our data and models for English
+text embeddings. The English models achieve stateof-the-art performance on the MTEB benchmark;
+meanwhile, our released English data is 2 times larger than the Chinese data. All these
+resources are made publicly available at https://github.com/FlagOpen/FlagEmbedding.*
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -59,15 +61,14 @@ import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
-
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
-embeddings = E5Embeddings.pretrained() \
+embeddings = BGEEmbeddings.pretrained() \
     .setInputCols(["document"]) \
-    .setOutputCol("e5_embeddings")
+    .setOutputCol("bge_embeddings")
 embeddingsFinisher = EmbeddingsFinisher() \
-    .setInputCols(["e5_embeddings"]) \
+    .setInputCols(["bge_embeddings"]) \
     .setOutputCols("finished_embeddings") \
     .setOutputAsVector(True)
 pipeline = Pipeline().setStages([
@@ -75,11 +76,10 @@ pipeline = Pipeline().setStages([
     embeddings,
     embeddingsFinisher
 ])
-
 data = spark.createDataFrame([["query: how much protein should a female eat",
-    "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day." + \
-    "But, as you can see from this chart, you'll need to increase that if you're expecting or training for a" + \
-    "marathon. Check out the chart below to see how much protein you should be eating each day.",
+"passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day." + \
+"But, as you can see from this chart, you'll need to increase that if you're expecting or training for a" + \
+"marathon. Check out the chart below to see how much protein you should be eating each day.",
 ]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
@@ -95,7 +95,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.embeddings.E5Embeddings
+import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
 import com.johnsnowlabs.nlp.EmbeddingsFinisher
 import org.apache.spark.ml.Pipeline
 
@@ -103,12 +103,12 @@ val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val embeddings = E5Embeddings.pretrained("e5_small", "en")
+val embeddings = BGEEmbeddings.pretrained("bge_base", "en")
   .setInputCols("document")
-  .setOutputCol("e5_embeddings")
+  .setOutputCol("bge_embeddings")
 
 val embeddingsFinisher = new EmbeddingsFinisher()
-  .setInputCols("e5_embeddings")
+  .setInputCols("bge_embeddings")
   .setOutputCols("finished_embeddings")
   .setOutputAsVector(true)
 
@@ -131,21 +131,20 @@ result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
 |                                                                          result|
 +--------------------------------------------------------------------------------+
 |[[8.0190285E-4, -0.005974853, -0.072875895, 0.007944068, 0.026059335, -0.0080...|
-[[0.050514214, 0.010061974, -0.04340176, -0.020937217, 0.05170225, 0.01157857...|
+|[[0.050514214, 0.010061974, -0.04340176, -0.020937217, 0.05170225, 0.01157857...|
 +--------------------------------------------------------------------------------+
-
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[E5Embeddings](/api/com/johnsnowlabs/nlp/embeddings/E5Embeddings)
+[BGEEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/BGEEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[E5Embeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/e5_embeddings/index.html#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings)
+[BGEEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[E5Embeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/E5Embeddings.scala)
+[BGEEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BGEEmbeddings.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

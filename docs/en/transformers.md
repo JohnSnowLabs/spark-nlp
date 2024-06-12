@@ -9,7 +9,7 @@ modify_date: "2023-06-18"
 use_language_switcher: "Python-Scala-Java"
 show_nav: true
 sidebar:
-nav: sparknlp
+    nav: sparknlp
 ---
 
 <script> {% include scripts/transformerUseCaseSwitcher.js %} </script>
