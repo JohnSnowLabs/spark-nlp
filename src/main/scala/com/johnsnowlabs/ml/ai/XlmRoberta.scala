@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -243,10 +243,7 @@ private[johnsnowlabs] class XlmRoberta(
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
         val maskTensors =
-          OnnxTensor.createTensor(
-            env,
-            attentionMask
-            )
+          OnnxTensor.createTensor(env, attentionMask)
 
         val inputs =
           Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava

@@ -22,11 +22,11 @@ import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 import org.intel.openvino.Tensor
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -233,9 +233,7 @@ private[johnsnowlabs] class Bert(
           .map(sentence => sentence.map(x => if (x == 0) 0L else 1L))
           .toArray
         val maskTensors =
-          OnnxTensor.createTensor(
-            env,
-            attentionMask)
+          OnnxTensor.createTensor(env, attentionMask)
 
         val segmentTensors =
           OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)

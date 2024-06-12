@@ -75,7 +75,6 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-
   "XlmRoBertaForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
