@@ -25,6 +25,7 @@ import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
+import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
@@ -296,7 +297,8 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
       encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+      session: Either[Session, (OrtEnvironment, OrtSession)],
+      ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
     val sess: Session = session.left.get
     val decoderEncoderStateTensor: Tensor = decoderEncoderStateTensors.left.get
     getModelOutput(decoderInputIds, decoderEncoderStateTensor, sess)
