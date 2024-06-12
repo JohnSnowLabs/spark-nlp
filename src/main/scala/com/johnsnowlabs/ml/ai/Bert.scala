@@ -16,13 +16,13 @@
 
 package com.johnsnowlabs.ml.ai
 
-import ai.onnxruntime.{OnnxTensor, TensorInfo}
+import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util._
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.intel.openvino.Tensor
@@ -229,11 +229,10 @@ private[johnsnowlabs] class Bert(
 
         val tokenTensors =
           OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-        val attentionMask = batch
-          .map(sentence => sentence.map(x => if (x == 0) 0L else 1L))
-          .toArray
         val maskTensors =
-          OnnxTensor.createTensor(env, attentionMask)
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
         val segmentTensors =
           OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
@@ -246,11 +245,8 @@ private[johnsnowlabs] class Bert(
 
         try {
           val results = runner.run(inputs)
-          val lastHiddenState = results.get("last_hidden_state").get()
-          val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
-          val shape = info.getShape
           try {
-            val flattenEmbeddings = results
+            val embeddings = results
               .get("last_hidden_state")
               .get()
               .asInstanceOf[OnnxTensor]
@@ -262,9 +258,7 @@ private[johnsnowlabs] class Bert(
             //    runner.close()
             //    env.close()
             //
-            val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
-            val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
-            LinAlg.denseMatrixToArray(normalizedEmbeddings)
+            embeddings
           } finally if (results != null) results.close()
         } catch {
           case e: Exception =>
@@ -332,12 +326,12 @@ private[johnsnowlabs] class Bert(
         tensors.clearSession(outs)
         tensors.clearTensors()
 
-        val dim = embeddings.length / batchLength
-        embeddings.grouped(dim).toArray
+        embeddings
 
     }
+    val dim = embeddings.length / batchLength
+    embeddings.grouped(dim).toArray
 
-    embeddings
   }
 
   def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
