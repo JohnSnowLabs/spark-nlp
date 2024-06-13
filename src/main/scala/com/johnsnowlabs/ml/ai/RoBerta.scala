@@ -19,9 +19,10 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, ModelArch, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ModelArch, Openvino, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -32,6 +33,10 @@ import scala.collection.JavaConverters._
   *
   * @param tensorflowWrapper
   *   tensorflowWrapper class
+  * @param onnxWrapper
+  *   Model wrapper with ONNX Wrapper
+  * @param openvinoWrapper
+  *   Model wrapper with OpenVINO Wrapper
   * @param sentenceStartTokenId
   *   special token id for `<s>`
   * @param sentenceEndTokenId
@@ -44,6 +49,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class RoBerta(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     padTokenId: Int,
@@ -118,6 +124,25 @@ private[johnsnowlabs] class RoBerta(
           tokenTensors.close()
           maskTensors.close()
         }
+
+      case Openvino.name =>
+        val (tokenTensors, maskTensors) = PrepareEmbeddings.prepareOvLongBatchTensors(
+          batch = batch,
+          maxSentenceLength = maxSentenceLength,
+          batchLength = batchLength,
+          sentencePadTokenId = padTokenId)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
+
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor("last_hidden_state")
+        val embeddings = result.data()
+
+        embeddings
+
       case _ =>
         val tensors = new TensorResources()
 

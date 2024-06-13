@@ -267,6 +267,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
           new RoBerta(
             tensorflowWrapper,
             onnxWrapper,
+            None,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -472,7 +473,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel 
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>
