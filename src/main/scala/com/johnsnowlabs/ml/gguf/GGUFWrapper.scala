@@ -53,19 +53,10 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
       llamaModel
     }
 
-  def saveToFile(file: String, zip: Boolean = true): Unit = {
-    // 1. Create tmp director
-    val tmpFolder = Files
-      .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_onnx")
-      .toAbsolutePath
-      .toString
-
-    val tmpModelFilePath = SparkFiles.get(modelFileName)
-    // 2. Zip folder
-    if (zip) ZipArchiveUtil.zip(tmpModelFilePath, file)
-
-    // 3. Remove tmp directory
-    FileHelper.delete(tmpFolder)
+  def saveToFile(file: String): Unit = {
+    val modelFilePath = SparkFiles.get(modelFileName)
+    val modelOutputPath = Paths.get(file, modelFileName)
+    Files.copy(Paths.get(modelFilePath), modelOutputPath)
   }
 
 }
@@ -84,6 +75,9 @@ object GGUFWrapper {
     // TODO Better Sanity Check
     val modelFile = new File(modelPath)
     val modelFileExist: Boolean = modelFile.exists()
+
+    if (!modelFile.getName.endsWith(".gguf"))
+      throw new IllegalArgumentException(s"Model file $modelPath is not a GGUF model file")
 
     if (modelFileExist) {
       sparkSession.sparkContext.addFile(modelPath)

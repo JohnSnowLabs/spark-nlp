@@ -24,7 +24,15 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** TODO
+/** Annotator that uses the llama.cpp library to generate text completions.
+  *
+  * The annotator requires a GGUF model, which needs to be provided either by either providing a
+  * path to a local file or a URL (TODO).
+  *
+  * For settable parameters, and their explanations, see [[HasLlamaCppProperties]] and refer to
+  * the llama.cpp documentation of
+  * [[https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server server.cpp]]
+  * for more information.
   *
   * ==Example==
   *
@@ -77,114 +85,45 @@ class AutoGGUFModel(override val uid: String)
     this
   }
 
-  override def onWrite(path: String, spark: SparkSession): Unit = ???
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    super.onWrite(path, spark)
+    getModelIfNotSet.saveToFile(path)
+  }
 
   /** Completes the batch of annotations.
     *
     * @param batchedAnnotations
-    *   Audio annotations in batches
+    *   Annotations (single element arrays) in batches
     * @return
     *   Completed text sequences
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    batchedAnnotations.map { annotations: Array[Annotation] =>
-      println(s"Processing batch of length ${annotations.length}")
-      println(s"First prompt: ${annotations.head.result}")
+    val annotations: Seq[Annotation] = batchedAnnotations.flatten
+    if (annotations.nonEmpty) {
 
-      val inferenceParams = new InferenceParameters("")
-        .setInputPrefix(getInputPrefix)
-        .setInputSuffix(getInputSuffix)
-        .setCachePrompt(getCachePrompt)
-        .setNPredict(getNPredict)
-        .setTopK(getTopK)
-        .setTopP(getTopP)
-        .setMinP(getMinP)
-        .setTfsZ(getTfsZ)
-        .setTypicalP(getTypicalP)
-        .setTemperature(getTemperature)
-        .setDynamicTemperatureRange(getDynamicTemperatureRange)
-        .setDynamicTemperatureExponent(getDynamicTemperatureExponent)
-        .setRepeatLastN(getRepeatLastN)
-        .setRepeatPenalty(getRepeatPenalty)
-        .setFrequencyPenalty(getFrequencyPenalty)
-        .setPresencePenalty(getPresencePenalty)
-        .setMiroStat(MiroStat.values.apply(getMiroStat))
-        .setMiroStatTau(getMiroStatTau)
-        .setMiroStatEta(getMiroStatEta)
-        .setPenalizeNl(getPenalizeNl)
-        .setNKeep(getNKeep)
-        .setSeed(getSeed)
-        .setNProbs(getNProbs)
-        .setMinKeep(getMinKeep)
-        .setGrammar(getGrammar)
-        .setPenaltyPrompt(getPenaltyPrompt)
-        .setIgnoreEos(getIgnoreEos)
-        .setStopStrings(getStopStrings: _*)
-        .setUseChatTemplate(getUseChatTemplate)
+      val modelParams =
+        getModelParameters.setNParallel(getBatchSize) // set parallel decoding to batch size
+      val inferenceParams = getInferenceParameters
 
-      val modelParams = new ModelParameters()
-        .setNThreads(getNThreads)
-        .setNThreadsDraft(getNThreadsDraft)
-        .setNThreadsBatch(getNThreadsBatch)
-        .setNThreadsBatchDraft(getNThreadsBatchDraft)
-        .setNCtx(getNCtx)
-        .setNBatch(getNBatch)
-        .setNUbatch(getNUbatch)
-        .setNDraft(getNDraft)
-        .setNChunks(getNChunks)
-        .setNParallel(getNParallel)
-        .setNSequences(getNSequences)
-        .setPSplit(getPSplit)
-        .setNGpuLayers(getNGpuLayers)
-        .setNGpuLayersDraft(getNGpuLayersDraft)
-        .setSplitMode(GpuSplitMode.values()(getSplitMode))
-        .setMainGpu(getMainGpu)
-        .setTensorSplit(getTensorSplit.map(_.toFloat))
-        .setNBeams(getNBeams)
-        .setGrpAttnN(getGrpAttnN)
-        .setGrpAttnW(getGrpAttnW)
-        .setRopeFreqBase(getRopeFreqBase)
-        .setRopeFreqScale(getRopeFreqScale)
-        .setYarnExtFactor(getYarnExtFactor)
-        .setYarnAttnFactor(getYarnAttnFactor)
-        .setYarnBetaFast(getYarnBetaFast)
-        .setYarnBetaSlow(getYarnBetaSlow)
-        .setYarnOrigCtx(getYarnOrigCtx)
-        .setDefragmentationThreshold(getDefragmentationThreshold)
-        .setNuma(NumaStrategy.values()(getNuma))
-        .setRopeScalingType(RopeScalingType.values()(getRopeScalingType))
-        .setPoolingType(PoolingType.values()(getPoolingType))
-        .setModelDraft(getModelDraft)
-        .setLookupCacheStaticFilePath(getLookupCacheStaticFilePath)
-        .setLookupCacheDynamicFilePath(getLookupCacheDynamicFilePath)
-        .setLoraBase(getLoraBase)
-        .setEmbedding(getEmbedding)
-        .setContinuousBatching(getContinuousBatching)
-        .setFlashAttention(getFlashAttention)
-        .setInputPrefixBos(getInputPrefixBos)
-        .setUseMmap(getUseMmap)
-        .setUseMlock(getUseMlock)
-        .setNoKvOffload(getNoKvOffload)
-        .setSystemPrompt(getSystemPrompt)
-        .setChatTemplate(getChatTemplate)
+      println("DEBUG DHA: modelParams: " + modelParams.toString)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
-      if (annotations.nonEmpty) {
-        val annotationsText = annotations.map(_.result)
-        val completed_texts = model.requestBatchCompletion(annotationsText, inferenceParams)
+      val annotationsText = annotations.map(_.result)
+      val completed_texts = model.requestBatchCompletion(annotationsText.toArray, inferenceParams)
 
-        val result: Seq[Annotation] = annotations.zip(completed_texts).map { case (anno, text) =>
-          new Annotation(
-            outputAnnotatorType,
-            0, // TODO Maybe prepend the original text?
-            text.length - 1,
-            text,
-            Map("prompt" -> anno.result))
+      val result: Seq[Seq[Annotation]] =
+        annotations.zip(completed_texts).map { case (anno, text) =>
+          Seq(
+            new Annotation(
+              outputAnnotatorType,
+              0, // TODO Maybe prepend the original text?
+              text.length - 1,
+              text,
+              Map("prompt" -> anno.result)))
         }
-        result
-      } else Seq.empty[Annotation]
-    }
+      result
+    } else Seq(Seq.empty[Annotation])
   }
 
 }
@@ -212,13 +151,30 @@ trait ReadAutoGGUFModelDLModel {
 
   val suffix: String = "TODO"
 
-  def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = ???
+  def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
+    def findGGUFModelInFolder(): String = {
+      val folder = new java.io.File(path)
+      if (folder.exists && folder.isDirectory) {
+        folder.listFiles
+          .filter(_.isFile)
+          .filter(_.getName.endsWith(".gguf"))
+          .map(_.getAbsolutePath)
+          .headOption // Should only be one file
+          .getOrElse(throw new IllegalArgumentException(s"Could not find GGUF model in $path"))
+      } else {
+        throw new IllegalArgumentException(s"Path $path is not a directory")
+      }
+    }
+
+    val model = AutoGGUFModel.loadSavedModel(findGGUFModelInFolder(), spark)
+    instance.setModelIfNotSet(spark, model.getModelIfNotSet)
+  }
+
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AutoGGUFModel = {
     // TODO copyToLocal and potentially enable download from HF-URLS
     // val localPath: String = ResourceHelper.copyToLocal(path)
-    // TODO: extract parameters
     val annotatorModel = new AutoGGUFModel()
 
     annotatorModel.setModelIfNotSet(spark, GGUFWrapper.read(spark, modelPath))
