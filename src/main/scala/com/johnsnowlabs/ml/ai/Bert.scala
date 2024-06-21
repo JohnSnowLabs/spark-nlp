@@ -25,8 +25,8 @@ import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 import org.intel.openvino.Tensor
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 

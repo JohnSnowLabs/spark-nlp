@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
  */
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
+
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
-import com.johnsnowlabs.ml.ai.LLAMA2
+import com.johnsnowlabs.ml.ai.Mistral
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
@@ -43,46 +44,51 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** Llama 2: Open Foundation and Fine-Tuned Chat Models
+/** Mistral 7B
   *
-  * The Llama 2 release introduces a family of pretrained and fine-tuned LLMs, ranging in scale
-  * from 7B to 70B parameters (7B, 13B, 70B). The pretrained models come with significant
-  * improvements over the Llama 1 models, including being trained on 40% more tokens, having a
-  * much longer context length (4k tokens 🤯), and using grouped-query attention for fast
-  * inference of the 70B model🔥!
+  * Mistral 7B, a 7.3 billion-parameter model that stands out for its efficient and effective
+  * performance in natural language processing. Surpassing Llama 2 13B across all benchmarks and
+  * excelling over Llama 1 34B in various aspects, Mistral 7B strikes a balance between English
+  * language tasks and code comprehension, rivaling the capabilities of CodeLlama 7B in the
+  * latter.
   *
-  * However, the most exciting part of this release is the fine-tuned models (Llama 2-Chat), which
-  * have been optimized for dialogue applications using Reinforcement Learning from Human Feedback
-  * (RLHF). Across a wide range of helpfulness and safety benchmarks, the Llama 2-Chat models
-  * perform better than most open models and achieve comparable performance to ChatGPT according
-  * to human evaluations.
+  * Mistral 7B introduces Grouped-query attention (GQA) for quicker inference, enhancing
+  * processing speed without compromising accuracy. This streamlined approach ensures a smoother
+  * user experience, making Mistral 7B a practical choice for real-world applications.
+  *
+  * Additionally, Mistral 7B adopts Sliding Window Attention (SWA) to efficiently handle longer
+  * sequences at a reduced computational cost. This feature enhances the model's ability to
+  * process extensive textual input, expanding its utility in handling more complex tasks.
+  *
+  * In summary, Mistral 7B represents a notable advancement in language models, offering a
+  * reliable and versatile solution for various natural language processing challenges.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val llama2 = LLAMA2Transformer.pretrained()
+  * val mistral = MistralTransformer.pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama_2_7b_chat_hf_int4"`, if no name is provided. For available
-  * pretrained models please see the [[https://sparknlp.org/models?q=llama2 Models Hub]].
+  * The default model is `"mistral-7b"`, if no name is provided. For available pretrained models
+  * please see the [[https://sparknlp.org/models?q=mistral Models Hub]].
   *
   * For extended examples of usage, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2TestSpec.scala LLAMA2TestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MistralTestSpec.scala MistralTestSpec]].
   *
   * '''References:'''
-  *   - [[https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/ Llama 2: Open Foundation and Fine-Tuned Chat Models]]
-  *   - [[https://github.com/facebookresearch/llama]]
+  *   - [[https://mistral.ai/news/announcing-mistral-7b/ Mistral 7B]]
+  *   - [[https://github.com/mistralai/mistral-src]]
   *
   * '''Paper Abstract:'''
   *
-  * ''In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
-  * large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
-  * fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
-  * outperform open-source chat models on most benchmarks we tested, and based on our human
-  * evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
-  * We provide a detailed description of our approach to fine-tuning and safety improvements of
-  * Llama 2-Chat in order to enable the community to build on our work and contribute to the
-  * responsible development of LLMs.''
+  * ''We introduce Mistral 7B v0.1, a 7-billion-parameter language model engineered for superior
+  * performance and efficiency. Mistral 7B outperforms Llama 2 13B across all evaluated
+  * benchmarks, and Llama 1 34B in reasoning, mathematics, and code generation. Our model
+  * leverages grouped-query attention (GQA) for faster inference, coupled with sliding window
+  * attention (SWA) to effectively handle sequences of arbitrary length with a reduced inference
+  * cost. We also provide a model fine-tuned to follow instructions, Mistral 7B -- Instruct, that
+  * surpasses the Llama 2 13B -- Chat model both on human and automated benchmarks. Our models are
+  * released under the Apache 2.0 license.''
   *
   * '''Note:'''
   *
@@ -93,14 +99,14 @@ import org.json4s.jackson.JsonMethods._
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base.DocumentAssembler
-  * import com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer
+  * import com.johnsnowlabs.nlp.annotators.seq2seq.MistralTransformer
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val llama2 = LLAMA2Transformer.pretrained("llama_2_7b_chat_hf_int4")
+  * val mistral = MistralTransformer.pretrained("mistral-7b")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -109,7 +115,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setNoRepeatNgramSize(3)
   *   .setOutputCol("generation")
   *
-  * val pipeline = new Pipeline().setStages(Array(documentAssembler, llama2))
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, mistral))
   *
   * val data = Seq(
   *   "My name is Leonardo."
@@ -117,11 +123,13 @@ import org.json4s.jackson.JsonMethods._
   * val result = pipeline.fit(data).transform(data)
   *
   * results.select("generation.result").show(truncate = false)
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |result                                                                                                                                                                                              |
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[ My name is Leonardo. I am a man of letters. I have been a man for many years. I was born in the year 1776. I came to the United States in 1776, and I have lived in the United Kingdom since 1776]|
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *  +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *  |result                                                                                                                                                                                              |
+  *  +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *  |[Leonardo Da Vinci invented the microscope?\n Question: Leonardo Da Vinci invented the microscope?\n Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |
+  *  | in the late 16th century, long after Leonardo']                                                                                                                                                    |
+  *  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *  +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
   * }}}
   *
   * @param uid
@@ -143,9 +151,9 @@ import org.json4s.jackson.JsonMethods._
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class LLAMA2Transformer(override val uid: String)
-    extends AnnotatorModel[LLAMA2Transformer]
-    with HasBatchedAnnotate[LLAMA2Transformer]
+class MistralTransformer(override val uid: String)
+    extends AnnotatorModel[MistralTransformer]
+    with HasBatchedAnnotate[MistralTransformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
     with WriteOpenvinoModel
@@ -153,7 +161,7 @@ class LLAMA2Transformer(override val uid: String)
     with WriteSentencePieceModel
     with HasEngine {
 
-  def this() = this(Identifiable.randomUID("LLAMA2TRANSFORMER"))
+  def this() = this(Identifiable.randomUID("MistralTRANSFORMER"))
 
   /** Input annotator type : DOCUMENT
     *
@@ -168,7 +176,7 @@ class LLAMA2Transformer(override val uid: String)
   override val outputAnnotatorType: String = DOCUMENT
 
   /** @group setParam */
-  def setRandomSeed(value: Int): LLAMA2Transformer.this.type = {
+  def setRandomSeed(value: Int): MistralTransformer.this.type = {
     if (randomSeed.isEmpty) {
       this.randomSeed = Some(value)
     }
@@ -185,14 +193,14 @@ class LLAMA2Transformer(override val uid: String)
     "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds: Array[Int]): LLAMA2Transformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): MistralTransformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
   /** @group getParam */
   def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
 
-  private var _model: Option[Broadcast[LLAMA2]] = None
+  private var _model: Option[Broadcast[Mistral]] = None
 
   val generationConfig: StructFeature[GenerationConfig] =
     new StructFeature(this, "generationConfig").setProtected()
@@ -211,7 +219,7 @@ class LLAMA2Transformer(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new LLAMA2(
+          new Mistral(
             onnxWrappers,
             openvinoWrapper,
             spp = spp,
@@ -221,17 +229,17 @@ class LLAMA2Transformer(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: LLAMA2 = _model.get.value
+  def getModelIfNotSet: Mistral = _model.get.value
 
   setDefault(
     minOutputLength -> 0,
-    maxOutputLength -> 20,
+    maxOutputLength -> 200,
     doSample -> false,
-    temperature -> 0.9,
-    topK -> 100,
-    topP -> 0.9,
+    temperature -> 1,
+    topK -> 50,
+    topP -> 1,
     repetitionPenalty -> 1.0,
-    noRepeatNgramSize -> 0,
+    noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
@@ -285,74 +293,74 @@ class LLAMA2Transformer(override val uid: String)
           path,
           spark,
           Seq((wrappers.get.decoder, "decoder_model.onnx")),
-          LLAMA2Transformer.suffix)
+          MistralTransformer.suffix)
         val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
           spark,
           obj.spp,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.sppFile)
+          MistralTransformer.suffix,
+          MistralTransformer.sppFile)
       case Openvino.name =>
         val wrappers = getModelIfNotSet.openvinoWrapper
         writeOpenvinoModel(
           path,
           spark,
           wrappers.get,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.openvinoFile)
+          MistralTransformer.suffix,
+          MistralTransformer.openvinoFile)
         val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
           spark,
           obj.spp,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.sppFile)
+          MistralTransformer.suffix,
+          MistralTransformer.sppFile)
     }
   }
 }
 
-trait ReadablePretrainedLLAMA2TransformerModel
-    extends ParamsAndFeaturesReadable[LLAMA2Transformer]
-    with HasPretrained[LLAMA2Transformer] {
-  override val defaultModelName: Some[String] = Some("llama_2_7b_chat_hf_int4")
+trait ReadablePretrainedMistralTransformerModel
+    extends ParamsAndFeaturesReadable[MistralTransformer]
+    with HasPretrained[MistralTransformer] {
+  override val defaultModelName: Some[String] = Some("mistral-7b")
 
   /** Java compliant-overrides */
-  override def pretrained(): LLAMA2Transformer = super.pretrained()
+  override def pretrained(): MistralTransformer = super.pretrained()
 
-  override def pretrained(name: String): LLAMA2Transformer = super.pretrained(name)
+  override def pretrained(name: String): MistralTransformer = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LLAMA2Transformer =
+  override def pretrained(name: String, lang: String): MistralTransformer =
     super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): LLAMA2Transformer =
+  override def pretrained(name: String, lang: String, remoteLoc: String): MistralTransformer =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLLAMA2TransformerDLModel
+trait ReadMistralTransformerDLModel
     extends ReadOnnxModel
     with ReadOpenvinoModel
     with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
+  this: ParamsAndFeaturesReadable[MistralTransformer] =>
 
-  override val onnxFile: String = "llama2_onnx"
-  val suffix: String = "llama2"
-  override val sppFile: String = "llama2_spp"
-  override val openvinoFile: String = "llama2_openvino"
+  override val onnxFile: String = "mistral_onnx"
+  val suffix: String = "_mistral"
+  override val sppFile: String = "mistral_spp"
+  override val openvinoFile: String = "mistral_openvino"
 
-  def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: MistralTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case ONNX.name =>
         val wrappers =
           readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
-        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
+        val spp = readSentencePieceModel(path, spark, "_mistral_spp", sppFile)
         instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
       case Openvino.name =>
         val ovWrapper =
-          readOpenvinoModel(path, spark, "_llama2_ov")
-        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
+          readOpenvinoModel(path, spark, "_mistral_ov")
+        val spp = readSentencePieceModel(path, spark, "_mistral_spp", sppFile)
         instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -364,7 +372,7 @@ trait ReadLLAMA2TransformerDLModel
   def loadSavedModel(
       modelPath: String,
       spark: SparkSession,
-      useOpenvino: Boolean = false): LLAMA2Transformer = {
+      useOpenvino: Boolean = false): MistralTransformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -394,7 +402,7 @@ trait ReadLLAMA2TransformerDLModel
     val padTokenId = (modelConfig \ "eos_token_id").extract[Int]
     val vocabSize = (modelConfig \ "vocab_size").extract[Int]
 
-    val annotatorModel = new LLAMA2Transformer()
+    val annotatorModel = new MistralTransformer()
       .setGenerationConfig(
         GenerationConfig(
           bosTokenId,
@@ -405,7 +413,6 @@ trait ReadLLAMA2TransformerDLModel
           arrayOrNone(suppressTokenIds),
           arrayOrNone(forcedDecoderIds)))
     val spModel = loadSentencePieceAsset(localModelPath, "tokenizer.model")
-
     val modelEngine =
       if (useOpenvino)
         Openvino.name
@@ -449,6 +456,6 @@ trait ReadLLAMA2TransformerDLModel
 
 }
 
-object LLAMA2Transformer
-    extends ReadablePretrainedLLAMA2TransformerModel
-    with ReadLLAMA2TransformerDLModel
+object MistralTransformer
+    extends ReadablePretrainedMistralTransformerModel
+    with ReadMistralTransformerDLModel

@@ -116,7 +116,6 @@ class XlmRoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_xlmrobertaforquestion_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-
   }
 
   "XlmRoBertaForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {

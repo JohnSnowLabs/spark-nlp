@@ -1,4 +1,4 @@
-#  Copyright 2017-2024 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,30 +11,35 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for the M2M100Transformer."""
+"""Contains classes for the Phi2Transformer."""
 
 from sparknlp.common import *
 
 
-class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
-    """M2M100 : multilingual translation model
+class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
+    """Phi-2: Textbooks Are All You Need.
 
-    M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
-    multilingual translation.
+    Phi-2 is a Transformer with 2.7 billion parameters. It was trained using the same data sources as Phi-1.5,
+    augmented with a new data source that consists of various NLP synthetic texts and filtered websites
+    (for safety and educational value). When assessed against benchmarks testing common sense, language understanding,
+    and logical reasoning, Phi-2 showcased a nearly state-of-the-art performance among models with less than 13 billion
+    parameters.
 
-    The model can directly translate between the 9,900 directions of 100 languages.
+    Phi-2 hasn't been fine-tuned through reinforcement learning from human feedback. The intention behind crafting
+    this open-source model is to provide the research community with a non-restricted small model to explore vital
+    safety challenges, such as reducing toxicity, understanding societal biases, enhancing controllability, and more.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> m2m100 = M2M100Transformer.pretrained() \\
+    >>> phi2 = Phi2Transformer.pretrained() \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"m2m100_418M"``, if no name is provided. For available
+    The default model is ``"llam2-7b"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://sparknlp.org/models?q=m2m100>`__.
+    <https://sparknlp.org/models?q=phi2>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -71,50 +76,28 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ignoreTokenIds
         A list of token ids which are ignored in the decoder's output, by
         default []
-    srcLang
-        Source Language (Default: `en`)
-    tgtLang
-        Target Language (Default: `fr`)
 
-    Languages Covered
+    Notes
     -----
-    Afrikaans (af), Amharic (am), Arabic (ar), Asturian (ast), Azerbaijani (az), Bashkir (ba),
-    Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian
-    (ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English
-    (en), Spanish (es), Estonian (et), Persian (fa), Fulah (ff), Finnish (fi), French (fr),
-    Western Frisian (fy), Irish (ga), Gaelic; Scottish Gaelic (gd), Galician (gl), Gujarati (gu),
-    Hausa (ha), Hebrew (he), Hindi (hi), Croatian (hr), Haitian; Haitian Creole (ht), Hungarian
-    (hu), Armenian (hy), Indonesian (id), Igbo (ig), Iloko (ilo), Icelandic (is), Italian (it),
-    Japanese (ja), Javanese (jv), Georgian (ka), Kazakh (kk), Central Khmer (km), Kannada (kn),
-    Korean (ko), Luxembourgish; Letzeburgesch (lb), Ganda (lg), Lingala (ln), Lao (lo), Lithuanian
-    (lt), Latvian (lv), Malagasy (mg), Macedonian (mk), Malayalam (ml), Mongolian (mn), Marathi
-    (mr), Malay (ms), Burmese (my), Nepali (ne), Dutch; Flemish (nl), Norwegian (no), Northern
-    Sotho (ns), Occitan (post 1500) (oc), Oriya (or), Panjabi; Punjabi (pa), Polish (pl), Pushto;
-    Pashto (ps), Portuguese (pt), Romanian; Moldavian; Moldovan (ro), Russian (ru), Sindhi (sd),
-    Sinhala; Sinhalese (si), Slovak (sk), Slovenian (sl), Somali (so), Albanian (sq), Serbian
-    (sr), Swati (ss), Sundanese (su), Swedish (sv), Swahili (sw), Tamil (ta), Thai (th), Tagalog
-    (tl), Tswana (tn), Turkish (tr), Ukrainian (uk), Urdu (ur), Uzbek (uz), Vietnamese (vi), Wolof
-    (wo), Xhosa (xh), Yiddish (yi), Yoruba (yo), Chinese (zh), Zulu (zu)
+    This is a very computationally expensive module especially on larger
+    sequence. The use of an accelerator such as GPU is recommended.
 
     References
     ----------
-    - `Beyond English-Centric Multilingual Machine Translation
-      <https://arxiv.org/pdf/2010.11125.pdf>`__
-    - https://github.com/pytorch/fairseq/tree/master/examples/m2m_100
+    - `Phi-2: Textbooks Are All You Need.
+      <https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/>`__
+    - https://huggingface.co/microsoft/phi-2
 
     **Paper Abstract:**
 
-    * Existing work in translation demonstrated the potential of massively multilingual machine translation by training
-    a single model able to translate between any pair of languages. However, much of this work is English-Centric by
-    training only on data which was translated from or to English. While this is supported by large sources of
-    training data, it does not reflect translation needs worldwide. In this work, we create a true Many-to-Many
-    multilingual translation model that can translate directly between any pair of 100 languages. We build and open
-    source a training dataset that covers thousands of language directions with supervised data, created through
-    large-scale mining. Then, we explore how to effectively increase model capacity through a combination of dense
-    scaling and language-specific sparse parameters to create high quality models. Our focus on non-English-Centric
-    models brings gains of more than 10 BLEU when directly translating between non-English directions while performing
-    competitively to the best single systems of WMT. We open-source our scripts so that others may reproduce the data,
-    evaluation, and final M2M-100 model.*
+    *In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
+    large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
+    fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
+    outperform open-source chat models on most benchmarks we tested, and based on our human
+    evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
+    We provide a detailed description of our approach to fine-tuning and safety improvements of
+    Llama 2-Chat in order to enable the community to build on our work and contribute to the
+    responsible development of LLMs.*
 
     Examples
     --------
@@ -125,24 +108,23 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> m2m100 = M2M100Transformer.pretrained("m2m100_418M") \\
+    >>> phi2 = Phi2Transformer.pretrained("phi2-7b") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
-    ...     .setOutputCol("generation") \\
-    ...     .setSrcLang("en") \\
-    ...     .setTgtLang("fr")
-    >>> pipeline = Pipeline().setStages([documentAssembler, m2m100])
-    >>> data = spark.createDataFrame([["生活就像一盒巧克力。"]]).toDF("text")
+    ...     .setOutputCol("generation")
+    >>> pipeline = Pipeline().setStages([documentAssembler, phi2])
+    >>> data = spark.createDataFrame([["My name is Leonardo."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("summaries.generation").show(truncate=False)
-    +-------------------------------------------------------------------------------------------+
-    |result                                                                                     |
-    +-------------------------------------------------------------------------------------------+
-    |[ Life is like a box of chocolate.]                                                        |
-    +-------------------------------------------------------------------------------------------+
+    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |result                                                                                                                                                                                              |
+    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |[My name is Leonardo . I am a student of the University of California, Berkeley. I am interested in the field of Artificial Intelligence and its applications in the real world. I have a strong    |
+    | passion for learning and am always looking for ways to improve my knowledge and skills]                                                                                                            |
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     """
 
-    name = "M2M100Transformer"
+    name = "Phi2Transformer"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
@@ -183,13 +165,6 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ignoreTokenIds = Param(Params._dummy(), "ignoreTokenIds",
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
-    beamSize = Param(Params._dummy(), "beamSize",
-                     "The Number of beams for beam search.",
-                     typeConverter=TypeConverters.toInt)
-    srcLang = Param(Params._dummy(), "srcLang", "Source Language (Default: `en`)",
-                    typeConverter=TypeConverters.toString)
-    tgtLang = Param(Params._dummy(), "tgtLang", "Target Language (Default: `fr`)",
-                    typeConverter=TypeConverters.toString)
 
     def setIgnoreTokenIds(self, value):
         """A list of token ids which are ignored in the decoder's output.
@@ -302,52 +277,11 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         """
         return self._set(noRepeatNgramSize=value)
 
-    def setBeamSize(self, value):
-        """Sets the number of beam size for beam search, by default `4`.
-
-        Parameters
-        ----------
-        value : int
-            Number of beam size for beam search
-        """
-        return self._set(beamSize=value)
-
-    def setSrcLang(self, value):
-        """Sets source language.
-
-        Parameters
-        ----------
-        value : str
-            Source language
-        """
-        return self._set(srcLang=value)
-
-    def setTgtLang(self, value):
-        """Sets target language.
-
-        Parameters
-        ----------
-        value : str
-            Target language
-        """
-        return self._set(tgtLang=value)
-
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer", java_model=None):
-        super(M2M100Transformer, self).__init__(classname=classname, java_model=java_model)
-        self._setDefault(minOutputLength=0,
-                         maxOutputLength=200,
-                         doSample=False,
-                         temperature=1,
-                         topK=50,
-                         topP=1,
-                         repetitionPenalty=1.0,
-                         noRepeatNgramSize=0,
-                         ignoreTokenIds=[],
-                         batchSize=1,
-                         beamSize=1,
-                         srcLang="en",
-                         tgtLang="fr")
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer", java_model=None):
+        super(Phi2Transformer, self).__init__(classname=classname, java_model=java_model)
+        self._setDefault(minOutputLength=0, maxOutputLength=20, doSample=False, temperature=0.6, topK=50, topP=0.9,
+            repetitionPenalty=1.0, noRepeatNgramSize=0, ignoreTokenIds=[], batchSize=1)
 
     @staticmethod
     def loadSavedModel(folder, spark_session, use_openvino=False):
@@ -362,21 +296,21 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
         Returns
         -------
-        M2M100Transformer
+        Phi2Transformer
             The restored model
         """
-        from sparknlp.internal import _M2M100Loader
-        jModel = _M2M100Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
-        return M2M100Transformer(java_model=jModel)
+        from sparknlp.internal import _Phi2Loader
+        jModel = _Phi2Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
+        return Phi2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="m2m100_418M", lang="xx", remote_loc=None):
+    def pretrained(name="phi2-7b", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "m2m100_418M"
+            Name of the pretrained model, by default "phi2-7b"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -385,8 +319,8 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
         Returns
         -------
-        M2M100Transformer
+        Phi2Transformer
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(M2M100Transformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(Phi2Transformer, name, lang, remote_loc)

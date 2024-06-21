@@ -1,5 +1,5 @@
 {% set name = "spark-nlp" %}
-{% set version = "5.4.0-rc1" %}
+{% set version = "5.4.0-rc2" %}
 
 package:
   name: {{ name|lower }}

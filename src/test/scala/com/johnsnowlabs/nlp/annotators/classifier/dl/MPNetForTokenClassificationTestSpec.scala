@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer

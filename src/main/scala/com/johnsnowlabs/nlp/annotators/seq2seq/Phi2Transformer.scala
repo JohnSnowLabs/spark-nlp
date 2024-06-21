@@ -15,14 +15,16 @@
  */
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
+
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
-import com.johnsnowlabs.ml.ai.LLAMA2
+import com.johnsnowlabs.ml.ai.Phi2
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
+  loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
@@ -43,46 +45,57 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** Llama 2: Open Foundation and Fine-Tuned Chat Models
+/** Phi-2: Textbooks Are All You Need.
   *
-  * The Llama 2 release introduces a family of pretrained and fine-tuned LLMs, ranging in scale
-  * from 7B to 70B parameters (7B, 13B, 70B). The pretrained models come with significant
-  * improvements over the Llama 1 models, including being trained on 40% more tokens, having a
-  * much longer context length (4k tokens 🤯), and using grouped-query attention for fast
-  * inference of the 70B model🔥!
+  * Phi-2 is a Transformer with 2.7 billion parameters. It was trained using the same data sources
+  * as Phi-1.5, augmented with a new data source that consists of various NLP synthetic texts and
+  * filtered websites (for safety and educational value). When assessed against benchmarks testing
+  * common sense, language understanding, and logical reasoning, Phi-2 showcased a nearly
+  * state-of-the-art performance among models with less than 13 billion parameters.
   *
-  * However, the most exciting part of this release is the fine-tuned models (Llama 2-Chat), which
-  * have been optimized for dialogue applications using Reinforcement Learning from Human Feedback
-  * (RLHF). Across a wide range of helpfulness and safety benchmarks, the Llama 2-Chat models
-  * perform better than most open models and achieve comparable performance to ChatGPT according
-  * to human evaluations.
+  * Phi-2 hasn't been fine-tuned through reinforcement learning from human feedback. The intention
+  * behind crafting this open-source model is to provide the research community with a
+  * non-restricted small model to explore vital safety challenges, such as reducing toxicity,
+  * understanding societal biases, enhancing controllability, and more.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val llama2 = LLAMA2Transformer.pretrained()
+  * val Phi2 = Phi2Transformer.pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama_2_7b_chat_hf_int4"`, if no name is provided. For available
-  * pretrained models please see the [[https://sparknlp.org/models?q=llama2 Models Hub]].
+  * The default model is `"Phi2-13b"`, if no name is provided. For available pretrained models
+  * please see the [[https://sparknlp.org/models?q=Phi2 Models Hub]].
   *
   * For extended examples of usage, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2TestSpec.scala LLAMA2TestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Phi2TestSpec.scala Phi2TestSpec]].
   *
   * '''References:'''
-  *   - [[https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/ Llama 2: Open Foundation and Fine-Tuned Chat Models]]
-  *   - [[https://github.com/facebookresearch/llama]]
+  *   - [[https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/ Phi-2: Textbooks Are All You Need.]]
+  *   - [[https://huggingface.co/microsoft/phi-2]]
   *
   * '''Paper Abstract:'''
   *
-  * ''In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
-  * large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
-  * fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
-  * outperform open-source chat models on most benchmarks we tested, and based on our human
-  * evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
-  * We provide a detailed description of our approach to fine-tuning and safety improvements of
-  * Llama 2-Chat in order to enable the community to build on our work and contribute to the
-  * responsible development of LLMs.''
+  * ''The massive increase in the size of language models to hundreds of billions of parameters
+  * has unlocked a host of emerging capabilities that have redefined the landscape of natural
+  * language processing. A question remains whether such emergent abilities can be achieved at a
+  * smaller scale using strategic choices for training, e.g., data selection.''
+  *
+  * ''Our line of work with the Phi models aims to answer this question by training SLMs that
+  * achieve performance on par with models of much higher scale (yet still far from the frontier
+  * models). Our key insights for breaking the conventional language model scaling laws with Phi-2
+  * are twofold:''
+  *
+  * ''Firstly, training data quality plays a critical role in model performance. This has been
+  * known for decades, but we take this insight to its extreme by focusing on “textbook-quality”
+  * data, following upon our prior work “Textbooks Are All You Need.” Our training data mixture
+  * contains synthetic datasets specifically created to teach the model common sense reasoning and
+  * general knowledge, including science, daily activities, and theory of mind, among others. We
+  * further augment our training corpus with carefully selected web data that is filtered based on
+  * educational value and content quality. Secondly, we use innovative techniques to scale up,
+  * starting from our 1.3 billion parameter model, Phi-1.5, and embedding its knowledge within the
+  * 2.7 billion parameter Phi-2. This scaled knowledge transfer not only accelerates training
+  * convergence but shows clear boost in Phi-2 benchmark scores.''
   *
   * '''Note:'''
   *
@@ -93,14 +106,14 @@ import org.json4s.jackson.JsonMethods._
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base.DocumentAssembler
-  * import com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer
+  * import com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val llama2 = LLAMA2Transformer.pretrained("llama_2_7b_chat_hf_int4")
+  * val Phi2 = Phi2Transformer.pretrained("Phi2-7b")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -109,7 +122,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setNoRepeatNgramSize(3)
   *   .setOutputCol("generation")
   *
-  * val pipeline = new Pipeline().setStages(Array(documentAssembler, llama2))
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, Phi2))
   *
   * val data = Seq(
   *   "My name is Leonardo."
@@ -120,7 +133,8 @@ import org.json4s.jackson.JsonMethods._
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
   * |result                                                                                                                                                                                              |
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[ My name is Leonardo. I am a man of letters. I have been a man for many years. I was born in the year 1776. I came to the United States in 1776, and I have lived in the United Kingdom since 1776]|
+  * |[ My name is Leonardo . I am a student of the University of California, Berkeley. I am interested in the field of Artificial Intelligence and its applications in the real world. I have a strong   |
+  * | passion for learning and am always looking for ways to improve my knowledge and skills]                                                                                                            |
   * +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
   * }}}
   *
@@ -143,17 +157,16 @@ import org.json4s.jackson.JsonMethods._
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class LLAMA2Transformer(override val uid: String)
-    extends AnnotatorModel[LLAMA2Transformer]
-    with HasBatchedAnnotate[LLAMA2Transformer]
+class Phi2Transformer(override val uid: String)
+    extends AnnotatorModel[Phi2Transformer]
+    with HasBatchedAnnotate[Phi2Transformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
     with WriteOpenvinoModel
     with HasGeneratorProperties
-    with WriteSentencePieceModel
     with HasEngine {
 
-  def this() = this(Identifiable.randomUID("LLAMA2TRANSFORMER"))
+  def this() = this(Identifiable.randomUID("Phi2TRANSFORMER"))
 
   /** Input annotator type : DOCUMENT
     *
@@ -168,7 +181,7 @@ class LLAMA2Transformer(override val uid: String)
   override val outputAnnotatorType: String = DOCUMENT
 
   /** @group setParam */
-  def setRandomSeed(value: Int): LLAMA2Transformer.this.type = {
+  def setRandomSeed(value: Int): Phi2Transformer.this.type = {
     if (randomSeed.isEmpty) {
       this.randomSeed = Some(value)
     }
@@ -185,14 +198,32 @@ class LLAMA2Transformer(override val uid: String)
     "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds: Array[Int]): LLAMA2Transformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): Phi2Transformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
   /** @group getParam */
   def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
 
-  private var _model: Option[Broadcast[LLAMA2]] = None
+  /** Vocabulary used to encode the words to ids with bpeTokenizer.encode
+    *
+    * @group param
+    */
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
+
+  /** @group setParam */
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
+
+  /** Holding merges.txt coming from RoBERTa model
+    *
+    * @group param
+    */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
+  private var _model: Option[Broadcast[Phi2]] = None
 
   val generationConfig: StructFeature[GenerationConfig] =
     new StructFeature(this, "generationConfig").setProtected()
@@ -206,32 +237,32 @@ class LLAMA2Transformer(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       onnxWrappers: Option[DecoderWrappers],
-      openvinoWrapper: Option[OpenvinoWrapper],
-      spp: SentencePieceWrapper): this.type = {
+      openvinoWrapper: Option[OpenvinoWrapper]): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new LLAMA2(
+          new Phi2(
             onnxWrappers,
             openvinoWrapper,
-            spp = spp,
+            $$(merges),
+            $$(vocabulary),
             generationConfig = getGenerationConfig)))
     }
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: LLAMA2 = _model.get.value
+  def getModelIfNotSet: Phi2 = _model.get.value
 
   setDefault(
     minOutputLength -> 0,
     maxOutputLength -> 20,
     doSample -> false,
-    temperature -> 0.9,
-    topK -> 100,
+    temperature -> 0.6,
+    topK -> 50,
     topP -> 0.9,
     repetitionPenalty -> 1.0,
-    noRepeatNgramSize -> 0,
+    noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
@@ -285,14 +316,7 @@ class LLAMA2Transformer(override val uid: String)
           path,
           spark,
           Seq((wrappers.get.decoder, "decoder_model.onnx")),
-          LLAMA2Transformer.suffix)
-        val obj = getModelIfNotSet
-        writeSentencePieceModel(
-          path,
-          spark,
-          obj.spp,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.sppFile)
+          Phi2Transformer.suffix)
       case Openvino.name =>
         val wrappers = getModelIfNotSet.openvinoWrapper
         writeOpenvinoModel(
@@ -301,59 +325,46 @@ class LLAMA2Transformer(override val uid: String)
           wrappers.get,
           LLAMA2Transformer.suffix,
           LLAMA2Transformer.openvinoFile)
-        val obj = getModelIfNotSet
-        writeSentencePieceModel(
-          path,
-          spark,
-          obj.spp,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.sppFile)
     }
   }
 }
 
-trait ReadablePretrainedLLAMA2TransformerModel
-    extends ParamsAndFeaturesReadable[LLAMA2Transformer]
-    with HasPretrained[LLAMA2Transformer] {
-  override val defaultModelName: Some[String] = Some("llama_2_7b_chat_hf_int4")
+trait ReadablePretrainedPhi2TransformerModel
+    extends ParamsAndFeaturesReadable[Phi2Transformer]
+    with HasPretrained[Phi2Transformer] {
+  override val defaultModelName: Some[String] = Some("Phi2-7b")
 
   /** Java compliant-overrides */
-  override def pretrained(): LLAMA2Transformer = super.pretrained()
+  override def pretrained(): Phi2Transformer = super.pretrained()
 
-  override def pretrained(name: String): LLAMA2Transformer = super.pretrained(name)
+  override def pretrained(name: String): Phi2Transformer = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LLAMA2Transformer =
+  override def pretrained(name: String, lang: String): Phi2Transformer =
     super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): LLAMA2Transformer =
+  override def pretrained(name: String, lang: String, remoteLoc: String): Phi2Transformer =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLLAMA2TransformerDLModel
-    extends ReadOnnxModel
-    with ReadOpenvinoModel
-    with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[LLAMA2Transformer] =>
+trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
+  this: ParamsAndFeaturesReadable[Phi2Transformer] =>
 
-  override val onnxFile: String = "llama2_onnx"
-  val suffix: String = "llama2"
-  override val sppFile: String = "llama2_spp"
+  override val onnxFile: String = "phi2_onnx"
+  val suffix: String = "_phi2"
   override val openvinoFile: String = "llama2_openvino"
 
-  def readModel(instance: LLAMA2Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: Phi2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case ONNX.name =>
         val wrappers =
           readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
-        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
-        instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
+        instance.setModelIfNotSet(spark, Some(onnxWrappers), None)
       case Openvino.name =>
         val ovWrapper =
           readOpenvinoModel(path, spark, "_llama2_ov")
-        val spp = readSentencePieceModel(path, spark, "_llama2_spp", sppFile)
-        instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -364,7 +375,7 @@ trait ReadLLAMA2TransformerDLModel
   def loadSavedModel(
       modelPath: String,
       spark: SparkSession,
-      useOpenvino: Boolean = false): LLAMA2Transformer = {
+      useOpenvino: Boolean = false): Phi2Transformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -394,7 +405,16 @@ trait ReadLLAMA2TransformerDLModel
     val padTokenId = (modelConfig \ "eos_token_id").extract[Int]
     val vocabSize = (modelConfig \ "vocab_size").extract[Int]
 
-    val annotatorModel = new LLAMA2Transformer()
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+
+    val bytePairs = loadTextAsset(localModelPath, "merges.txt")
+      .map(_.split(" "))
+      .filter(w => w.length == 2)
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex
+      .toMap
+
+    val annotatorModel = new Phi2Transformer()
       .setGenerationConfig(
         GenerationConfig(
           bosTokenId,
@@ -404,7 +424,8 @@ trait ReadLLAMA2TransformerDLModel
           arrayOrNone(beginSuppressTokens),
           arrayOrNone(suppressTokenIds),
           arrayOrNone(forcedDecoderIds)))
-    val spModel = loadSentencePieceAsset(localModelPath, "tokenizer.model")
+      .setVocabulary(vocabs)
+      .setMerges(bytePairs)
 
     val modelEngine =
       if (useOpenvino)
@@ -413,7 +434,7 @@ trait ReadLLAMA2TransformerDLModel
         detectedEngine
     annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    modelEngine match {
+    detectedEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
@@ -421,15 +442,12 @@ trait ReadLLAMA2TransformerDLModel
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model",
-            dataFileSuffix = Some(".onnx_data"),
-            onnxFileSuffix = Some(suffix))
+            modelName = "decoder_model")
 
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, Some(onnxWrappers), None, spModel)
-
+          .setModelIfNotSet(spark, Some(onnxWrappers), None)
       case Openvino.name =>
         val openvinoWrapper =
           OpenvinoWrapper.read(
@@ -438,7 +456,7 @@ trait ReadLLAMA2TransformerDLModel
             zipped = false,
             useBundle = true,
             detectedEngine = detectedEngine)
-        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper), spModel)
+        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -449,6 +467,6 @@ trait ReadLLAMA2TransformerDLModel
 
 }
 
-object LLAMA2Transformer
-    extends ReadablePretrainedLLAMA2TransformerModel
-    with ReadLLAMA2TransformerDLModel
+object Phi2Transformer
+    extends ReadablePretrainedPhi2TransformerModel
+    with ReadPhi2TransformerDLModel

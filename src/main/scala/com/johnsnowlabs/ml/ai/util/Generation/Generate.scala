@@ -392,10 +392,7 @@ trait Generate {
         seededRandom = new scala.util.Random(seed.get)
       }
       for (i <- 0 until k) {
-        var rand = scala.util.Random.nextDouble()
-        if (seed.isDefined) {
-          rand = new scala.util.Random(seed.get).nextDouble()
-        }
+        val rand = seededRandom.nextDouble()
         var cumProb = 0.0
         var j = 0
         while (j < probabilities.length - i) {
