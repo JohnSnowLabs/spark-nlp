@@ -110,7 +110,7 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
       pipelineModel.write.overwrite().save("./tmp_xlmrobertafortoken_pipeline")
     }
 
-    Benchmark.time("Time to save BertForTokenClassification model") {
+    Benchmark.time("Time to save XlmRoBertaForTokenClassification model") {
       pipelineModel.stages.last
         .asInstanceOf[XlmRoBertaForTokenClassification]
         .write

@@ -257,6 +257,12 @@ class XlmRoBertaForQuestionAnswering(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_xlmroberta",
+      XlmRoBertaForSequenceClassification.sppFile)
     val suffix = "_xlm_roberta_classification"
 
     getEngine match {
@@ -326,7 +332,7 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
           readOnnxModel(
             path,
             spark,
-            "xlm_roberta_classification_onnx",
+            "xlm_roberta_qa_classification_onnx",
             zipped = true,
             useBundle = false,
             None)
@@ -367,7 +373,8 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
 

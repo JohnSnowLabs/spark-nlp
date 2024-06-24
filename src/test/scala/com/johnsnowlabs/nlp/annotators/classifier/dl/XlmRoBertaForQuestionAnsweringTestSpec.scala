@@ -16,11 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class XlmRoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
@@ -66,6 +67,54 @@ class XlmRoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
     pipelineDF.show(false)
     pipelineDF.select("answer").show(false)
     pipelineDF.select("answer.result").show(false)
+
+  }
+
+  "XlmRoBertaForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb .",
+      "TORONTO 1996-08-21").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val questionAnswering = XlmRoBertaForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("label")
+      .setCaseSensitive(true)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, questionAnswering))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("label.result").show(false)
+
+    Benchmark.time("Time to save XlmRoBertaForQuestionAnswering pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_xlmrobertaforquestion_pipeline")
+    }
+
+    Benchmark.time("Time to save XlmRoBertaForQuestionAnswering model") {
+      pipelineModel.stages.last
+        .asInstanceOf[XlmRoBertaForQuestionAnswering]
+        .write
+        .overwrite()
+        .save("./tmp_xlmrobertaforquestion_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_xlmrobertaforquestion_pipeline")
+    loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
   }
 

@@ -151,7 +151,7 @@ class E5Embeddings(AnnotatorModel,
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -160,6 +160,8 @@ class E5Embeddings(AnnotatorModel,
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+        use_openvino : bool
+            Use OpenVINO backend
 
         Returns
         -------
@@ -167,7 +169,7 @@ class E5Embeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.internal import _E5Loader
-        jModel = _E5Loader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _E5Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return E5Embeddings(java_model=jModel)
 
     @staticmethod

@@ -160,6 +160,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     extends AnnotatorModel[RoBertaSentenceEmbeddings]
     with HasBatchedAnnotate[RoBertaSentenceEmbeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -266,6 +267,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
           new RoBerta(
             tensorflowWrapper,
             onnxWrapper,
+            None,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -365,13 +367,28 @@ class RoBertaSentenceEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_roberta",
-      RoBertaSentenceEmbeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+
+
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_roberta_sent_tf",
+          RoBertaSentenceEmbeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_roberta_sent_onnx",
+          RoBertaSentenceEmbeddings.onnxFile)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
 }
@@ -395,15 +412,26 @@ trait ReadablePretrainedRobertaSentenceModel
       remoteLoc: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
+trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[RoBertaSentenceEmbeddings] =>
 
   override val tfFile: String = "roberta_tensorflow"
+  override val onnxFile: String = "roberta_onnx"
 
   def readModel(instance: RoBertaSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_roberta_sent_tf")
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name => {
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_roberta_sent_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      }
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -430,7 +458,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -439,12 +467,15 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
         }
 
         /** the order of setSignatures is important if we use getSignatures inside
-          * setModelIfNotSet
-          */
+         * setModelIfNotSet
+         */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
-
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -452,6 +483,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
     annotatorModel
   }
 }
+
 
 /** This is the companion object of [[RoBertaSentenceEmbeddings]]. Please refer to that class for
   * the documentation.

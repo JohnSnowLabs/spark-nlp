@@ -129,7 +129,7 @@ Spark NLP provides a range of models to tackle various NLP tasks. These models a
 
 - Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.
 
-For the latest list of models, detailed documentation, and instructions on how to use them, visiting the [Official Spark NLP Models Hub](http://sparknlp.org/models) would be beneficial.
+For the latest list of models, detailed documentation, and instructions on how to use them, visiting the [Official Spark NLP Models Hub](https://sparknlp.org/models) would be beneficial.
 
 </div><div class="h3-box" markdown="1">
 
