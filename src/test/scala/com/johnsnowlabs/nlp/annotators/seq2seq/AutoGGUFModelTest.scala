@@ -1,7 +1,8 @@
-package com.johnsnowlabs.nlp.gguf
+package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -12,8 +13,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   behavior of "AutoGGUFModelTest"
 
-  lazy val modelPath =
-    "/home/ducha/Workspace/building/java-llama.cpp/models/codellama-7b.Q2_K.gguf"
+  lazy val modelPath = "models/codellama-7b.Q2_K.gguf"
 
   lazy val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -40,13 +40,13 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 
-  it should "create completions" in {
+  it should "create completions" taggedAs SlowTest in {
     val data = Seq("Hello, I am a").toDF("text")
     val result = pipeline.fit(data).transform(data)
     result.select("completions").show(truncate = false)
   }
 
-  it should "create batch completions" in {
+  it should "create batch completions" taggedAs SlowTest in {
     val jvmName = ManagementFactory.getRuntimeMXBean.getName
     val pid = jvmName.split("@")(0)
     println(s"Running in PID $pid")
@@ -57,7 +57,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     result.select("completions").show(truncate = false)
   }
 
-  it should "be serializable" in {
+  it should "be serializable" taggedAs SlowTest in {
     val data = Seq("Hello, I am a").toDF("text")
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
     model.setNPredict(5)
@@ -80,7 +80,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
       .show(truncate = false)
   }
 
-  it should "accept all parameters that are settable" in {
+  it should "accept all parameters that are settable" taggedAs SlowTest in {
     val jvmName = ManagementFactory.getRuntimeMXBean.getName
     val pid = jvmName.split("@")(0)
     println(s"Running in PID $pid")
@@ -159,6 +159,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setDisableTokenIds(Array[Int]())
     model.setStopStrings(Array[String]())
     model.setUseChatTemplate(false)
+    model.setNPredict(2)
 
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 
@@ -166,13 +167,13 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     result.select("completions").show(truncate = false)
   }
 
-  it should "contain metadata when loadSavedModel" in {
+  it should "contain metadata when loadSavedModel" taggedAs SlowTest in {
+    lazy val modelPath = "models/codellama-7b.Q2_K.gguf"
+    val model = AutoGGUFModel.loadSavedModel(modelPath, ResourceHelper.spark)
     val metadata = model.getMetadata
-    print(metadata)
     assert(metadata.nonEmpty)
 
     val metadataMap = model.getMetadataMap
     assert(metadataMap.nonEmpty)
   }
-
 }

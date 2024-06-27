@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import de.kherud.llama.args._
 import de.kherud.llama.{InferenceParameters, ModelParameters}
@@ -8,7 +9,7 @@ import org.apache.spark.ml.param._
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
-/** Contains settable parameters for the [[com.johnsnowlabs.nlp.gguf.AutoGGUFModel]].
+/** Contains settable parameters for the [[AutoGGUFModel]].
   *
   * @groupname param Parameters
   * @groupname setParam Parameter setters
@@ -25,34 +26,29 @@ trait HasLlamaCppProperties {
 
   // ---------------- MODEL PARAMETERS ----------------
   /** @group param */
-  val nThreads = new IntParam(
-    this,
-    "nThreads",
-    "Set the number of threads to use during generation (default: 8)")
+  val nThreads =
+    new IntParam(this, "nThreads", "Set the number of threads to use during generation")
 
   /** @group param */
   val nThreadsDraft = new IntParam(
     this,
     "nThreadsDraft",
-    "Set the number of threads to use during draft generation (default: same as nThreads)")
+    "Set the number of threads to use during draft generation")
 
   /** @group param */
   val nThreadsBatch = new IntParam(
     this,
     "nThreadsBatch",
-    "Set the number of threads to use during batch and prompt processing (default: same as {@link #setNThreads(int)})")
+    "Set the number of threads to use during batch and prompt processing")
 
   /** @group param */
   val nThreadsBatchDraft = new IntParam(
     this,
     "nThreadsBatchDraft",
-    "Set the number of threads to use during batch and prompt processing (default: same as {@link #setNThreadsDraft(int)})")
+    "Set the number of threads to use during batch and prompt processing")
 
   /** @group param */
-  val nCtx = new IntParam(
-    this,
-    "nCtx",
-    "Set the size of the prompt context (default: 512, 0 = loaded from model)")
+  val nCtx = new IntParam(this, "nCtx", "Set the size of the prompt context")
 
   /** @group param */
   val nBatch = new IntParam(
@@ -67,26 +63,18 @@ trait HasLlamaCppProperties {
     "Set the physical batch size for prompt processing (must be >=32 to use BLAS)")
 
   /** @group param */
-  val nDraft = new IntParam(
-    this,
-    "nDraft",
-    "Set the number of tokens to draft for speculative decoding (default: 5)")
+  val nDraft =
+    new IntParam(this, "nDraft", "Set the number of tokens to draft for speculative decoding")
 
   /** @group param */
-  val nChunks = new IntParam(
-    this,
-    "nChunks",
-    "Set the maximal number of chunks to process (default: -1, -1 = all)")
+  val nChunks = new IntParam(this, "nChunks", "Set the maximal number of chunks to process")
 
   /** @group param */
   val nSequences =
-    new IntParam(this, "nSequences", "Set the number of sequences to decode (default: 1)")
+    new IntParam(this, "nSequences", "Set the number of sequences to decode")
 
   /** @group param */
-  val pSplit = new FloatParam(
-    this,
-    "pSplit",
-    "Set the speculative decoding split probability (default: 0.1)")
+  val pSplit = new FloatParam(this, "pSplit", "Set the speculative decoding split probability")
 
   /** @group param */
   val nGpuLayers = new IntParam(
@@ -126,16 +114,14 @@ trait HasLlamaCppProperties {
     new IntParam(this, "nBeams", "Set usage of beam search of given width if non-zero.")
 
   /** @group param */
-  val grpAttnN = new IntParam(this, "grpAttnN", "Set the group-attention factor (default: 1)")
+  val grpAttnN = new IntParam(this, "grpAttnN", "Set the group-attention factor")
 
   /** @group param */
-  val grpAttnW = new IntParam(this, "grpAttnW", "Set the group-attention width (default: 512.0)")
+  val grpAttnW = new IntParam(this, "grpAttnW", "Set the group-attention width")
 
   /** @group param */
-  val ropeFreqBase = new FloatParam(
-    this,
-    "ropeFreqBase",
-    "Set the RoPE base frequency, used by NTK-aware scaling (default: loaded from model)")
+  val ropeFreqBase =
+    new FloatParam(this, "ropeFreqBase", "Set the RoPE base frequency, used by NTK-aware scaling")
 
   /** @group param */
   val ropeFreqScale = new FloatParam(
@@ -144,40 +130,28 @@ trait HasLlamaCppProperties {
     "Set the RoPE frequency scaling factor, expands context by a factor of 1/N")
 
   /** @group param */
-  val yarnExtFactor = new FloatParam(
-    this,
-    "yarnExtFactor",
-    "Set the YaRN extrapolation mix factor (default: 1.0, 0.0 = full interpolation)")
+  val yarnExtFactor =
+    new FloatParam(this, "yarnExtFactor", "Set the YaRN extrapolation mix factor")
 
   /** @group param */
-  val yarnAttnFactor = new FloatParam(
-    this,
-    "yarnAttnFactor",
-    "Set the YaRN scale sqrt(t) or attention magnitude (default: 1.0)")
+  val yarnAttnFactor =
+    new FloatParam(this, "yarnAttnFactor", "Set the YaRN scale sqrt(t) or attention magnitude")
 
   /** @group param */
-  val yarnBetaFast = new FloatParam(
-    this,
-    "yarnBetaFast",
-    "Set the YaRN low correction dim or beta (default: 32.0)")
+  val yarnBetaFast =
+    new FloatParam(this, "yarnBetaFast", "Set the YaRN low correction dim or beta")
 
   /** @group param */
-  val yarnBetaSlow = new FloatParam(
-    this,
-    "yarnBetaSlow",
-    "Set the YaRN high correction dim or alpha (default: 1.0)")
+  val yarnBetaSlow =
+    new FloatParam(this, "yarnBetaSlow", "Set the YaRN high correction dim or alpha")
 
   /** @group param */
-  val yarnOrigCtx = new IntParam(
-    this,
-    "yarnOrigCtx",
-    "Set the YaRN original context size of model (default: 0 = model training context size)")
+  val yarnOrigCtx =
+    new IntParam(this, "yarnOrigCtx", "Set the YaRN original context size of model")
 
   /** @group param */
-  val defragmentationThreshold = new FloatParam(
-    this,
-    "defragmentationThreshold",
-    "Set the KV cache defragmentation threshold (default: -1.0, &lt; 0 - disabled)")
+  val defragmentationThreshold =
+    new FloatParam(this, "defragmentationThreshold", "Set the KV cache defragmentation threshold")
 
   /** Set optimization strategies that help on some NUMA systems (if available)
     *
@@ -220,12 +194,10 @@ trait HasLlamaCppProperties {
     this,
     "poolingType",
     "Set the pooling type for embeddings, use model default if unspecified")
-  //  model = new Param[String](this, "model", "Set the model file path to load (default: models/7B/ggml-model-f16.gguf)")
+  //  model = new Param[String](this, "model", "Set the model file path to load")
   /** @group param */
-  val modelDraft = new Param[String](
-    this,
-    "modelDraft",
-    "Set the draft model for speculative decoding (default: unused)")
+  val modelDraft =
+    new Param[String](this, "modelDraft", "Set the draft model for speculative decoding")
 
   //  modelAlias = new Param[String](this, "modelAlias", "Set a model alias")
   /** @group param */
@@ -255,10 +227,8 @@ trait HasLlamaCppProperties {
     new BooleanParam(this, "embedding", "Whether to load model with embedding support")
 
   /** @group param */
-  val flashAttention = new BooleanParam(
-    this,
-    "flashAttention",
-    "Whether to enable Flash Attention (default: disabled)")
+  val flashAttention =
+    new BooleanParam(this, "flashAttention", "Whether to enable Flash Attention")
 
   /** @group param */
   val inputPrefixBos = new BooleanParam(
@@ -286,29 +256,27 @@ trait HasLlamaCppProperties {
 
   /** @group param */
   val chatTemplate =
-    new Param[String](this, "chatTemplate", "The chat template to use (default: empty)")
+    new Param[String](this, "chatTemplate", "The chat template to use")
 
-  /** Set the number of threads to use during generation (default: 8)
+  /** Set the number of threads to use during generation
     *
     * @group setParam
     */
   def setNThreads(nThreads: Int): this.type = { set(this.nThreads, nThreads) }
 
-  /** Set the number of threads to use during draft generation (default: same as nThreads)
+  /** Set the number of threads to use during draft generation
     *
     * @group setParam
     */
   def setNThreadsDraft(nThreadsDraft: Int): this.type = { set(this.nThreadsDraft, nThreadsDraft) }
 
-  /** Set the number of threads to use during batch and prompt processing (default: same as
-    * nThreads)
+  /** Set the number of threads to use during batch and prompt processing
     *
     * @group setParam
     */
   def setNThreadsBatch(nThreadsBatch: Int): this.type = { set(this.nThreadsBatch, nThreadsBatch) }
 
-  /** Set the number of threads to use during batch and prompt processing (default: same as
-    * nThreads)
+  /** Set the number of threads to use during batch and prompt processing
     *
     * @group setParam
     */
@@ -316,7 +284,7 @@ trait HasLlamaCppProperties {
     set(this.nThreadsBatchDraft, nThreadsBatchDraft)
   }
 
-  /** Set the size of the prompt context (default: 512, 0 = loaded from model)
+  /** Set the size of the prompt context
     *
     * @group setParam
     */
@@ -334,25 +302,25 @@ trait HasLlamaCppProperties {
     */
   def setNUbatch(nUbatch: Int): this.type = { set(this.nUbatch, nUbatch) }
 
-  /** Set the number of tokens to draft for speculative decoding (default: 5)
+  /** Set the number of tokens to draft for speculative decoding
     *
     * @group setParam
     */
   def setNDraft(nDraft: Int): this.type = { set(this.nDraft, nDraft) }
 
-  /** Set the maximal number of chunks to process (default: -1, -1 = all)
+  /** Set the maximal number of chunks to process
     *
     * @group setParam
     */
   def setNChunks(nChunks: Int): this.type = { set(this.nChunks, nChunks) }
 
-  /** Set the number of sequences to decode (default: 1)
+  /** Set the number of sequences to decode
     *
     * @group setParam
     */
   def setNSequences(nSequences: Int): this.type = { set(this.nSequences, nSequences) }
 
-  /** Set the speculative decoding split probability (default: 0.1)
+  /** Set the speculative decoding split probability
     *
     * @group setParam
     */
@@ -401,19 +369,19 @@ trait HasLlamaCppProperties {
     */
   def setNBeams(nBeams: Int): this.type = { set(this.nBeams, nBeams) }
 
-  /** Set the group-attention factor (default: 1)
+  /** Set the group-attention factor
     *
     * @group setParam
     */
   def setGrpAttnN(grpAttnN: Int): this.type = { set(this.grpAttnN, grpAttnN) }
 
-  /** Set the group-attention width (default: 512.0)
+  /** Set the group-attention width
     *
     * @group setParam
     */
   def setGrpAttnW(grpAttnW: Int): this.type = { set(this.grpAttnW, grpAttnW) }
 
-  /** Set the RoPE base frequency, used by NTK-aware scaling (default: loaded from model)
+  /** Set the RoPE base frequency, used by NTK-aware scaling
     *
     * @group setParam
     */
@@ -427,7 +395,7 @@ trait HasLlamaCppProperties {
     set(this.ropeFreqScale, ropeFreqScale)
   }
 
-  /** Set the YaRN extrapolation mix factor (default: 1.0, 0.0 = full interpolation)
+  /** Set the YaRN extrapolation mix factor
     *
     * @group setParam
     */
@@ -435,7 +403,7 @@ trait HasLlamaCppProperties {
     set(this.yarnExtFactor, yarnExtFactor)
   }
 
-  /** Set the YaRN scale sqrt(t) or attention magnitude (default: 1.0)
+  /** Set the YaRN scale sqrt(t) or attention magnitude
     *
     * @group setParam
     */
@@ -443,25 +411,25 @@ trait HasLlamaCppProperties {
     set(this.yarnAttnFactor, yarnAttnFactor)
   }
 
-  /** Set the YaRN low correction dim or beta (default: 32.0)
+  /** Set the YaRN low correction dim or beta
     *
     * @group setParam
     */
   def setYarnBetaFast(yarnBetaFast: Float): this.type = { set(this.yarnBetaFast, yarnBetaFast) }
 
-  /** Set the YaRN high correction dim or alpha (default: 1.0)
+  /** Set the YaRN high correction dim or alpha
     *
     * @group setParam
     */
   def setYarnBetaSlow(yarnBetaSlow: Float): this.type = { set(this.yarnBetaSlow, yarnBetaSlow) }
 
-  /** Set the YaRN original context size of model (default: 0 = model training context size)
+  /** Set the YaRN original context size of model
     *
     * @group setParam
     */
   def setYarnOrigCtx(yarnOrigCtx: Int): this.type = { set(this.yarnOrigCtx, yarnOrigCtx) }
 
-  /** Set the KV cache defragmentation threshold (default: -1.0, < 0 - disabled)
+  /** Set the KV cache defragmentation threshold
     *
     * @group setParam
     */
@@ -504,7 +472,7 @@ trait HasLlamaCppProperties {
     */
   def setPoolingType(poolingType: String): this.type = { set(this.poolingType, poolingType) }
 
-  /** Set the draft model for speculative decoding (default: unused)
+  /** Set the draft model for speculative decoding
     *
     * @group setParam
     */
@@ -546,7 +514,7 @@ trait HasLlamaCppProperties {
     */
   def setEmbedding(embedding: Boolean): this.type = { set(this.embedding, embedding) }
 
-  /** Whether to enable Flash Attention (default: disabled)
+  /** Whether to enable Flash Attention
     *
     * @group setParam
     */
@@ -586,7 +554,7 @@ trait HasLlamaCppProperties {
     */
   def setSystemPrompt(systemPrompt: String): this.type = { set(this.systemPrompt, systemPrompt) }
 
-  /** The chat template to use (default: empty)
+  /** The chat template to use
     *
     * @group setParam
     */
@@ -724,14 +692,12 @@ trait HasLlamaCppProperties {
 
   // ---------------- INFERENCE PARAMETERS ----------------
   /** @group param */
-  val inputPrefix = new Param[String](
-    this,
-    "inputPrefix",
-    "Set the prompt to start generation with (default: empty)")
+  val inputPrefix =
+    new Param[String](this, "inputPrefix", "Set the prompt to start generation with")
 
   /** @group param */
   val inputSuffix =
-    new Param[String](this, "inputSuffix", "Set a suffix for infilling (default: empty)")
+    new Param[String](this, "inputSuffix", "Set a suffix for infilling")
 
   /** @group param */
   val cachePrompt = new BooleanParam(
@@ -740,97 +706,70 @@ trait HasLlamaCppProperties {
     "Whether to remember the prompt to avoid reprocessing it")
 
   /** @group param */
-  val nPredict = new IntParam(
-    this,
-    "nPredict",
-    "Set the number of tokens to predict (default: -1, -1 = infinity, -2 = until context filled)")
+  val nPredict = new IntParam(this, "nPredict", "Set the number of tokens to predict")
 
   /** @group param */
-  val topK = new IntParam(this, "topK", "Set top-k sampling (default: 40, 0 = disabled)")
+  val topK = new IntParam(this, "topK", "Set top-k sampling")
 
   /** @group param */
-  val topP = new FloatParam(this, "topP", "Set top-p sampling (default: 0.9, 1.0 = disabled)")
+  val topP = new FloatParam(this, "topP", "Set top-p sampling")
 
   /** @group param */
-  val minP = new FloatParam(this, "minP", "Set min-p sampling (default: 0.1, 0.0 = disabled)")
+  val minP = new FloatParam(this, "minP", "Set min-p sampling")
 
   /** @group param */
-  val tfsZ = new FloatParam(
-    this,
-    "tfsZ",
-    "Set tail free sampling, parameter z (default: 1.0, 1.0 = disabled)")
+  val tfsZ = new FloatParam(this, "tfsZ", "Set tail free sampling, parameter z")
 
   /** @group param */
-  val typicalP = new FloatParam(
-    this,
-    "typicalP",
-    "Set locally typical sampling, parameter p (default: 1.0, 1.0 = disabled)")
+  val typicalP = new FloatParam(this, "typicalP", "Set locally typical sampling, parameter p")
 
   /** @group param */
-  val temperature = new FloatParam(this, "temperature", "Set the temperature (default: 0.8)")
+  val temperature = new FloatParam(this, "temperature", "Set the temperature")
 
   /** @group param */
-  val dynamicTemperatureRange = new FloatParam(
-    this,
-    "dynatempRange",
-    "Set the dynamic temperature range (default: 0.0, 0.0 = disabled)")
+  val dynamicTemperatureRange =
+    new FloatParam(this, "dynatempRange", "Set the dynamic temperature range")
 
   /** @group param */
-  val dynamicTemperatureExponent = new FloatParam(
-    this,
-    "dynatempExponent",
-    "Set the dynamic temperature exponent (default: 1.0)")
+  val dynamicTemperatureExponent =
+    new FloatParam(this, "dynatempExponent", "Set the dynamic temperature exponent")
 
   /** @group param */
-  val repeatLastN = new IntParam(
-    this,
-    "repeatLastN",
-    "Set the last n tokens to consider for penalties (default: 64, 0 = disabled, -1 = ctx_size)")
+  val repeatLastN =
+    new IntParam(this, "repeatLastN", "Set the last n tokens to consider for penalties")
 
   /** @group param */
-  val repeatPenalty = new FloatParam(
-    this,
-    "repeatPenalty",
-    "Set the penalty of repeated sequences of tokens (default: 1.0, 1.0 = disabled)")
+  val repeatPenalty =
+    new FloatParam(this, "repeatPenalty", "Set the penalty of repeated sequences of tokens")
 
   /** @group param */
-  val frequencyPenalty = new FloatParam(
-    this,
-    "frequencyPenalty",
-    "Set the repetition alpha frequency penalty (default: 0.0, 0.0 = disabled)")
+  val frequencyPenalty =
+    new FloatParam(this, "frequencyPenalty", "Set the repetition alpha frequency penalty")
 
   /** @group param */
-  val presencePenalty = new FloatParam(
-    this,
-    "presencePenalty",
-    "Set the repetition alpha presence penalty (default: 0.0, 0.0 = disabled)")
+  val presencePenalty =
+    new FloatParam(this, "presencePenalty", "Set the repetition alpha presence penalty")
 
   /** @group param */
   val miroStat = new Param[String](this, "miroStat", "Set MiroStat sampling strategies.")
 
   /** @group param */
-  val miroStatTau = new FloatParam(
-    this,
-    "mirostatTau",
-    "Set the MiroStat target entropy, parameter tau (default: 5.0)")
+  val miroStatTau =
+    new FloatParam(this, "mirostatTau", "Set the MiroStat target entropy, parameter tau")
 
   /** @group param */
-  val miroStatEta = new FloatParam(
-    this,
-    "mirostatEta",
-    "Set the MiroStat learning rate, parameter eta (default: 0.1)")
+  val miroStatEta =
+    new FloatParam(this, "mirostatEta", "Set the MiroStat learning rate, parameter eta")
 
   /** @group param */
   val penalizeNl = new BooleanParam(this, "penalizeNl", "Whether to penalize newline tokens")
 
   /** @group param */
-  val nKeep = new IntParam(
-    this,
-    "nKeep",
-    "Set the number of tokens to keep from the initial prompt (default: 0, -1 = all)")
+  val nKeep =
+    new IntParam(this, "nKeep", "Set the number of tokens to keep from the initial prompt")
 
   /** @group param */
-  val seed = new IntParam(this, "seed", "Set the RNG seed (default: -1, use random seed for < 0)")
+  val seed = new IntParam(this, "seed", "Set the RNG seed")
 
   /** @group param */
   val nProbs = new IntParam(
@@ -889,15 +828,15 @@ trait HasLlamaCppProperties {
   val useChatTemplate = new BooleanParam(
     this,
     "useChatTemplate",
-    "Set whether or not generate should apply a chat template (default: false)")
+    "Set whether or not generate should apply a chat template")
 
-  /** Set the prompt to start generation with (default: "")
+  /** Set the prompt to start generation with
     *
     * @group setParam
     */
   def setInputPrefix(inputPrefix: String): this.type = { set(this.inputPrefix, inputPrefix) }
 
-  /** Set a suffix for infilling (default: "")
+  /** Set a suffix for infilling
     *
     * @group setParam
     */
@@ -909,48 +848,48 @@ trait HasLlamaCppProperties {
     */
   def setCachePrompt(cachePrompt: Boolean): this.type = { set(this.cachePrompt, cachePrompt) }
 
-  /** Set the number of tokens to predict (default: -1, -1 = infinity, -2 = until context filled)
+  /** Set the number of tokens to predict
     *
     * @group setParam
     */
   def setNPredict(nPredict: Int): this.type = { set(this.nPredict, nPredict) }
 
-  /** Set top-k sampling (default: 40, 0 = disabled)
+  /** Set top-k sampling
     *
     * @group setParam
     */
   def setTopK(topK: Int): this.type = { set(this.topK, topK) }
 
-  /** Set top-p sampling (default: 0.9, 1.0 = disabled)
+  /** Set top-p sampling
     *
     * @group setParam
     */
   def setTopP(topP: Float): this.type = { set(this.topP, topP) }
 
-  /** Set min-p sampling (default: 0.1, 0.0 = disabled)
+  /** Set min-p sampling
     *
     * @group setParam
     */
   def setMinP(minP: Float): this.type = { set(this.minP, minP) }
 
-  /** Set tail free sampling, parameter z (default: 1.0, 1.0 = disabled)
+  /** Set tail free sampling, parameter z
     * @group setParam
     */
   def setTfsZ(tfsZ: Float): this.type = { set(this.tfsZ, tfsZ) }
 
-  /** Set locally typical sampling, parameter p (default: 1.0, 1.0 = disabled)
+  /** Set locally typical sampling, parameter p
     *
     * @group setParam
     */
   def setTypicalP(typicalP: Float): this.type = { set(this.typicalP, typicalP) }
 
-  /** Set the temperature (default: 0.8)
+  /** Set the temperature
     *
     * @group setParam
     */
   def setTemperature(temperature: Float): this.type = { set(this.temperature, temperature) }
 
-  /** Set the dynamic temperature range (default: 0.0, 0.0 = disabled)
+  /** Set the dynamic temperature range
     *
     * @group setParam
     */
@@ -961,13 +900,13 @@ trait HasLlamaCppProperties {
     set(this.dynamicTemperatureExponent, dynatempExponent)
   }
 
-  /** Set the last n tokens to consider for penalties (default: 64, 0 = disabled, -1 = ctx_size)
+  /** Set the last n tokens to consider for penalties
     *
     * @group setParam
     */
   def setRepeatLastN(repeatLastN: Int): this.type = { set(this.repeatLastN, repeatLastN) }
 
-  /** Set the penalty of repeated sequences of tokens (default: 1.0, 1.0 = disabled)
+  /** Set the penalty of repeated sequences of tokens
     *
     * @group setParam
     */
@@ -975,7 +914,7 @@ trait HasLlamaCppProperties {
     set(this.repeatPenalty, repeatPenalty)
   }
 
-  /** Set the repetition alpha frequency penalty (default: 0.0, 0.0 = disabled)
+  /** Set the repetition alpha frequency penalty
     *
     * @group setParam
     */
@@ -983,7 +922,7 @@ trait HasLlamaCppProperties {
     set(this.frequencyPenalty, frequencyPenalty)
   }
 
-  /** Set the repetition alpha presence penalty (default: 0.0, 0.0 = disabled)
+  /** Set the repetition alpha presence penalty
     *
     * @group setParam
     */
@@ -1001,13 +940,13 @@ trait HasLlamaCppProperties {
     */
   def setMiroStat(mirostat: String): this.type = set(this.miroStat, mirostat)
 
-  /** Set the MiroStat target entropy, parameter tau (default: 5.0)
+  /** Set the MiroStat target entropy, parameter tau
     *
     * @group setParam
     */
   def setMiroStatTau(mirostatTau: Float): this.type = { set(this.miroStatTau, mirostatTau) }
 
-  /** Set the MiroStat learning rate, parameter eta (default: 0.1)
+  /** Set the MiroStat learning rate, parameter eta
     *
     * @group setParam
     */
@@ -1019,13 +958,13 @@ trait HasLlamaCppProperties {
     */
   def setPenalizeNl(penalizeNl: Boolean): this.type = { set(this.penalizeNl, penalizeNl) }
 
-  /** Set the number of tokens to keep from the initial prompt (default: 0, -1 = all)
+  /** Set the number of tokens to keep from the initial prompt
     *
     * @group setParam
     */
   def setNKeep(nKeep: Int): this.type = { set(this.nKeep, nKeep) }
 
-  /** Set the RNG seed (default: -1, use random seed for < 0)
+  /** Set the RNG seed
     *
     * @group setParam
     */
@@ -1097,8 +1036,7 @@ trait HasLlamaCppProperties {
     set(this.stopStrings, stopStrings)
   }
 
-  /** Set which samplers to use for token generation in the given order (Default: ["TOP_K",
-    * "TFS_Z", "TYPICAL_P", "TOP_P", "MIN_P", "TEMPERATURE"]).
+  /** Set which samplers to use for token generation in the given order .
     *
     * Available Samplers are:
     *

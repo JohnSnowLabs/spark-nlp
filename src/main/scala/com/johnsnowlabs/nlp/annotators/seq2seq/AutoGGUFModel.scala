@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.johnsnowlabs.nlp.gguf
+package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.nlp._
@@ -26,19 +25,56 @@ import org.apache.spark.sql.SparkSession
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods
 
-/** Annotator that uses the llama.cpp library to generate text completions.
-  *
-  * The annotator requires a GGUF model, which needs to be provided either by either providing a
-  * path to a local file or a URL (TODO).
+/** Annotator that uses the llama.cpp library to generate text completions with large language
+  * models.
   *
   * For settable parameters, and their explanations, see [[HasLlamaCppProperties]] and refer to
   * the llama.cpp documentation of
   * [[https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server server.cpp]]
   * for more information.
   *
+  * If the parameters are not set, the annotator will default to use the parameters provided by
+  * the model.
+  *
+  * ==Note==
+  * To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+  * the number of GPU layers with the `setNGpuLayers` method.
+  *
   * ==Example==
   *
-  * TODO
+  * {{{
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import org.apache.spark.ml.Pipeline
+  * import spark.implicits._
+  *
+  * val document = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val autoGGUFModel = AutoGGUFModel
+  *   .loadSavedModel("models/codellama-7b.Q2_K.gguf", spark)
+  *   .setInputCols("document")
+  *   .setOutputCol("completions")
+  *   .setBatchSize(4)
+  *   .setNPredict(20)
+  *   .setNGpuLayers(99)
+  *   .setTemperature(0.4f)
+  *   .setTopK(40)
+  *   .setTopP(0.9f)
+  *   .setPenalizeNl(true)
+  *
+  * val pipeline = new Pipeline().setStages(Array(document, autoGGUFModel))
+  *
+  * val data = Seq("Hello, I am a").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  * result.select("completions").show(truncate = false)
+  * +-----------------------------------------------------------------------------------------------------------------------------------+
+  * |completions                                                                                                                        |
+  * +-----------------------------------------------------------------------------------------------------------------------------------+
+  * |[{document, 0, 78,  new user.  I am currently working on a project and I need to create a list of , {prompt -> Hello, I am a}, []}]|
+  * +-----------------------------------------------------------------------------------------------------------------------------------+
+  * }}}
   *
   * @param uid
   *   required uid for storing annotator to disk
@@ -107,23 +143,14 @@ class AutoGGUFModel(override val uid: String)
         getModelParameters.setNParallel(getBatchSize) // set parallel decoding to batch size
       val inferenceParams = getInferenceParameters
 
-      println("DEBUG DHA: modelParams: " + modelParams.toString)
-      println("DEBUG DHA: inferenceParams " + inferenceParams.toString)
-
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
       val annotationsText = annotations.map(_.result)
       val completed_texts = model.requestBatchCompletion(annotationsText.toArray, inferenceParams)
 
       val result: Seq[Seq[Annotation]] =
-        annotations.zip(completed_texts).map { case (anno, text) =>
-          Seq(
-            new Annotation(
-              outputAnnotatorType,
-              0, // TODO Maybe prepend the original text?
-              text.length - 1,
-              text,
-              Map("prompt" -> anno.result)))
+        annotations.zip(completed_texts).map { case (_, text) =>
+          Seq(new Annotation(outputAnnotatorType, 0, text.length - 1, text, Map.empty))
         }
       result
     } else Seq(Seq.empty[Annotation])
@@ -139,7 +166,7 @@ class AutoGGUFModel(override val uid: String)
   }
 }
 
-trait ReadablePretrainedAutoGGUFModelModel
+trait ReadablePretrainedAutoGGUFModel
     extends ParamsAndFeaturesReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
   override val defaultModelName: Some[String] = Some("TODO") // TODO: might not even be needed?
@@ -157,10 +184,8 @@ trait ReadablePretrainedAutoGGUFModelModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAutoGGUFModelDLModel {
+trait ReadAutoGGUFModel {
   this: ParamsAndFeaturesReadable[AutoGGUFModel] =>
-
-  val suffix: String = "TODO"
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
     def findGGUFModelInFolder(): String = {
@@ -199,4 +224,4 @@ trait ReadAutoGGUFModelDLModel {
 /** This is the companion object of [[AutoGGUFModel]]. Please refer to that class for the
   * documentation.
   */
-object AutoGGUFModel extends ReadablePretrainedAutoGGUFModelModel with ReadAutoGGUFModelDLModel
+object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel

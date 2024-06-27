@@ -38,7 +38,6 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
       if (llamaModel == null) {
         // TODO: Validate when modelFileName or tmpFolder is None??
         val modelFilePath = SparkFiles.get(modelFileName)
-        println("DEBUG DHA: Loading GGUF Model from file: " + modelFilePath)
 
         if (Paths.get(modelFilePath).toFile.exists()) {
           modelParameters.setModelFilePath(modelFilePath)
@@ -55,6 +54,13 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
     val modelFilePath = SparkFiles.get(modelFileName)
     val modelOutputPath = Paths.get(file, modelFileName)
     Files.copy(Paths.get(modelFilePath), modelOutputPath)
+  }
+
+  // Destructor to free the model when this object is garbage collected
+  override def finalize(): Unit = {
+    if (llamaModel != null) {
+      llamaModel.close()
+    }
   }
 
 }
