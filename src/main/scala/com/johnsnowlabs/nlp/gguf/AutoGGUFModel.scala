@@ -18,11 +18,13 @@ package com.johnsnowlabs.nlp.gguf
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.nlp._
-import de.kherud.llama.args._
-import de.kherud.llama.{InferenceParameters, LlamaModel, ModelParameters}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.LlamaModel
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.json4s.DefaultFormats
+import org.json4s.jackson.JsonMethods
 
 /** Annotator that uses the llama.cpp library to generate text completions.
   *
@@ -106,6 +108,7 @@ class AutoGGUFModel(override val uid: String)
       val inferenceParams = getInferenceParameters
 
       println("DEBUG DHA: modelParams: " + modelParams.toString)
+      println("DEBUG DHA: inferenceParams " + inferenceParams.toString)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
@@ -126,6 +129,14 @@ class AutoGGUFModel(override val uid: String)
     } else Seq(Seq.empty[Annotation])
   }
 
+  def getMetadataMap: Map[String, String] = {
+    val metadataJsonString = getMetadata
+    if (metadataJsonString.isEmpty) Map.empty
+    else {
+      implicit val formats: DefaultFormats.type = DefaultFormats
+      JsonMethods.parse(metadataJsonString).extract[Map[String, String]]
+    }
+  }
 }
 
 trait ReadablePretrainedAutoGGUFModelModel
@@ -174,10 +185,13 @@ trait ReadAutoGGUFModelDLModel {
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AutoGGUFModel = {
     // TODO copyToLocal and potentially enable download from HF-URLS
-    // val localPath: String = ResourceHelper.copyToLocal(path)
+    val localPath: String = ResourceHelper.copyToLocal(modelPath)
     val annotatorModel = new AutoGGUFModel()
+    annotatorModel
+      .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
 
-    annotatorModel.setModelIfNotSet(spark, GGUFWrapper.read(spark, modelPath))
+    val metadata = LlamaModel.getMetadataFromFile(localPath)
+    if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
     annotatorModel
   }
 }

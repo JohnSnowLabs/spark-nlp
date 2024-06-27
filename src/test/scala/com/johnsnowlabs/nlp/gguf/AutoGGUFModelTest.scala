@@ -58,7 +58,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
   }
 
   it should "be serializable" in {
-
     val data = Seq("Hello, I am a").toDF("text")
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
     model.setNPredict(5)
@@ -165,6 +164,15 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
     val result = pipeline.fit(data).transform(data)
     result.select("completions").show(truncate = false)
+  }
+
+  it should "contain metadata when loadSavedModel" in {
+    val metadata = model.getMetadata
+    print(metadata)
+    assert(metadata.nonEmpty)
+
+    val metadataMap = model.getMetadataMap
+    assert(metadataMap.nonEmpty)
   }
 
 }

@@ -21,7 +21,7 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
   *   parameter values through setters and getters, respectively.
   */
 trait HasLlamaCppProperties {
-  this: ParamsAndFeaturesWritable =>
+  this: ParamsAndFeaturesWritable with HasProtectedParams =>
 
   // ---------------- MODEL PARAMETERS ----------------
   /** @group param */
@@ -1336,4 +1336,18 @@ trait HasLlamaCppProperties {
 
     inferenceParams
   }
+
+  // ---------------- METADATA ----------------
+  val metadata =
+    new Param[String](this, "metadata", "Set the metadata for the model").setProtected()
+
+  /** Set the metadata for the model
+    * @group setParam
+    */
+  def setMetadata(metadata: String): this.type = { set(this.metadata, metadata) }
+
+  /** Get the metadata for the model
+    * @group getParam
+    */
+  def getMetadata: String = $(metadata)
 }

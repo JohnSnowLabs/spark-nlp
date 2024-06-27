@@ -15,15 +15,13 @@
  */
 package com.johnsnowlabs.ml.gguf
 
-import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
-import de.kherud.llama.{LlamaModel, LogLevel, ModelParameters}
+import de.kherud.llama.{LlamaModel, ModelParameters}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.nio.file.{Files, Paths}
-import java.util.UUID
 
 class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Serializable {
 
