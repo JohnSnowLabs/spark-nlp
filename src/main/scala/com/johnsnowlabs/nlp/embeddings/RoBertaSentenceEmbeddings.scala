@@ -368,8 +368,6 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
 
-
-
     getEngine match {
       case TensorFlow.name =>
         writeTensorflowModelV2(
@@ -467,13 +465,14 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel 
         }
 
         /** the order of setSignatures is important if we use getSignatures inside
-         * setModelIfNotSet
-         */
+          * setModelIfNotSet
+          */
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>
@@ -483,7 +482,6 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel 
     annotatorModel
   }
 }
-
 
 /** This is the companion object of [[RoBertaSentenceEmbeddings]]. Please refer to that class for
   * the documentation.

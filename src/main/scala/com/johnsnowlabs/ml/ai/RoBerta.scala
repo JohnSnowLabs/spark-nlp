@@ -205,7 +205,6 @@ private[johnsnowlabs] class RoBerta(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-
     val embeddings = detectedEngine match {
       case ONNX.name =>
         val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
@@ -216,14 +215,10 @@ private[johnsnowlabs] class RoBerta(
           .map(sentence => sentence.map(x => if (x == padTokenId) 0L else 1L))
           .toArray
         val maskTensors =
-          OnnxTensor.createTensor(
-            env,
-            attentionMask)
+          OnnxTensor.createTensor(env, attentionMask)
 
         val inputs =
-          Map(
-            "input_ids" -> tokenTensors,
-            "attention_mask" -> maskTensors).asJava
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
         try {
           val results = runner.run(inputs)
@@ -251,7 +246,6 @@ private[johnsnowlabs] class RoBerta(
             throw e
         }
       case _ =>
-
         val tensors = new TensorResources()
 
         val (tokenTensors, maskTensors) =
@@ -292,13 +286,11 @@ private[johnsnowlabs] class RoBerta(
         val dim = embeddings.length / batchLength
         embeddings.grouped(dim).toArray
 
-
-  }
+    }
 
     embeddings
 
   }
-
 
   def predict(
       sentences: Seq[WordpieceTokenizedSentence],

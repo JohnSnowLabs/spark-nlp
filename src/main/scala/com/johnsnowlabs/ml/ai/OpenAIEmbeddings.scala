@@ -15,7 +15,9 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 
 /** Transformer that makes a request for OpenAI Embeddings API for each executor.
   *
-  * @see [[https://platform.openai.com/docs/api-reference/embeddings/create OpenAI API Doc]] for reference
+  * @see
+  *   [[https://platform.openai.com/docs/api-reference/embeddings/create OpenAI API Doc]] for
+  *   reference
   *
   * ==Example==
   * {{{

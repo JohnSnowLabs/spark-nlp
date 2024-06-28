@@ -15,7 +15,8 @@ class OpenAIEmbeddingsTest extends AnyFlatSpec {
     .config("spark.driver.maxResultSize", "0")
     .config("spark.kryoserializer.buffer.max", "2000M")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .config("spark.jsl.settings.openai.api.key",
+    .config(
+      "spark.jsl.settings.openai.api.key",
       "" // Set your OpenAI API key here...
     )
     .getOrCreate()

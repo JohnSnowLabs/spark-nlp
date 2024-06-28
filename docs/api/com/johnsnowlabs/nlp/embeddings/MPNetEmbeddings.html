@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings</title>
-          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings" />
-          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings" />
+          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings</title>
+          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings" />
+          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -470,7 +470,7 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Sentence embeddings using MPNet.</p><p>The MPNet model was proposed in MPNet: Masked and Permuted Pre-training for Language
 Understanding by Kaitao Song, Xu Tan, Tao Qin, Jianfeng Lu, Tie-Yan Liu. MPNet adopts a novel
 pre-training method, named masked and permuted language modeling, to inherit the advantages of
-masked language modeling and permuted language modeling for natural language understanding.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = MPNetEmbeddings.pretrained()
+masked language modeling and permuted language modeling for natural language understanding.</p><p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = MPNetEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"mpnet_embeddings"</span>)</pre><p>The default model is <code>&quot;all_mpnet_base_v2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
 <a href="https://sparknlp.org/models?q=MPNet" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
@@ -3135,9 +3135,9 @@ information outside its content
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.onnx.WriteOnnxModel#writeOnnxModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String,dataFileSuffix:String):Unit"></a><a id="writeOnnxModels(String,SparkSession,Seq[(OnnxWrapper,String)],String,String):Unit"></a>
+      <a id="writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String):Unit"></a><a id="writeOnnxModels(String,SparkSession,Seq[(OnnxWrapper,String)],String):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/embeddings/MPNetEmbeddings.html#writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String,dataFileSuffix:String):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/MPNetEmbeddings.html#writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -3146,7 +3146,7 @@ information outside its content
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">writeOnnxModels</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="onnxWrappersWithNames">onnxWrappersWithNames: <a href="../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[(<a href="../../ml/onnx/OnnxWrapper.html" class="extype" name="com.johnsnowlabs.ml.onnx.OnnxWrapper">OnnxWrapper</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="dataFileSuffix">dataFileSuffix: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;_data&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">writeOnnxModels</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="onnxWrappersWithNames">onnxWrappersWithNames: <a href="../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[(<a href="../../ml/onnx/OnnxWrapper.html" class="extype" name="com.johnsnowlabs.ml.onnx.OnnxWrapper">OnnxWrapper</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></dd></dl></div>
