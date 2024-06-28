@@ -98,7 +98,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setPSplit(0.1f)
     model.setNGpuLayers(99)
     model.setNGpuLayersDraft(99)
-    model.setGPUSplitMode("NONE")
+    model.setGpuSplitMode("NONE")
     model.setMainGpu(0)
     model.setTensorSplit(Array[Double]())
     model.setNBeams(0)

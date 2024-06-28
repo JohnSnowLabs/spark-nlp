@@ -36,6 +36,18 @@ import org.json4s.jackson.JsonMethods
   * If the parameters are not set, the annotator will default to use the parameters provided by
   * the model.
   *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val autoGGUFModel = AutoGGUFModel.pretrained()
+  *   .setInputCols("document")
+  *   .setOutputCol("completions")
+  * }}}
+  * The default model is `"gguf-phi3-mini-4k-instruct-q4"`, if no name is provided.
+  *
+  * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
+  *
+  * For extended examples of usage, see the TODO (test) and the TODO (notebook).
+  *
   * ==Note==
   * To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
   * the number of GPU layers with the `setNGpuLayers` method.

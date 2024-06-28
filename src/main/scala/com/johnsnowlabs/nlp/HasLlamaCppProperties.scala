@@ -347,7 +347,7 @@ trait HasLlamaCppProperties {
     *
     * @group setParam
     */
-  def setGPUSplitMode(splitMode: String): this.type = { set(this.gpuSplitMode, splitMode) }
+  def setGpuSplitMode(splitMode: String): this.type = { set(this.gpuSplitMode, splitMode) }
 
   /** Set the GPU that is used for scratch and small tensors
     *
@@ -896,6 +896,11 @@ trait HasLlamaCppProperties {
   def setDynamicTemperatureRange(dynatempRange: Float): this.type = {
     set(this.dynamicTemperatureRange, dynatempRange)
   }
+
+  /** Set the dynamic temperature exponent
+    *
+    * @group setParam
+    */
   def setDynamicTemperatureExponent(dynatempExponent: Float): this.type = {
     set(this.dynamicTemperatureExponent, dynatempExponent)
   }
@@ -1050,7 +1055,7 @@ trait HasLlamaCppProperties {
     */
   def setSamplers(samplers: Array[String]): this.type = { set(this.samplers, samplers) }
 
-  /** Whether or not to stream the output
+  /** Set whether or not generate should apply a chat template
     *
     * @group setParam
     */
