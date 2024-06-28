@@ -58,6 +58,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
+sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 
 annotators = annotator
 embeddings = annotator
