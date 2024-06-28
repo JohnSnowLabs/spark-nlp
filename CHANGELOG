@@ -1,4 +1,28 @@
 ========
+5.4.0
+========
+----------------
+New Features & Enhancements
+----------------
+* Added OpenVINO Runtime integration for various models, enabling enhanced inference performance. (#14246)
+* Added Python APIs to incorporate OpenVINO support. (#14242)
+* Introduced support for ONNX models and average pooling in ONNX-based annotators. (#14245)
+* Implemented MPNet for token classification. (#14244)
+* Added support for MistralAI LLM and LLAMA2. (#14243)
+* Improved caching mechanisms in Streamlit demos. (#14241)
+* Enhanced models' card and README documentation for Models Hub. (#14240)
+* Added OpenVINO GPU dependencies. (#14236)
+* Locked macOS version for runners and added missing SBT setup. (#14235)
+
+----------------
+Bug Fixes
+----------------
+* Fixed bugs in Colab notebooks. (#14239)
+* Resolved issues with BERT backend and broken annotators. (#14238)
+* Corrected LLAMA2 position ID and generation bug. (#14237)
+
+
+========
 5.3.3
 ========
 ----------------
