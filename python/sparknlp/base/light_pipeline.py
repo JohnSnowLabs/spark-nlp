@@ -75,7 +75,7 @@ class LightPipeline:
                 input_cols = stage.getInputCols()
                 if type(input_cols) == str:
                     input_cols = [input_cols]
-                input_annotator_types = stage.inputAnnotatorTypes
+                input_annotator_types = stage.inputAnnotatorTypes + stage.optionalInputAnnotatorTypes
                 for input_col in input_cols:
                     annotator_type = annotator_types.get(input_col)
                     if annotator_type is None or annotator_type not in input_annotator_types:

@@ -1,0 +1,2 @@
+Example4.txt
+La Joconde est une peinture à l'huile de la .. Il a lieu au Louvre.

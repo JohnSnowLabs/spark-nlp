@@ -25,6 +25,7 @@ import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.LongDataBuffer
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -50,6 +51,7 @@ private[johnsnowlabs] class CamemBertClassification(
     extends Serializable
     with XXXForClassification {
 
+  protected val logger: Logger = LoggerFactory.getLogger("CamemBertClassification")
   val _tfCamemBertSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
@@ -123,7 +125,7 @@ private[johnsnowlabs] class CamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -189,7 +191,7 @@ private[johnsnowlabs] class CamemBertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
+  private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
@@ -213,11 +215,19 @@ private[johnsnowlabs] class CamemBertClassification(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-        tokenTensors.close()
-        maskTensors.close()
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Float] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
     }
   }
 
@@ -227,7 +237,7 @@ private[johnsnowlabs] class CamemBertClassification(
     val batchLength = batch.length
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -361,6 +371,12 @@ private[johnsnowlabs] class CamemBertClassification(
 
         (startLogits, endLogits)
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

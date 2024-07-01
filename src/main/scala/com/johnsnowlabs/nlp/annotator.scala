@@ -756,4 +756,44 @@ package object annotator {
 
   object BGEEmbeddings extends ReadablePretrainedBGEModel with ReadBGEDLModel
 
+  type DeBertaForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification
+
+  object DeBertaForZeroShotClassification
+      extends ReadablePretrainedDeBertaForZeroShotModel
+      with ReadDeBertaForZeroShotDLModel
+
+  type MPNetForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification
+
+  object MPNetForSequenceClassification
+      extends ReadablePretrainedMPNetForSequenceModel
+      with ReadMPNetForSequenceDLModel
+
+  type MPNetForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering
+
+  object MPNetForQuestionAnswering
+      extends ReadablePretrainedMPNetForQAModel
+      with ReadMPNetForQuestionAnsweringDLModel
+
+  type MPNetEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings
+
+  object MPNetEmbeddings extends ReadablePretrainedMPNetModel with ReadMPNetDLModel
+
+  type LLAMA2Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer
+
+  object LLAMA2Transformer
+      extends ReadablePretrainedLLAMA2TransformerModel
+      with ReadLLAMA2TransformerDLModel
+
+  type M2M100Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer
+
+  object M2M100Transformer
+      extends ReadablePretrainedM2M100TransformerModel
+      with ReadM2M100TransformerDLModel
+
+  type UAEEmbeddings = com.johnsnowlabs.nlp.embeddings.UAEEmbeddings
+  object UAEEmbeddings extends ReadablePretrainedUAEModel with ReadUAEDLModel
 }

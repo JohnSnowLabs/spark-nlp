@@ -1,8 +1,7 @@
 package com.johnsnowlabs.client.azure
 
-import com.amazonaws.services.ecr.model.InvalidParameterException
 import com.johnsnowlabs.client.{CloudClient, CloudStorage}
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
+import com.johnsnowlabs.util.ConfigHelper
 
 class AzureClient(parameters: Map[String, String] = Map.empty) extends CloudClient {
 
@@ -11,7 +10,7 @@ class AzureClient(parameters: Map[String, String] = Map.empty) extends CloudClie
   override protected def cloudConnect(): CloudStorage = {
     val storageAccountName = parameters.getOrElse(
       "storageAccountName",
-      throw new InvalidParameterException("Azure client requires storageAccountName"))
+      throw new Exception("Azure client requires storageAccountName"))
     val accountKey =
       parameters.getOrElse("accountKey", ConfigHelper.getHadoopAzureConfig(storageAccountName))
     new AzureGateway(storageAccountName, accountKey)

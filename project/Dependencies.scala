@@ -95,8 +95,8 @@ object Dependencies {
   val rocksdbjniVersion = "6.29.5"
   val rocksdbjni = "org.rocksdb" % "rocksdbjni" % rocksdbjniVersion
 
-  val awsjavasdkbundleVersion = "1.12.500"
-  val awsjavasdkbundle = "com.amazonaws" % "aws-java-sdk-bundle" % awsjavasdkbundleVersion
+  val awsJavaSdkS3Version = "1.12.500"
+  val awsJavaSdkS3 = "com.amazonaws" % "aws-java-sdk-s3" % awsJavaSdkS3Version
 
   val liblevenshteinVersion = "3.0.0"
   val liblevenshtein = "com.github.universal-automata" % "liblevenshtein" % liblevenshteinVersion
@@ -113,7 +113,7 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val onnxRuntimeVersion = "1.16.3"
+  val onnxRuntimeVersion = "1.17.0"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 

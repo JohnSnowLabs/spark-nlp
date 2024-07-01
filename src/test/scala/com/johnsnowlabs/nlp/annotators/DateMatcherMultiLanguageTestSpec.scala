@@ -16,12 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.amazonaws.thirdparty.joda.time.LocalDateTime
-import com.amazonaws.thirdparty.joda.time.format.DateTimeFormat
 import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.time.LocalDate

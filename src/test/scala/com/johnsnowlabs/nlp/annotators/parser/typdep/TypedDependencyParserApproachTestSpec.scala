@@ -16,8 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
+import com.johnsnowlabs.nlp.DataBuilder
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.parser.dep.{
   DependencyParserApproach,
   DependencyParserModel
@@ -25,44 +26,21 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.FileNotFoundException
 import scala.language.existentials
 
-class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
+class TypedDependencyParserApproachTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   System.gc()
 
-  private val spark = SparkSession
-    .builder()
-    .appName("benchmark")
-    .master("local[*]")
-    .config("spark.driver.memory", "3G")
-    .config("spark.kryoserializer.buffer.max", "200M")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .getOrCreate()
-
-  import spark.implicits._
-
-  private val emptyDataSet = spark.createDataset(Seq.empty[String]).toDF("text")
-
-  private val documentAssembler = new DocumentAssembler()
-    .setInputCol("text")
-    .setOutputCol("document")
-
-  private val sentenceDetector = new SentenceDetector()
+  private val sentenceDetectorWithAbbreviations = new SentenceDetector()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
     .setUseAbbreviations(true)
-
-  private val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentence"))
-    .setOutputCol("token")
 
   private val posTagger = getPerceptronModel
 
@@ -143,7 +121,7 @@ class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
         .setStages(
           Array(
             documentAssembler,
-            sentenceDetector,
+            sentenceDetectorWithAbbreviations,
             tokenizer,
             posTagger,
             dependencyParser,

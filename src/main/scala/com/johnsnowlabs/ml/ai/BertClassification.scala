@@ -25,6 +25,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -54,6 +55,7 @@ private[johnsnowlabs] class BertClassification(
     extends Serializable
     with XXXForClassification {
 
+  protected val logger: Logger = LoggerFactory.getLogger("BertClassification")
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   protected val sentencePadTokenId = 0
@@ -149,7 +151,7 @@ private[johnsnowlabs] class BertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name =>
-        getRowScoresWithOnnx(batch, maxSentenceLength)
+        getRawScoresWithOnnx(batch, maxSentenceLength)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -218,7 +220,7 @@ private[johnsnowlabs] class BertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(
+  private def getRawScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): Array[Float] = {
 
@@ -250,13 +252,22 @@ private[johnsnowlabs] class BertClassification(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-        tokenTensors.close()
-        maskTensors.close()
-        segmentTensors.close()
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Float] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
+      segmentTensors.close()
     }
+
   }
 
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
@@ -265,7 +276,7 @@ private[johnsnowlabs] class BertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val rawScores = detectedEngine match {
       case ONNX.name =>
-        getRowScoresWithOnnx(batch, maxSentenceLength)
+        getRawScoresWithOnnx(batch, maxSentenceLength)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -284,14 +295,62 @@ private[johnsnowlabs] class BertClassification(
     batchScores
   }
 
-  def tagZeroShotSequence(
+  def computeZeroShotLogitsWithONNX(
       batch: Seq[Array[Int]],
-      entailmentId: Int,
-      contradictionId: Int,
-      activation: String): Array[Array[Float]] = {
-    val tensors = new TensorResources()
+      maxSentenceLength: Int): Array[Float] = {
 
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+    val tokenTensors =
+      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+    val maskTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+    val segmentTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch
+          .map(sentence =>
+            sentence.indices
+              .map(i =>
+                if (i < sentence.indexOf(sentenceEndTokenId)) 0L
+                else if (i == sentence.indexOf(sentenceEndTokenId)) 1L
+                else 1L)
+              .toArray)
+          .toArray)
+
+    val inputs =
+      Map(
+        "input_ids" -> tokenTensors,
+        "attention_mask" -> maskTensors,
+        "token_type_ids" -> segmentTensors).asJava
+
+    try {
+      val results = runner.run(inputs)
+      try {
+        val embeddings = results
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+
+        embeddings
+      } finally if (results != null) results.close()
+    }
+
+  }
+
+  def computeZeroShotLogitsWithTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
+
+    val tensors = new TensorResources()
     val batchLength = batch.length
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
@@ -349,6 +408,23 @@ private[johnsnowlabs] class BertClassification(
     outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
+
+    rawScores
+  }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val rawScores = detectedEngine match {
+      case ONNX.name => computeZeroShotLogitsWithONNX(batch, maxSentenceLength)
+      case _ => computeZeroShotLogitsWithTF(batch, maxSentenceLength)
+    }
 
     val dim = rawScores.length / batchLength
     rawScores
@@ -494,6 +570,12 @@ private[johnsnowlabs] class BertClassification(
 
         (startLogits, endLogits)
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

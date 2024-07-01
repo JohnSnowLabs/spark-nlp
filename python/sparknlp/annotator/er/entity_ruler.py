@@ -228,5 +228,5 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
 
     @staticmethod
     def loadStorage(path, spark, storage_ref):
-        HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.databases)
+        HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.database)
 

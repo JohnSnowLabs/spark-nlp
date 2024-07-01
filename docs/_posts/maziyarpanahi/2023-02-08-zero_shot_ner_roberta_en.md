@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
     .setInputCols(["sentence"]) \
     .setOutputCol("token")
     
-zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")\
+zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("zero_shot_ner")\
     .setEntityDefinitions(
@@ -89,7 +89,7 @@ val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence")) 
     .setOutputCol("token")
     
-val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en", "clincial/models")
+val zero_shot_ner = ZeroShotNerModel.pretrained("zero_shot_ner_roberta", "en")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("zero_shot_ner")
     .setEntityDefinitions(Map(
@@ -101,15 +101,15 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "zero_shot_ner"))
     .setOutputCol("ner_chunk")
 
-val pipeline = new .setStages(Array(
+val pipeline = new Pipeline().setStages(Array(
     documentAssembler, 
     sentenceDetector, 
     tokenizer, 
     zero_shot_ner, 
     ner_converter))
 
-val data = Seq(Array("Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.",
-                                     "John is a man who works in London, London and London.")toDS().toDF("text")
+val data = Seq("Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.",
+      "John is a man who works in London, London and London.").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```

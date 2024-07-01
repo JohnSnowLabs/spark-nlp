@@ -296,7 +296,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       inputCols = inputCols ++ optionalColumns
     }
 
-    inputCols
+    inputCols.distinct
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {

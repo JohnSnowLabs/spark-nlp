@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.2.2 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.3.3 documentation</title>
   
   
   
@@ -535,6 +535,23 @@ Default(‘False’).</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever">
+<span class="sig-name descname"><span class="pre">asRetriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.asRetriever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Sets the query to use the document similarity ranker as a retriever in a RAG fashion.</dt><dd><p>(Default: <cite>“”</cite>, empty if this annotator is not used as retriever)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>the query to use to select nearest neighbors in the retrieval process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -668,6 +685,7 @@ documentation of the main class.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setNumHashTables()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setVisibleDistances()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setIdentityRanking()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.asRetriever()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel</span></code></a></li>

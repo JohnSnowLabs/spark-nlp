@@ -1,0 +1,2 @@
+Example5.txt
+Facebook es un servicio de red social lanzado como TheFacebook el 4 de febrero de 2004. Fue fundado por Mark Zuckerberg con sus compañeros de cuarto y compañeros de la Universidad de Harvard Eduardo Saverin, Andrew McCollum, Dustin Moskovitz y Chris Hughes. La membresía del sitio web estaba inicialmente limitada por los fundadores a los estudiantes de Harvard, pero se expandió a otras universidades en el área de Boston, la Ivy League y gradualmente a la mayoría de las universidades de los Estados Unidos y Canadá.

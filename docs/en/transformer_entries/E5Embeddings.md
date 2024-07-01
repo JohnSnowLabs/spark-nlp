@@ -8,6 +8,8 @@ Sentence embeddings using E5.
 E5, an instruction-finetuned text embedding model that can generate text embeddings tailored
 to any task (e.g., classification, retrieval, clustering, text evaluation, etc.)
 
+Note that this annotator is only supported for Spark Versions 3.4 and up.
+
 Pretrained models can be loaded with `pretrained` of the companion object:
 
 ```scala

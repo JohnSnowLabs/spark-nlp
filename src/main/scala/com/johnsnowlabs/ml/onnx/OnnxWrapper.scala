@@ -23,17 +23,18 @@ import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.FileUtils
 import org.slf4j.{Logger, LoggerFactory}
-
+import org.apache.hadoop.fs.{FileSystem, Path}
 import java.io._
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
-class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
+class OnnxWrapper(var onnxModel: Array[Byte], var onnxModelPath: Option[String] = None)
+    extends Serializable {
 
   /** For Deserialization */
   def this() = {
-    this(null)
+    this(null, null)
   }
 
   // Important for serialization on none-kyro serializers
@@ -44,7 +45,8 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
     this.synchronized {
       // TODO: After testing it works remove the Map.empty
       if (ortSession == null && ortEnv == null) {
-        val (session, env) = OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions)
+        val (session, env) =
+          OnnxWrapper.withSafeOnnxModelLoader(onnxModel, onnxSessionOptions, onnxModelPath)
         ortEnv = env
         ortSession = session
       }
@@ -81,7 +83,8 @@ object OnnxWrapper {
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
       onnxModel: Array[Byte],
-      sessionOptions: Map[String, String]): (OrtSession, OrtEnvironment) =
+      sessionOptions: Map[String, String],
+      onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
       val sessionOptionsObject = if (sessionOptions.isEmpty) {
@@ -89,16 +92,22 @@ object OnnxWrapper {
       } else {
         mapToSessionOptionsObject(sessionOptions)
       }
-
-      val session = env.createSession(onnxModel, sessionOptionsObject)
-      (session, env)
+      if (onnxModelPath.isDefined) {
+        val session = env.createSession(onnxModelPath.get, sessionOptionsObject)
+        (session, env)
+      } else {
+        val session = env.createSession(onnxModel, sessionOptionsObject)
+        (session, env)
+      }
     }
 
+  // TODO: the parts related to onnx_data should be refactored once we support addFile()
   def read(
       modelPath: String,
       zipped: Boolean = true,
       useBundle: Boolean = false,
-      modelName: String = "model"): OnnxWrapper = {
+      modelName: String = "model",
+      dataFileSuffix: String = "_data"): OnnxWrapper = {
 
     // 1. Create tmp folder
     val tmpFolder = Files
@@ -117,14 +126,44 @@ object OnnxWrapper {
     val onnxFile =
       if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
       else Paths.get(folder, new File(folder).list().head).toString
+
+    var onnxDataFile: File = null
+
+    // see if the onnx model has a .onnx_data file
+    // get parent directory of onnx file if modelPath is a file
+    val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
+
+    val onnxDataFileExist: Boolean = {
+      onnxDataFile = Paths.get(parentDir, modelName + dataFileSuffix).toFile
+      onnxDataFile.exists()
+    }
+
+    if (onnxDataFileExist) {
+      val onnxDataFileTmp =
+        Paths.get(tmpFolder, modelName + dataFileSuffix).toFile
+      FileUtils.copyFile(onnxDataFile, onnxDataFileTmp)
+    }
+
     val modelFile = new File(onnxFile)
     val modelBytes = FileUtils.readFileToByteArray(modelFile)
-    val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
+    var session: OrtSession = null
+    var env: OrtEnvironment = null
+    if (onnxDataFileExist) {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, Some(onnxFile))
+      session = _session
+      env = _env
+    } else {
+      val (_session, _env) = withSafeOnnxModelLoader(modelBytes, sessionOptions, None)
+      session = _session
+      env = _env
 
+    }
     // 4. Remove tmp folder
     FileHelper.delete(tmpFolder)
 
-    val onnxWrapper = new OnnxWrapper(modelBytes)
+    val onnxWrapper =
+      if (onnxDataFileExist) new OnnxWrapper(modelBytes, Option(onnxFile))
+      else new OnnxWrapper(modelBytes)
     onnxWrapper.ortSession = session
     onnxWrapper.ortEnv = env
     onnxWrapper
@@ -209,4 +248,9 @@ object OnnxWrapper {
       encoder: OnnxWrapper,
       decoder: OnnxWrapper,
       decoderWithPast: OnnxWrapper)
+
+  case class DecoderWrappers(decoder: OnnxWrapper)
+
+  case class EncoderDecoderWithoutPastWrappers(encoder: OnnxWrapper, decoder: OnnxWrapper)
+
 }

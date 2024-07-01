@@ -314,7 +314,7 @@ data:
 
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/fr/thumb/8/8e/Centre_national_de_la_recherche_scientifique.svg/2048px-Centre_national_de_la_recherche_scientifique.svg.png
+            src: https://iscpif.fr/wp-content/uploads/2023/11/Logo-CNRS-ISCPIF.png
             url: https://iscpif.fr/
             style: "padding: 30px;"
             is_row: true
@@ -344,7 +344,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Columbia_University_shield.svg/1184px-Columbia_University_shield.svg.png
+            src: https://miro.medium.com/v2/resize:fit:1024/0*3qIWoFnZgVUtsXB-.png
             url: https://www.columbia.edu/
             style: "padding: 25px;"
             is_row: true

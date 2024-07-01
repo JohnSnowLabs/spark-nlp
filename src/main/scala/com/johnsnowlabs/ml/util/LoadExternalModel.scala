@@ -64,13 +64,19 @@ object LoadExternalModel {
   def isOnnxModel(
       modelPath: String,
       isEncoderDecoder: Boolean = false,
-      withPast: Boolean = false): Boolean = {
+      withPast: Boolean = false,
+      isDecoder: Boolean = false): Boolean = {
     if (isEncoderDecoder) {
       val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
       val onnxDecoderModel =
         if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
         else new File(modelPath, ONNX.decoderModel)
       onnxEncoderModel.exists() && onnxDecoderModel.exists()
+    } else if (isDecoder) {
+      val onnxDecoderModel =
+        if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
+        else new File(modelPath, ONNX.decoderModel)
+      onnxDecoderModel.exists()
     } else {
       val onnxModel = new File(modelPath, ONNX.modelName)
       onnxModel.exists()
@@ -81,7 +87,8 @@ object LoadExternalModel {
   def detectEngine(
       modelPath: String,
       isEncoderDecoder: Boolean = false,
-      withPast: Boolean = false): String = {
+      withPast: Boolean = false,
+      isDecoder: Boolean = false): String = {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
@@ -98,7 +105,7 @@ object LoadExternalModel {
     val tfSavedModelExist = isTensorFlowModel(modelPath)
 
     /*ONNX required model's name*/
-    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast)
+    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast, isDecoder)
 
     if (tfSavedModelExist) {
       TensorFlow.name
@@ -125,10 +132,11 @@ object LoadExternalModel {
   def modelSanityCheck(
       path: String,
       isEncoderDecoder: Boolean = false,
-      withPast: Boolean = false): (String, String) = {
+      withPast: Boolean = false,
+      isDecoder: Boolean = false): (String, String) = {
     val localPath: String = ResourceHelper.copyToLocal(path)
 
-    (localPath, detectEngine(localPath, isEncoderDecoder, withPast))
+    (localPath, detectEngine(localPath, isEncoderDecoder, withPast, isDecoder))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {

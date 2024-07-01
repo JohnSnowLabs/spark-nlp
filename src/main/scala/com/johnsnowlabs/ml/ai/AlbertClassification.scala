@@ -25,6 +25,7 @@ import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -65,6 +66,8 @@ private[johnsnowlabs] class AlbertClassification(
 
   private val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁")
   protected val sigmoidThreshold: Float = threshold
+
+  protected val logger: Logger = LoggerFactory.getLogger("AlbertClassification")
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -108,7 +111,7 @@ private[johnsnowlabs] class AlbertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -128,7 +131,7 @@ private[johnsnowlabs] class AlbertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch, maxSentenceLength, sequence = true)
+      case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -203,7 +206,7 @@ private[johnsnowlabs] class AlbertClassification(
     rawScores
   }
 
-  private def getRowScoresWithOnnx(
+  private def getRawScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
       sequence: Boolean): Array[Float] = {
@@ -238,12 +241,20 @@ private[johnsnowlabs] class AlbertClassification(
           .asInstanceOf[OnnxTensor]
           .getFloatBuffer
           .array()
-        tokenTensors.close()
-        maskTensors.close()
-        segmentTensors.close()
 
         embeddings
       } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Float] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
+      segmentTensors.close()
     }
   }
 
@@ -390,6 +401,12 @@ private[johnsnowlabs] class AlbertClassification(
 
         (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
       } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
     }
   }
 

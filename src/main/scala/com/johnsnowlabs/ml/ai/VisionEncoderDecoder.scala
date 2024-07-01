@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -181,8 +182,8 @@ private[johnsnowlabs] class VisionEncoderDecoder(
 
     generate(
       inputIds = encoderIds,
-      decoderEncoderStateTensors = decoderEncoderStateTensors,
-      encoderAttentionMaskTensors = encoderAttentionMaskTensors,
+      decoderEncoderStateTensors = Left(decoderEncoderStateTensors),
+      encoderAttentionMaskTensors = Left(encoderAttentionMaskTensors),
       decoderInputs = decoderInputIds,
       maxOutputLength,
       minOutputLength,
@@ -199,7 +200,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       generationConfig.padId,
       randomSeed,
       Array.empty,
-      session)
+      Left(session))
   }
 
   def generateFromImage(
@@ -292,11 +293,14 @@ private[johnsnowlabs] class VisionEncoderDecoder(
   override def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Session): Array[Array[Float]] =
-    getModelOutput(decoderInputIds, decoderEncoderStateTensors, session)
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+    val sess: Session = session.left.get
+    val decoderEncoderStateTensor: Tensor = decoderEncoderStateTensors.left.get
+    getModelOutput(decoderInputIds, decoderEncoderStateTensor, sess)
+  }
 
   def getModelOutput(
       decoderInputIds: Seq[Array[Int]],

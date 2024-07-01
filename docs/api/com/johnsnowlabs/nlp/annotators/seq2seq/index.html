@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
-          <meta name="description" content="Spark NLP 5.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
-          <meta name="keywords" content="Spark NLP 5.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
+          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -414,6 +414,14 @@
                         <a class="class" href="GPT2Transformer.html" title="GPT-2: the OpenAI Text-To-Text Transformer"></a>
                         <a href="GPT2Transformer.html" title="GPT-2: the OpenAI Text-To-Text Transformer">GPT2Transformer</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="LLAMA2Transformer$.html" title=""></a>
+                        <a class="class" href="LLAMA2Transformer.html" title="Llama 2: Open Foundation and Fine-Tuned Chat Models"></a>
+                        <a href="LLAMA2Transformer.html" title="Llama 2: Open Foundation and Fine-Tuned Chat Models">LLAMA2Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="M2M100Transformer$.html" title=""></a>
+                        <a class="class" href="M2M100Transformer.html" title="M2M100 : multilingual translation model"></a>
+                        <a href="M2M100Transformer.html" title="M2M100 : multilingual translation model">M2M100Transformer</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="MarianTransformer$.html" title="This is the companion object of MarianTransformer."></a>
                         <a class="class" href="MarianTransformer.html" title="MarianTransformer: Fast Neural Machine Translation"></a>
                         <a href="MarianTransformer.html" title="MarianTransformer: Fast Neural Machine Translation">MarianTransformer</a>
@@ -425,6 +433,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadGPT2TransformerDLModel.html" title=""></a>
                         <a href="ReadGPT2TransformerDLModel.html" title="">ReadGPT2TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLLAMA2TransformerDLModel.html" title=""></a>
+                        <a href="ReadLLAMA2TransformerDLModel.html" title="">ReadLLAMA2TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadM2M100TransformerDLModel.html" title=""></a>
+                        <a href="ReadM2M100TransformerDLModel.html" title="">ReadM2M100TransformerDLModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadMarianMTDLModel.html" title=""></a>
@@ -441,6 +457,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedGPT2TransformerModel.html" title=""></a>
                         <a href="ReadablePretrainedGPT2TransformerModel.html" title="">ReadablePretrainedGPT2TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLLAMA2TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedLLAMA2TransformerModel.html" title="">ReadablePretrainedLLAMA2TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedM2M100TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedM2M100TransformerModel.html" title="">ReadablePretrainedM2M100TransformerModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMarianMTModel.html" title=""></a>
@@ -752,6 +776,150 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ My name is Leonardo. I am a man of letters. I have been a man <span class="kw">for</span> many years. I was born in the year <span class="num">1776.</span> I came to the United States in <span class="num">1776</span>, and I have lived in the United Kingdom since <span class="num">1776</span>]|
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="LLAMA2TransformerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer]withParamsAndFeaturesWritablewithWriteOnnxModelwithHasGeneratorPropertieswithWriteSentencePieceModelwithHasEngine"></a><a id="LLAMA2Transformer:LLAMA2Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2Transformer.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Llama 2: Open Foundation and Fine-Tuned Chat Models" href="LLAMA2Transformer.html"><span class="name">LLAMA2Transformer</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="LLAMA2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer">LLAMA2Transformer</a>] with <a href="../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="LLAMA2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer">LLAMA2Transformer</a>] with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> with <a href="../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a> with <a href="../../../ml/tensorflow/sentencepiece/WriteSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.WriteSentencePieceModel">WriteSentencePieceModel</a> with <a href="../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Llama 2: Open Foundation and Fine-Tuned Chat Models</p><div class="fullcomment"><div class="comment cmt"><p>Llama 2: Open Foundation and Fine-Tuned Chat Models</p><p>The Llama 2 release introduces a family of pretrained and fine-tuned LLMs, ranging in scale
+from 7B to 70B parameters (7B, 13B, 70B). The pretrained models come with significant
+improvements over the Llama 1 models, including being trained on 40% more tokens, having a
+much longer context length (4k tokens 🤯), and using grouped-query attention for fast
+inference of the 70B model🔥!</p><p>However, the most exciting part of this release is the fine-tuned models (Llama 2-Chat), which
+have been optimized for dialogue applications using Reinforcement Learning from Human Feedback
+(RLHF). Across a wide range of helpfulness and safety benchmarks, the Llama 2-Chat models
+perform better than most open models and achieve comparable performance to ChatGPT according
+to human evaluations.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> llama2 = LLAMA2Transformer.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;llama_2_7b_chat_hf_int4&quot;</code>, if no name is provided. For available
+pretrained models please see the <a href="https://sparknlp.org/models?q=llama2" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2TestSpec.scala" target="_blank">LLAMA2TestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/" target="_blank">Llama 2: Open Foundation and Fine-Tuned Chat Models</a></li><li><a href="https://github.com/facebookresearch/llama" target="_blank">https://github.com/facebookresearch/llama</a></li></ul><p><b>Paper Abstract:</b></p><p><i>In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
+large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our
+fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models
+outperform open-source chat models on most benchmarks we tested, and based on our human
+evaluations for helpfulness and safety, may be a suitable substitute for closed-source models.
+We provide a detailed description of our approach to fine-tuning and safety improvements of
+Llama 2-Chat in order to enable the community to build on our work and contribute to the
+responsible development of LLMs.</i></p><p><b>Note:</b></p><p>This is a very computationally expensive module especially on larger sequence. The use of an
+accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"documents"</span>)
+
+<span class="kw">val</span> llama2 = LLAMA2Transformer.pretrained(<span class="lit">"llama_2_7b_chat_hf_int4"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
+  .setMinOutputLength(<span class="num">10</span>)
+  .setMaxOutputLength(<span class="num">50</span>)
+  .setDoSample(<span class="kw">false</span>)
+  .setTopK(<span class="num">50</span>)
+  .setNoRepeatNgramSize(<span class="num">3</span>)
+  .setOutputCol(<span class="lit">"generation"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, llama2))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"My name is Leonardo."</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+results.select(<span class="lit">"generation.result"</span>).show(truncate = <span class="kw">false</span>)
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result                                                                                                                                                                                              |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[ My name is Leonardo. I am a man of letters. I have been a man <span class="kw">for</span> many years. I was born in the year <span class="num">1776.</span> I came to the United States in <span class="num">1776</span>, and I have lived in the United Kingdom since <span class="num">1776</span>]|
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="M2M100TransformerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer]withParamsAndFeaturesWritablewithWriteOnnxModelwithHasGeneratorPropertieswithWriteSentencePieceModelwithHasEngine"></a><a id="M2M100Transformer:M2M100Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/M2M100Transformer.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="M2M100 : multilingual translation model" href="M2M100Transformer.html"><span class="name">M2M100Transformer</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="M2M100Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer">M2M100Transformer</a>] with <a href="../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="M2M100Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer">M2M100Transformer</a>] with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> with <a href="../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a> with <a href="../../../ml/tensorflow/sentencepiece/WriteSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.WriteSentencePieceModel">WriteSentencePieceModel</a> with <a href="../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">M2M100 : multilingual translation model</p><div class="fullcomment"><div class="comment cmt"><p>M2M100 : multilingual translation model</p><p>M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
+multilingual translation.</p><p>The model can directly translate between the 9,900 directions of 100 languages.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> m2m100 = M2M100Transformer.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;m2m100_418M&quot;</code>, if no name is provided. For available pretrained models
+please see the <a href="https://sparknlp.org/models?q=m2m100" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/M2M100TestSpec.scala" target="_blank">M2M100TestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://arxiv.org/pdf/2010.11125.pdf" target="_blank">Beyond English-Centric Multilingual Machine Translation</a></li><li><a href="https://github.com/pytorch/fairseq/tree/master/examples/m2m_100" target="_blank">https://github.com/pytorch/fairseq/tree/master/examples/m2m_100</a></li></ul><p><b>Paper Abstract:</b></p><p><i>Existing work in translation demonstrated the potential of massively multilingual machine
+translation by training a single model able to translate between any pair of languages.
+However, much of this work is English-Centric by training only on data which was translated
+from or to English. While this is supported by large sources of training data, it does not
+reflect translation needs worldwide. In this work, we create a true Many-to-Many multilingual
+translation model that can translate directly between any pair of 100 languages. We build and
+open source a training dataset that covers thousands of language directions with supervised
+data, created through large-scale mining. Then, we explore how to effectively increase model
+capacity through a combination of dense scaling and language-specific sparse parameters to
+create high quality models. Our focus on non-English-Centric models brings gains of more than
+10 BLEU when directly translating between non-English directions while performing
+competitively to the best single systems of WMT. We open-source our scripts so that others may
+reproduce the data, evaluation, and final M2M-100 model.</i></p><p><b>Languages Covered:</b></p><p>Afrikaans (af), Amharic (am), Arabic (ar), Asturian (ast), Azerbaijani (az), Bashkir (ba),
+Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian
+(ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English
+(en), Spanish (es), Estonian (et), Persian (fa), Fulah (ff), Finnish (fi), French (fr),
+Western Frisian (fy), Irish (ga), Gaelic; Scottish Gaelic (gd), Galician (gl), Gujarati (gu),
+Hausa (ha), Hebrew (he), Hindi (hi), Croatian (hr), Haitian; Haitian Creole (ht), Hungarian
+(hu), Armenian (hy), Indonesian (id), Igbo (ig), Iloko (ilo), Icelandic (is), Italian (it),
+Japanese (ja), Javanese (jv), Georgian (ka), Kazakh (kk), Central Khmer (km), Kannada (kn),
+Korean (ko), Luxembourgish; Letzeburgesch (lb), Ganda (lg), Lingala (ln), Lao (lo), Lithuanian
+(lt), Latvian (lv), Malagasy (mg), Macedonian (mk), Malayalam (ml), Mongolian (mn), Marathi
+(mr), Malay (ms), Burmese (my), Nepali (ne), Dutch; Flemish (nl), Norwegian (no), Northern
+Sotho (ns), Occitan (post 1500) (oc), Oriya (or), Panjabi; Punjabi (pa), Polish (pl), Pushto;
+Pashto (ps), Portuguese (pt), Romanian; Moldavian; Moldovan (ro), Russian (ru), Sindhi (sd),
+Sinhala; Sinhalese (si), Slovak (sk), Slovenian (sl), Somali (so), Albanian (sq), Serbian
+(sr), Swati (ss), Sundanese (su), Swedish (sv), Swahili (sw), Tamil (ta), Thai (th), Tagalog
+(tl), Tswana (tn), Turkish (tr), Ukrainian (uk), Urdu (ur), Uzbek (uz), Vietnamese (vi), Wolof
+(wo), Xhosa (xh), Yiddish (yi), Yoruba (yo), Chinese (zh), Zulu (zu)</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"documents"</span>)
+
+<span class="kw">val</span> m2m100 = M2M100Transformer.pretrained(<span class="lit">"m2m100_418M"</span>)
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
+  .setSrcLang(<span class="lit">"zh"</span>)
+  .serTgtLang(<span class="lit">"en"</span>)
+  .setMaxOutputLength(<span class="num">100</span>)
+  .setDoSample(<span class="kw">false</span>)
+  .setOutputCol(<span class="lit">"generation"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler, m2m100))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"生活就像一盒巧克力。"</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+results.select(<span class="lit">"generation.result"</span>).show(truncate = <span class="kw">false</span>)
++-------------------------------------------------------------------------------------------+
+|result                                                                                     |
++-------------------------------------------------------------------------------------------+
+|[ Life is like a box of chocolate.]                                                        |
++-------------------------------------------------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MarianTransformerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer]withWriteTensorflowModelwithWriteOnnxModelwithWriteSentencePieceModelwithHasEnginewithHasProtectedParams"></a><a id="MarianTransformer:MarianTransformer"></a>
       <span class="permalink">
@@ -854,6 +1022,38 @@ result.selectExpr(<span class="lit">"explode(translation.result) as result"</spa
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadLLAMA2TransformerDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadLLAMA2TransformerDLModelextendsReadOnnxModelwithReadSentencePieceModel"></a><a id="ReadLLAMA2TransformerDLModel:ReadLLAMA2TransformerDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadLLAMA2TransformerDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadLLAMA2TransformerDLModel.html"><span class="name">ReadLLAMA2TransformerDLModel</span></a><span class="result"> extends <a href="../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a> with <a href="../../../ml/tensorflow/sentencepiece/ReadSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel">ReadSentencePieceModel</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadM2M100TransformerDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadM2M100TransformerDLModelextendsReadOnnxModelwithReadSentencePieceModel"></a><a id="ReadM2M100TransformerDLModel:ReadM2M100TransformerDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadM2M100TransformerDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadM2M100TransformerDLModel.html"><span class="name">ReadM2M100TransformerDLModel</span></a><span class="result"> extends <a href="../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a> with <a href="../../../ml/tensorflow/sentencepiece/ReadSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel">ReadSentencePieceModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadMarianMTDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadMarianMTDLModelextendsReadTensorflowModelwithReadSentencePieceModelwithReadOnnxModel"></a><a id="ReadMarianMTDLModel:ReadMarianMTDLModel"></a>
       <span class="permalink">
@@ -915,6 +1115,38 @@ result.selectExpr(<span class="lit">"explode(translation.result) as result"</spa
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedGPT2TransformerModel.html"><span class="name">ReadablePretrainedGPT2TransformerModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="GPT2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer">GPT2Transformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="GPT2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer">GPT2Transformer</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedLLAMA2TransformerModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedLLAMA2TransformerModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer]"></a><a id="ReadablePretrainedLLAMA2TransformerModel:ReadablePretrainedLLAMA2TransformerModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedLLAMA2TransformerModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedLLAMA2TransformerModel.html"><span class="name">ReadablePretrainedLLAMA2TransformerModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="LLAMA2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer">LLAMA2Transformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="LLAMA2Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer">LLAMA2Transformer</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedM2M100TransformerModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedM2M100TransformerModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer]"></a><a id="ReadablePretrainedM2M100TransformerModel:ReadablePretrainedM2M100TransformerModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedM2M100TransformerModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedM2M100TransformerModel.html"><span class="name">ReadablePretrainedM2M100TransformerModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="M2M100Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer">M2M100Transformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="M2M100Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer">M2M100Transformer</a>]</span>
       </span>
       
       
@@ -1064,6 +1296,38 @@ result.select(<span class="lit">"summaries.result"</span>).show(<span class="kw"
       </span>
       <span class="symbol">
         <a title="" href="GPT2Transformer$.html"><span class="name">GPT2Transformer</span></a><span class="result"> extends <a href="ReadablePretrainedGPT2TransformerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedGPT2TransformerModel">ReadablePretrainedGPT2TransformerModel</a> with <a href="ReadGPT2TransformerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadGPT2TransformerDLModel">ReadGPT2TransformerDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LLAMA2Transformer"></a><a id="LLAMA2Transformer:LLAMA2Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/LLAMA2Transformer$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LLAMA2Transformer$.html"><span class="name">LLAMA2Transformer</span></a><span class="result"> extends <a href="ReadablePretrainedLLAMA2TransformerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedLLAMA2TransformerModel">ReadablePretrainedLLAMA2TransformerModel</a> with <a href="ReadLLAMA2TransformerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadLLAMA2TransformerDLModel">ReadLLAMA2TransformerDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="M2M100Transformer"></a><a id="M2M100Transformer:M2M100Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/M2M100Transformer$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="M2M100Transformer$.html"><span class="name">M2M100Transformer</span></a><span class="result"> extends <a href="ReadablePretrainedM2M100TransformerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedM2M100TransformerModel">ReadablePretrainedM2M100TransformerModel</a> with <a href="ReadM2M100TransformerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadM2M100TransformerDLModel">ReadM2M100TransformerDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

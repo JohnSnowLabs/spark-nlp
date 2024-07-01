@@ -1,13 +1,13 @@
 package com.johnsnowlabs.ml.ai
 
-import com.amazonaws.thirdparty.apache.http.client.methods.HttpPost
-import com.amazonaws.thirdparty.apache.http.entity.{ContentType, StringEntity}
-import com.amazonaws.thirdparty.apache.http.impl.client.{CloseableHttpClient, HttpClients}
-import com.amazonaws.thirdparty.apache.http.util.EntityUtils
 import com.johnsnowlabs.ml.ai.model.TextEmbeddingResponse
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, JsonBuilder, JsonParser}
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.{ContentType, StringEntity}
+import org.apache.http.impl.client.{CloseableHttpClient, HttpClients}
+import org.apache.http.util.EntityUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
