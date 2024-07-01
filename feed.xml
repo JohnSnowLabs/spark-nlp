@@ -1,782 +1,587 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-07-01T12:19:44+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English bge_base_english_sec10k_embed BGEEmbeddings from pavanmantha</title><link href="/2024/06/13/bge_base_english_sec10k_embed_en.html" rel="alternate" type="text/html" title="English bge_base_english_sec10k_embed BGEEmbeddings from pavanmantha" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_english_sec10k_embed_en</id><content type="html" xml:base="/2024/06/13/bge_base_english_sec10k_embed_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-07-01T13:51:12+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English bge_base_english_sec10k_embed BGEEmbeddings from pavanmantha</title><link href="/2024/06/13/bge_base_english_sec10k_embed_en.html" rel="alternate" type="text/html" title="English bge_base_english_sec10k_embed BGEEmbeddings from pavanmantha" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_english_sec10k_embed_en</id><content type="html" xml:base="/2024/06/13/bge_base_english_sec10k_embed_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_english_sec10k_embed&lt;/code&gt; is a English model originally trained by pavanmantha.&lt;/p&gt;
+Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_english_sec10k_embed` is a English model originally trained by pavanmantha.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_en_5.4.0_3.0_1718289495528.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_en_5.4.0_3.0_1718289495528.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_en_5.4.0_3.0_1718289495528.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_en_5.4.0_3.0_1718289495528.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_english_sec10k_embed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+documentAssembler = DocumentAssembler() \
+      .setInputCol(&quot;text&quot;) \
+      .setOutputCol(&quot;document&quot;)
+
+embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) \
+      .setInputCols([&quot;document&quot;]) \
+      .setOutputCol(&quot;embeddings&quot;)       
         
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline().setStages([documentAssembler, embeddings])
+data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
+pipelineModel = pipeline.fit(data)
+pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol(&quot;text&quot;) 
+    .setOutputCol(&quot;document&quot;)
     
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_english_sec10k_embed&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp).toDS.toDF(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;)
+val pipelineModel = pipeline.fit(data)
+val pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_english_sec10k_embed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[bge]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_english_sec10k_embed|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[bge]|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_english_sec10k_embed is a English model originally trained by pavanmantha. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_english_sec10k_embed Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed</summary></entry><entry><title type="html">English bge_base_english_sec10k_embed_pipeline pipeline BGEEmbeddings from pavanmantha</title><link href="/2024/06/13/bge_base_english_sec10k_embed_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_english_sec10k_embed_pipeline pipeline BGEEmbeddings from pavanmantha" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_english_sec10k_embed_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_english_sec10k_embed_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_english_sec10k_embed is a English model originally trained by pavanmantha. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_english_sec10k_embed&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_english_sec10k_embed Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed</summary></entry><entry><title type="html">English bge_base_english_sec10k_embed_pipeline pipeline BGEEmbeddings from pavanmantha</title><link href="/2024/06/13/bge_base_english_sec10k_embed_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_english_sec10k_embed_pipeline pipeline BGEEmbeddings from pavanmantha" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_english_sec10k_embed_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_english_sec10k_embed_pipeline_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_english_sec10k_embed_pipeline&lt;/code&gt; is a English model originally trained by pavanmantha.&lt;/p&gt;
+Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_english_sec10k_embed_pipeline` is a English model originally trained by pavanmantha.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_pipeline_en_5.4.0_3.0_1718289529223.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_pipeline_en_5.4.0_3.0_1718289529223.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_pipeline_en_5.4.0_3.0_1718289529223.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_english_sec10k_embed_pipeline_en_5.4.0_3.0_1718289529223.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_english_sec10k_embed_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_english_sec10k_embed_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;)
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;)
+val annotations = pipeline.transform(df)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_english_sec10k_embed_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_english_sec10k_embed_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed&lt;/p&gt;
+https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;BGEEmbeddings&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_english_sec10k_embed_pipeline is a English model originally trained by pavanmantha. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_english_sec10k_embed_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_anikulkar BGEEmbeddings from anikulkar</title><link href="/2024/06/13/bge_base_financial_matryoshka_anikulkar_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_anikulkar BGEEmbeddings from anikulkar" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_anikulkar_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_anikulkar_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- BGEEmbeddings</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_english_sec10k_embed_pipeline is a English model originally trained by pavanmantha. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_english_sec10k_embed_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_english_sec10k_embed_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/pavanmantha/bge-base-en-sec10k-embed Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_anikulkar BGEEmbeddings from anikulkar</title><link href="/2024/06/13/bge_base_financial_matryoshka_anikulkar_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_anikulkar BGEEmbeddings from anikulkar" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_anikulkar_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_anikulkar_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_anikulkar&lt;/code&gt; is a English model originally trained by anikulkar.&lt;/p&gt;
+Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_anikulkar` is a English model originally trained by anikulkar.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_en_5.4.0_3.0_1718289693625.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_en_5.4.0_3.0_1718289693625.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_en_5.4.0_3.0_1718289693625.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_en_5.4.0_3.0_1718289693625.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_anikulkar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+documentAssembler = DocumentAssembler() \
+      .setInputCol(&quot;text&quot;) \
+      .setOutputCol(&quot;document&quot;)
+
+embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) \
+      .setInputCols([&quot;document&quot;]) \
+      .setOutputCol(&quot;embeddings&quot;)       
         
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline().setStages([documentAssembler, embeddings])
+data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
+pipelineModel = pipeline.fit(data)
+pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol(&quot;text&quot;) 
+    .setOutputCol(&quot;document&quot;)
     
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_anikulkar&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp).toDS.toDF(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;)
+val pipelineModel = pipeline.fit(data)
+val pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_anikulkar&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[bge]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_anikulkar|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[bge]|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/anikulkar/bge-base-financial-matryoshka&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_anikulkar is a English model originally trained by anikulkar. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_anikulkar Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/anikulkar/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_anikulkar_pipeline pipeline BGEEmbeddings from anikulkar</title><link href="/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_anikulkar_pipeline pipeline BGEEmbeddings from anikulkar" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+https://huggingface.co/anikulkar/bge-base-financial-matryoshka</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_anikulkar is a English model originally trained by anikulkar. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_anikulkar&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_anikulkar Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/anikulkar/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_anikulkar_pipeline pipeline BGEEmbeddings from anikulkar</title><link href="/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_anikulkar_pipeline pipeline BGEEmbeddings from anikulkar" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_anikulkar_pipeline_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_anikulkar_pipeline&lt;/code&gt; is a English model originally trained by anikulkar.&lt;/p&gt;
+Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_anikulkar_pipeline` is a English model originally trained by anikulkar.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_pipeline_en_5.4.0_3.0_1718289728318.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_pipeline_en_5.4.0_3.0_1718289728318.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_pipeline_en_5.4.0_3.0_1718289728318.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_anikulkar_pipeline_en_5.4.0_3.0_1718289728318.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;)
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;)
+val annotations = pipeline.transform(df)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_anikulkar_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_anikulkar_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/anikulkar/bge-base-financial-matryoshka&lt;/p&gt;
+https://huggingface.co/anikulkar/bge-base-financial-matryoshka
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;BGEEmbeddings&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_anikulkar_pipeline is a English model originally trained by anikulkar. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_anikulkar_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/anikulkar/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_hritikmore BGEEmbeddings from Hritikmore</title><link href="/2024/06/13/bge_base_financial_matryoshka_hritikmore_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_hritikmore BGEEmbeddings from Hritikmore" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_hritikmore_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_hritikmore_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- BGEEmbeddings</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_anikulkar_pipeline is a English model originally trained by anikulkar. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_anikulkar_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_anikulkar_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/anikulkar/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_hritikmore BGEEmbeddings from Hritikmore</title><link href="/2024/06/13/bge_base_financial_matryoshka_hritikmore_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_hritikmore BGEEmbeddings from Hritikmore" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_hritikmore_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_hritikmore_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_hritikmore&lt;/code&gt; is a English model originally trained by Hritikmore.&lt;/p&gt;
+Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_hritikmore` is a English model originally trained by Hritikmore.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_en_5.4.0_3.0_1718290095984.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_en_5.4.0_3.0_1718290095984.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_en_5.4.0_3.0_1718290095984.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_en_5.4.0_3.0_1718290095984.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_hritikmore&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+documentAssembler = DocumentAssembler() \
+      .setInputCol(&quot;text&quot;) \
+      .setOutputCol(&quot;document&quot;)
+
+embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) \
+      .setInputCols([&quot;document&quot;]) \
+      .setOutputCol(&quot;embeddings&quot;)       
         
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline().setStages([documentAssembler, embeddings])
+data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
+pipelineModel = pipeline.fit(data)
+pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol(&quot;text&quot;) 
+    .setOutputCol(&quot;document&quot;)
     
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_hritikmore&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp).toDS.toDF(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;)
+val pipelineModel = pipeline.fit(data)
+val pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_hritikmore&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[bge]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_hritikmore|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[bge]|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/Hritikmore/bge-base-financial-matryoshka&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_hritikmore is a English model originally trained by Hritikmore. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_hritikmore Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/Hritikmore/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_hritikmore_pipeline pipeline BGEEmbeddings from Hritikmore</title><link href="/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_hritikmore_pipeline pipeline BGEEmbeddings from Hritikmore" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+https://huggingface.co/Hritikmore/bge-base-financial-matryoshka</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_hritikmore is a English model originally trained by Hritikmore. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_hritikmore&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_hritikmore Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/Hritikmore/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_hritikmore_pipeline pipeline BGEEmbeddings from Hritikmore</title><link href="/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_hritikmore_pipeline pipeline BGEEmbeddings from Hritikmore" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_hritikmore_pipeline_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_hritikmore_pipeline&lt;/code&gt; is a English model originally trained by Hritikmore.&lt;/p&gt;
+Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_hritikmore_pipeline` is a English model originally trained by Hritikmore.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_pipeline_en_5.4.0_3.0_1718290130520.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_pipeline_en_5.4.0_3.0_1718290130520.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_pipeline_en_5.4.0_3.0_1718290130520.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_hritikmore_pipeline_en_5.4.0_3.0_1718290130520.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;)
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;)
+val annotations = pipeline.transform(df)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_hritikmore_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_hritikmore_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/Hritikmore/bge-base-financial-matryoshka&lt;/p&gt;
+https://huggingface.co/Hritikmore/bge-base-financial-matryoshka
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;BGEEmbeddings&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_hritikmore_pipeline is a English model originally trained by Hritikmore. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_hritikmore_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/Hritikmore/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_thetayne BGEEmbeddings from thetayne</title><link href="/2024/06/13/bge_base_financial_matryoshka_thetayne_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_thetayne BGEEmbeddings from thetayne" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_thetayne_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_thetayne_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- BGEEmbeddings</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_hritikmore_pipeline is a English model originally trained by Hritikmore. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_hritikmore_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_hritikmore_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/Hritikmore/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_thetayne BGEEmbeddings from thetayne</title><link href="/2024/06/13/bge_base_financial_matryoshka_thetayne_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_thetayne BGEEmbeddings from thetayne" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_thetayne_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_thetayne_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_thetayne&lt;/code&gt; is a English model originally trained by thetayne.&lt;/p&gt;
+Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_thetayne` is a English model originally trained by thetayne.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_en_5.4.0_3.0_1718290300674.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_en_5.4.0_3.0_1718290300674.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_en_5.4.0_3.0_1718290300674.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_en_5.4.0_3.0_1718290300674.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_thetayne&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+documentAssembler = DocumentAssembler() \
+      .setInputCol(&quot;text&quot;) \
+      .setOutputCol(&quot;document&quot;)
+
+embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) \
+      .setInputCols([&quot;document&quot;]) \
+      .setOutputCol(&quot;embeddings&quot;)       
         
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline().setStages([documentAssembler, embeddings])
+data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
+pipelineModel = pipeline.fit(data)
+pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol(&quot;text&quot;) 
+    .setOutputCol(&quot;document&quot;)
     
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_thetayne&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp).toDS.toDF(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;)
+val pipelineModel = pipeline.fit(data)
+val pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_thetayne&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[bge]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_thetayne|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[bge]|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/thetayne/bge-base-financial-matryoshka&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_thetayne is a English model originally trained by thetayne. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_thetayne Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/thetayne/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_thetayne_pipeline pipeline BGEEmbeddings from thetayne</title><link href="/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_thetayne_pipeline pipeline BGEEmbeddings from thetayne" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+https://huggingface.co/thetayne/bge-base-financial-matryoshka</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_thetayne is a English model originally trained by thetayne. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_financial_matryoshka_thetayne&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_financial_matryoshka_thetayne Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 387.1 MB References https://huggingface.co/thetayne/bge-base-financial-matryoshka</summary></entry><entry><title type="html">English bge_base_financial_matryoshka_thetayne_pipeline pipeline BGEEmbeddings from thetayne</title><link href="/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_financial_matryoshka_thetayne_pipeline pipeline BGEEmbeddings from thetayne" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_financial_matryoshka_thetayne_pipeline_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_financial_matryoshka_thetayne_pipeline&lt;/code&gt; is a English model originally trained by thetayne.&lt;/p&gt;
+Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_financial_matryoshka_thetayne_pipeline` is a English model originally trained by thetayne.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_pipeline_en_5.4.0_3.0_1718290335477.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_pipeline_en_5.4.0_3.0_1718290335477.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_pipeline_en_5.4.0_3.0_1718290335477.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_financial_matryoshka_thetayne_pipeline_en_5.4.0_3.0_1718290335477.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;)
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;)
+val annotations = pipeline.transform(df)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_financial_matryoshka_thetayne_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;387.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_financial_matryoshka_thetayne_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|387.1 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/thetayne/bge-base-financial-matryoshka&lt;/p&gt;
+https://huggingface.co/thetayne/bge-base-financial-matryoshka
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;BGEEmbeddings&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_thetayne_pipeline is a English model originally trained by thetayne. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_thetayne_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/thetayne/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_securiti_dataset_1_v7 BGEEmbeddings from MugheesAwan11</title><link href="/2024/06/13/bge_base_securiti_dataset_1_v7_en.html" rel="alternate" type="text/html" title="English bge_base_securiti_dataset_1_v7 BGEEmbeddings from MugheesAwan11" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_securiti_dataset_1_v7_en</id><content type="html" xml:base="/2024/06/13/bge_base_securiti_dataset_1_v7_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- BGEEmbeddings</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_financial_matryoshka_thetayne_pipeline is a English model originally trained by thetayne. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_financial_matryoshka_thetayne_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_financial_matryoshka_thetayne_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 387.1 MB References https://huggingface.co/thetayne/bge-base-financial-matryoshka Included Models DocumentAssembler BGEEmbeddings</summary></entry><entry><title type="html">English bge_base_securiti_dataset_1_v7 BGEEmbeddings from MugheesAwan11</title><link href="/2024/06/13/bge_base_securiti_dataset_1_v7_en.html" rel="alternate" type="text/html" title="English bge_base_securiti_dataset_1_v7 BGEEmbeddings from MugheesAwan11" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_securiti_dataset_1_v7_en</id><content type="html" xml:base="/2024/06/13/bge_base_securiti_dataset_1_v7_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_securiti_dataset_1_v7&lt;/code&gt; is a English model originally trained by MugheesAwan11.&lt;/p&gt;
+Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_securiti_dataset_1_v7` is a English model originally trained by MugheesAwan11.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_en_5.4.0_3.0_1718289608530.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_en_5.4.0_3.0_1718289608530.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_en_5.4.0_3.0_1718289608530.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_en_5.4.0_3.0_1718289608530.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_securiti_dataset_1_v7&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+documentAssembler = DocumentAssembler() \
+      .setInputCol(&quot;text&quot;) \
+      .setOutputCol(&quot;document&quot;)
+
+embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) \
+      .setInputCols([&quot;document&quot;]) \
+      .setOutputCol(&quot;embeddings&quot;)       
         
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline().setStages([documentAssembler, embeddings])
+data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
+pipelineModel = pipeline.fit(data)
+pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol(&quot;text&quot;) 
+    .setOutputCol(&quot;document&quot;)
     
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_securiti_dataset_1_v7&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp).toDS.toDF(&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;)
+val pipelineModel = pipeline.fit(data)
+val pipelineDF = pipelineModel.transform(data)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_securiti_dataset_1_v7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[bge]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;381.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_securiti_dataset_1_v7|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[bge]|
+|Language:|en|
+|Size:|381.5 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_securiti_dataset_1_v7 is a English model originally trained by MugheesAwan11. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_securiti_dataset_1_v7 Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 381.5 MB References https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7</summary></entry><entry><title type="html">English bge_base_securiti_dataset_1_v7_pipeline pipeline BGEEmbeddings from MugheesAwan11</title><link href="/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_securiti_dataset_1_v7_pipeline pipeline BGEEmbeddings from MugheesAwan11" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="bge" /><summary type="html">Description Pretrained BGEEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_securiti_dataset_1_v7 is a English model originally trained by MugheesAwan11. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_securiti_dataset_1_v7&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: bge_base_securiti_dataset_1_v7 Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [bge] Language: en Size: 381.5 MB References https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7</summary></entry><entry><title type="html">English bge_base_securiti_dataset_1_v7_pipeline pipeline BGEEmbeddings from MugheesAwan11</title><link href="/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en.html" rel="alternate" type="text/html" title="English bge_base_securiti_dataset_1_v7_pipeline pipeline BGEEmbeddings from MugheesAwan11" /><published>2024-06-13T00:00:00+00:00</published><updated>2024-06-13T00:00:00+00:00</updated><id>/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en</id><content type="html" xml:base="/2024/06/13/bge_base_securiti_dataset_1_v7_pipeline_en.html">## Description
 
-&lt;p&gt;Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bge_base_securiti_dataset_1_v7_pipeline&lt;/code&gt; is a English model originally trained by MugheesAwan11.&lt;/p&gt;
+Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`bge_base_securiti_dataset_1_v7_pipeline` is a English model originally trained by MugheesAwan11.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_pipeline_en_5.4.0_3.0_1718289645988.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_pipeline_en_5.4.0_3.0_1718289645988.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_pipeline_en_5.4.0_3.0_1718289645988.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_base_securiti_dataset_1_v7_pipeline_en_5.4.0_3.0_1718289645988.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;)
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;)
+val annotations = pipeline.transform(df)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_base_securiti_dataset_1_v7_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;381.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_base_securiti_dataset_1_v7_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|381.6 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7&lt;/p&gt;
+https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;BGEEmbeddings&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_securiti_dataset_1_v7_pipeline is a English model originally trained by MugheesAwan11. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_securiti_dataset_1_v7_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 381.6 MB References https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7 Included Models DocumentAssembler BGEEmbeddings</summary></entry></feed>
+- DocumentAssembler
+- BGEEmbeddings</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BGEEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.bge_base_securiti_dataset_1_v7_pipeline is a English model originally trained by MugheesAwan11. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;bge_base_securiti_dataset_1_v7_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: bge_base_securiti_dataset_1_v7_pipeline Type: pipeline Compatibility: Spark NLP 5.4.0+ License: Open Source Edition: Official Language: en Size: 381.6 MB References https://huggingface.co/MugheesAwan11/bge-base-securiti-dataset-1-v7 Included Models DocumentAssembler BGEEmbeddings</summary></entry></feed>
