@@ -53,9 +53,11 @@ class S3ResourceDownloader(
     val needToRefresh =
       lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
     if (!needToRefresh) {
+      metadataObject.close()
       lastMetadataState.get.metadata
     } else {
       val metadata = ResourceMetadata.readResources(metadataObject.getObjectContent)
+      metadataObject.close()
       repoFolder2Metadata(folder) = RepositoryMetadata(
         folder,
         lastModifiedTimeInS3,

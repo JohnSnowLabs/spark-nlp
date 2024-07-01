@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.ml.onnx.OnnxWrapper</title>
-          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.ml.onnx.OnnxWrapper" />
-          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.ml.onnx.OnnxWrapper" />
+          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.ml.onnx.OnnxWrapper</title>
+          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.ml.onnx.OnnxWrapper" />
+          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.ml.onnx.OnnxWrapper" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -250,9 +250,9 @@
       
       <p class="shortcomment cmt">For Deserialization</p>
     </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(onnxModel:Array[Byte],onnxModelPath:Option[String]):com.johnsnowlabs.ml.onnx.OnnxWrapper"></a><a id="&lt;init&gt;:OnnxWrapper"></a>
+      <a id="&lt;init&gt;(modelFileName:Option[String],dataFileDirectory:Option[String]):com.johnsnowlabs.ml.onnx.OnnxWrapper"></a><a id="&lt;init&gt;:OnnxWrapper"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#&lt;init&gt;(onnxModel:Array[Byte],onnxModelPath:Option[String]):com.johnsnowlabs.ml.onnx.OnnxWrapper" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#&lt;init&gt;(modelFileName:Option[String],dataFileDirectory:Option[String]):com.johnsnowlabs.ml.onnx.OnnxWrapper" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -261,7 +261,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">OnnxWrapper</span><span class="params">(<span name="onnxModel">onnxModel: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>, <span name="onnxModelPath">onnxModelPath: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../../scala/index.html">None</a></span></span></span>)</span>
+        <span class="name">OnnxWrapper</span><span class="params">(<span name="modelFileName">modelFileName: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../../scala/index.html">None</a></span></span></span>, <span name="dataFileDirectory">dataFileDirectory: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span>
       </span>
       
       
@@ -363,6 +363,22 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#dataFileDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="dataFileDirectory:Option[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#dataFileDirectory:Option[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dataFileDirectory</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -487,6 +503,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#modelFileName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="modelFileName:Option[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#modelFileName:Option[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">modelFileName</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -541,38 +573,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#onnxModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="onnxModel:Array[Byte]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#onnxModel:Array[Byte]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">onnxModel</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>
-      </span>
-      
-      
-    </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#onnxModelPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="onnxModelPath:Option[String]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/onnx/OnnxWrapper.html#onnxModelPath:Option[String]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">onnxModelPath</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.ml.onnx.OnnxWrapper#saveToFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="saveToFile(file:String,zip:Boolean):Unit"></a><a id="saveToFile(String,Boolean):Unit"></a>
       <span class="permalink">

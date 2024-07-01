@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification &#8212; Spark NLP 5.3.3 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification &#8212; Spark NLP 5.4.0 documentation</title>
   
   
   
@@ -374,7 +374,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; token_classifier = XlmRoBertaForTokenClassification.pretrained() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
-<span class="sd">    The default model is ``&quot;xlm_roberta_base_token_classifier_conll03&quot;``, if no</span>
+<span class="sd">    The default model is ``&quot;mpnet_base_token_classifier&quot;``, if no</span>
 <span class="sd">    name is provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
@@ -493,14 +493,14 @@ document.write(`
         <span class="k">return</span> <span class="n">XlmRoBertaForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="XlmRoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/xlm_roberta_for_token_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.XlmRoBertaForTokenClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xlm_roberta_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/xlm_roberta_for_token_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.XlmRoBertaForTokenClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mpnet_base_token_classifier&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
 <span class="sd">            Name of the pretrained model, by default</span>
-<span class="sd">            &quot;xlm_roberta_base_token_classifier_conll03&quot;</span>
+<span class="sd">            &quot;mpnet_base_token_classifier&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>
