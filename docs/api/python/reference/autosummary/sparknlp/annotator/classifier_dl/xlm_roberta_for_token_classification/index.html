@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification &#8212; Spark NLP 5.3.3 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification &#8212; Spark NLP 5.4.0 documentation</title>
   
   
   
@@ -314,6 +314,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mpnet_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mpnet_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
@@ -412,6 +413,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/llama2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.llama2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/m2m100_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.m2m100_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/marian_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.marian_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/mistral_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.mistral_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/phi2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.phi2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/t5_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.t5_transformer</span></code></a></li>
 </ul>
 </li>
@@ -526,7 +529,7 @@ object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_classifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForTokenClassification</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;document&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
-<span class="go">The default model is ``&quot;xlm_roberta_base_token_classifier_conll03&quot;``, if no</span>
+<span class="go">The default model is ``&quot;mpnet_base_token_classifier&quot;``, if no</span>
 <span class="go">name is provided.</span>
 </pre></div>
 </div>
@@ -635,13 +638,13 @@ True</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.XlmRoBertaForTokenClassification.pretrained">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xlm_roberta_base_token_classifier_conll03'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/xlm_roberta_for_token_classification.html#XlmRoBertaForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.XlmRoBertaForTokenClassification.pretrained" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mpnet_base_token_classifier'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/xlm_roberta_for_token_classification.html#XlmRoBertaForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.XlmRoBertaForTokenClassification.pretrained" title="Permalink to this definition">#</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
-“xlm_roberta_base_token_classifier_conll03”</p>
+“mpnet_base_token_classifier”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>

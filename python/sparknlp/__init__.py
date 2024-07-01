@@ -58,6 +58,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
+sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -128,7 +129,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "5.3.3"
+    current_version = "5.4.0"
 
     if params is None:
         params = {}
@@ -309,4 +310,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '5.3.3'
+    return '5.4.0'

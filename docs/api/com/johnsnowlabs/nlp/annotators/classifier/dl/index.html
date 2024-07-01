@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.3.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
-          <meta name="description" content="Spark NLP 5.3.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
-          <meta name="keywords" content="Spark NLP 5.3.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
+          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -278,6 +278,10 @@
                         <a class="class" href="MPNetForSequenceClassification.html" title="MPNetForSequenceClassification can load MPNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
                         <a href="MPNetForSequenceClassification.html" title="MPNetForSequenceClassification can load MPNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">MPNetForSequenceClassification</a>
                       </li><li class="current-entities indented6">
+                        <a class="object" href="MPNetForTokenClassification$.html" title="This is the companion object of MPNetForTokenClassification."></a>
+                        <a class="class" href="MPNetForTokenClassification.html" title="MPNetForTokenClassification can load MPNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="MPNetForTokenClassification.html" title="MPNetForTokenClassification can load MPNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">MPNetForTokenClassification</a>
+                      </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="class" href="MultiClassifierDLApproach.html" title="Trains a MultiClassifierDL for Multi-label Text Classification."></a>
                         <a href="MultiClassifierDLApproach.html" title="Trains a MultiClassifierDL for Multi-label Text Classification.">MultiClassifierDLApproach</a>
@@ -385,6 +389,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadMPNetForSequenceDLModel.html" title=""></a>
                         <a href="ReadMPNetForSequenceDLModel.html" title="">ReadMPNetForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMPNetForTokenDLModel.html" title=""></a>
+                        <a href="ReadMPNetForTokenDLModel.html" title="">ReadMPNetForTokenDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadMultiClassifierDLTensorflowModel.html" title=""></a>
@@ -537,6 +545,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMPNetForSequenceModel.html" title=""></a>
                         <a href="ReadablePretrainedMPNetForSequenceModel.html" title="">ReadablePretrainedMPNetForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMPNetForTokenDLModel.html" title=""></a>
+                        <a href="ReadablePretrainedMPNetForTokenDLModel.html" title="">ReadablePretrainedMPNetForTokenDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMultiClassifierDL.html" title=""></a>
@@ -2338,6 +2350,66 @@ results.select(<span class="lit">"label.result"</span>).show()
   <a href="MPNetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification">MPNetForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
   <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
   based classifiers</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MPNetForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification]withWriteOnnxModelwithWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="MPNetForTokenClassification:MPNetForTokenClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/MPNetForTokenClassification.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="MPNetForTokenClassification can load MPNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g." href="MPNetForTokenClassification.html"><span class="name">MPNetForTokenClassification</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>] with <a href="../../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>] with <a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../../../ml/tensorflow/sentencepiece/WriteSentencePieceModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.sentencepiece.WriteSentencePieceModel">WriteSentencePieceModel</a> with <a href="../../../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a> with <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">MPNetForTokenClassification can load MPNet Models with a token classification head on top (a
+linear layer on top of the hidden-states output) e.g.</p><div class="fullcomment"><div class="comment cmt"><p>MPNetForTokenClassification can load MPNet Models with a token classification head on top (a
+linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER)
+tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = MPNetForTokenClassification.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;mpnet_base_token_classifier&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MPNetForTokenClassificationTestSpec.scala" target="_blank">MPNetForTokenClassificationTestSpec</a>.
+To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> tokenClassifier = MPNetForTokenClassification.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"label"</span>)
+  .setCaseSensitive(<span class="kw">true</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  tokenClassifier
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.select(<span class="lit">"label.result"</span>).show(<span class="kw">false</span>)
++------------------------------------------------------------------------------------+
+|result                                                                              |
++------------------------------------------------------------------------------------+
+|[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
++------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MultiClassifierDLApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel]withParamsAndFeaturesWritablewithClassifierEncoder"></a><a id="MultiClassifierDLApproach:MultiClassifierDLApproach"></a>
       <span class="permalink">
@@ -2936,6 +3008,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       <span class="symbol">
         <a title="" href="ReadMPNetForSequenceDLModel.html"><span class="name">ReadMPNetForSequenceDLModel</span></a><span class="result"> extends <a href="../../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadMPNetForTokenDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadMPNetForTokenDLModelextendsReadOnnxModel"></a><a id="ReadMPNetForTokenDLModel:ReadMPNetForTokenDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadMPNetForTokenDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadMPNetForTokenDLModel.html"><span class="name">ReadMPNetForTokenDLModel</span></a><span class="result"> extends <a href="../../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a></span>
       </span>
       
       
@@ -3544,6 +3632,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedMPNetForSequenceModel.html"><span class="name">ReadablePretrainedMPNetForSequenceModel</span></a><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="MPNetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification">MPNetForSequenceClassification</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="MPNetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification">MPNetForSequenceClassification</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedMPNetForTokenDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedMPNetForTokenDLModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification]withHasPretrained[com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification]"></a><a id="ReadablePretrainedMPNetForTokenDLModel:ReadablePretrainedMPNetForTokenDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedMPNetForTokenDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedMPNetForTokenDLModel.html"><span class="name">ReadablePretrainedMPNetForTokenDLModel</span></a><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>]</span>
       </span>
       
       
@@ -4381,7 +4485,7 @@ on top (a linear layer on top of the hidden-states output) e.g.</p><div class="f
 on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition
 (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = XlmRoBertaForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;xlm_roberta_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;mpnet_base_token_classifier&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
 <a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassificationTestSpec.scala" target="_blank">XlmRoBertaForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
@@ -5079,6 +5183,24 @@ the documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="MPNetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification">MPNetForSequenceClassification</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="MPNetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification">MPNetForSequenceClassification</a>. Please refer to that class
+for the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MPNetForTokenClassification"></a><a id="MPNetForTokenClassification:MPNetForTokenClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/MPNetForTokenClassification$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of MPNetForTokenClassification." href="MPNetForTokenClassification$.html"><span class="name">MPNetForTokenClassification</span></a><span class="result"> extends <a href="ReadablePretrainedMPNetForTokenDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedMPNetForTokenDLModel">ReadablePretrainedMPNetForTokenDLModel</a> with <a href="ReadMPNetForTokenDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadMPNetForTokenDLModel">ReadMPNetForTokenDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="MPNetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForTokenClassification">MPNetForTokenClassification</a>. Please refer to that class
 for the documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

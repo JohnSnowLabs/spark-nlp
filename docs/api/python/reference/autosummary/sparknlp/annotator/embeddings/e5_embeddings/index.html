@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.embeddings.e5_embeddings &#8212; Spark NLP 5.3.3 documentation</title>
+    <title>sparknlp.annotator.embeddings.e5_embeddings &#8212; Spark NLP 5.4.0 documentation</title>
   
   
   
@@ -314,6 +314,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/mpnet_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/mpnet_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
@@ -412,6 +413,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/llama2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.llama2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/m2m100_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.m2m100_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/marian_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.marian_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/mistral_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.mistral_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/phi2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.phi2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../seq2seq/t5_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.t5_transformer</span></code></a></li>
 </ul>
 </li>
@@ -520,7 +523,8 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">E5Embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.E5Embeddings'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/e5_embeddings.html#E5Embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings" title="Permalink to this definition">#</a></dt>
 <dd><p>Sentence embeddings using E5.</p>
 <p>E5, a weakly supervised text embedding model that can generate text embeddings tailored to any task (e.g., classification, retrieval, clustering, text evaluation, etc.)
-Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.pretrained" title="sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.pretrained" title="sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">E5Embeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -622,7 +626,7 @@ beating existing embedding models with 40× more parameters.</em></p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.loadSavedModel">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/e5_embeddings.html#E5Embeddings.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.loadSavedModel" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_openvino</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/e5_embeddings.html#E5Embeddings.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.e5_embeddings.E5Embeddings.loadSavedModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Loads a locally saved model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -630,6 +634,8 @@ beating existing embedding models with 40× more parameters.</em></p>
 <dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the saved model</p>
 </dd>
 <dt><strong>spark_session</strong><span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
+</dd>
+<dt><strong>use_openvino</strong><span class="classifier">bool</span></dt><dd><p>Use OpenVINO backend</p>
 </dd>
 </dl>
 </dd>

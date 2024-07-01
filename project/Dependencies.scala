@@ -113,16 +113,20 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val onnxRuntimeVersion = "1.17.0"
+  val onnxRuntimeVersion = "1.18.0"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
+  val openVinoRuntimeVersion = "0.1.0"
+  val openVinoCPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-cpu" % openVinoRuntimeVersion
+  val openVinoGPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-gpu" % openVinoRuntimeVersion
+
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
-  val azureIdentityVersion = "1.9.1"
-  val azureStorageVersion = "12.22.2"
+  val azureIdentityVersion = "1.12.2"
+  val azureStorageVersion = "12.26.0"
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
-  val azureStorage = "com.azure" % "azure-storage-blob" % "12.22.2" % Provided
+  val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
   /** ------- Dependencies end  ------- */
 }
