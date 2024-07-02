@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import java.io.File
 import java.nio.file.Paths
 import scala.io.Source
+import scala.util.Random
 
 object LoadExternalModel {
 
@@ -226,6 +227,18 @@ object LoadExternalModel {
     val f = new File(filePath, fileName)
     require(f.exists(), s"File $fileName not found in folder $filePath")
     f
+  }
+
+  /** Generates a random alphanumeric string of a given length.
+    *
+    * @param n
+    *   the length of the generated string
+    * @return
+    *   a random alphanumeric string of length n
+    */
+  def generateRandomString(n: Int): String = {
+    val alphanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    (1 to n).map(_ => alphanumeric(Random.nextInt(alphanumeric.length))).mkString
   }
 
 }

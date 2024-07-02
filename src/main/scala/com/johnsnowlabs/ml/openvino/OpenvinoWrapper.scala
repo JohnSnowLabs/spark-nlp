@@ -17,8 +17,8 @@
 package com.johnsnowlabs.ml.openvino
 
 import com.johnsnowlabs.ml.util.LoadExternalModel.notSupportedEngineError
-import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
-import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper, ZipArchiveUtil}
+import com.johnsnowlabs.ml.util.{LoadExternalModel, ONNX, Openvino, TensorFlow}
+import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
 import org.apache.commons.io.{FileUtils, FilenameUtils}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
@@ -113,9 +113,10 @@ object OpenvinoWrapper {
       .toAbsolutePath
       .toString
 
+    val randomSuffix = generateRandomSuffix(ovFileSuffix)
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), ovFileSuffix)
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), randomSuffix)
       else
         modelPath
 
@@ -149,6 +150,11 @@ object OpenvinoWrapper {
     openvinoWrapper.compiledModel = compiledModel
 
     openvinoWrapper
+  }
+
+  private def generateRandomSuffix(fileSuffix: Option[String]): Option[String] = {
+    val randomSuffix = Some(LoadExternalModel.generateRandomString(10))
+    Some(s"${randomSuffix.get}${fileSuffix.getOrElse("")}")
   }
 
   /** Convert the model at srcPath to OpenVINO IR Format and export to exportPath.
