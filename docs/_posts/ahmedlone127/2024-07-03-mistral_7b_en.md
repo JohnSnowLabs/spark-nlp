@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Mistral text-to-text model 7b int4
+title: Mistral text-to-text model 7b int8
 author: John Snow Labs
 name: mistral_7b
 date: 2024-07-03
@@ -39,7 +39,11 @@ documentAssembler = DocumentAssembler() \
 	.setInputCol('text') \
 	.setOutputCol('document')
 
-mistral = MistralTransformer 			.pretrained() 			.setMaxOutputLength(50) 			.setDoSample(False) 			.setInputCols(["document"]) 			.setOutputCol("mistral_generation")
+mistral = MistralTransformer .pretrained() \
+	.setMaxOutputLength(50) \
+	.setDoSample(False) \
+	.setInputCols(["document"]) \
+	.setOutputCol("mistral_generation")
 
 pipeline = Pipeline().setStages([documentAssembler, mistral])
 data = spark.createDataFrame([["Who is the founder of Spark-NLP?"]]).toDF("text")
@@ -53,7 +57,11 @@ val documentAssembler = new DocumentAssembler()
 	.setInputCols("text")
 	.setOutputCols("document")
 
-val mistral = MistralTransformer 			.pretrained() 			.setMaxOutputLength(50) 			.setDoSample(False) 			.setInputCols(["document"]) 			.setOutputCol("mistral_generation")
+val mistral = MistralTransformer .pretrained()
+	.setMaxOutputLength(50)
+	.setDoSample(False)
+	.setInputCols(["document"])
+	.setOutputCol("mistral_generation")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, mistral))
 val data = Seq("Who is the founder of Spark-NLP?").toDS.toDF("text")
