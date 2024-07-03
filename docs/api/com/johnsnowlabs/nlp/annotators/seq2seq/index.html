@@ -1040,9 +1040,9 @@ sequences at a reduced computational cost. This feature enhances the model's abi
 process extensive textual input, expanding its utility in handling more complex tasks.</p><p>In summary, Mistral 7B represents a notable advancement in language models, offering a
 reliable and versatile solution for various natural language processing challenges.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> mistral = MistralTransformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;mistral-7b&quot;</code>, if no name is provided. For available pretrained models
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;mistral_7b&quot;</code>, if no name is provided. For available pretrained models
 please see the <a href="https://sparknlp.org/models?q=mistral" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MistralTestSpec.scala" target="_blank">MistralTestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://mistral.ai/news/announcing-mistral-7b/" target="_blank">Mistral 7B</a></li><li><a href="https://github.com/mistralai/mistral-src" target="_blank">https://github.com/mistralai/mistral-src</a></li></ul><p><b>Paper Abstract:</b></p><p><i>We introduce Mistral 7B v0.1, a 7-billion-parameter language model engineered for superior
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MistralTestSpec.scala" target="_blank">MistralTestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://mistral.ai/news/announcing-mistral_7b/" target="_blank">Mistral 7B</a></li><li><a href="https://github.com/mistralai/mistral-src" target="_blank">https://github.com/mistralai/mistral-src</a></li></ul><p><b>Paper Abstract:</b></p><p><i>We introduce Mistral 7B v0.1, a 7-billion-parameter language model engineered for superior
 performance and efficiency. Mistral 7B outperforms Llama 2 13B across all evaluated
 benchmarks, and Llama 1 34B in reasoning, mathematics, and code generation. Our model
 leverages grouped-query attention (GQA) for faster inference, coupled with sliding window
@@ -1059,7 +1059,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> mistral = MistralTransformer.pretrained(<span class="lit">"mistral-7b"</span>)
+<span class="kw">val</span> mistral = MistralTransformer.pretrained(<span class="lit">"mistral_7b"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)
@@ -1134,7 +1134,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"Phi2-7b"</span>)
+<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"phi2_7b"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)

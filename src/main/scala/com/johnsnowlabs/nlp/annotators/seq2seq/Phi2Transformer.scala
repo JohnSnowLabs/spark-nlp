@@ -113,7 +113,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val Phi2 = Phi2Transformer.pretrained("Phi2-7b")
+  * val Phi2 = Phi2Transformer.pretrained("phi2_7b")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -323,8 +323,8 @@ class Phi2Transformer(override val uid: String)
           path,
           spark,
           wrappers.get,
-          LLAMA2Transformer.suffix,
-          LLAMA2Transformer.openvinoFile)
+          Phi2Transformer.suffix,
+          Phi2Transformer.openvinoFile)
     }
   }
 }
@@ -332,7 +332,7 @@ class Phi2Transformer(override val uid: String)
 trait ReadablePretrainedPhi2TransformerModel
     extends ParamsAndFeaturesReadable[Phi2Transformer]
     with HasPretrained[Phi2Transformer] {
-  override val defaultModelName: Some[String] = Some("Phi2-7b")
+  override val defaultModelName: Some[String] = Some("phi2_7b")
 
   /** Java compliant-overrides */
   override def pretrained(): Phi2Transformer = super.pretrained()
@@ -351,7 +351,7 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
 
   override val onnxFile: String = "phi2_onnx"
   val suffix: String = "_phi2"
-  override val openvinoFile: String = "llama2_openvino"
+  override val openvinoFile: String = "phi2_openvino"
 
   def readModel(instance: Phi2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -363,7 +363,7 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
         instance.setModelIfNotSet(spark, Some(onnxWrappers), None)
       case Openvino.name =>
         val ovWrapper =
-          readOpenvinoModel(path, spark, "_llama2_ov")
+          readOpenvinoModel(path, spark, "_phi2_ov")
         instance.setModelIfNotSet(spark, None, Some(ovWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)

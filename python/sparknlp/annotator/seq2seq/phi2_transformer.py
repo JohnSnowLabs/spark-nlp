@@ -108,7 +108,7 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> phi2 = Phi2Transformer.pretrained("phi2-7b") \\
+    >>> phi2 = Phi2Transformer.pretrained("phi2_7b") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -304,13 +304,13 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return Phi2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi2-7b", lang="en", remote_loc=None):
+    def pretrained(name="phi2_7b", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "phi2-7b"
+            Name of the pretrained model, by default "phi2_7b"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

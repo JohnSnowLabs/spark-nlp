@@ -311,7 +311,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"Phi2-7b"</span>)
+<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"phi2_7b"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)
