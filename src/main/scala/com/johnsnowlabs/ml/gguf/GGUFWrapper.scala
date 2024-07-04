@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.ml.gguf
 
-import de.kherud.llama.{LlamaModel, ModelParameters}
+import com.johnsnowlabs.nlp.llama.{LlamaModel, ModelParameters}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}

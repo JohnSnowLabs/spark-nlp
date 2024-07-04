@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.lang.management.ManagementFactory
@@ -25,7 +26,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     .setOutputCol("completions")
     .setBatchSize(4)
     .setNPredict(20)
-    .setNGpuLayers(99)
+//    .setNGpuLayers(99)
     .setTemperature(0.4f)
     .setTopK(40)
     .setTopP(0.9f)
@@ -51,7 +52,12 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     val pid = jvmName.split("@")(0)
     println(s"Running in PID $pid")
 
-    lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+
+    val spark = ResourceHelper.getActiveSparkSession
+    println(spark)
+    println(SparkSession.getActiveSession)
+    ResourceHelper.spark.sparkContext.setLogLevel("INFO")
 
     val result = pipeline.fit(data).transform(data)
     result.select("completions").show(truncate = false)

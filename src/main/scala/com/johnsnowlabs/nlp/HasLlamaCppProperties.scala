@@ -1,11 +1,13 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
+import com.johnsnowlabs.nlp.llama.args._
+import com.johnsnowlabs.nlp.llama.{InferenceParameters, ModelParameters}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import de.kherud.llama.args._
-import de.kherud.llama.{InferenceParameters, ModelParameters}
 import org.apache.spark.ml.param._
+import org.slf4j.LoggerFactory
 
+import java.net.URLClassLoader
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
@@ -23,7 +25,7 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
   */
 trait HasLlamaCppProperties {
   this: ParamsAndFeaturesWritable with HasProtectedParams =>
-
+  val logger = LoggerFactory.getLogger(this.getClass)
   // ---------------- MODEL PARAMETERS ----------------
   /** @group param */
   val nThreads =
@@ -1073,7 +1075,6 @@ trait HasLlamaCppProperties {
   /** @group getParam */
   def getCachePrompt: Boolean = $(cachePrompt)
 
-  /** @group getParam */
   def getNPredict: Int = $(nPredict)
 
   /** @group getParam */
@@ -1165,28 +1166,7 @@ trait HasLlamaCppProperties {
 
   protected def getModelParameters: ModelParameters = {
     val modelParameters = new ModelParameters().setContinuousBatching(true) // Always enabled
-    if (isDefined(chatTemplate)) modelParameters.setChatTemplate($(chatTemplate))
-    if (isDefined(defragmentationThreshold))
-      modelParameters.setDefragmentationThreshold($(defragmentationThreshold))
-    if (isDefined(embedding)) modelParameters.setEmbedding($(embedding))
-    if (isDefined(flashAttention)) modelParameters.setFlashAttention($(flashAttention))
-    if (isDefined(gpuSplitMode))
-      modelParameters.setSplitMode(GpuSplitMode.valueOf($(gpuSplitMode)))
-    if (isDefined(grpAttnN)) modelParameters.setGrpAttnN($(grpAttnN))
-    if (isDefined(grpAttnW)) modelParameters.setGrpAttnW($(grpAttnW))
-    if (isDefined(inputPrefixBos)) modelParameters.setInputPrefixBos($(inputPrefixBos))
-    if (isDefined(lookupCacheDynamicFilePath))
-      modelParameters.setLookupCacheDynamicFilePath($(lookupCacheDynamicFilePath))
-    if (isDefined(lookupCacheStaticFilePath))
-      modelParameters.setLookupCacheStaticFilePath($(lookupCacheStaticFilePath))
-    if (get(loraAdapters).isDefined) {
-      // Need to convert to mutable map first
-      val loraAdaptersMap: mutable.Map[String, java.lang.Float] =
-        mutable.Map($$(loraAdapters).map { case (key, value) =>
-          (key, float2Float(value))
-        }.toSeq: _*)
-      modelParameters.setLoraAdapters(loraAdaptersMap.asJava)
-    }
+
     if (isDefined(loraBase)) modelParameters.setLoraBase($(loraBase))
     if (isDefined(mainGpu)) modelParameters.setMainGpu($(mainGpu))
     if (isDefined(modelDraft)) modelParameters.setModelDraft($(modelDraft))

@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import de.kherud.llama.LlamaModel
+import com.johnsnowlabs.nlp.llama.LlamaModel
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -124,6 +124,10 @@ class AutoGGUFModel(override val uid: String)
 
   private var _model: Option[Broadcast[GGUFWrapper]] = None
 
+  // Values for automatic GPU support
+  private val defaultGpuLayers = 1000
+  private val defaultMainGpu = 0
+
   /** @group getParam */
   def getModelIfNotSet: GGUFWrapper = _model.get.value
 
@@ -131,6 +135,14 @@ class AutoGGUFModel(override val uid: String)
   def setModelIfNotSet(spark: SparkSession, wrapper: GGUFWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(spark.sparkContext.broadcast(wrapper))
+    }
+
+    // Entrypoint for models. Automatically set GPU support if detected
+    val usingGPUJar: Boolean = spark.sparkContext.listJars.exists(_.contains("spark-nlp-gpu"))
+    if (usingGPUJar) {
+      logger.info("Using GPU jar. Offloading all layers to GPU.")
+      setMainGpu(defaultMainGpu)
+      setNGpuLayers(defaultGpuLayers)
     }
     this
   }
