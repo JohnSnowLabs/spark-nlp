@@ -36,6 +36,12 @@ sparknlp:
         url: /docs/en/quickstart
       - title: Install Spark NLP
         url: /docs/en/install
+      - title: Advanced Settings
+        url: /docs/en/advanced_settings
+      - title: Features
+        url: /docs/en/features
+      - title: Pipelines and Models
+        url: /docs/en/pipelines
       - title: General Concepts
         url: /docs/en/concepts
       - title: Annotators
