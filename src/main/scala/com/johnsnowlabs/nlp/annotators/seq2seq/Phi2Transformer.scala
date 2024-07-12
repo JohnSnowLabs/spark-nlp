@@ -113,7 +113,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val Phi2 = Phi2Transformer.pretrained("phi2_7b")
+  * val Phi2 = Phi2Transformer.pretrained("phi2")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -332,7 +332,7 @@ class Phi2Transformer(override val uid: String)
 trait ReadablePretrainedPhi2TransformerModel
     extends ParamsAndFeaturesReadable[Phi2Transformer]
     with HasPretrained[Phi2Transformer] {
-  override val defaultModelName: Some[String] = Some("phi2_7b")
+  override val defaultModelName: Some[String] = Some("phi2")
 
   /** Java compliant-overrides */
   override def pretrained(): Phi2Transformer = super.pretrained()
