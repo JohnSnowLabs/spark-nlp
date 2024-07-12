@@ -31,8 +31,8 @@ BART is particularly effective when fine-tuned for text generation (e.g. summari
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_5.4.0_3.0_1720754028322.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_5.4.0_3.0_1720754028322.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_5.4.0_3.0_1720754758442.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_5.4.0_3.0_1720754758442.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
