@@ -1,4 +1,19 @@
 ========
+5.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Added support for loading duplicate models in Spark NLP, allowing multiple models from the same annotator to be loaded simultaneously.
+* Updated the README for better coherence and added new pages to the website.
+* Added support for a stop IDs list to halt text generation in Phi, Mistral, and Llama annotators.
+
+----------------
+Bug Fixes
+----------------
+* Fixed the default model names for Phi2 and Mistral AI annotators.
+
+========
 5.4.0
 ========
 ----------------

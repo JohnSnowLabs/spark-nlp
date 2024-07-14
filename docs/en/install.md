@@ -17,22 +17,22 @@ sidebar:
 
 ```bash
 # Install Spark NLP from PyPI
-pip install spark-nlp==5.4.0
+pip install spark-nlp==5.4.1
 
 # Install Spark NLP from Anaconda/Conda
 conda install -c johnsnowlabs spark-nlp
 
 # Load Spark NLP with Spark Shell
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.1
 
 # Load Spark NLP with PySpark
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.1
 
 # Load Spark NLP with Spark Submit
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.1
 
 # Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
-spark-shell --jars spark-nlp-assembly-5.4.0.jar
+spark-shell --jars spark-nlp-assembly-5.4.1.jar
 ```
 
 **GPU (optional):**
@@ -55,7 +55,7 @@ python version, consider sticking to lower versions of Spark.
 </div><div class="h3-box" markdown="1">
 
 #### Quick Install
-
+5.4.1
 Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.
 
 ```bash
@@ -92,7 +92,7 @@ spark = sparknlp.start()
 If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them,
 you can manually start the SparkSession with:
 
-```python
+```python5.4.1
 spark = SparkSession.builder \
     .appName("Spark NLP") \
     .master("local[*]") \
@@ -109,7 +109,7 @@ you'll have to put the jars in a reachable location for all driver and executor 
 ### Python without explicit Pyspark installation
 
 ### Pip/Conda
-
+5.4.1
 If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
 
 Pip:
@@ -120,7 +120,7 @@ pip install spark-nlp==5.4.0
 
 Conda:
 
-```bash
+```bash5.4.1
 conda install -c johnsnowlabs spark-nlp
 ```
 
@@ -131,7 +131,7 @@ Then you'll have to create a SparkSession either from Spark NLP:
 
 ```python
 import sparknlp
-
+5.4.1
 spark = sparknlp.start()
 ```
 
@@ -142,7 +142,7 @@ import sparknlp
 from sparknlp.pretrained import PretrainedPipeline
 
 # create or get Spark Session
-
+5.4.1
 spark = sparknlp.start()
 
 sparknlp.version()
@@ -154,28 +154,28 @@ pipeline = PretrainedPipeline('recognize_entities_dl', 'en')
 result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created by Leonardo')
 ```
 
-</div><div class="h3-box" markdown="1">
+</div><div class="h3-box" markdown="1">5.4.1
 
 ## Scala and Java
 
 To use Spark NLP you need the following requirements:
 
 - Java 8 and 11
-- Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x
+- Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x5.4.1
 
 #### Maven
 
 **spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
 
 The `spark-nlp` has been published to
-the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp).
+the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowla5.4.1p/spark-nlp).
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.12</artifactId>
-    <version>5.4.0</version>
+    <version>5.4.0</version>5.4.1
 </dependency>
 ```
 
@@ -257,7 +257,7 @@ at the moment, only the standard variant of the M1 is supported. Other variants 
 M1 Pro/Max/Ultra, M2) will most likely not work.
 
 Make sure the following prerequisites are met:
-
+5.4.1
 1. An M1 compiled java version needs to be installed. For example to install the Zulu
     Java 11 JDK head to [Download Azul JDKs](https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk) and install that java version.
 
@@ -265,7 +265,7 @@ Make sure the following prerequisites are met:
     rosetta, you can run the following commands in your shell:
 
     ```shell
-    johnsnow@m1mac ~ % cat $(which java) | file -
+    johnsnow@m1mac ~ % cat $(which java) | file -5.4.1
     /dev/stdin: Mach-O 64-bit executable arm64
     ```
 
@@ -302,7 +302,7 @@ rocksdbjni-6.20.3.jar
 ```
 
 to find the jar you have to remove. After removing the jar, the pipelines should work
-as expected.
+as expected.5.4.1
 
 </div><div class="h3-box" markdown="1">
 
@@ -350,7 +350,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.4.0
 
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:5.4.0
 
-```
+```5.4.1
 
 The `spark-nlp-aarch64` has been published to
 the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64).
@@ -372,7 +372,7 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 **NOTE**: In case you are using large pretrained models like UniversalSentenceEncoder, you need to have the following
 set in your SparkSession:
 
-```sh
+```sh5.4.1
 spark-shell \
   --driver-memory 16g \
   --conf spark.kryoserializer.buffer.max=2000M \
@@ -454,7 +454,7 @@ to install Spark NLP for your system.
 
 ### Starting Spark NLP
 
-Spark NLP needs to be started with the `aarch64` flag set to `true`:
+Spark NLP needs to be started with the `aarch64` flag set to `true`:5.4.1
 
 For Scala:
 
@@ -474,7 +474,7 @@ spark = sparknlp.start(aarch64=True)
 
 </div><div class="h3-box" markdown="1">
 
-## Google Colab Notebook
+## Google 5.4.1 Notebook
 
 Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.
 
@@ -537,7 +537,7 @@ Or you can install `spark-nlp` from inside Zeppelin by using Conda:
 ```bash
 python.conda install -c johnsnowlabs spark-nlp
 ```
-
+5.4.1
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
 Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and
@@ -547,7 +547,7 @@ An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) a
 shown earlier since it includes both scala and python side installation.
 
 ## Jupyter Notebook
-
+5.4.1
 **Recommended:**
 
 The easiest way to get this done on Linux and macOS is to simply install `spark-nlp` and `pyspark` PyPI packages and
@@ -812,7 +812,7 @@ Spark NLP 5.4.0 has been tested and is compatible with the following runtimes:
 
 - 9.1 ML & GPU
 - 10.1 ML & GPU
-- 10.2 ML & GPU
+- 10.2 ML & GPU5.4.1
 - 10.3 ML & GPU
 - 10.4 ML & GPU
 - 10.5 ML & GPU
@@ -840,12 +840,12 @@ Spark NLP 5.4.0 has been tested and is compatible with the following runtimes:
 
     ```bash
     spark.kryoserializer.buffer.max 2000M
-    spark.serializer org.apache.spark.serializer.KryoSerializer
+    spark.serializer org.apache.spark.serializer.Kr5.4.1ializer
     ```
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Install New -> PyPI -> `spark-nlp` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp` -> Install5.4.1
 
     3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0` -> Install
 
