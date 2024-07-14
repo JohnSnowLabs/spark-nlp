@@ -1,4 +1,4 @@
-#  Copyright 2017-2023 John Snow Labs
+#  Copyright 2017-2024 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,19 +11,19 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for DeBertaForZeroShotClassification."""
+"""Contains classes for CamemBertForSequenceClassification."""
 
 from sparknlp.common import *
 
 
-class DeBertaForZeroShotClassification(AnnotatorModel,
-                                          HasCaseSensitiveProperties,
-                                          HasBatchedAnnotate,
-                                          HasClassifierActivationProperties,
-                                          HasCandidateLabelsProperties,
-                                          HasEngine,
-                                          HasMaxSentenceLengthLimit):
-    """DeBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
+class CamemBertForZeroShotClassification(AnnotatorModel,
+                                         HasCaseSensitiveProperties,
+                                         HasBatchedAnnotate,
+                                         HasClassifierActivationProperties,
+                                         HasCandidateLabelsProperties,
+                                         HasEngine,
+                                         HasMaxSentenceLengthLimit):
+    """CamemBertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
     inference) tasks. Equivalent of `DeBertaForSequenceClassification` models, but these models don't require a hardcoded
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
     flexible.
@@ -31,7 +31,7 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
     pair and passed to the pretrained model.
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
-    >>> sequenceClassifier = DeBertaForZeroShotClassification.pretrained() \\
+    >>> sequenceClassifier = CamemBertForZeroShotClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
     The default model is ``"deberta_base_zero_shot_classifier_mnli_anli_v3"``, if no name is
@@ -77,26 +77,26 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
     >>> tokenizer = Tokenizer() \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("token")
-    >>> sequenceClassifier = DeBertaForZeroShotClassification.pretrained() \\
+    >>> sequenceClassifier = CamemBertForZeroShotClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
-    ...     .setOutputCol("label") \\
+    ...     .setOutputCol("multi_class") \\
     ...     .setCaseSensitive(True)
+    ...     .setCandidateLabels(["sport", "politique", "science"])
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
+    >>> data = spark.createDataFrame([["L'équipe de France joue aujourd'hui au Parc des Princes"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
-    >>> result.select("label.result").show(truncate=False)
+    >>> result.select("class.result").show(truncate=False)
     +------+
     |result|
     +------+
-    |[pos] |
-    |[neg] |
+    |[sport]|
     +------+
     """
-    name = "DeBertaForZeroShotClassification"
+    name = "CamemBertForZeroShotClassification"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
@@ -119,6 +119,7 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[int]
@@ -127,10 +128,14 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setCoalesceSentences(self, value):
-        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
-        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as DeBerta
-        (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the probabilities
-        for the entire document instead of probabilities per sentence. (Default: true)
+        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1
+        class per document by averaging probabilities in all sentences, by default True.
+
+        Due to max sequence length limit in almost all transformer models such as BERT
+        (512 tokens), this parameter helps feeding all the sentences into the model and
+        averaging all the probabilities for the entire document instead of probabilities
+        per sentence.
+
         Parameters
         ----------
         value : bool
@@ -139,9 +144,9 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
         return self._set(coalesceSentences=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForZeroShotClassification",
                  java_model=None):
-        super(DeBertaForZeroShotClassification, self).__init__(
+        super(CamemBertForZeroShotClassification, self).__init__(
             classname=classname,
             java_model=java_model
         )
@@ -156,38 +161,42 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
-            spark_session : pyspark.sql.SparkSession
+        spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
-        DeBertaForZeroShotClassification
+        CamemBertForZeroShotClassification
             The restored model
         """
-        from sparknlp.internal import _DeBertaForZeroShotClassification
-        jModel = _DeBertaForZeroShotClassification(folder, spark_session._jsparkSession)._java_obj
-        return DeBertaForZeroShotClassification(java_model=jModel)
+        from sparknlp.internal import _CamemBertForZeroShotClassificationLoader
+        jModel = _CamemBertForZeroShotClassificationLoader(folder, spark_session._jsparkSession)._java_obj
+        return CamemBertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_base_zero_shot_classifier_mnli_anli_v3", lang="en", remote_loc=None):
+    def pretrained(name="camembert-base-xnli", lang="fr", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "deberta_base_zero_shot_classifier_mnli_anli_v3"
-            lang : str, optional
-            Language of the pretrained model, by default "en"
-            remote_loc : str, optional
+            "camembert_base_sequence_classifier_allocine"
+        lang : str, optional
+            Language of the pretrained model, by default "fr"
+        remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
-        DeBertaForZeroShotClassification
+        CamemBertForSequenceClassification
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DeBertaForZeroShotClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CamemBertForZeroShotClassification, name, lang, remote_loc)

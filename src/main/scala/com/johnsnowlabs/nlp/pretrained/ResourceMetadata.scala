@@ -35,7 +35,8 @@ case class ResourceMetadata(
     isZipped: Boolean = false,
     category: Option[String] = Some(ResourceType.NOT_DEFINED.toString),
     checksum: String = "",
-    annotator: Option[String] = None)
+    annotator: Option[String] = None,
+    engine: Option[String] = None)
     extends Ordered[ResourceMetadata] {
 
   lazy val key: String = {
@@ -108,6 +109,27 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
+    val compatibleCandidatesName = candidates
+      .filter(item =>
+        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
+          && item.name == request.name)
+
+    val compatibleCandidatesLanguage = candidates
+      .filter(item =>
+        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
+          && item.name == request.name
+          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
+      )
+
+    val compatibleCandidatesSparkNLPVersion =
+      candidates
+        .filter(item =>
+          item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
+            && item.name == request.name
+            && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
+            && Version.isCompatible(request.libVersion, item.libVersion))
+
+    println("")
     val compatibleCandidates = candidates
       .filter(item =>
         item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined

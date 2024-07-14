@@ -545,6 +545,9 @@ package object annotator {
 
   object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel
 
+  type CamemBertaForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForZeroShotClassification
+
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 
   object SpanBertCorefModel
