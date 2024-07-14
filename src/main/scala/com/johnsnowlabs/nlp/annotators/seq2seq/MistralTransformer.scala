@@ -243,7 +243,8 @@ class MistralTransformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
-    maxInputLength -> 4096)
+    maxInputLength -> 4096,
+    stopTokenIds -> Array())
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -277,7 +278,8 @@ class MistralTransformer(override val uid: String)
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds),
         beamSize = $(beamSize),
-        maxInputLength = $(maxInputLength))
+        maxInputLength = $(maxInputLength),
+        stopTokenIds = $(stopTokenIds))
     } else {
       Seq()
     }
