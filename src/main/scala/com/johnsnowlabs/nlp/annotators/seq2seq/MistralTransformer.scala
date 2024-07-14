@@ -69,14 +69,14 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"mistral-7b"`, if no name is provided. For available pretrained models
+  * The default model is `"mistral_7b"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=mistral Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MistralTestSpec.scala MistralTestSpec]].
   *
   * '''References:'''
-  *   - [[https://mistral.ai/news/announcing-mistral-7b/ Mistral 7B]]
+  *   - [[https://mistral.ai/news/announcing-mistral_7b/ Mistral 7B]]
   *   - [[https://github.com/mistralai/mistral-src]]
   *
   * '''Paper Abstract:'''
@@ -106,7 +106,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val mistral = MistralTransformer.pretrained("mistral-7b")
+  * val mistral = MistralTransformer.pretrained("mistral_7b")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -323,7 +323,7 @@ class MistralTransformer(override val uid: String)
 trait ReadablePretrainedMistralTransformerModel
     extends ParamsAndFeaturesReadable[MistralTransformer]
     with HasPretrained[MistralTransformer] {
-  override val defaultModelName: Some[String] = Some("mistral-7b")
+  override val defaultModelName: Some[String] = Some("mistral_7b")
 
   /** Java compliant-overrides */
   override def pretrained(): MistralTransformer = super.pretrained()
