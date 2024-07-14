@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer</title>
-          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer" />
-          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer" />
+          <title>Spark NLP 5.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer</title>
+          <meta name="description" content="Spark NLP 5.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer" />
+          <meta name="keywords" content="Spark NLP 5.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -311,7 +311,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"Phi2-7b"</span>)
+<span class="kw">val</span> Phi2 = Phi2Transformer.pretrained(<span class="lit">"phi2"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)
@@ -1453,6 +1453,22 @@ type
       </span>
       <span class="symbol">
         <span class="name">getRepetitionPenalty</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasGeneratorProperties#getStopTokenIds" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getStopTokenIds:Array[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/Phi2Transformer.html#getStopTokenIds:Array[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStopTokenIds</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a></dd></dl></div>
@@ -2811,6 +2827,22 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasGeneratorProperties#setStopTokenIds" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setStopTokenIds(value:Array[Int]):com.johnsnowlabs.nlp.&lt;refinement&gt;.type"></a><a id="setStopTokenIds(Array[Int]):Phi2Transformer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/Phi2Transformer.html#setStopTokenIds(value:Array[Int]):com.johnsnowlabs.nlp.&lt;refinement&gt;.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStopTokenIds</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi2Transformer">Phi2Transformer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasGeneratorProperties#setTask" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setTask(value:String):com.johnsnowlabs.nlp.&lt;refinement&gt;.type"></a><a id="setTask(String):Phi2Transformer.this.type"></a>
       <span class="permalink">
@@ -2891,6 +2923,24 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.HasGeneratorProperties#stopTokenIds" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="stopTokenIds:org.apache.spark.ml.param.IntArrayParam"></a><a id="stopTokenIds:IntArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/Phi2Transformer.html#stopTokenIds:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stopTokenIds</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Stop tokens to terminate the generation
+</p><div class="fullcomment"><div class="comment cmt"><p>Stop tokens to terminate the generation
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

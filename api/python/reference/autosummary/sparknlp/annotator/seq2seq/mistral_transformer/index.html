@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.mistral_transformer &#8212; Spark NLP 5.4.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.mistral_transformer &#8212; Spark NLP 5.4.1 documentation</title>
   
   
   
@@ -543,7 +543,7 @@ object:</p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;generation&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;mistral-7b&quot;</span></code>, if no name is provided. For available
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;mistral_7b&quot;</span></code>, if no name is provided. For available
 pretrained models please see the <a class="reference external" href="https://sparknlp.org/models?q=mistral">Models Hub</a>.</p>
 <table class="table">
 <thead>
@@ -772,12 +772,12 @@ Generation</a> for more details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mistral-7b'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mistral_7b'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained" title="Permalink to this definition">#</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “mistral-7b”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “mistral_7b”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>

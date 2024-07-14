@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2 active"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -533,163 +533,23 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <p class="success">Pretrained Pipelines have moved to Models Hub.
-Please follow this link for the updated list of all models and pipelines:
-<a href="https://sparknlp.org/models">Models Hub</a></p>
+  <h2 id="pipelines-and-models">Pipelines and Models</h2>
 
-</div>
-<div class="h3-box">
+  <h3 id="pipelines">Pipelines</h3>
 
-  <h2 id="english">English</h2>
+  <p><strong>Quick example:</strong></p>
 
-  <p><strong>NOTE:</strong>
-<code class="language-plaintext highlighter-rouge">noncontrib</code> pipelines are compatible with <code class="language-plaintext highlighter-rouge">Windows</code> operating systems.</p>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th>Pipelines</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="#explaindocumentml">Explain Document ML</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_ml</code></td>
-      </tr>
-      <tr>
-        <td><a href="#explaindocumentdl">Explain Document DL</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_dl</code></td>
-      </tr>
-      <tr>
-        <td><a href="">Explain Document DL Win</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_dl_noncontrib</code></td>
-      </tr>
-      <tr>
-        <td>Explain Document DL Fast</td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_dl_fast</code></td>
-      </tr>
-      <tr>
-        <td>Explain Document DL Fast Win</td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_dl_fast_noncontrib</code></td>
-      </tr>
-      <tr>
-        <td><a href="#recognizeentitiesdl">Recognize Entities DL</a></td>
-        <td><code class="language-plaintext highlighter-rouge">recognize_entities_dl</code></td>
-      </tr>
-      <tr>
-        <td>Recognize Entities DL Win</td>
-        <td><code class="language-plaintext highlighter-rouge">recognize_entities_dl_noncontrib</code></td>
-      </tr>
-      <tr>
-        <td><a href="#ontorecognizeentitiessm">OntoNotes Entities Small</a></td>
-        <td><code class="language-plaintext highlighter-rouge">onto_recognize_entities_sm</code></td>
-      </tr>
-      <tr>
-        <td><a href="#ontorecognizeentitieslg">OntoNotes Entities Large</a></td>
-        <td><code class="language-plaintext highlighter-rouge">onto_recognize_entities_lg</code></td>
-      </tr>
-      <tr>
-        <td><a href="#matchdatetime">Match Datetime</a></td>
-        <td><code class="language-plaintext highlighter-rouge">match_datetime</code></td>
-      </tr>
-      <tr>
-        <td><a href="#matchpattern">Match Pattern</a></td>
-        <td><code class="language-plaintext highlighter-rouge">match_pattern</code></td>
-      </tr>
-      <tr>
-        <td><a href="#matchchunks">Match Chunk</a></td>
-        <td><code class="language-plaintext highlighter-rouge">match_chunks</code></td>
-      </tr>
-      <tr>
-        <td>Match Phrases</td>
-        <td><code class="language-plaintext highlighter-rouge">match_phrases</code></td>
-      </tr>
-      <tr>
-        <td>Clean Stop</td>
-        <td><code class="language-plaintext highlighter-rouge">clean_stop</code></td>
-      </tr>
-      <tr>
-        <td>Clean Pattern</td>
-        <td><code class="language-plaintext highlighter-rouge">clean_pattern</code></td>
-      </tr>
-      <tr>
-        <td>Clean Slang</td>
-        <td><code class="language-plaintext highlighter-rouge">clean_slang</code></td>
-      </tr>
-      <tr>
-        <td>Check Spelling</td>
-        <td><code class="language-plaintext highlighter-rouge">check_spelling</code></td>
-      </tr>
-      <tr>
-        <td>Analyze Sentiment</td>
-        <td><code class="language-plaintext highlighter-rouge">analyze_sentiment</code></td>
-      </tr>
-      <tr>
-        <td>Analyze Sentiment DL</td>
-        <td><code class="language-plaintext highlighter-rouge">analyze_sentimentdl_use_imdb</code></td>
-      </tr>
-      <tr>
-        <td>Analyze Sentiment DL</td>
-        <td><code class="language-plaintext highlighter-rouge">analyze_sentimentdl_use_twitter</code></td>
-      </tr>
-      <tr>
-        <td>Dependency Parse</td>
-        <td><code class="language-plaintext highlighter-rouge">dependency_parse</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="explaindocumentml">explain_document_ml</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
 
 <span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
 
 <span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Google has announced the release of a beta version of the popular TensorFlow machine learning library"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"The Paris metro will soon enter the 21st century, ditching single-use paper tickets for rechargeable electronic cards."</span><span class="o">)</span>
+  <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Google has announced the release of a beta version of the popular TensorFlow machine learning library"</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Donald John Trump (born June 14, 1946) is the 45th and current president of the United States"</span><span class="o">)</span>
 <span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_ml"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-2.0.8
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_ml,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 7 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|             checked|              lemmas|               stems|                 pos|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Google has announ...|[[document, 0, 10...|[[document, 0, 10...|[[token, 0, 5, Go...|[[token, 0, 5, Go...|[[token, 0, 5, Go...|[[token, 0, 5, go...|[[pos, 0, 5, NNP,...|
-|  2|The Paris metro w...|[[document, 0, 11...|[[document, 0, 11...|[[token, 0, 2, Th...|[[token, 0, 2, Th...|[[token, 0, 2, Th...|[[token, 0, 2, th...|[[pos, 0, 2, DT, ...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="explaindocumentdl">explain_document_dl</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Google has announced the release of a beta version of the popular TensorFlow machine learning library"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Donald John Trump (born June 14, 1946) is the 45th and current president of the United States"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_dl"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_dl"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
 
@@ -697,7 +557,7 @@ annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 7 more f
 <span class="cm">/*
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
+2.5.0
 testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
 pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
 annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
@@ -718,1306 +578,141 @@ annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more 
 |[Google, TensorFlow]              |
 |[Donald John Trump, United States]|
 +----------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="recognizeentitiesdl">recognize_entities_dl</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Google has announced the release of a beta version of the popular TensorFlow machine learning library"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Donald John Trump (born June 14, 1946) is the 45th and current president of the United States"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"recognize_entities_dl"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(entity_recognizer_dl,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|          embeddings|                 ner|       ner_converter|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Google has announ...|[[document, 0, 10...|[[document, 0, 10...|[[token, 0, 5, Go...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 5, Go...|
-|  2|Donald John Trump...|[[document, 0, 92...|[[document, 0, 92...|[[token, 0, 5, Do...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 16, D...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 */</span>
+</code></pre></div>  </div>
 
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <h4 id="showing-available-pipelines">Showing Available Pipelines</h4>
 
+  <p>There are functions in Spark NLP that will list all the available Pipelines
+of a particular language for you:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.ResourceDownloader</span>
+
+<span class="nv">ResourceDownloader</span><span class="o">.</span><span class="py">showPublicPipelines</span><span class="o">(</span><span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
 <span class="cm">/*
-+----------------------------------+
-|result                            |
-+----------------------------------+
-|[Google, TensorFlow]              |
-|[Donald John Trump, United States]|
-+----------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="ontorecognizeentitiessm">onto_recognize_entities_sm</h3>
-
-  <p>Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>OntoNotes</strong> corpus and supports the identification of 18 entities.</p>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament. "</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"A little less than a decade later, dozens of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"onto_recognize_entities_sm"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.1.0
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_sm,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
-|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
++--------------------------------------------+------+---------+
+| Pipeline                                   | lang | version |
++--------------------------------------------+------+---------+
+| dependency_parse                           |  en  | 2.0.2   |
+| analyze_sentiment_ml                       |  en  | 2.0.2   |
+| check_spelling                             |  en  | 2.1.0   |
+| match_datetime                             |  en  | 2.1.0   |
+                               ...
+| explain_document_ml                        |  en  | 3.1.3   |
++--------------------------------------------+------+---------+
 */</span>
+</code></pre></div>  </div>
 
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <p>Or if we want to check for a particular version:</p>
 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.ResourceDownloader</span>
+
+<span class="nv">ResourceDownloader</span><span class="o">.</span><span class="py">showPublicPipelines</span><span class="o">(</span><span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">,</span> <span class="n">version</span> <span class="k">=</span> <span class="s">"3.1.0"</span><span class="o">)</span>
 <span class="cm">/*
-+---------------------------------------------------------------------------------+
-|result                                                                           |
-+---------------------------------------------------------------------------------+
-|[Johnson, first, 2001, Parliament, eight years, London, 2008 to 2016, Parliament]|
-|[A little less than a decade later, dozens]                                      |
-+---------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="ontorecognizeentitieslg">onto_recognize_entities_lg</h3>
-
-  <p>Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>OntoNotes</strong> corpus and supports the identification of 18 entities.</p>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Johnson first entered politics when elected in 2001 as a member of Parliament. He then served eight years as the mayor of London, from 2008 to 2016, before rejoining Parliament. "</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"A little less than a decade later, dozens of self-driving startups have cropped up while automakers around the world clamor, wallet in hand, to secure their place in the fast-moving world of fully automated transportation."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"onto_recognize_entities_lg"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.1.0
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(onto_recognize_entities_lg,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 6 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Johnson first ent...|[[document, 0, 17...|[[token, 0, 6, Jo...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 6, Jo...|
-|  2|A little less tha...|[[document, 0, 22...|[[token, 0, 0, A,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 32, A...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
++---------------------------------------+------+---------+
+| Pipeline                              | lang | version |
++---------------------------------------+------+---------+
+| dependency_parse                      |  en  | 2.0.2   |
+                               ...
+| clean_slang                           |  en  | 3.0.0   |
+| clean_pattern                         |  en  | 3.0.0   |
+| check_spelling                        |  en  | 3.0.0   |
+| dependency_parse                      |  en  | 3.0.0   |
++---------------------------------------+------+---------+
 */</span>
+</code></pre></div>  </div>
 
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <h4 id="please-check-out-our-models-hub-for-the-full-list-of-pre-trained-pipelines-with-examples-demos-benchmarks-and-more">Please check out our Models Hub for the full list of <a href="https://sparknlp.org/models">pre-trained pipelines</a> with examples, demos, benchmarks, and more</h4>
 
-<span class="cm">/*
-+-------------------------------------------------------------------------------+
-|result                                                                         |
-+-------------------------------------------------------------------------------+
-|[Johnson, first, 2001, Parliament, eight years, London, 2008, 2016, Parliament]|
-|[A little less than a decade later, dozens]                                    |
-+-------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
+  <h3 id="models">Models</h3>
 
-</div>
-<div class="h3-box">
+  <p>**Some selected languages:
+** <code class="language-plaintext highlighter-rouge">Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu</code></p>
 
-  <h3 id="matchdatetime">match_datetime</h3>
+  <p><strong>Quick online example:</strong></p>
 
-  <h4 id="datematcher-yyyymmdd">DateMatcher yyyy/MM/dd</h4>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load NER model trained by deep learning approach and GloVe word embeddings
+</span><span class="n">ner_dl</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_dl'</span><span class="p">)</span>
+<span class="c1"># load NER model trained by deep learning approach and BERT word embeddings
+</span><span class="n">ner_bert</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_dl_bert'</span><span class="p">)</span>
+</code></pre></div>  </div>
 
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// load French POS tagger model trained by Universal Dependencies</span>
+<span class="k">val</span> <span class="nv">french_pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_ud_gsd"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"fr"</span><span class="o">)</span>
+<span class="c1">// load Italian LemmatizerModel</span>
+<span class="k">val</span> <span class="nv">italian_lemma</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma_dxc"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"it"</span><span class="o">)</span>
+</code></pre></div>  </div>
 
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"I would like to come over and see you in 01/02/2019."</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Donald John Trump (born June 14, 1946) is the 45th and current president of the United States"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"match_datetime"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_datetime,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 4 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|                date|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|I would like to c...|[[document, 0, 51...|[[document, 0, 51...|[[token, 0, 0, I,...|[[date, 41, 50, 2...|
-|  2|Donald John Trump...|[[document, 0, 92...|[[document, 0, 92...|[[token, 0, 5, Do...|[[date, 24, 36, 1...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"date.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+------------+
-|result      |
-+------------+
-|[2019/01/02]|
-|[1946/06/14]|
-+------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="matchpattern">match_pattern</h3>
-
-  <p>RegexMatcher (match phone numbers)</p>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"You should call Mr. Jon Doe at +33 1 79 01 22 89"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"match_pattern"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_pattern,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 4 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|               regex|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|You should call M...|[[document, 0, 47...|[[document, 0, 47...|[[token, 0, 2, Yo...|[[chunk, 31, 47, ...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"regex.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-------------------+
-|result             |
-+-------------------+
-|[+33 1 79 01 22 89]|
-+-------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="matchchunks">match_chunks</h3>
-
-  <p>The pipeline uses regex <code class="language-plaintext highlighter-rouge">&lt;DT/&gt;?/&lt;JJ/&gt;*&lt;NN&gt;+</code></p>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"The book has many chapters"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"the little yellow dog barked at the cat"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"match_chunks"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(match_chunks,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 5 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|            sentence|               token|                 pos|               chunk|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|The book has many...|[[document, 0, 25...|[[document, 0, 25...|[[token, 0, 2, Th...|[[pos, 0, 2, DT, ...|[[chunk, 0, 7, Th...|
-|  2|the little yellow...|[[document, 0, 38...|[[document, 0, 38...|[[token, 0, 2, th...|[[pos, 0, 2, DT, ...|[[chunk, 0, 20, t...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"chunk.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+--------------------------------+
-|result                          |
-+--------------------------------+
-|[The book]                      |
-|[the little yellow dog, the cat]|
-+--------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="french">French</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th>Pipelines</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="#french-explain_document_lg">Explain Document Large</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-      </tr>
-      <tr>
-        <td><a href="#french-explain_document_md">Explain Document Medium</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-      </tr>
-      <tr>
-        <td><a href="#french-entity_recognizer_lg">Entity Recognizer Large</a></td>
-        <td><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-      </tr>
-      <tr>
-        <td><a href="#french-entity_recognizer_md">Entity Recognizer Medium</a></td>
-        <td><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th>Feature</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>NER</strong></td>
-        <td>Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>WikiNER</strong> corpus and supports the identification of <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">ORG</code> and <code class="language-plaintext highlighter-rouge">MISC</code> entities</td>
-      </tr>
-      <tr>
-        <td><strong>Lemma</strong></td>
-        <td>Trained by <strong>Lemmatizer</strong> annotator on <strong>lemmatization-lists</strong> by <code class="language-plaintext highlighter-rouge">Michal Měchura</code></td>
-      </tr>
-      <tr>
-        <td><strong>POS</strong></td>
-        <td>Trained by <strong>PerceptronApproach</strong> annotator on the <a href="https://universaldependencies.org/treebanks/fr_gsd/index.html">Universal Dependencies</a></td>
-      </tr>
-      <tr>
-        <td><strong>Size</strong></td>
-        <td>Model size indicator, <strong>md</strong> and <strong>lg</strong>. The large pipeline uses <strong>glove_840B_300</strong> and the medium uses <strong>glove_6B_300</strong> WordEmbeddings</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="french-explaindocumentlg">French explain_document_lg</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_lg"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"fr"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise."</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_lg,fr,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: bigint, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: bigint, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|               lemma|                 pos|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  0|Contrairement à Q...|[[document, 0, 11...|[[token, 0, 12, C...|[[document, 0, 11...|[[token, 0, 12, C...|[[pos, 0, 12, ADV...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 16, 32, ...|
-|  1|Emmanuel Jean-Mic...|[[document, 0, 27...|[[token, 0, 7, Em...|[[document, 0, 27...|[[token, 0, 7, Em...|[[pos, 0, 7, PROP...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 35, E...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*+-------------------------------------------------------------------------------------------------------------+
-|result                                                                                                       |
-+-------------------------------------------------------------------------------------------------------------+
-|[Quentin Tarantino]                                                                                          |
-|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
-+-------------------------------------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="french-explaindocumentmd">French explain_document_md</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_md"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"fr"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise."</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_md,fr,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: bigint, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: bigint, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|               lemma|                 pos|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  0|Contrairement à Q...|[[document, 0, 11...|[[token, 0, 12, C...|[[document, 0, 11...|[[token, 0, 12, C...|[[pos, 0, 12, ADV...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 16, 32, ...|
-|  1|Emmanuel Jean-Mic...|[[document, 0, 27...|[[token, 0, 7, Em...|[[document, 0, 27...|[[token, 0, 7, Em...|[[pos, 0, 7, PROP...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 35, E...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-|result                                                                                                          |
-+----------------------------------------------------------------------------------------------------------------+
-|[Quentin Tarantino]                                                                                             |
-|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, au CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
-+----------------------------------------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="french-entityrecognizerlg">French entity_recognizer_lg</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"entity_recognizer_lg"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"fr"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise."</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  0|Contrairement à Q...|[[document, 0, 11...|[[token, 0, 12, C...|[[document, 0, 11...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 16, 32, ...|
-|  1|Emmanuel Jean-Mic...|[[document, 0, 27...|[[token, 0, 7, Em...|[[document, 0, 27...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 35, E...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-------------------------------------------------------------------------------------------------------------+
-|result                                                                                                       |
-+-------------------------------------------------------------------------------------------------------------+
-|[Quentin Tarantino]                                                                                          |
-|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
-+-------------------------------------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="french-entityrecognizermd">French entity_recognizer_md</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"entity_recognizer_md"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"fr"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Contrairement à Quentin Tarantino, le cinéma français ne repart pas les mains vides de la compétition cannoise."</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en 1950, médecin, professeur de neurologie au CHU d'Amiens4 et responsable d'enseignement à la faculté de médecine de cette même ville5, et de Françoise Noguès, médecin conseil à la Sécurité sociale"</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  0|Contrairement à Q...|[[document, 0, 11...|[[token, 0, 12, C...|[[document, 0, 11...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 16, 32, ...|
-|  1|Emmanuel Jean-Mic...|[[document, 0, 27...|[[token, 0, 7, Em...|[[document, 0, 27...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 35, E...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*+-------------------------------------------------------------------------------------------------------------+
-|result                                                                                                          |
-+----------------------------------------------------------------------------------------------------------------+
-|[Quentin Tarantino]                                                                                             |
-|[Emmanuel Jean-Michel Frédéric Macron, Jean-Michel Macron, au CHU d'Amiens4, Françoise Noguès, Sécurité sociale]|
-+----------------------------------------------------------------------------------------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="italian">Italian</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th>Pipelines</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="#italian-explain_document_lg">Explain Document Large</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-      </tr>
-      <tr>
-        <td><a href="#italian-explain_document_md">Explain Document Medium</a></td>
-        <td><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-      </tr>
-      <tr>
-        <td><a href="#italian-entity_recognizer_lg">Entity Recognizer Large</a></td>
-        <td><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-      </tr>
-      <tr>
-        <td><a href="#italian-entity_recognizer_md">Entity Recognizer Medium</a></td>
-        <td><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th>Feature</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>NER</strong></td>
-        <td>Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>WikiNER</strong> corpus and supports the identification of <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">ORG</code> and <code class="language-plaintext highlighter-rouge">MISC</code> entities</td>
-      </tr>
-      <tr>
-        <td><strong>Lemma</strong></td>
-        <td>Trained by <strong>Lemmatizer</strong> annotator on <strong>DXC Technology</strong> dataset</td>
-      </tr>
-      <tr>
-        <td><strong>POS</strong></td>
-        <td>Trained by <strong>PerceptronApproach</strong> annotator on the <a href="https://universaldependencies.org/treebanks/it_isdt/index.html">Universal Dependencies</a></td>
-      </tr>
-      <tr>
-        <td><strong>Size</strong></td>
-        <td>Model size indicator, <strong>md</strong> and <strong>lg</strong>. The large pipeline uses <strong>glove_840B_300</strong> and the medium uses <strong>glove_6B_300</strong> WordEmbeddings</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="italian-explaindocumentlg">Italian explain_document_lg</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_lg"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"it"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"La FIFA ha deciso: tre giornate a Zidane, due a Materazzi"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Reims, 13 giugno 2019 – Domani può essere la giornata decisiva per il passaggio agli ottavi di finale dei Mondiali femminili."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_lg,it,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|               lemma|                 pos|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|La FIFA ha deciso...|[[document, 0, 56...|[[token, 0, 1, La...|[[document, 0, 56...|[[token, 0, 1, La...|[[pos, 0, 1, DET,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 3, 6, FI...|
-|  2|Reims, 13 giugno ...|[[document, 0, 12...|[[token, 0, 4, Re...|[[document, 0, 12...|[[token, 0, 4, Re...|[[pos, 0, 4, PROP...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 4, Re...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-----------------------------------+
-|result                             |
-+-----------------------------------+
-|[FIFA, Zidane, Materazzi]          |
-|[Reims, Domani, Mondiali femminili]|
-+-----------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="italian-explaindocumentmd">Italian explain_document_md</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_md"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"it"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"La FIFA ha deciso: tre giornate a Zidane, due a Materazzi"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Reims, 13 giugno 2019 – Domani può essere la giornata decisiva per il passaggio agli ottavi di finale dei Mondiali femminili."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_lg,it,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|               lemma|                 pos|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|La FIFA ha deciso...|[[document, 0, 56...|[[token, 0, 1, La...|[[document, 0, 56...|[[token, 0, 1, La...|[[pos, 0, 1, DET,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 9, La...|
-|  2|Reims, 13 giugno ...|[[document, 0, 12...|[[token, 0, 4, Re...|[[document, 0, 12...|[[token, 0, 4, Re...|[[pos, 0, 4, PROP...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 4, Re...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-------------------------------+
-|result                         |
-+-------------------------------+
-|[La FIFA, Zidane, Materazzi]|
-|[Reims, Domani, Mondiali]      |
-+-------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="italian-entityrecognizerlg">Italian entity_recognizer_lg</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"entity_recognizer_lg"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"it"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"La FIFA ha deciso: tre giornate a Zidane, due a Materazzi"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Reims, 13 giugno 2019 – Domani può essere la giornata decisiva per il passaggio agli ottavi di finale dei Mondiali femminili."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_lg,it,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|La FIFA ha deciso...|[[document, 0, 56...|[[token, 0, 1, La...|[[document, 0, 56...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 3, 6, FI...|
-|  2|Reims, 13 giugno ...|[[document, 0, 12...|[[token, 0, 4, Re...|[[document, 0, 12...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 4, Re...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-----------------------------------+
-|result                             |
-+-----------------------------------+
-|[FIFA, Zidane, Materazzi]          |
-|[Reims, Domani, Mondiali femminili]|
-+-----------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="italian-entityrecognizermd">Italian entity_recognizer_md</h3>
-
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.SparkNLP</span>
-
-<span class="nv">SparkNLP</span><span class="o">.</span><span class="py">version</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"entity_recognizer_md"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"it"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">testData</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
-<span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"La FIFA ha deciso: tre giornate a Zidane, due a Materazzi"</span><span class="o">),</span>
-<span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Reims, 13 giugno 2019 – Domani può essere la giornata decisiva per il passaggio agli ottavi di finale dei Mondiali femminili."</span><span class="o">)</span>
-<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">annotation</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">testData</span><span class="o">)</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
-
-<span class="cm">/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.0.8
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_lg,it,public/models)
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 8 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|La FIFA ha deciso...|[[document, 0, 56...|[[token, 0, 1, La...|[[document, 0, 56...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 9, La...|
-|  2|Reims, 13 giugno ...|[[document, 0, 12...|[[token, 0, 4, Re...|[[document, 0, 12...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 4, Re...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/</span>
-
-<span class="nv">annotation</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-
-<span class="cm">/*
-+-------------------------------+
-|result                         |
-+-------------------------------+
-|[La FIFA, Zidane, Materazzi]|
-|[Reims, Domani, Mondiali]      |
-+-------------------------------+
-*/</span></code></pre></figure>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="spanish">Spanish</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_es_2.4.0_2.4_1581977077084.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_es_2.4.0_2.4_1581976836224.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_es_2.4.0_2.4_1581975536033.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_es_2.4.0_2.4_1581978479912.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_es_2.4.0_2.4_1581978260094.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.4.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_es_2.4.0_2.4_1581977172660.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Feature</th>
-        <th style="text-align: left">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left"><strong>Lemma</strong></td>
-        <td style="text-align: left">Trained by <strong>Lemmatizer</strong> annotator on <strong>lemmatization-lists</strong> by <code class="language-plaintext highlighter-rouge">Michal Měchura</code></td>
-      </tr>
-      <tr>
-        <td style="text-align: left"><strong>POS</strong></td>
-        <td style="text-align: left">Trained by <strong>PerceptronApproach</strong> annotator on the <a href="https://universaldependencies.org/treebanks/es_gsd/index.html">Universal Dependencies</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left"><strong>NER</strong></td>
-        <td style="text-align: left">Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>WikiNER</strong> corpus and supports the identification of <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">ORG</code> and <code class="language-plaintext highlighter-rouge">MISC</code> entities</td>
-      </tr>
-      <tr>
-        <td style="text-align: left"><strong>Size</strong></td>
-        <td style="text-align: left">Model size indicator, <strong>sm</strong>, <strong>md</strong>, and <strong>lg</strong>. The small pipelines use <strong>glove_100d</strong>, the medium pipelines use <strong>glove_6B_300</strong>, and large pipelines use <strong>glove_840B_300</strong> WordEmbeddings</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="russian">Russian</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_ru_2.4.4_2.4_1584017142719.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_ru_2.4.4_2.4_1584016917220.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_ru_2.4.4_2.4_1584015824836.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_ru_2.4.4_2.4_1584018543619.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_ru_2.4.4_2.4_1584018332357.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.4.4</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ru</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_ru_2.4.4_2.4_1584017227871.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Feature</th>
-        <th style="text-align: left">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left"><strong>Lemma</strong></td>
-        <td style="text-align: left">Trained by <strong>Lemmatizer</strong> annotator on the <a href="https://universaldependencies.org/treebanks/ru_gsd/index.html">Universal Dependencies</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left"><strong>POS</strong></td>
-        <td style="text-align: left">Trained by <strong>PerceptronApproach</strong> annotator on the <a href="https://universaldependencies.org/treebanks/ru_gsd/index.html">Universal Dependencies</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left"><strong>NER</strong></td>
-        <td style="text-align: left">Trained by <strong>NerDLApproach</strong> annotator with <strong>Char CNNs - BiLSTM - CRF</strong> and <strong>GloVe Embeddings</strong> on the <strong>WikiNER</strong> corpus and supports the identification of <code class="language-plaintext highlighter-rouge">PER</code>, <code class="language-plaintext highlighter-rouge">LOC</code>, <code class="language-plaintext highlighter-rouge">ORG</code> and <code class="language-plaintext highlighter-rouge">MISC</code> entities</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="dutch">Dutch</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_nl_2.5.0_2.4_1588546621618.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_nl_2.5.0_2.4_1588546605329.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_nl_2.5.0_2.4_1588612556770.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_nl_2.5.0_2.4_1588546655907.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_nl_2.5.0_2.4_1588546645304.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_nl_2.5.0_2.4_1588612569958.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="norwegian">Norwegian</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_no_2.5.0_2.4_1588784132955.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_no_2.5.0_2.4_1588783879809.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_no_2.5.0_2.4_1588782610672.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_no_2.5.0_2.4_1588794567766.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_no_2.5.0_2.4_1588794357614.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">no</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_no_2.5.0_2.4_1588793261642.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="polish">Polish</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pl_2.5.0_2.4_1588531081173.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_pl_2.5.0_2.4_1588530841737.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pl_2.5.0_2.4_1588529695577.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pl_2.5.0_2.4_1588532616080.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pl_2.5.0_2.4_1588532376753.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pl</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pl_2.5.0_2.4_1588531171903.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="portuguese">Portuguese</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">Explain Document Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_sm_pt_2.5.0_2.4_1588501423743.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_md_pt_2.5.0_2.4_1588501189804.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Explain Document Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">explain_document_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pt_2.5.0_2.4_1588500056427.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Small</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_sm</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pt_2.5.0_2.4_1588502815900.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Medium</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_md</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pt_2.5.0_2.4_1588502606198.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">Entity Recognizer Large</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">entity_recognizer_lg</code></td>
-        <td style="text-align: left">2.5.0</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">pt</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="multi-language">Multi-language</h2>
-
-  <table class="table-model-big">
-    <thead>
-      <tr>
-        <th style="text-align: left">Pipeline</th>
-        <th style="text-align: left">Name</th>
-        <th style="text-align: left">Build</th>
-        <th style="text-align: left">lang</th>
-        <th style="text-align: left">Description</th>
-        <th style="text-align: left">Offline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">LanguageDetectorDL</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">detect_language_7</code></td>
-        <td style="text-align: left">2.5.2</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_7_xx_2.5.0_2.4_1591875676774.zip">Download</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">LanguageDetectorDL</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">detect_language_20</code></td>
-        <td style="text-align: left">2.5.2</td>
-        <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xx</code></td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/detect_language_20_xx_2.5.0_2.4_1591875683182.zip">Download</a></td>
-      </tr>
-    </tbody>
-  </table>
+  <p><strong>Quick offline example:</strong></p>
 
   <ul>
-    <li>The model with 7 languages: Czech, German, English, Spanish, French, Italy, and Slovak</li>
-    <li>The model with 20 languages: Bulgarian, Czech, German, Greek, English, Spanish, Finnish, French, Croatian, Hungarian, Italy, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Turkish, and Ukrainian</li>
+    <li>Loading <code class="language-plaintext highlighter-rouge">PerceptronModel</code> annotator model inside Spark NLP Pipeline</li>
   </ul>
 
-</div>
-<div class="h3-box">
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">french_pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
+</code></pre></div>  </div>
 
-  <h2 id="how-to-use">How to use</h2>
+  <h4 id="showing-available-models">Showing Available Models</h4>
 
-  <h3 id="online">Online</h3>
+  <p>There are functions in Spark NLP that will list all the available Models
+of a particular Annotator and language for you:</p>
 
-  <p>To use Spark NLP pretrained pipelines, you can call <code class="language-plaintext highlighter-rouge">PretrainedPipeline</code> with pipeline’s name and its language (default is <code class="language-plaintext highlighter-rouge">en</code>):</p>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.ResourceDownloader</span>
 
-  <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'explain_document_dl'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">'en'</span><span class="p">)</span></code></pre></figure>
+<span class="nv">ResourceDownloader</span><span class="o">.</span><span class="py">showPublicModels</span><span class="o">(</span><span class="n">annotator</span> <span class="k">=</span> <span class="s">"NerDLModel"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="cm">/*
++---------------------------------------------+------+---------+
+| Model                                       | lang | version |
++---------------------------------------------+------+---------+
+| onto_100                                    |  en  | 2.1.0   |
+| onto_300                                    |  en  | 2.1.0   |
+| ner_dl_bert                                 |  en  | 2.2.0   |
+| onto_100                                    |  en  | 2.4.0   |
+| ner_conll_elmo                              |  en  | 3.2.2   |
++---------------------------------------------+------+---------+
+*/</span>
+</code></pre></div>  </div>
 
-  <p>Same in Scala</p>
+  <p>Or if we want to check for a particular version:</p>
 
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"explain_document_dl"</span><span class="o">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">)</span></code></pre></figure>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.ResourceDownloader</span>
 
-</div>
-<div class="h3-box">
+<span class="nv">ResourceDownloader</span><span class="o">.</span><span class="py">showPublicModels</span><span class="o">(</span><span class="n">annotator</span> <span class="k">=</span> <span class="s">"NerDLModel"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">,</span> <span class="n">version</span> <span class="k">=</span> <span class="s">"3.1.0"</span><span class="o">)</span>
+<span class="cm">/*
++----------------------------+------+---------+
+| Model                      | lang | version |
++----------------------------+------+---------+
+| onto_100                   |  en  | 2.1.0   |
+| ner_aspect_based_sentiment |  en  | 2.6.2   |
+| ner_weibo_glove_840B_300d  |  en  | 2.6.2   |
+| nerdl_atis_840b_300d       |  en  | 2.7.1   |
+| nerdl_snips_100d           |  en  | 2.7.3   |
++----------------------------+------+---------+
+*/</span>
+</code></pre></div>  </div>
 
-  <h3 id="offline">Offline</h3>
+  <p>And to see a list of available annotators, you can use:</p>
 
-  <p>If you have any trouble using online pipelines or models in your environment (maybe it’s air-gapped), you can directly download them for <code class="language-plaintext highlighter-rouge">offline</code> use.</p>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.ResourceDownloader</span>
 
-  <p>After downloading offline models/pipelines and extracting them, here is how you can use them iside your code (the path could be a shared storage like HDFS in a cluster):</p>
+<span class="nv">ResourceDownloader</span><span class="o">.</span><span class="py">showAvailableAnnotators</span><span class="o">()</span>
+<span class="cm">/*
+AlbertEmbeddings
+AlbertForTokenClassification
+AssertionDLModel
+...
+XlmRoBertaSentenceEmbeddings
+XlnetEmbeddings
+*/</span>
+</code></pre></div>  </div>
 
-  <figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nv">advancedPipeline</span> <span class="k">=</span> <span class="nv">PipelineModel</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/"</span><span class="o">)</span>
-<span class="c1">// To use the loaded Pipeline for prediction</span>
-<span class="nv">advancedPipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">predictionDF</span><span class="o">)</span></code></pre></figure>
+  <h4 id="please-check-out-our-models-hub-for-the-full-list-of-pre-trained-models-with-examples-demo-benchmark-and-more">Please check out our Models Hub for the full list of <a href="https://sparknlp.org/models">pre-trained models</a> with examples, demo, benchmark, and more</h4>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-11-20T00:00:00+00:00">Nov 20, 2021</time>
+      <time itemprop="dateModified" datetime="2024-07-04T00:00:00+00:00">Jul 04, 2024</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -2176,7 +871,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/faq">Spark NLP FAQ</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/features">Features</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/concepts">General Concepts</a></div></div></div>
 
 </div>
 </div>
