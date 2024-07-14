@@ -135,7 +135,7 @@ object ZipArchiveUtil {
 
     val zip = new ZipFile(file)
     zip.entries.asScala foreach { entry =>
-      val entryName = if (suffix.isDefined) suffix.get + "_" + entry.getName else entry.getName
+      val entryName = buildEntryName(entry, suffix)
       val entryPath = {
         if (entryName.startsWith(basename))
           entryName.substring(0, basename.length)
@@ -163,6 +163,11 @@ object ZipArchiveUtil {
     }
 
     destDir.getPath
+  }
+
+  private def buildEntryName(entry: ZipEntry, suffix: Option[String]): String = {
+    val entryName = if (suffix.isDefined) suffix.get + "_" + entry.getName else entry.getName
+    entryName.split("_").distinct.mkString("_")
   }
 
 }
