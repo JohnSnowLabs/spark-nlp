@@ -103,7 +103,8 @@ private[johnsnowlabs] class Phi2(
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Array[Array[Int]] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int]): Array[Array[Int]] = {
     val ignoreTokenIdsInt = ignoreTokenIds
     val expandedDecoderInputsVals = batch
     val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
@@ -169,7 +170,8 @@ private[johnsnowlabs] class Phi2(
       ignoreTokenIdsInt,
       session,
       applySoftmax = false,
-      ovInferRequest = ovInferRequest)
+      ovInferRequest = ovInferRequest,
+      stopTokenIds = stopTokenIds)
 
 //    decoderOutputs
     modelOutputs
@@ -189,7 +191,8 @@ private[johnsnowlabs] class Phi2(
       randomSeed: Option[Long] = None,
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Seq[Annotation] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int]): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch)
@@ -206,7 +209,8 @@ private[johnsnowlabs] class Phi2(
         randomSeed,
         ignoreTokenIds,
         beamSize,
-        maxInputLength)
+        maxInputLength,
+        stopTokenIds)
 
       decode(spIds)
 

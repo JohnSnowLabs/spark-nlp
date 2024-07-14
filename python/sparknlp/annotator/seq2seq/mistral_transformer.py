@@ -44,7 +44,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"mistral-7b"``, if no name is provided. For available
+    The default model is ``"mistral_7b"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=mistral>`__.
 
@@ -92,7 +92,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     References
     ----------
     - `Mistral 7B
-      <https://mistral.ai/news/announcing-mistral-7b/>`__
+      <https://mistral.ai/news/announcing-mistral_7b/>`__
     - https://github.com/mistralai/mistral-src
 
     **Paper Abstract:**
@@ -115,7 +115,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> mistral = MistralTransformer.pretrained("mistral-7b") \\
+    >>> mistral = MistralTransformer.pretrained("mistral_7b") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -327,13 +327,13 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return MistralTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mistral-7b", lang="en", remote_loc=None):
+    def pretrained(name="mistral_7b", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "mistral-7b"
+            Name of the pretrained model, by default "mistral_7b"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

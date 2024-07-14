@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.mistral_transformer &#8212; Spark NLP 5.4.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.mistral_transformer &#8212; Spark NLP 5.4.1 documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <span class="sd">    ...     .setOutputCol(&quot;generation&quot;)</span>
 
 
-<span class="sd">    The default model is ``&quot;mistral-7b&quot;``, if no name is provided. For available</span>
+<span class="sd">    The default model is ``&quot;mistral_7b&quot;``, if no name is provided. For available</span>
 <span class="sd">    pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://sparknlp.org/models?q=mistral&gt;`__.</span>
 
@@ -435,7 +435,7 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - `Mistral 7B</span>
-<span class="sd">      &lt;https://mistral.ai/news/announcing-mistral-7b/&gt;`__</span>
+<span class="sd">      &lt;https://mistral.ai/news/announcing-mistral_7b/&gt;`__</span>
 <span class="sd">    - https://github.com/mistralai/mistral-src</span>
 
 <span class="sd">    **Paper Abstract:**</span>
@@ -458,7 +458,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; mistral = MistralTransformer.pretrained(&quot;mistral-7b&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt; mistral = MistralTransformer.pretrained(&quot;mistral_7b&quot;) \\</span>
 <span class="sd">    ...     .setInputCols([&quot;documents&quot;]) \\</span>
 <span class="sd">    ...     .setMaxOutputLength(50) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;generation&quot;)</span>
@@ -670,13 +670,13 @@ document.write(`
         <span class="k">return</span> <span class="n">MistralTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="MistralTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/mistral_transformer/index.html#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mistral-7b&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="MistralTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/mistral_transformer/index.html#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mistral_7b&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;mistral-7b&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;mistral_7b&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

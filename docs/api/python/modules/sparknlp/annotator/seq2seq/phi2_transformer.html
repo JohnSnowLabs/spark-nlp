@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.phi2_transformer &#8212; Spark NLP 5.4.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.phi2_transformer &#8212; Spark NLP 5.4.1 documentation</title>
   
   
   
@@ -451,7 +451,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; phi2 = Phi2Transformer.pretrained(&quot;phi2-7b&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt; phi2 = Phi2Transformer.pretrained(&quot;phi2&quot;) \\</span>
 <span class="sd">    ...     .setInputCols([&quot;documents&quot;]) \\</span>
 <span class="sd">    ...     .setMaxOutputLength(50) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;generation&quot;)</span>
@@ -647,13 +647,13 @@ document.write(`
         <span class="k">return</span> <span class="n">Phi2Transformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Phi2Transformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/phi2_transformer/index.html#sparknlp.annotator.seq2seq.phi2_transformer.Phi2Transformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi2-7b&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Phi2Transformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/phi2_transformer/index.html#sparknlp.annotator.seq2seq.phi2_transformer.Phi2Transformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi2&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;phi2-7b&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;phi2&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

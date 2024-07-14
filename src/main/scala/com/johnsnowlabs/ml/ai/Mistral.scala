@@ -78,8 +78,8 @@ private[johnsnowlabs] class Mistral(
     */
   def encode(sentences: Seq[Annotation]): Seq[Array[Int]] = {
     sentences.map(s => {
-      val sentWithTask = s.result
-      spp.getSppModel.encodeAsIds(sentWithTask)
+      val sentWithTask = "_" + s.result
+      Array(bosTokenId) ++ spp.getSppModel.encodeAsIds(sentWithTask)
     })
   }
 
@@ -96,7 +96,8 @@ private[johnsnowlabs] class Mistral(
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Array[Array[Int]] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
     val ignoreTokenIdsInt = ignoreTokenIds
     val expandedDecoderInputsVals = batch
     val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
@@ -162,8 +163,9 @@ private[johnsnowlabs] class Mistral(
       randomSeed,
       ignoreTokenIdsInt,
       session,
-      applySoftmax = false,
-      ovInferRequest = ovInferRequest)
+      applySoftmax = true,
+      ovInferRequest = ovInferRequest,
+      stopTokenIds = stopTokenIds)
 
 //    decoderOutputs
     modelOutputs
@@ -183,7 +185,8 @@ private[johnsnowlabs] class Mistral(
       randomSeed: Option[Long] = None,
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Seq[Annotation] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int]): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch)
@@ -200,7 +203,8 @@ private[johnsnowlabs] class Mistral(
         randomSeed,
         ignoreTokenIds,
         beamSize,
-        maxInputLength)
+        maxInputLength,
+        stopTokenIds)
 
       decode(spIds)
 

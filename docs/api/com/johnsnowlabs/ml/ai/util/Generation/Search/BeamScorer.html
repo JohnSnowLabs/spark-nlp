@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer</title>
-          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer" />
-          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer" />
+          <title>Spark NLP 5.4.1 ScalaDoc  - com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer</title>
+          <meta name="description" content="Spark NLP 5.4.1 ScalaDoc - com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer" />
+          <meta name="keywords" content="Spark NLP 5.4.1 ScalaDoc com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -331,6 +331,22 @@
       </span>
       
       
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer#getDone" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="getDone:Array[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Search/BeamScorer.html#getDone:Array[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDone</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer#getNumBeams" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="getNumBeams:Int"></a>
       <span class="permalink">
@@ -364,9 +380,9 @@
       
       
     </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer#process" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="process(inputIds:Seq[Array[Int]],nextScores:Seq[Array[Float]],nextTokens:Seq[Array[Int]],nextIndices:Seq[Array[Int]],padTokenId:Int,eosTokenId:Int,beamIndices:Seq[Array[Int]],currentLength:Int):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])"></a><a id="process(Seq[Array[Int]],Seq[Array[Float]],Seq[Array[Int]],Seq[Array[Int]],Int,Int,Seq[Array[Int]],Int):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])"></a>
+      <a id="process(inputIds:Seq[Array[Int]],nextScores:Seq[Array[Float]],nextTokens:Seq[Array[Int]],nextIndices:Seq[Array[Int]],padTokenId:Int,eosTokenId:Int,beamIndices:Seq[Array[Int]],currentLength:Int,stopTokenIds:Array[Int]):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])"></a><a id="process(Seq[Array[Int]],Seq[Array[Float]],Seq[Array[Int]],Seq[Array[Int]],Int,Int,Seq[Array[Int]],Int,Array[Int]):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])"></a>
       <span class="permalink">
-      <a href="../../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Search/BeamScorer.html#process(inputIds:Seq[Array[Int]],nextScores:Seq[Array[Float]],nextTokens:Seq[Array[Int]],nextIndices:Seq[Array[Int]],padTokenId:Int,eosTokenId:Int,beamIndices:Seq[Array[Int]],currentLength:Int):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])" title="Permalink">
+      <a href="../../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Search/BeamScorer.html#process(inputIds:Seq[Array[Int]],nextScores:Seq[Array[Float]],nextTokens:Seq[Array[Int]],nextIndices:Seq[Array[Int]],padTokenId:Int,eosTokenId:Int,beamIndices:Seq[Array[Int]],currentLength:Int,stopTokenIds:Array[Int]):(Array[Array[Float]],Array[Array[Int]],Array[Array[Int]])" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -375,7 +391,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">process</span><span class="params">(<span name="inputIds">inputIds: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="nextScores">nextScores: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="nextTokens">nextTokens: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="nextIndices">nextIndices: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="padTokenId">padTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="beamIndices">beamIndices: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="currentLength">currentLength: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: (<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]])</span>
+        <span class="name">process</span><span class="params">(<span name="inputIds">inputIds: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="nextScores">nextScores: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="nextTokens">nextTokens: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="nextIndices">nextIndices: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="padTokenId">padTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="beamIndices">beamIndices: <a href="../../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="currentLength">currentLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="stopTokenIds">stopTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: (<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]])</span>
       </span>
       
       
