@@ -19,14 +19,18 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.NLLB
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{
+  EncoderDecoderWithoutPastWrappers => OpenvinoEncoderDecoderWithoutPastWrappers
+}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ONNX
+import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -199,6 +203,7 @@ class NLLBTransformer(override val uid: String)
     with HasBatchedAnnotate[NLLBTransformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasGeneratorProperties
     with WriteSentencePieceModel
     with HasEngine {
@@ -506,13 +511,15 @@ class NLLBTransformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrappers: EncoderDecoderWithoutPastWrappers,
+      onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
+      openvinoWrapper: Option[OpenvinoEncoderDecoderWithoutPastWrappers],
       spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new NLLB(
             onnxWrappers,
+            openvinoWrapper,
             spp = spp,
             generationConfig = getGenerationConfig,
             vocab = $$(vocabulary))))
@@ -589,13 +596,32 @@ class NLLBTransformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.encoder, "encoder_model.onnx")),
+          Seq((wrappers.get.encoder, "encoder_model.onnx")),
           NLLBTransformer.suffix)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.decoder, "decoder_model.onnx")),
+          Seq((wrappers.get.decoder, "decoder_model.onnx")),
           NLLBTransformer.suffix)
+        writeSentencePieceModel(
+          path,
+          spark,
+          obj.spp,
+          NLLBTransformer.suffix,
+          NLLBTransformer.sppFile)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.encoder, "openvino_encoder_model.xml")),
+          NLLBTransformer.suffix)
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.decoder, "openvino_decoder_model.xml")),
+          NLLBTransformer.suffix)
+        val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
           spark,
@@ -624,12 +650,16 @@ trait ReadablePretrainedNLLBTransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadNLLBTransformerDLModel extends ReadOnnxModel with ReadSentencePieceModel {
+trait ReadNLLBTransformerDLModel
+    extends ReadOnnxModel
+    with ReadOpenvinoModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[NLLBTransformer] =>
 
   override val onnxFile: String = "nllb_onnx"
   val suffix: String = "_nllb"
   override val sppFile: String = "nllb_spp"
+  override val openvinoFile: String = "nllb_openvino"
 
   def readModel(instance: NLLBTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -643,7 +673,19 @@ trait ReadNLLBTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMod
             decoder = decoderWrappers("decoder_model.onnx"),
             encoder = encoderWrappers("encoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_nllb_spp", sppFile)
-        instance.setModelIfNotSet(spark, onnxWrappers, spp)
+        instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
+      case Openvino.name =>
+        val decoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_decoder_model.xml"), suffix)
+        val encoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_encoder_model.xml"), suffix)
+        val ovWrapper = {
+          OpenvinoEncoderDecoderWithoutPastWrappers(
+            encoder = encoderWrappers("openvino_encoder_model.xml"),
+            decoder = decoderWrappers("openvino_decoder_model.xml"))
+        }
+        val spp = readSentencePieceModel(path, spark, "_nllb_spp", sppFile)
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -651,10 +693,13 @@ trait ReadNLLBTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMod
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): NLLBTransformer = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): NLLBTransformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
-      modelSanityCheck(modelPath, isDecoder = true)
+      modelSanityCheck(modelPath, isEncoderDecoder = true)
     val modelConfig: JValue =
       parse(loadJsonStringAsset(localModelPath, "config.json"))
 
@@ -689,23 +734,33 @@ trait ReadNLLBTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMod
       parse(loadJsonStringAsset(localModelPath, "vocab.json"))
     // convert to map
     val vocab = vocabulary.extract[Map[String, Int]]
+
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
     annotatorModel.setVocabulary(vocab)
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
-    detectedEngine match {
+    modelEngine match {
       case ONNX.name =>
         val onnxWrapperEncoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "encoder_model")
+            modelName = "encoder_model",
+            onnxFileSuffix = None)
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            onnxFileSuffix = None)
 
         val onnxWrappers =
           EncoderDecoderWithoutPastWrappers(
@@ -713,7 +768,29 @@ trait ReadNLLBTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMod
             decoder = onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, onnxWrappers, spModel)
+          .setModelIfNotSet(spark, Some(onnxWrappers), None, spModel)
+      case Openvino.name =>
+        val openvinoEncoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_encoder_model")
+        val openvinoDecoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_decoder_model")
+        val openvinoWrapper =
+          OpenvinoEncoderDecoderWithoutPastWrappers(
+            encoder = openvinoEncoderWrapper,
+            decoder = openvinoDecoderWrapper)
+        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
