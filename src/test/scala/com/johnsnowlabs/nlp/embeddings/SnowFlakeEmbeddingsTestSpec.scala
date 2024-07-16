@@ -30,7 +30,7 @@ class SnowFlakeEmbeddingsTestSpec extends AnyFlatSpec {
 
     import ResourceHelper.spark.implicits._
 
-    val ddd = Seq("i love to cook food and eat it")
+    val ddd = Seq("This is an example sentence", "Each sentence is converted")
       .toDF("text")
 
     val document = new DocumentAssembler()
@@ -38,7 +38,7 @@ class SnowFlakeEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("document")
 
     val embeddings = SnowFlakeEmbeddings
-      .loadSavedModel("1", ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("snowflake")
 
