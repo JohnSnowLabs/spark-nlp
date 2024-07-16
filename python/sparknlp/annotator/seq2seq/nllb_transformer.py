@@ -378,7 +378,7 @@ class NLLBTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
                          srcLang="en", tgtLang="fr")
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session,  use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -394,7 +394,7 @@ class NLLBTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _NLLBLoader
-        jModel = _NLLBLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _NLLBLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return NLLBTransformer(java_model=jModel)
 
     @staticmethod
