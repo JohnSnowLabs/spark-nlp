@@ -20,6 +20,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.Qwen
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
@@ -27,7 +28,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ONNX
+import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -161,10 +162,11 @@ class QwenTransformer(override val uid: String)
     with HasBatchedAnnotate[QwenTransformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasGeneratorProperties
     with HasEngine {
 
-  def this() = this(Identifiable.randomUID("QwenTRANSFORMER"))
+  def this() = this(Identifiable.randomUID("QWENTRANSFORMER"))
 
   /** Input annotator type : DOCUMENT
     *
@@ -232,12 +234,16 @@ class QwenTransformer(override val uid: String)
   def getGenerationConfig: GenerationConfig = $$(generationConfig)
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, onnxWrappers: DecoderWrappers): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      onnxWrappers: Option[DecoderWrappers],
+      openvinoWrapper: Option[OpenvinoWrapper]): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new Qwen(
             onnxWrappers,
+            openvinoWrapper,
             $$(merges),
             $$(vocabulary),
             generationConfig = getGenerationConfig)))
@@ -260,7 +266,8 @@ class QwenTransformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
-    maxInputLength -> 4096)
+    maxInputLength -> 4096,
+    stopTokenIds -> Array())
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -294,7 +301,8 @@ class QwenTransformer(override val uid: String)
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds),
         beamSize = $(beamSize),
-        maxInputLength = $(maxInputLength))
+        maxInputLength = $(maxInputLength),
+        stopTokenIds = $(stopTokenIds))
     } else {
       Seq()
     }
@@ -309,8 +317,16 @@ class QwenTransformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.decoder, "decoder_model.onnx")),
+          Seq((wrappers.get.decoder, "decoder_model.onnx")),
           QwenTransformer.suffix)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModel(
+          path,
+          spark,
+          wrappers.get,
+          QwenTransformer.suffix,
+          QwenTransformer.openvinoFile)
     }
   }
 }
@@ -332,11 +348,12 @@ trait ReadablePretrainedQwenTransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadQwenTransformerDLModel extends ReadOnnxModel {
+trait ReadQwenTransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[QwenTransformer] =>
 
   override val onnxFile: String = "qwen_onnx"
   val suffix: String = "_qwen"
+  override val openvinoFile: String = "qwen_openvino"
 
   def readModel(instance: QwenTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -345,7 +362,11 @@ trait ReadQwenTransformerDLModel extends ReadOnnxModel {
           readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
-        instance.setModelIfNotSet(spark, onnxWrappers)
+        instance.setModelIfNotSet(spark, Some(onnxWrappers), None)
+      case Openvino.name =>
+        val ovWrapper =
+          readOpenvinoModel(path, spark, "_qwen_ov")
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -353,7 +374,10 @@ trait ReadQwenTransformerDLModel extends ReadOnnxModel {
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): QwenTransformer = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): QwenTransformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -405,12 +429,18 @@ trait ReadQwenTransformerDLModel extends ReadOnnxModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
     detectedEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
@@ -419,7 +449,16 @@ trait ReadQwenTransformerDLModel extends ReadOnnxModel {
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, onnxWrappers)
+          .setModelIfNotSet(spark, Some(onnxWrappers), None)
+      case Openvino.name =>
+        val openvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

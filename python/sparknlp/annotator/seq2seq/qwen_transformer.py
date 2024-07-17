@@ -297,7 +297,7 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             repetitionPenalty=1.0, noRepeatNgramSize=0, ignoreTokenIds=[], batchSize=1)
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -313,7 +313,7 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _QwenLoader
-        jModel = _QwenLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _QwenLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return QwenTransformer(java_model=jModel)
 
     @staticmethod
