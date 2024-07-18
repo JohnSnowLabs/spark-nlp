@@ -910,3 +910,12 @@ class _UAEEmbeddingsLoader(ExtendedJavaWrapper):
         super(_UAEEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.UAEEmbeddings.loadSavedModel", path, jspark
         )
+
+
+
+class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MxbaiEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings.loadSavedModel", path, jspark
+        )
+
