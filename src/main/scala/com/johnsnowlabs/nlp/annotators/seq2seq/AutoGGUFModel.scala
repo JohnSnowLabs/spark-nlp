@@ -46,7 +46,10 @@ import org.json4s.jackson.JsonMethods
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
-  * For extended examples of usage, see the TODO (test) and the TODO (notebook).
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala AutoGGUFModelTest]]
+  * and the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb example notebook]].
   *
   * ==Note==
   * To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
@@ -65,7 +68,7 @@ import org.json4s.jackson.JsonMethods
   *   .setOutputCol("document")
   *
   * val autoGGUFModel = AutoGGUFModel
-  *   .loadSavedModel("models/codellama-7b.Q2_K.gguf", spark)
+  *   .pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("completions")
   *   .setBatchSize(4)
@@ -137,7 +140,7 @@ class AutoGGUFModel(override val uid: String)
       _model = Some(spark.sparkContext.broadcast(wrapper))
     }
 
-    // Entrypoint for models. Automatically set GPU support if detected
+    // Entrypoint for models. Automatically set GPU support if detected.
     val usingGPUJar: Boolean = spark.sparkContext.listJars.exists(_.contains("spark-nlp-gpu"))
     if (usingGPUJar) {
       logger.info("Using GPU jar. Offloading all layers to GPU.")
@@ -193,8 +196,8 @@ class AutoGGUFModel(override val uid: String)
 trait ReadablePretrainedAutoGGUFModel
     extends ParamsAndFeaturesReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
-  override val defaultModelName: Some[String] = Some("TODO") // TODO: might not even be needed?
-  override val defaultLang: String = "xx"
+  override val defaultModelName: Some[String] = Some("gguf-phi3-mini-4k-instruct-q4")
+  override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
   override def pretrained(): AutoGGUFModel = super.pretrained()
@@ -233,7 +236,7 @@ trait ReadAutoGGUFModel {
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AutoGGUFModel = {
-    // TODO copyToLocal and potentially enable download from HF-URLS
+    // TODO potentially enable download from HF-URLS
     val localPath: String = ResourceHelper.copyToLocal(modelPath)
     val annotatorModel = new AutoGGUFModel()
     annotatorModel

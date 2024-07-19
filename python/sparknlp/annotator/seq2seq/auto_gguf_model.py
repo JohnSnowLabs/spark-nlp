@@ -19,21 +19,16 @@ from sparknlp.common import *
 
 class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     """
-
-    TODO
-
     Annotator that uses the llama.cpp library to generate text completions with large language
     models.
 
-    For settable parameters, and their explanations, see `HasLlamaCppProperties <>`__ and refer to
+    For settable parameters, and their explanations, see the parameters of this class and refer to
     the llama.cpp documentation of
     `server.cpp <https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server>`__
     for more information.
 
     If the parameters are not set, the annotator will default to use the parameters provided by
     the model.
-
-    For extended examples of usage, see the TODO (test) and the TODO (notebook).
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -42,12 +37,14 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("completions")
 
-
     The default model is ``"gguf-phi3-mini-4k-instruct-q4"``, if no name is provided.
 
-    For available pretrained models please see the `Models Hub <https://sparknlp.org/models>`__.
+    For extended examples of usage, see the
+    `AutoGGUFModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala>`__
+    and the
+    `example notebook <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb>`__.
 
-    For extended examples of usage, see the TODO.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -57,7 +54,155 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
 
     Parameters
     ----------
-    TODO
+    nThreads
+        Set the number of threads to use during generation
+    nThreadsDraft
+        Set the number of threads to use during draft generation
+    nThreadsBatch
+        Set the number of threads to use during batch and prompt processing
+    nThreadsBatchDraft
+        Set the number of threads to use during batch and prompt processing
+    nCtx
+        Set the size of the prompt context
+    nBatch
+        Set the logical batch size for prompt processing (must be >=32 to use BLAS)
+    nUbatch
+        Set the physical batch size for prompt processing (must be >=32 to use BLAS)
+    nDraft
+        Set the number of tokens to draft for speculative decoding
+    nChunks
+        Set the maximal number of chunks to process
+    nSequences
+        Set the number of sequences to decode
+    pSplit
+        Set the speculative decoding split probability
+    nGpuLayers
+        Set the number of layers to store in VRAM (-1 - use default)
+    nGpuLayersDraft
+        Set the number of layers to store in VRAM for the draft model (-1 - use default)
+    gpuSplitMode
+        Set how to split the model across GPUs
+    mainGpu
+        Set the main GPU that is used for scratch and small tensors.
+    tensorSplit
+        Set how split tensors should be distributed across GPUs
+    nBeams
+        Set usage of beam search of given width if non-zero.
+    grpAttnN
+        Set the group-attention factor
+    grpAttnW
+        Set the group-attention width
+    ropeFreqBase
+        Set the RoPE base frequency, used by NTK-aware scaling
+    ropeFreqScale
+        Set the RoPE frequency scaling factor, expands context by a factor of 1/N
+    yarnExtFactor
+        Set the YaRN extrapolation mix factor
+    yarnAttnFactor
+        Set the YaRN scale sqrt(t) or attention magnitude
+    yarnBetaFast
+        Set the YaRN low correction dim or beta
+    yarnBetaSlow
+        Set the YaRN high correction dim or alpha
+    yarnOrigCtx
+        Set the YaRN original context size of model
+    defragmentationThreshold
+        Set the KV cache defragmentation threshold
+    numaStrategy
+        Set optimization strategies that help on some NUMA systems (if available)
+    ropeScalingType
+        Set the RoPE frequency scaling method, defaults to linear unless specified by the model
+    poolingType
+        Set the pooling type for embeddings, use model default if unspecified
+    modelDraft
+        Set the draft model for speculative decoding
+    modelAlias
+        Set a model alias
+    lookupCacheStaticFilePath
+        Set path to static lookup cache to use for lookup decoding (not updated by generation)
+    lookupCacheDynamicFilePath
+        Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
+    loraBase
+        Set an optional model to use as a base for the layers modified by the LoRA adapter
+    embedding
+        Whether to load model with embedding support
+    flashAttention
+        Whether to enable Flash Attention
+    inputPrefixBos
+        Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string
+    useMmap
+        Whether to use memory-map model (faster load but may increase pageouts if not using mlock)
+    useMlock
+        Whether to force the system to keep model in RAM rather than swapping or compressing
+    noKvOffload
+        Whether to disable KV offload
+    systemPrompt
+        Set a system prompt to use
+    chatTemplate
+        The chat template to use
+    inputPrefix
+        Set the prompt to start generation with
+    inputSuffix
+        Set a suffix for infilling
+    cachePrompt
+        Whether to remember the prompt to avoid reprocessing it
+    nPredict
+        Set the number of tokens to predict
+    topK
+        Set top-k sampling
+    topP
+        Set top-p sampling
+    minP
+        Set min-p sampling
+    tfsZ
+        Set tail free sampling, parameter z
+    typicalP
+        Set locally typical sampling, parameter p
+    temperature
+        Set the temperature
+    dynatempRange
+        Set the dynamic temperature range
+    dynatempExponent
+        Set the dynamic temperature exponent
+    repeatLastN
+        Set the last n tokens to consider for penalties
+    repeatPenalty
+        Set the penalty of repeated sequences of tokens
+    frequencyPenalty
+        Set the repetition alpha frequency penalty
+    presencePenalty
+        Set the repetition alpha presence penalty
+    miroStat
+        Set MiroStat sampling strategies.
+    mirostatTau
+        Set the MiroStat target entropy, parameter tau
+    mirostatEta
+        Set the MiroStat learning rate, parameter eta
+    penalizeNl
+        Whether to penalize newline tokens
+    nKeep
+        Set the number of tokens to keep from the initial prompt
+    seed
+        Set the RNG seed
+    nProbs
+        Set the amount top tokens probabilities to output if greater than 0.
+    minKeep
+        Set the amount of tokens the samplers should return at least (0 = disabled)
+    grammar
+        Set BNF-like grammar to constrain generations
+    penaltyPrompt
+        Override which part of the prompt is penalized for repetition.
+    ignoreEos
+        Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)
+    disableTokenIds
+        Set the token ids to disable in the completion
+    stopStrings
+        Set strings upon seeing which token generation is stopped
+    samplers
+        Set which samplers to use for token generation in the given order
+    useChatTemplate
+        Set whether or not generate should apply a chat template
+
 
     Notes
     -----
@@ -90,7 +235,32 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
 
     Examples
     --------
-    TODO
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> document = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> autoGGUFModel = AutoGGUFModel.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("completions") \\
+    ...     .setBatchSize(4) \\
+    ...     .setNPredict(20) \\
+    ...     .setNGpuLayers(99) \\
+    ...     .setTemperature(0.4) \\
+    ...     .setTopK(40) \\
+    ...     .setTopP(0.9) \\
+    ...     .setPenalizeNl(True)
+    >>> pipeline = Pipeline().setStages([document, autoGGUFModel])
+    >>> data = spark.createDataFrame([["Hello, I am a"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("completions").show(truncate = False)
+    +-----------------------------------------------------------------------------------------------------------------------------------+
+    |completions                                                                                                                        |
+    +-----------------------------------------------------------------------------------------------------------------------------------+
+    |[{document, 0, 78,  new user.  I am currently working on a project and I need to create a list of , {prompt -> Hello, I am a}, []}]|
+    +-----------------------------------------------------------------------------------------------------------------------------------+
     """
 
     name = "AutoGGUFModel"
