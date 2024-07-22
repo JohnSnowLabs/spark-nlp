@@ -279,7 +279,7 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             repetitionPenalty=1.0, noRepeatNgramSize=0, ignoreTokenIds=[], batchSize=1)
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session,  use_openvino = False):
         """Loads a locally saved model.
 
         Parameters
@@ -295,7 +295,7 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _CPMLoader
-        jModel = _CPMLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _CPMLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return CPMTransformer(java_model=jModel)
 
     @staticmethod
