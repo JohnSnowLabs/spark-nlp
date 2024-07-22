@@ -19,13 +19,14 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.CPM
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   loadSentencePieceAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ONNX
+import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
@@ -141,6 +142,7 @@ class CPMTransformer(override val uid: String)
     with HasBatchedAnnotate[CPMTransformer]
     with ParamsAndFeaturesWritable
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasGeneratorProperties
     with WriteSentencePieceModel
     with HasEngine {
@@ -197,12 +199,17 @@ class CPMTransformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrappers: DecoderWrappers,
+      onnxWrappers: Option[DecoderWrappers],
+      openvinoWrapper: Option[OpenvinoWrapper],
       spp: SentencePieceWrapper): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new CPM(onnxWrappers, spp = spp, generationConfig = getGenerationConfig)))
+          new CPM(
+            onnxWrappers,
+            openvinoWrapper,
+            spp = spp,
+            generationConfig = getGenerationConfig)))
     }
     this
   }
@@ -222,7 +229,8 @@ class CPMTransformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 1,
-    maxInputLength -> 4096)
+    maxInputLength -> 4096,
+    stopTokenIds -> Array())
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -256,7 +264,8 @@ class CPMTransformer(override val uid: String)
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds),
         beamSize = $(beamSize),
-        maxInputLength = $(maxInputLength))
+        maxInputLength = $(maxInputLength),
+        stopTokenIds = $(stopTokenIds))
     } else {
       Seq()
     }
@@ -271,8 +280,23 @@ class CPMTransformer(override val uid: String)
         writeOnnxModels(
           path,
           spark,
-          Seq((wrappers.decoder, "decoder_model.onnx")),
+          Seq((wrappers.get.decoder, "decoder_model.onnx")),
           CPMTransformer.suffix)
+        val obj = getModelIfNotSet
+        writeSentencePieceModel(
+          path,
+          spark,
+          obj.spp,
+          CPMTransformer.suffix,
+          CPMTransformer.sppFile)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModel(
+          path,
+          spark,
+          wrappers.get,
+          CPMTransformer.suffix,
+          CPMTransformer.openvinoFile)
         val obj = getModelIfNotSet
         writeSentencePieceModel(
           path,
@@ -301,12 +325,16 @@ trait ReadablePretrainedCPMTransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCPMTransformerDLModel extends ReadOnnxModel with ReadSentencePieceModel {
+trait ReadCPMTransformerDLModel
+    extends ReadOnnxModel
+    with ReadOpenvinoModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CPMTransformer] =>
 
   override val onnxFile: String = "cpm_onnx"
   val suffix: String = "_cpm"
   override val sppFile: String = "cpm_spp"
+  override val openvinoFile: String = "cpm_openvino"
 
   def readModel(instance: CPMTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -316,7 +344,12 @@ trait ReadCPMTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMode
         val onnxWrappers =
           DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
         val spp = readSentencePieceModel(path, spark, "_cpm_spp", sppFile)
-        instance.setModelIfNotSet(spark, onnxWrappers, spp)
+        instance.setModelIfNotSet(spark, Some(onnxWrappers), None, spp)
+      case Openvino.name =>
+        val ovWrapper =
+          readOpenvinoModel(path, spark, "_cpm_ov")
+        val spp = readSentencePieceModel(path, spark, "_cpm_spp", sppFile)
+        instance.setModelIfNotSet(spark, None, Some(ovWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -324,7 +357,10 @@ trait ReadCPMTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMode
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): CPMTransformer = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): CPMTransformer = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4
     val (localModelPath, detectedEngine) =
       modelSanityCheck(modelPath, isDecoder = true)
@@ -366,21 +402,39 @@ trait ReadCPMTransformerDLModel extends ReadOnnxModel with ReadSentencePieceMode
           arrayOrNone(forcedDecoderIds)))
     val spModel = loadSentencePieceAsset(localModelPath, "tokenizer.model")
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    detectedEngine match {
+    modelEngine match {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
-            modelName = "decoder_model")
+            modelName = "decoder_model",
+            dataFileSuffix = Some(".onnx_data"),
+            onnxFileSuffix = Some(suffix))
 
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, onnxWrappers, spModel)
+          .setModelIfNotSet(spark, Some(onnxWrappers), None, spModel)
+
+      case Openvino.name =>
+        val openvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel.setModelIfNotSet(spark, None, Some(openvinoWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
