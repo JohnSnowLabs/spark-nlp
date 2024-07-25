@@ -751,16 +751,18 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         """Set whether generate should apply a chat template"""
         return self._set(useChatTemplate=useChatTemplate)
 
-    # -------- JAVA GETTERS --------
+    # -------- JAVA SETTERS --------
     def setTokenIdBias(self, tokenIdBias: Dict[int, float]):
         """Set token id bias"""
-        # TODO: How do we convert this to a scala map?
         return self._call_java("setTokenIdBias", tokenIdBias)
 
     def setTokenBias(self, tokenBias: Dict[str, float]):
         """Set token id bias"""
-        # TODO: How do we convert this to a scala map?
         return self._call_java("setTokenBias", tokenBias)
+
+    def setLoraAdapters(self, loraAdapters: Dict[str, float]):
+        """Set token id bias"""
+        return self._call_java("setLoraAdapters", loraAdapters)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel", java_model=None):

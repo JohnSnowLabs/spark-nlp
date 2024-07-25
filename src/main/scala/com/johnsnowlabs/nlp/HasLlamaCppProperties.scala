@@ -503,6 +503,15 @@ trait HasLlamaCppProperties {
     set(this.loraAdapters, loraAdapters)
   }
 
+  /** Sets paths to lora adapters with user defined scale. (PySpark Override)
+    *
+    * @group setParam
+    */
+  def setLoraAdapters(loraAdapters: java.util.HashMap[String, java.lang.Double]): this.type = {
+    val scalaLoraAdapters = loraAdapters.asScala.map { case (k, v) => k -> v.floatValue() }
+    set(this.loraAdapters, scalaLoraAdapters.toMap)
+  }
+
   /** Set an optional model to use as a base for the layers modified by the LoRA adapter
     *
     * @group setParam
@@ -1017,12 +1026,30 @@ trait HasLlamaCppProperties {
     set(this.tokenBias, tokenBias)
   }
 
+  /** Set the tokens to disable during completion. (Override for PySpark)
+    *
+    * @group setParam
+    */
+  def setTokenBias(tokenBias: java.util.HashMap[String, java.lang.Double]): this.type = {
+    val scalaTokenBias = tokenBias.asScala.map { case (k, v) => k -> v.floatValue() }
+    set(this.tokenBias, scalaTokenBias.toMap)
+  }
+
   /** Set the token ids to disable in the completion.
     *
     * @group setParam
     */
   def setTokenIdBias(tokenIdBias: Map[Int, Float]): this.type = {
     set(this.tokenIdBias, tokenIdBias)
+  }
+
+  /** Set the token ids to disable in the completion. (Override for PySpark)
+    *
+    * @group setParam
+    */
+  def setTokenIdBias(tokenIdBias: java.util.HashMap[Integer, java.lang.Double]): this.type = {
+    val scalaTokenIdBias = tokenIdBias.asScala.map { case (k, v) => k.toInt -> v.toFloat }
+    set(this.tokenIdBias, scalaTokenIdBias.toMap)
   }
 
   /** Set the token ids to disable in the completion. This corresponds to `setTokenBias` with a

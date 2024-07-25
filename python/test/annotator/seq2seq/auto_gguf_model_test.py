@@ -163,6 +163,12 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setStopStrings([])
         model.setUseChatTemplate(False)
         model.setNPredict(2)
+        model.setSamplers(["TOP_P", "TOP_K"])
+
+        # Special PySpark Parameters (Scala StructFeatures)
+        model.setTokenIdBias({0: 0.0, 1: 0.0})
+        model.setTokenBias({"!": 0.0, "?": 0.0})
+        model.setLoraAdapters({" ": 0.0})
 
         pipeline = Pipeline().setStages([document_assembler, model])
         results = pipeline.fit(data).transform(data)
