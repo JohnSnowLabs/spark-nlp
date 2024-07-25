@@ -10,11 +10,15 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.lang.management.ManagementFactory
 
 class AutoGGUFModelTest extends AnyFlatSpec {
+
   import ResourceHelper.spark.implicits._
 
   behavior of "AutoGGUFModelTest"
 
   lazy val modelPath = "models/codellama-7b.Q2_K.gguf"
+
+  // Set Spark Debug level
+  ResourceHelper.spark.sparkContext.setLogLevel("INFO")
 
   lazy val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -26,7 +30,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     .setOutputCol("completions")
     .setBatchSize(4)
     .setNPredict(20)
-//    .setNGpuLayers(99)
+    .setNGpuLayers(99)
     .setTemperature(0.4f)
     .setTopK(40)
     .setTopP(0.9f)
@@ -166,6 +170,12 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setStopStrings(Array[String]())
     model.setUseChatTemplate(false)
     model.setNPredict(2)
+    model.setSamplers(Array("TOP_P", "TOP_K"))
+
+    // Struct Features
+    model.setTokenIdBias(Map(0 -> 0.0f, 1 -> 0.0f))
+    model.setTokenBias(Map("!" -> 0.0f, "?" -> 0.0f))
+    model.setLoraAdapters(Map(" " -> 0.0f))
 
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 

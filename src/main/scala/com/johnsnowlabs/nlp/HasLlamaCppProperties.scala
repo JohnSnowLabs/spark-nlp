@@ -7,9 +7,8 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param._
 import org.slf4j.LoggerFactory
 
-import java.net.URLClassLoader
 import scala.collection.mutable
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 /** Contains settable parameters for the [[AutoGGUFModel]].
   *
@@ -802,8 +801,8 @@ trait HasLlamaCppProperties {
     "Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)")
 
   // Modify the likelihood of tokens appearing in the completion by their id.
-  val tokenIdBias: StructFeature[Map[Integer, Float]] =
-    new StructFeature[Map[Integer, Float]](this, "tokenIdBias")
+  val tokenIdBias: StructFeature[Map[Int, Float]] =
+    new StructFeature[Map[Int, Float]](this, "tokenIdBias")
 
   // Modify the likelihood of tokens appearing in the completion by their string.
   /** @group param */
@@ -1022,7 +1021,7 @@ trait HasLlamaCppProperties {
     *
     * @group setParam
     */
-  def setTokenIdBias(tokenIdBias: Map[Integer, Float]): this.type = {
+  def setTokenIdBias(tokenIdBias: Map[Int, Float]): this.type = {
     set(this.tokenIdBias, tokenIdBias)
   }
 
@@ -1147,7 +1146,7 @@ trait HasLlamaCppProperties {
   def getIgnoreEos: Boolean = $(ignoreEos)
 
   /** @group getParam */
-  def getTokenIdBias: Map[Integer, Float] = $$(tokenIdBias)
+  def getTokenIdBias: Map[Int, Float] = $$(tokenIdBias)
 
   /** @group getParam */
   def getTokenBias: Map[String, Float] = $$(tokenBias)
@@ -1167,6 +1166,20 @@ trait HasLlamaCppProperties {
   protected def getModelParameters: ModelParameters = {
     val modelParameters = new ModelParameters().setContinuousBatching(true) // Always enabled
 
+    if (isDefined(chatTemplate)) modelParameters.setChatTemplate($(chatTemplate))
+    if (isDefined(defragmentationThreshold))
+      modelParameters.setDefragmentationThreshold($(defragmentationThreshold))
+    if (isDefined(embedding)) modelParameters.setEmbedding($(embedding))
+    if (isDefined(flashAttention)) modelParameters.setFlashAttention($(flashAttention))
+    if (isDefined(gpuSplitMode))
+      modelParameters.setSplitMode(GpuSplitMode.valueOf($(gpuSplitMode)))
+    if (isDefined(grpAttnN)) modelParameters.setGrpAttnN($(grpAttnN))
+    if (isDefined(grpAttnW)) modelParameters.setGrpAttnN($(grpAttnW))
+    if (isDefined(inputPrefixBos)) modelParameters.setInputPrefixBos($(inputPrefixBos))
+    if (isDefined(lookupCacheDynamicFilePath))
+      modelParameters.setLookupCacheDynamicFilePath($(lookupCacheDynamicFilePath))
+    if (isDefined(lookupCacheStaticFilePath))
+      modelParameters.setLookupCacheStaticFilePath($(lookupCacheStaticFilePath))
     if (isDefined(loraBase)) modelParameters.setLoraBase($(loraBase))
     if (isDefined(mainGpu)) modelParameters.setMainGpu($(mainGpu))
     if (isDefined(modelDraft)) modelParameters.setModelDraft($(modelDraft))
@@ -1202,6 +1215,13 @@ trait HasLlamaCppProperties {
     if (isDefined(yarnBetaSlow)) modelParameters.setYarnBetaSlow($(yarnBetaSlow))
     if (isDefined(yarnExtFactor)) modelParameters.setYarnExtFactor($(yarnExtFactor))
     if (isDefined(yarnOrigCtx)) modelParameters.setYarnOrigCtx($(yarnOrigCtx))
+    if (loraAdapters.isSet) {
+      val loraAdaptersMap: mutable.Map[String, java.lang.Float] =
+        mutable.Map($$(loraAdapters).map { case (key, value) =>
+          (key, float2Float(value))
+        }.toSeq: _*)
+      modelParameters.setLoraAdapters(loraAdaptersMap.asJava)
+    } // Need to convert to mutable map first
 
     modelParameters
   }
@@ -1209,6 +1229,11 @@ trait HasLlamaCppProperties {
   protected def getInferenceParameters: InferenceParameters = {
     val inferenceParams = new InferenceParameters("")
     if (isDefined(cachePrompt)) inferenceParams.setCachePrompt($(cachePrompt))
+    if (isDefined(disableTokenIds)) {
+      val javaCollection: java.util.Collection[Integer] =
+        $(disableTokenIds).map(int2Integer).toSeq.asJava
+      inferenceParams.disableTokenIds(javaCollection)
+    }
     if (isDefined(dynamicTemperatureExponent))
       inferenceParams.setDynamicTemperatureExponent($(dynamicTemperatureExponent))
     if (isDefined(dynamicTemperatureRange))
@@ -1216,8 +1241,8 @@ trait HasLlamaCppProperties {
     if (isDefined(frequencyPenalty)) inferenceParams.setFrequencyPenalty($(frequencyPenalty))
     if (isDefined(grammar)) inferenceParams.setGrammar($(grammar))
     if (isDefined(ignoreEos)) inferenceParams.setIgnoreEos($(ignoreEos))
-    if (isDefined(inputSuffix)) inferenceParams.setInputSuffix($(inputSuffix))
     if (isDefined(inputPrefix)) inferenceParams.setInputPrefix($(inputPrefix))
+    if (isDefined(inputSuffix)) inferenceParams.setInputSuffix($(inputSuffix))
     if (isDefined(minKeep)) inferenceParams.setMinKeep($(minKeep))
     if (isDefined(minP)) inferenceParams.setMinP($(minP))
     if (isDefined(miroStat)) inferenceParams.setMiroStat(MiroStat.valueOf($(miroStat)))
@@ -1231,31 +1256,28 @@ trait HasLlamaCppProperties {
     if (isDefined(presencePenalty)) inferenceParams.setPresencePenalty($(presencePenalty))
     if (isDefined(repeatLastN)) inferenceParams.setRepeatLastN($(repeatLastN))
     if (isDefined(repeatPenalty)) inferenceParams.setRepeatPenalty($(repeatPenalty))
+    if (isDefined(samplers)) inferenceParams.setSamplers($(samplers).map(Sampler.valueOf): _*)
     if (isDefined(seed)) inferenceParams.setSeed($(seed))
     if (isDefined(stopStrings)) inferenceParams.setStopStrings($(stopStrings): _*)
     if (isDefined(temperature)) inferenceParams.setTemperature($(temperature))
     if (isDefined(tfsZ)) inferenceParams.setTfsZ($(tfsZ))
     if (isDefined(topK)) inferenceParams.setTopK($(topK))
-    if (get(tokenIdBias).isDefined) {
-      // Need to convert to mutable map first
-      val tokenIdBiasMap: mutable.Map[Integer, java.lang.Float] =
-        mutable.Map($$(tokenIdBias).map { case (key, value) =>
-          (key, float2Float(value))
-        }.toSeq: _*)
-      inferenceParams.setTokenIdBias(tokenIdBiasMap.asJava)
-    }
-    if (get(tokenBias).isDefined) {
-      // Need to convert to mutable map first
-      val tokenBiasMap: mutable.Map[String, java.lang.Float] = mutable.Map($$(tokenBias).map {
-        case (key, value) =>
-          (key, float2Float(value))
-      }.toSeq: _*)
-      inferenceParams.setTokenBias(tokenBiasMap.asJava)
-    }
     if (isDefined(topP)) inferenceParams.setTopP($(topP))
     if (isDefined(typicalP)) inferenceParams.setTypicalP($(typicalP))
     if (isDefined(useChatTemplate)) inferenceParams.setUseChatTemplate($(useChatTemplate))
-    if (isDefined(samplers)) inferenceParams.setSamplers($(samplers).map(Sampler.valueOf): _*)
+    if (tokenBias.isSet) {
+      val tokenBiasMap: mutable.Map[String, java.lang.Float] = mutable.Map($$(tokenBias).map {
+        case (key, value) => (key, float2Float(value))
+      }.toSeq: _*)
+      inferenceParams.setTokenBias(tokenBiasMap.asJava)
+    }
+    if (tokenIdBias.isSet) {
+      val tokenIdBiasMap: mutable.Map[Integer, java.lang.Float] =
+        mutable.Map($$(tokenIdBias).map { case (key, value) =>
+          (int2Integer(key), float2Float(value))
+        }.toSeq: _*)
+      inferenceParams.setTokenIdBias(tokenIdBiasMap.asJava)
+    }
 
     inferenceParams
   }
