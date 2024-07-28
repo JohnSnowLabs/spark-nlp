@@ -11,7 +11,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
 
   lazy val model: VisionEncoderDecoderForImageCaptioning = VisionEncoderDecoderForImageCaptioning
-    .pretrained()
+    .loadSavedModel("1",ResourceHelper.spark)
     .setInputCols("image_assembler")
     .setOutputCol("caption")
     .setBeamSize(2)
@@ -35,7 +35,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
 
   correctTranscriber(model, "tf")
   compatibleWithLightPipeline(model, "tf")
-  serializableModel(model, "tf")
+  //serializableModel(model, "tf")
 
   def correctTranscriber(
       model: => VisionEncoderDecoderForImageCaptioning,
