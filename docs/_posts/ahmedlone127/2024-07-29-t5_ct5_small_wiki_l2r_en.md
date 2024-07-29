@@ -28,8 +28,8 @@ Pretrained T5ForConditionalGeneration model, adapted from Hugging Face and curat
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_ct5_small_wiki_l2r_en_5.4.2_3.0_1722245682651.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/t5_ct5_small_wiki_l2r_en_5.4.2_3.0_1722245682651.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_ct5_small_wiki_l2r_en_5.4.2_3.0_1722261012210.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/t5_ct5_small_wiki_l2r_en_5.4.2_3.0_1722261012210.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
