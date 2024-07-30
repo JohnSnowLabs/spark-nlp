@@ -106,6 +106,8 @@ spark = SparkSession.builder \
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course,
 you'll have to put the jars in a reachable location for all driver and executor nodes.
 
+</div><div class="h3-box" markdown="1">
+
 ### Python without explicit Pyspark installation
 
 ### Pip/Conda
@@ -306,7 +308,6 @@ as expected.5.4.1
 
 </div><div class="h3-box" markdown="1">
 
-
 ## Command line
 
 Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, Apache Spark 3.3.x, Apache Spark 3.4.x, and Apache Spark 3.5.x
@@ -378,6 +379,8 @@ spark-shell \
   --conf spark.kryoserializer.buffer.max=2000M \
   --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
 ```
+
+</div><div class="h3-box" markdown="1">
 
 ## Installation for M1 & M2 Chips
 
@@ -524,6 +527,8 @@ com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
 - Add a path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is
   available to driver path
 
+</div><div class="h3-box" markdown="1">
+
 ## Python in Zeppelin
 
 Apart from the previous step, install the python module through pip
@@ -545,6 +550,8 @@ install the pip library with (e.g. `python3`).
 
 An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as
 shown earlier since it includes both scala and python side installation.
+
+</div><div class="h3-box" markdown="1">
 
 ## Jupyter Notebook
 5.4.1
@@ -582,6 +589,8 @@ Alternatively, you can mix in using `--jars` option for pyspark + `pip install s
 If not using pyspark at all, you'll have to run the instructions
 pointed [here](#python-without-explicit-pyspark-installation)
 
+</div><div class="h3-box" markdown="1">
+
 ## Databricks Cluster
 
 1. Create a cluster if you don't have one already
@@ -604,6 +613,8 @@ pointed [here](#python-without-explicit-pyspark-installation)
 NOTE: Databricks' runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark
 NLP Maven package name (Maven Coordinate) for your runtime from
 our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+
+</div><div class="h3-box" markdown="1">
 
 ## EMR Cluster
 
@@ -670,6 +681,8 @@ aws emr create-cluster \
 --profile <aws_profile_credentials>
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ## GCP Dataproc
 
 1. Create a cluster if you don't have one already as follows.
@@ -733,6 +746,7 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
 
 Spark NLP *5.4.0* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
+{:.table-model-big}
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 | 5.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -750,6 +764,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ## Scala and Python Support
 
+{:.table-model-big}
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|------------|
 | 5.3.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
@@ -1260,6 +1275,7 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 - Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
 - If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
 
+</div><div class="h3-box" markdown="1">
 
 ## Compiled JARs
 
@@ -1284,6 +1300,8 @@ sbt -Dis_gpu=true assembly
 ```bash
 sbt -Dis_silicon=true assembly
 ```
+
+</div><div class="h3-box" markdown="1">
 
 ### Using the jar manually
 

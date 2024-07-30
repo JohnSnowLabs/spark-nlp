@@ -47,7 +47,7 @@ the previous best model, achieves state-of-the-art performance, with an average 
 3.4% compared to the previous best results on the 70 diverse datasets. Our analysis suggests
 that INSTRUCTOR is robust to changes in instructions, and that instruction finetuning
 mitigates the challenge of training a single model on diverse datasets. Our model, code, and
-data are available at this https URL. https://instructor-embedding.github.io/*
+data are available at this https URL. [https://instructor-embedding.github.io/](https://instructor-embedding.github.io/)*
 {%- endcapture -%}
 
 {%- capture input_anno -%}

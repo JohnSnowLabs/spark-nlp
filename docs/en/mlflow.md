@@ -133,6 +133,8 @@ import pandas as pd
 import glob
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### Spark NLP imports
 ```
 import sparknlp
@@ -172,12 +174,16 @@ We will be showcasing the serialization and experiment tracking of `NERDLApproac
 
 There is one specific util that is able to parse the log of that approach in order to extract the metrics and charts. Let's get it.
 
+</div><div class="h3-box" markdown="1">
+
 ### Ner Log Parser Util
 `!wget -q https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings/Public/utils/ner_image_log_parser.py`
 
 Now, let's import the library:
 
 `import ner_image_log_parser`
+
+</div><div class="h3-box" markdown="1">
 
 ### Starting a SparkNLP session
 It's important we create a Spark NLP Session using the Session Builder, since we need to specify the jars not only of Spark NLP, but also of MLFlow.
@@ -197,6 +203,8 @@ def start():
 
 spark = start()
 ```
+
+</div><div class="h3-box" markdown="1">
 
 ### Training dataset preparation
 Let's download some training and test datasets:
@@ -221,6 +229,8 @@ TRAINING_SIZE = training_data.count()
 TRAINING_SIZE
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### Hyperparameters configuration
 Let's configure our hyperparameter values.
 ```
@@ -236,6 +246,8 @@ RANDOM_SEED = 0 # Adapt me to your experiment
 VALIDATION_SPLIT = 0.1 # Adapt me to your experiment
 ```
 
+</div><div class="h3-box" markdown="1">
+
 ### Creating the experiment
 Now, we are ready to instantiate an experiment in MLFlow
 ```
@@ -243,6 +255,8 @@ EXPERIMENT_ID = mlflow.create_experiment(f"{MODEL_NAME}_{EXPERIMENT_NAME}")
 ```
 
 Each time you want to test a different thing, change the EXPERIMENT_NAME and rerun the line above to create a new entry in the experiment. By changing the experiment name, a new experiment ID will be generated. Each experiment ID groups all runs in separates folder inside `./mlruns`.
+
+</div><div class="h3-box" markdown="1">
 
 ### Pipeline creation
 ```
@@ -300,10 +314,14 @@ ner_training_pipeline = Pipeline(stages = ner_preprocessing_pipeline.getStages()
 ## Preparing inference objects
 Now, let's prepare the inference as well, since we will train and infer afterwards, and store all the results of training and inference as artifacts in our MLFlow object.
 
+</div><div class="h3-box" markdown="1">
+
 ### Test dataset preparation
 ```
 test_data = CoNLL().readDataset(spark, TEST_DATASET)
 ```
+
+</div><div class="h3-box" markdown="1">
 
 ### Setting the names of the inference objects
 ```
@@ -520,11 +538,11 @@ Now, we just need to launch the MLFLow UI to see:
 </div><div class="h3-box" markdown="1">
 
 ## Some example screenshots
-![](/assets/images/mlflow/mlflow10.png)
-![](/assets/images/mlflow/mlflow11.png)
-![](/assets/images/mlflow/mlflow12.png)
-![](/assets/images/mlflow/mlflow13.png)
-![](/assets/images/mlflow/mlflow14.png)
-![](/assets/images/mlflow/mlflow15.png)
+![MLFLow](/assets/images/mlflow/mlflow10.png)
+![MLFLow](/assets/images/mlflow/mlflow11.png)
+![MLFLow](/assets/images/mlflow/mlflow12.png)
+![MLFLow](/assets/images/mlflow/mlflow13.png)
+![MLFLow](/assets/images/mlflow/mlflow14.png)
+![MLFLow](/assets/images/mlflow/mlflow15.png)
 
 </div>
