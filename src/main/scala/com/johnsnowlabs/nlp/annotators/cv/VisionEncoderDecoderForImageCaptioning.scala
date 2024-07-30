@@ -337,15 +337,30 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
-
     getEngine match {
       case TensorFlow.name =>
-        getModelIfNotSet
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          VisionEncoderDecoderForImageCaptioning.suffix,
+          VisionEncoderDecoderForImageCaptioning.tfFile,
+          configProtoBytes = getConfigProtoBytes)
       case ONNX.name =>
-      //
+        val wrappers = getModelIfNotSet.onnxWrappers.get
+        writeOnnxModels(
+          path,
+          spark,
+          Seq((wrappers.encoder, "encoder_model.onnx")),
+          VisionEncoderDecoderForImageCaptioning.suffix)
+        writeOnnxModels(
+          path,
+          spark,
+          Seq((wrappers.decoder, "decoder_model.onnx")),
+          VisionEncoderDecoderForImageCaptioning.suffix)
+
     }
   }
-
 }
 
 trait ReadablePretrainedVisionEncoderDecoderModel
@@ -404,13 +419,13 @@ trait ReadVisionEncoderDecoderDLModel
           readOnnxModels(
             path,
             spark,
-            Seq("encoder_model", "decoder_model"),
+            Seq("encoder_model.onnx", "decoder_model.onnx"),
             VisionEncoderDecoderForImageCaptioning.suffix,
             dataFilePostfix = ".onnx_data")
 
         val onnxWrappers = EncoderDecoderWithoutPastWrappers(
-          wrappers("encoder_model"),
-          decoder = wrappers("decoder_model"))
+          wrappers("encoder_model.onnx"),
+          decoder = wrappers("decoder_model.onnx"))
 
         instance.setModelIfNotSet(spark, None, Some(onnxWrappers), preprocessor)
       case _ =>
@@ -541,15 +556,6 @@ trait ReadVisionEncoderDecoderDLModel
             zipped = false,
             useBundle = true,
             modelName = "decoder_model",
-            onnxFileSuffix = None)
-
-        val onnxWrapperDecoderWithPast =
-          OnnxWrapper.read(
-            spark,
-            localModelPath,
-            zipped = false,
-            useBundle = true,
-            modelName = "decoder_with_past_model",
             onnxFileSuffix = None)
 
         val onnxWrappers = EncoderDecoderWithoutPastWrappers(

@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
-import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
@@ -35,8 +35,8 @@ import org.tensorflow.{Session, Tensor}
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class VisionEncoderDecoder(
-    tensorflowWrapper: Option[TensorflowWrapper],
-    onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
     configProtoBytes: Option[Array[Byte]] = None,
     tokenizer: Gpt2Tokenizer,
     preprocessor: Preprocessor,
@@ -48,7 +48,6 @@ private[johnsnowlabs] class VisionEncoderDecoder(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   val tensorResources = new TensorResources()
-
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   val detectedEngine: String =
@@ -116,7 +115,6 @@ private[johnsnowlabs] class VisionEncoderDecoder(
     val decoderOutputKey: String = "logits"
     val decoderInputIDs: String = "input_ids"
     val decoderEncoderState: String = "encoder_hidden_states"
-    val decoderEncoderAttentionMask: String = "encoder_attention_mask"
 
   }
 
@@ -219,7 +217,6 @@ private[johnsnowlabs] class VisionEncoderDecoder(
         val batchSize = batch.length
         val preprocessedImages = preprocessImages(images)
 
-        val encoderAttentionMaskTensors = null
         val batchDecoderStartIds = Array.fill(batchSize, 1)(generationConfig.bosId)
         val encoderIds: Array[Array[Int]] = Array.fill(batchDecoderStartIds.length)(Array.empty)
         val generatedTokenIds =
@@ -309,7 +306,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       }
       .toSeq
 
-    // tensorResources.clearTensors()
+    tensorResources.clearTensors()
 
     captions
   }
