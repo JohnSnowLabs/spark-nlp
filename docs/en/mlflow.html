@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2 active"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2 active"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -660,6 +660,9 @@ import pandas as pd
 import glob
 </code></pre></div>  </div>
 
+</div>
+<div class="h3-box">
+
   <h3 id="spark-nlp-imports">Spark NLP imports</h3>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import sparknlp
 from sparknlp.base import *
@@ -699,12 +702,18 @@ PIP_REQUIREMENTS # This checks if it was set properly
 
   <p>There is one specific util that is able to parse the log of that approach in order to extract the metrics and charts. Let’s get it.</p>
 
+</div>
+<div class="h3-box">
+
   <h3 id="ner-log-parser-util">Ner Log Parser Util</h3>
   <p><code class="language-plaintext highlighter-rouge">!wget -q https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings/Public/utils/ner_image_log_parser.py</code></p>
 
   <p>Now, let’s import the library:</p>
 
   <p><code class="language-plaintext highlighter-rouge">import ner_image_log_parser</code></p>
+
+</div>
+<div class="h3-box">
 
   <h3 id="starting-a-sparknlp-session">Starting a SparkNLP session</h3>
   <p>It’s important we create a Spark NLP Session using the Session Builder, since we need to specify the jars not only of Spark NLP, but also of MLFlow.</p>
@@ -723,6 +732,9 @@ PIP_REQUIREMENTS # This checks if it was set properly
 
 spark = start()
 </code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
 
   <h3 id="training-dataset-preparation">Training dataset preparation</h3>
   <p>Let’s download some training and test datasets:</p>
@@ -744,6 +756,9 @@ TRAINING_SIZE = training_data.count()
 TRAINING_SIZE
 </code></pre></div>  </div>
 
+</div>
+<div class="h3-box">
+
   <h3 id="hyperparameters-configuration">Hyperparameters configuration</h3>
   <p>Let’s configure our hyperparameter values.</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MODEL_NAME = '' # Add your model name here. Example: clinical_ner
@@ -758,12 +773,18 @@ RANDOM_SEED = 0 # Adapt me to your experiment
 VALIDATION_SPLIT = 0.1 # Adapt me to your experiment
 </code></pre></div>  </div>
 
+</div>
+<div class="h3-box">
+
   <h3 id="creating-the-experiment">Creating the experiment</h3>
   <p>Now, we are ready to instantiate an experiment in MLFlow</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EXPERIMENT_ID = mlflow.create_experiment(f"{MODEL_NAME}_{EXPERIMENT_NAME}")
 </code></pre></div>  </div>
 
   <p>Each time you want to test a different thing, change the EXPERIMENT_NAME and rerun the line above to create a new entry in the experiment. By changing the experiment name, a new experiment ID will be generated. Each experiment ID groups all runs in separates folder inside <code class="language-plaintext highlighter-rouge">./mlruns</code>.</p>
+
+</div>
+<div class="h3-box">
 
   <h3 id="pipeline-creation">Pipeline creation</h3>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>document = DocumentAssembler()\
@@ -819,9 +840,15 @@ ner_approach = NerDLApproach()\
   <h2 id="preparing-inference-objects">Preparing inference objects</h2>
   <p>Now, let’s prepare the inference as well, since we will train and infer afterwards, and store all the results of training and inference as artifacts in our MLFlow object.</p>
 
+</div>
+<div class="h3-box">
+
   <h3 id="test-dataset-preparation">Test dataset preparation</h3>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test_data = CoNLL().readDataset(spark, TEST_DATASET)
 </code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
 
   <h3 id="setting-the-names-of-the-inference-objects">Setting the names of the inference objects</h3>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFERENCE_NAME = "inference.parquet" # This is the name of the results inference on the test dataset, serialized in parquet,
@@ -1039,12 +1066,12 @@ Saving the model...
 <div class="h3-box">
 
   <h2 id="some-example-screenshots">Some example screenshots</h2>
-  <p><img src="/assets/images/mlflow/mlflow10.png" alt="" />
-<img src="/assets/images/mlflow/mlflow11.png" alt="" />
-<img src="/assets/images/mlflow/mlflow12.png" alt="" />
-<img src="/assets/images/mlflow/mlflow13.png" alt="" />
-<img src="/assets/images/mlflow/mlflow14.png" alt="" />
-<img src="/assets/images/mlflow/mlflow15.png" alt="" /></p>
+  <p><img src="/assets/images/mlflow/mlflow10.png" alt="MLFLow" />
+<img src="/assets/images/mlflow/mlflow11.png" alt="MLFLow" />
+<img src="/assets/images/mlflow/mlflow12.png" alt="MLFLow" />
+<img src="/assets/images/mlflow/mlflow13.png" alt="MLFLow" />
+<img src="/assets/images/mlflow/mlflow14.png" alt="MLFLow" />
+<img src="/assets/images/mlflow/mlflow15.png" alt="MLFLow" /></p>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated

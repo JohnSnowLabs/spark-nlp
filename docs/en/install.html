@@ -625,6 +625,9 @@ you can manually start the SparkSession with:</p>
   <p>If using local jars, you can use <code class="language-plaintext highlighter-rouge">spark.jars</code> instead for comma-delimited jar files. For cluster setups, of course,
 you’ll have to put the jars in a reachable location for all driver and executor nodes.</p>
 
+</div>
+<div class="h3-box">
+
   <h3 id="python-without-explicit-pyspark-installation">Python without explicit Pyspark installation</h3>
 
   <h3 id="pipconda">Pip/Conda</h3>
@@ -891,6 +894,9 @@ set in your SparkSession:</p>
   --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.0
 </code></pre>
 
+</div>
+<div class="h3-box">
+
   <h2 id="installation-for-m1--m2-chips">Installation for M1 &amp; M2 Chips</h2>
 
   <h3 id="scala-and-java-for-m1">Scala and Java for M1</h3>
@@ -1035,6 +1041,9 @@ to install Spark NLP for your system.</p>
 available to driver path</li>
   </ul>
 
+</div>
+<div class="h3-box">
+
   <h2 id="python-in-zeppelin">Python in Zeppelin</h2>
 
   <p>Apart from the previous step, install the python module through pip</p>
@@ -1054,6 +1063,9 @@ install the pip library with (e.g. <code class="language-plaintext highlighter-r
 
   <p>An alternative option would be to set <code class="language-plaintext highlighter-rouge">SPARK_SUBMIT_OPTIONS</code> (zeppelin-env.sh) and make sure <code class="language-plaintext highlighter-rouge">--packages</code> is there as
 shown earlier since it includes both scala and python side installation.</p>
+
+</div>
+<div class="h3-box">
 
   <h2 id="jupyter-notebook">Jupyter Notebook</h2>
   <p>5.4.1
@@ -1089,6 +1101,9 @@ pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:5
   <p>If not using pyspark at all, you’ll have to run the instructions
 pointed <a href="#python-without-explicit-pyspark-installation">here</a></p>
 
+</div>
+<div class="h3-box">
+
   <h2 id="databricks-cluster">Databricks Cluster</h2>
 
   <ol>
@@ -1117,6 +1132,9 @@ pointed <a href="#python-without-explicit-pyspark-installation">here</a></p>
   <p>NOTE: Databricks’ runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark
 NLP Maven package name (Maven Coordinate) for your runtime from
 our <a href="https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet">Packages Cheatsheet</a></p>
+
+</div>
+<div class="h3-box">
 
   <h2 id="emr-cluster">EMR Cluster</h2>
 
@@ -1179,6 +1197,9 @@ exit 0
 --ec2-attributes KeyName=&lt;your_ssh_key&gt;,EmrManagedMasterSecurityGroup=&lt;security_group_with_ssh&gt;,EmrManagedSlaveSecurityGroup=&lt;security_group_with_ssh&gt; \
 --profile &lt;aws_profile_credentials&gt;
 </code></pre>
+
+</div>
+<div class="h3-box">
 
   <h2 id="gcp-dataproc">GCP Dataproc</h2>
 
@@ -1244,7 +1265,7 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
 
   <p>Spark NLP <em>5.4.0</em> has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x</p>
 
-  <table>
+  <table class="table-model-big">
     <thead>
       <tr>
         <th>Spark NLP</th>
@@ -1376,7 +1397,7 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
 
   <h2 id="scala-and-python-support">Scala and Python Support</h2>
 
-  <table>
+  <table class="table-model-big">
     <thead>
       <tr>
         <th>Spark NLP</th>
@@ -2022,6 +2043,9 @@ running</p>
     <li>If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/</code>)</li>
   </ul>
 
+</div>
+<div class="h3-box">
+
   <h2 id="compiled-jars">Compiled JARs</h2>
 
   <h3 id="build-from-source">Build from source</h3>
@@ -2048,6 +2072,9 @@ running</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbt <span class="nt">-Dis_silicon</span><span class="o">=</span><span class="nb">true </span>assembly
 </code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
 
   <h3 id="using-the-jar-manually">Using the jar manually</h3>
 

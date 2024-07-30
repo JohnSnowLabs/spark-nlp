@@ -43,7 +43,7 @@ For extended examples of usage, see
 **References:**
 
 - [BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://aclanthology.org/2020.acl-main.703.pdf)
-- https://github.com/pytorch/fairseq
+- [https://github.com/pytorch/fairseq](https://github.com/pytorch/fairseq)
 
 **Paper Abstract:**
 
