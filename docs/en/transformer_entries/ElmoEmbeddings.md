@@ -35,7 +35,7 @@ and the [ElmoEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/
 
 **Sources:**
 
-https://tfhub.dev/google/elmo/3
+[https://tfhub.dev/google/elmo/3](https://tfhub.dev/google/elmo/3)
 
 [Deep contextualized word representations](https://arxiv.org/abs/1802.05365)
 

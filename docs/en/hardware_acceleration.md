@@ -34,6 +34,7 @@ Since the new Transformer models such as BERT for Word and Sentence embeddings a
 
 ![Spark NLP CPU vs. GPU](/assets/images/Spark_NLP_CPU_vs._GPU_Transformers_(Word_Embeddings).png)
 
+{:.table-model-big}
 | Model on GPU      | Spark NLP 3.4.3 vs. 4.0.0 |
 | ----------------- |:-------------------------:|
 | RoBERTa base      |        +560%(6.6x)        |
@@ -72,6 +73,7 @@ Here we compare the last release of Spark NLP 3.4.3 on CPU (normal) with Spark N
 
 ![Spark NLP 3.4.4 CPU vs. Spark NLP 4.0 CPU with oneDNN](/assets/images/Spark_NLP_3.4_on_CPU_vs._Spark_NLP_4.0_on_CPU_with_oneDNN.png)
 
+{:.table-model-big}
 | Model on CPU      | 3.4.x vs. 4.0.0 with oneDNN |
 | ----------------- |:------------------------:|
 | BERT Base         |           +47%           |
