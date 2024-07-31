@@ -690,7 +690,8 @@ object PythonResourceDownloader {
     "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering,
     "LLAMA2Transformer" -> LLAMA2Transformer,
     "M2M100Transformer" -> M2M100Transformer,
-    "UAEEmbeddings" -> UAEEmbeddings)
+    "UAEEmbeddings" -> UAEEmbeddings,
+    "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

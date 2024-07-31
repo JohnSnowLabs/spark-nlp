@@ -25,8 +25,7 @@ class UAEEmbeddingsTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.tested_annotator = UAEEmbeddings \
-            .loadSavedModel("/home/ducha/Workspace/JSL/spark-nlp-dev-things/hf_exports/UAE/exported_onnx",
-                            SparkContextForTest.spark) \
+            .pretrained() \
             .setInputCols(["documents"]) \
             .setOutputCol("embeddings") \
             .setPoolingStrategy("cls_avg")
