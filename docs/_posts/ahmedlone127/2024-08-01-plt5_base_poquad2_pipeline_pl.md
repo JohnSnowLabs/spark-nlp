@@ -23,8 +23,8 @@ Pretrained T5Transformer, adapted from Hugging Face and curated to provide scala
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/plt5_base_poquad2_pipeline_pl_5.4.2_3.0_1722525716979.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/plt5_base_poquad2_pipeline_pl_5.4.2_3.0_1722525716979.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/plt5_base_poquad2_pipeline_pl_5.4.2_3.0_1722526048598.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/plt5_base_poquad2_pipeline_pl_5.4.2_3.0_1722526048598.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
