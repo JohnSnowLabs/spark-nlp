@@ -24,8 +24,8 @@ Pretrained T5Transformer model, adapted from Hugging Face and curated to provide
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/arxivedits_intention_classifier_t5_large_coarse_en_5.4.2_3.0_1722531232763.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/arxivedits_intention_classifier_t5_large_coarse_en_5.4.2_3.0_1722531232763.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/arxivedits_intention_classifier_t5_large_coarse_en_5.4.2_3.0_1722532277241.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/arxivedits_intention_classifier_t5_large_coarse_en_5.4.2_3.0_1722532277241.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
