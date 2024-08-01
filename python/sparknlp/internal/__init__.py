@@ -394,6 +394,15 @@ class _RoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
         )
 
 
+class _StarCoderLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_StarCoderLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.StarCoderTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
+
 class _T5Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_T5Loader, self).__init__(

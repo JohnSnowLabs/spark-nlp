@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class StarCoderTestSpec extends AnyFlatSpec {
 
-  "starcoder" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "starcoder" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -36,19 +36,31 @@ class StarCoderTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = StarCoderTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/starcoder/models/int8/bigcode/starcoder2-3b",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setDoSample(false)
       .setMaxOutputLength(50)
       .setOutputCol("generation")
       .setBeamSize(1)
-    new Pipeline()
+
+    val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, bart))
-      .fit(testData)
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
       .transform(testData)
       .show(truncate = false)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+    pipelineModel.stages.last
+      .asInstanceOf[StarCoderTransformer]
+      .write
+      .overwrite()
+      .save("/tmp/starcoder-3b-4bit-model")
 
   }
 }
