@@ -17,14 +17,10 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.DistilBertClassification
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -125,6 +121,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[DistilBertForZeroShotClassification]
     with HasBatchedAnnotate[DistilBertForZeroShotClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine
@@ -338,13 +335,24 @@ class DistilBertForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_distilbert_classification",
-      DistilBertForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_distilbert_classification",
+          DistilBertForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_distilbert_classification",
+          DistilBertForZeroShotClassification.onnxFile)
+    }
   }
 
 }
@@ -371,19 +379,25 @@ trait ReadablePretrainedDistilBertForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
+trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel{
   this: ParamsAndFeaturesReadable[DistilBertForZeroShotClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
+  override val onnxFile: String = "distilbert_classification_onnx"
 
   def readModel(
       instance: DistilBertForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
-      readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_distilbert_classification_tf")
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name =>
+        val onnxWrapper = readOnnxModel(path, spark, "_distilbert_classification_onnx")
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+    }
   }
 
   addReader(readModel)
@@ -427,7 +441,7 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -440,7 +454,11 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
