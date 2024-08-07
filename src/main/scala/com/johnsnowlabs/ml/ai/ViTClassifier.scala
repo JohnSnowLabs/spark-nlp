@@ -16,6 +16,9 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp._
@@ -26,7 +29,8 @@ import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class ViTClassifier(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
     preprocessor: Preprocessor,
@@ -35,6 +39,11 @@ private[johnsnowlabs] class ViTClassifier(
 
   val _tfViTSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   private def sessionWarmup(): Unit = {
     val image =
@@ -48,17 +57,16 @@ private[johnsnowlabs] class ViTClassifier(
 
   sessionWarmup()
 
-  def tag(
-      batch: Array[Array[Array[Array[Float]]]],
-      activation: String = ActivationFunction.softmax): Array[Array[Float]] = {
-    val tensors = new TensorResources()
-    val batchLength = batch.length
 
+  def getRawScoresWithTF(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
+    val tensors = new TensorResources()
     val imageTensors = tensors.createTensor(batch)
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-      .runner
+    val session = tensorflowWrapper.get.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
 
     runner
       .feed(
@@ -74,7 +82,39 @@ private[johnsnowlabs] class ViTClassifier(
     tensors.clearSession(outs)
     tensors.clearTensors()
     imageTensors.close()
+    rawScores
+  }
 
+  def getRowScoresWithOnnx(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val imageTensors = OnnxTensor.createTensor(env,batch)
+    val inputs =
+      Map(
+        "pixel_values" -> imageTensors).asJava
+
+    val results = runner.run(inputs)
+    val rawScores = results
+      .get("logits")
+      .get()
+      .asInstanceOf[OnnxTensor]
+      .getFloatBuffer
+      .array()
+
+
+    results.close()
+    imageTensors.close()
+    rawScores
+  }
+
+  def tag(
+      batch: Array[Array[Array[Array[Float]]]],
+      activation: String = ActivationFunction.softmax): Array[Array[Float]] = {
+
+    val batchLength = batch.length
+    val rawScores = detectedEngine match {
+      case ONNX.name => getRowScoresWithOnnx(batch)
+      case _ => getRawScoresWithTF(batch)
+    }
     val dim = rawScores.length / batchLength
     val batchScores: Array[Array[Float]] =
       rawScores

@@ -132,7 +132,6 @@ private[johnsnowlabs] class XlmRoBertaClassification(
       case ONNX.name => getRowScoresWithOnnx(batch)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
-    println(rawScores.mkString("Array(", ", ", ")"))
     val dim = rawScores.length / (batchLength * maxSentenceLength)
     val batchScores: Array[Array[Array[Float]]] = rawScores
       .grouped(dim)
