@@ -16,9 +16,12 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.{OnnxTensor, TensorInfo}
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
@@ -36,7 +39,8 @@ import scala.collection.JavaConverters._
   */
 
 private[johnsnowlabs] class Instructor(
-    val tensorflow: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
@@ -46,44 +50,98 @@ private[johnsnowlabs] class Instructor(
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 0
   private val eosTokenId = 1
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
-  /** Get sentence embeddings for a batch of sentences
-    * @param batch
-    *   batch of sentences
-    * @param contextLengths
-    *   context lengths
-    * @return
-    *   sentence embeddings
-    */
-  private def getSentenceEmbedding(
-      batch: Seq[Array[Int]],
-      contextLengths: Seq[Int]): Array[Array[Float]] = {
-    // get max sentence length
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
-    val batchLength = batch.length
+  private def getSentenceEmbeddingFromOnnx(
+                                          batch: Seq[Array[Int]],
+                                          contextLengths: Seq[Int],
+                                          maxSentenceLength: Int): Array[Array[Float]] = {
 
+    val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch
+      .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
+      .toArray
+
+    val contextMask = attentionMask.zipWithIndex.map { case (batchElement, idx) =>
+      batchElement.zipWithIndex.map { case (x, i) =>
+        if (i < contextLengths(idx)) 0L else x
+      }
+    }.toArray
+
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+    val tokenTensors = OnnxTensor.createTensor(env, inputIds)
+    val maskTensors = OnnxTensor.createTensor(env, attentionMask)
+    val contextTensor =
+      OnnxTensor.createTensor(env, contextMask)
+    val inputs =
+      Map(
+        "input_ids" -> tokenTensors,
+        "attention_mask" -> maskTensors).asJava
+
+    // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+    try {
+      val results = runner.run(inputs)
+      val lastHiddenState = results.get("token_embeddings").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape
+      try {
+        val flattenEmbeddings = lastHiddenState
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, contextMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
+      } finally if (results != null) results.close()
+    } catch {
+      case e: Exception =>
+        // Handle exceptions by logging or other means.
+        e.printStackTrace()
+        Array.empty[Array[Float]] // Return an empty array or appropriate error handling
+    } finally {
+      // Close tensors outside the try-catch to avoid repeated null checks.
+      // These resources are initialized before the try-catch, so they should be closed here.
+      tokenTensors.close()
+      maskTensors.close()
+      contextTensor.close()
+    }
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
+
+  private def getSentenceEmbeddingFromTF(
+                                          paddedBatch: Seq[Array[Int]],
+                                          contextLengths: Seq[Int],
+                                          maxSentenceLength: Int) = {
     // encode batch
     val tensorEncoder = new TensorResources()
-    val inputDim = batch.length * maxSentenceLength
+    val inputDim = paddedBatch.length * maxSentenceLength
+    val batchLength = paddedBatch.length
 
     // create buffers
     val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
     val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
     val encoderContextMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
+    val shape = Array(paddedBatch.length.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+    paddedBatch.zipWithIndex.foreach { case (tokenIds, idx) =>
       val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-
-      // pad with 0
-      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
-      encoderInputBuffers.offset(offset).write(s)
+      encoderInputBuffers.offset(offset).write(tokenIds)
 
       // create attention mask
-      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
+      val mask = tokenIds.map(x => if (x != this.paddingTokenId) 1 else 0)
       encoderAttentionMaskBuffers.offset(offset).write(mask)
 
       // create context mask
@@ -101,7 +159,7 @@ private[johnsnowlabs] class Instructor(
       tensorEncoder.createIntBufferTensor(shape, encoderContextMaskBuffers)
 
     // run model
-    val runner = tensorflow
+    val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         initAllTables = false,
@@ -144,6 +202,30 @@ private[johnsnowlabs] class Instructor(
     tensorEncoder.clearSession(sentenceEmbeddings)
 
     sentenceEmbeddingsFloatsArray
+
+  }
+  /** Get sentence embeddings for a batch of sentences
+    * @param batch
+    *   batch of sentences
+    * @param contextLengths
+    *   context lengths
+    * @return
+    *   sentence embeddings
+    */
+  private def getSentenceEmbedding(
+      batch: Seq[Array[Int]],
+      contextLengths: Seq[Int]): Array[Array[Float]] = {
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val sentenceEmbeddings: Array[Array[Float]] = detectedEngine match {
+      case ONNX.name =>
+        getSentenceEmbeddingFromOnnx(paddedBatch, contextLengths, maxSentenceLength)
+      case _ => // TF Case
+        getSentenceEmbeddingFromTF(paddedBatch, contextLengths, maxSentenceLength)
+    }
+
+    sentenceEmbeddings
+
   }
 
   /** Tokenize sentences
