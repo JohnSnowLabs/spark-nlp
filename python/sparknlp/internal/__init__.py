@@ -798,6 +798,13 @@ class _CamemBertQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _CamemBertForZeroShotClassificationLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForZeroShotClassificationLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForZeroShotClassification.loadSavedModel",
+            path,
+            jspark,
+        )
 
 class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
     def __init__(self, path):
