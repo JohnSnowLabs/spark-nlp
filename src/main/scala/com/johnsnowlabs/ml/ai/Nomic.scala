@@ -20,7 +20,8 @@ import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
-
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -29,6 +30,7 @@ import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class Nomic(
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int)
     extends Serializable {
@@ -36,6 +38,10 @@ private[johnsnowlabs] class Nomic(
   protected val logger: Logger = LoggerFactory.getLogger("NOMIC_EMBEDDINGS")
 
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
+  val detectedEngine: String =
+    if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
+    else ONNX.name
 
   /** Get sentence embeddings for a batch of sentences
     * @param batch
@@ -46,8 +52,12 @@ private[johnsnowlabs] class Nomic(
   private def getSentenceEmbedding(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
-    val embeddings =
-      getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength)
+
+    val embeddings = detectedEngine match {
+      case ONNX.name => getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength)
+      case Openvino.name => getSentenceEmbeddingFromOv(paddedBatch, maxSentenceLength)
+      case _ => throw new IllegalArgumentException(s"Engine $detectedEngine not supported")
+    }
     embeddings
   }
 
@@ -97,6 +107,33 @@ private[johnsnowlabs] class Nomic(
     maskTensors.close()
 
     encoderStateBuffer
+  }
+
+  private def getSentenceEmbeddingFromOv(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Array[Float]] = {
+    val batchLength = batch.length
+    val inputIds = batch.flatMap(x => x.map(x => x.toLong)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors = new org.intel.openvino.Tensor(shape, inputIds)
+    val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
+
+    val model = openvinoWrapper.get.getCompiledModel()
+    val inferRequest = model.create_infer_request()
+
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    val embeddings = inferRequest.get_tensor("sentence_embedding")
+    val embeddingsArray = embeddings.data()
+    val outShape = embeddings.get_shape()
+    val encoderOutput = embeddingsArray.grouped(outShape(1)).toArray
+
+    encoderOutput
   }
 
   /** Predict sentence embeddings for a batch of sentences

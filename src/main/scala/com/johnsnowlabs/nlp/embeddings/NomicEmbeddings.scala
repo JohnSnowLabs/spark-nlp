@@ -18,13 +18,14 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.Nomic
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -35,6 +36,7 @@ import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 
 /** Sentence embeddings using NomicEmbeddings.
   *
@@ -143,6 +145,7 @@ class NomicEmbeddings(override val uid: String)
     with HasBatchedAnnotate[NomicEmbeddings]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -208,14 +211,19 @@ class NomicEmbeddings(override val uid: String)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, onnxWrapper: Option[OnnxWrapper]): NomicEmbeddings = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): NomicEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new Nomic(
             onnxWrapper,
             sentenceStartTokenId = sentenceStartTokenId,
-            sentenceEndTokenId = sentenceEndTokenId)))
+            sentenceEndTokenId = sentenceEndTokenId,
+            openvinoWrapper = openvinoWrapper)))
+
     }
 
     this
@@ -323,7 +331,13 @@ class NomicEmbeddings(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           NomicEmbeddings.onnxFile)
-
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          suffix,
+          NomicEmbeddings.openvinoFile)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -357,11 +371,15 @@ trait ReadablePretrainedNomicEmbeddingsModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadNomicEmbeddingsDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadNomicEmbeddingsDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[NomicEmbeddings] =>
 
   override val tfFile: String = "nomic_tensorflow"
   override val onnxFile: String = "nomic_onnx"
+  override val openvinoFile: String = "nomic_openvino"
 
   def readModel(instance: NomicEmbeddings, path: String, spark: SparkSession): Unit = {
 
@@ -369,8 +387,10 @@ trait ReadNomicEmbeddingsDLModel extends ReadTensorflowModel with ReadOnnxModel 
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "_nomic_onnx", zipped = true, useBundle = false, None)
-        instance.setModelIfNotSet(spark, Some(onnxWrapper))
-
+        instance.setModelIfNotSet(spark, Some(onnxWrapper), None)
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_nomic_ov")
+        instance.setModelIfNotSet(spark, None, Some(openvinoWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -379,7 +399,10 @@ trait ReadNomicEmbeddingsDLModel extends ReadTensorflowModel with ReadOnnxModel 
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): NomicEmbeddings = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): NomicEmbeddings = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -389,14 +412,29 @@ trait ReadNomicEmbeddingsDLModel extends ReadTensorflowModel with ReadOnnxModel 
     val annotatorModel = new NomicEmbeddings()
       .setVocabulary(vocabs)
 
-    annotatorModel.set(annotatorModel.engine, detectedEngine)
+    val modelEngine =
+      if (useOpenvino)
+        Openvino.name
+      else
+        detectedEngine
+    annotatorModel.set(annotatorModel.engine, modelEngine)
 
-    detectedEngine match {
-
-      case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+    modelEngine match {
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
         annotatorModel
-          .setModelIfNotSet(spark, Some(onnxWrapper))
+          .setModelIfNotSet(spark, None, Some(ovWrapper))
+      case ONNX.name =>
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, Some(onnxWrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
