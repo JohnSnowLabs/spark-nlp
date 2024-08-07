@@ -139,7 +139,7 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
         self._setDefault(dimension=768, batchSize=8, maxSentenceLength=512, caseSensitive=False, )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -155,7 +155,7 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
             The restored model
         """
         from sparknlp.internal import _NomicLoader
-        jModel = _NomicLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _NomicLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return NomicEmbeddings(java_model=jModel)
 
     @staticmethod
