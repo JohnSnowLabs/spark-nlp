@@ -284,10 +284,8 @@ class CamemBertForZeroShotClassification(override val uid: String)
 trait ReadPretrainedCamemBertForZeroShotClassification
     extends ParamsAndFeaturesReadable[CamemBertForZeroShotClassification]
     with HasPretrained[CamemBertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some(
-    "camembert-zero-shot-classifier-xnli-onnx"
-  )
-  override val defaultLang: String = "en"
+  override val defaultModelName: Some[String] = Some("camembert_zero_shot_classifier_xnli_onnx")
+  override val defaultLang: String = "fr"
 
   override def pretrained(): CamemBertForZeroShotClassification = super.pretrained()
 

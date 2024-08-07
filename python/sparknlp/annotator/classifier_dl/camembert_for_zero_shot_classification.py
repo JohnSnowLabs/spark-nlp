@@ -34,7 +34,7 @@ class CamemBertForZeroShotClassification(AnnotatorModel,
     >>> sequenceClassifier = CamemBertForZeroShotClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-    The default model is ``"deberta_base_zero_shot_classifier_mnli_anli_v3"``, if no name is
+    The default model is ``"camembert_zero_shot_classifier_xnli_onnx"``, if no name is
     provided.
     For available pretrained models please see the `Models Hub
     <https://sparknlp.orgtask=Text+Classification>`__.
@@ -179,14 +179,14 @@ class CamemBertForZeroShotClassification(AnnotatorModel,
         return CamemBertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert-base-xnli", lang="fr", remote_loc=None):
+    def pretrained(name="camembert_zero_shot_classifier_xnli_onnx", lang="fr", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "camembert_base_sequence_classifier_allocine"
+            "camembert_zero_shot_classifier_xnli_onnx"
         lang : str, optional
             Language of the pretrained model, by default "fr"
         remote_loc : str, optional

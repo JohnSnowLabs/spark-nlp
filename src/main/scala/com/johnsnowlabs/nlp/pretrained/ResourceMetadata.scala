@@ -109,27 +109,6 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
-    val compatibleCandidatesName = candidates
-      .filter(item =>
-        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-          && item.name == request.name)
-
-    val compatibleCandidatesLanguage = candidates
-      .filter(item =>
-        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-          && item.name == request.name
-          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-      )
-
-    val compatibleCandidatesSparkNLPVersion =
-      candidates
-        .filter(item =>
-          item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-            && item.name == request.name
-            && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-            && Version.isCompatible(request.libVersion, item.libVersion))
-
-    println("")
     val compatibleCandidates = candidates
       .filter(item =>
         item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
