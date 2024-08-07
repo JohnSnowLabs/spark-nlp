@@ -432,6 +432,13 @@ package object annotator {
       extends ReadablePretrainedAlbertForTokenModel
       with ReadAlbertForTokenDLModel
 
+  type AlbertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification
+
+  object AlbertForZeroShotClassification
+      extends ReadablePretrainedAlbertForZeroShotModel
+      with ReadAlbertForZeroShotDLModel
+
   type XlnetForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification
 
