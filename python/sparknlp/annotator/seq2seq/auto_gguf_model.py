@@ -764,6 +764,10 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         """Set token id bias"""
         return self._call_java("setLoraAdapters", loraAdapters)
 
+    def getMetadata(self):
+        """Gets the metadata of the model"""
+        return self._call_java("getMetadata")
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel", java_model=None):
         super(AutoGGUFModel, self).__init__(

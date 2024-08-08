@@ -174,3 +174,21 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("completions").show(truncate=False)
+
+
+@pytest.mark.slow
+class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        modelPath = "models/codellama-7b.Q2_K.gguf"
+        model = (
+            AutoGGUFModel.loadSavedModel(modelPath, self.spark)
+            .setInputCols("document")
+            .setOutputCol("completions")
+        )
+
+        metadata = model.getMetadata()
+        assert len(metadata) > 0
+        print(eval(metadata))
