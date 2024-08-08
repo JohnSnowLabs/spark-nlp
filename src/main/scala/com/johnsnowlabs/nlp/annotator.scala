@@ -804,4 +804,7 @@ package object annotator {
   type UAEEmbeddings = com.johnsnowlabs.nlp.embeddings.UAEEmbeddings
 
   object UAEEmbeddings extends ReadablePretrainedUAEModel with ReadUAEDLModel
+
+  type AutoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
+  object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel
 }

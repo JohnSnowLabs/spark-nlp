@@ -910,3 +910,9 @@ class _UAEEmbeddingsLoader(ExtendedJavaWrapper):
         super(_UAEEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.UAEEmbeddings.loadSavedModel", path, jspark
         )
+
+
+class _AutoGGUFLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AutoGGUFLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
