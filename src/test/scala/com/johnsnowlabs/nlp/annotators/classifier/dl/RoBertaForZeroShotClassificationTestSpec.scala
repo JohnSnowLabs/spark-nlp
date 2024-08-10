@@ -103,7 +103,7 @@ class RoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = RoBertaForZeroShotClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
