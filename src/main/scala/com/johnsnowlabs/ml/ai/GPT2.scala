@@ -192,13 +192,15 @@ private[johnsnowlabs] class GPT2(
     // length of generated sentences / unfinished sentences
     var unfinishedSents = List.fill(decoderInputs.length)(1)
     var sentLengths = List.fill(decoderInputs.length)(maxOutputLength)
-      if (detectedEngine == TensorFlow.name) {
-        val tensorDecoder = new TensorResources()
-        val session = tensorflow.get.getTFSessionWithSignature(
-          configProtoBytes = configProtoBytes,
-          initAllTables = false)
+    var decoderOutputs: Array[Array[Array[Float]]] = Array.empty
+
         while (!stopDecoder) {
           val decoderInputLength = decoderInputs.head.length
+          if (detectedEngine == TensorFlow.name) {
+            val tensorDecoder = new TensorResources()
+            val session = tensorflow.get.getTFSessionWithSignature(
+              configProtoBytes = configProtoBytes,
+              initAllTables = false)
 
         val decoderInputBuffers =
           tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
@@ -227,12 +229,61 @@ private[johnsnowlabs] class GPT2(
           .fetch(outputLogitsKey)
 
         val decoderOuts = runner.run().asScala
-        val decoderOutputs = TensorResources
+         decoderOutputs = TensorResources
           .extractFloats(decoderOuts.head)
           .grouped(vocab_size)
           .toArray
           .grouped(decoderInputLength)
           .toArray
+
+            decoderOuts.foreach(_.close())
+            tensorDecoder.clearTensors()
+            tensorDecoder.clearSession(decoderOuts)
+            inputIdTensors.close()
+          }
+          else{
+            val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+            val decoderInputBuffers = decoderInputs
+              .map(tokenIds =>tokenIds.map(_.toLong))
+            val decoderPaddingBuffers =
+              decoderInputBuffers.map(x => x.map(xx => 1L))
+
+            val inputPositionIDsLong: Array[Array[Long]] =
+              decoderInputs.map { tokenIds =>
+                tokenIds.zipWithIndex.map { case (_, i) =>
+                  i.toLong
+                }
+              }
+
+            val decoderPositionIDs: OnnxTensor =
+              OnnxTensor.createTensor(env, inputPositionIDsLong)
+
+            val decoderInputTensors = OnnxTensor.createTensor(env, decoderInputBuffers)
+            val decoderPaddingMaskTensors = OnnxTensor.createTensor(env, decoderPaddingBuffers)
+
+            val decoderResults = session.run(mapAsJavaMap(
+              Map("input_ids" -> decoderInputTensors,
+                "attention_mask" -> decoderPaddingMaskTensors,
+                "position_ids" -> decoderPositionIDs)))
+
+            val decoderOuts = decoderResults
+              .get("logits")
+              .get()
+              .asInstanceOf[OnnxTensor]
+            decoderOutputs = decoderOuts.getFloatBuffer
+              .array()
+              .grouped(vocab_size)
+              .toArray
+              .grouped(decoderInputLength)
+              .toArray
+
+            decoderInputTensors.close()
+            decoderPaddingMaskTensors.close()
+            decoderPositionIDs.close()
+            decoderOuts.close()
+
+          }
         var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
           nextTokenLogits = nextTokenLogits.map(logits => {
@@ -322,7 +373,6 @@ private[johnsnowlabs] class GPT2(
           .map(x => {
             x._1 ++ Array(x._2)
           })
-        decoderOuts.foreach(_.close())
 
         curLen += 1
 
@@ -341,173 +391,15 @@ private[johnsnowlabs] class GPT2(
             unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
         }
 
-        tensorDecoder.clearTensors()
-        tensorDecoder.clearSession(decoderOuts)
-        inputIdTensors.close()
 
         // stop when there is a eos in each sentence, or if we exceed the maximum length
         //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
         stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
           || (decoderInputs.head.length > maxOutputLength))
-      }}
-      else {
-        while (!stopDecoder) {
-          val decoderInputLength = decoderInputs.head.length
+      }
+    decoderInputs}
 
-          val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
-        val decoderInputBuffers = decoderInputs
-          .map(tokenIds =>tokenIds.map(_.toLong))
-        val decoderPaddingBuffers =
-          decoderInputBuffers.map(x => x.map(xx => 1L))
-
-          val inputPositionIDsLong: Array[Array[Long]] =
-            decoderInputs.map { tokenIds =>
-              tokenIds.zipWithIndex.map { case (_, i) =>
-                i.toLong
-              }
-            }
-
-          val decoderPositionIDs: OnnxTensor =
-            OnnxTensor.createTensor(env, inputPositionIDsLong)
-
-        val decoderInputTensors = OnnxTensor.createTensor(env, decoderInputBuffers)
-        val decoderPaddingMaskTensors = OnnxTensor.createTensor(env, decoderPaddingBuffers)
-
-        val decoderResults = session.run(mapAsJavaMap(
-          Map("input_ids" -> decoderInputTensors,
-            "attention_mask" -> decoderPaddingMaskTensors,
-             "position_ids" -> decoderPositionIDs)))
-
-        val decoderOuts = decoderResults
-          .get("logits")
-          .get()
-          .asInstanceOf[OnnxTensor]
-        val decoderOutputs =decoderOuts.getFloatBuffer
-          .array()
-          .grouped(vocab_size)
-          .toArray
-          .grouped(decoderInputLength)
-          .toArray
-
-        var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
-
-        nextTokenLogits = nextTokenLogits.map(logits => {
-          logits.indices
-            .map(i => {
-              if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
-            })
-            .toArray
-        })
-
-          // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
-          if (repetitionPenalty != 1.0) {
-            nextTokenLogits =
-              createNextTokenLogitsPenalties(decoderInputs, nextTokenLogits, repetitionPenalty)
-          }
-
-          if (noRepeatNgramSize > 0) {
-            // calculate a list of banned tokens to prevent repetitively generating the same ngrams
-            // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
-            val bannedTokens =
-              calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
-            // create bannedTokens boolean mask
-            var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
-            for (bannedTokensSlice <- bannedTokens) {
-              bannedTokensIndicesMask = bannedTokensIndicesMask :+
-                (for (token <- 0 until vocab_size)
-                  yield if (bannedTokensSlice.contains(token)) true else false)
-            }
-            if (!bannedTokensIndicesMask.isEmpty) {
-              nextTokenLogits =
-                for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
-                  bannedTokensIndicesMask))
-                yield setTensorByIndicesToValue(
-                  nextTokenLogit,
-                  bannedTokensIndexMask,
-                  Float.NegativeInfinity)
-            }
-          }
-
-          // set eos token prob to zero if minLength is not reached
-          if (!eosTokenId.isNaN && curLen < minOutputLength) {
-            // create eosTokenId boolean mask
-            val isTokenLogit_eosToken =
-              for (token <- 0 until vocab_size)
-                yield if (token == eosTokenId) true else false
-
-            val eosTokenIndices_mask = Array.fill(batch_size)(isTokenLogit_eosToken)
-
-            nextTokenLogits =
-              for ((nextTokenLogit, bannedTokensIndex_mask) <- nextTokenLogits.zip(
-                eosTokenIndices_mask))
-              yield setTensorByIndicesToValue(
-                nextTokenLogit,
-                bannedTokensIndex_mask,
-                Float.NegativeInfinity)
-          }
-
-          var nextToken = Array.ofDim[Int](decoderInputs.length)
-
-          if (doSample) {
-            // Temperature (higher temperature => more likely to sample low probability tokens). May not be 0
-            if (temperature != 1.0 && temperature > 0)
-              nextTokenLogits =
-                for (nextTokenLogit <- nextTokenLogits)
-                  yield nextTokenLogit.map(_ / temperature.toFloat)
-            // Top-p/top-k filtering
-            nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
-            // Sample
-            nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
-          } else {
-            // Greedy decoding
-            nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
-          }
-          var tokensToAdd = Array.ofDim[Int](decoderInputs.length)
-
-          // update generations and finished sentences
-          if (!eosTokenId.isNaN)
-            // pad finished sentences if eos_token_id exist
-            tokensToAdd =
-              nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
-          else
-            tokensToAdd = nextToken
-
-          decoderInputs = decoderInputs
-            .zip(tokensToAdd)
-            .map(x => {
-              x._1 ++ Array(x._2)
-            })
-
-          curLen += 1
-
-          if (!eosTokenId.isNaN) {
-            val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
-            // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
-            val isSentsUnfinishedAndTokenToAddIsEos =
-              unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
-
-            sentLengths = sentLengths
-              .zip(isSentsUnfinishedAndTokenToAddIsEos)
-              .map(x => x._1 * (1 - x._2) + curLen * x._2)
-
-            // unfinishedSents is set to zero if eos in sentence
-            unfinishedSents =
-              unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
-          }
-
-          decoderInputTensors.close()
-          decoderPaddingMaskTensors.close()
-          decoderPositionIDs.close()
-          decoderOuts.close()
-
-          stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
-            || (decoderInputs.head.length > maxOutputLength))
-
-        }
-    }
-
-    decoderInputs }
 
 
   def createNextTokenLogitsPenalties(
