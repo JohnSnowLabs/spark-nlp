@@ -148,7 +148,7 @@ class HubertForCTC(override val uid: String) extends Wav2Vec2ForCTC(uid) {
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_hubert_ctc",
       HubertForCTC.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -181,7 +181,7 @@ trait ReadHubertForAudioDLModel extends ReadTensorflowModel {
   def readTensorflow(instance: HubertForCTC, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_hubert_ctc_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tf), None)
   }
 
   addReader(readTensorflow)
@@ -227,7 +227,7 @@ trait ReadHubertForAudioDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
