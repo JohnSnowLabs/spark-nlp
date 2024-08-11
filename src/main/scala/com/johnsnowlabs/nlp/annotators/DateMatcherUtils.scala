@@ -275,6 +275,28 @@ trait DateMatcherUtils extends Params {
     */
   def getRelaxedFactoryStrategy: String = $(relaxedFactoryStrategy)
 
+  /** Whether to aggressively attempt to find date matches, even in ambiguous or less common
+    * formats (Default: `false`)
+    *
+    * @group param
+    */
+  val aggressiveMatching: BooleanParam = new BooleanParam(
+    this,
+    "aggressiveMatching",
+    "Whether to aggressively attempt to find date matches, even in ambiguous or less common formats")
+
+  /** To set aggressive matching Strategy
+    *
+    * @group param
+    */
+  def setAggressiveMatching(value: Boolean): this.type = set(aggressiveMatching, value)
+
+  /** To get aggressive matching Strategy
+    *
+    * @group param
+    */
+  def getAggressiveMatching: Boolean = $(aggressiveMatching)
+
   setDefault(
     inputFormats -> Array(""),
     outputFormat -> "yyyy/MM/dd",
@@ -284,7 +306,8 @@ trait DateMatcherUtils extends Params {
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
     sourceLanguage -> "en",
-    relaxedFactoryStrategy -> MatchStrategy.MATCH_FIRST.toString)
+    relaxedFactoryStrategy -> MatchStrategy.MATCH_FIRST.toString,
+    aggressiveMatching -> false)
 
   protected val formalFactoryInputFormats = new RuleFactory(MatchStrategy.MATCH_ALL)
 

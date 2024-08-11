@@ -194,7 +194,9 @@ class MultiDateMatcher(override val uid: String)
       else
         runDateExtractorChain(_text)
 
-    possibleDates
+    if (getAggressiveMatching && possibleDates.isEmpty) {
+      runDateExtractorChain(_text)
+    } else possibleDates
   }
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {

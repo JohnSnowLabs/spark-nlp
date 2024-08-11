@@ -72,6 +72,11 @@ class DateMatcherUtils(Params):
                                    "Matched Strategy to searches relaxed dates",
                                    typeConverter=TypeConverters.toString)
 
+    aggressiveMatching = Param(Params._dummy(),
+                               "aggressiveMatching",
+                               "Whether to aggressively attempt to find date matches, even in ambiguous or less common formats",
+                               typeConverter=TypeConverters.toBoolean)
+
     def setInputFormats(self, value):
         """Sets input formats patterns to match in the documents.
 
@@ -176,6 +181,16 @@ class DateMatcherUtils(Params):
             Matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy
         """
         return self._set(relaxedFactoryStrategy=matchStrategy)
+
+    def setAggressiveMatching(self, value):
+        """ Sets whether to aggressively attempt to find date matches, even in ambiguous or less common formats
+
+        Parameters
+        ----------
+        aggressiveMatching : Boolean
+            Whether to aggressively attempt to find date matches, even in ambiguous or less common formats
+        """
+        return self._set(aggressiveMatching=value)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
