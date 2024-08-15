@@ -301,7 +301,7 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino = False):
         """Loads a locally saved model.
 
         Parameters
@@ -317,7 +317,7 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _LLAMA2Loader
-        jModel = _LLAMA2Loader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _LLAMA2Loader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return LLAMA2Transformer(java_model=jModel)
 
     @staticmethod

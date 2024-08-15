@@ -181,7 +181,7 @@ class RoBertaEmbeddings(AnnotatorModel,
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_openvino=False):
         """Loads a locally saved model.
 
         Parameters
@@ -190,6 +190,8 @@ class RoBertaEmbeddings(AnnotatorModel,
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+        use_openvino: bool
+            Use OpenVINO backend
 
         Returns
         -------
@@ -197,7 +199,7 @@ class RoBertaEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.internal import _RoBertaLoader
-        jModel = _RoBertaLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _RoBertaLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return RoBertaEmbeddings(java_model=jModel)
 
     @staticmethod

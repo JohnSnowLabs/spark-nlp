@@ -22,6 +22,7 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import java.io.File
 import java.nio.file.Paths
 import scala.io.Source
+import scala.util.Random
 
 object LoadExternalModel {
 
@@ -50,6 +51,24 @@ object LoadExternalModel {
        |├── encoder_model.onnx
        |├── decoder_model.onnx
        |├── decoder_with_past_model.onnx
+       |
+       |A typical imported OpenVINO model has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── openvino_model.xml
+       |├── openvino_model.bin
+       |
+       |A typical imported OpenVINO model for Seq2Seq has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── openvino_encoder_model.xml
+       |├── openvino_encoder_model.bin
+       |├── openvino_decoder_model.xml
+       |├── openvino_decoder_model.bin
+       |├── openvino_decoder_with_past_model.xml
+       |├── openvino_decoder_with_past_model.bin
        |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
@@ -84,6 +103,25 @@ object LoadExternalModel {
 
   }
 
+  def isOpenvinoModel(modelPath: String, isEncoderDecoder: Boolean): Boolean = {
+    if (isEncoderDecoder) {
+      val ovEncoderModelXml = new File(modelPath, s"${Openvino.encoderModel}.xml")
+      val ovEncoderModelBin = new File(modelPath, s"${Openvino.encoderModel}.bin")
+      val ovDecoderModelXml = new File(modelPath, s"${Openvino.decoderModel}.xml")
+      val ovDecoderModelBin = new File(modelPath, s"${Openvino.decoderModel}.bin")
+      val ovDecoderModelWithPastXml = new File(modelPath, s"${Openvino.decoderModelWithPast}.xml")
+      val ovDecoderModelWithPastBin = new File(modelPath, s"${Openvino.decoderModelWithPast}.bin")
+
+      ovEncoderModelXml.exists() && ovEncoderModelBin.exists() &&
+      ovDecoderModelXml.exists() && ovDecoderModelBin.exists() &&
+      ovDecoderModelWithPastXml.exists() && ovDecoderModelWithPastBin.exists()
+    } else {
+      val modelXml = new File(modelPath, s"${Openvino.ovModel}.xml")
+      val modelBin = new File(modelPath, s"${Openvino.ovModel}.bin")
+      modelXml.exists() && modelBin.exists()
+    }
+  }
+
   def detectEngine(
       modelPath: String,
       isEncoderDecoder: Boolean = false,
@@ -107,12 +145,17 @@ object LoadExternalModel {
     /*ONNX required model's name*/
     val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast, isDecoder)
 
+    /*Openvino required model files*/
+    val openvinoModelExist = isOpenvinoModel(modelPath, isEncoderDecoder)
+
     if (tfSavedModelExist) {
       TensorFlow.name
     } else if (onnxModelExist) {
       ONNX.name
+    } else if (openvinoModelExist) {
+      Openvino.name
     } else {
-      require(tfSavedModelExist || onnxModelExist, notSupportedEngineError)
+      require(tfSavedModelExist || onnxModelExist || openvinoModelExist, notSupportedEngineError)
       Unknown.name
     }
 
@@ -184,6 +227,18 @@ object LoadExternalModel {
     val f = new File(filePath, fileName)
     require(f.exists(), s"File $fileName not found in folder $filePath")
     f
+  }
+
+  /** Generates a random alphanumeric string of a given length.
+    *
+    * @param n
+    *   the length of the generated string
+    * @return
+    *   a random alphanumeric string of length n
+    */
+  def generateRandomString(n: Int): String = {
+    val alphanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    (1 to n).map(_ => alphanumeric(Random.nextInt(alphanumeric.length))).mkString
   }
 
 }

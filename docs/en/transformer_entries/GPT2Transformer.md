@@ -32,7 +32,7 @@ For extended examples of usage, see [GPT2TestSpec](https://github.com/JohnSnowLa
 
 **Sources:**
  - [Language Models are Unsupervised Multitask Learners](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
- - https://github.com/openai/gpt-2
+ - [https://github.com/openai/gpt-2](https://github.com/openai/gpt-2)
 
 **Paper Abstract:**
 

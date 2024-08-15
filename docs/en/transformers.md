@@ -47,6 +47,7 @@ We have extended support for `HuggingFace` 🤗 and `TF Hub` exported models sin
 - Under development ❎
 - Not supported ❌
 
+{:.table-model-big}
 | Spark NLP                                     | TF Hub | HuggingFace | ONNX | Model Architecture                                                                                                                                         |
 | :-------------------------------------------- | :----- | :---------- | :--- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AlbertEmbeddings                              | ✅     | ✅          | ✅   | ALBERT                                                                                                                                                     |
@@ -118,6 +119,7 @@ We have extended support for `HuggingFace` 🤗 and `TF Hub` exported models sin
 
 #### HuggingFace, Optimum, PyTorch, and ONNX Runtime to Spark NLP (ONNX)
 
+{:.table-model-big}
 | Spark NLP                           | Notebooks                                                                                                                                                                                                                            | Colab                                                                                                                                                                                                                                                               |
 | :---------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | AlbertForQuestionAnswering          | [HuggingFace ONNX in Spark NLP AlbertForQuestionAnswering](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_AlbertForQuestionAnswering.ipynb)                   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_AlbertForQuestionAnswering.ipynb)          |
@@ -149,6 +151,7 @@ We have extended support for `HuggingFace` 🤗 and `TF Hub` exported models sin
 
 #### HuggingFace to Spark NLP (TensorFlow)
 
+{:.table-model-big}
 | Spark NLP                           | Notebooks                                                                                                                                                                                                                           | Colab                                                                                                                                                                                                                                                                 |
 | :---------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AlbertEmbeddings                    | [HuggingFace in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb)                                                           | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb)                              |
@@ -198,6 +201,7 @@ We have extended support for `HuggingFace` 🤗 and `TF Hub` exported models sin
 
 #### TF Hub to Spark NLP
 
+{:.table-model-big}
 | Spark NLP              | TF Hub Notebooks                                                                                                                                                                  | Colab                                                                                                                                                                                                                                          |
 | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AlbertEmbeddings       | [TF Hub in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)                 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)          |

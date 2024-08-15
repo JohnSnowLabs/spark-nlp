@@ -21,7 +21,7 @@ The default model is `"spanbert_base_coref"`, if no name is provided. For availa
 models please see the [Models Hub](https://sparknlp.org/models).
 
 **References:**
-https://github.com/mandarjoshi90/coref
+[https://github.com/mandarjoshi90/coref](https://github.com/mandarjoshi90/coref)
 {%- endcapture -%}
 
 {%- capture input_anno -%}

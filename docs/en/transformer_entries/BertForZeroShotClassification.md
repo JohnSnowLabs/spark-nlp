@@ -28,7 +28,7 @@ For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) and to see more extended
 examples, see
 [BertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala).
 {%- endcapture -%}

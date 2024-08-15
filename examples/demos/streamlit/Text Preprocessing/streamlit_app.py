@@ -17,6 +17,7 @@ from pyspark.sql.types import StringType, IntegerType
     
 spark = sparknlp.start()
 
+@st.cache_resource
 def create_pipeline(model, language):
 
     documentAssembler = DocumentAssembler()\

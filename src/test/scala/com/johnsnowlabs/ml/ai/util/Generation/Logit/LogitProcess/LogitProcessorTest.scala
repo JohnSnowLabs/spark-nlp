@@ -69,4 +69,27 @@ class LogitProcessorTest extends AnyFlatSpec {
     assert(forcedScoresMultiple(1) == 0)
   }
 
+  "MinlengthLogitProcessor" should "process correctly" taggedAs FastTest in {
+
+    val vocabSize = 32
+    val scoresBatches: Array[Array[Float]] = Array(Array.fill(vocabSize)(1.0f))
+
+    val minLength = 2
+    val minLengthLogitProcessor = new MinLengthLogitProcessor(
+      eosTokenId = vocabSize - 1,
+      minLength = minLength,
+      vocabSize = vocabSize)
+
+    // if the min length is not reached, the eos token should be suppressed
+    val processedScores =
+      minLengthLogitProcessor.call(Seq.empty, scoresBatches, minLength - 1).head
+
+    assert(processedScores(vocabSize - 1) == Float.NegativeInfinity)
+
+    // if the min length is reached, the eos token should not be suppressed
+    val processedScoresAfter =
+      minLengthLogitProcessor.call(Seq.empty, scoresBatches, minLength).head
+
+    assert(processedScoresAfter(vocabSize - 1) == 1.0f)
+  }
 }

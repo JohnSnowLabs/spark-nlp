@@ -10,6 +10,7 @@ All official Albert releases by google in TF-HUB are supported with this Albert 
 
 **Ported TF-Hub Models:**
 
+{:.table-model-big}
 | Spark NLP Model            | TF-Hub Model                                                | Model Properties                                       |
 | -------------------------- | ----------------------------------------------------------- | ------------------------------------------------------ |
 | `"albert_base_uncased"`    | [albert_base](https://tfhub.dev/google/albert_base/3)       |  768-embed-dim,   12-layer,  12-heads, 12M parameters  |
@@ -39,9 +40,9 @@ and the [AlbertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blo
 
 [ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS](https://arxiv.org/pdf/1909.11942.pdf)
 
-https://github.com/google-research/ALBERT
+[https://github.com/google-research/ALBERT](https://github.com/google-research/ALBERT)
 
-https://tfhub.dev/s?q=albert
+[https://tfhub.dev/s?q=albert](https://tfhub.dev/s?q=albert)
 
 **Paper abstract:**
 

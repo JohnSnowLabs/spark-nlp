@@ -296,13 +296,7 @@ trait ReadMPNetForQuestionAnsweringDLModel extends ReadOnnxModel {
     instance.getEngine match {
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_mpnet_question_answering_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, "mpnet_qa_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
         throw new NotImplementedError("Tensorflow models are not supported.")
@@ -328,7 +322,8 @@ trait ReadMPNetForQuestionAnsweringDLModel extends ReadOnnxModel {
       case TensorFlow.name =>
         throw new NotImplementedError("Tensorflow models are not supported.")
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, Some(onnxWrapper))
       case _ =>
