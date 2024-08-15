@@ -20,32 +20,36 @@ import scala.collection.mutable.ArrayBuffer
 class TopKLogitWarper(
     val k: Int,
     val filterValue: Float = Float.NegativeInfinity,
-    val minTokensToKeep: Int = 1)
+    val minTokensToKeep: Int = 100)
     extends LogitWarper {
   override def call(
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    var logitsUpd = scores
-    val logitsShape = Array(scores.length, scores(0).length)
+    val logitsUpd = scores.map(_.clone()) // Deep copy of the scores
+
     if (k > 0) {
-      val topKup = k.max(minTokensToKeep).min(logitsShape.last) // Safety check
+      val logitsShape = Array(scores.length, scores.head.length)
+      val effectiveTopK = k.max(minTokensToKeep).min(logitsShape.last) // Safety check
 
-      /** Remove all tokens with a probability less than the last token of the top-k */
-
-      val topKLogits = new ArrayBuffer[Array[Float]]()
-      for (logits <- scores) {
-        val topKIndices = getTopKIndices(logits, topKup)
+      for ((logits, i) <- scores.zipWithIndex) {
+        val topKIndices = getTopKIndices(logits, effectiveTopK)
         val maskedValues = maskNotTopKValues(logits, topKIndices)
-        topKLogits += maskedValues
+        logitsUpd(i) = maskedValues
       }
-      topKLogits.toArray
     }
+
     logitsUpd
   }
 
   private def getTopKIndices(logits: Array[Float], k: Int): Array[Int] = {
-    logits.indices.sortBy(logits(_)).reverse.take(k).toArray
+    // ignore float.NegativeInfinity values
+    val topKIndices = new ArrayBuffer[Int]()
+    val sortedLogits = logits.zipWithIndex.filter(_._1 != filterValue).sortBy(-_._1)
+    for ((_, i) <- sortedLogits.take(k)) {
+      topKIndices += i
+    }
+    topKIndices.toArray
   }
 
   private def maskNotTopKValues(logits: Array[Float], topKIndices: Array[Int]): Array[Float] = {

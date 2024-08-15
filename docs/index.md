@@ -362,7 +362,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://u-paris.fr/wp-content/uploads/2019/03/Universite_Paris_logo_horizontal.jpg
+            src: https://u-paris.fr/wp-content/uploads/2022/03/Universite_Paris-Cite-logo.jpeg
             url: https://u-paris.fr/en/
             style: ""
             is_row: true

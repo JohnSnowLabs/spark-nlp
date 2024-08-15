@@ -28,7 +28,7 @@ and the [T5TestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/t
 **Sources:**
  - [Exploring Transfer Learning with T5: the Text-To-Text Transfer Transformer](https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html)
  - [Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer](https://arxiv.org/abs/1910.10683)
- - https://github.com/google-research/text-to-text-transfer-transformer
+ - [https://github.com/google-research/text-to-text-transfer-transformer](https://github.com/google-research/text-to-text-transfer-transformer)
 
 **Paper Abstract:**
 

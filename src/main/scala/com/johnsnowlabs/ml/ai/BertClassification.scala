@@ -66,6 +66,14 @@ private[johnsnowlabs] class BertClassification(
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
+
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
@@ -419,11 +427,12 @@ private[johnsnowlabs] class BertClassification(
       activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
-    val batchLength = batch.length
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
 
     val rawScores = detectedEngine match {
-      case ONNX.name => computeZeroShotLogitsWithONNX(batch, maxSentenceLength)
-      case _ => computeZeroShotLogitsWithTF(batch, maxSentenceLength)
+      case ONNX.name => computeZeroShotLogitsWithONNX(paddedBatch, maxSentenceLength)
+      case _ => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
     }
 
     val dim = rawScores.length / batchLength

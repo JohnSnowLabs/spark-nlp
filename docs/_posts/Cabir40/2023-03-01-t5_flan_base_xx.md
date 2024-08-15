@@ -50,8 +50,8 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-.setInputCols("text")
-.setOutputCols("document")
+.setInputCol("text")
+.setOutputCol("document")
 
 val t5 = T5Transformer.pretrained("t5_flan_base","xx") 
 .setInputCols("document")

@@ -21,46 +21,52 @@ class TopPLogitWarper(val p: Double, val minTokensToKeep: Int = 1) extends Logit
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    var scoresUpd = scores
-    val scoresShape = Array(scores.length, scores(0).length)
-    if (this.p < 1.0) {
-      val (sortedscores, sortedIndices) = scores(0).zipWithIndex.sorted.reverse.unzip
+    val logitsUpd = scores.map(_.clone()) // Deep copy of the scores
 
-      val cumulativeProbs = this.scanLeft(this.softmax(sortedscores))(0.0)(_ + _).drop(1)
+    if (p < 1.0) {
+      val scoresFiltered = scores // Filter out infinite values
+      val scoresSoftmaxed = scoresFiltered.map(softmax) // Softmax the scores
 
-      /** Remove tokens with cumulative probability above the threshold (token with 0 are kept) */
-      var sortedIndicesToRemove =
-        for (prob <- cumulativeProbs)
-          yield if (prob > this.p) true else false
-
-      if (minTokensToKeep > 1) {
-
-        /** Keep at least minTokensToKeep (set to minTokensToKeep-1 because we add the first one
-          * below)
-          */
-        sortedIndicesToRemove = List.fill(sortedIndicesToRemove.take(minTokensToKeep).length)(
-          false) ++ sortedIndicesToRemove.drop(minTokensToKeep)
+      for ((logits, i) <- scoresSoftmaxed.zipWithIndex) {
+        val topPIndices = getTopPIndices(logits, p)
+        // Mask the values that are not in the top-p
+        val maskedValues = maskNotTopPValues(logitsUpd(i), topPIndices)
+        logitsUpd(i) = maskedValues
       }
-
-      /** Shift the indices to the right to keep also the first token above the threshold */
-      sortedIndicesToRemove = sortedIndicesToRemove.takeRight(1) ++ sortedIndicesToRemove
-        .dropRight(1)
-      sortedIndicesToRemove =
-        List.fill(sortedIndicesToRemove.take(1).length)(false) ++ sortedIndicesToRemove
-          .drop(1)
-
-      /** scatter sorted tensors to original indexing */
-      val indicesToRemove =
-        this.scatterValuesOnBatchIndices(sortedIndicesToRemove.toList, sortedIndices)
-      scoresUpd =
-        for ((nextTokenLogit, indexToRemove) <- scores.zip(
-            IndexedSeq.fill(scores.length)(indicesToRemove)))
-          yield setTensorByIndicesToValue(
-            nextTokenLogit,
-            indexToRemove.toIndexedSeq,
-            Float.NegativeInfinity)
     }
-    scoresUpd
+
+    logitsUpd
   }
 
+  private def getTopPIndices(logits: Array[Float], p: Double): Array[Int] = {
+    // sort the logits in descending order
+    var sortedLogits = logits.zipWithIndex.sortBy(-_._1)
+
+    // filter out the negative infinity values
+    sortedLogits = sortedLogits.filter(_._1 > 0.0)
+
+    // cumulative sum of the probabilities
+    val cumSum = sortedLogits.map(_._1).scanLeft(0.0)(_ + _)
+
+    // find the index of the last element that is less than p
+    val lastIdx = cumSum.indexWhere(_ >= p)
+    // if the last index is less than the minimum tokens to keep, return the top p tokens
+
+    if (lastIdx < minTokensToKeep) {
+      sortedLogits.take(math.ceil(p * logits.length).toInt).map(_._2)
+    } else {
+      sortedLogits.take(lastIdx).map(_._2)
+    }
+
+  }
+
+  private def maskNotTopPValues(logits: Array[Float], topPIndices: Array[Int]): Array[Float] = {
+    val maskedValues = logits.clone()
+    for (i <- logits.indices) {
+      if (!topPIndices.contains(i)) {
+        maskedValues(i) = Float.NegativeInfinity
+      }
+    }
+    maskedValues
+  }
 }

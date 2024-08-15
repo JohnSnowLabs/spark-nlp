@@ -43,6 +43,8 @@ class BeamSearchScorer(
   override def getNumBeams: Int = numBeams
   private val done: Array[Boolean] = Array.fill(batchSize)(false)
 
+  override def getDone: Array[Boolean] = done
+
   override def process(
       inputIds: Seq[Array[Int]],
       nextScores: Seq[Array[Float]],
@@ -51,7 +53,8 @@ class BeamSearchScorer(
       padTokenId: Int,
       eosTokenId: Int,
       beamIndices: Seq[Array[Int]],
-      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
+      currentLength: Int,
+      stopTokenIds: Array[Int]): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
 //    val currentLength = inputIds.length
     val batchSize = this.beamHypothesesSeq.length
     val nextBeamScores = Array.ofDim[Float](batchSize, this.beamSize)
@@ -75,7 +78,8 @@ class BeamSearchScorer(
           val nextIndex = nextIndices(batchIdx)(beamTokenRank)
           val batchBeamIdx = batchIdx * this.beamSize + nextIndex
 
-          if (eosTokenId == nextToken) {
+          // either eos token or stop tokens are found
+          if (eosTokenId == nextToken || stopTokenIds.contains(nextToken)) {
             if (beamTokenRank >= this.beamSize) {
               break
             }

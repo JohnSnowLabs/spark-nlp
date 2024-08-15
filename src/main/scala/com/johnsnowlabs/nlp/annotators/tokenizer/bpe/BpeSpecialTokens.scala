@@ -145,6 +145,14 @@ private[johnsnowlabs] object SpecialTokens {
           unkTokenString = "<|endoftext|>",
           maskTokenString = "<|endoftext|>",
           padTokenString = "<|endoftext|>")
+      case "phi2" =>
+        SpecialTokens(
+          vocab,
+          startTokenString = "<|endoftext|>",
+          endTokenString = "<|endoftext|>",
+          unkTokenString = "<|endoftext|>",
+          maskTokenString = "<|endoftext|>",
+          padTokenString = "<|endoftext|>")
     }
 }
 

@@ -420,7 +420,7 @@ trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with Re
         throw new Exception("Tensorflow is currently not supported by this annotator.")
       case ONNX.name =>
         val onnxWrapper =
-          OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
       case _ =>

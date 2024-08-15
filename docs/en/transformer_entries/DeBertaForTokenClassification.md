@@ -24,7 +24,7 @@ and the
 [DeBertaForTokenClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForTokenClassificationTestSpec.scala).
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
 see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
