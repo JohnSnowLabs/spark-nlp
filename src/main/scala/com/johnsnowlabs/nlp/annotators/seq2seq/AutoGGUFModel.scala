@@ -173,11 +173,25 @@ class AutoGGUFModel(override val uid: String)
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
       val annotationsText = annotations.map(_.result)
-      val completed_texts = model.requestBatchCompletion(annotationsText.toArray, inferenceParams)
+
+      val (completedTexts: Array[String], metadata: Map[String, String]) =
+        try {
+          (model.requestBatchCompletion(annotationsText.toArray, inferenceParams), Map.empty)
+        } catch {
+          case e: Exception =>
+            logger.error("Error in llama.cpp batch completion", e)
+            (Array[String](), Map("exception" -> e.getMessage))
+        }
 
       val result: Seq[Seq[Annotation]] =
-        annotations.zip(completed_texts).map { case (_, text) =>
-          Seq(new Annotation(outputAnnotatorType, 0, text.length - 1, text, Map.empty))
+        annotations.zip(completedTexts).map { case (annotation, text) =>
+          Seq(
+            new Annotation(
+              outputAnnotatorType,
+              0,
+              text.length - 1,
+              text,
+              annotation.metadata ++ metadata))
         }
       result
     } else Seq(Seq.empty[Annotation])

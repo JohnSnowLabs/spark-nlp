@@ -1,21 +1,18 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
-
-import java.lang.management.ManagementFactory
 
 class AutoGGUFModelTest extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
   behavior of "AutoGGUFModelTest"
-
-  lazy val modelPath = "models/codellama-7b.Q2_K.gguf"
 
   // Set Spark Debug level
   ResourceHelper.spark.sparkContext.setLogLevel("INFO")
@@ -25,7 +22,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     .setOutputCol("document")
 
   lazy val model = AutoGGUFModel
-    .loadSavedModel(modelPath, ResourceHelper.spark)
+    .pretrained()
     .setInputCols("document")
     .setOutputCol("completions")
     .setBatchSize(4)
@@ -45,26 +42,25 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 
+  def assertAnnotationsNonEmpty(resultDf: DataFrame): Unit = {
+    Annotation
+      .collect(resultDf, "completions")
+      .foreach(annotations => {
+        print(annotations.head)
+        assert(annotations.head.result.nonEmpty)
+      })
+  }
+
   it should "create completions" taggedAs SlowTest in {
     val data = Seq("Hello, I am a").toDF("text")
     val result = pipeline.fit(data).transform(data)
-    result.select("completions").show(truncate = false)
+    assertAnnotationsNonEmpty(result)
   }
 
   it should "create batch completions" taggedAs SlowTest in {
-    val jvmName = ManagementFactory.getRuntimeMXBean.getName
-    val pid = jvmName.split("@")(0)
-    println(s"Running in PID $pid")
-
     val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
-
-    val spark = ResourceHelper.getActiveSparkSession
-    println(spark)
-    println(SparkSession.getActiveSession)
-    ResourceHelper.spark.sparkContext.setLogLevel("INFO")
-
     val result = pipeline.fit(data).transform(data)
-    result.select("completions").show(truncate = false)
+    assertAnnotationsNonEmpty(result)
   }
 
   it should "be serializable" taggedAs SlowTest in {
@@ -91,9 +87,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
   }
 
   it should "accept all parameters that are settable" taggedAs SlowTest in {
-    val jvmName = ManagementFactory.getRuntimeMXBean.getName
-    val pid = jvmName.split("@")(0)
-    println(s"Running in PID $pid")
     // Model Parameters
     model.setNThreads(8)
     model.setNThreadsDraft(8)
