@@ -212,7 +212,6 @@ private[johnsnowlabs] class Phi2(
         maxInputLength,
         stopTokenIds)
 
-      println(spIds.map(_.mkString(" ")).mkString("\n"))
       decode(spIds)
 
     }
