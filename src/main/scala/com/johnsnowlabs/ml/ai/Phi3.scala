@@ -26,31 +26,25 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Phi2Tokenizer}
 import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
 
-private[johnsnowlabs] class Phi2(
+private[johnsnowlabs] class Phi3(
     val onnxWrappers: Option[DecoderWrappers],
     val openvinoWrapper: Option[OpenvinoWrapper],
-    merges: Map[(String, String), Int],
-    vocabulary: Map[String, Int],
+    val spp: SentencePieceWrapper,
     generationConfig: GenerationConfig)
     extends Serializable
     with Generate {
 
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
+
   val detectedEngine: String =
     if (onnxWrappers.isDefined) ONNX.name
     else if (openvinoWrapper.isDefined) Openvino.name
     else ONNX.name
-  private var nextPositionId: Option[Array[Long]] = None
-  val bpeTokenizer: Phi2Tokenizer = BpeTokenizer
-    .forModel("phi2", merges = merges, vocab = vocabulary, padWithSequenceTokens = false)
-    .asInstanceOf[Phi2Tokenizer]
 
   private val GenerationConfig(
     bosTokenId: Int,
@@ -62,6 +56,8 @@ private[johnsnowlabs] class Phi2(
     forcedDecoderIds) =
     generationConfig
 
+  private val pieceSize = spp.getSppModel.getPieceSize
+
   /** Decode a sequence of sentences
     * @param sentences
     *   Sequence of sentences
@@ -69,7 +65,13 @@ private[johnsnowlabs] class Phi2(
     *   Sequence of decoded sentences
     */
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
-    sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
+    sentences.map { s =>
+      var filteredPieceIds = s.filter(x => x <= pieceSize)
+      // filter out special tokens before decoding ( > 32000)
+      filteredPieceIds = filteredPieceIds.filter(x => x < 32000)
+
+      spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt): _*)
+    }
   }
 
   /** Encode a sequence of sentences
@@ -79,15 +81,10 @@ private[johnsnowlabs] class Phi2(
     *   Sequence of encoded sentences
     */
   def encode(sentences: Seq[Annotation]): Seq[Array[Int]] = {
-    SentenceSplit
-      .unpack(sentences)
-      .map(s => {
-        val sentWithTask = s
-        bpeTokenizer
-          .tokenize(sentWithTask)
-          .map(bpeTokenizer.encode)
-          .flatMap(_.map(_.pieceId))
-      })
+    sentences.map(s => {
+      val sentWithTask = s.result
+      Array(bosTokenId) ++ spp.getSppModel.encodeAsIds(sentWithTask)
+    })
   }
 
   def tag(
@@ -130,6 +127,7 @@ private[johnsnowlabs] class Phi2(
 //        expandedDecoderInputsVals.toArray,
 //        (encoderSession, env),
 //        maxOutputLength)
+
     val (decoderEncoderStateTensors, encoderAttentionMaskTensors, session) =
       detectedEngine match {
         case ONNX.name =>
@@ -147,6 +145,7 @@ private[johnsnowlabs] class Phi2(
       case ONNX.name => None
       case Openvino.name => Some(openvinoWrapper.get.getCompiledModel().create_infer_request())
     }
+
     // output with beam search
     val modelOutputs = generate(
       batch,
@@ -169,11 +168,10 @@ private[johnsnowlabs] class Phi2(
       randomSeed,
       ignoreTokenIdsInt,
       session,
-      applySoftmax = false,
+      applySoftmax = true,
       ovInferRequest = ovInferRequest,
       stopTokenIds = stopTokenIds)
 
-//    decoderOutputs
     modelOutputs
   }
 
@@ -212,7 +210,6 @@ private[johnsnowlabs] class Phi2(
         maxInputLength,
         stopTokenIds)
 
-      println(spIds.map(_.mkString(" ")).mkString("\n"))
       decode(spIds)
 
     }
@@ -280,53 +277,63 @@ private[johnsnowlabs] class Phi2(
         decoderOutputs
       case Openvino.name =>
         val decoderOutputs =
-          getDecoderOutputsOv(decoderInputIds.toArray, ovInferRequest.get)
+          getDecoderOutputsOv(
+            encoderInputIds.toArray,
+            decoderInputIds.toArray,
+            ovInferRequest.get)
         decoderOutputs
     }
   }
 
   private def getDecoderOutputsOv(
-      inputIds: Array[Array[Int]],
+      encoderInputIds: Array[Array[Int]],
+      decoderInputIds: Array[Array[Int]],
       inferRequest: InferRequest): (Array[Array[Float]]) = {
     val (inputIdsLong, inputPositionIDsLong): (Array[Long], Array[Long]) =
-      if (nextPositionId.isDefined) {
-        val inpIdsLong = inputIds.map { tokenIds => tokenIds.last.toLong }
-        (inpIdsLong, nextPositionId.get)
-      } else {
-        val inpIdsLong = inputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }
-        val posIdsLong = inputIds.flatMap { tokenIds =>
+      if (encoderInputIds.head.length == decoderInputIds.head.length) {
+        // First pass
+        val inpIdsLong = decoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }
+        val posIdsLong = decoderInputIds.flatMap { tokenIds =>
           tokenIds.zipWithIndex.map { case (_, i) =>
             i.toLong
           }
         }
         (inpIdsLong, posIdsLong)
+      } else {
+        // Subsequent passes
+        val inpIdsLong = decoderInputIds.map { tokenIds => tokenIds.last.toLong }
+        val posIdsLong = decoderInputIds.map { tokenIds =>
+          tokenIds.zipWithIndex.map { case (_, i) =>
+            i.toLong
+          }.last
+        }
+        (inpIdsLong, posIdsLong)
       }
     val attentionMask: Array[Long] =
-      inputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }
+      decoderInputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }
 
-    val batchSize: Int = inputIds.length
+    val batchSize: Int = decoderInputIds.length
     val beamIdx: Array[Int] = new Array[Int](batchSize)
     val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
 
     val inputIdsLongTensor: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(shape, inputIdsLong)
     val decoderAttentionMask: org.intel.openvino.Tensor =
-      new org.intel.openvino.Tensor(Array(batchSize, inputIds.head.length), attentionMask)
+      new org.intel.openvino.Tensor(Array(batchSize, decoderInputIds.head.length), attentionMask)
     val decoderPositionIDs: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(shape, inputPositionIDsLong)
     val beamIdxTensor: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(Array(batchSize), beamIdx)
 
-    inferRequest.set_tensor(OpenVinoSignatures.decoderInputIDs, inputIdsLongTensor)
-    inferRequest.set_tensor(OpenVinoSignatures.decoderAttentionMask, decoderAttentionMask)
-    inferRequest.set_tensor(OpenVinoSignatures.decoderPositionIDs, decoderPositionIDs)
-    inferRequest.set_tensor(OpenVinoSignatures.decoderBeamIdx, beamIdxTensor)
+    inferRequest.set_tensor("input_ids", inputIdsLongTensor)
+    inferRequest.set_tensor("attention_mask", decoderAttentionMask)
+    inferRequest.set_tensor("position_ids", decoderPositionIDs)
+    inferRequest.set_tensor("beam_idx", beamIdxTensor)
 
     inferRequest.infer()
 
-    val result = inferRequest.get_tensor(OpenVinoSignatures.decoderOutput)
+    val result = inferRequest.get_tensor("logits")
     val logitsRaw = result.data()
-    nextPositionId = Some(inputIds.map(tokenIds => tokenIds.length.toLong))
 
     val sequenceLength = inputIdsLong.length / batchSize
     val decoderOutputs = (0 until batchSize).map(i => {
@@ -337,6 +344,7 @@ private[johnsnowlabs] class Phi2(
     })
     decoderOutputs.toArray
   }
+
   private def getDecoderOutputs(
       inputIds: Array[Array[Int]],
       onnxSession: (OrtSession, OrtEnvironment)): (Array[Array[Float]]) = {
@@ -441,19 +449,4 @@ private[johnsnowlabs] class Phi2(
       (0 until 32).flatMap(i => Seq(s"present.$i.key", s"present.$i.value")).toArray
   }
 
-  private object OpenVinoSignatures {
-    val encoderInputIDs: String = "input_ids"
-    val encoderAttentionMask: String = "attention_mask"
-
-    val encoderOutput: String = "last_hidden_state"
-
-    val decoderInputIDs: String = "input_ids"
-    val decoderEncoderAttentionMask: String = "encoder_attention_mask"
-    val decoderAttentionMask: String = "attention_mask"
-    val decoderPositionIDs: String = "position_ids"
-    val decoderBeamIdx: String = "beam_idx"
-    val decoderEncoderState: String = "encoder_hidden_states"
-
-    val decoderOutput: String = "logits"
-  }
 }
