@@ -48,7 +48,7 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = AlbertForTokenClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(false)
@@ -94,7 +94,7 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = AlbertForTokenClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -130,10 +130,10 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
 
     val conll = CoNLL()
     val training_data =
-      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train").limit(50)
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val tokenClassifier = AlbertForTokenClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("ner")
       .setCaseSensitive(true)

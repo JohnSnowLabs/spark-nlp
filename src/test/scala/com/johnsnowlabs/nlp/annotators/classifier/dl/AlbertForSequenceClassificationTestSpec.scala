@@ -134,7 +134,7 @@ class AlbertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
     val conll = CoNLL()
     val training_data =
-      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train").limit(50)
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val classifier = AlbertForSequenceClassification
       .pretrained()
