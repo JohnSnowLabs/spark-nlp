@@ -17,14 +17,18 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.intel.openvino.Tensor
+import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -45,6 +49,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class BartClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,
     val sentencePadTokenId: Int,
@@ -63,11 +68,15 @@ private[johnsnowlabs] class BartClassification(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
 
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
   protected val sigmoidThreshold: Float = threshold
+
+  protected val logger: Logger = LoggerFactory.getLogger("BartClassification")
+
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -282,7 +291,8 @@ private[johnsnowlabs] class BartClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => computeZeroShotLogitsWithONNX(paddedBatch, maxSentenceLength)
-      case _ => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
+      case Openvino.name => computeZeroShotLogitsWithOv(paddedBatch, maxSentenceLength)
+      case TensorFlow.name => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
     }
 
     val dim = rawScores.length / batchLength
@@ -291,6 +301,38 @@ private[johnsnowlabs] class BartClassification(
       .toArray
   }
 
+
+
+  def computeZeroShotLogitsWithOv(
+                                     batch: Seq[Array[Int]],
+                                     maxSentenceLength: Int): Array[Float] = {
+
+
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+       inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
 
   def computeZeroShotLogitsWithONNX(
                                      batch: Seq[Array[Int]],
