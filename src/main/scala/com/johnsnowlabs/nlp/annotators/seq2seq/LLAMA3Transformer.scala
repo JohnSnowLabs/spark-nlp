@@ -47,16 +47,17 @@ import org.json4s.jackson.JsonMethods._
 
 /** Llama 3: Cutting-Edge Foundation and Fine-Tuned Chat Models
   *
-  * The Llama 3 release introduces a new family of large language models, ranging from 1B to 70B
-  * parameters (1B, 3B, 7B, 13B, 34B, 70B). Llama 3 models are designed with a greater emphasis on
-  * efficiency, performance, and safety, achieving remarkable advancements in training and
-  * deployment processes. These models are trained on a diversified dataset that significantly
-  * enhances their capability to generate more accurate and contextually relevant outputs.
+  * The Llama 3 release introduces a new family of large language models, ranging from 8B to 70B
+  * parameters. Llama 3 models are designed with a greater emphasis on efficiency, performance,
+  * and safety, achieving remarkable advancements in training and deployment processes. These
+  * models are trained on a diversified dataset that significantly enhances their capability to
+  * generate more accurate and contextually relevant outputs.
   *
-  * The fine-tuned variants, known as Llama 3-Chat, are specifically optimized for dialogue-based
-  * applications, making use of Reinforcement Learning from Human Feedback (RLHF) with an advanced
-  * reward model. Llama 3-Chat models demonstrate state-of-the-art performance across multiple
-  * benchmarks and surpass the capabilities of Llama 2, particularly in conversational settings.
+  * The fine-tuned variants, known as Llama 3-instruct, are specifically optimized for
+  * dialogue-based applications, making use of Reinforcement Learning from Human Feedback (RLHF)
+  * with an advanced reward model. Llama 3-instruct models demonstrate state-of-the-art
+  * performance across multiple benchmarks and surpass the capabilities of Llama 2, particularly
+  * in conversational settings.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{

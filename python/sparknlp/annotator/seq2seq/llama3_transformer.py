@@ -20,13 +20,13 @@ class LLAMA3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     """Llama 3: Cutting-Edge Foundation and Fine-Tuned Chat Models
     
         The Llama 3 release introduces a new family of pretrained and fine-tuned LLMs, ranging in scale
-        from 1B to 70B parameters (1B, 3B, 7B, 13B, 34B, 70B). Llama 3 models are designed with enhanced
+        from 8B and 70B parameters. Llama 3 models are designed with enhanced
         efficiency, performance, and safety, making them more capable than previous versions. These models
         are trained on a more diverse and expansive dataset, offering improved contextual understanding 
         and generation quality.
     
-        The fine-tuned models, known as Llama 3-Chat, are optimized for dialogue applications using an advanced 
-        version of Reinforcement Learning from Human Feedback (RLHF). Llama 3-Chat models demonstrate superior 
+        The fine-tuned models, known as Llama 3-instruct, are optimized for dialogue applications using an advanced
+        version of Reinforcement Learning from Human Feedback (RLHF). Llama 3-instruct models demonstrate superior
         performance across multiple benchmarks, outperforming Llama 2 and even matching or exceeding the capabilities 
         of some closed-source models.
     
