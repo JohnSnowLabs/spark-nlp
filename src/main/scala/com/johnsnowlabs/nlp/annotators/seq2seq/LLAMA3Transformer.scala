@@ -432,7 +432,7 @@ trait ReadLLAMA3TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel 
     val vocabSize = (modelConfig \ "vocab_size").extract[Int]
 
     // Check if tokenizer.json exists
-    val tokenizerPath = s"$localModelPath/tokenizer.json"
+    val tokenizerPath = s"$localModelPath/assets/tokenizer.json"
     val tokenizerExists = new java.io.File(tokenizerPath).exists()
     val (vocabs, addedTokens, bytePairs) = if (tokenizerExists) {
       val tokenizerConfig: JValue = parse(loadJsonStringAsset(localModelPath, "tokenizer.json"))

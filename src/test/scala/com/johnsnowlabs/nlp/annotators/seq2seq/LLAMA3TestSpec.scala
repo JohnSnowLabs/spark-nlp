@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class LLAMA3TestSpec extends AnyFlatSpec {
 
-  "llama3" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "llama3" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -48,19 +48,41 @@ class LLAMA3TestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val bart = LLAMA3Transformer
+    val llama3 = LLAMA3Transformer
       .pretrained()
       .setInputCols(Array("documents"))
       .setDoSample(true)
-      .setMaxOutputLength(500)
+      .setMaxOutputLength(50)
       .setOutputCol("generation")
       .setBeamSize(4)
       .setStopTokenIds(Array(128001))
       .setTemperature(0.6)
       .setTopP(0.9)
       .setTopK(-1)
-    new Pipeline()
-      .setStages(Array(documentAssembler, bart))
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, llama3))
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+    pipelineModel.stages.last
+      .asInstanceOf[LLAMA3Transformer]
+      .write
+      .overwrite()
+      .save("/tmp/llama3-7b-4bit-model")
+
+    val loadedLLAMA3 = LLAMA3Transformer.load("/tmp/llama3-7b-4bit-model")
+
+    val loadedPipeline = new Pipeline().setStages(Array(documentAssembler, loadedLLAMA3))
+
+    loadedPipeline
       .fit(testData)
       .transform(testData)
       .show(truncate = false)

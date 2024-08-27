@@ -331,7 +331,7 @@ class LLAMA3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             topK=-1,
             topP=0.9,
             repetitionPenalty=1.0,
-            noRepeatNgramSize=0,
+            noRepeatNgramSize=3,
             ignoreTokenIds=[],
             batchSize=1,
             beamSize=1,

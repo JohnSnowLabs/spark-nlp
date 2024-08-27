@@ -42,13 +42,18 @@ class LLAMA3TransformerTextGenerationTestSpec(unittest.TestCase):
 
         llama3 = LLAMA3Transformer \
             .pretrained() \
-            .setMaxOutputLength(500) \
+            .setMaxOutputLength(50) \
             .setDoSample(True) \
             .setBeamSize(4) \
+            .setTemperature(0.6) \
+            .setTopK(-1) \
+            .setTopP(0.9) \
+            .setStopTokenIds([128001]) \
             .setInputCols(["documents"]) \
             .setOutputCol("generation")
 
         pipeline = Pipeline().setStages([document_assembler, llama3])
-        results = pipeline.fit(data).transform(data)
+        results = (pipeline.fit(data).transform(data))
 
         results.select("generation.result").show(truncate=False)
+
