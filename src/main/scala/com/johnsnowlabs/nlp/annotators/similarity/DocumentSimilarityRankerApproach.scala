@@ -231,8 +231,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
   def getAsRetrieverQuery: String = $(asRetrieverQuery)
 
   /** Specifies the method used to aggregate multiple sentence embeddings into a single vector
-    * representation. Options include 'AVERAGE' (compute the mean of all embeddings),
-    * 'FIRST' (use the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)
+    * representation. Options include 'AVERAGE' (compute the mean of all embeddings), 'FIRST' (use
+    * the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)
     *
     * Default AVERAGE
     *
