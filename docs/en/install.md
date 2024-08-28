@@ -280,32 +280,6 @@ Make sure the following prerequisites are met:
     respectively) with `spark-submit`, then a workaround is required to get it working.
     See [M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0](#m1-rocksdb-workaround-for-spark-submit-with-spark-version--320).
 
-### M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0
-
-Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
-dependency. Unfortunately, this is an older version of RocksDB does not include the
-necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
-has to be removed from the Spark distribution.
-
-For example, if you downloaded Spark version 3.2.0 from the official archives, you will
-find the following folders in the directory of Spark:
-
-```bash
-$ ls
-bin  conf  data  examples  jars  kubernetes  LICENSE  licenses
-NOTICE  python  R  README.md  RELEASE  sbin  yarn
-```
-
-To check for the RocksDB jar, you can run
-
-```bash
-$ ls jars | grep rocksdb
-rocksdbjni-6.20.3.jar
-```
-
-to find the jar you have to remove. After removing the jar, the pipelines should work
-as expected.5.4.1
-
 </div><div class="h3-box" markdown="1">
 
 ## Command line
@@ -441,6 +415,32 @@ import sparknlp
 
 spark = sparknlp.start(apple_silicon=True)
 ```
+
+### Apple Silicon RocksDB workaround for spark-submit with Spark version >= 3.2.0
+
+Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
+dependency. Unfortunately, this is an older version of RocksDB does not include the
+necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
+has to be removed from the Spark distribution.
+
+For example, if you downloaded Spark version 3.2.0 from the official archives, you will
+find the following folders in the directory of Spark:
+
+```bash
+$ ls
+bin  conf  data  examples  jars  kubernetes  LICENSE  licenses
+NOTICE  python  R  README.md  RELEASE  sbin  yarn
+```
+
+To check for the RocksDB jar, you can run
+
+```bash
+$ ls jars | grep rocksdb
+rocksdbjni-6.20.3.jar
+```
+
+to find the jar you have to remove. After removing the jar, the pipelines should work
+as expected.
 
 </div><div class="h3-box" markdown="1">
 
@@ -1317,5 +1317,23 @@ spark-shell --jars spark-nlp.jar
 The preferred way to use the library when running spark programs is using the `--packages` option as specified in
 the `spark-packages` section.
 
+## OpenVINO
+
+Spark NLP supports inference and model saving using [OpenVINO](https://docs.openvino.ai/2024/index.html) from version `5.4.2`, enabling optimized inference for specific models.
+
+> OpenVINO is an open-source toolkit for optimizing and deploying deep learning models from cloud to edge. It accelerates deep learning inference across various use cases, such as generative AI, video, audio, and language with models from popular frameworks like PyTorch, TensorFlow, ONNX, and more.
+
+For an example on how to use OpenVINO with Spark NLP, see the [examples folder](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/transformers/openvino).
+
+### Requirements
+
+To run models with OpenVINO, [Intel® Threading Building Blocks (Intel® TBB)](https://www.intel.com/content/www/us/en/docs/onetbb/get-started-guide/2021-12/overview.html) needs to be available on your system. If not available, you will run into
+"UnsatisfiedLinkError" exceptions during runtime.
+
+For example, to install TBB on Ubuntu we can run
+
+```sh
+sudo apt update && sudo apt install libtbb-dev
+```
 
 </div>
