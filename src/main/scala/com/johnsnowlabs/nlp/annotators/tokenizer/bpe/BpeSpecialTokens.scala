@@ -153,6 +153,14 @@ private[johnsnowlabs] object SpecialTokens {
           unkTokenString = "<|endoftext|>",
           maskTokenString = "<|endoftext|>",
           padTokenString = "<|endoftext|>")
+      case "blenderbot" =>
+        SpecialTokens(
+          vocab,
+          startTokenString = "<s>",
+          endTokenString = "</s>",
+          unkTokenString = "<unk>",
+          maskTokenString = "<mask>",
+          padTokenString = "<pad>")
     }
 }
 
