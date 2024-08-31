@@ -209,6 +209,8 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
     the number of GPU layers with the `setNGpuLayers` method.
 
+    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
+    according to your hardware to avoid out-of-memory errors.
 
     References
     ----------
