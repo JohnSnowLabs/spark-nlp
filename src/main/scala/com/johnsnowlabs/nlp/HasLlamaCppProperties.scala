@@ -111,10 +111,6 @@ trait HasLlamaCppProperties {
     "Set how split tensors should be distributed across GPUs")
 
   /** @group param */
-  val nBeams =
-    new IntParam(this, "nBeams", "Set usage of beam search of given width if non-zero.")
-
-  /** @group param */
   val grpAttnN = new IntParam(this, "grpAttnN", "Set the group-attention factor")
 
   /** @group param */
@@ -216,14 +212,6 @@ trait HasLlamaCppProperties {
   /** @group param */
   val loraAdapters = new StructFeature[Map[String, Float]](this, "loraAdapters")
 
-  /** @group param */
-  val loraBase = new Param[String](
-    this,
-    "loraBase",
-    "Set an optional model to use as a base for the layers modified by the LoRA adapter"
-  ) // TODO: Should this be handled by spark files?
-
-  /** @group param */
   val embedding =
     new BooleanParam(this, "embedding", "Whether to load model with embedding support")
 
@@ -363,12 +351,6 @@ trait HasLlamaCppProperties {
   def setTensorSplit(tensorSplit: Array[Double]): this.type = {
     set(this.tensorSplit, tensorSplit)
   }
-
-  /** Set usage of beam search of given width if non-zero.
-    *
-    * @group setParam
-    */
-  def setNBeams(nBeams: Int): this.type = { set(this.nBeams, nBeams) }
 
   /** Set the group-attention factor
     *
@@ -512,12 +494,6 @@ trait HasLlamaCppProperties {
     set(this.loraAdapters, scalaLoraAdapters.toMap)
   }
 
-  /** Set an optional model to use as a base for the layers modified by the LoRA adapter
-    *
-    * @group setParam
-    */
-  def setLoraBase(loraBase: String): this.type = { set(this.loraBase, loraBase) }
-
   /** Whether to load model with embedding support
     *
     * @group setParam
@@ -619,10 +595,6 @@ trait HasLlamaCppProperties {
   /** @group getParam */
   def getTensorSplit: Array[Double] = $(tensorSplit)
 
-  /** @group getParam */
-  def getNBeams: Int = $(nBeams)
-
-  /** @group getParam */
   def getGrpAttnN: Int = $(grpAttnN)
 
   /** @group getParam */
@@ -672,9 +644,6 @@ trait HasLlamaCppProperties {
 
   /** @group getParam */
   def getLoraAdapters: Map[String, Float] = $$(loraAdapters)
-
-  /** @group getParam */
-  def getLoraBase: String = $(loraBase)
 
   /** @group getParam */
   def getEmbedding: Boolean = $(embedding)
@@ -1207,11 +1176,9 @@ trait HasLlamaCppProperties {
       modelParameters.setLookupCacheDynamicFilePath($(lookupCacheDynamicFilePath))
     if (isDefined(lookupCacheStaticFilePath))
       modelParameters.setLookupCacheStaticFilePath($(lookupCacheStaticFilePath))
-    if (isDefined(loraBase)) modelParameters.setLoraBase($(loraBase))
     if (isDefined(mainGpu)) modelParameters.setMainGpu($(mainGpu))
     if (isDefined(modelDraft)) modelParameters.setModelDraft($(modelDraft))
     if (isDefined(nBatch)) modelParameters.setNBatch($(nBatch))
-    if (isDefined(nBeams)) modelParameters.setNBeams($(nBeams))
     if (isDefined(nChunks)) modelParameters.setNChunks($(nChunks))
     if (isDefined(nCtx)) modelParameters.setNCtx($(nCtx))
     if (isDefined(nDraft)) modelParameters.setNDraft($(nDraft))

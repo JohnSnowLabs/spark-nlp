@@ -29,6 +29,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     .setNPredict(20)
     .setNGpuLayers(99)
     .setTemperature(0.4f)
+    .setNCtx(512)
     .setTopK(40)
     .setTopP(0.9f)
     .setPenalizeNl(true)
@@ -46,7 +47,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     Annotation
       .collect(resultDf, "completions")
       .foreach(annotations => {
-        print(annotations.head)
+        println(annotations.head)
         assert(annotations.head.result.nonEmpty)
       })
   }
@@ -104,7 +105,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setGpuSplitMode("NONE")
     model.setMainGpu(0)
     model.setTensorSplit(Array[Double]())
-    model.setNBeams(0)
     model.setGrpAttnN(1)
     model.setGrpAttnW(512)
     model.setRopeFreqBase(1.0f)
@@ -121,7 +121,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setModelDraft("")
     model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
     model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-    model.setLoraBase("")
     model.setEmbedding(false)
     model.setFlashAttention(false)
     model.setInputPrefixBos(false)
