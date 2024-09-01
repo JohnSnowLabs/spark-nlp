@@ -18,18 +18,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.{AlbertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
@@ -118,6 +111,7 @@ class AlbertForQuestionAnswering(override val uid: String)
     with HasBatchedAnnotate[AlbertForQuestionAnswering]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasEngine {
@@ -197,16 +191,18 @@ class AlbertForQuestionAnswering(override val uid: String)
 
   /** @group setParam */
   def setModelIfNotSet(
-      spark: SparkSession,
-      tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper],
-      spp: SentencePieceWrapper): AlbertForQuestionAnswering = {
+                        spark: SparkSession,
+                        tensorflowWrapper: Option[TensorflowWrapper],
+                        onnxWrapper: Option[OnnxWrapper],
+                        openvinoWrapper: Option[OpenvinoWrapper],
+                        spp: SentencePieceWrapper): AlbertForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new AlbertClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = Map.empty[String, Int],
@@ -276,6 +272,15 @@ class AlbertForQuestionAnswering(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           AlbertForQuestionAnswering.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          AlbertForQuestionAnswering.openvinoFile)
+
     }
 
     writeSentencePieceModel(
@@ -310,11 +315,13 @@ trait ReadablePretrainedAlbertForQAModel
 trait ReadAlbertForQuestionAnsweringDLModel
     extends ReadTensorflowModel
     with ReadOnnxModel
+    with ReadOpenvinoModel
     with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForQuestionAnswering] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val onnxFile: String = "albert_classification_onnx"
+  override val openvinoFile: String = "albert_classification_openvino"
   override val sppFile: String = "albert_spp"
 
   def readModel(instance: AlbertForQuestionAnswering, path: String, spark: SparkSession): Unit = {
@@ -325,11 +332,15 @@ trait ReadAlbertForQuestionAnsweringDLModel
       case TensorFlow.name =>
         val tf =
           readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+        instance.setModelIfNotSet(spark, Some(tf), None, None, spp)
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "albert_qa_classification_onnx")
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "albert_qa_classification_ov")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -363,7 +374,7 @@ trait ReadAlbertForQuestionAnsweringDLModel
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, None, spModel)
 
       case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(
@@ -373,7 +384,18 @@ trait ReadAlbertForQuestionAnsweringDLModel
           useBundle = true,
           onnxFileSuffix = None)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

@@ -1,4 +1,16 @@
 ========
+5.4.2
+========
+----------------
+New Features & Enhancements
+----------------
+* Added demo notebook for Image Classification Annotators
+* Added aggressiveMatching parameter to DateMatcher and MultiDateMatcher annotators
+* Added aggressiveMatching parameter to DocumentSimilarityRanker annotator
+
+
+
+========
 5.4.1
 ========
 ----------------

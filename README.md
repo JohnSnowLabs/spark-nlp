@@ -166,7 +166,7 @@ Spark NLP 5.4.0 has been tested and is compatible with the following EMR release
 We are compatible with older EMR releases. For a full list check EMR support in our official [documentation](https://sparknlp.org/docs/en/install#emr-support)
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
-Full list 5.4.1mazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
+Full list 5.4.2mazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
 
 NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
@@ -182,7 +182,7 @@ deployed to Maven central. To add any of our packages as a dependency in your ap
 from our official documentation.
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your
-projects [Spark NLP SBT S5.4.1r](https://github.com/maziyarpanahi/spark-nlp-starter)
+projects [Spark NLP SBT S5.4.2r](https://github.com/maziyarpanahi/spark-nlp-starter)
 
 ### Python
 
@@ -227,7 +227,7 @@ In Spark NLP we can define S3 locations to:
 
 Please check [these instructions](https://sparknlp.org/docs/en/install#s3-integration) from our official documentation.
 
-## Document5.4.1
+## Document5.4.2
 
 ### Examples
 
@@ -260,7 +260,7 @@ the Spark NLP library:
     keywords = {Spark, Natural language processing, Deep learning, Tensorflow, Cluster},
     abstract = {Spark NLP is a Natural Language Processing (NLP) library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that can scale easily in a distributed environment. Spark NLP comes with 1100+ pretrained pipelines and models in more than 192+ languages. It supports nearly all the NLP tasks and modules that can be used seamlessly in a cluster. Downloaded more than 2.7 million times and experiencing 9x growth since January 2020, Spark NLP is used by 54% of healthcare organizations as the world’s most widely used NLP library in the enterprise.}
     }
-}5.4.1
+}5.4.2
 ```
 
 ## Community support

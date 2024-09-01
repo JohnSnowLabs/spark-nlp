@@ -17,13 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.BartClassification
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -123,6 +121,8 @@ class BartForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[BartForZeroShotClassification]
     with HasBatchedAnnotate[BartForZeroShotClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine
@@ -277,12 +277,17 @@ class BartForZeroShotClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): BartForZeroShotClassification = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
+                      ): BartForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BartClassification(
+          new  BartClassification(
             tensorflowWrapper,
+            onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -349,15 +354,33 @@ class BartForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_bart_classification",
-      BartForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
-  }
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_bart_classification",
+          BartForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_bart_classification",
+          BartForZeroShotClassification.onnxFile)
 
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          BartForZeroShotClassification.openvinoFile)
+
+    }
+  }
 }
 
 trait ReadablePretrainedBartForZeroShotModel
@@ -381,19 +404,41 @@ trait ReadablePretrainedBartForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBartForZeroShotDLModel extends ReadTensorflowModel {
+trait ReadBartForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BartForZeroShotClassification] =>
 
   override val tfFile: String = "bart_classification_tensorflow"
+  override val onnxFile: String = "bart_classification_onnx"
+  override val openvinoFile: String = "bart_classification_openvino"
 
   def readModel(
       instance: BartForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
+    instance.getEngine match {
 
-    val tf =
-      readTensorflowModel(path, spark, "_bart_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+      case TensorFlow.name =>
+        val tf =
+          readTensorflowModel(path, spark, "_bart_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, None)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_bart_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_bart_classification_openvino")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -455,7 +500,22 @@ trait ReadBartForZeroShotDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None, None)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
