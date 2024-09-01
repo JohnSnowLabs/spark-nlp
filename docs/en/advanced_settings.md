@@ -17,6 +17,7 @@ sidebar:
 
 You can change the following Spark NLP configurations via Spark Configuration:
 
+{:.table-model-big}
 | Property Name                                           | Default              | Meaning                                                                                                                                                                                                                                                                            |
 |---------------------------------------------------------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `spark.jsl.settings.pretrained.cache_folder`            | `~/cache_pretrained` | The location to download and extract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory                                                                                                                       |
@@ -31,6 +32,8 @@ You can change the following Spark NLP configurations via Spark Configuration:
 | `spark.jsl.settings.onnx.intraOpNumThreads`             | `6`                  | Sets the size of the CPU thread pool used for executing a single graph, if executing on a CPU.                                                                                                                                                                                     |
 | `spark.jsl.settings.onnx.optimizationLevel`             | `ALL_OPT`            | Sets the optimization level of this options object, overriding the old setting.                                                                                                                                                                                                    |
 | `spark.jsl.settings.onnx.executionMode`                 | `SEQUENTIAL`         | Sets the execution mode of this options object, overriding the old setting.                                                                                                                                                                                                        |
+
+</div><div class="h3-box" markdown="1">
 
 ### How to set Spark NLP Configuration
 
@@ -93,6 +96,7 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 
 NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
 
+</div><div class="h3-box" markdown="1">
 
 ### S3 Integration
 

@@ -17,17 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.ai.Bart
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -157,6 +151,7 @@ class BartTransformer(override val uid: String)
     with HasBatchedAnnotate[BartTransformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEngine
     with HasGeneratorProperties {
 
@@ -260,7 +255,8 @@ class BartTransformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tfWrapper: TensorflowWrapper,
+      tfWrapper: Option[TensorflowWrapper],
+      onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
       useCache: Boolean): this.type = {
     if (_tfModel.isEmpty) {
       setUseCache(useCache)
@@ -268,6 +264,7 @@ class BartTransformer(override val uid: String)
         spark.sparkContext.broadcast(
           new Bart(
             tfWrapper,
+            onnxWrappers,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures,
             $$(merges),
@@ -345,14 +342,31 @@ class BartTransformer(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+    getEngine match {
+
+      case TensorFlow.name =>
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
-      "_bart",
+      getModelIfNotSet.tensorflowWrapper.get,
+      BartTransformer.suffix,
       BartTransformer.tfFile,
       configProtoBytes = getConfigProtoBytes,
       savedSignatures = getSignatures)
+
+    case ONNX.name =>
+    val wrappers = getModelIfNotSet.onnxWrapper
+    writeOnnxModels(
+      path,
+      spark,
+      Seq((wrappers.get.encoder, "encoder_model.onnx")),
+      BartTransformer.suffix)
+    writeOnnxModels(
+      path,
+      spark,
+      Seq((wrappers.get.decoder, "decoder_model.onnx")),
+      BartTransformer.suffix)
+    }
   }
 }
 
@@ -373,19 +387,35 @@ trait ReadablePretrainedBartTransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBartTransformerDLModel extends ReadTensorflowModel {
+trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[BartTransformer] =>
 
   override val tfFile: String = "bart_tensorflow"
-
+  override  val onnxFile: String = "bart_onnx"
+  val suffix: String = "_bart"
   def readModel(instance: BartTransformer, path: String, spark: SparkSession): Unit = {
+
+    instance.getEngine match {
+      case TensorFlow.name =>
     val tf = readTensorflowModel(
       path,
       spark,
       "_bart_tf",
       savedSignatures = instance.getSignatures,
       initAllTables = false)
-    instance.setModelIfNotSet(spark, tf, instance.getUseCache)
+    instance.setModelIfNotSet(spark, Some(tf), None, instance.getUseCache)
+
+      case ONNX.name =>
+        val decoderWrappers =
+          readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
+        val encoderWrappers =
+          readOnnxModels(path, spark, Seq("encoder_model.onnx"), suffix)
+        val onnxWrappers =
+          EncoderDecoderWithoutPastWrappers(
+            decoder = decoderWrappers("decoder_model.onnx"),
+            encoder = encoderWrappers("encoder_model.onnx"))
+        instance.setModelIfNotSet(spark, None, Some(onnxWrappers), instance.getUseCache)
+    }
   }
 
   addReader(readModel)
@@ -395,7 +425,7 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel {
       spark: SparkSession,
       useCache: Boolean = true): BartTransformer = {
 
-    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath, isEncoderDecoder = true)
 
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
 
@@ -432,8 +462,33 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, useCache)
+          .setModelIfNotSet(spark, Some(wrapper), None, useCache)
 
+      case ONNX.name =>
+        val onnxWrapperEncoder =
+          OnnxWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            modelName = "encoder_model",
+            onnxFileSuffix = None)
+        val onnxWrapperDecoder =
+          OnnxWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            modelName = "decoder_model",
+            onnxFileSuffix = None)
+
+        val onnxWrappers =
+          EncoderDecoderWithoutPastWrappers(
+            encoder = onnxWrapperEncoder,
+            decoder = onnxWrapperDecoder)
+
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrappers), useCache)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

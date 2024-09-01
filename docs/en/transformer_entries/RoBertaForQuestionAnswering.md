@@ -19,7 +19,7 @@ For available pretrained models please see the
 [Models Hub](https://sparknlp.org/models?task=Question+Answering).
 
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669). and the
 [RoBertaForQuestionAnsweringTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForQuestionAnsweringTestSpec.scala).
 {%- endcapture -%}
 

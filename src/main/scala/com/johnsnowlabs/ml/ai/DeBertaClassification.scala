@@ -264,16 +264,82 @@ private[johnsnowlabs] class DeBertaClassification(
     batchScores
   }
 
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
+
   def tagZeroShotSequence(
-      batch: Seq[Array[Int]],
-      entailmentId: Int,
-      contradictionId: Int,
-      activation: String): Array[Array[Float]] = {
-    val tensors = new TensorResources()
+                           batch: Seq[Array[Int]],
+                           entailmentId: Int,
+                           contradictionId: Int,
+                           activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
-    val batchLength = batch.length
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
 
+    val rawScores = detectedEngine match {
+      case ONNX.name => computeZeroShotLogitsWithONNX(paddedBatch, maxSentenceLength)
+      case _ => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
+    }
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
+
+
+
+  def computeZeroShotLogitsWithONNX(
+                                     batch: Seq[Array[Int]],
+                                     maxSentenceLength: Int): Array[Float] = {
+
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+    val tokenTensors =
+      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+    val maskTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+
+    val inputs =
+      Map(
+        "input_ids" -> tokenTensors,
+        "attention_mask" -> maskTensors).asJava
+
+    try {
+      val results = runner.run(inputs)
+      try {
+        val embeddings = results
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+
+        embeddings
+      } finally if (results != null) results.close()
+    }
+
+  }
+
+
+  def computeZeroShotLogitsWithTF(
+                                   batch: Seq[Array[Int]],
+                                   maxSentenceLength: Int): Array[Float] = {
+    val tensors = new TensorResources()
+
+    val batchLength = batch.length
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
@@ -332,10 +398,7 @@ private[johnsnowlabs] class DeBertaClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = rawScores.length / batchLength
-    rawScores
-      .grouped(dim)
-      .toArray
+   rawScores
   }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {

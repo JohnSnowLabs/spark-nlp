@@ -811,4 +811,16 @@ package object annotator {
   type UAEEmbeddings = com.johnsnowlabs.nlp.embeddings.UAEEmbeddings
 
   object UAEEmbeddings extends ReadablePretrainedUAEModel with ReadUAEDLModel
+
+  type MxbaiEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
+
+  object MxbaiEmbeddings extends ReadablePretrainedMxbaiModel with ReadMxbaiDLModel
+
+  
+  type SnowFlakeEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings
+
+  object SnowFlakeEmbeddings extends ReadablePretrainedSnowFlakeModel with ReadSnowFlakeDLModel
+
 }

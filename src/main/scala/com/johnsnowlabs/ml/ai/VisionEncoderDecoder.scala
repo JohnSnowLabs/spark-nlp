@@ -18,8 +18,12 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.{Generate, GenerationConfig}
+import com.johnsnowlabs.ml.onnx.OnnxSession
+import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
+import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
@@ -31,7 +35,8 @@ import org.tensorflow.{Session, Tensor}
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class VisionEncoderDecoder(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
     configProtoBytes: Option[Array[Byte]] = None,
     tokenizer: Gpt2Tokenizer,
     preprocessor: Preprocessor,
@@ -43,7 +48,12 @@ private[johnsnowlabs] class VisionEncoderDecoder(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   val tensorResources = new TensorResources()
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrappers.isDefined) ONNX.name
+    else throw new IllegalArgumentException("No model engine defined.")
   private def sessionWarmup(): Unit = {
     val nChannels = 3
     val dummyInput = Array(
@@ -99,6 +109,15 @@ private[johnsnowlabs] class VisionEncoderDecoder(
     }
   }
 
+  private object OnnxSignatures {
+    val encoderInputIdsTensor: String = "pixel_values"
+    val encoderOutputKey = "last_hidden_state"
+    val decoderOutputKey: String = "logits"
+    val decoderInputIDs: String = "input_ids"
+    val decoderEncoderState: String = "encoder_hidden_states"
+
+  }
+
   private def preprocessImages(
       annotations: Array[AnnotationImage]): Array[Array[Array[Array[Float]]]] = {
 
@@ -143,65 +162,38 @@ private[johnsnowlabs] class VisionEncoderDecoder(
   private def encodeImages(
       batch: Array[Array[Array[Array[Float]]]],
       beamSize: Int,
-      session: Session): Tensor = {
+      tfSession: Option[Session],
+      onnxSession: Option[(OrtSession, OrtEnvironment)]): AutoCloseable = {
 
-    // Expand the array for each beam
     val batchForBeams =
       batch.flatMap(imageFloats => Array.fill(beamSize)(imageFloats))
-    val imageTensors = tensorResources.createTensor(batchForBeams)
+    detectedEngine match {
+      case TensorFlow.name =>
+        // Expand the array for each beam
 
-    val runner = session.runner
-      .feed(TfSignatures.InputOps.encoderInput, imageTensors)
-      .fetch(TfSignatures.OutputOps.encoderState)
+        val imageTensors = tensorResources.createTensor(batchForBeams)
 
-    val outs = runner.run().asScala
+        val runner = tfSession.get.runner
+          .feed(TfSignatures.InputOps.encoderInput, imageTensors)
+          .fetch(TfSignatures.OutputOps.encoderState)
 
-    outs.head
-  }
+        val outs = runner.run().asScala
+        outs.head
 
-  def generate(
-      decoderInputIds: Array[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      maxOutputLength: Int,
-      minOutputLength: Int,
-      doSample: Boolean,
-      beamSize: Int,
-      numReturnSequences: Int,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      randomSeed: Option[Long],
-      session: Session): Array[Array[Int]] = {
+      case ONNX.name =>
+        val (session, env) = onnxSession.get
+        val imageTensors = OnnxTensor.createTensor(env, batchForBeams)
+        val encoderResults = session
+          .run(Map(OnnxSignatures.encoderInputIdsTensor -> imageTensors).asJava)
+        val output = encoderResults
+          .get(OnnxSignatures.encoderOutputKey)
+          .get()
+          .asInstanceOf[OnnxTensor]
+        output
 
-    // Not used for vision encoders, but needed for batch size. Change in refactor.
-    val encoderIds: Array[Array[Int]] = Array.fill(decoderInputIds.length)(Array.empty)
-
-    // Not used
-    val encoderAttentionMaskTensors = null
-
-    generate(
-      inputIds = encoderIds,
-      decoderEncoderStateTensors = Left(decoderEncoderStateTensors),
-      encoderAttentionMaskTensors = Left(encoderAttentionMaskTensors),
-      decoderInputs = decoderInputIds,
-      maxOutputLength,
-      minOutputLength,
-      doSample,
-      beamSize,
-      numReturnSequences,
-      temperature,
-      topK,
-      topP,
-      repetitionPenalty,
-      noRepeatNgramSize,
-      generationConfig.vocabSize,
-      generationConfig.eosId,
-      generationConfig.padId,
-      randomSeed,
-      Array.empty,
-      Left(session))
+      case _ =>
+        throw new IllegalArgumentException("Unknown engine type.")
+    }
   }
 
   def generateFromImage(
@@ -219,35 +211,80 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       noRepeatNgramSize: Int,
       randomSeed: Option[Long]): Seq[Annotation] = {
 
-    val session: Session = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-
     val captions: Seq[Annotation] = images
       .grouped(batchSize)
       .flatMap { batch =>
         val batchSize = batch.length
-
         val preprocessedImages = preprocessImages(images)
 
-        val encodedImages = encodeImages(preprocessedImages, beamSize, session)
-
         val batchDecoderStartIds = Array.fill(batchSize, 1)(generationConfig.bosId)
+        val encoderIds: Array[Array[Int]] = Array.fill(batchDecoderStartIds.length)(Array.empty)
         val generatedTokenIds =
-          generate(
-            batchDecoderStartIds,
-            decoderEncoderStateTensors = encodedImages,
-            maxOutputLength,
-            minOutputLength,
-            doSample,
-            beamSize,
-            numReturnSequences,
-            temperature,
-            topK,
-            topP,
-            repetitionPenalty,
-            noRepeatNgramSize,
-            randomSeed,
-            session)
+          detectedEngine match {
+            case TensorFlow.name =>
+              val session: Session = tensorflowWrapper.get
+                .getTFSessionWithSignature(
+                  configProtoBytes = configProtoBytes,
+                  initAllTables = false)
+              val encodedImages = encodeImages(preprocessedImages, beamSize, Some(session), None)
+                .asInstanceOf[Tensor]
+              generate(
+                inputIds = encoderIds,
+                decoderEncoderStateTensors = Left(encodedImages),
+                encoderAttentionMaskTensors = null,
+                decoderInputs = batchDecoderStartIds,
+                maxOutputLength,
+                minOutputLength,
+                doSample,
+                beamSize,
+                numReturnSequences,
+                temperature,
+                topK,
+                topP,
+                repetitionPenalty,
+                noRepeatNgramSize,
+                generationConfig.vocabSize,
+                generationConfig.eosId,
+                generationConfig.padId,
+                randomSeed,
+                Array.empty,
+                Left(session))
+            case ONNX.name =>
+              val (encoderSession, encoderEnv) =
+                onnxWrappers.get.encoder.getSession(onnxSessionOptions)
+              val (decoderSession, decoderEnv) =
+                onnxWrappers.get.decoder.getSession(onnxSessionOptions)
+              val encodedImages =
+                encodeImages(
+                  preprocessedImages,
+                  beamSize,
+                  None,
+                  Some((encoderSession, encoderEnv)))
+                  .asInstanceOf[OnnxTensor]
+              generate(
+                inputIds = batchDecoderStartIds,
+                decoderEncoderStateTensors = Right(encodedImages),
+                encoderAttentionMaskTensors =
+                  Right(OnnxTensor.createTensor(encoderEnv, Array(1))),
+                decoderInputs = batchDecoderStartIds,
+                maxOutputLength,
+                minOutputLength,
+                doSample,
+                beamSize,
+                numReturnSequences,
+                temperature,
+                topK,
+                topP,
+                repetitionPenalty,
+                noRepeatNgramSize,
+                generationConfig.vocabSize,
+                generationConfig.eosId,
+                generationConfig.padId,
+                randomSeed,
+                Array.empty,
+                Right((decoderEnv, decoderSession)))
+
+          }
 
         val decodedStringsBatch = generatedTokenIds.map(tokenizer.decodeTokens).map(_.trim)
 
@@ -269,7 +306,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       }
       .toSeq
 
-    tensorResources.clearTensors()
+    //tensorResources.clearTensors()
 
     captions
   }
@@ -299,31 +336,65 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       maxLength: Int,
       session: Either[Session, (OrtEnvironment, OrtSession)],
       ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
-    val sess: Session = session.left.get
-    val decoderEncoderStateTensor: Tensor = decoderEncoderStateTensors.left.get
-    getModelOutput(decoderInputIds, decoderEncoderStateTensor, sess)
+    getModelOutput(decoderInputIds, decoderEncoderStateTensors, session)
   }
 
   def getModelOutput(
       decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      session: Session) = {
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      session: Either[Session, (OrtEnvironment, OrtSession)]) = {
 
-    val decoderInputIdsTensor = tensorResources.createTensor(decoderInputIds.toArray)
-    val runner =
-      session
-        .runner()
-        .feed(TfSignatures.InputOps.decoderEncoderState, decoderEncoderStateTensors)
-        .feed(TfSignatures.InputOps.decoderInputIds, decoderInputIdsTensor)
-        .fetch(TfSignatures.OutputOps.decoderLogits)
+    val decoderEncoderStateTensor = decoderEncoderStateTensors.fold(
+      tfTensor => {
+        // not implemented yet
+        null
+      },
+      onnxTensor => onnxTensor)
 
-    val decoderOuts = runner.run().asScala
-    val logitsRaw = TensorResources.extractFloats(decoderOuts.head)
-    decoderOuts.head.close()
+    detectedEngine match {
+      case TensorFlow.name =>
+        val decoderInputIdsTensor = tensorResources.createTensor(decoderInputIds.toArray)
 
-    val logits = logitsRaw.grouped(generationConfig.vocabSize)
+        val runner =
+          session.left.get
+            .runner()
+            .feed(TfSignatures.InputOps.decoderEncoderState, decoderEncoderStateTensors.left.get)
+            .feed(TfSignatures.InputOps.decoderInputIds, decoderInputIdsTensor)
+            .fetch(TfSignatures.OutputOps.decoderLogits)
 
-    logits.toArray
+        val decoderOuts = runner.run().asScala
+        val logitsRaw = TensorResources.extractFloats(decoderOuts.head)
+        decoderOuts.head.close()
+
+        val logits = logitsRaw.grouped(generationConfig.vocabSize)
+
+        logits.toArray
+      case ONNX.name =>
+        val (env, decoderSession) = session.right.get
+        val decoderInputIdsLong: Array[Array[Long]] =
+          decoderInputIds.toArray.map { tokenIds => tokenIds.map(_.toLong) }
+
+        val decoderInputIdsTensor =
+          OnnxTensor.createTensor(env, decoderInputIdsLong)
+
+        val decoderInputs: java.util.Map[String, OnnxTensor] = Map(
+          OnnxSignatures.decoderInputIDs -> decoderInputIdsTensor,
+          OnnxSignatures.decoderEncoderState -> decoderEncoderStateTensor).asJava
+        val sessionOutput = decoderSession.run(decoderInputs)
+
+        val sequenceLength = decoderInputIds.head.length
+        val batchSize = decoderInputIds.length
+
+        val logitsRaw = sessionOutput.getFloatArray(OnnxSignatures.decoderOutputKey)
+        val decoderOutputs = (0 until batchSize).map(i => {
+          logitsRaw
+            .slice(
+              i * sequenceLength * generationConfig.vocabSize + (sequenceLength - 1) * generationConfig.vocabSize,
+              i * sequenceLength * generationConfig.vocabSize + sequenceLength * generationConfig.vocabSize)
+        })
+        decoderOutputs.toArray
+
+    }
   }
 
 }
