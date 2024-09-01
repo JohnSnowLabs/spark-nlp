@@ -24,13 +24,13 @@ For extended examples of usage, see the
 and the
 [CamemBertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala).
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 
 **Sources** :
 
 [CamemBERT: a Tasty French Language Model](https://arxiv.org/abs/1911.03894)
 
-https://huggingface.co/camembert
+[https://huggingface.co/camembert](https://huggingface.co/camembert)
 
 **Paper abstract**
 

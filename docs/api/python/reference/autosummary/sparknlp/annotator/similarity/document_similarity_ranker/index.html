@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.4.1 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 5.4.2 documentation</title>
   
   
   
@@ -552,6 +552,29 @@ Default(‘False’).</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod">
+<span class="sig-name descname"><span class="pre">setAggregationMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setAggregationMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Set the method used to aggregate multiple sentence embeddings into a single vector</dt><dd><p>representation.</p>
+</dd>
+</dl>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><dl class="simple">
+<dt>Options include</dt><dd><p>‘AVERAGE’ (compute the mean of all embeddings),
+‘FIRST’ (use the first embedding only),
+‘MAX’ (compute the element-wise maximum across embeddings)</p>
+</dd>
+</dl>
+<p>Default (‘AVERAGE’)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -686,6 +709,7 @@ documentation of the main class.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setVisibleDistances()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setIdentityRanking()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.asRetriever()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setAggregationMethod()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel</span></code></a></li>
