@@ -222,4 +222,19 @@ trait HasGeneratorProperties {
 
   /** @group getParam */
   def getNReturnSequences: Int = $(nReturnSequences)
+
+  /** Stop tokens to terminate the generation
+    *
+    * @group param
+    */
+  var stopTokenIds =
+    new IntArrayParam(this, "stopTokens", "Stop tokens to terminate the generation")
+
+  /** @group setParam */
+  def setStopTokenIds(value: Array[Int]): this.type = {
+    set(stopTokenIds, value)
+  }
+
+  /** @group getParam */
+  def getStopTokenIds: Array[Int] = $(stopTokenIds)
 }

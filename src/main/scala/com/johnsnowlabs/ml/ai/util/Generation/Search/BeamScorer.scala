@@ -26,7 +26,8 @@ abstract class BeamScorer() {
       padTokenId: Int,
       eosTokenId: Int,
       beamIndices: Seq[Array[Int]],
-      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]])
+      currentLength: Int,
+      stopTokenIds: Array[Int]): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]])
 
   def finalize(
       inputIds: Seq[Array[Int]],
@@ -40,4 +41,5 @@ abstract class BeamScorer() {
   def getBeamHypothesesSeq: Seq[BeamHypotheses]
   def getNumBeams: Int
   def isDone: Boolean
+  def getDone: Array[Boolean]
 }

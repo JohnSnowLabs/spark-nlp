@@ -1,17 +1,16 @@
 package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityUtil._
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
+import com.johnsnowlabs.util.spark.SparkUtil.retrieveColumnName
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, MinHashLSH}
-import org.apache.spark.ml.functions.array_to_vector
 import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.functions.{col, flatten, udf}
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, Dataset}
-
-import scala.util.hashing.MurmurHash3
 
 sealed trait NeighborAnnotation {
   def neighbors: Array[_]
@@ -152,8 +151,6 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   val DISTANCE = "distCol"
 
-  val INPUT_EMBEDDINGS = "sentence_embeddings.embeddings"
-
   val TEXT = "text"
 
   /** The similarity method used to calculate the neighbours. (Default: `"brp"`, Bucketed Random
@@ -233,6 +230,38 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   def getAsRetrieverQuery: String = $(asRetrieverQuery)
 
+  /** Specifies the method used to aggregate multiple sentence embeddings into a single vector
+    * representation. Options include 'AVERAGE' (compute the mean of all embeddings), 'FIRST' (use
+    * the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)
+    *
+    * Default AVERAGE
+    *
+    * @group param
+    */
+  val aggregationMethod = new Param[String](
+    this,
+    "aggregationMethod",
+    "Specifies the method used to aggregate multiple sentence embeddings into a single vector representation.")
+
+  /** Set the method used to aggregate multiple sentence embeddings into a single vector
+    * representation. Options include 'AVERAGE' (compute the mean of all embeddings), 'FIRST' (use
+    * the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)
+    *
+    * Default AVERAGE
+    *
+    * @group param
+    */
+  def setAggregationMethod(strategy: String): this.type = {
+    strategy.toLowerCase() match {
+      case "average" => set(aggregationMethod, "AVERAGE")
+      case "first" => set(aggregationMethod, "FIRST")
+      case "max" => set(aggregationMethod, "MAX")
+      case _ => throw new MatchError("aggregationMethod must be AVERAGE, FIRST or MAX")
+    }
+  }
+
+  def getAggregationMethod: String = $(aggregationMethod)
+
   setDefault(
     similarityMethod -> "brp",
     numberOfNeighbours -> 10,
@@ -240,7 +269,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     numHashTables -> 3,
     visibleDistances -> false,
     identityRanking -> false,
-    asRetrieverQuery -> "")
+    asRetrieverQuery -> "",
+    aggregationMethod -> "AVERAGE")
 
   def getNeighborsResultSet(
       query: (Int, Vector),
@@ -300,11 +330,22 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       embeddingsDataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
 
-    val similarityDataset: DataFrame = embeddingsDataset
-      .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(flatten(col(INPUT_EMBEDDINGS))))
+    val inputEmbeddingsColumn =
+      s"${retrieveColumnName(embeddingsDataset, SENTENCE_EMBEDDINGS)}.embeddings"
 
-    val mh3Func = (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
-    val mh3UDF = udf { mh3Func }
+    val similarityDataset: DataFrame = getAggregationMethod match {
+      case "AVERAGE" =>
+        embeddingsDataset
+          .withColumn(s"$LSH_INPUT_COL_NAME", averageAggregation(col(inputEmbeddingsColumn)))
+      case "FIRST" =>
+        embeddingsDataset
+          .withColumn(
+            s"$LSH_INPUT_COL_NAME",
+            firstEmbeddingAggregation(col(inputEmbeddingsColumn)))
+      case "MAX" =>
+        embeddingsDataset
+          .withColumn(s"$LSH_INPUT_COL_NAME", maxAggregation(col(inputEmbeddingsColumn)))
+    }
 
     val similarityDatasetWithHashIndex =
       similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))

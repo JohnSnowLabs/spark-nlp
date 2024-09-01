@@ -104,7 +104,8 @@ trait Generate {
       ignoreTokenIds: Array[Int] = Array(),
       session: Either[Session, (OrtEnvironment, OrtSession)],
       applySoftmax: Boolean = true,
-      ovInferRequest: Option[InferRequest] = None): Array[Array[Int]] = {
+      ovInferRequest: Option[InferRequest] = None,
+      stopTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     // TODO: Add support for ignoreTokenIds
 
@@ -117,8 +118,8 @@ trait Generate {
         noRepeatNgramSize = noRepeatNgramSize,
         vocabSize = vocabSize))
 
-    logitProcessorList.addProcess(
-      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
+//    logitProcessorList.addProcess(
+//      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
 
     logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
 
@@ -148,7 +149,8 @@ trait Generate {
       randomSeed,
       session,
       applySoftmax,
-      ovInferRequest)
+      ovInferRequest,
+      stopTokenIds)
   }
 
   /** Beam Search for text generation
@@ -193,7 +195,8 @@ trait Generate {
       randomSeed: Option[Long],
       session: Either[Session, (OrtEnvironment, OrtSession)],
       applySoftmax: Boolean,
-      ovInferRequest: Option[InferRequest] = None): Array[Array[Int]] = {
+      ovInferRequest: Option[InferRequest] = None,
+      stopTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
     val inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
     val numBeams = beamScorer.getNumBeams
@@ -227,21 +230,22 @@ trait Generate {
         // Optionally Apply log softmax to model outputs
         var nextTokenScores =
           if (applySoftmax) nextTokenLogits.map(logSoftmax) else nextTokenLogits
-
         // Process the logits by defined logit processors
         val nextTokenScoresProcessed =
           logitProcessor.process(expandedInputs, nextTokenScores, currentLength)
 
+        // Process the logits by defined logit warpers
+        if (doSample) {
+          nextTokenScores =
+            logitProcessor.warp(expandedInputs, nextTokenScoresProcessed, currentLength)
+        }
         // Add previous beam scores to the output
-        nextTokenScores = nextTokenScoresProcessed.zipWithIndex.map { case (x, ind1) =>
+        nextTokenScores = nextTokenScores.zipWithIndex.map { case (x, ind1) =>
           x.zipWithIndex.map { case (y, _) =>
             y + beamScores(ind1)
           }
         }
-        // Process the logits by defined logit warpers
-        if (doSample) {
-          nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScores, currentLength)
-        }
+
         // Reshape next token score to (batchSize, vocabSize * numBeams)
         val vocabSize = nextTokenScores.head.length
         val reshapedNextTokenScores =
@@ -290,7 +294,8 @@ trait Generate {
           padTokenId,
           eosTokenId,
           beamIndices,
-          currentLength)
+          currentLength,
+          stopTokenIds)
         val newBeamScores = beamOutputs._1.flatMap(_.toList)
         val beamNextTokens = beamOutputs._2.flatMap(_.toList)
         val beamIdx = beamOutputs._3.flatMap(_.toList)

@@ -79,8 +79,8 @@ private[johnsnowlabs] class LLAMA2(
     */
   def encode(sentences: Seq[Annotation]): Seq[Array[Int]] = {
     sentences.map(s => {
-      val sentWithTask = s.result
-      spp.getSppModel.encodeAsIds(sentWithTask)
+      val sentWithTask = "_" + s.result
+      Array(bosTokenId) ++ spp.getSppModel.encodeAsIds(sentWithTask)
     })
   }
 
@@ -97,7 +97,8 @@ private[johnsnowlabs] class LLAMA2(
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Array[Array[Int]] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int]): Array[Array[Int]] = {
     val ignoreTokenIdsInt = ignoreTokenIds
     val expandedDecoderInputsVals = batch
     val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
@@ -165,7 +166,8 @@ private[johnsnowlabs] class LLAMA2(
       ignoreTokenIdsInt,
       session,
       applySoftmax = true,
-      ovInferRequest = ovInferRequest)
+      ovInferRequest = ovInferRequest,
+      stopTokenIds = stopTokenIds)
 
     modelOutputs
   }
@@ -184,7 +186,8 @@ private[johnsnowlabs] class LLAMA2(
       randomSeed: Option[Long] = None,
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Seq[Annotation] = {
+      maxInputLength: Int,
+      stopTokenIds: Array[Int]): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch)
@@ -201,7 +204,8 @@ private[johnsnowlabs] class LLAMA2(
         randomSeed,
         ignoreTokenIds,
         beamSize,
-        maxInputLength)
+        maxInputLength,
+        stopTokenIds)
 
       decode(spIds)
 

@@ -43,7 +43,13 @@ class TopKLogitWarper(
   }
 
   private def getTopKIndices(logits: Array[Float], k: Int): Array[Int] = {
-    logits.indices.sortBy(logits(_)).reverse.take(k).toArray
+    // ignore float.NegativeInfinity values
+    val topKIndices = new ArrayBuffer[Int]()
+    val sortedLogits = logits.zipWithIndex.filter(_._1 != filterValue).sortBy(-_._1)
+    for ((_, i) <- sortedLogits.take(k)) {
+      topKIndices += i
+    }
+    topKIndices.toArray
   }
 
   private def maskNotTopKValues(logits: Array[Float], topKIndices: Array[Int]): Array[Float] = {

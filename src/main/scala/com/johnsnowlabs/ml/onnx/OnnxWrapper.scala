@@ -20,6 +20,7 @@ import ai.onnxruntime.OrtSession.SessionOptions
 import ai.onnxruntime.OrtSession.SessionOptions.{ExecutionMode, OptLevel}
 import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
+import com.johnsnowlabs.ml.util.LoadExternalModel
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
@@ -114,9 +115,10 @@ object OnnxWrapper {
       .toString
 
     // 2. Unpack archive
+    val randomSuffix = generateRandomSuffix(onnxFileSuffix)
     val folder =
       if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), onnxFileSuffix)
+        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), randomSuffix)
       else
         modelPath
 
@@ -149,6 +151,11 @@ object OnnxWrapper {
     val onnxWrapper = new OnnxWrapper(onnxFileName, dataFileDirectory)
 
     onnxWrapper
+  }
+
+  private def generateRandomSuffix(fileSuffix: Option[String]): Option[String] = {
+    val randomSuffix = Some(LoadExternalModel.generateRandomString(10))
+    Some(s"${randomSuffix.get}${fileSuffix.getOrElse("")}")
   }
 
   private def mapToSessionOptionsObject(sessionOptions: Map[String, String]): SessionOptions = {

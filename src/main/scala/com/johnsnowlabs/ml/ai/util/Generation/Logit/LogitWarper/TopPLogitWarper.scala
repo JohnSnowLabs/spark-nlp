@@ -24,13 +24,13 @@ class TopPLogitWarper(val p: Double, val minTokensToKeep: Int = 1) extends Logit
     val logitsUpd = scores.map(_.clone()) // Deep copy of the scores
 
     if (p < 1.0) {
-      val scoresFiltered = scores.map(_.filterNot(_.isInfinite)) // Filter out infinite values
-      val scoresShape = Array(scoresFiltered.length, scoresFiltered.head.length)
-      val topPThreshold = math.ceil(p * scoresShape.last).toInt // Determine top-p threshold
+      val scoresFiltered = scores // Filter out infinite values
+      val scoresSoftmaxed = scoresFiltered.map(softmax) // Softmax the scores
 
-      for ((logits, i) <- scores.zipWithIndex) {
-        val topPIndices = getTopPIndices(logits, topPThreshold)
-        val maskedValues = maskNotTopPValues(logits, topPIndices)
+      for ((logits, i) <- scoresSoftmaxed.zipWithIndex) {
+        val topPIndices = getTopPIndices(logits, p)
+        // Mask the values that are not in the top-p
+        val maskedValues = maskNotTopPValues(logitsUpd(i), topPIndices)
         logitsUpd(i) = maskedValues
       }
     }
@@ -38,8 +38,26 @@ class TopPLogitWarper(val p: Double, val minTokensToKeep: Int = 1) extends Logit
     logitsUpd
   }
 
-  private def getTopPIndices(logits: Array[Float], k: Int): Array[Int] = {
-    logits.zipWithIndex.sortBy(-_._1).take(k).map(_._2)
+  private def getTopPIndices(logits: Array[Float], p: Double): Array[Int] = {
+    // sort the logits in descending order
+    var sortedLogits = logits.zipWithIndex.sortBy(-_._1)
+
+    // filter out the negative infinity values
+    sortedLogits = sortedLogits.filter(_._1 > 0.0)
+
+    // cumulative sum of the probabilities
+    val cumSum = sortedLogits.map(_._1).scanLeft(0.0)(_ + _)
+
+    // find the index of the last element that is less than p
+    val lastIdx = cumSum.indexWhere(_ >= p)
+    // if the last index is less than the minimum tokens to keep, return the top p tokens
+
+    if (lastIdx < minTokensToKeep) {
+      sortedLogits.take(math.ceil(p * logits.length).toInt).map(_._2)
+    } else {
+      sortedLogits.take(lastIdx).map(_._2)
+    }
+
   }
 
   private def maskNotTopPValues(logits: Array[Float], topPIndices: Array[Int]): Array[Float] = {

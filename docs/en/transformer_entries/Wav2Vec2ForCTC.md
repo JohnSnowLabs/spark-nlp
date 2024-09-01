@@ -25,7 +25,7 @@ For available pretrained models please see the
 [Models Hub](https://sparknlp.org/models).
 
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) and to see more extended
 examples, see
 [Wav2Vec2ForCTCTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/Wav2Vec2ForCTCTestSpec.scala).
 {%- endcapture -%}

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach</title>
-          <meta name="description" content="Spark NLP 5.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" />
-          <meta name="keywords" content="Spark NLP 5.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" />
+          <title>Spark NLP 5.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach</title>
+          <meta name="description" content="Spark NLP 5.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" />
+          <meta name="keywords" content="Spark NLP 5.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.4.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -157,6 +157,10 @@
                         <a class="object" href="DocumentSimilarityRankerModel$.html" title=""></a>
                         <a class="class" href="DocumentSimilarityRankerModel.html" title="Instantiated model of the DocumentSimilarityRankerApproach."></a>
                         <a href="DocumentSimilarityRankerModel.html" title="Instantiated model of the DocumentSimilarityRankerApproach.">DocumentSimilarityRankerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="object" href="DocumentSimilarityUtil$.html" title=""></a>
+                        <a href="DocumentSimilarityUtil$.html" title="">DocumentSimilarityUtil</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="IndexedNeighbors.html" title=""></a>
@@ -554,22 +558,6 @@ type
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#INPUT_EMBEDDINGS" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="INPUT_EMBEDDINGS:String"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html#INPUT_EMBEDDINGS:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">INPUT_EMBEDDINGS</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#LSH_INPUT_COL_NAME" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="LSH_INPUT_COL_NAME:String"></a>
       <span class="permalink">
@@ -634,6 +622,26 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#aggregationMethod" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="aggregationMethod:org.apache.spark.ml.param.Param[String]"></a><a id="aggregationMethod:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html#aggregationMethod:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aggregationMethod</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Specifies the method used to aggregate multiple sentence embeddings into a single vector
+representation.</p><div class="fullcomment"><div class="comment cmt"><p>Specifies the method used to aggregate multiple sentence embeddings into a single vector
+representation. Options include 'AVERAGE' (compute the mean of all embeddings), 'FIRST' (use
+the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)</p><p>Default AVERAGE
+</p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -1150,6 +1158,22 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#getAggregationMethod" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAggregationMethod:String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html#getAggregationMethod:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAggregationMethod</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#getAsRetrieverQuery" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getAsRetrieverQuery:String"></a>
       <span class="permalink">
@@ -2139,6 +2163,26 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#setAggregationMethod" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="setAggregationMethod(strategy:String):DocumentSimilarityRankerApproach.this.type"></a><a id="setAggregationMethod(String):DocumentSimilarityRankerApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html#setAggregationMethod(strategy:String):DocumentSimilarityRankerApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAggregationMethod</span><span class="params">(<span name="strategy">strategy: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach">DocumentSimilarityRankerApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Set the method used to aggregate multiple sentence embeddings into a single vector
+representation.</p><div class="fullcomment"><div class="comment cmt"><p>Set the method used to aggregate multiple sentence embeddings into a single vector
+representation. Options include 'AVERAGE' (compute the mean of all embeddings), 'FIRST' (use
+the first embedding only), 'MAX' (compute the element-wise maximum across embeddings)</p><p>Default AVERAGE
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach#setBucketLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setBucketLength(value:Double):DocumentSimilarityRankerApproach.this.type"></a><a id="setBucketLength(Double):DocumentSimilarityRankerApproach.this.type"></a>
       <span class="permalink">
