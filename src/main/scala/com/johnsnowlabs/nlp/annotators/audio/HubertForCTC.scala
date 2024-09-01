@@ -16,13 +16,10 @@
 
 package com.johnsnowlabs.nlp.annotators.audio
 
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadJsonStringAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.LoadExternalModel.{detectEngine, loadJsonStringAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 import org.apache.spark.ml.util.Identifiable
@@ -145,15 +142,27 @@ class HubertForCTC(override val uid: String) extends Wav2Vec2ForCTC(uid) {
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+
+    getEngine  match{
+
+      case TensorFlow.name =>
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_hubert_ctc",
       HubertForCTC.tfFile,
       configProtoBytes = getConfigProtoBytes)
-  }
 
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_hubert_ctc",
+          HubertForCTC.onnxFile)
+  }
+  }
 }
 
 trait ReadablePretrainedHubertForAudioModel
@@ -173,15 +182,29 @@ trait ReadablePretrainedHubertForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadHubertForAudioDLModel extends ReadTensorflowModel {
+trait ReadHubertForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[HubertForCTC] =>
 
   override val tfFile: String = "hubert_ctc_tensorflow"
+  override val onnxFile: String = "hubert_ctc_onnx"
 
   def readTensorflow(instance: HubertForCTC, path: String, spark: SparkSession): Unit = {
 
+    instance.getEngine match{
+      case TensorFlow.name =>
     val tf = readTensorflowModel(path, spark, "_hubert_ctc_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tf), None)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_hubert_ctc_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+    }
   }
 
   addReader(readTensorflow)
@@ -227,7 +250,11 @@ trait ReadHubertForAudioDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
