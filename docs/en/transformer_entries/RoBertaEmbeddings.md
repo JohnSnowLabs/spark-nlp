@@ -37,7 +37,7 @@ Tips:
   - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
   - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
 
-The original code can be found ```here``` https://github.com/pytorch/fairseq/tree/master/examples/roberta.
+The original code can be found ```here``` [https://github.com/pytorch/fairseq/tree/master/examples/roberta](https://github.com/pytorch/fairseq/tree/master/examples/roberta).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

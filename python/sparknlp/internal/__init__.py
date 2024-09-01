@@ -149,6 +149,15 @@ class _CamemBertLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _CPMLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_CPMLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
+
 
 class _DistilBertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -286,6 +295,14 @@ class _MistralLoader(ExtendedJavaWrapper):
         )
 
 
+class _NLLBLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark,  use_openvino=False):
+        super(_NLLBLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino)
+
 class _MarianLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MarianLoader, self).__init__(
@@ -378,9 +395,17 @@ class _BartLoader(ExtendedJavaWrapper):
             useCache,
         )
 
+
 class _NomicLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_NomicLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.NomicEmbeddings.loadSavedModel", path, jspark, use_openvino)
+
+
+class _QwenLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_QwenLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer.loadSavedModel", path, jspark, use_openvino)
+
 
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, loadsp):
