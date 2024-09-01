@@ -35,7 +35,8 @@ case class ResourceMetadata(
     isZipped: Boolean = false,
     category: Option[String] = Some(ResourceType.NOT_DEFINED.toString),
     checksum: String = "",
-    annotator: Option[String] = None)
+    annotator: Option[String] = None,
+    engine: Option[String] = None)
     extends Ordered[ResourceMetadata] {
 
   lazy val key: String = {

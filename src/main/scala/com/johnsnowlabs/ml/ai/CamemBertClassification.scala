@@ -16,15 +16,16 @@
 
 package com.johnsnowlabs.ml.ai
 
-import ai.onnxruntime.OnnxTensor
+import ai.onnxruntime.{OnnxTensor, OrtEnvironment}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
-import org.tensorflow.ndarray.buffer.LongDataBuffer
+import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
@@ -97,7 +98,19 @@ private[johnsnowlabs] class CamemBertClassification(
   def tokenizeSeqString(
       candidateLabels: Seq[String],
       maxSeqLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
+
+    labelsToSentences.map(label => {
+      val tokens = basicTokenizer.tokenize(label)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    })
+  }
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -142,6 +155,7 @@ private[johnsnowlabs] class CamemBertClassification(
 
   private def getRawScoresWithTF(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Float] = {
     val tensors = new TensorResources()
+//    val (tokenBuffers, maskBuffers) = initializeTFLongTensorResources(batch, tensors, maxSentenceLength)
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
@@ -192,17 +206,8 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
-
-    // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-
-    val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-    val maskTensors =
-      OnnxTensor.createTensor(
-        env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
-
+    val (tokenTensors, maskTensors) = initializeOnnxTensorResources(batch, env)
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
@@ -260,13 +265,114 @@ private[johnsnowlabs] class CamemBertClassification(
       batch: Seq[Array[Int]],
       entailmentId: Int,
       contradictionId: Int,
-      activation: String): Array[Array[Float]] = ???
+      activation: String): Array[Array[Float]] = {
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
+
+    val rawScores = detectedEngine match {
+      case TensorFlow.name => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
+      case ONNX.name => computeZeroShotLogitsWithONNX(paddedBatch)
+    }
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
+
+  def computeZeroShotLogitsWithONNX(batch: Seq[Array[Int]]): Array[Float] = {
+    val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val (tokenTensors, maskTensors) = initializeOnnxTensorResources(batch, env)
+    val inputs =
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
+
+    try {
+      val results = runner.run(inputs)
+      try {
+        val embeddings = results
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+
+        embeddings
+      } finally if (results != null) results.close()
+    }
+  }
+
+  def computeZeroShotLogitsWithTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
+    val tensors = new TensorResources()
+    val (tokenBuffers, maskBuffers, segmentBuffers) =
+      initializeTFIntTensorResources(batch, tensors, maxSentenceLength)
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers
+          .offset(offset)
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      }
+
+    val runner = tensorflowWrapper.get
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
+
+    runner
+      .feed(
+        _tfCamemBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfCamemBertSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .feed(
+        _tfCamemBertSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfCamemBertSignatures
+        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+
+    val outs = runner.run().asScala
+    val rawScores = TensorResources.extractFloats(outs.head)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    rawScores
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch)
-      case _ => computeLogitsWithTF(batch)
+      case TensorFlow.name => computeLogitsWithTF(batch, maxSentenceLength)
     }
 
     val endDim = endLogits.length / batchLength
@@ -280,14 +386,12 @@ private[johnsnowlabs] class CamemBertClassification(
     (startScores, endScores)
   }
 
-  private def computeLogitsWithTF(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     val tensors = new TensorResources()
-
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
-    val batchLength = batch.length
-
-    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val (tokenBuffers, maskBuffers) =
+      initializeTFLongTensorResources(batch, tensors, maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -335,17 +439,32 @@ private[johnsnowlabs] class CamemBertClassification(
     (startLogits, endLogits)
   }
 
+  private def initializeTFLongTensorResources(
+      batch: Seq[Array[Int]],
+      tensors: TensorResources,
+      maxSentenceLength: Int): (LongDataBuffer, LongDataBuffer) = {
+    val batchLength = batch.length
+    val dim = batchLength * maxSentenceLength
+    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(dim)
+    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(dim)
+    (tokenBuffers, maskBuffers)
+  }
+
+  private def initializeTFIntTensorResources(
+      batch: Seq[Array[Int]],
+      tensors: TensorResources,
+      maxSentenceLength: Int): (IntDataBuffer, IntDataBuffer, IntDataBuffer) = {
+    val batchLength = batch.length
+    val dim = batchLength * maxSentenceLength
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(dim)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(dim)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(dim)
+    (tokenBuffers, maskBuffers, segmentBuffers)
+  }
+
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
-    // [nb of encoded sentences]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-
-    val tokenTensors =
-      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
-    val maskTensors =
-      OnnxTensor.createTensor(
-        env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
-
+    val (tokenTensors, maskTensors) = initializeOnnxTensorResources(batch, env)
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
@@ -378,6 +497,17 @@ private[johnsnowlabs] class CamemBertClassification(
         // Rethrow the exception to propagate it further
         throw e
     }
+  }
+
+  private def initializeOnnxTensorResources(batch: Seq[Array[Int]], env: OrtEnvironment) = {
+    val tokenTensors =
+      OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+    val maskTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+    (tokenTensors, maskTensors)
   }
 
   def findIndexedToken(
