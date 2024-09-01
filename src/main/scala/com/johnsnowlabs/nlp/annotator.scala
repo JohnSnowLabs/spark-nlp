@@ -809,4 +809,11 @@ package object annotator {
     com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
 
   object MxbaiEmbeddings extends ReadablePretrainedMxbaiModel with ReadMxbaiDLModel
+
+  
+  type SnowFlakeEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings
+
+  object SnowFlakeEmbeddings extends ReadablePretrainedSnowFlakeModel with ReadSnowFlakeDLModel
+
 }

@@ -21,7 +21,7 @@ and the [UniversalSentenceEncoderTestSpec](https://github.com/JohnSnowLabs/spark
 
 [Universal Sentence Encoder](https://arxiv.org/abs/1803.11175)
 
-https://tfhub.dev/google/universal-sentence-encoder/2
+[https://tfhub.dev/google/universal-sentence-encoder/2](https://tfhub.dev/google/universal-sentence-encoder/2)
 
 **Paper abstract:**
 

@@ -164,12 +164,15 @@ class DateMatcher(override val uid: String)
     def inputFormatsAreDefined = !getInputFormats.sameElements(EMPTY_INIT_ARRAY)
 
     val possibleDate: Option[MatchedDateTime] =
-      if (inputFormatsAreDefined)
-        runInputFormatsSearch(_text)
-      else
-        runDateExtractorChain(_text)
+      if (inputFormatsAreDefined) runInputFormatsSearch(_text) else runDateExtractorChain(_text)
 
-    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+    if (getAggressiveMatching) {
+      possibleDate
+        .orElse(runDateExtractorChain(_text))
+        .orElse(setTimeIfAny(possibleDate, _text))
+    } else {
+      possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+    }
   }
 
   private def runDateExtractorChain(_text: String) = {
