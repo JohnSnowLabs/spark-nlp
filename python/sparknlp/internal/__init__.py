@@ -940,8 +940,16 @@ class _UAEEmbeddingsLoader(ExtendedJavaWrapper):
         )
 
 
+class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MxbaiEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings.loadSavedModel", path, jspark
+        )
+
+
 class _SnowFlakeEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_SnowFlakeEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings.loadSavedModel", path, jspark
         )
+
