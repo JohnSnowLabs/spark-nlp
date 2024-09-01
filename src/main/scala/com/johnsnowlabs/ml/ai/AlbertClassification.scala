@@ -25,10 +25,12 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.intel.openvino.Tensor
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 import org.slf4j.{Logger, LoggerFactory}
+import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
@@ -95,7 +97,19 @@ private[johnsnowlabs] class AlbertClassification(
   def tokenizeSeqString(
       candidateLabels: Seq[String],
       maxSeqLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
+
+    labelsToSentences.map(label => {
+      val tokens = basicTokenizer.tokenize(label)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    })
+  }
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -310,7 +324,30 @@ private[johnsnowlabs] class AlbertClassification(
       batch: Seq[Array[Int]],
       entailmentId: Int,
       contradictionId: Int,
-      activation: String): Array[Array[Float]] = ???
+      activation: String): Array[Array[Float]] = {
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
+
+    val rawScores = detectedEngine match {
+      case TensorFlow.name => getRawScoresWithTF(paddedBatch, maxSentenceLength)
+      case ONNX.name => getRawScoresWithOnnx(paddedBatch, maxSentenceLength, sequence = true)
+    }
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
