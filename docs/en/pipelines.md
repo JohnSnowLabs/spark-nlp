@@ -62,6 +62,8 @@ annotation.select("entities.result").show(false)
 */
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### Showing Available Pipelines
 
 There are functions in Spark NLP that will list all the available Pipelines
@@ -105,6 +107,8 @@ ResourceDownloader.showPublicPipelines(lang = "en", version = "3.1.0")
 */
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### Please check out our Models Hub for the full list of [pre-trained pipelines](https://sparknlp.org/models) with examples, demos, benchmarks, and more
 
 ### Models
@@ -137,6 +141,8 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
   .setInputCols("document", "token")
   .setOutputCol("pos")
 ```
+
+</div><div class="h3-box" markdown="1">
 
 #### Showing Available Models
 

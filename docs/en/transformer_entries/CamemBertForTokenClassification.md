@@ -21,7 +21,7 @@ For available pretrained models please see the
 and the
 [CamemBertForTokenClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForTokenClassificationTestSpec.scala).
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

@@ -158,6 +158,12 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProper
                              "(Default: `empty`)",
                              typeConverter=TypeConverters.toString)
 
+    aggregationMethod = Param(Params._dummy(),
+                              "aggregationMethod",
+                              "Specifies the method used to aggregate multiple sentence embeddings into a single vector representation.",
+                              typeConverter=TypeConverters.toString)
+
+
     def setSimilarityMethod(self, value):
         """Sets the similarity method used to calculate the neighbours.
             (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
@@ -232,6 +238,22 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProper
              the query to use to select nearest neighbors in the retrieval process.
         """
         return self._set(asRetrieverQuery=value)
+
+    def setAggregationMethod(self, value):
+        """Set the method used to aggregate multiple sentence embeddings into a single vector
+           representation.
+
+        Parameters
+        ----------
+        value : str
+           Options include
+            'AVERAGE' (compute the mean of all embeddings),
+            'FIRST' (use the first embedding only),
+            'MAX' (compute the element-wise maximum across embeddings)
+
+           Default ('AVERAGE')
+        """
+        return self._set(aggregationMethod=value)
 
     @keyword_only
     def __init__(self):
