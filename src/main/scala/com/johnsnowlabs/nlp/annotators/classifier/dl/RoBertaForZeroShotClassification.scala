@@ -17,14 +17,10 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.RoBertaClassification
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -124,6 +120,7 @@ class RoBertaForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[RoBertaForZeroShotClassification]
     with HasBatchedAnnotate[RoBertaForZeroShotClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine
@@ -352,6 +349,9 @@ class RoBertaForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
+
+    getEngine match {
+      case TensorFlow.name =>
     writeTensorflowModelV2(
       path,
       spark,
@@ -359,8 +359,16 @@ class RoBertaForZeroShotClassification(override val uid: String)
       "_roberta_classification",
       RoBertaForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
-  }
 
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_roberta_classification",
+          RoBertaForZeroShotClassification.onnxFile)
+    }
+  }
 }
 
 trait ReadablePretrainedRoBertaForZeroShotModel
@@ -384,21 +392,37 @@ trait ReadablePretrainedRoBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel {
+trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel{
   this: ParamsAndFeaturesReadable[RoBertaForZeroShotClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
+  override val onnxFile: String = "roberta_classification_onnx"
 
   def readModel(
       instance: RoBertaForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tfWrapper =
-      readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tfWrapper), None)
-  }
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_roberta_classification_tf")
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_deberta_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      case _ =>
+        throw new Exception(notSupportedEngineError)
 
+    }
+  }
   addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForZeroShotClassification = {
@@ -460,6 +484,10 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel {
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
 
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

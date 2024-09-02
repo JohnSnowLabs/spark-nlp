@@ -18,12 +18,9 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.Tapas
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.base.TableAssembler
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}
@@ -169,13 +166,15 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
   override def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): TapasForQuestionAnswering = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): TapasForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new Tapas(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             tags = Map.empty[String, Int],
@@ -251,7 +250,7 @@ trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
     val tensorFlow =
       readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tensorFlow), None)
+    instance.setModelIfNotSet(spark, Some(tensorFlow), None, None)
   }
 
   addReader(readModel)
@@ -283,7 +282,7 @@ trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
+          .setModelIfNotSet(spark, Some(wrapper), None, None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
