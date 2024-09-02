@@ -17,15 +17,20 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.intel.openvino.Tensor
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 import org.slf4j.{Logger, LoggerFactory}
+import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
@@ -43,6 +48,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class AlbertClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
@@ -56,6 +62,7 @@ private[johnsnowlabs] class AlbertClassification(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -68,6 +75,8 @@ private[johnsnowlabs] class AlbertClassification(
   protected val sigmoidThreshold: Float = threshold
 
   protected val logger: Logger = LoggerFactory.getLogger("AlbertClassification")
+
+
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -88,7 +97,19 @@ private[johnsnowlabs] class AlbertClassification(
   def tokenizeSeqString(
       candidateLabels: Seq[String],
       maxSeqLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val labelsToSentences = candidateLabels.map { s => Sentence(s, 0, s.length - 1, 0) }
+
+    labelsToSentences.map(label => {
+      val tokens = basicTokenizer.tokenize(label)
+      val wordpieceTokens = tokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    })
+  }
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -112,7 +133,8 @@ private[johnsnowlabs] class AlbertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
-      case _ => getRawScoresWithTF(batch, maxSentenceLength)
+      case Openvino.name => getRawScoresWithOv(batch, maxSentenceLength)
+      case TensorFlow.name => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
@@ -132,7 +154,8 @@ private[johnsnowlabs] class AlbertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch, maxSentenceLength, sequence = true)
-      case _ => getRawScoresWithTF(batch, maxSentenceLength)
+      case TensorFlow.name => getRawScoresWithTF(batch, maxSentenceLength)
+      case Openvino.name => getRawScoresWithOv(batch, maxSentenceLength)
     }
 
     val dim = rawScores.length / batchLength
@@ -206,6 +229,42 @@ private[johnsnowlabs] class AlbertClassification(
     rawScores
   }
 
+  private def getRawScoresWithOv(
+                                    batch: Seq[Array[Int]],
+                                    maxSentenceLength: Int
+                                    ): Array[Float] = {
+
+
+
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+    val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
   private def getRawScoresWithOnnx(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
@@ -258,18 +317,45 @@ private[johnsnowlabs] class AlbertClassification(
     }
   }
 
+
+
+
   def tagZeroShotSequence(
       batch: Seq[Array[Int]],
       entailmentId: Int,
       contradictionId: Int,
-      activation: String): Array[Array[Float]] = ???
+      activation: String): Array[Array[Float]] = {
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
+
+    val rawScores = detectedEngine match {
+      case TensorFlow.name => getRawScoresWithTF(paddedBatch, maxSentenceLength)
+      case ONNX.name => getRawScoresWithOnnx(paddedBatch, maxSentenceLength, sequence = true)
+    }
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(0)
+    }
+  }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch, maxSentenceLength)
-      case _ => computeLogitsWithTF(batch, maxSentenceLength)
+      case TensorFlow.name => computeLogitsWithTF(batch, maxSentenceLength)
+      case Openvino.name => computeLogitsWithOv(batch, maxSentenceLength)
     }
 
     val endDim = endLogits.length / batchLength
@@ -357,8 +443,8 @@ private[johnsnowlabs] class AlbertClassification(
   }
 
   private def computeLogitsWithOnnx(
-      batch: Seq[Array[Int]],
-      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+                                     batch: Seq[Array[Int]],
+                                     maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -410,6 +496,45 @@ private[johnsnowlabs] class AlbertClassification(
     }
   }
 
+
+
+  private def computeLogitsWithOv(
+                                     batch: Seq[Array[Int]],
+                                     maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+    // [nb of encoded sentences , maxSentenceLength]
+
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+    val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        val startLogits =  inferRequest
+          .get_tensor("start_logits")
+          .data()
+        val endLogits = inferRequest
+          .get_tensor("end_logits")
+          .data()
+
+        (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
   def findIndexedToken(
       tokenizedSentences: Seq[TokenizedSentence],
       sentence: (WordpieceTokenizedSentence, Int),

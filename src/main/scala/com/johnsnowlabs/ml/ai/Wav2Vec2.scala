@@ -16,8 +16,11 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 
@@ -25,7 +28,8 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 private[johnsnowlabs] class Wav2Vec2(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     vocabs: Map[String, BigInt],
     signatures: Option[Map[String, String]] = None)
@@ -36,7 +40,11 @@ private[johnsnowlabs] class Wav2Vec2(
 
   private val wordDelimiterToken = "|"
   private val padVocabId = vocabs.getOrElse("<pad>", 0)
-
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   private def sessionWarmup(): Unit = {
     val bufferedSource =
       scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audio_floats.csv"))
@@ -52,11 +60,16 @@ private[johnsnowlabs] class Wav2Vec2(
   sessionWarmup()
 
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
+
+    val rawScores =
+      detectedEngine match{
+      case TensorFlow.name =>
+
     val tensors = new TensorResources()
 
     val audioTensors = tensors.createTensor(batch)
 
-    val runner = tensorflowWrapper
+    val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
@@ -69,12 +82,41 @@ private[johnsnowlabs] class Wav2Vec2(
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
-    val rawScores = TensorResources.extractFloats(outs.head)
 
-    tensors.clearSession(outs)
     tensors.clearTensors()
     audioTensors.close()
+    val output = TensorResources.extractFloats(outs.head)
+    tensors.clearSession(outs)
+     output
 
+      case ONNX.name =>
+        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+        val audioTensors =
+          OnnxTensor.createTensor(env, batch)
+        val inputs =
+          Map(
+            "input_values" -> audioTensors).asJava
+        try {
+          val results = runner.run(inputs)
+          try {
+            results
+              .get("logits")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+          } finally if (results != null) results.close()
+        } catch {
+          case e: Exception =>
+            // Handle exceptions by logging or other means.
+            e.printStackTrace()
+            Array.empty[Float] // Return an empty array or appropriate error handling
+        } finally {
+          // Close tensors outside the try-catch to avoid repeated null checks.
+          // These resources are initialized before the try-catch, so they should be closed here.
+          audioTensors.close()
+        }
+      }
     rawScores
       .grouped(vocabSize)
       .toArray

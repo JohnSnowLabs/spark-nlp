@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common.TableData
@@ -30,21 +31,14 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Tapas(
     override val tensorflowWrapper: Option[TensorflowWrapper],
     override val onnxWrapper: Option[OnnxWrapper],
+    override val openvinoWrapper: Option[OpenvinoWrapper],
     override val sentenceStartTokenId: Int,
     override val sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     vocabulary: Map[String, Int])
-    extends BertClassification(
-      tensorflowWrapper = tensorflowWrapper,
-      onnxWrapper = onnxWrapper,
-      sentenceStartTokenId = sentenceStartTokenId,
-      sentenceEndTokenId = sentenceEndTokenId,
-      configProtoBytes = configProtoBytes,
-      tags = tags,
-      signatures = signatures,
-      vocabulary = vocabulary) {
+    extends BertClassification(tensorflowWrapper = tensorflowWrapper, onnxWrapper = onnxWrapper, openvinoWrapper = openvinoWrapper, sentenceStartTokenId = sentenceStartTokenId, sentenceEndTokenId = sentenceEndTokenId, configProtoBytes = configProtoBytes, tags = tags, signatures = signatures, vocabulary = vocabulary) {
 
   def tagTapasSpan(batch: Seq[TapasInputData]): (Array[Array[Float]], Array[Int]) = {
 

@@ -432,6 +432,13 @@ package object annotator {
       extends ReadablePretrainedAlbertForTokenModel
       with ReadAlbertForTokenDLModel
 
+  type AlbertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification
+
+  object AlbertForZeroShotClassification
+      extends ReadablePretrainedAlbertForZeroShotModel
+      with ReadAlbertForZeroShotDLModel
+
   type XlnetForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification
 
@@ -807,4 +814,15 @@ package object annotator {
 
   type AutoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
   object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel
+
+  type MxbaiEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
+
+  object MxbaiEmbeddings extends ReadablePretrainedMxbaiModel with ReadMxbaiDLModel
+  
+  type SnowFlakeEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings
+
+  object SnowFlakeEmbeddings extends ReadablePretrainedSnowFlakeModel with ReadSnowFlakeDLModel
+
 }
