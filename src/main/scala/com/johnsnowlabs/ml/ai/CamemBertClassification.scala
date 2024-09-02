@@ -17,14 +17,24 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
+<<<<<<< Updated upstream
+=======
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+>>>>>>> Stashed changes
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+<<<<<<< Updated upstream
 import org.tensorflow.ndarray.buffer.LongDataBuffer
+=======
+import org.intel.openvino.Tensor
+import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
+>>>>>>> Stashed changes
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
@@ -43,6 +53,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class CamemBertClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
@@ -57,6 +68,7 @@ private[johnsnowlabs] class CamemBertClassification(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -126,6 +138,7 @@ private[johnsnowlabs] class CamemBertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch)
+      case Openvino.name => getRawScoresWithOv(batch, maxSentenceLength)
       case _ => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
@@ -146,28 +159,27 @@ private[johnsnowlabs] class CamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
-        val sentenceLong = sentence.map(x => x.toLong)
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentenceLong)
+        tokenBuffers.offset(offset).write(sentence)
         maskBuffers
           .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
     val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
@@ -190,6 +202,40 @@ private[johnsnowlabs] class CamemBertClassification(
 
     rawScores
   }
+
+  private def getRawScoresWithOv(
+                                  batch: Seq[Array[Int]],
+                                  maxSentenceLength: Int
+                                ): Array[Float] = {
+
+
+
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.infer()
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
 
   private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
@@ -238,7 +284,8 @@ private[johnsnowlabs] class CamemBertClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch)
-      case _ => getRawScoresWithTF(batch, maxSentenceLength)
+      case Openvino.name => getRawScoresWithOv(batch, maxSentenceLength)
+      case TensorFlow.name => getRawScoresWithTF(batch, maxSentenceLength)
     }
 
     val dim = rawScores.length / batchLength
@@ -266,6 +313,10 @@ private[johnsnowlabs] class CamemBertClassification(
     val batchLength = batch.length
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch)
+<<<<<<< Updated upstream
+=======
+      case Openvino.name => computeLogitsWithOv(batch)
+>>>>>>> Stashed changes
       case _ => computeLogitsWithTF(batch)
     }
 
@@ -335,6 +386,46 @@ private[johnsnowlabs] class CamemBertClassification(
     (startLogits, endLogits)
   }
 
+<<<<<<< Updated upstream
+=======
+
+  def computeLogitsWithOv(
+                                   batch: Seq[Array[Int]]
+                                   ): (Array[Float], Array[Float]) = {
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+
+    try {
+      try {
+        val startLogits =  inferRequest
+          .get_tensor("start_logits")
+          .data()
+        val endLogits = inferRequest
+          .get_tensor("end_logits")
+          .data()
+
+        (startLogits, endLogits)
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+>>>>>>> Stashed changes
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences]
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
