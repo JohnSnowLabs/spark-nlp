@@ -248,6 +248,14 @@ class _LLAMA2Loader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _LLAMA3Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_LLAMA3Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA3Transformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
 
 class _LongformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
