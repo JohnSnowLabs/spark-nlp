@@ -26,3 +26,4 @@ from sparknlp.annotator.seq2seq.nllb_transformer import *
 from sparknlp.annotator.seq2seq.cpm_transformer import *
 from sparknlp.annotator.seq2seq.qwen_transformer import *
 from sparknlp.annotator.seq2seq.starcoder_transformer import *
+from sparknlp.annotator.seq2seq.llama3_transformer import *
