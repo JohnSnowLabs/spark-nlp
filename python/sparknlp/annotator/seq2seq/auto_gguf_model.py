@@ -86,8 +86,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         Set the main GPU that is used for scratch and small tensors.
     tensorSplit
         Set how split tensors should be distributed across GPUs
-    nBeams
-        Set usage of beam search of given width if non-zero.
     grpAttnN
         Set the group-attention factor
     grpAttnW
@@ -122,8 +120,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         Set path to static lookup cache to use for lookup decoding (not updated by generation)
     lookupCacheDynamicFilePath
         Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
-    loraBase
-        Set an optional model to use as a base for the layers modified by the LoRA adapter
     embedding
         Whether to load model with embedding support
     flashAttention
@@ -311,8 +307,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
                     typeConverter=TypeConverters.toInt)
     tensorSplit = Param(Params._dummy(), "tensorSplit", "Set how split tensors should be distributed across GPUs",
                         typeConverter=TypeConverters.toListFloat)
-    nBeams = Param(Params._dummy(), "nBeams", "Set usage of beam search of given width if non-zero.",
-                   typeConverter=TypeConverters.toInt)
     grpAttnN = Param(Params._dummy(), "grpAttnN", "Set the group-attention factor", typeConverter=TypeConverters.toInt)
     grpAttnW = Param(Params._dummy(), "grpAttnW", "Set the group-attention width", typeConverter=TypeConverters.toInt)
     ropeFreqBase = Param(Params._dummy(), "ropeFreqBase", "Set the RoPE base frequency, used by NTK-aware scaling",
@@ -370,9 +364,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
                                        "Set path to dynamic lookup cache to use for lookup decoding (updated by generation)",
                                        typeConverter=TypeConverters.toString)
     # loraAdapters = new StructFeature[Map[String, Float]](this, "loraAdapters")
-    loraBase = Param(Params._dummy(), "loraBase",
-                     "Set an optional model to use as a base for the layers modified by the LoRA adapter",
-                     typeConverter=TypeConverters.toString)
     embedding = Param(Params._dummy(), "embedding", "Whether to load model with embedding support",
                       typeConverter=TypeConverters.toBoolean)
     flashAttention = Param(Params._dummy(), "flashAttention", "Whether to enable Flash Attention",
@@ -520,10 +511,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         """Set how split tensors should be distributed across GPUs"""
         return self._set(tensorSplit=tensorSplit)
 
-    def setNBeams(self, nBeams: int):
-        """Set usage of beam search of given width if non-zero."""
-        return self._set(nBeams=nBeams)
-
     def setGrpAttnN(self, grpAttnN: int):
         """Set the group-attention factor"""
         return self._set(grpAttnN=grpAttnN)
@@ -591,10 +578,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):
         """Set path to dynamic lookup cache to use for lookup decoding (updated by generation)"""
         return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)
-
-    def setLoraBase(self, loraBase: str):
-        """Set an optional model to use as a base for the layers modified by the LoRA adapter"""
-        return self._set(loraBase=loraBase)
 
     def setEmbedding(self, embedding: bool):
         """Whether to load model with embedding support"""
