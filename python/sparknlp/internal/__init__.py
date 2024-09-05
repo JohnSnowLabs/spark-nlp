@@ -974,6 +974,12 @@ class _UAEEmbeddingsLoader(ExtendedJavaWrapper):
         )
 
 
+class _AutoGGUFLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AutoGGUFLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
+        
+        
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MxbaiEmbeddingsLoader, self).__init__(
@@ -986,4 +992,3 @@ class _SnowFlakeEmbeddingsLoader(ExtendedJavaWrapper):
         super(_SnowFlakeEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings.loadSavedModel", path, jspark
         )
-
