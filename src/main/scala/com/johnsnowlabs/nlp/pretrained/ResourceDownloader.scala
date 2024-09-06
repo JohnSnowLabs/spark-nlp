@@ -687,7 +687,8 @@ object PythonResourceDownloader {
     "AutoGGUFModel" -> AutoGGUFModel,
     "AlbertForZeroShotClassification" -> AlbertForZeroShotClassification,
     "MxbaiEmbeddings" -> MxbaiEmbeddings,
-    "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings
+    "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings,
+    "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification
   )
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
