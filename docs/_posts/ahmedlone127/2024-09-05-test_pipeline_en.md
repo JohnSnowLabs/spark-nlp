@@ -1,11 +1,11 @@
 ---
 layout: model
-title: English test_pipeline pipeline DistilBertEmbeddings from mivenis
+title: English test_pipeline pipeline CLIPForZeroShotClassification from risedev
 author: John Snow Labs
 name: test_pipeline
 date: 2024-09-05
 tags: [en, open_source, pipeline, onnx]
-task: Embeddings
+task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.0
 spark_version: 3.0
@@ -18,13 +18,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained DistilBertEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`test_pipeline` is a English model originally trained by mivenis.
+Pretrained CLIPForZeroShotClassification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`test_pipeline` is a English model originally trained by risedev.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/test_pipeline_en_5.5.0_3.0_1725524356640.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/test_pipeline_en_5.5.0_3.0_1725524356640.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/test_pipeline_en_5.5.0_3.0_1725540303199.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/test_pipeline_en_5.5.0_3.0_1725540303199.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -57,14 +57,13 @@ val annotations = pipeline.transform(df)
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|
-|Size:|247.3 MB|
+|Size:|397.7 MB|
 
 ## References
 
-https://huggingface.co/mivenis/test
+https://huggingface.co/risedev/test
 
 ## Included Models
 
-- DocumentAssembler
-- TokenizerModel
-- DistilBertEmbeddings
+- ImageAssembler
+- CLIPForZeroShotClassification
