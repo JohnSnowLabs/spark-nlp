@@ -54,6 +54,7 @@ object ResourceHelper {
         .config("spark.driver.maxResultSize", "0")
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         .config("spark.kryoserializer.buffer.max", "1000m")
+        .config("spark.jsl.settings.pretrained.cache_folder", "/media/danilo/Data/Danilo/JSL/cache-models-jsl")
         .getOrCreate())
 
   def getSparkSessionWithS3(

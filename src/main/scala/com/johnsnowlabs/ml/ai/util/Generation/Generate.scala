@@ -217,6 +217,8 @@ trait Generate {
 
         // Feed the encoder input ids and decoder input ids to the model and get the output
         // return shape (beamSize,vocabSize)
+        println(s"ini expandedEncoderInputIdsVals size: ${expandedEncoderInputIdsVals.head.length}")
+        println(s"ini expandedInputs.head.length: ${expandedInputs.head.length}")
         val nextTokenLogits =
           this.getModelOutput(
             expandedEncoderInputIdsVals,
@@ -228,16 +230,15 @@ trait Generate {
             ovInferRequest)
 
         // Optionally Apply log softmax to model outputs
-        var nextTokenScores =
-          if (applySoftmax) nextTokenLogits.map(logSoftmax) else nextTokenLogits
+        var nextTokenScores = if (applySoftmax) nextTokenLogits.map(logSoftmax) else nextTokenLogits
+        println(s"Logits after softmax: ${nextTokenScores.map(_.mkString(",")).mkString("\n")}")
         // Process the logits by defined logit processors
-        val nextTokenScoresProcessed =
-          logitProcessor.process(expandedInputs, nextTokenScores, currentLength)
+        val nextTokenScoresProcessed = logitProcessor.process(expandedInputs, nextTokenScores, currentLength)
 
         // Process the logits by defined logit warpers
         if (doSample) {
-          nextTokenScores =
-            logitProcessor.warp(expandedInputs, nextTokenScoresProcessed, currentLength)
+          nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScoresProcessed, currentLength)
+          println(s"Logits after warping (doSample): ${nextTokenScores.map(_.mkString(",")).mkString("\n")}")
         }
         // Add previous beam scores to the output
         nextTokenScores = nextTokenScores.zipWithIndex.map { case (x, ind1) =>
@@ -248,8 +249,8 @@ trait Generate {
 
         // Reshape next token score to (batchSize, vocabSize * numBeams)
         val vocabSize = nextTokenScores.head.length
-        val reshapedNextTokenScores =
-          reshapeArray(nextTokenScores, batchSize, vocabSize * numBeams)
+        println(s"vocabSize in generate: $vocabSize")
+        val reshapedNextTokenScores = reshapeArray(nextTokenScores, batchSize, vocabSize * numBeams)
 
         nextTokenScores = reshapedNextTokenScores
 
@@ -299,6 +300,10 @@ trait Generate {
         val newBeamScores = beamOutputs._1.flatMap(_.toList)
         val beamNextTokens = beamOutputs._2.flatMap(_.toList)
         val beamIdx = beamOutputs._3.flatMap(_.toList)
+        println(s"Beam next tokens: ${beamNextTokens.mkString(",")}")
+        println(s"Beam indices: ${beamIdx.mkString(",")}")
+        println(s"New beam scores: ${newBeamScores.mkString(",")}")
+
         var newInputIds = Seq[Array[Int]]()
 
         for ((i, ind) <- beamIdx.zipWithIndex) {
@@ -311,11 +316,23 @@ trait Generate {
           beamIndices(beamIdx(elem)) :+ beamIdx(elem)
         }
         currentLength = currentLength + 1
+
+        println(s"beamScorer.isDone: ${beamScorer.isDone}")
+        println(s"end expandedInputs.head.length: ${expandedInputs.head.length}")
+        println(s"maxLength: $maxLength")
         if (beamScorer.isDone || (expandedInputs.head.length >= maxLength)) {
+          println("done exit while loop")
           break
 
         }
       }
+    }
+
+    println(s"Before beamScorer.finalize - padTokenId: $padTokenId, eosTokenId: $eosTokenId")
+    println(s"expandedInputs shape: (${expandedInputs.length}, ${expandedInputs.head.length})")
+    println(s"expandedInputs values:")
+    expandedInputs.foreach{ input =>
+      println(s"[${input.mkString(" ")}]")
     }
 
     val sequenceOutputs = beamScorer.finalize(

@@ -115,6 +115,7 @@ class BeamSearchScorer(
       eosTokenId: Int,
       beamIndices: Seq[Array[Int]]): (Array[Array[Int]], Array[Float], Array[Array[Int]]) = {
     val batchSize = this.beamHypothesesSeq.length
+    println(s"In finalize batchSize $batchSize")
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, batchIdx) =>
       breakable {
         if (!this.done.contains(false)) {
@@ -139,6 +140,7 @@ class BeamSearchScorer(
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, i) =>
       breakable {
         var sortedHypotheses = hypotheses.getBeams.sortWith(_._1 < _._1)
+        println(s"In finalize numBeamHypothesisToKeep: $numBeamHypothesisToKeep")
         for (j <- 0 until this.numBeamHypothesisToKeep) {
           val bestHypothesisTuple = sortedHypotheses.last
           val bestScore = bestHypothesisTuple._1
