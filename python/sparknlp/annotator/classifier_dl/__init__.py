@@ -52,5 +52,6 @@ from sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification impor
 from sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification import *
 from sparknlp.annotator.classifier_dl.mpnet_for_question_answering import *
 from sparknlp.annotator.classifier_dl.mpnet_for_token_classification import *
-from sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification import *
+from sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification import *
+

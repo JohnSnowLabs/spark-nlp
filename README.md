@@ -51,7 +51,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==5.4.0 pyspark==3.3.1
+$ pip install spark-nlp==5.5.0-rc1 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -116,7 +116,7 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *5.4.0* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+Spark NLP *5.5.0-rc1* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
@@ -141,7 +141,7 @@ Find out more about 4.x `SparkNLP` versions in our official [documentation](http
 
 ### Databricks Support
 
-Spark NLP 5.4.0 has been tested and is compatible with the following runtimes:
+Spark NLP 5.5.0-rc1 has been tested and is compatible with the following runtimes:
 
 | **CPU**            | **GPU**            |
 |--------------------|--------------------|
@@ -154,7 +154,7 @@ We are compatible with older runtimes. For a full list check databricks support 
 
 ### EMR Support
 
-Spark NLP 5.4.0 has been tested and is compatible with the following EMR releases:
+Spark NLP 5.5.0-rc1 has been tested and is compatible with the following EMR releases:
 
 | **EMR Release**    |
 |--------------------|
@@ -166,7 +166,7 @@ Spark NLP 5.4.0 has been tested and is compatible with the following EMR release
 We are compatible with older EMR releases. For a full list check EMR support in our official [documentation](https://sparknlp.org/docs/en/install#emr-support)
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
-Full list 5.4.2mazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
+Full list 5.5.0-rc1mazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
 
 NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
@@ -182,7 +182,7 @@ deployed to Maven central. To add any of our packages as a dependency in your ap
 from our official documentation.
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your
-projects [Spark NLP SBT S5.4.2r](https://github.com/maziyarpanahi/spark-nlp-starter)
+projects [Spark NLP SBT S5.5.0-rc1r](https://github.com/maziyarpanahi/spark-nlp-starter)
 
 ### Python
 
@@ -227,7 +227,7 @@ In Spark NLP we can define S3 locations to:
 
 Please check [these instructions](https://sparknlp.org/docs/en/install#s3-integration) from our official documentation.
 
-## Document5.4.2
+## Document5.5.0-rc1
 
 ### Examples
 
@@ -260,7 +260,7 @@ the Spark NLP library:
     keywords = {Spark, Natural language processing, Deep learning, Tensorflow, Cluster},
     abstract = {Spark NLP is a Natural Language Processing (NLP) library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that can scale easily in a distributed environment. Spark NLP comes with 1100+ pretrained pipelines and models in more than 192+ languages. It supports nearly all the NLP tasks and modules that can be used seamlessly in a cluster. Downloaded more than 2.7 million times and experiencing 9x growth since January 2020, Spark NLP is used by 54% of healthcare organizations as the world’s most widely used NLP library in the enterprise.}
     }
-}5.4.2
+}5.5.0-rc1
 ```
 
 ## Community support

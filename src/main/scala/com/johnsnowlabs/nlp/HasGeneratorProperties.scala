@@ -227,8 +227,8 @@ trait HasGeneratorProperties {
     *
     * @group param
     */
-  var stopTokenIds =
-    new IntArrayParam(this, "stopTokens", "Stop tokens to terminate the generation")
+  val stopTokenIds =
+    new IntArrayParam(this, "stopTokenIds", "Stop tokens to terminate the generation")
 
   /** @group setParam */
   def setStopTokenIds(value: Array[Int]): this.type = {

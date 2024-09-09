@@ -100,9 +100,11 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   def tokenizeSeqString(
+
                          candidateLabels: Seq[String],
                          maxSeqLength: Int,
                          caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
+
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder =
       new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
@@ -160,8 +162,6 @@ private[johnsnowlabs] class CamemBertClassification(
 
   private def getRawScoresWithTF(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Float] = {
     val tensors = new TensorResources()
-    //    val (tokenBuffers, maskBuffers) = initializeTFLongTensorResources(batch, tensors, maxSentenceLength)
-
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
@@ -302,6 +302,7 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   def tagZeroShotSequence(
+
                            batch: Seq[Array[Int]],
                            entailmentId: Int,
                            contradictionId: Int,
@@ -346,8 +347,13 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   def computeZeroShotLogitsWithTF(
+
                                    batch: Seq[Array[Int]],
                                    maxSentenceLength: Int): Array[Float] = {
+
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
+
     val tensors = new TensorResources()
     val (tokenBuffers, maskBuffers, segmentBuffers) =
       initializeTFIntTensorResources(batch, tensors, maxSentenceLength)
@@ -443,6 +449,7 @@ private[johnsnowlabs] class CamemBertClassification(
 
   }
 
+
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val batchLength = batch.length
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -464,8 +471,10 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   private def computeLogitsWithTF(
+
                                    batch: Seq[Array[Int]],
                                    maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+
     val tensors = new TensorResources()
     val (tokenBuffers, maskBuffers) =
       initializeTFLongTensorResources(batch, tensors, maxSentenceLength)
@@ -517,9 +526,11 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   private def initializeTFLongTensorResources(
+
                                                batch: Seq[Array[Int]],
                                                tensors: TensorResources,
                                                maxSentenceLength: Int): (LongDataBuffer, LongDataBuffer) = {
+
     val batchLength = batch.length
     val dim = batchLength * maxSentenceLength
     val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(dim)
@@ -528,9 +539,11 @@ private[johnsnowlabs] class CamemBertClassification(
   }
 
   private def initializeTFIntTensorResources(
-                                              batch: Seq[Array[Int]],
-                                              tensors: TensorResources,
-                                              maxSentenceLength: Int): (IntDataBuffer, IntDataBuffer, IntDataBuffer) = {
+
+      batch: Seq[Array[Int]],
+      tensors: TensorResources,
+      maxSentenceLength: Int): (IntDataBuffer, IntDataBuffer, IntDataBuffer) = {
+
     val batchLength = batch.length
     val dim = batchLength * maxSentenceLength
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(dim)

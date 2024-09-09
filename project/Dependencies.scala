@@ -113,7 +113,7 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val onnxRuntimeVersion = "1.18.0"
+  val onnxRuntimeVersion = "1.19.2"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
@@ -127,6 +127,11 @@ object Dependencies {
   val azureStorageVersion = "12.26.0"
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
+
+  val llamaCppVersion = "0.1.1-rc2"
+  val llamaCppCPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-cpu" % llamaCppVersion
+  val llamaCppGPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-gpu" % llamaCppVersion
+  val llamaCppSilicon = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-silicon" % llamaCppVersion
 
   /** ------- Dependencies end  ------- */
 }
