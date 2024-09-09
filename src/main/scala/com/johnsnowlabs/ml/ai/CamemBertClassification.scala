@@ -350,10 +350,6 @@ private[johnsnowlabs] class CamemBertClassification(
 
                                    batch: Seq[Array[Int]],
                                    maxSentenceLength: Int): Array[Float] = {
-
-      batch: Seq[Array[Int]],
-      maxSentenceLength: Int): Array[Float] = {
-
     val tensors = new TensorResources()
     val (tokenBuffers, maskBuffers, segmentBuffers) =
       initializeTFIntTensorResources(batch, tensors, maxSentenceLength)
@@ -607,5 +603,4 @@ private[johnsnowlabs] class CamemBertClassification(
     tokenizedSentences(sentence._2).indexedTokens.find(p =>
       p.begin == tokenPiece.begin && tokenPiece.isWordStart)
   }
-
 }
