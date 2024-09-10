@@ -882,7 +882,7 @@ Spark NLP 5.5.0-rc1 has been tested and is compatible with the following runtime
 
     ```bash
     spark.kryoserializer.buffer.max 2000M
-    spark.serializer org.apache.spark.serializer.Kr5.5.0-rc1ializer
+    spark.serializer org.apache.spark.serializer.KryoSerializer
     ```
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
