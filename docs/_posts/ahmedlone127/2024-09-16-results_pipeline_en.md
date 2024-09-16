@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English results_pipeline pipeline XlmRoBertaForTokenClassification from vonewman
+title: English results_pipeline pipeline RoBertaForTokenClassification from danielyoo
 author: John Snow Labs
 name: results_pipeline
 date: 2024-09-16
@@ -18,13 +18,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained XlmRoBertaForTokenClassification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`results_pipeline` is a English model originally trained by vonewman.
+Pretrained RoBertaForTokenClassification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`results_pipeline` is a English model originally trained by danielyoo.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/results_pipeline_en_5.5.0_3.0_1726497626840.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/results_pipeline_en_5.5.0_3.0_1726497626840.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/results_pipeline_en_5.5.0_3.0_1726529662518.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/results_pipeline_en_5.5.0_3.0_1726529662518.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -57,14 +57,14 @@ val annotations = pipeline.transform(df)
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|
-|Size:|1.0 GB|
+|Size:|307.0 MB|
 
 ## References
 
-https://huggingface.co/vonewman/results
+https://huggingface.co/danielyoo/results
 
 ## Included Models
 
 - DocumentAssembler
 - TokenizerModel
-- XlmRoBertaForTokenClassification
+- RoBertaForTokenClassification
