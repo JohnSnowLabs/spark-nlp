@@ -11,7 +11,7 @@ edition: Spark NLP 5.5.0
 spark_version: 3.0
 supported: true
 engine: onnx
-annotator: RoBertaForTokenClassification
+annotator: XlmRoBertaForTokenClassification
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,8 +28,8 @@ Pretrained DistilBertForQuestionAnswering model, adapted from Hugging Face and c
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/results_en_5.5.0_3.0_1726529647683.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/results_en_5.5.0_3.0_1726529647683.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/results_en_5.5.0_3.0_1726497577683.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/results_en_5.5.0_3.0_1726497577683.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -83,7 +83,7 @@ val pipelineDF = pipelineModel.transform(data)
 |Input Labels:|[document, token]|
 |Output Labels:|[ner]|
 |Language:|en|
-|Size:|307.0 MB|
+|Size:|1.0 GB|
 
 ## References
 
