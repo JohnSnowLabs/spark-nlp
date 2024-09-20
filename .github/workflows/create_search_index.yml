@@ -86,7 +86,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
       - name: Zip contents for artifacts
-        uses: vimtor/action-zip@v1
+        uses: vimtor/action-zip@v1.2
         with:
           files: >
             ./docs/_site/
