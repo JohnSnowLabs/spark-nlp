@@ -18,12 +18,9 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.MPNetClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -122,6 +119,7 @@ class MPNetForSequenceClassification(override val uid: String)
     extends AnnotatorModel[MPNetForSequenceClassification]
     with HasBatchedAnnotate[MPNetForSequenceClassification]
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
     with HasEngine {
@@ -238,13 +236,16 @@ class MPNetForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrapper: Option[OnnxWrapper]): MPNetForSequenceClassification = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]
+                      ): MPNetForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new MPNetClassification(
             None,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             tags = $$(labels),
@@ -315,6 +316,14 @@ class MPNetForSequenceClassification(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           MPNetForSequenceClassification.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          MPNetForSequenceClassification.openvinoFile)
     }
 
   }
@@ -342,10 +351,11 @@ trait ReadablePretrainedMPNetForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMPNetForSequenceDLModel extends ReadOnnxModel {
+trait ReadMPNetForSequenceDLModel extends ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[MPNetForSequenceClassification] =>
 
   override val onnxFile: String = "mpnet_classification_onnx"
+  override val openvinoFile: String = "mpnet_classification_openvino"
 
   def readModel(
       instance: MPNetForSequenceClassification,
@@ -362,7 +372,12 @@ trait ReadMPNetForSequenceDLModel extends ReadOnnxModel {
             zipped = true,
             useBundle = false,
             None)
-        instance.setModelIfNotSet(spark, Some(onnxWrapper))
+        instance.setModelIfNotSet(spark, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
+        instance.setModelIfNotSet(spark, None, Some(openvinoWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -391,7 +406,19 @@ trait ReadMPNetForSequenceDLModel extends ReadOnnxModel {
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, Some(onnxWrapper))
+          .setModelIfNotSet(spark, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(ovWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

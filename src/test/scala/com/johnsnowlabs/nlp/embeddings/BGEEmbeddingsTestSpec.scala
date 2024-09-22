@@ -16,11 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -54,6 +56,59 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
     pipelineDF.select("bge.embeddings").show(truncate = false)
+
+  }
+
+  "BGE Embeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
+
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "query: how much protein should a female eat",
+      "query: summit define",
+      "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 " +
+        "grams per day. But, as you can see from this chart, you'll need to increase that if you're expecting or" +
+        " training for a marathon. Check out the chart below to see how much protein you should be eating each day.",
+      "passage: Definition of summit for English Language Learners. : 1  the highest point of a mountain : the top of" +
+        " a mountain. : 2  the highest level. : 3  a meeting or series of meetings between the leaders of two or more" +
+        " governments.")
+      .toDF("text")
+
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = BGEEmbeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("embeddings.result").show(false)
+
+    Benchmark.time("Time to save BGEEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_bge_pipeline")
+    }
+
+    Benchmark.time("Time to save BGEEmbeddings model") {
+      pipelineModel.stages.last
+        .asInstanceOf[BGEEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_bge_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_bge_pipeline")
+    loadedPipelineModel.transform(ddd).select("embeddings.result").show(false)
+
+    val loadedSequenceModel = BGEEmbeddings.load("./tmp_bge_model")
 
   }
 

@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.ml.ai.{RoBertaClassification, ZeroShotNerClassification}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.LoadExternalModel.notSupportedEngineError
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
@@ -244,13 +245,15 @@ class ZeroShotNerModel(override val uid: String) extends RoBertaForQuestionAnswe
   override def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): ZeroShotNerModel = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): ZeroShotNerModel = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new ZeroShotNerClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -461,7 +464,7 @@ trait ReadZeroShotNerDLModel extends ReadTensorflowModel with ReadOnnxModel {
       case TensorFlow.name => {
         val tfWrapper =
           readTensorflowModel(path, spark, "_roberta_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None)
       }
       case ONNX.name => {
         val onnxWrapper = readOnnxModel(
@@ -471,7 +474,7 @@ trait ReadZeroShotNerDLModel extends ReadTensorflowModel with ReadOnnxModel {
           zipped = true,
           useBundle = false,
           None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
       }
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -507,9 +510,9 @@ object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotN
 
     model.getEngine match {
       case TensorFlow.name =>
-        newModel.setModelIfNotSet(spark, model.getModelIfNotSet.tensorflowWrapper, None)
+        newModel.setModelIfNotSet(spark, model.getModelIfNotSet.tensorflowWrapper, None, None)
       case ONNX.name =>
-        newModel.setModelIfNotSet(spark, None, model.getModelIfNotSet.onnxWrapper)
+        newModel.setModelIfNotSet(spark, None, model.getModelIfNotSet.onnxWrapper, None )
     }
 
     model

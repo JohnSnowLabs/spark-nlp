@@ -17,13 +17,17 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
+import org.intel.openvino.{ Tensor => OpenVinoTensor}
+import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -42,6 +46,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class MPNetClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,
     tags: Map[String, Int],
@@ -51,10 +56,12 @@ private[johnsnowlabs] class MPNetClassification(
     extends Serializable
     with XXXForClassification {
 
+  protected val logger: Logger = LoggerFactory.getLogger("MPNetClassification")
   val _tfMPNetSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
@@ -146,7 +153,7 @@ private[johnsnowlabs] class MPNetClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
       case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
@@ -161,7 +168,7 @@ private[johnsnowlabs] class MPNetClassification(
     batchScores
   }
 
-  private def getRowScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
+  private def getRawScoresWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -192,11 +199,45 @@ private[johnsnowlabs] class MPNetClassification(
     }
   }
 
+
+  private def getRawScoresWithOv(
+                                  batch: Seq[Array[Int]]
+                                ): Array[Float] = {
+
+    val maxSentenceLength = batch.map(_.length).max
+    val batchLength = batch.length
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOv", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
+
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
     val batchLength = batch.length
 
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
+      case Openvino.name => getRawScoresWithOv(batch)
       case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
@@ -211,18 +252,97 @@ private[johnsnowlabs] class MPNetClassification(
             case _ => calculateSoftmax(scores)
           })
         .toArray
-
     batchScores
   }
 
+
+
+
+
+  def computeZeroShotLogitsWithOv(
+                                   batch: Seq[Array[Int]],
+                                   maxSentenceLength: Int): Array[Float] = {
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+
+    // Initialize the segment tensor as an array of arrays
+    val segmentTensor =  batch
+      .map(sentence =>
+        sentence.indices
+          .map(i =>
+            if (i < sentence.indexOf(sentenceEndTokenId)) 0L
+            else if (i == sentence.indexOf(sentenceEndTokenId)) 1L
+            else 1L)
+          .toArray)
+      .toArray
+
+
+    val segmentTensors = new OpenVinoTensor(Array(batch.length, maxSentenceLength), segmentTensor.flatten)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.infer()
+
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
+
+  private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
+    if (arr.length >= maxLength) {
+      arr
+    } else {
+      arr ++ Array.fill(maxLength - arr.length)(sentenceStartTokenId)
+    }
+  }
+
+
+
   def tagZeroShotSequence(
-      batch: Seq[Array[Int]],
-      entailmentId: Int,
-      contradictionId: Int,
-      activation: String): Array[Array[Float]] = {
-    val tensors = new TensorResources()
+                           batch: Seq[Array[Int]],
+                           entailmentId: Int,
+                           contradictionId: Int,
+                           activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
+    val batchLength = paddedBatch.length
+
+    val rawScores = detectedEngine match {
+      case Openvino.name => computeZeroShotLogitsWithOv(paddedBatch, maxSentenceLength)
+      case TensorFlow.name => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
+    }
+
+    val dim = rawScores.length / batchLength
+    rawScores
+      .grouped(dim)
+      .toArray
+  }
+
+  def computeZeroShotLogitsWithTF(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
+    val tensors = new TensorResources()
+
     val batchLength = batch.length
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
@@ -278,10 +398,7 @@ private[johnsnowlabs] class MPNetClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = rawScores.length / batchLength
     rawScores
-      .grouped(dim)
-      .toArray
   }
 
   /** Computes probabilities for the start and end indexes for question answering.
@@ -295,6 +412,7 @@ private[johnsnowlabs] class MPNetClassification(
     val batchLength = batch.length
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch)
+      case Openvino.name => computeLogitsWithOv(batch)
       case _ => throw new NotImplementedError("TensorFlow is not supported.")
     }
 
@@ -309,6 +427,53 @@ private[johnsnowlabs] class MPNetClassification(
     (startScores, endScores)
   }
 
+  private def computeLogitsWithOv(
+                                   batch: Seq[Array[Int]]
+                                   ): (Array[Float], Array[Float]) = {
+    // [nb of encoded sentences , maxSentenceLength]
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors =
+      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+    val maskTensors = new org.intel.openvino.Tensor(
+      shape,
+      batch
+        .flatMap(sentence => sentence.map(x =>  Array.fill(sentence.length)(1L)))
+        .toArray.flatten)
+
+
+
+
+
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        val startLogits =  inferRequest
+          .get_tensor("start_logits")
+          .data()
+        val endLogits = inferRequest
+          .get_tensor("end_logits")
+          .data()
+
+        (startLogits, endLogits)
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in computeLogitsWithOv", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 

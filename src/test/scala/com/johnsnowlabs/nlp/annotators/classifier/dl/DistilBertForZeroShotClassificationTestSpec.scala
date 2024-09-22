@@ -54,7 +54,7 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .pretrained()
+      .loadSavedModel("1",ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("multi_class")
       .setCaseSensitive(true)
@@ -102,7 +102,7 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .pretrained()
+      .loadSavedModel("1",ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -145,9 +145,10 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       conll
         .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
         .repartition(12)
+        .limit(30)
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .pretrained()
+      .loadSavedModel("1",ResourceHelper.spark)
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("class")
       .setCaseSensitive(true)

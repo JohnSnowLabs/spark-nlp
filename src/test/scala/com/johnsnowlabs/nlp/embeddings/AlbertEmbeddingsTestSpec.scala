@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -33,6 +33,46 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+      
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val embeddings = AlbertEmbeddings.pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentence, tokenizer, embeddings))
+
+    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    pipelineDF.select("token.result").show(1, truncate = false)
+    pipelineDF.select("embeddings.result").show(1, truncate = false)
+    pipelineDF.select("embeddings.metadata").show(1, truncate = false)
+    pipelineDF.select("embeddings.embeddings").show(1, truncate = 300)
+    pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show(1)
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.select("embeddings").write.mode("overwrite").parquet("./tmp_albert_embeddings")
+    }
+  }
+
+  "AlbertEmbeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
+
+
+    val ddd = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+      
+
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -54,16 +94,30 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, sentence, tokenizer, embeddings))
 
-    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.select("token.result").show(1, truncate = false)
-    pipelineDF.select("embeddings.result").show(1, truncate = false)
-    pipelineDF.select("embeddings.metadata").show(1, truncate = false)
-    pipelineDF.select("embeddings.embeddings").show(1, truncate = 300)
-    pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show(1)
-    Benchmark.time("Time to save BertEmbeddings results") {
-      pipelineDF.select("embeddings").write.mode("overwrite").parquet("./tmp_albert_embeddings")
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("embeddings.result").show(false)
+
+    Benchmark.time("Time to save AlbertEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_albert_pipeline")
     }
+
+    Benchmark.time("Time to save AlbertEmbeddings model") {
+      pipelineModel.stages.last
+        .asInstanceOf[AlbertEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_albert_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_albert_pipeline")
+    loadedPipelineModel.transform(ddd).select("embeddings.result").show(false)
+
+    val loadedSequenceModel = AlbertEmbeddings.load("./tmp_albert_model")
+
   }
+
 
   "AlbertEmbeddings" should "benchmark test" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
@@ -71,6 +125,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     val conll = CoNLL()
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+        
 
     val embeddings = AlbertEmbeddings
       .pretrained()
@@ -83,7 +138,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save AlbertEmbeddings results") {
-      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
+      pipelineDF.write.mode("overwrite").parquet("./tmp_albert_embeddings")
     }
 
     Benchmark.time("Time to finish checking counts in results") {
