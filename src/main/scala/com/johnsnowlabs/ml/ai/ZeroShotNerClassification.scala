@@ -17,12 +17,14 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 private[johnsnowlabs] class ZeroShotNerClassification(
     override val tensorflowWrapper: Option[TensorflowWrapper],
     override val onnxWrapper: Option[OnnxWrapper],
+    override val openvinoWrapper: Option[OpenvinoWrapper],
     override val sentenceStartTokenId: Int,
     override val sentenceEndTokenId: Int,
     override val sentencePadTokenId: Int,
@@ -35,6 +37,7 @@ private[johnsnowlabs] class ZeroShotNerClassification(
     extends RoBertaClassification(
       tensorflowWrapper,
       onnxWrapper,
+      openvinoWrapper,
       sentenceStartTokenId,
       sentenceEndTokenId,
       sentencePadTokenId,

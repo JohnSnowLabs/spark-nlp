@@ -33,6 +33,8 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+      .limit(50)
+
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -64,12 +66,74 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
+  "CamemBertEmbeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
+
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "query: how much protein should a female eat",
+      "query: summit define",
+      "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 " +
+        "grams per day. But, as you can see from this chart, you'll need to increase that if you're expecting or" +
+        " training for a marathon. Check out the chart below to see how much protein you should be eating each day.",
+      "passage: Definition of summit for English Language Learners. : 1  the highest point of a mountain : the top of" +
+        " a mountain. : 2  the highest level. : 3  a meeting or series of meetings between the leaders of two or more" +
+        " governments.")
+      .toDF("text")
+
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = CamemBertEmbeddings
+      .pretrained()
+      .setInputCols("document","token")
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("embeddings.result").show(false)
+
+    Benchmark.time("Time to save CamemBertEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_camembert_pipeline")
+    }
+
+    Benchmark.time("Time to save CamemBertEmbeddings model") {
+      pipelineModel.stages.last
+        .asInstanceOf[CamemBertEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_camembert_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_camembert_pipeline")
+    loadedPipelineModel.transform(ddd).select("embeddings.result").show(false)
+
+    val loadedSequenceModel = CamemBertEmbeddings.load("./tmp_camembert_model")
+
+  }
+
+
+
   "CamemBertEmbeddings" should "benchmark test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+        .limit(50)
 
     val embeddings = CamemBertEmbeddings
       .pretrained()

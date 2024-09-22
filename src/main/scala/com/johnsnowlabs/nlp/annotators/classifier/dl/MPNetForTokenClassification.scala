@@ -18,19 +18,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.MPNetClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -124,6 +116,7 @@ class MPNetForTokenClassification(override val uid: String)
     extends AnnotatorModel[MPNetForTokenClassification]
     with HasBatchedAnnotate[MPNetForTokenClassification]
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
@@ -238,13 +231,15 @@ class MPNetForTokenClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      onnxWrapper: Option[OnnxWrapper]): MPNetForTokenClassification = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): MPNetForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new MPNetClassification(
             None,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             tags = $$(labels),
@@ -307,7 +302,14 @@ class MPNetForTokenClassification(override val uid: String)
           spark,
           getModelIfNotSet.onnxWrapper.get,
           suffix,
-          MPNetForSequenceClassification.onnxFile)
+          MPNetForTokenClassification.onnxFile)
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          MPNetForTokenClassification.openvinoFile)
     }
 
   }
@@ -333,9 +335,10 @@ trait ReadablePretrainedMPNetForTokenDLModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
+trait ReadMPNetForTokenDLModel extends ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[MPNetForTokenClassification] =>
   override val onnxFile: String = "mpnet_classification_onnx"
+  override val openvinoFile: String = "mpnet_classification_openvino"
 
   def readModel(
       instance: MPNetForTokenClassification,
@@ -346,7 +349,13 @@ trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
-        instance.setModelIfNotSet(spark, Some(onnxWrapper))
+        instance.setModelIfNotSet(spark, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
+        instance.setModelIfNotSet(spark, None, Some(openvinoWrapper))
+
+
       case _ =>
         throw new NotImplementedError("Tensorflow models are not supported.")
     }
@@ -376,7 +385,18 @@ trait ReadMPNetForTokenDLModel extends ReadOnnxModel {
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, Some(onnxWrapper))
+          .setModelIfNotSet(spark, Some(onnxWrapper), None)
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(ovWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

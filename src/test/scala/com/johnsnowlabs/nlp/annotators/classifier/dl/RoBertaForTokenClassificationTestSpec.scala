@@ -131,7 +131,6 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
     val conll = CoNLL()
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
-
     val tokenClassifier = RoBertaForTokenClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
