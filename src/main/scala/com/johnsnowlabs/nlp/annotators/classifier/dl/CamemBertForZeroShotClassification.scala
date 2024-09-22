@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.CamemBertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -34,7 +35,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common.{SentenceSplit, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{
@@ -59,6 +60,7 @@ class CamemBertForZeroShotClassification(override val uid: String)
     with HasBatchedAnnotate[CamemBertForZeroShotClassification]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -178,6 +180,7 @@ class CamemBertForZeroShotClassification(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
       spp: SentencePieceWrapper): CamemBertForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
@@ -185,6 +188,7 @@ class CamemBertForZeroShotClassification(override val uid: String)
           new CamemBertClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             spp,
             configProtoBytes = None,
             tags = $$(labels),
@@ -269,6 +273,15 @@ class CamemBertForZeroShotClassification(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           CamemBertForSequenceClassification.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          CamemBertForSequenceClassification.openvinoFile)
+
     }
 
     writeSentencePieceModel(
@@ -305,11 +318,13 @@ trait ReadPretrainedCamemBertForZeroShotClassification
 trait ReadCamemBertForZeroShotClassification
     extends ReadTensorflowModel
     with ReadOnnxModel
-    with ReadSentencePieceModel {
+    with ReadSentencePieceModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[CamemBertForZeroShotClassification] =>
 
   override val tfFile: String = "camembert_classification_tensorflow"
   override val onnxFile: String = "camembert_classification_onnx"
+  override val openvinoFile: String = "camembert_classification_openvino"
   override val sppFile: String = "camembert_spp"
 
   def readModel(
@@ -322,7 +337,7 @@ trait ReadCamemBertForZeroShotClassification
     instance.getEngine match {
       case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_camembert_classification_tf")
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None, spp)
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(
@@ -332,11 +347,16 @@ trait ReadCamemBertForZeroShotClassification
             zipped = true,
             useBundle = false,
             None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_camembert_classification_ov")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
-    }
 
+    }
   }
 
   addReader(readModel)
@@ -392,11 +412,23 @@ trait ReadCamemBertForZeroShotClassification
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None, spModel)
+          .setModelIfNotSet(spark, Some(wrapper), None, None, spModel)
       case ONNX.name =>
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
-        annotatorModel.setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+        annotatorModel.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
