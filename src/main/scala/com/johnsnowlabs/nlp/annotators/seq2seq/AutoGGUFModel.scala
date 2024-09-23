@@ -42,7 +42,7 @@ import org.json4s.jackson.JsonMethods
   *   .setInputCols("document")
   *   .setOutputCol("completions")
   * }}}
-  * The default model is `"gguf-phi3-mini-4k-instruct-q4"`, if no name is provided.
+  * The default model is `"phi3.5_mini_4k_instruct_q4_gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -213,7 +213,7 @@ class AutoGGUFModel(override val uid: String)
 trait ReadablePretrainedAutoGGUFModel
     extends ParamsAndFeaturesReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
-  override val defaultModelName: Some[String] = Some("gguf-phi3-mini-4k-instruct-q4")
+  override val defaultModelName: Some[String] = Some("phi3.5_mini_4k_instruct_q4_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

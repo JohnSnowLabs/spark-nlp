@@ -37,7 +37,7 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("completions")
 
-    The default model is ``"gguf-phi3-mini-4k-instruct-q4"``, if no name is provided.
+    The default model is ``"phi3.5_mini_4k_instruct_q4_gguf"``, if no name is provided.
 
     For extended examples of usage, see the
     `AutoGGUFModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala>`__
@@ -782,13 +782,13 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         return AutoGGUFModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="gguf-phi3-mini-4k-instruct-q4", lang="en", remote_loc=None):
+    def pretrained(name="phi3.5_mini_4k_instruct_q4_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "gguf-phi3-mini-4k-instruct-q4"
+            Name of the pretrained model, by default "phi3.5_mini_4k_instruct_q4_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
