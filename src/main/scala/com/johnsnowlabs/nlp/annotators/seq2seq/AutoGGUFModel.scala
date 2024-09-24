@@ -233,7 +233,10 @@ trait ReadAutoGGUFModel {
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
     def findGGUFModelInFolder(): String = {
-      val folder = new java.io.File(path)
+      val folder =
+        new java.io.File(
+          path.replace("file:", "")
+        ) // File should be local at this point. TODO: Except if its HDFS?
       if (folder.exists && folder.isDirectory) {
         folder.listFiles
           .filter(_.isFile)
