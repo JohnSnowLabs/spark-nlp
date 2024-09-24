@@ -22,7 +22,7 @@ val autoGGUFModel = AutoGGUFModel.pretrained()
   .setOutputCol("completions")
 ```
 
-The default model is `"gguf-phi3-mini-4k-instruct-q4"`, if no name is provided.
+The default model is `"phi3.5_mini_4k_instruct_q4_gguf"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 
