@@ -43,14 +43,13 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
             DocumentAssembler().setInputCol("text").setOutputCol("document")
         )
 
-        modelPath = "models/codellama-7b.Q2_K.gguf"
         model = (
-            AutoGGUFModel.loadSavedModel(modelPath, self.spark)
+            AutoGGUFModel.pretrained()
             .setInputCols("document")
             .setOutputCol("completions")
             .setBatchSize(4)
             .setNPredict(20)
-            .setNGpuLayers(99)
+            .setNGpuLayers(5)
             .setTemperature(0.4)
             .setTopK(40)
             .setTopP(0.9)
@@ -79,9 +78,8 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
             DocumentAssembler().setInputCol("text").setOutputCol("document")
         )
 
-        modelPath = "models/codellama-7b.Q2_K.gguf"
         model = (
-            AutoGGUFModel.loadSavedModel(modelPath, self.spark)
+            AutoGGUFModel.pretrained()
             .setInputCols("document")
             .setOutputCol("completions")
             .setBatchSize(4)
@@ -182,9 +180,8 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         self.spark = SparkContextForTest.spark
 
     def runTest(self):
-        modelPath = "models/codellama-7b.Q2_K.gguf"
         model = (
-            AutoGGUFModel.loadSavedModel(modelPath, self.spark)
+            AutoGGUFModel.pretrained()
             .setInputCols("document")
             .setOutputCol("completions")
         )
