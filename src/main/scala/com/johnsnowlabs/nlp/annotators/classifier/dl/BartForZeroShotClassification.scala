@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.BartClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -279,12 +283,11 @@ class BartForZeroShotClassification(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
-      openvinoWrapper: Option[OpenvinoWrapper],
-                      ): BartForZeroShotClassification = {
+      openvinoWrapper: Option[OpenvinoWrapper]): BartForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new  BartClassification(
+          new BartClassification(
             tensorflowWrapper,
             onnxWrapper,
             openvinoWrapper,
@@ -404,7 +407,10 @@ trait ReadablePretrainedBartForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBartForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel {
+trait ReadBartForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BartForZeroShotClassification] =>
 
   override val tfFile: String = "bart_classification_tensorflow"
@@ -502,7 +508,8 @@ trait ReadBartForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None, None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 

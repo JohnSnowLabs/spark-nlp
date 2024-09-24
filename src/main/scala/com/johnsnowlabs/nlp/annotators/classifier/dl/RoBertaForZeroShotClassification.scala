@@ -19,7 +19,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -352,13 +356,13 @@ class RoBertaForZeroShotClassification(override val uid: String)
 
     getEngine match {
       case TensorFlow.name =>
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_roberta_classification",
-      RoBertaForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_roberta_classification",
+          RoBertaForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
 
       case ONNX.name =>
         writeOnnxModel(
@@ -392,7 +396,7 @@ trait ReadablePretrainedRoBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel{
+trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[RoBertaForZeroShotClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
@@ -485,7 +489,8 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxMod
           .setModelIfNotSet(spark, Some(tfWrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>

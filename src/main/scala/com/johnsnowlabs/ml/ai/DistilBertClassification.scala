@@ -284,10 +284,10 @@ private[johnsnowlabs] class DistilBertClassification(
   }
 
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
@@ -316,9 +316,7 @@ private[johnsnowlabs] class DistilBertClassification(
         batch.map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L)).toArray)
 
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val results = runner.run(inputs)

@@ -38,7 +38,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.util.Try
 
-/** Sentence embeddings using  Mxbai Embeddings.
+/** Sentence embeddings using Mxbai Embeddings.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{

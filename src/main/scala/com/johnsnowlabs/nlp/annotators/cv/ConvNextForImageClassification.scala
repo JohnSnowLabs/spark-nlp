@@ -184,7 +184,7 @@ class ConvNextForImageClassification(override val uid: String)
   /** @group getParam */
   override def getModelIfNotSet: ConvNextClassifier = _model.get.value
 
-   override def setModelIfNotSet(
+  override def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
@@ -302,19 +302,16 @@ trait ReadablePretrainedConvNextForImageModel
       remoteLoc: String): ConvNextForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadConvNextForImageDLModel
-  extends ReadTensorflowModel
-  with ReadOnnxModel {
+trait ReadConvNextForImageDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[ConvNextForImageClassification] =>
 
   override val tfFile: String = "image_classification_convnext_tensorflow"
   override val onnxFile: String = "image_classification_convnext_onnx"
 
   def readModel(
-                 instance: ConvNextForImageClassification,
-                 path: String,
-                 spark: SparkSession): Unit = {
-
+      instance: ConvNextForImageClassification,
+      path: String,
+      spark: SparkSession): Unit = {
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -335,89 +332,81 @@ trait ReadConvNextForImageDLModel
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, preprocessor)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            onnxFile,
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
 
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessor)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
-}
-
-
-    addReader(readModel)
-     def loadSavedModel(modelPath: String, spark: SparkSession): ConvNextForImageClassification = {
-
-      val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
-
-      // TODO: sometimes results in [String, BigInt] where BigInt is actually a string
-      val labelJsonContent = loadJsonStringAsset(localModelPath, "labels.json")
-      val labelJsonMap =
-        parse(labelJsonContent, useBigIntForLong = true).values
-          .asInstanceOf[Map[String, BigInt]]
-
-      val preprocessorConfigJsonContent =
-        loadJsonStringAsset(localModelPath, "preprocessor_config.json")
-      val preprocessorConfig =
-        Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
-
-      require(
-        preprocessorConfig.size >= 384 || preprocessorConfig.crop_pct.nonEmpty,
-        "Property \'crop_pct\' should be defined, if size < 384.")
-      val cropPct = preprocessorConfig.crop_pct.get
-
-      val annotatorModel = new ConvNextForImageClassification()
-        .setLabels(labelJsonMap)
-        .setDoNormalize(preprocessorConfig.do_normalize)
-        .setDoResize(preprocessorConfig.do_resize)
-        .setFeatureExtractorType(preprocessorConfig.feature_extractor_type)
-        .setImageMean(preprocessorConfig.image_mean)
-        .setImageStd(preprocessorConfig.image_std)
-        .setResample(preprocessorConfig.resample)
-        .setSize(preprocessorConfig.size)
-        .setDoRescale(preprocessorConfig.do_rescale)
-        .setRescaleFactor(preprocessorConfig.rescale_factor)
-        .setCropPct(cropPct)
-
-      annotatorModel.set(annotatorModel.engine, detectedEngine)
-
-
-      detectedEngine match {
-        case TensorFlow.name =>
-          val (tfwrapper, signatures) =
-            TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
-
-          val _signatures = signatures match {
-            case Some(s) => s
-            case None => throw new Exception("Cannot load signature definitions from model!")
-          }
-
-          /** the order of setSignatures is important if we use getSignatures inside
-           * setModelIfNotSet
-           */
-          annotatorModel
-            .setSignatures(_signatures)
-            .setModelIfNotSet(spark, Some(tfwrapper), None, preprocessorConfig)
-
-        case ONNX.name =>
-          val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
-
-          annotatorModel
-            .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
-
-        case _ =>
-          throw new Exception(notSupportedEngineError)
-      }
-
-      annotatorModel
-    }
   }
 
+  addReader(readModel)
+  def loadSavedModel(modelPath: String, spark: SparkSession): ConvNextForImageClassification = {
+
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+
+    // TODO: sometimes results in [String, BigInt] where BigInt is actually a string
+    val labelJsonContent = loadJsonStringAsset(localModelPath, "labels.json")
+    val labelJsonMap =
+      parse(labelJsonContent, useBigIntForLong = true).values
+        .asInstanceOf[Map[String, BigInt]]
+
+    val preprocessorConfigJsonContent =
+      loadJsonStringAsset(localModelPath, "preprocessor_config.json")
+    val preprocessorConfig =
+      Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
+
+    require(
+      preprocessorConfig.size >= 384 || preprocessorConfig.crop_pct.nonEmpty,
+      "Property \'crop_pct\' should be defined, if size < 384.")
+    val cropPct = preprocessorConfig.crop_pct.get
+
+    val annotatorModel = new ConvNextForImageClassification()
+      .setLabels(labelJsonMap)
+      .setDoNormalize(preprocessorConfig.do_normalize)
+      .setDoResize(preprocessorConfig.do_resize)
+      .setFeatureExtractorType(preprocessorConfig.feature_extractor_type)
+      .setImageMean(preprocessorConfig.image_mean)
+      .setImageStd(preprocessorConfig.image_std)
+      .setResample(preprocessorConfig.resample)
+      .setSize(preprocessorConfig.size)
+      .setDoRescale(preprocessorConfig.do_rescale)
+      .setRescaleFactor(preprocessorConfig.rescale_factor)
+      .setCropPct(cropPct)
+
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
+
+    detectedEngine match {
+      case TensorFlow.name =>
+        val (tfwrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
+
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, Some(tfwrapper), None, preprocessorConfig)
+
+      case ONNX.name =>
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
+    annotatorModel
+  }
+}
 
 /** This is the companion object of [[ConvNextForImageClassification]]. Please refer to that class
   * for the documentation.

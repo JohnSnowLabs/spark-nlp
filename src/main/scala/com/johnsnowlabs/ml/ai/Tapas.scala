@@ -38,7 +38,16 @@ private[johnsnowlabs] class Tapas(
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     vocabulary: Map[String, Int])
-    extends BertClassification(tensorflowWrapper = tensorflowWrapper, onnxWrapper = onnxWrapper, openvinoWrapper = openvinoWrapper, sentenceStartTokenId = sentenceStartTokenId, sentenceEndTokenId = sentenceEndTokenId, configProtoBytes = configProtoBytes, tags = tags, signatures = signatures, vocabulary = vocabulary) {
+    extends BertClassification(
+      tensorflowWrapper = tensorflowWrapper,
+      onnxWrapper = onnxWrapper,
+      openvinoWrapper = openvinoWrapper,
+      sentenceStartTokenId = sentenceStartTokenId,
+      sentenceEndTokenId = sentenceEndTokenId,
+      configProtoBytes = configProtoBytes,
+      tags = tags,
+      signatures = signatures,
+      vocabulary = vocabulary) {
 
   def tagTapasSpan(batch: Seq[TapasInputData]): (Array[Array[Float]], Array[Int]) = {
 

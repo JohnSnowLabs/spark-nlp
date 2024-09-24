@@ -19,8 +19,17 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -122,7 +131,7 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[XlmRoBertaForZeroShotClassification]
     with HasBatchedAnnotate[XlmRoBertaForZeroShotClassification]
     with WriteTensorflowModel
-      with WriteOnnxModel
+    with WriteOnnxModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -130,27 +139,27 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
     with HasCandidateLabelsProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-   * type
-   */
+    * type
+    */
   def this() = this(Identifiable.randomUID("XLMROBERTABERT_FOR_ZERO_SHOT_CLASSIFICATION"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] =
     Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /** Output Annotator Types: CATEGORY
-   *
-   * @group anno
-   */
+    *
+    * @group anno
+    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
   /** Labels used to decode predicted IDs back to string tags
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
@@ -166,14 +175,14 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   }
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document
-   * by averaging probabilities in all sentences (Default: `false`).
-   *
-   * Due to max sequence length limit in almost all transformer models such as XLM-RoBERTa (512
-   * tokens), this parameter helps feeding all the sentences into the model and averaging all the
-   * probabilities for the entire document instead of probabilities per sentence.
-   *
-   * @group param
-   */
+    * by averaging probabilities in all sentences (Default: `false`).
+    *
+    * Due to max sequence length limit in almost all transformer models such as XLM-RoBERTa (512
+    * tokens), this parameter helps feeding all the sentences into the model and averaging all the
+    * probabilities for the entire document instead of probabilities per sentence.
+    *
+    * @group param
+    */
   val coalesceSentences = new BooleanParam(
     this,
     "coalesceSentences",
@@ -186,10 +195,10 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   def getCoalesceSentences: Boolean = $(coalesceSentences)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
-   * `config_proto.SerializeToString()`
-   *
-   * @group param
-   */
+    * `config_proto.SerializeToString()`
+    *
+    * @group param
+    */
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
@@ -203,9 +212,9 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process (Default: `128`)
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val maxSentenceLength =
     new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
@@ -223,9 +232,9 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** It contains TF model signatures for the laded saved model
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val signatures =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
@@ -242,10 +251,10 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def setModelIfNotSet(
-                        spark: SparkSession,
-                        tensorflowWrapper: Option[TensorflowWrapper],
-                        onnxWrapper: Option[OnnxWrapper],
-                        spp: SentencePieceWrapper): XlmRoBertaForZeroShotClassification = {
+      spark: SparkSession,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
+      spp: SentencePieceWrapper): XlmRoBertaForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -265,9 +274,9 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   def getModelIfNotSet: XlmRoBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   override def setCaseSensitive(value: Boolean): this.type = {
     set(this.caseSensitive, value)
   }
@@ -279,14 +288,14 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
     coalesceSentences -> false)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
-   * type
-   *
-   * @param batchedAnnotations
-   * Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-   * @return
-   * any number of annotations processed for every input annotation. Not necessary one to one
-   * relationship
-   */
+    * type
+    *
+    * @param batchedAnnotations
+    *   Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+    * @return
+    *   any number of annotations processed for every input annotation. Not necessary one to one
+    *   relationship
+    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map(annotations => {
       val sentences = SentenceSplit.unpack(annotations).toArray
@@ -317,7 +326,6 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
 
     getEngine match {
       case TensorFlow.name =>
-
         writeTensorflowModelV2(
           path,
           spark,
@@ -343,80 +351,82 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
 
   }
 }
-  trait ReadablePretrainedXlmRoBertaForZeroShotModel
+trait ReadablePretrainedXlmRoBertaForZeroShotModel
     extends ParamsAndFeaturesReadable[XlmRoBertaForZeroShotClassification]
-      with HasPretrained[XlmRoBertaForZeroShotClassification] {
-    override val defaultModelName: Some[String] = Some(
-      "xlm_roberta_large_zero_shot_classifier_xnli_anli")
-    override val defaultLang: String = "xx"
+    with HasPretrained[XlmRoBertaForZeroShotClassification] {
+  override val defaultModelName: Some[String] = Some(
+    "xlm_roberta_large_zero_shot_classifier_xnli_anli")
+  override val defaultLang: String = "xx"
 
-    /** Java compliant-overrides */
-    override def pretrained(): XlmRoBertaForZeroShotClassification = super.pretrained()
+  /** Java compliant-overrides */
+  override def pretrained(): XlmRoBertaForZeroShotClassification = super.pretrained()
 
-    override def pretrained(name: String): XlmRoBertaForZeroShotClassification =
-      super.pretrained(name)
+  override def pretrained(name: String): XlmRoBertaForZeroShotClassification =
+    super.pretrained(name)
 
-    override def pretrained(name: String, lang: String): XlmRoBertaForZeroShotClassification =
-      super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlmRoBertaForZeroShotClassification =
+    super.pretrained(name, lang)
 
-    override def pretrained(
-                             name: String,
-                             lang: String,
-                             remoteLoc: String): XlmRoBertaForZeroShotClassification =
-      super.pretrained(name, lang, remoteLoc)
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): XlmRoBertaForZeroShotClassification =
+    super.pretrained(name, lang, remoteLoc)
+}
+
+trait ReadXlmRoBertaForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel {
+  this: ParamsAndFeaturesReadable[XlmRoBertaForZeroShotClassification] =>
+
+  override val tfFile: String = "xlmroberta_classification_tensorflow"
+  override val sppFile: String = "xlmroberta_spp"
+  override val onnxFile: String = "xlmroberta_classification_onnx"
+
+  def readModel(
+      instance: XlmRoBertaForZeroShotClassification,
+      path: String,
+      spark: SparkSession): Unit = {
+
+    val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tf =
+          readTensorflowModel(path, spark, "_xlmroberta_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_xlmroberta_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+
+    }
   }
 
-  trait ReadXlmRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel {
-    this: ParamsAndFeaturesReadable[XlmRoBertaForZeroShotClassification] =>
+  addReader(readModel)
 
-    override val tfFile: String = "xlmroberta_classification_tensorflow"
-    override val sppFile: String = "xlmroberta_spp"
-    override val onnxFile: String = "xlmroberta_classification_onnx"
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession): XlmRoBertaForZeroShotClassification = {
 
-    def readModel(
-                   instance: XlmRoBertaForZeroShotClassification,
-                   path: String,
-                   spark: SparkSession): Unit = {
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-      val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-      instance.getEngine match {
-        case TensorFlow.name =>
-          val tf =
-            readTensorflowModel(path, spark, "_xlmroberta_classification_tf", initAllTables = false)
-          instance.setModelIfNotSet(spark, Some(tf), None, spp)
-        case ONNX.name =>
-          val onnxWrapper =
-            readOnnxModel(
-              path,
-              spark,
-              "_xlmroberta_classification_onnx",
-              zipped = true,
-              useBundle = false,
-              None)
-          instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
+    val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
-      }
-    }
+    val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
+    val contradictionIds =
+      labels.filter(x => x._1.toLowerCase().startsWith("contradict")).values.toArray
 
-    addReader(readModel)
-
-
-    def loadSavedModel(
-                        modelPath: String,
-                        spark: SparkSession): XlmRoBertaForZeroShotClassification = {
-
-      val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
-
-      val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
-      val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
-
-      val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
-      val contradictionIds =
-        labels.filter(x => x._1.toLowerCase().startsWith("contradict")).values.toArray
-
-      require(
-        entailmentIds.length == 1 && contradictionIds.length == 1,
-        s"""This annotator supports classifiers trained on NLI datasets. You must have only at least 2 or maximum 3 labels in your dataset:
+    require(
+      entailmentIds.length == 1 && contradictionIds.length == 1,
+      s"""This annotator supports classifiers trained on NLI datasets. You must have only at least 2 or maximum 3 labels in your dataset:
 
           example with 3 labels: 'contradict', 'neutral', 'entailment'
           example with 2 labels: 'contradict', 'entailment'
@@ -426,44 +436,46 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
           Current labels: ${labels.keys.mkString(", ")}
           """)
 
-      val annotatorModel = new XlmRoBertaForZeroShotClassification()
-        .setLabels(labels)
-        .setCandidateLabels(labels.keys.toArray)
+    val annotatorModel = new XlmRoBertaForZeroShotClassification()
+      .setLabels(labels)
+      .setCandidateLabels(labels.keys.toArray)
 
-      /* set the entailment id */
-      annotatorModel.set(annotatorModel.entailmentIdParam, entailmentIds.head)
-      /* set the contradiction id */
-      annotatorModel.set(annotatorModel.contradictionIdParam, contradictionIds.head)
-      /* set the engine */
-      annotatorModel.set(annotatorModel.engine, detectedEngine)
+    /* set the entailment id */
+    annotatorModel.set(annotatorModel.entailmentIdParam, entailmentIds.head)
+    /* set the contradiction id */
+    annotatorModel.set(annotatorModel.contradictionIdParam, contradictionIds.head)
+    /* set the engine */
+    annotatorModel.set(annotatorModel.engine, detectedEngine)
 
-      detectedEngine match {
-        case TensorFlow.name =>
-          val (wrapper, signatures) =
-            TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
+    detectedEngine match {
+      case TensorFlow.name =>
+        val (wrapper, signatures) =
+          TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
-          val _signatures = signatures match {
-            case Some(s) => s
-            case None => throw new Exception("Cannot load signature definitions from model!")
-          }
+        val _signatures = signatures match {
+          case Some(s) => s
+          case None => throw new Exception("Cannot load signature definitions from model!")
+        }
 
-          /** the order of setSignatures is important if we use getSignatures inside
-           * setModelIfNotSet
-           */
-          annotatorModel
-            .setSignatures(_signatures)
-            .setModelIfNotSet(spark, Some(wrapper), None, spModel)
-        case ONNX.name =>
-          val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
-          annotatorModel
-            .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
-        case _ =>
-          throw new Exception(notSupportedEngineError)
-      }
-
-      annotatorModel
+        /** the order of setSignatures is important if we use getSignatures inside
+          * setModelIfNotSet
+          */
+        annotatorModel
+          .setSignatures(_signatures)
+          .setModelIfNotSet(spark, Some(wrapper), None, spModel)
+      case ONNX.name =>
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
     }
+
+    annotatorModel
   }
+}
+
 /** This is the companion object of [[XlmRoBertaForZeroShotClassification]]. Please refer to that
   * class for the documentation.
   */

@@ -30,11 +30,11 @@ import scala.collection.mutable
 import scala.math.exp
 
 private[johnsnowlabs] class GPT2(
-                                  val tensorflow: Option[TensorflowWrapper],
-                                  val onnxWrapper: Option[OnnxWrapper],
-                                  val bpeTokenizer: Gpt2Tokenizer,
-                                  configProtoBytes: Option[Array[Byte]] = None)
-  extends Serializable {
+    val tensorflow: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
+    val bpeTokenizer: Gpt2Tokenizer,
+    configProtoBytes: Option[Array[Byte]] = None)
+    extends Serializable {
 
   // keys representing the input and output tensors of the GPT2 model
   private val inputIdsKey = "serving1_serving1_input_ids:0"
@@ -67,19 +67,19 @@ private[johnsnowlabs] class GPT2(
   sessionWarmup()
 
   def predict(
-               sentences: Seq[Annotation],
-               batchSize: Int,
-               minOutputLength: Int,
-               maxOutputLength: Int,
-               doSample: Boolean,
-               temperature: Double,
-               topK: Int,
-               topP: Double,
-               repetitionPenalty: Double,
-               noRepeatNgramSize: Int,
-               task: String,
-               randomSeed: Option[Int] = None,
-               ignoreTokenIds: Array[Int] = Array()): Seq[Annotation] = {
+      sentences: Seq[Annotation],
+      batchSize: Int,
+      minOutputLength: Int,
+      maxOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      task: String,
+      randomSeed: Option[Int] = None,
+      ignoreTokenIds: Array[Int] = Array()): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch, task)
@@ -116,17 +116,17 @@ private[johnsnowlabs] class GPT2(
   }
 
   def tag(
-           batch: Seq[Array[Int]],
-           minOutputLength: Int,
-           maxOutputLength: Int,
-           doSample: Boolean,
-           temperature: Double,
-           topK: Int,
-           topP: Double,
-           repetitionPenalty: Double,
-           noRepeatNgramSize: Int,
-           randomSeed: Option[Int],
-           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+      batch: Seq[Array[Int]],
+      minOutputLength: Int,
+      maxOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      randomSeed: Option[Int],
+      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     val numReturn_sequences = 1
     // from config
@@ -164,25 +164,24 @@ private[johnsnowlabs] class GPT2(
       ignoreTokenIds)
   }
 
-
   def generateNoBeamSearch(
-                            inputIds: Seq[Array[Int]],
-                            maxOutputLength: Int,
-                            minOutputLength: Int,
-                            doSample: Boolean,
-                            temperature: Double,
-                            topK: Int,
-                            topP: Double,
-                            repetitionPenalty: Double,
-                            noRepeatNgramSize: Int,
-                            batch_size: Int,
-                            vocab_size: Int,
-                            randomSeed: Option[Int],
-                            ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+      inputIds: Seq[Array[Int]],
+      maxOutputLength: Int,
+      minOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      batch_size: Int,
+      vocab_size: Int,
+      randomSeed: Option[Int],
+      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     /** Generate sequences for each example without beam search (numBeams == 1). All returned
-     * sequence are generated independently.
-     */
+      * sequence are generated independently.
+      */
     var decoderInputs = inputIds.toArray
 
     var curLen = decoderInputs(0).length
@@ -194,13 +193,13 @@ private[johnsnowlabs] class GPT2(
     var sentLengths = List.fill(decoderInputs.length)(maxOutputLength)
     var decoderOutputs: Array[Array[Array[Float]]] = Array.empty
 
-        while (!stopDecoder) {
-          val decoderInputLength = decoderInputs.head.length
-          if (detectedEngine == TensorFlow.name) {
-            val tensorDecoder = new TensorResources()
-            val session = tensorflow.get.getTFSessionWithSignature(
-              configProtoBytes = configProtoBytes,
-              initAllTables = false)
+    while (!stopDecoder) {
+      val decoderInputLength = decoderInputs.head.length
+      if (detectedEngine == TensorFlow.name) {
+        val tensorDecoder = new TensorResources()
+        val session = tensorflow.get.getTFSessionWithSignature(
+          configProtoBytes = configProtoBytes,
+          initAllTables = false)
 
         val decoderInputBuffers =
           tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
@@ -229,183 +228,181 @@ private[johnsnowlabs] class GPT2(
           .fetch(outputLogitsKey)
 
         val decoderOuts = runner.run().asScala
-         decoderOutputs = TensorResources
+        decoderOutputs = TensorResources
           .extractFloats(decoderOuts.head)
           .grouped(vocab_size)
           .toArray
           .grouped(decoderInputLength)
           .toArray
 
-            decoderOuts.foreach(_.close())
-            tensorDecoder.clearTensors()
-            tensorDecoder.clearSession(decoderOuts)
-            inputIdTensors.close()
+        decoderOuts.foreach(_.close())
+        tensorDecoder.clearTensors()
+        tensorDecoder.clearSession(decoderOuts)
+        inputIdTensors.close()
+      } else {
+        val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+        val decoderInputBuffers = decoderInputs
+          .map(tokenIds => tokenIds.map(_.toLong))
+        val decoderPaddingBuffers =
+          decoderInputBuffers.map(x => x.map(xx => 1L))
+
+        val inputPositionIDsLong: Array[Array[Long]] =
+          decoderInputs.map { tokenIds =>
+            tokenIds.zipWithIndex.map { case (_, i) =>
+              i.toLong
+            }
           }
-          else{
-            val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
-            val decoderInputBuffers = decoderInputs
-              .map(tokenIds =>tokenIds.map(_.toLong))
-            val decoderPaddingBuffers =
-              decoderInputBuffers.map(x => x.map(xx => 1L))
+        val decoderPositionIDs: OnnxTensor =
+          OnnxTensor.createTensor(env, inputPositionIDsLong)
 
-            val inputPositionIDsLong: Array[Array[Long]] =
-              decoderInputs.map { tokenIds =>
-                tokenIds.zipWithIndex.map { case (_, i) =>
-                  i.toLong
-                }
-              }
+        val decoderInputTensors = OnnxTensor.createTensor(env, decoderInputBuffers)
+        val decoderPaddingMaskTensors = OnnxTensor.createTensor(env, decoderPaddingBuffers)
 
-            val decoderPositionIDs: OnnxTensor =
-              OnnxTensor.createTensor(env, inputPositionIDsLong)
+        val decoderResults = session.run(
+          mapAsJavaMap(
+            Map(
+              "input_ids" -> decoderInputTensors,
+              "attention_mask" -> decoderPaddingMaskTensors,
+              "position_ids" -> decoderPositionIDs)))
 
-            val decoderInputTensors = OnnxTensor.createTensor(env, decoderInputBuffers)
-            val decoderPaddingMaskTensors = OnnxTensor.createTensor(env, decoderPaddingBuffers)
+        val decoderOuts = decoderResults
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+        decoderOutputs = decoderOuts.getFloatBuffer
+          .array()
+          .grouped(vocab_size)
+          .toArray
+          .grouped(decoderInputLength)
+          .toArray
 
-            val decoderResults = session.run(mapAsJavaMap(
-              Map("input_ids" -> decoderInputTensors,
-                "attention_mask" -> decoderPaddingMaskTensors,
-                "position_ids" -> decoderPositionIDs)))
+        decoderInputTensors.close()
+        decoderPaddingMaskTensors.close()
+        decoderPositionIDs.close()
+        decoderOuts.close()
 
-            val decoderOuts = decoderResults
-              .get("logits")
-              .get()
-              .asInstanceOf[OnnxTensor]
-            decoderOutputs = decoderOuts.getFloatBuffer
-              .array()
-              .grouped(vocab_size)
-              .toArray
-              .grouped(decoderInputLength)
-              .toArray
+      }
+      var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
-            decoderInputTensors.close()
-            decoderPaddingMaskTensors.close()
-            decoderPositionIDs.close()
-            decoderOuts.close()
+      nextTokenLogits = nextTokenLogits.map(logits => {
+        logits.indices
+          .map(i => {
+            if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
+          })
+          .toArray
+      })
 
-          }
-        var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
+      // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
+      if (repetitionPenalty != 1.0) {
+        nextTokenLogits =
+          createNextTokenLogitsPenalties(decoderInputs, nextTokenLogits, repetitionPenalty)
+      }
 
-          nextTokenLogits = nextTokenLogits.map(logits => {
-          logits.indices
-            .map(i => {
-              if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
-            })
-            .toArray
-        })
-
-        // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
-        if (repetitionPenalty != 1.0) {
-          nextTokenLogits =
-            createNextTokenLogitsPenalties(decoderInputs, nextTokenLogits, repetitionPenalty)
+      if (noRepeatNgramSize > 0) {
+        // calculate a list of banned tokens to prevent repetitively generating the same ngrams
+        // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
+        val bannedTokens =
+          calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
+        // create bannedTokens boolean mask
+        var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
+        for (bannedTokensSlice <- bannedTokens) {
+          bannedTokensIndicesMask = bannedTokensIndicesMask :+
+            (for (token <- 0 until vocab_size)
+              yield if (bannedTokensSlice.contains(token)) true else false)
         }
-
-        if (noRepeatNgramSize > 0) {
-          // calculate a list of banned tokens to prevent repetitively generating the same ngrams
-          // from fairseq: https://github.com/pytorch/fairseq/blob/a07cb6f40480928c9e0548b737aadd36ee66ac76/fairseq/sequence_generator.py#L345
-          val bannedTokens =
-            calcBannedNgramTokens(decoderInputs, batch_size, noRepeatNgramSize, curLen)
-          // create bannedTokens boolean mask
-          var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
-          for (bannedTokensSlice <- bannedTokens) {
-            bannedTokensIndicesMask = bannedTokensIndicesMask :+
-              (for (token <- 0 until vocab_size)
-                yield if (bannedTokensSlice.contains(token)) true else false)
-          }
-          if (!bannedTokensIndicesMask.isEmpty) {
-            nextTokenLogits =
-              for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
+        if (!bannedTokensIndicesMask.isEmpty) {
+          nextTokenLogits =
+            for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
                 bannedTokensIndicesMask))
               yield setTensorByIndicesToValue(
                 nextTokenLogit,
                 bannedTokensIndexMask,
                 Float.NegativeInfinity)
-          }
         }
+      }
 
-        // set eos token prob to zero if minLength is not reached
-        if (!eosTokenId.isNaN && curLen < minOutputLength) {
-          // create eosTokenId boolean mask
-          val isTokenLogit_eosToken =
-            for (token <- 0 until vocab_size)
-              yield if (token == eosTokenId) true else false
+      // set eos token prob to zero if minLength is not reached
+      if (!eosTokenId.isNaN && curLen < minOutputLength) {
+        // create eosTokenId boolean mask
+        val isTokenLogit_eosToken =
+          for (token <- 0 until vocab_size)
+            yield if (token == eosTokenId) true else false
 
-          val eosTokenIndices_mask = Array.fill(batch_size)(isTokenLogit_eosToken)
+        val eosTokenIndices_mask = Array.fill(batch_size)(isTokenLogit_eosToken)
 
-          nextTokenLogits =
-            for ((nextTokenLogit, bannedTokensIndex_mask) <- nextTokenLogits.zip(
+        nextTokenLogits =
+          for ((nextTokenLogit, bannedTokensIndex_mask) <- nextTokenLogits.zip(
               eosTokenIndices_mask))
             yield setTensorByIndicesToValue(
               nextTokenLogit,
               bannedTokensIndex_mask,
               Float.NegativeInfinity)
-        }
-
-        var nextToken = Array.ofDim[Int](decoderInputs.length)
-
-        if (doSample) {
-          // Temperature (higher temperature => more likely to sample low probability tokens). May not be 0
-          if (temperature != 1.0 && temperature > 0)
-            nextTokenLogits =
-              for (nextTokenLogit <- nextTokenLogits)
-                yield nextTokenLogit.map(_ / temperature.toFloat)
-          // Top-p/top-k filtering
-          nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
-          // Sample
-          nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
-        } else {
-          // Greedy decoding
-
-           nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
-        }
-        var tokensToAdd = Array.ofDim[Int](decoderInputs.length)
-
-        // update generations and finished sentences
-        if (!eosTokenId.isNaN)
-          // pad finished sentences if eos_token_id exist
-          tokensToAdd =
-            nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
-        else
-          tokensToAdd = nextToken
-
-        decoderInputs = decoderInputs
-          .zip(tokensToAdd)
-          .map(x => {
-            x._1 ++ Array(x._2)
-          })
-
-        curLen += 1
-
-        if (!eosTokenId.isNaN) {
-          val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
-          // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
-          val isSentsUnfinishedAndTokenToAddIsEos =
-            unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
-
-          sentLengths = sentLengths
-            .zip(isSentsUnfinishedAndTokenToAddIsEos)
-            .map(x => x._1 * (1 - x._2) + curLen * x._2)
-
-          // unfinishedSents is set to zero if eos in sentence
-          unfinishedSents =
-            unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
-        }
-
-
-        // stop when there is a eos in each sentence, or if we exceed the maximum length
-        //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
-        stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
-          || (decoderInputs.head.length > maxOutputLength))
       }
-    decoderInputs}
 
+      var nextToken = Array.ofDim[Int](decoderInputs.length)
 
+      if (doSample) {
+        // Temperature (higher temperature => more likely to sample low probability tokens). May not be 0
+        if (temperature != 1.0 && temperature > 0)
+          nextTokenLogits =
+            for (nextTokenLogit <- nextTokenLogits)
+              yield nextTokenLogit.map(_ / temperature.toFloat)
+        // Top-p/top-k filtering
+        nextTokenLogits = topKTopPFiltering(nextTokenLogits, topK, topP)
+        // Sample
+        nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
+      } else {
+        // Greedy decoding
 
+        nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
+      }
+      var tokensToAdd = Array.ofDim[Int](decoderInputs.length)
+
+      // update generations and finished sentences
+      if (!eosTokenId.isNaN)
+        // pad finished sentences if eos_token_id exist
+        tokensToAdd =
+          nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))
+      else
+        tokensToAdd = nextToken
+
+      decoderInputs = decoderInputs
+        .zip(tokensToAdd)
+        .map(x => {
+          x._1 ++ Array(x._2)
+        })
+
+      curLen += 1
+
+      if (!eosTokenId.isNaN) {
+        val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
+        // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
+        val isSentsUnfinishedAndTokenToAddIsEos =
+          unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
+
+        sentLengths = sentLengths
+          .zip(isSentsUnfinishedAndTokenToAddIsEos)
+          .map(x => x._1 * (1 - x._2) + curLen * x._2)
+
+        // unfinishedSents is set to zero if eos in sentence
+        unfinishedSents =
+          unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
+      }
+
+      // stop when there is a eos in each sentence, or if we exceed the maximum length
+      //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
+      stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
+        || (decoderInputs.head.length > maxOutputLength))
+    }
+    decoderInputs
+  }
 
   def createNextTokenLogitsPenalties(
-                                      inputIds: Seq[Array[Int]],
-                                      logits: Array[Array[Float]],
-                                      repetitionPenalty: Double): Array[Array[Float]] = {
+      inputIds: Seq[Array[Int]],
+      logits: Array[Array[Float]],
+      repetitionPenalty: Double): Array[Array[Float]] = {
     // create logit penalties for already seen inputIds
     val nextTokenLogits = Array.ofDim[Array[Float]](logits.length)
 
@@ -429,10 +426,10 @@ private[johnsnowlabs] class GPT2(
   }
 
   private def calcBannedNgramTokens(
-                                     prevInputIds: Seq[Array[Int]],
-                                     numHypos: Int,
-                                     noRepeatNgramSize: Int,
-                                     curLen: Int): Array[Array[Int]] = {
+      prevInputIds: Seq[Array[Int]],
+      numHypos: Int,
+      noRepeatNgramSize: Int,
+      curLen: Int): Array[Array[Int]] = {
     // based on fairseq for noRepeatNgram in beam_search
     if (curLen + 1 < noRepeatNgramSize)
       // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
@@ -460,11 +457,11 @@ private[johnsnowlabs] class GPT2(
   }
 
   def getGeneratedNgrams(
-                          prevInputIds: Seq[Array[Int]],
-                          generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]],
-                          hypoIdx: Int,
-                          curLen: Int,
-                          noRepeatNgramSize: Int): Array[Int] = {
+      prevInputIds: Seq[Array[Int]],
+      generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]],
+      hypoIdx: Int,
+      curLen: Int,
+      noRepeatNgramSize: Int): Array[Int] = {
     // Before decoding the next token, prevent decoding of ngrams that have already appeared
     val startIdx = curLen + 1 - noRepeatNgramSize
     val ngramIdx = prevInputIds(hypoIdx).slice(startIdx, curLen)
@@ -472,20 +469,20 @@ private[johnsnowlabs] class GPT2(
   }
 
   private def topKTopPFiltering(
-                                 logits: Array[Array[Float]],
-                                 topK: Int,
-                                 topP: Double,
-                                 filterValue: Float = Float.NegativeInfinity,
-                                 minTokensToKeep: Int = 1): Array[Array[Float]] = {
+      logits: Array[Array[Float]],
+      topK: Int,
+      topP: Double,
+      filterValue: Float = Float.NegativeInfinity,
+      minTokensToKeep: Int = 1): Array[Array[Float]] = {
 
     /** Filter a distribution of logits using top-k and/or nucleus (top-p) filtering * Args:
-     * logits: logits distribution shape (batch size, vocabulary size) if topK > 0: keep only top
-     * k tokens with highest probability (top-k filtering). if topP < 1.0: keep the top tokens
-     * with cumulative probability >= topP (nucleus filtering). Nucleus filtering is described in
-     * Holtzman et al. (http://arxiv.org/abs/1904.09751) Make sure we keep at least
-     * minTokensToKeep per batch example in the output From:
-     * https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
-     */
+      * logits: logits distribution shape (batch size, vocabulary size) if topK > 0: keep only top
+      * k tokens with highest probability (top-k filtering). if topP < 1.0: keep the top tokens
+      * with cumulative probability >= topP (nucleus filtering). Nucleus filtering is described in
+      * Holtzman et al. (http://arxiv.org/abs/1904.09751) Make sure we keep at least
+      * minTokensToKeep per batch example in the output From:
+      * https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
+      */
     var logitsUpd = logits
     val logitsShape = Array(logits.length, logits(0).length)
 
@@ -515,8 +512,8 @@ private[johnsnowlabs] class GPT2(
       if (minTokensToKeep > 1) {
 
         /** Keep at least minTokensToKeep (set to minTokensToKeep-1 because we add the first one
-         * below)
-         */
+          * below)
+          */
         sortedIndicesToRemove = List.fill(sortedIndicesToRemove.take(minTokensToKeep).length)(
           false) ++ sortedIndicesToRemove.drop(minTokensToKeep)
       }
@@ -532,11 +529,11 @@ private[johnsnowlabs] class GPT2(
       val indicesToRemove = scatterValuesOnBatchIndices(sortedIndicesToRemove, sortedIndices)
       logitsUpd =
         for ((nextTokenLogit, indexToRemove) <- logits.zip(
-          IndexedSeq.fill(logits.length)(indicesToRemove)))
-        yield setTensorByIndicesToValue(
-          nextTokenLogit,
-          indexToRemove.toIndexedSeq,
-          Float.NegativeInfinity)
+            IndexedSeq.fill(logits.length)(indicesToRemove)))
+          yield setTensorByIndicesToValue(
+            nextTokenLogit,
+            indexToRemove.toIndexedSeq,
+            Float.NegativeInfinity)
     }
     logitsUpd
   }
@@ -545,8 +542,8 @@ private[johnsnowlabs] class GPT2(
     xs.foldLeft(List(s))((acc, x) => f(acc.head, x) :: acc).reverse
 
   private def scatterValuesOnBatchIndices(
-                                           values: List[Boolean],
-                                           batchIndices: Array[Int]): List[Boolean] = {
+      values: List[Boolean],
+      batchIndices: Array[Int]): List[Boolean] = {
     // scatter values to pair indices
     val (_, initArray) = batchIndices.zip(values).sorted.unzip
     initArray.toList
@@ -559,9 +556,9 @@ private[johnsnowlabs] class GPT2(
   }
 
   private def setTensorByIndicesToValue(
-                                         prevInputIds: Array[Float],
-                                         indices: IndexedSeq[Boolean],
-                                         value: Float): Array[Float] = {
+      prevInputIds: Array[Float],
+      indices: IndexedSeq[Boolean],
+      value: Float): Array[Float] = {
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 

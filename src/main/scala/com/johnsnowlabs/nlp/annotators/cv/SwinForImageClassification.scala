@@ -263,18 +263,13 @@ trait ReadablePretrainedSwinForImageModel
       remoteLoc: String): SwinForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadSwinForImageDLModel
-  extends ReadTensorflowModel
-    with ReadOnnxModel {
+trait ReadSwinForImageDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[SwinForImageClassification] =>
 
   override val tfFile: String = "image_classification_swin_tensorflow"
   override val onnxFile: String = "image_classification_swin_onnx"
 
-  def readModel(
-      instance: SwinForImageClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: SwinForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -295,13 +290,7 @@ trait ReadSwinForImageDLModel
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, preprocessor)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            onnxFile,
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
 
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessor)
       case _ =>
@@ -351,20 +340,19 @@ trait ReadSwinForImageDLModel
           case Some(s) => s
           case None => throw new Exception("Cannot load signature definitions from model!")
         }
+
         /** the order of setSignatures is important if we use getSignatures inside
-         * setModelIfNotSet
-         */
+          * setModelIfNotSet
+          */
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None, preprocessorConfig)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
 
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
-
-
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

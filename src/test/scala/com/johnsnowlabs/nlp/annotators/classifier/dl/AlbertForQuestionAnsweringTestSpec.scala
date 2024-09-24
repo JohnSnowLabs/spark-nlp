@@ -71,7 +71,6 @@ class AlbertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-
   "AlbertForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
@@ -104,7 +103,6 @@ class AlbertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setOutputCol("answer")
       .setCaseSensitive(false)
       .setMaxSentenceLength(512)
-
 
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 

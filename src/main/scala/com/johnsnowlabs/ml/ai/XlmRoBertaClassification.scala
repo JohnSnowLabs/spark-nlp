@@ -266,10 +266,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     }
   }
 
-
   def computeZeroShotLogitsWithONNX(
-    batch: Seq[Array[Int]],
-    maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -280,11 +279,8 @@ private[johnsnowlabs] class XlmRoBertaClassification(
         env,
         batch.map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L)).toArray)
 
-
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val results = runner.run(inputs)
@@ -305,10 +301,10 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
@@ -326,8 +322,8 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   def computeZeroShotLogitsWithTF(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -376,7 +372,7 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-  rawScores
+    rawScores
   }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {

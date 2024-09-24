@@ -19,7 +19,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -379,7 +383,7 @@ trait ReadablePretrainedDistilBertForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel{
+trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[DistilBertForZeroShotClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
@@ -456,7 +460,8 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnx
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
 

@@ -20,10 +20,20 @@ import com.johnsnowlabs.ml.ai.Whisper
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{EncoderDecoderWrappers => OpenvinoEncoderDecoderWrappers}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{
+  EncoderDecoderWrappers => OpenvinoEncoderDecoderWrappers
+}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadJsonStringAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.{Preprocessor, WhisperPreprocessor}
@@ -37,110 +47,110 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 /** Whisper Model with a language modeling head on top for Connectionist Temporal Classification
- * (CTC).
- *
- * Whisper is an automatic speech recognition (ASR) system trained on 680,000 hours of
- * multilingual and multitask supervised data collected from the web. It transcribe in multiple
- * languages, as well as translate from those languages into English.
- *
- * The audio needs to be provided pre-processed an array of floats.
- *
- * For multilingual models, the language and the task (transcribe or translate) can be set with
- * `setLanguage` and `setTask`.
- *
- * Note that at the moment, this annotator only supports greedy search and only Spark Versions
- * 3.4 and up are supported.
- *
- * Pretrained models can be loaded with `pretrained` of the companion object:
- * {{{
- * val speechToText = WhisperForCTC.pretrained()
- *   .setInputCols("audio_assembler")
- *   .setOutputCol("text")
- * }}}
- * The default model is `"asr_whisper_tiny_opt"`, if no name is provided.
- *
- * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
- *
- * To see which models are compatible and how to import them see
- * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
- * examples, see
- * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/WhisperForCTCTest.scala WhisperForCTCTestSpec]].
- *
- * '''References:'''
- *
- * [[https://arxiv.org/abs/2212.04356 Robust Speech Recognition via Large-Scale Weak Supervision]]
- *
- * '''Paper Abstract:'''
- *
- * ''We study the capabilities of speech processing systems trained simply to predict large
- * amounts of transcripts of audio on the internet. When scaled to 680,000 hours of multilingual
- * and multitask supervision, the resulting models generalize well to standard benchmarks and are
- * often competitive with prior fully supervised results but in a zero- shot transfer setting
- * without the need for any fine- tuning. When compared to humans, the models approach their
- * accuracy and robustness. We are releasing models and inference code to serve as a foundation
- * for further work on robust speech processing.''
- *
- * ==Example==
- *
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base._
- * import com.johnsnowlabs.nlp.annotators._
- * import com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC
- * import org.apache.spark.ml.Pipeline
- *
- * val audioAssembler: AudioAssembler = new AudioAssembler()
- *   .setInputCol("audio_content")
- *   .setOutputCol("audio_assembler")
- *
- * val speechToText: WhisperForCTC = WhisperForCTC
- *   .pretrained()
- *   .setInputCols("audio_assembler")
- *   .setOutputCol("text")
- *
- * val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
- *
- * val bufferedSource =
- *   scala.io.Source.fromFile("src/test/resources/audio/txt/librispeech_asr_0.txt")
- *
- * val rawFloats = bufferedSource
- *   .getLines()
- *   .map(_.split(",").head.trim.toFloat)
- *   .toArray
- * bufferedSource.close
- *
- * val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
- *
- * val result = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
- * result.select("text.result").show(truncate = false)
- * +------------------------------------------------------------------------------------------+
- * |result                                                                                    |
- * +------------------------------------------------------------------------------------------+
- * |[ Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel.]|
- * +------------------------------------------------------------------------------------------+
- * }}}
- *
- * @param uid
- *   required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno
- *   Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param
- *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
- *   parameter values through setters and getters, respectively.
- */
+  * (CTC).
+  *
+  * Whisper is an automatic speech recognition (ASR) system trained on 680,000 hours of
+  * multilingual and multitask supervised data collected from the web. It transcribe in multiple
+  * languages, as well as translate from those languages into English.
+  *
+  * The audio needs to be provided pre-processed an array of floats.
+  *
+  * For multilingual models, the language and the task (transcribe or translate) can be set with
+  * `setLanguage` and `setTask`.
+  *
+  * Note that at the moment, this annotator only supports greedy search and only Spark Versions
+  * 3.4 and up are supported.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val speechToText = WhisperForCTC.pretrained()
+  *   .setInputCols("audio_assembler")
+  *   .setOutputCol("text")
+  * }}}
+  * The default model is `"asr_whisper_tiny_opt"`, if no name is provided.
+  *
+  * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
+  *
+  * To see which models are compatible and how to import them see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/WhisperForCTCTest.scala WhisperForCTCTestSpec]].
+  *
+  * '''References:'''
+  *
+  * [[https://arxiv.org/abs/2212.04356 Robust Speech Recognition via Large-Scale Weak Supervision]]
+  *
+  * '''Paper Abstract:'''
+  *
+  * ''We study the capabilities of speech processing systems trained simply to predict large
+  * amounts of transcripts of audio on the internet. When scaled to 680,000 hours of multilingual
+  * and multitask supervision, the resulting models generalize well to standard benchmarks and are
+  * often competitive with prior fully supervised results but in a zero- shot transfer setting
+  * without the need for any fine- tuning. When compared to humans, the models approach their
+  * accuracy and robustness. We are releasing models and inference code to serve as a foundation
+  * for further work on robust speech processing.''
+  *
+  * ==Example==
+  *
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotators._
+  * import com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val audioAssembler: AudioAssembler = new AudioAssembler()
+  *   .setInputCol("audio_content")
+  *   .setOutputCol("audio_assembler")
+  *
+  * val speechToText: WhisperForCTC = WhisperForCTC
+  *   .pretrained()
+  *   .setInputCols("audio_assembler")
+  *   .setOutputCol("text")
+  *
+  * val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+  *
+  * val bufferedSource =
+  *   scala.io.Source.fromFile("src/test/resources/audio/txt/librispeech_asr_0.txt")
+  *
+  * val rawFloats = bufferedSource
+  *   .getLines()
+  *   .map(_.split(",").head.trim.toFloat)
+  *   .toArray
+  * bufferedSource.close
+  *
+  * val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+  *
+  * val result = pipeline.fit(processedAudioFloats).transform(processedAudioFloats)
+  * result.select("text.result").show(truncate = false)
+  * +------------------------------------------------------------------------------------------+
+  * |result                                                                                    |
+  * +------------------------------------------------------------------------------------------+
+  * |[ Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel.]|
+  * +------------------------------------------------------------------------------------------+
+  * }}}
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 class WhisperForCTC(override val uid: String)
-  extends AnnotatorModel[WhisperForCTC]
+    extends AnnotatorModel[WhisperForCTC]
     with HasBatchedAnnotateAudio[WhisperForCTC]
     with HasAudioFeatureProperties
     with WriteTensorflowModel
@@ -154,14 +164,14 @@ class WhisperForCTC(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.AUDIO)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-   * type
-   */
+    * type
+    */
   def this() = this(Identifiable.randomUID("WhisperForCTC"))
 
   /** Optional language to set for the transcription. The imported model needs to support multiple
-   * languages.
-   * @group param
-   */
+    * languages.
+    * @group param
+    */
   val language =
     new Param[String](
       this,
@@ -169,10 +179,10 @@ class WhisperForCTC(override val uid: String)
       "Optional parameter to set the language for the transcription.")
 
   /** Sets the language for the audio, formatted to e.g. `<|en|>`. Check the model description for
-   * supported languages.
-   *
-   * @group setParam
-   */
+    * supported languages.
+    *
+    * @group setParam
+    */
   def setLanguage(value: String): this.type = {
     require(getIsMultilingual, "Only multilingual models can have the language set.")
     require(
@@ -188,11 +198,11 @@ class WhisperForCTC(override val uid: String)
   def getLanguage: Option[String] = get(this.language)
 
   /** Sets the formatted task for the audio. Either `<|translate|>` or `<|transcribe|>`.
-   *
-   * Only multilingual models can do translation.
-   *
-   * @group setParam
-   */
+    *
+    * Only multilingual models can do translation.
+    *
+    * @group setParam
+    */
   override def setTask(value: String): this.type = {
     require(
       getIsMultilingual,
@@ -205,9 +215,9 @@ class WhisperForCTC(override val uid: String)
   }
 
   /** Whether or not the model is multilingual.
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val isMultilingual: ProtectedParam[Boolean] =
     new BooleanParam(this, "isMultilingual", "Whether or not the model is multilingual.")
       .setProtected()
@@ -222,9 +232,9 @@ class WhisperForCTC(override val uid: String)
   def getIsMultilingual: Boolean = getOrDefault(this.isMultilingual)
 
   /** It contains TF model signatures for the loaded saved model
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val signatures: MapFeature[AnnotatorType, AnnotatorType] =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
@@ -238,28 +248,28 @@ class WhisperForCTC(override val uid: String)
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
-   * config_proto.SerializeToString()
-   *
-   * @group param
-   */
+    * config_proto.SerializeToString()
+    *
+    * @group param
+    */
   val configProtoBytes = new IntArrayParam(
     this,
     "configProtoBytes",
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
-   * config_proto.SerializeToString()
-   *
-   * @group setParam
-   */
+    * config_proto.SerializeToString()
+    *
+    * @group setParam
+    */
   def setConfigProtoBytes(bytes: Array[Int]): this.type =
     set(this.configProtoBytes, bytes)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
-   * config_proto.SerializeToString()
-   *
-   * @group getParam
-   */
+    * config_proto.SerializeToString()
+    *
+    * @group getParam
+    */
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -316,11 +326,10 @@ class WhisperForCTC(override val uid: String)
 
   /** @group setParam */
   def setModelIfNotSet(
-                        spark: SparkSession,
-                        tensorflowWrapper: Option[TensorflowWrapper],
-                        onnxWrappers: Option[EncoderDecoderWrappers],
-                        openvinoWrapper: Option[OpenvinoEncoderDecoderWrappers],
-                      ): this.type = {
+      spark: SparkSession,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrappers: Option[EncoderDecoderWrappers],
+      openvinoWrapper: Option[OpenvinoEncoderDecoderWrappers]): this.type = {
     if (_model.isEmpty) {
       val preprocessor = getPreprocessor
 
@@ -384,14 +393,14 @@ class WhisperForCTC(override val uid: String)
   }
 
   /** Takes audio annotations and produces transcribed document annotations.
-   *
-   * @param batchedAnnotations
-   *   Audio annotations in batches
-   * @return
-   *   Transcribed audio as DOCUMENT type annotation
-   */
+    *
+    * @param batchedAnnotations
+    *   Audio annotations in batches
+    * @return
+    *   Transcribed audio as DOCUMENT type annotation
+    */
   override def batchAnnotate(
-                              batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]] = {
+      batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map { audioAnnotations =>
       if (audioAnnotations.nonEmpty) {
         getModelIfNotSet.generateFromAudio(
@@ -417,7 +426,7 @@ class WhisperForCTC(override val uid: String)
 }
 
 trait ReadablePretrainedWhisperForCTCModel
-  extends ParamsAndFeaturesReadable[WhisperForCTC]
+    extends ParamsAndFeaturesReadable[WhisperForCTC]
     with HasPretrained[WhisperForCTC] {
   override val defaultModelName: Some[String] = Some("asr_whisper_tiny_opt")
   override val defaultLang: String = "xx"
@@ -434,7 +443,10 @@ trait ReadablePretrainedWhisperForCTCModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadWhisperForCTCDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[WhisperForCTC] =>
 
   override val tfFile: String = "whisper_ctc_tensorflow"
@@ -605,8 +617,8 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel wi
         }
 
         /** the order of setSignatures is important if we use getSignatures inside
-         * setModelIfNotSet
-         */
+          * setModelIfNotSet
+          */
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None, None)
@@ -689,6 +701,6 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel wi
 }
 
 /** This is the companion object of [[WhisperForCTC]]. Please refer to that class for the
- * documentation.
- */
+  * documentation.
+  */
 object WhisperForCTC extends ReadablePretrainedWhisperForCTCModel with ReadWhisperForCTCDLModel

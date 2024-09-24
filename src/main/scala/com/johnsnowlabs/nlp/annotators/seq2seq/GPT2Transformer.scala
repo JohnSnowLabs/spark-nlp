@@ -18,8 +18,16 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.ai.GPT2
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
@@ -389,9 +397,10 @@ class GPT2Transformer(override val uid: String)
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession,
-                       tfWrapper: Option[TensorflowWrapper],
-                       onnxWrapper: Option[OnnxWrapper]): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tfWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): this.type = {
     if (_tfModel.isEmpty) {
 
       val bpeTokenizer = BpeTokenizer
@@ -524,16 +533,10 @@ trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
       case TensorFlow.name =>
         val tf = readTensorflowModel(path, spark, "_gpt2_tf")
         instance.setModelIfNotSet(spark, Some(tf), None)
-        case ONNX.name =>
-          val onnxWrapper =
-            readOnnxModel(
-              path,
-              spark,
-              "_gpt2_onnx",
-              zipped = true,
-              useBundle = false,
-              None)
-          instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_gpt2_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
     }
   }
 
@@ -575,7 +578,8 @@ trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
           .setModelIfNotSet(spark, Some(wrapper), None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))
       case _ =>

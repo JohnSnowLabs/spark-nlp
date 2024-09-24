@@ -158,13 +158,7 @@ private[johnsnowlabs] class BertClassification(
     }
   }
 
-
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]],
-                                  maxSentenceLength: Int
-                                ): Array[Float] = {
-
-
+  private def getRawScoresWithOv(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -194,8 +188,6 @@ private[johnsnowlabs] class BertClassification(
     }
 
   }
-
-
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val batchLength = batch.length
@@ -350,18 +342,16 @@ private[johnsnowlabs] class BertClassification(
     batchScores
   }
 
-
   def computeZeroShotLogitsWithOv(
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
       PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
 
-
     // Initialize the segment tensor as an array of arrays
-    val segmentTensor =  batch
+    val segmentTensor = batch
       .map(sentence =>
         sentence.indices
           .map(i =>
@@ -370,7 +360,6 @@ private[johnsnowlabs] class BertClassification(
             else 1L)
           .toArray)
       .toArray
-
 
     val segmentTensors = new Tensor(Array(batch.length, maxSentenceLength), segmentTensor.flatten)
 
@@ -381,10 +370,9 @@ private[johnsnowlabs] class BertClassification(
 
     inferRequest.infer()
 
-
     try {
       try {
-       inferRequest
+        inferRequest
           .get_tensor("logits")
           .data()
       }
@@ -543,7 +531,7 @@ private[johnsnowlabs] class BertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch, maxSentenceLength)
-      case Openvino.name =>computeLogitsWithOv(batch, maxSentenceLength)
+      case Openvino.name => computeLogitsWithOv(batch, maxSentenceLength)
       case _ => computeLogitsWithTF(batch, maxSentenceLength)
     }
 
@@ -632,13 +620,12 @@ private[johnsnowlabs] class BertClassification(
   }
 
   private def computeLogitsWithOv(
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int): (Array[Float], Array[Float]) = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): (Array[Float], Array[Float]) = {
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
       PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-
 
     // Initialize the segment tensor as an array of arrays
     val segmentTensor = Array.ofDim[Long](batch.length, maxSentenceLength)
@@ -658,10 +645,8 @@ private[johnsnowlabs] class BertClassification(
         }
       }
 
-        segmentTensor(idx) = segments
-      }
-
-
+      segmentTensor(idx) = segments
+    }
 
     val segmentTensors = new Tensor(Array(batch.length, maxSentenceLength), segmentTensor.flatten)
 
@@ -674,7 +659,7 @@ private[johnsnowlabs] class BertClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest
@@ -755,8 +740,3 @@ private[johnsnowlabs] class BertClassification(
   }
 
 }
-
-
-
-
-

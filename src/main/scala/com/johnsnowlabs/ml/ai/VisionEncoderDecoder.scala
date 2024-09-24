@@ -306,7 +306,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       }
       .toSeq
 
-    //tensorResources.clearTensors()
+    // tensorResources.clearTensors()
 
     captions
   }

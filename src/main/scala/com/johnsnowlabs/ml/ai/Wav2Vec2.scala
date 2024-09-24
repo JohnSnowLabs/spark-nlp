@@ -62,60 +62,58 @@ private[johnsnowlabs] class Wav2Vec2(
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
 
     val rawScores =
-      detectedEngine match{
-      case TensorFlow.name =>
+      detectedEngine match {
+        case TensorFlow.name =>
+          val tensors = new TensorResources()
 
-    val tensors = new TensorResources()
+          val audioTensors = tensors.createTensor(batch)
 
-    val audioTensors = tensors.createTensor(batch)
+          val runner = tensorflowWrapper.get
+            .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+            .runner
 
-    val runner = tensorflowWrapper.get
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-      .runner
+          runner
+            .feed(
+              _tfWav2Vec2Signatures
+                .getOrElse(ModelSignatureConstants.AudioValuesInput.key, "missing_input_values"),
+              audioTensors)
+            .fetch(_tfWav2Vec2Signatures
+              .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
-    runner
-      .feed(
-        _tfWav2Vec2Signatures
-          .getOrElse(ModelSignatureConstants.AudioValuesInput.key, "missing_input_values"),
-        audioTensors)
-      .fetch(_tfWav2Vec2Signatures
-        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+          val outs = runner.run().asScala
 
-    val outs = runner.run().asScala
-
-    tensors.clearTensors()
-    audioTensors.close()
-    val output = TensorResources.extractFloats(outs.head)
-    tensors.clearSession(outs)
-     output
-
-      case ONNX.name =>
-        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-        val audioTensors =
-          OnnxTensor.createTensor(env, batch)
-        val inputs =
-          Map(
-            "input_values" -> audioTensors).asJava
-        try {
-          val results = runner.run(inputs)
-          try {
-            results
-              .get("logits")
-              .get()
-              .asInstanceOf[OnnxTensor]
-              .getFloatBuffer
-              .array()
-          } finally if (results != null) results.close()
-        } catch {
-          case e: Exception =>
-            // Handle exceptions by logging or other means.
-            e.printStackTrace()
-            Array.empty[Float] // Return an empty array or appropriate error handling
-        } finally {
-          // Close tensors outside the try-catch to avoid repeated null checks.
-          // These resources are initialized before the try-catch, so they should be closed here.
+          tensors.clearTensors()
           audioTensors.close()
-        }
+          val output = TensorResources.extractFloats(outs.head)
+          tensors.clearSession(outs)
+          output
+
+        case ONNX.name =>
+          val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+          val audioTensors =
+            OnnxTensor.createTensor(env, batch)
+          val inputs =
+            Map("input_values" -> audioTensors).asJava
+          try {
+            val results = runner.run(inputs)
+            try {
+              results
+                .get("logits")
+                .get()
+                .asInstanceOf[OnnxTensor]
+                .getFloatBuffer
+                .array()
+            } finally if (results != null) results.close()
+          } catch {
+            case e: Exception =>
+              // Handle exceptions by logging or other means.
+              e.printStackTrace()
+              Array.empty[Float] // Return an empty array or appropriate error handling
+          } finally {
+            // Close tensors outside the try-catch to avoid repeated null checks.
+            // These resources are initialized before the try-catch, so they should be closed here.
+            audioTensors.close()
+          }
       }
     rawScores
       .grouped(vocabSize)

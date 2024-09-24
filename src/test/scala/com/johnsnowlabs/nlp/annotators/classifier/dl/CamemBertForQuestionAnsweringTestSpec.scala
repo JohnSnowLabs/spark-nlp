@@ -80,7 +80,6 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-
   "CamemBertForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
@@ -114,7 +113,6 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
-
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 
     val pipelineModel = pipeline.fit(ddd)
@@ -137,9 +135,10 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_forquestionanswering_pipeline")
     loadedPipelineModel.transform(ddd).select("answer.result").show(false)
 
-    val loadedSequenceModel = CamemBertForQuestionAnswering.load("./tmp_forquestionanswering_model")
+    val loadedSequenceModel =
+      CamemBertForQuestionAnswering.load("./tmp_forquestionanswering_model")
 
-    }
+  }
   "CamemBertForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {
 
     val data = ResourceHelper.spark.read

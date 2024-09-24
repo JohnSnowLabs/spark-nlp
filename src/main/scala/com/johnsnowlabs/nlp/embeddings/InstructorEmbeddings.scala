@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-
 import com.johnsnowlabs.ml.ai.Instructor
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
@@ -325,8 +324,6 @@ class InstructorEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
 
-
-
     super.onWrite(path, spark)
     getEngine match {
       case TensorFlow.name =>
@@ -353,7 +350,6 @@ class InstructorEmbeddings(override val uid: String)
       getModelIfNotSet.spp,
       "_instructor",
       InstructorEmbeddings.sppFile)
-
 
   }
 
@@ -391,7 +387,10 @@ trait ReadablePretrainedInstructorModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel {
+trait ReadInstructorDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[InstructorEmbeddings] =>
 
   override val tfFile: String = "instructor_tensorflow"
@@ -401,27 +400,19 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
   def readModel(instance: InstructorEmbeddings, path: String, spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_instructor_spp", sppFile)
 
-
     instance.getEngine match {
       case TensorFlow.name =>
-    val tf = readTensorflowModel(
-      path,
-      spark,
-      "_instructor_tf",
-      savedSignatures = instance.getSignatures,
-      initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None, spp)
-
+        val tf = readTensorflowModel(
+          path,
+          spark,
+          "_instructor_tf",
+          savedSignatures = instance.getSignatures,
+          initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, spp)
 
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_instructor_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, "_instructor_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
 
     }
@@ -461,7 +452,8 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
           .setModelIfNotSet(spark, Some(tfwrapper), None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
       case _ =>

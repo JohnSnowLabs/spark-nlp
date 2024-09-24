@@ -1,0 +1,981 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title>Spark NLP 5.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel</title>
+          <meta name="description" content="Spark NLP 5.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel" />
+          <meta name="keywords" content="Spark NLP 5.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      
+      <link href="../../../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../../../index.js"></script>
+      <script type="text/javascript" src="../../../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title">Spark NLP 5.5.0 ScalaDoc<span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="../../../../../index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="com"></a><a id="com:com"></a>
+      <span class="permalink">
+      <a href="../../../../../com/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../index.html"><span class="name">com</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="johnsnowlabs"></a><a id="johnsnowlabs:johnsnowlabs"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../index.html"><span class="name">johnsnowlabs</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../index.html" class="extype" name="com">com</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="nlp"></a><a id="nlp:nlp"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../index.html"><span class="name">nlp</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotators"></a><a id="annotators:annotators"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html"><span class="name">annotators</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="seq2seq"></a><a id="seq2seq:seq2seq"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="index.html"><span class="name">seq2seq</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li class="current-entities indented5">
+                        <a class="object" href="AutoGGUFModel$.html" title="This is the companion object of AutoGGUFModel."></a>
+                        <a class="class" href="AutoGGUFModel.html" title="Annotator that uses the llama.cpp library to generate text completions with large language models."></a>
+                        <a href="AutoGGUFModel.html" title="Annotator that uses the llama.cpp library to generate text completions with large language models.">AutoGGUFModel</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="BartTransformer$.html" title=""></a>
+                        <a class="class" href="BartTransformer.html" title="BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer"></a>
+                        <a href="BartTransformer.html" title="BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer">BartTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="CPMTransformer$.html" title=""></a>
+                        <a class="class" href="CPMTransformer.html" title="MiniCPM: Unveiling the Potential of End-side Large Language Models"></a>
+                        <a href="CPMTransformer.html" title="MiniCPM: Unveiling the Potential of End-side Large Language Models">CPMTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="GPT2Transformer$.html" title=""></a>
+                        <a class="class" href="GPT2Transformer.html" title="GPT-2: the OpenAI Text-To-Text Transformer"></a>
+                        <a href="GPT2Transformer.html" title="GPT-2: the OpenAI Text-To-Text Transformer">GPT2Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="LLAMA2Transformer$.html" title=""></a>
+                        <a class="class" href="LLAMA2Transformer.html" title="Llama 2: Open Foundation and Fine-Tuned Chat Models"></a>
+                        <a href="LLAMA2Transformer.html" title="Llama 2: Open Foundation and Fine-Tuned Chat Models">LLAMA2Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="LLAMA3Transformer$.html" title=""></a>
+                        <a class="class" href="LLAMA3Transformer.html" title="Llama 3: Cutting-Edge Foundation and Fine-Tuned Chat Models"></a>
+                        <a href="LLAMA3Transformer.html" title="Llama 3: Cutting-Edge Foundation and Fine-Tuned Chat Models">LLAMA3Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="M2M100Transformer$.html" title=""></a>
+                        <a class="class" href="M2M100Transformer.html" title="M2M100 : multilingual translation model"></a>
+                        <a href="M2M100Transformer.html" title="M2M100 : multilingual translation model">M2M100Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="MarianTransformer$.html" title="This is the companion object of MarianTransformer."></a>
+                        <a class="class" href="MarianTransformer.html" title="MarianTransformer: Fast Neural Machine Translation"></a>
+                        <a href="MarianTransformer.html" title="MarianTransformer: Fast Neural Machine Translation">MarianTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="MistralTransformer$.html" title=""></a>
+                        <a class="class" href="MistralTransformer.html" title="Mistral 7B"></a>
+                        <a href="MistralTransformer.html" title="Mistral 7B">MistralTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="NLLBTransformer$.html" title=""></a>
+                        <a class="class" href="NLLBTransformer.html" title="NLLB : multilingual translation model"></a>
+                        <a href="NLLBTransformer.html" title="NLLB : multilingual translation model">NLLBTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="Phi2Transformer$.html" title=""></a>
+                        <a class="class" href="Phi2Transformer.html" title="Phi-2: Textbooks Are All You Need."></a>
+                        <a href="Phi2Transformer.html" title="Phi-2: Textbooks Are All You Need.">Phi2Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="Phi3Transformer$.html" title=""></a>
+                        <a class="class" href="Phi3Transformer.html" title="Phi-3"></a>
+                        <a href="Phi3Transformer.html" title="Phi-3">Phi3Transformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="QwenTransformer$.html" title=""></a>
+                        <a class="class" href="QwenTransformer.html" title="Qwen: comprehensive language model series"></a>
+                        <a href="QwenTransformer.html" title="Qwen: comprehensive language model series">QwenTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadAutoGGUFModel.html" title=""></a>
+                        <a href="ReadAutoGGUFModel.html" title="">ReadAutoGGUFModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBartTransformerDLModel.html" title=""></a>
+                        <a href="ReadBartTransformerDLModel.html" title="">ReadBartTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCPMTransformerDLModel.html" title=""></a>
+                        <a href="ReadCPMTransformerDLModel.html" title="">ReadCPMTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadGPT2TransformerDLModel.html" title=""></a>
+                        <a href="ReadGPT2TransformerDLModel.html" title="">ReadGPT2TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLLAMA2TransformerDLModel.html" title=""></a>
+                        <a href="ReadLLAMA2TransformerDLModel.html" title="">ReadLLAMA2TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLLAMA3TransformerDLModel.html" title=""></a>
+                        <a href="ReadLLAMA3TransformerDLModel.html" title="">ReadLLAMA3TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadM2M100TransformerDLModel.html" title=""></a>
+                        <a href="ReadM2M100TransformerDLModel.html" title="">ReadM2M100TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMarianMTDLModel.html" title=""></a>
+                        <a href="ReadMarianMTDLModel.html" title="">ReadMarianMTDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMistralTransformerDLModel.html" title=""></a>
+                        <a href="ReadMistralTransformerDLModel.html" title="">ReadMistralTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadNLLBTransformerDLModel.html" title=""></a>
+                        <a href="ReadNLLBTransformerDLModel.html" title="">ReadNLLBTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPhi2TransformerDLModel.html" title=""></a>
+                        <a href="ReadPhi2TransformerDLModel.html" title="">ReadPhi2TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPhi3TransformerDLModel.html" title=""></a>
+                        <a href="ReadPhi3TransformerDLModel.html" title="">ReadPhi3TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadQwenTransformerDLModel.html" title=""></a>
+                        <a href="ReadQwenTransformerDLModel.html" title="">ReadQwenTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadStarCoderTransformerDLModel.html" title=""></a>
+                        <a href="ReadStarCoderTransformerDLModel.html" title="">ReadStarCoderTransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadT5TransformerDLModel.html" title=""></a>
+                        <a href="ReadT5TransformerDLModel.html" title="">ReadT5TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedAutoGGUFModel.html" title=""></a>
+                        <a href="ReadablePretrainedAutoGGUFModel.html" title="">ReadablePretrainedAutoGGUFModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBartTransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedBartTransformerModel.html" title="">ReadablePretrainedBartTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="" title=""></a>
+                        <a href="" title="">ReadablePretrainedCPMTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedGPT2TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedGPT2TransformerModel.html" title="">ReadablePretrainedGPT2TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLLAMA2TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedLLAMA2TransformerModel.html" title="">ReadablePretrainedLLAMA2TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLLAMA3TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedLLAMA3TransformerModel.html" title="">ReadablePretrainedLLAMA3TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedM2M100TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedM2M100TransformerModel.html" title="">ReadablePretrainedM2M100TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMarianMTModel.html" title=""></a>
+                        <a href="ReadablePretrainedMarianMTModel.html" title="">ReadablePretrainedMarianMTModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMistralTransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedMistralTransformerModel.html" title="">ReadablePretrainedMistralTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedNLLBTransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedNLLBTransformerModel.html" title="">ReadablePretrainedNLLBTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedPhi2TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedPhi2TransformerModel.html" title="">ReadablePretrainedPhi2TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedPhi3TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedPhi3TransformerModel.html" title="">ReadablePretrainedPhi3TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedQwenTransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedQwenTransformerModel.html" title="">ReadablePretrainedQwenTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedStarCoderTransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedStarCoderTransformerModel.html" title="">ReadablePretrainedStarCoderTransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedT5TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedT5TransformerModel.html" title="">ReadablePretrainedT5TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="StarCoderTransformer$.html" title=""></a>
+                        <a class="class" href="StarCoderTransformer.html" title="StarCoder2: The Versatile Code Companion."></a>
+                        <a href="StarCoderTransformer.html" title="StarCoder2: The Versatile Code Companion.">StarCoderTransformer</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="T5Transformer$.html" title="This is the companion object of T5Transformer."></a>
+                        <a class="class" href="T5Transformer.html" title="T5: the Text-To-Text Transfer Transformer"></a>
+                        <a href="T5Transformer.html" title="T5: the Text-To-Text Transfer Transformer">T5Transformer</a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="trait type">
+      <div id="definition">
+        <div class="big-circle trait">t</div>
+        <p id="owner"><a href="../../../../index.html" class="extype" name="com">com</a>.<a href="../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a>.<a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq">seq2seq</a></p>
+        <h1>ReadablePretrainedCPMTransformerModel<span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        <h3><span class="morelinks"></span></h3>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ReadablePretrainedCPMTransformerModel</span><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">
+            Linear Supertypes
+          </span>
+          <div class="superTypes hiddenContent"><a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>], <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>], <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>], <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>], <a href="../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="CPMTransformer$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></div>
+          </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              <li class="inherit out"><span>By Inheritance</span></li>
+            </ol>
+          </div>
+          <div class="ancestors">
+                  <span class="filtertype">Inherited<br />
+                  </span>
+                  <ol id="linearization">
+                    <li class="in" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel"><span>ReadablePretrainedCPMTransformerModel</span></li><li class="in" name="com.johnsnowlabs.nlp.HasPretrained"><span>HasPretrained</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable"><span>ParamsAndFeaturesReadable</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsReadable"><span>DefaultParamsReadable</span></li><li class="in" name="org.apache.spark.ml.util.MLReadable"><span>MLReadable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  </ol>
+                </div><div class="ancestors">
+              <span class="filtertype"></span>
+              <ol>
+                <li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show All</span></li>
+              </ol>
+            </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#!=(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html###():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#==(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#addReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit"></a><a id="addReader((CPMTransformer,String,SparkSession)⇒Unit):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addReader</span><span class="params">(<span name="reader">reader: (<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#asInstanceOf[T0]:T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a><a id="clone():AnyRef"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#clone():Object" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasPretrained#defaultLang" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultLang:String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#defaultLang:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultLang</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasPretrained#defaultLoc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultLoc:String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#defaultLoc:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultLoc</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel#defaultModelName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultModelName:Some[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#defaultModelName:Some[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultModelName</span><span class="result">: <span class="extype" name="scala.Some">Some</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel">ReadablePretrainedCPMTransformerModel</a> → <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#equals(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#getClass():Class[_]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#hashCode():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#isInstanceOf[T0]:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.util.MLReadable#load" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="load(path:String):T"></a><a id="load(String):CPMTransformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#load(path:String):T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">load</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MLReadable</dd><dt>Annotations</dt><dd>
+                <span class="name">@Since</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;1.6.0&quot;</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#notify():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#notifyAll():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer"></a><a id="pretrained(String,String,String):CPMTransformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="remoteLoc">remoteLoc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Java default argument interoperability</p><div class="fullcomment"><div class="comment cmt"><p>Java default argument interoperability</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel">ReadablePretrainedCPMTransformerModel</a> → <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer"></a><a id="pretrained(String,String):CPMTransformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel">ReadablePretrainedCPMTransformerModel</a> → <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer"></a><a id="pretrained(String):CPMTransformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#pretrained(name:String):com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel">ReadablePretrainedCPMTransformerModel</a> → <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained():com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer"></a><a id="pretrained():CPMTransformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#pretrained():com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">()</span><span class="result">: <a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Java compliant-overrides</p><div class="fullcomment"><div class="comment cmt"><p>Java compliant-overrides</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedCPMTransformerModel">ReadablePretrainedCPMTransformerModel</a> → <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#read" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="read:org.apache.spark.ml.util.MLReader[T]"></a><a id="read:MLReader[CPMTransformer]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#read:org.apache.spark.ml.util.MLReader[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">read</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLReader">MLReader</span>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a> → DefaultParamsReadable → MLReadable</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#toString():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedCPMTransformerModel.html#wait(x$1:Long):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.johnsnowlabs.nlp.HasPretrained">
+              <h3>Inherited from <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">
+              <h3>Inherited from <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</h3>
+            </div><div class="parent" name="org.apache.spark.ml.util.DefaultParamsReadable">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</h3>
+            </div><div class="parent" name="org.apache.spark.ml.util.MLReadable">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="CPMTransformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer">CPMTransformer</a>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <a href="../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>

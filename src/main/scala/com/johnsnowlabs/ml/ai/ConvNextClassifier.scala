@@ -30,7 +30,13 @@ private[johnsnowlabs] class ConvNextClassifier(
     tags: Map[String, BigInt],
     preprocessor: Preprocessor,
     signatures: Option[Map[String, String]] = None)
-    extends ViTClassifier(tensorflowWrapper, onnxWrapper, configProtoBytes, tags, preprocessor, signatures) {
+    extends ViTClassifier(
+      tensorflowWrapper,
+      onnxWrapper,
+      configProtoBytes,
+      tags,
+      preprocessor,
+      signatures) {
 
   override def encode(
       annotations: Array[AnnotationImage],

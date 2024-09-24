@@ -346,9 +346,7 @@ trait ReadablePretrainedViTForImageModel
       remoteLoc: String): ViTForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadViTForImageDLModel
-  extends ReadTensorflowModel
-  with ReadOnnxModel {
+trait ReadViTForImageDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[ViTForImageClassification] =>
 
   override val tfFile: String = "image_classification_tensorflow"
@@ -369,24 +367,15 @@ trait ReadViTForImageDLModel
         val tfWrapper =
           readTensorflowModel(path, spark, tfFile, initAllTables = false)
 
-
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, preprocessor)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            onnxFile,
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
 
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessor)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
-
-
 
   }
 
@@ -429,6 +418,7 @@ trait ReadViTForImageDLModel
           case Some(s) => s
           case None => throw new Exception("Cannot load signature definitions from model!")
         }
+
         /** the order of setSignatures is important if we use getSignatures inside
           * setModelIfNotSet
           */
@@ -437,7 +427,8 @@ trait ReadViTForImageDLModel
           .setModelIfNotSet(spark, Some(tfwrapper), None, preprocessorConfig)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
 
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
