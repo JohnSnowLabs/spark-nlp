@@ -1,4 +1,27 @@
 ========
+5.5.0
+========
+----------------
+New Features & Enhancements
+----------------
+* Introduced QWEN2Transformer (#14188)
+* Introduced MiniCPM (#14205)
+* Introduced NLLB (#14209)
+* Implemented Nomic embeddings (#14217)
+* Introduced CamemBertForZeroShotClassification annotator (#14354)
+* Implemented Mxbai Embeddings (#14355)
+* Introduced AlbertForZeroShotClassification (#14361)
+* Introduced Phi-3 (#14373)
+* Implemented Starcoder2 for causal language modeling (#14358)
+* Integrated llama.cpp (#14364)
+* Implemented SnowFlake (#14353)
+* Introduced ONNX support to vision annotators (#14356)
+* Introduced ONNX and OpenVINO support to Missing Annotators (#14359)
+* Added OpenVINO install instructions (#14382)
+* Exported notebooks for release candidate (#14393)
+
+
+========
 5.4.2
 ========
 ----------------
@@ -7,7 +30,6 @@ New Features & Enhancements
 * Added demo notebook for Image Classification Annotators
 * Added aggressiveMatching parameter to DateMatcher and MultiDateMatcher annotators
 * Added aggressiveMatching parameter to DocumentSimilarityRanker annotator
-
 
 
 ========
