@@ -86,15 +86,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
       - name: Zip contents for artifacts
-        uses: vimtor/action-zip@v1.2
-        with:
-          files: >
-            ./docs/_site/
-            ./docs/.jekyll-metadata
-            ./docs/backup-models.json
-            ./docs/backup-benchmarking.json
+        run: |
+          7z a -tzip jekyll-content.zip \
+            ./docs/_site/* \
+            ./docs/.jekyll-metadata \
+            ./docs/backup-models.json \
+            ./docs/backup-benchmarking.json \
             ./docs/backup-references.json
-          dest: jekyll-content.zip
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
