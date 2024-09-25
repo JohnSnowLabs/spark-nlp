@@ -20,6 +20,10 @@ import com.johnsnowlabs.ml.ai.Whisper
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{
+  EncoderDecoderWrappers => OpenvinoEncoderDecoderWrappers
+}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -30,7 +34,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.{Preprocessor, WhisperPreprocessor}
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
@@ -150,6 +154,7 @@ class WhisperForCTC(override val uid: String)
     with HasBatchedAnnotateAudio[WhisperForCTC]
     with HasAudioFeatureProperties
     with WriteTensorflowModel
+    with WriteOpenvinoModel
     with WriteOnnxModel
     with HasEngine
     with HasGeneratorProperties
@@ -323,7 +328,8 @@ class WhisperForCTC(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrappers: Option[EncoderDecoderWrappers]): this.type = {
+      onnxWrappers: Option[EncoderDecoderWrappers],
+      openvinoWrapper: Option[OpenvinoEncoderDecoderWrappers]): this.type = {
     if (_model.isEmpty) {
       val preprocessor = getPreprocessor
 
@@ -332,6 +338,7 @@ class WhisperForCTC(override val uid: String)
           new Whisper(
             tensorflowWrapper,
             onnxWrappers,
+            openvinoWrapper,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures,
             preprocessor = preprocessor,
@@ -363,6 +370,23 @@ class WhisperForCTC(override val uid: String)
             (wrappers.encoder, "encoder_model"),
             (wrappers.decoder, "decoder_model"),
             (wrappers.decoderWithPast, "decoder_with_past_model")),
+          WhisperForCTC.suffix)
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.encoder, "openvino_encoder_model.xml")),
+          WhisperForCTC.suffix)
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.decoder, "openvino_decoder_model.xml")),
+          WhisperForCTC.suffix)
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.decoderWithPast, "openvino_decoder_with_past_model.xml")),
           WhisperForCTC.suffix)
     }
 
@@ -419,11 +443,15 @@ trait ReadablePretrainedWhisperForCTCModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadWhisperForCTCDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[WhisperForCTC] =>
 
   override val tfFile: String = "whisper_ctc_tensorflow"
   override val onnxFile: String = "whisper_ctc_onnx"
+  override val openvinoFile: String = "whisper_ctc_openvino"
   val suffix: String = "_whisper_ctc"
 
   private def checkVersion(spark: SparkSession): Unit = {
@@ -440,7 +468,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
           spark,
           WhisperForCTC.suffix,
           savedSignatures = instance.getSignatures)
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None)
 
       case ONNX.name =>
         val wrappers =
@@ -456,7 +484,25 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
           decoder = wrappers("decoder_model"),
           decoderWithPast = wrappers("decoder_with_past_model"))
 
-        instance.setModelIfNotSet(spark, None, Some(onnxWrappers))
+        instance.setModelIfNotSet(spark, None, Some(onnxWrappers), None)
+
+      case Openvino.name =>
+        val decoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_decoder_model.xml"), suffix)
+        val encoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_encoder_model.xml"), suffix)
+        val decoderWithPastWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_decoder_with_past_model.xml"), suffix)
+        val ovWrapper = {
+          OpenvinoEncoderDecoderWrappers(
+            encoder = encoderWrappers("openvino_encoder_model.xml"),
+            decoder = decoderWrappers("openvino_decoder_model.xml"),
+            decoderWithPast = decoderWithPastWrappers("openvino_decoder_with_past_model.xml"))
+
+        }
+
+        instance.setModelIfNotSet(spark, None, None, Some(ovWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -575,7 +621,7 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfWrapper), None)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, None)
 
       case ONNX.name =>
         val onnxWrapperEncoder =
@@ -611,8 +657,41 @@ trait ReadWhisperForCTCDLModel extends ReadTensorflowModel with ReadOnnxModel {
           onnxWrapperDecoderWithPast)
 
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrappers))
+          .setModelIfNotSet(spark, None, Some(onnxWrappers), None)
 
+      case Openvino.name =>
+        val openvinoEncoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_encoder_model")
+        val openvinoDecoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_decoder_model")
+
+        val openvinoDecoderWithPastWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_decoder_with_past_model")
+
+        val openvinoWrapper =
+          OpenvinoEncoderDecoderWrappers(
+            encoder = openvinoEncoderWrapper,
+            decoder = openvinoDecoderWrapper,
+            decoderWithPast = openvinoDecoderWithPastWrapper)
+        annotatorModel.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

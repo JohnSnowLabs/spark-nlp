@@ -27,18 +27,27 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
 import com.johnsnowlabs.ml.onnx.OnnxSession
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{
+  EncoderDecoderWrappers => OpenvinoEncoderDecoder
+}
 import com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants.EncoderOutput
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.util.LinAlg.argmax
 import com.johnsnowlabs.ml.util._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.WhisperPreprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{SpecialTokens, WhisperTokenDecoder}
 import com.johnsnowlabs.nlp.{Annotation, AnnotationAudio, AnnotatorType}
+import org.intel.openvino.InferRequest
 import org.slf4j.LoggerFactory
 import org.tensorflow.{Session, Tensor}
+import org.intel.openvino.{Tensor => OpenVinoTensor}
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
+import scala.util.control.Breaks.{break, breakable}
 
 /** Class representing a Whisper model. Used to call the model and generate tokens.
   *
@@ -58,6 +67,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Whisper(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrappers: Option[EncoderDecoderWrappers],
+    val openvinoWrapper: Option[OpenvinoEncoderDecoder],
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None,
     preprocessor: WhisperPreprocessor,
@@ -101,6 +111,7 @@ private[johnsnowlabs] class Whisper(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrappers.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else throw new IllegalArgumentException("No model engine defined.")
 
   private val tfTensorResources = new tensorflow.TensorResources()
@@ -147,6 +158,50 @@ private[johnsnowlabs] class Whisper(
     def getStateOutputKeys(session: OrtSession): Array[String] =
       session.getOutputNames.asScala.filter(_.startsWith("present.")).toArray
 
+  }
+
+  private object OpenVinoSignatures {
+    val encoderInputIDs: String = "input_features"
+    val encoderOutput: String = "last_hidden_state"
+    val decoderOutputKey: String = "logits"
+
+    def getStateOutputKeys(ovInferRequest: InferRequest): Array[String] = {
+
+      val result = ArrayBuffer[String]()
+
+      breakable {
+        for (i <- 0 to 1000) {
+          try {
+            ovInferRequest.get_tensor(s"present.$i.encoder.key")
+            result.append(s"present.$i.encoder.key")
+            result.append(s"present.$i.encoder.value")
+            result.append(s"present.$i.decoder.key")
+            result.append(s"present.$i.decoder.value")
+          } catch {
+            case e: Exception => break
+          }
+        }
+      }
+      result.toArray
+    }
+
+    def getStateOutputKeysDecoder(ovInferRequest: InferRequest): Array[String] = {
+
+      val result = ArrayBuffer[String]()
+
+      breakable {
+        for (i <- 0 to 1000) {
+          try {
+            ovInferRequest.get_tensor(s"present.$i.decoder.key")
+            result.append(s"present.$i.decoder.key")
+            result.append(s"present.$i.decoder.value")
+          } catch {
+            case e: Exception => break
+          }
+        }
+      }
+      result.toArray
+    }
   }
 
   private def sessionWarmup(): Unit = {
@@ -359,6 +414,42 @@ private[johnsnowlabs] class Whisper(
             (decoderWithPastSession, env))
 
           tokenIds
+
+        case Openvino.name =>
+          val encoderInferRequest =
+            openvinoWrapper.get.encoder.getCompiledModel().create_infer_request()
+          val decoderInferRequest =
+            openvinoWrapper.get.decoder.getCompiledModel().create_infer_request()
+          val decoderWithPastInferRequest =
+            openvinoWrapper.get.decoderWithPast.getCompiledModel().create_infer_request()
+          val encodedBatchTensor: OpenVinoTensor = encodeOv(featuresBatch, encoderInferRequest)
+
+          val (initLogits, initEncoderStates, initDecoderStates) =
+            initDecoderOv(
+              batchDecoderStartIds,
+              encodedBatchTensor,
+              logitProcessors,
+              decoderInferRequest)
+
+          val batchInitGenerationTokenIds: Array[Array[Int]] =
+            initLogits.map { logitsArray =>
+              Array(bosTokenId, argmax(logitsArray))
+            }
+
+          val tokenIds = generateGreedyOv(
+            batchInitGenerationTokenIds,
+            initEncoderStates.map { case (key, t) =>
+              (key.replace("present", "past_key_values"), t)
+            },
+            initDecoderStates.map { case (key, t) =>
+              (key.replace("present", "past_key_values"), t)
+            },
+            maxOutputLength,
+            logitProcessors,
+            decoderWithPastInferRequest)
+
+          tokenIds
+
       }
 
       val batchDecodedIds = validIndices.zip(decode(tokenIds)).toMap
@@ -400,6 +491,18 @@ private[johnsnowlabs] class Whisper(
     *   Tensor with encoded features for each batch
     */
 
+  def encodeOv(
+      features: Array[Array[Array[Float]]],
+      ovInferRequest: InferRequest): OpenVinoTensor = {
+    val encoderInputTensor = new org.intel.openvino.Tensor(
+      Array(features.length, features.head.length, features.head.head.length),
+      features.flatten.flatten)
+    ovInferRequest.set_tensor(OpenVinoSignatures.encoderInputIDs, encoderInputTensor)
+    ovInferRequest.infer()
+
+    val result = ovInferRequest.get_tensor(OpenVinoSignatures.encoderOutput)
+    result
+  }
   def encode(
       features: Array[Array[Array[Float]]],
       tfSession: Option[Session],
@@ -427,9 +530,9 @@ private[johnsnowlabs] class Whisper(
         val encoderOutputs: OnnxTensor = session
           .run(Map(OnnxSignatures.encoderInputKey -> encoderInputTensor).asJava)
           .getOnnxTensor(OnnxSignatures.encoderOutputKey)
-
         encoderInputTensor.close()
         encoderOutputs
+
     }
   }
 
@@ -562,6 +665,49 @@ private[johnsnowlabs] class Whisper(
     (nextTokenLogits, updatedDecoderState)
   }
 
+  private def initDecoderOv(
+      decoderInputIds: Array[Array[Int]],
+      encoderOutputs: OpenVinoTensor,
+      logitProcessors: LogitProcessorList,
+      ovInferRequest: InferRequest)
+      : (Array[Array[Float]], Map[String, OpenVinoTensor], Map[String, OpenVinoTensor]) = {
+
+    val inputIdsAsLong: Array[Array[Long]] = decoderInputIds.map(_.map(_.toLong))
+    val decoderInputTensor = new org.intel.openvino.Tensor(
+      Array(inputIdsAsLong.length, inputIdsAsLong.head.length),
+      inputIdsAsLong.flatten)
+    ovInferRequest.set_tensor("input_ids", decoderInputTensor)
+    ovInferRequest.set_tensor("encoder_hidden_states", encoderOutputs)
+    ovInferRequest.infer()
+
+    val rawLogits =
+      ovInferRequest
+        .get_tensor(OpenVinoSignatures.decoderOutputKey)
+        .data
+        .grouped(vocabSize)
+        .toArray
+
+    val logits = logitProcessors.process(decoderInputIds, rawLogits, decoderInputIds.head.length)
+
+    val stateOutputKeys: Array[String] = OpenVinoSignatures.getStateOutputKeys(ovInferRequest)
+
+    val decoderStates = mutable.Map[String, OpenVinoTensor]()
+    val encoderStates = mutable.Map[String, OpenVinoTensor]()
+
+    for (key <- stateOutputKeys) {
+      val tensor: OpenVinoTensor = ovInferRequest.get_tensor(key)
+      encoderStates += (key -> tensor)
+
+    }
+    for (key <- stateOutputKeys) {
+      val tensor: OpenVinoTensor = ovInferRequest.get_tensor(key)
+      decoderStates += (key -> tensor)
+    }
+
+    (logits, encoderStates.toMap, decoderStates.toMap)
+
+  }
+
   private def initDecoderOnnx(
       decoderInputIds: Array[Array[Int]],
       encoderOutputs: OnnxTensor,
@@ -613,6 +759,7 @@ private[johnsnowlabs] class Whisper(
 
     val lastTokensTensor: OnnxTensor =
       OnnxTensor.createTensor(env, lastTokens)
+
     val decoderWithPastInputs: java.util.Map[String, OnnxTensor] =
       (Map(
         "input_ids" -> lastTokensTensor) ++ pastEncoderStateTensors ++ pastDecoderStateTensors).asJava
@@ -627,6 +774,48 @@ private[johnsnowlabs] class Whisper(
 
     val batchLogits = logits.grouped(vocabSize).toArray
     (batchLogits, updatedDecoderStates)
+  }
+
+  private def getDecoderOutputOv(
+      decoderInputIds: Array[Array[Int]],
+      pastEncoderStateTensors: Map[String, OpenVinoTensor],
+      pastDecoderStateTensors: Map[String, OpenVinoTensor],
+      ovInferRequest: InferRequest): (Array[Array[Float]], Map[String, OpenVinoTensor]) = {
+
+    // Only requires the last generated token as Long
+    val lastTokens: Array[Array[Long]] =
+      decoderInputIds.map { tokenIds =>
+        Array(tokenIds.last.toLong)
+      }
+
+    val lastTokensTensor: OpenVinoTensor =
+      new org.intel.openvino.Tensor(Array(1, 1), lastTokens.flatten)
+
+    ovInferRequest.set_tensor("input_ids", lastTokensTensor)
+    pastEncoderStateTensors.foreach { case (key, value) =>
+      ovInferRequest.set_tensor(key, value)
+    }
+
+    pastDecoderStateTensors.foreach { case (key, value) =>
+      ovInferRequest.set_tensor(key, value)
+    }
+    ovInferRequest.infer()
+
+    val logits = ovInferRequest.get_tensor(OpenVinoSignatures.decoderOutputKey)
+
+    val stateOutputKeys: Array[String] =
+      OpenVinoSignatures.getStateOutputKeysDecoder(ovInferRequest)
+
+    val updatedDecoderStates = mutable.Map[String, OpenVinoTensor]()
+
+    for (key <- stateOutputKeys) {
+      val tensor: OpenVinoTensor = ovInferRequest.get_tensor(key)
+      updatedDecoderStates += (key -> tensor)
+    }
+
+    val batchLogits = logits.data().grouped(vocabSize).toArray
+
+    (batchLogits, updatedDecoderStates.toMap)
   }
 
   /** Generates Tokens in a greedy fashion.
@@ -678,8 +867,47 @@ private[johnsnowlabs] class Whisper(
     generatedIds
   }
 
+  private def generateGreedyOv(
+      initInputIds: Array[Array[Int]],
+      encoderStateTensors: Map[String, OpenVinoTensor],
+      decoderStateTensors: Map[String, OpenVinoTensor],
+      maxOutputLength: Int,
+      logitProcessor: LogitProcessorList,
+      ovInferRequest: InferRequest): Array[Array[Int]] = {
+
+    var generatedIds: Array[Array[Int]] = initInputIds
+    var currentDecoderStateTensors = decoderStateTensors
+
+    while (!greedyGenerationFinished(generatedIds, eosTokenId, maxOutputLength)) {
+
+      val (
+        rawBatchLogits: Array[Array[Float]],
+        updatedDecoderStates: Map[String, OpenVinoTensor]) =
+        getDecoderOutputOv(
+          generatedIds,
+          encoderStateTensors,
+          currentDecoderStateTensors,
+          ovInferRequest)
+
+      val batchLogits =
+        logitProcessor.process(generatedIds, rawBatchLogits, generatedIds.head.length)
+      val nextTokenIds: Array[Int] = batchLogits.map(argmax)
+      currentDecoderStateTensors = updatedDecoderStates
+        .map { case (key, t) =>
+          (key.replace("present", "past_key_values"), t)
+        }
+      generatedIds =
+        generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
+          currentIds ++ Array(nextId)
+        }
+    }
+
+    generatedIds
+  }
+
   private def replaceStateKeys(outputs: Map[String, OnnxTensor]): Map[String, OnnxTensor] =
     outputs.map { case (key, t) =>
       (key.replace("present", "past_key_values"), t)
     }
+
 }

@@ -18,13 +18,14 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.BertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -119,6 +120,7 @@ class BertForTokenClassification(override val uid: String)
     with HasBatchedAnnotate[BertForTokenClassification]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasCaseSensitiveProperties
     with HasEngine {
 
@@ -232,13 +234,15 @@ class BertForTokenClassification(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): BertForTokenClassification = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): BertForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new BertClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
@@ -311,6 +315,15 @@ class BertForTokenClassification(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           suffix,
           BertForTokenClassification.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          BertForTokenClassification.openvinoFile)
+
     }
   }
 
@@ -335,11 +348,15 @@ trait ReadablePretrainedBertForTokenModel
       remoteLoc: String): BertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadBertForTokenDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BertForTokenClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
   override val onnxFile: String = "bert_classification_onnx"
+  override val openvinoFile: String = "bert_classification_openvino"
 
   def readModel(instance: BertForTokenClassification, path: String, spark: SparkSession): Unit = {
 
@@ -347,11 +364,16 @@ trait ReadBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel {
       case TensorFlow.name =>
         val tensorFlow =
           readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tensorFlow), None)
+        instance.setModelIfNotSet(spark, Some(tensorFlow), None, None)
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "bert_token_classification_onnx")
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "bert_token_classification_ov")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -387,12 +409,12 @@ trait ReadBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
+          .setModelIfNotSet(spark, Some(wrapper), None, None)
       case ONNX.name =>
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper))
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
