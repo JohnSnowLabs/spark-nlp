@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -579,6 +579,11 @@ in the DataFrames.</li>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td><a href="#autoggufmodel">AutoGGUFModel</a></td>
+        <td>Annotator that uses the llama.cpp library to generate text completions with large language models.</td>
+        <td>Opensource</td>
+      </tr>
       <tr>
         <td><a href="#bgeembeddings">BGEEmbeddings</a></td>
         <td>Sentence embeddings using BGE.</td>
@@ -1250,6 +1255,132 @@ in the DataFrames.</li>
     });
 });
  */ </script>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="autoggufmodel">AutoGGUFModel</h2>
+
+  <p>Annotator that uses the llama.cpp library to generate text completions with large language
+models.</p>
+
+  <p>For settable parameters, and their explanations, see <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/HasLlamaCppProperties.scala">HasLlamaCppProperties</a> and refer to
+the llama.cpp documentation of
+<a href="https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server">server.cpp</a>
+for more information.</p>
+
+  <p>If the parameters are not set, the annotator will default to use the parameters provided by
+the model.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">autoGGUFModel</span> <span class="k">=</span> <span class="nv">AutoGGUFModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"completions"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"phi3.5_mini_4k_instruct_q4_gguf"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala">AutoGGUFModelTest</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb">example notebook</a>.</p>
+
+  <p><strong>Note</strong>: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+the number of GPU layers with the <code class="language-plaintext highlighter-rouge">setNGpuLayers</code> method.</p>
+
+  <p>When using larger models, we recommend adjusting GPU usage with <code class="language-plaintext highlighter-rouge">setNCtx</code> and <code class="language-plaintext highlighter-rouge">setNGpuLayers</code>
+according to your hardware to avoid out-of-memory errors.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html">AutoGGUFModel</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModel">AutoGGUFModel</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModel.scala">AutoGGUFModel</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">autoGGUFModel</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"completions"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setNPredict</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setTemperature</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setTopK</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setTopP</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setPenalizeNl</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">autoGGUFModel</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Hello, I am a"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"completions"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">completions</span>                                                                                                                        <span class="o">|</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span>  <span class="n">new</span> <span class="n">user</span><span class="p">.</span>  <span class="n">I</span> <span class="n">am</span> <span class="n">currently</span> <span class="n">working</span> <span class="n">on</span> <span class="n">a</span> <span class="n">project</span> <span class="ow">and</span> <span class="n">I</span> <span class="n">need</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="p">,</span> <span class="p">{</span><span class="n">prompt</span> <span class="o">-&gt;</span> <span class="n">Hello</span><span class="p">,</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span><span class="p">},</span> <span class="p">[]}]</span><span class="o">|</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">autoGGUFModel</span> <span class="k">=</span> <span class="nc">AutoGGUFModel</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"completions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNPredict</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNGpuLayers</span><span class="o">(</span><span class="mi">99</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTemperature</span><span class="o">(</span><span class="mf">0.4f</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">40</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopP</span><span class="o">(</span><span class="mf">0.9f</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setPenalizeNl</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">autoGGUFModel</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Hello, I am a"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"completions"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">completions</span>                                                                                                                        <span class="o">|</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">78</span>,  <span class="kt">new</span> <span class="kt">user.</span>  <span class="kt">I</span> <span class="kt">am</span> <span class="kt">currently</span> <span class="kt">working</span> <span class="kt">on</span> <span class="kt">a</span> <span class="kt">project</span> <span class="kt">and</span> <span class="kt">I</span> <span class="kt">need</span> <span class="kt">to</span> <span class="kt">create</span> <span class="kt">a</span> <span class="kt">list</span> <span class="kt">of</span> , <span class="o">{</span><span class="kt">prompt</span> <span class="kt">-&gt;</span> <span class="kt">Hello</span>, <span class="kt">I</span> <span class="kt">am</span> <span class="kt">a</span><span class="o">}</span>, <span class="o">[]}]|</span>
+<span class="o">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
 
 <div class="h3-box tabs-python-scala-box">
 
