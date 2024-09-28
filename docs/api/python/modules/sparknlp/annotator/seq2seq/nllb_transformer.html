@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.seq2seq.nllb_transformer &#8212; Spark NLP 5.5.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/nllb_transformer';</script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.annotator.seq2seq.nllb_transformer</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.seq2seq.nllb_transformer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2024 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the NLLBTransformer.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="NLLBTransformer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer">[docs]</a><span class="k">class</span> <span class="nc">NLLBTransformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;NLLB : multilingual translation model</span>
+
+<span class="sd">    NLLB is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many</span>
+<span class="sd">    multilingual translation.</span>
+
+<span class="sd">    The model can directly translate between 200+ languages.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; nllb = NLLBTransformer.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;generation&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;nllb_418M&quot;``, if no name is provided. For available</span>
+<span class="sd">    pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://sparknlp.org/models?q=nllb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    minOutputLength</span>
+<span class="sd">        Minimum length of the sequence to be generated, by default 0</span>
+<span class="sd">    maxOutputLength</span>
+<span class="sd">        Maximum length of output text, by default 20</span>
+<span class="sd">    doSample</span>
+<span class="sd">        Whether or not to use sampling; use greedy decoding otherwise, by default False</span>
+<span class="sd">    temperature</span>
+<span class="sd">        The value used to module the next token probabilities, by default 1.0</span>
+<span class="sd">    topK</span>
+<span class="sd">        The number of highest probability vocabulary tokens to keep for</span>
+<span class="sd">        top-k-filtering, by default 50</span>
+<span class="sd">    topP</span>
+<span class="sd">        Top cumulative probability for vocabulary tokens, by default 1.0</span>
+
+<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
+<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
+<span class="sd">    repetitionPenalty</span>
+<span class="sd">        The parameter for repetition penalty, 1.0 means no penalty. , by default</span>
+<span class="sd">        1.0</span>
+<span class="sd">    noRepeatNgramSize</span>
+<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once, by</span>
+<span class="sd">        default 0</span>
+<span class="sd">    ignoreTokenIds</span>
+<span class="sd">        A list of token ids which are ignored in the decoder&#39;s output, by</span>
+<span class="sd">        default []</span>
+<span class="sd">    srcLang</span>
+<span class="sd">        Source Language (Default: `en`)</span>
+<span class="sd">    tgtLang</span>
+<span class="sd">        Target Language (Default: `fr`)</span>
+
+<span class="sd">    Languages Covered</span>
+<span class="sd">    -----</span>
+<span class="sd">    Acehnese (Arabic script) (ace_Arab), Acehnese (Latin script) (ace_Latn), Mesopotamian Arabic</span>
+<span class="sd">    (acm_Arab), Ta’izzi-Adeni Arabic (acq_Arab), Tunisian Arabic (aeb_Arab), Afrikaans (afr_Latn),</span>
+<span class="sd">    South Levantine Arabic (ajp_Arab), Akan (aka_Latn), Amharic (amh_Ethi), North Levantine Arabic</span>
+<span class="sd">    (apc_Arab), Modern Standard Arabic (arb_Arab), Modern Standard Arabic (Romanized) (arb_Latn),</span>
+<span class="sd">    Najdi Arabic (ars_Arab), Moroccan Arabic (ary_Arab), Egyptian Arabic (arz_Arab), Assamese</span>
+<span class="sd">    (asm_Beng), Asturian (ast_Latn), Awadhi (awa_Deva), Central Aymara (ayr_Latn), South</span>
+<span class="sd">    Azerbaijani (azb_Arab), North Azerbaijani (azj_Latn), Bashkir (bak_Cyrl), Bambara (bam_Latn),</span>
+<span class="sd">    Balinese (ban_Latn), Belarusian (bel_Cyrl), Bemba (bem_Latn), Bengali (ben_Beng), Bhojpuri</span>
+<span class="sd">    (bho_Deva), Banjar (Arabic script) (bjn_Arab), Banjar (Latin script) (bjn_Latn), Standard</span>
+<span class="sd">    Tibetan (bod_Tibt), Bosnian (bos_Latn), Buginese (bug_Latn), Bulgarian (bul_Cyrl), Catalan</span>
+<span class="sd">    (cat_Latn), Cebuano (ceb_Latn), Czech (ces_Latn), Chokwe (cjk_Latn), Central Kurdish</span>
+<span class="sd">    (ckb_Arab), Crimean Tatar (crh_Latn), Welsh (cym_Latn), Danish (dan_Latn), German (deu_Latn),</span>
+<span class="sd">    Southwestern Dinka (dik_Latn), Dyula (dyu_Latn), Dzongkha (dzo_Tibt), Greek (ell_Grek),</span>
+<span class="sd">    English (eng_Latn), Esperanto (epo_Latn), Estonian (est_Latn), Basque (eus_Latn), Ewe</span>
+<span class="sd">    (ewe_Latn), Faroese (fao_Latn), Fijian (fij_Latn), Finnish (fin_Latn), Fon (fon_Latn), French</span>
+<span class="sd">    (fra_Latn), Friulian (fur_Latn), Nigerian Fulfulde (fuv_Latn), Scottish Gaelic (gla_Latn),</span>
+<span class="sd">    Irish (gle_Latn), Galician (glg_Latn), Guarani (grn_Latn), Gujarati (guj_Gujr), Haitian Creole</span>
+<span class="sd">    (hat_Latn), Hausa (hau_Latn), Hebrew (heb_Hebr), Hindi (hin_Deva), Chhattisgarhi (hne_Deva),</span>
+<span class="sd">    Croatian (hrv_Latn), Hungarian (hun_Latn), Armenian (hye_Armn), Igbo (ibo_Latn), Ilocano</span>
+<span class="sd">    (ilo_Latn), Indonesian (ind_Latn), Icelandic (isl_Latn), Italian (ita_Latn), Javanese</span>
+<span class="sd">    (jav_Latn), Japanese (jpn_Jpan), Kabyle (kab_Latn), Jingpho (kac_Latn), Kamba (kam_Latn),</span>
+<span class="sd">    Kannada (kan_Knda), Kashmiri (Arabic script) (kas_Arab), Kashmiri (Devanagari script)</span>
+<span class="sd">    (kas_Deva), Georgian (kat_Geor), Central Kanuri (Arabic script) (knc_Arab), Central Kanuri</span>
+<span class="sd">    (Latin script) (knc_Latn), Kazakh (kaz_Cyrl), Kabiyè (kbp_Latn), Kabuverdianu (kea_Latn),</span>
+<span class="sd">    Khmer (khm_Khmr), Kikuyu (kik_Latn), Kinyarwanda (kin_Latn), Kyrgyz (kir_Cyrl), Kimbundu</span>
+<span class="sd">    (kmb_Latn), Northern Kurdish (kmr_Latn), Kikongo (kon_Latn), Korean (kor_Hang), Lao</span>
+<span class="sd">    (lao_Laoo), Ligurian (lij_Latn), Limburgish (lim_Latn), Lingala (lin_Latn), Lithuanian</span>
+<span class="sd">    (lit_Latn), Lombard (lmo_Latn), Latgalian (ltg_Latn), Luxembourgish (ltz_Latn), Luba-Kasai</span>
+<span class="sd">    (lua_Latn), Ganda (lug_Latn), Luo (luo_Latn), Mizo (lus_Latn), Standard Latvian (lvs_Latn),</span>
+<span class="sd">    Magahi (mag_Deva), Maithili (mai_Deva), Malayalam (mal_Mlym), Marathi (mar_Deva), Minangkabau</span>
+<span class="sd">    (Arabic script) (min_Arab), Minangkabau (Latin script) (min_Latn), Macedonian (mkd_Cyrl),</span>
+<span class="sd">    Plateau Malagasy (plt_Latn), Maltese (mlt_Latn), Meitei (Bengali script) (mni_Beng), Halh</span>
+<span class="sd">    Mongolian (khk_Cyrl), Mossi (mos_Latn), Maori (mri_Latn), Burmese (mya_Mymr), Dutch</span>
+<span class="sd">    (nld_Latn), Norwegian Nynorsk (nno_Latn), Norwegian Bokmål (nob_Latn), Nepali (npi_Deva),</span>
+<span class="sd">    Northern Sotho (nso_Latn), Nuer (nus_Latn), Nyanja (nya_Latn), Occitan (oci_Latn), West</span>
+<span class="sd">    Central Oromo (gaz_Latn), Odia (ory_Orya), Pangasinan (pag_Latn), Eastern Panjabi (pan_Guru),</span>
+<span class="sd">    Papiamento (pap_Latn), Western Persian (pes_Arab), Polish (pol_Latn), Portuguese (por_Latn),</span>
+<span class="sd">    Dari (prs_Arab), Southern Pashto (pbt_Arab), Ayacucho Quechua (quy_Latn), Romanian (ron_Latn),</span>
+<span class="sd">    Rundi (run_Latn), Russian (rus_Cyrl), Sango (sag_Latn), Sanskrit (san_Deva), Santali</span>
+<span class="sd">    (sat_Olck), Sicilian (scn_Latn), Shan (shn_Mymr), Sinhala (sin_Sinh), Slovak (slk_Latn),</span>
+<span class="sd">    Slovenian (slv_Latn), Samoan (smo_Latn), Shona (sna_Latn), Sindhi (snd_Arab), Somali</span>
+<span class="sd">    (som_Latn), Southern Sotho (sot_Latn), Spanish (spa_Latn), Tosk Albanian (als_Latn), Sardinian</span>
+<span class="sd">    (srd_Latn), Serbian (srp_Cyrl), Swati (ssw_Latn), Sundanese (sun_Latn), Swedish (swe_Latn),</span>
+<span class="sd">    Swahili (swh_Latn), Silesian (szl_Latn), Tamil (tam_Taml), Tatar (tat_Cyrl), Telugu</span>
+<span class="sd">    (tel_Telu), Tajik (tgk_Cyrl), Tagalog (tgl_Latn), Thai (tha_Thai), Tigrinya (tir_Ethi),</span>
+<span class="sd">    Tamasheq (Latin script) (taq_Latn), Tamasheq (Tifinagh script) (taq_Tfng), Tok Pisin</span>
+<span class="sd">    (tpi_Latn), Tswana (tsn_Latn), Tsonga (tso_Latn), Turkmen (tuk_Latn), Tumbuka (tum_Latn),</span>
+<span class="sd">    Turkish (tur_Latn), Twi (twi_Latn), Central Atlas Tamazight (tzm_Tfng), Uyghur (uig_Arab),</span>
+<span class="sd">    Ukrainian (ukr_Cyrl), Umbundu (umb_Latn), Urdu (urd_Arab), Northern Uzbek (uzn_Latn), Venetian</span>
+<span class="sd">    (vec_Latn), Vietnamese (vie_Latn), Waray (war_Latn), Wolof (wol_Latn), Xhosa (xho_Latn),</span>
+<span class="sd">    Eastern Yiddish (ydd_Hebr), Yoruba (yor_Latn), Yue Chinese (yue_Hant), Chinese (Simplified)</span>
+<span class="sd">    (zho_Hans), Chinese (Traditional) (zho_Hant), Standard Malay (zsm_Latn), Zulu (zul_Latn).</span>
+<span class="sd">   </span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Beyond English-Centric Multilingual Machine Translation</span>
+<span class="sd">      &lt;https://arxiv.org/pdf/2010.11125.pdf&gt;`__</span>
+<span class="sd">    - https://github.com/pytorch/fairseq/tree/master/examples/m2m_100</span>
+
+<span class="sd">    **Paper Abstract:**</span>
+
+<span class="sd">    *Driven by the goal of eradicating language barriers on a global scale, machine translation has solidified itself</span>
+<span class="sd">    as a key focus of artificial intelligence research today. However, such efforts have coalesced around a small</span>
+<span class="sd">    subset of languages, leaving behind the vast majority of mostly low-resource languages. What does it take to</span>
+<span class="sd">    break the 200 language barrier while ensuring safe, high quality results, all while keeping ethical</span>
+<span class="sd">    considerations in mind? In No Language Left Behind, we took on this challenge by first contextualizing the need</span>
+<span class="sd">    for low-resource language translation support through exploratory interviews with native speakers. Then,</span>
+<span class="sd">    we created datasets and models aimed at narrowing the performance gap between low and high-resource languages.</span>
+<span class="sd">    More specifically, we developed a conditional compute model based on Sparsely Gated Mixture of Experts that is</span>
+<span class="sd">    trained on data obtained with novel and effective data mining techniques tailored for low-resource languages. We</span>
+<span class="sd">    propose multiple architectural and training improvements to counteract overfitting while training on thousands of</span>
+<span class="sd">    tasks. Critically, we evaluated the performance of over 40,000 different translation directions using a</span>
+<span class="sd">    human-translated benchmark, Flores-200, and combined human evaluation with a novel toxicity benchmark covering</span>
+<span class="sd">    all languages in Flores-200 to assess translation safety. Our model achieves an improvement of 44% BLEU relative</span>
+<span class="sd">    to the previous state-of-the-art, laying important groundwork towards realizing a universal translation system.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; nllb = NLLBTransformer.pretrained(&quot;nllb_418M&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;documents&quot;]) \\</span>
+<span class="sd">    ...     .setMaxOutputLength(50) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;generation&quot;) \\</span>
+<span class="sd">    ...     .setSrcLang(&quot;zho_Hans&quot;) \\</span>
+<span class="sd">    ...     .setTgtLang(&quot;eng_Latn&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler, nllb])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;生活就像一盒巧克力。&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;summaries.generation&quot;).show(truncate=False)</span>
+<span class="sd">    +-------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                                     |</span>
+<span class="sd">    +-------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[ Life is like a box of chocolate.]                                                        |</span>
+<span class="sd">    +-------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NLLBTransformer&quot;</span>
+
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span> <span class="s2">&quot;The Number of beams for beam search.&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">srcLang</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;srcLang&quot;</span><span class="p">,</span> <span class="s2">&quot;Source Language (Default: `en`)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">tgtLang</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;tgtLang&quot;</span><span class="p">,</span> <span class="s2">&quot;Target Language (Default: `fr`)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NLLBTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[int]</span>
+<span class="sd">            The words to be filtered out</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[int]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setMinOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum length of the sequence to be generated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum length of output text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not to use sampling; use greedy decoding otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The value used to module the next token probabilities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
+<span class="sd">        top-k-filtering.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of highest probability vocabulary tokens to keep</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
+
+<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
+<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Cumulative probability for vocabulary tokens</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            The repetition penalty</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        See `Ctrl: A Conditional Transformer Language Model For Controllable</span>
+<span class="sd">        Generation &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
+
+<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            N-gram size can only occur once</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setBeamSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setBeamSize">[docs]</a>    <span class="k">def</span> <span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of beam size for beam search, by default `4`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of beam size for beam search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setSrcLang"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setSrcLang">[docs]</a>    <span class="k">def</span> <span class="nf">setSrcLang</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets source language.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Source language</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">srcLang</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NLLBTransformer.setTgtLang"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.setTgtLang">[docs]</a>    <span class="k">def</span> <span class="nf">setTgtLang</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets target language.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Target language</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tgtLang</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NLLBTransformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">doSample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">topK</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">topP</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                         <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span> <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beamSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                         <span class="n">srcLang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">tgtLang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="NLLBTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span>  <span class="n">use_openvino</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NLLBTransformer</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_NLLBLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_NLLBLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">,</span> <span class="n">use_openvino</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">NLLBTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="NLLBTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;nllb_418M&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;nllb_418M&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NLLBTransformer</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">NLLBTransformer</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -16,7 +16,10 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -27,7 +30,8 @@ import scala.collection.mutable
 import scala.math.exp
 
 private[johnsnowlabs] class GPT2(
-    val tensorflow: TensorflowWrapper,
+    val tensorflow: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     val bpeTokenizer: Gpt2Tokenizer,
     configProtoBytes: Option[Array[Byte]] = None)
     extends Serializable {
@@ -36,9 +40,13 @@ private[johnsnowlabs] class GPT2(
   private val inputIdsKey = "serving1_serving1_input_ids:0"
   private val attentionMaskKey = "serving1_serving1_attention_mask:0"
   private val outputLogitsKey = "StatefulPartitionedCall:0"
-
+  private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
   private val paddingTokenId = 50256
   private val eosTokenId = 50256
+  val detectedEngine: String =
+    if (tensorflow.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else ONNX.name
 
   private def sessionWarmup(): Unit = {
     val dummyInput = Array.fill(128)(0) ++ Array(eosTokenId)
@@ -133,10 +141,6 @@ private[johnsnowlabs] class GPT2(
       effectiveBatch_size = batch.length
     }
 
-    val session = tensorflow.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      initAllTables = false)
-
     val maxSentenceLength = batch.map(_.length).max
 
     val paddedBatch = batch.map { tokenIds =>
@@ -157,7 +161,6 @@ private[johnsnowlabs] class GPT2(
       effectiveBatch_size,
       vocab_size,
       randomSeed,
-      session,
       ignoreTokenIds)
   }
 
@@ -174,7 +177,6 @@ private[johnsnowlabs] class GPT2(
       batch_size: Int,
       vocab_size: Int,
       randomSeed: Option[Int],
-      session: Session,
       ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     /** Generate sequences for each example without beam search (numBeams == 1). All returned
@@ -189,44 +191,99 @@ private[johnsnowlabs] class GPT2(
     // length of generated sentences / unfinished sentences
     var unfinishedSents = List.fill(decoderInputs.length)(1)
     var sentLengths = List.fill(decoderInputs.length)(maxOutputLength)
+    var decoderOutputs: Array[Array[Array[Float]]] = Array.empty
 
     while (!stopDecoder) {
       val decoderInputLength = decoderInputs.head.length
-      val tensorDecoder = new TensorResources()
+      if (detectedEngine == TensorFlow.name) {
+        val tensorDecoder = new TensorResources()
+        val session = tensorflow.get.getTFSessionWithSignature(
+          configProtoBytes = configProtoBytes,
+          initAllTables = false)
 
-      val decoderInputBuffers =
-        tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
-      val decoderAttentionBuffers =
-        tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
+        val decoderInputBuffers =
+          tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
+        val decoderAttentionBuffers =
+          tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
 
-      decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
-        val offset = idx * decoderInputLength
-        decoderInputBuffers.offset(offset).write(pieceIds)
-        val paddingMasks = pieceIds.map(_ => 1)
-        decoderAttentionBuffers.offset(offset).write(paddingMasks)
+        decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
+          val offset = idx * decoderInputLength
+          decoderInputBuffers.offset(offset).write(pieceIds)
+          val paddingMasks = pieceIds.map(_ => 1)
+          decoderAttentionBuffers.offset(offset).write(paddingMasks)
+        }
+
+        val inputIdTensors = tensorDecoder.createIntBufferTensor(
+          Array(decoderInputs.length.toLong, decoderInputLength),
+          decoderInputBuffers)
+        val attentionMaskTensors = tensorDecoder.createIntBufferTensor(
+          Array(decoderInputs.length.toLong, decoderInputLength),
+          decoderAttentionBuffers)
+        val runner = session.runner
+
+        // TODO add past to the model and use cache
+        runner
+          .feed(inputIdsKey, inputIdTensors)
+          .feed(attentionMaskKey, attentionMaskTensors)
+          .fetch(outputLogitsKey)
+
+        val decoderOuts = runner.run().asScala
+        decoderOutputs = TensorResources
+          .extractFloats(decoderOuts.head)
+          .grouped(vocab_size)
+          .toArray
+          .grouped(decoderInputLength)
+          .toArray
+
+        decoderOuts.foreach(_.close())
+        tensorDecoder.clearTensors()
+        tensorDecoder.clearSession(decoderOuts)
+        inputIdTensors.close()
+      } else {
+        val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+
+        val decoderInputBuffers = decoderInputs
+          .map(tokenIds => tokenIds.map(_.toLong))
+        val decoderPaddingBuffers =
+          decoderInputBuffers.map(x => x.map(xx => 1L))
+
+        val inputPositionIDsLong: Array[Array[Long]] =
+          decoderInputs.map { tokenIds =>
+            tokenIds.zipWithIndex.map { case (_, i) =>
+              i.toLong
+            }
+          }
+
+        val decoderPositionIDs: OnnxTensor =
+          OnnxTensor.createTensor(env, inputPositionIDsLong)
+
+        val decoderInputTensors = OnnxTensor.createTensor(env, decoderInputBuffers)
+        val decoderPaddingMaskTensors = OnnxTensor.createTensor(env, decoderPaddingBuffers)
+
+        val decoderResults = session.run(
+          mapAsJavaMap(
+            Map(
+              "input_ids" -> decoderInputTensors,
+              "attention_mask" -> decoderPaddingMaskTensors,
+              "position_ids" -> decoderPositionIDs)))
+
+        val decoderOuts = decoderResults
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+        decoderOutputs = decoderOuts.getFloatBuffer
+          .array()
+          .grouped(vocab_size)
+          .toArray
+          .grouped(decoderInputLength)
+          .toArray
+
+        decoderInputTensors.close()
+        decoderPaddingMaskTensors.close()
+        decoderPositionIDs.close()
+        decoderOuts.close()
+
       }
-
-      val inputIdTensors = tensorDecoder.createIntBufferTensor(
-        Array(decoderInputs.length.toLong, decoderInputLength),
-        decoderInputBuffers)
-      val attentionMaskTensors = tensorDecoder.createIntBufferTensor(
-        Array(decoderInputs.length.toLong, decoderInputLength),
-        decoderAttentionBuffers)
-      val runner = session.runner
-
-      // TODO add past to the model and use cache
-      runner
-        .feed(inputIdsKey, inputIdTensors)
-        .feed(attentionMaskKey, attentionMaskTensors)
-        .fetch(outputLogitsKey)
-
-      val decoderOuts = runner.run().asScala
-      val decoderOutputs = TensorResources
-        .extractFloats(decoderOuts.head)
-        .grouped(vocab_size)
-        .toArray
-        .grouped(decoderInputLength)
-        .toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
       nextTokenLogits = nextTokenLogits.map(logits => {
@@ -298,6 +355,7 @@ private[johnsnowlabs] class GPT2(
         nextToken = nextTokenLogits.map(input => categoricalSample(input, randomSeed))
       } else {
         // Greedy decoding
+
         nextToken = nextTokenLogits.map(input => input.indexOf(input.max))
       }
       var tokensToAdd = Array.ofDim[Int](decoderInputs.length)
@@ -315,7 +373,6 @@ private[johnsnowlabs] class GPT2(
         .map(x => {
           x._1 ++ Array(x._2)
         })
-      decoderOuts.foreach(_.close())
 
       curLen += 1
 
@@ -334,15 +391,10 @@ private[johnsnowlabs] class GPT2(
           unfinishedSents.zip(isSentsUnfinishedAndTokenToAddIsEos).map(x => x._1 - x._2)
       }
 
-      tensorDecoder.clearTensors()
-      tensorDecoder.clearSession(decoderOuts)
-      inputIdTensors.close()
-
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
         || (decoderInputs.head.length > maxOutputLength))
-
     }
     decoderInputs
   }

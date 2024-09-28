@@ -17,7 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.ml.ai.VisionEncoderDecoder
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
+import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -29,7 +31,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
@@ -139,6 +141,7 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
     with HasBatchedAnnotateImage[VisionEncoderDecoderForImageCaptioning]
     with HasImageFeatureProperties
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEngine
     with HasRescaleFactor
     with HasGeneratorProperties {
@@ -236,13 +239,11 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
 
   private var _model: Option[Broadcast[VisionEncoderDecoder]] = None
 
-  /** @group getParam */
-  def getModelIfNotSet: VisionEncoderDecoder = _model.get.value
-
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflow: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[EncoderDecoderWithoutPastWrappers],
       preprocessor: Preprocessor): this.type = {
     if (_model.isEmpty) {
 
@@ -253,7 +254,8 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
       _model = Some(
         spark.sparkContext.broadcast(
           new VisionEncoderDecoder(
-            tensorflow,
+            tensorflowWrapper,
+            onnxWrapper,
             configProtoBytes = getConfigProtoBytes,
             tokenizer = tokenizer,
             preprocessor = preprocessor,
@@ -262,6 +264,9 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
     }
     this
   }
+
+  /** @group getParam */
+  def getModelIfNotSet: VisionEncoderDecoder = _model.get.value
 
   setDefault(
     batchSize -> 2,
@@ -341,15 +346,30 @@ class VisionEncoderDecoderForImageCaptioning(override val uid: String)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_image_classification",
-      VisionEncoderDecoderForImageCaptioning.tfFile,
-      configProtoBytes = getConfigProtoBytes)
-  }
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          VisionEncoderDecoderForImageCaptioning.suffix,
+          VisionEncoderDecoderForImageCaptioning.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        val wrappers = getModelIfNotSet.onnxWrappers.get
+        writeOnnxModels(
+          path,
+          spark,
+          Seq((wrappers.encoder, "encoder_model.onnx")),
+          VisionEncoderDecoderForImageCaptioning.suffix)
+        writeOnnxModels(
+          path,
+          spark,
+          Seq((wrappers.decoder, "decoder_model.onnx")),
+          VisionEncoderDecoderForImageCaptioning.suffix)
 
+    }
+  }
 }
 
 trait ReadablePretrainedVisionEncoderDecoderModel
@@ -373,17 +393,16 @@ trait ReadablePretrainedVisionEncoderDecoderModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel {
+trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[VisionEncoderDecoderForImageCaptioning] =>
 
   override val tfFile: String = "vision_encoder_decoder_tensorflow"
-
-  def readTensorflow(
+  override val onnxFile: String = "vision_encoder_decoder_onnx"
+  val suffix = "_image_classification"
+  def readModel(
       instance: VisionEncoderDecoderForImageCaptioning,
       path: String,
       spark: SparkSession): Unit = {
-
-    val tf = readTensorflowModel(path, spark, "_vision_encoder_decoder_tf")
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -396,10 +415,31 @@ trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel {
       rescale_factor = instance.getRescaleFactor,
       size = instance.getSize)
 
-    instance.setModelIfNotSet(spark, tf, preprocessor)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tf = readTensorflowModel(path, spark, "_vision_encoder_decoder_tf")
+        instance.setModelIfNotSet(spark, Some(tf), None, preprocessor)
+
+      case ONNX.name =>
+        val wrappers =
+          readOnnxModels(
+            path,
+            spark,
+            Seq("encoder_model.onnx", "decoder_model.onnx"),
+            VisionEncoderDecoderForImageCaptioning.suffix,
+            dataFilePostfix = ".onnx_data")
+
+        val onnxWrappers = EncoderDecoderWithoutPastWrappers(
+          wrappers("encoder_model.onnx"),
+          decoder = wrappers("decoder_model.onnx"))
+
+        instance.setModelIfNotSet(spark, None, Some(onnxWrappers), preprocessor)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   /** Loads a local SavedModel file of the model. For VisionEncoderDecoder, requires also image
     * preprocessor config and vocab file.
@@ -415,7 +455,7 @@ trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel {
       spark: SparkSession): VisionEncoderDecoderForImageCaptioning = {
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4s
 
-    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath, isEncoderDecoder = true)
 
     val vocab = {
       val json = loadJsonStringAsset(localModelPath, "vocab.json")
@@ -490,7 +530,7 @@ trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -503,7 +543,32 @@ trait ReadVisionEncoderDecoderDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, preprocessorConfig)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, preprocessorConfig)
+
+      case ONNX.name =>
+        val onnxWrapperEncoder =
+          OnnxWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            modelName = "encoder_model",
+            onnxFileSuffix = None)
+
+        val onnxWrapperDecoder =
+          OnnxWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            modelName = "decoder_model",
+            onnxFileSuffix = None)
+
+        val onnxWrappers =
+          EncoderDecoderWithoutPastWrappers(onnxWrapperEncoder, onnxWrapperDecoder)
+
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrappers), preprocessorConfig)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

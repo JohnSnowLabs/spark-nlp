@@ -74,7 +74,16 @@ class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable
 object OpenvinoWrapper {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
-  private[OpenvinoWrapper] val core: Core = new Core
+  private[OpenvinoWrapper] val core: Core =
+    try {
+      new Core
+    } catch {
+      case e: UnsatisfiedLinkError =>
+        logger.error(
+          "Could not initialize OpenVINO Core. Please make sure the jsl-openvino JAR is loaded and Intel oneTBB is installed.\n" +
+            "(See https://www.intel.com/content/www/us/en/docs/onetbb/get-started-guide/2021-12/overview.html)")
+        throw e
+    }
 
   private val ModelSuffix = "_ov_model"
 

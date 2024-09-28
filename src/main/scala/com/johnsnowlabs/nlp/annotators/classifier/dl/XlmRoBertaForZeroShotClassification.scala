@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
-import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -30,7 +30,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -131,6 +131,7 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
     extends AnnotatorModel[XlmRoBertaForZeroShotClassification]
     with HasBatchedAnnotate[XlmRoBertaForZeroShotClassification]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -322,23 +323,34 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_xlmroberta_classification",
-      XlmRoBertaForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(
-      path,
-      spark,
-      getModelIfNotSet.spp,
-      "_xlmroberta",
-      XlmRoBertaForZeroShotClassification.sppFile)
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_xlmroberta_classification",
+          XlmRoBertaForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_xlmroberta_classification",
+          XlmRoBertaForZeroShotClassification.onnxFile)
+
+        writeSentencePieceModel(
+          path,
+          spark,
+          getModelIfNotSet.spp,
+          "_xlmroberta",
+          XlmRoBertaForZeroShotClassification.sppFile)
+    }
+
   }
-
 }
-
 trait ReadablePretrainedXlmRoBertaForZeroShotModel
     extends ParamsAndFeaturesReadable[XlmRoBertaForZeroShotClassification]
     with HasPretrained[XlmRoBertaForZeroShotClassification] {
@@ -362,21 +374,39 @@ trait ReadablePretrainedXlmRoBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlmRoBertaForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForZeroShotClassification] =>
 
   override val tfFile: String = "xlmroberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
+  override val onnxFile: String = "xlmroberta_classification_onnx"
 
   def readModel(
       instance: XlmRoBertaForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
-    val tf =
-      readTensorflowModel(path, spark, "_xlmroberta_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-    instance.setModelIfNotSet(spark, Some(tf), None, spp)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tf =
+          readTensorflowModel(path, spark, "_xlmroberta_classification_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_xlmroberta_classification_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+
+    }
   }
 
   addReader(readModel)
@@ -433,7 +463,11 @@ trait ReadXlmRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSent
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None, spModel)
-
+      case ONNX.name =>
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

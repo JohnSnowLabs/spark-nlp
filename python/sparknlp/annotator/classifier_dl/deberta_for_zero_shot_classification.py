@@ -21,7 +21,8 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
                                           HasBatchedAnnotate,
                                           HasClassifierActivationProperties,
                                           HasCandidateLabelsProperties,
-                                          HasEngine):
+                                          HasEngine,
+                                          HasMaxSentenceLengthLimit):
     """DeBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
     inference) tasks. Equivalent of `DeBertaForSequenceClassification` models, but these models don't require a hardcoded
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
@@ -101,11 +102,6 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.CATEGORY
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -129,15 +125,6 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     def setCoalesceSentences(self, value):
         """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging

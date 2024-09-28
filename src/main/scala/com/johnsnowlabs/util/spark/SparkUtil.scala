@@ -1,13 +1,16 @@
 package com.johnsnowlabs.util.spark
 
-import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.Dataset
 
 object SparkUtil {
 
-  // Helper UDF function to flatten arrays for Spark < 2.4.0
-  def flattenArrays: UserDefinedFunction = udf { (arrayColumn: Seq[Seq[String]]) =>
-    arrayColumn.flatten.distinct
+  def retrieveColumnName(dataset: Dataset[_], annotatorType: String): String = {
+    val structFields = dataset.schema.fields
+      .filter(field => field.metadata.contains("annotatorType"))
+      .filter(field => field.metadata.getString("annotatorType") == annotatorType)
+    val columnNames = structFields.map(structField => structField.name)
+
+    columnNames.head
   }
 
 }

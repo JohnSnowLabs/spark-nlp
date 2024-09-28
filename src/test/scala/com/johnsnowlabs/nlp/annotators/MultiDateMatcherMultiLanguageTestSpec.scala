@@ -479,4 +479,33 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
     assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
+  "a DataMatcher" should "make a more forceful or proactive approach in finding dates when aggressive match is set" in {
+
+    val data = DataBuilder.basicDataBuild(
+      "See you on next monday.",
+      "I was born at 01/03/98",
+      "She was born on 02/03/1966.",
+      "The project started yesterday and will finish next year.",
+      "She will graduate by July 2023.",
+      "She will visit doctor tomorrow and next month again.")
+
+    val multiDate = new MultiDateMatcher()
+      .setInputCols(Array("document"))
+      .setReadMonthFirst(false)
+      .setOutputCol("multi_date")
+      .setInputFormats(Array("dd/MM/yyyy"))
+      .setOutputFormat("dd/MM/yyyy")
+      .setAggressiveMatching(true)
+
+    val pipeline = new Pipeline().setStages(Array(multiDate))
+
+    val annotated = pipeline.fit(data).transform(data)
+    val collectResult = annotated.select("multi_date").collect()
+
+    collectResult.foreach { result =>
+      val annotations = Annotation.getAnnotations(result, "multi_date")
+      assert(annotations.nonEmpty)
+    }
+  }
+
 }

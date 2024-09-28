@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.ml.ai.ConvNextClassifier
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.TensorFlow
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import org.apache.spark.broadcast.Broadcast
@@ -185,14 +186,16 @@ class ConvNextForImageClassification(override val uid: String)
 
   override def setModelIfNotSet(
       spark: SparkSession,
-      tensorflow: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
       preprocessor: Preprocessor): ConvNextForImageClassification.this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
         spark.sparkContext.broadcast(
           new ConvNextClassifier(
-            tensorflow,
+            tensorflowWrapper,
+            onnxWrapper,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
             preprocessor = preprocessor,
@@ -257,13 +260,25 @@ class ConvNextForImageClassification(override val uid: String)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_image_classification",
-      ConvNextForImageClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_image_classification"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          ConvNextForImageClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          ConvNextForImageClassification.onnxFile)
+    }
   }
 
 }
@@ -287,17 +302,16 @@ trait ReadablePretrainedConvNextForImageModel
       remoteLoc: String): ConvNextForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadConvNextForImageDLModel extends ReadTensorflowModel {
+trait ReadConvNextForImageDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[ConvNextForImageClassification] =>
 
   override val tfFile: String = "image_classification_convnext_tensorflow"
+  override val onnxFile: String = "image_classification_convnext_onnx"
 
-  def readTensorflow(
+  def readModel(
       instance: ConvNextForImageClassification,
       path: String,
       spark: SparkSession): Unit = {
-
-    val tf = readTensorflowModel(path, spark, "_image_classification_tf")
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -310,13 +324,23 @@ trait ReadConvNextForImageDLModel extends ReadTensorflowModel {
       rescale_factor = instance.getRescaleFactor,
       size = instance.getSize,
       crop_pct = Option(instance.getCropPct))
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, tfFile, initAllTables = false)
 
-    instance.setModelIfNotSet(spark, tf, preprocessor)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, preprocessor)
+      case ONNX.name =>
+        val onnxWrapper =
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
 
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessor)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
-  addReader(readTensorflow)
-
+  addReader(readModel)
   def loadSavedModel(modelPath: String, spark: SparkSession): ConvNextForImageClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -354,7 +378,7 @@ trait ReadConvNextForImageDLModel extends ReadTensorflowModel {
 
     detectedEngine match {
       case TensorFlow.name =>
-        val (wrapper, signatures) =
+        val (tfwrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -367,7 +391,15 @@ trait ReadConvNextForImageDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, preprocessorConfig)
+          .setModelIfNotSet(spark, Some(tfwrapper), None, preprocessorConfig)
+
+      case ONNX.name =>
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
