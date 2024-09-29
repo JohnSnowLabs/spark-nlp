@@ -100,7 +100,7 @@ val result = email_regex_pipeline.fit(data).transform(data)
 |---|---|
 |Model Name:|email_matcher|
 |Compatibility:|Spark NLP 5.4.1+|
-|License:|Open Source|
+|License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document]|
 |Output Labels:|[EMAIL]|
