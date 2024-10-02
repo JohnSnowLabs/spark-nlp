@@ -65,7 +65,8 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
                   r.getInt(4),
                   r.getInt(5),
                   r.getAs(6),
-                  r.getMap[String, String](7)))
+                  r.getMap[String, String](7),
+                  r.getString(8)))
           })
         })
         val outputAnnotations = batchAnnotate(inputAnnotations)

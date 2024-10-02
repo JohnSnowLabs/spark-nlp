@@ -65,6 +65,7 @@ class ImageAssembler(AnnotatorTransformer):
     outputAnnotatorType = AnnotatorType.IMAGE
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
+    textCol = Param(Params._dummy(), "textCol", "text column name", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
     name = 'ImageAssembler'
 
@@ -101,3 +102,13 @@ class ImageAssembler(AnnotatorTransformer):
     def getOutputCol(self):
         """Gets output column name of annotations."""
         return self.getOrDefault(self.outputCol)
+
+    def setTextCol(self, value):
+        """Sets an optional text column name.
+
+        Parameters
+        ----------
+        value : str
+            Name of an optional input text column
+        """
+        return self._set(inputCol=value)

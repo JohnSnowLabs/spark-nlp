@@ -105,9 +105,10 @@ object AssertAnnotations {
     val mode = columnName + ".mode"
     val result = columnName + ".result"
     val metadata = columnName + ".metadata"
+    val text = columnName + ".text"
 
     dataSet
-      .select(annotatorType, origin, height, width, nChannels, mode, result, metadata)
+      .select(annotatorType, origin, height, width, nChannels, mode, result, metadata, text)
       .rdd
       .map { row =>
         val annotatorTypeSeq: Seq[String] = row
@@ -134,6 +135,9 @@ object AssertAnnotations {
         val metadataSeq: Seq[Map[String, String]] = row
           .getAs[Map[String, String]]("metadata")
           .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
+        val textSeq: Seq[String] = row
+          .getAs[String]("text")
+          .asInstanceOf[mutable.WrappedArray[String]]
 
         originSeq.zipWithIndex.map { case (origin, index) =>
           AnnotationImage(
@@ -144,7 +148,8 @@ object AssertAnnotations {
             nChannelsSeq(index),
             modeSeq(index),
             resultSeq(index).asInstanceOf[Array[Byte]],
-            metadataSeq(index))
+            metadataSeq(index),
+            textSeq(index))
         }
       }
       .collect()

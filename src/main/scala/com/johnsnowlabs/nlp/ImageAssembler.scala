@@ -110,7 +110,26 @@ class ImageAssembler(override val uid: String)
     */
   def getInputCol: String = $(inputCol)
 
-  setDefault(inputCol -> IMAGE, outputCol -> "image_assembler")
+  /** Input text column for processing
+    *
+    * @group param
+    */
+  val textCol: Param[String] =
+    new Param[String](this, "textCol", "input text column for processing")
+
+  /** Input text column for processing
+    *
+    * @group setParam
+    */
+  def setTextCol(value: String): this.type = set(textCol, value)
+
+  /** Input text column for processing
+    *
+    * @group getParam
+    */
+  def getTextCol: String = $(textCol)
+
+  setDefault(inputCol -> IMAGE, outputCol -> "image_assembler", textCol -> "text")
 
   def this() = this(Identifiable.randomUID("ImageAssembler"))
 
@@ -118,7 +137,8 @@ class ImageAssembler(override val uid: String)
 
   private[nlp] def assemble(
       image: Option[ImageFields],
-      metadata: Map[String, String]): Seq[AnnotationImage] = {
+      metadata: Map[String, String],
+      text: Option[String] = None): Seq[AnnotationImage] = {
 
     if (image.isDefined) {
       Seq(
@@ -130,14 +150,21 @@ class ImageAssembler(override val uid: String)
           nChannels = image.get.nChannels,
           mode = image.get.mode,
           result = image.get.data,
-          metadata = metadata))
+          metadata = metadata,
+          text = text.getOrElse("")))
     } else Seq.empty
 
   }
 
   private[nlp] def dfAssemble: UserDefinedFunction = udf { (image: ImageFields) =>
     // Apache Spark has only 1 image per row
-    assemble(Some(image), Map("image" -> "0"))
+    assemble(Some(image), Map("image" -> "0"), None)
+  }
+
+  private[nlp] def dfAssembleWithText: UserDefinedFunction = udf {
+    (image: ImageFields, text: String) =>
+      // Apache Spark has only 1 image per row
+      assemble(Some(image), Map("image" -> "0"), Some(text))
   }
 
   /** requirement for pipeline transformation validation. It is called on fit() */
@@ -163,7 +190,10 @@ class ImageAssembler(override val uid: String)
       ImageSchemaUtils.isImage(dataset.schema(getInputCol)),
       s"column $getInputCol doesn't have Apache Spark ImageSchema. Make sure you read your images via spark.read.format(image).load(PATH)")
 
-    val imageAnnotations = {
+    val textColExists = dataset.schema.fields.exists(_.name == getTextCol)
+    val imageAnnotations = if (textColExists) {
+      dfAssembleWithText(dataset.col($(inputCol)), dataset.col($(textCol)))
+    } else {
       dfAssemble(dataset($(inputCol)))
     }
 
