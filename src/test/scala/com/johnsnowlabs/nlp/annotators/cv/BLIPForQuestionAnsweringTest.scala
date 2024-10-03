@@ -27,19 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
 
-  private val modelsPath = "/models/transformers"
-  val tfModelPath = s"$modelsPath/tf/blip-vqa-tf/Salesforce/blip-vqa-base/saved_model/1"
-  val sparkNLPModelPath = s"$modelsPath/spark-nlp/tf/blip-vqa"
-
-  val model = getBLIPForQuestionAnsweringPipelineModel
-
-  "BLIP" should "load and save model" ignore {
-    val blipForQuestionAnswering = BLIPForQuestionAnswering
-      .loadSavedModel(tfModelPath, ResourceHelper.spark)
-      .setSize(384)
-
-    blipForQuestionAnswering.write.overwrite().save(sparkNLPModelPath)
-  }
+  lazy val model = getBLIPForQuestionAnsweringPipelineModel
 
   "BLIP" should "answer a question for a given image" taggedAs SlowTest in {
 
