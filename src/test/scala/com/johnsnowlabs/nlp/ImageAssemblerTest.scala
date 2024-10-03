@@ -58,7 +58,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
       })
   }
 
-  it should "work with text column" in {
+  it should "work with text column" taggedAs FastTest in {
 
     val testDF: DataFrame = dataFrame.withColumn("text", lit("What's this picture about?"))
     val imageAssembler: ImageAssembler = new ImageAssembler()

@@ -78,8 +78,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
   }
 
   def fullAnnotateImage(pathToImage: String, text: String = ""): Map[String, Seq[IAnnotation]] = {
-    val isValidFile = ResourceHelper.validFile(pathToImage)
-    if (!isValidFile || isValidFile && text.isEmpty) {
+    if (!ResourceHelper.validFile(pathToImage)) {
       Map()
     } else fullAnnotateInternal(pathToImage, text)
   }
@@ -374,7 +373,6 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       pathToImages: java.util.ArrayList[String],
       texts: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
-
     if (texts.isEmpty) {
       pathToImages.asScala.par
         .map { imageFilePath =>
