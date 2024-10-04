@@ -84,7 +84,7 @@ class BLIPForQuestionAnswering(AnnotatorModel,
         return BLIPForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="blip_vqa_tf", lang="en", remote_loc=None):
+    def pretrained(name="blip_vqa_base", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

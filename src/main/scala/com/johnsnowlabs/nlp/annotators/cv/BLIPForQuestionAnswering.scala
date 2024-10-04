@@ -219,7 +219,7 @@ trait ReadablePretrainedBLIPForQuestionAnswering
     extends ParamsAndFeaturesReadable[BLIPForQuestionAnswering]
     with HasPretrained[BLIPForQuestionAnswering] {
 
-  override val defaultModelName: Some[String] = Some("blip_vqa_tf")
+  override val defaultModelName: Some[String] = Some("blip_vqa_base")
 
   /** Java compliant-overrides */
   override def pretrained(): BLIPForQuestionAnswering = super.pretrained()
