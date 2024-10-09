@@ -20,6 +20,71 @@ class BLIPForQuestionAnswering(AnnotatorModel,
                                HasEngine,
                                HasCandidateLabelsProperties,
                                HasRescaleFactor):
+    """BLIPForQuestionAnswering can load BLIP models  for visual question answering.
+    The model consists of a vision encoder, a text encoder as well as a text decoder.
+    The vision encoder will encode the input image, the text encoder will encode the input question together
+    with the encoding of the image, and the text decoder will output the answer to the question.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> visualQAClassifier = BLIPForQuestionAnswering.pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
+    ...     .setOutputCol("answer")
+
+    The default model is ``"blip_vqa_base"``, if no name is
+    provided.
+
+    For available pretrained models please see the `Models Hub
+    <https://sparknlp.org/models?task=Question+Answering>`__.
+
+    To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``IMAGE``              ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 2
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 50
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
+    >>> test_df = image_df.withColumn("text", lit("What's this picture about?"))
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
+    ...     .setOutputCol("image_assembler")
+    >>> visualQAClassifier = BLIPForQuestionAnswering.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
+    ...     .setOutputCol("answer") \\
+    ...     .setSize(384)
+    >>> pipeline = Pipeline().setStages([
+    ...     imageAssembler,
+    ...     visualQAClassifier
+    ... ])
+    >>> result = pipeline.fit(test_df).transform(test_df)
+    >>> result.select("image_assembler.origin", "answer.result").show(false)
+    +--------------------------------------+------+
+    |origin                                |result|
+    +--------------------------------------+------+
+    |[file:///content/images/cat_image.jpg]|[cats]|
+    +--------------------------------------+------+
+    """
 
     name = "BLIPForQuestionAnswering"
 
@@ -59,7 +124,7 @@ class BLIPForQuestionAnswering(AnnotatorModel,
         )
         self._setDefault(
             batchSize=2,
-            size=224,
+            size=384,
             maxSentenceLength=50
         )
 

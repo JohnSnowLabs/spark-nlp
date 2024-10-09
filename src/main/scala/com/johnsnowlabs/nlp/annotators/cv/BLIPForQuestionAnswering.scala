@@ -31,16 +31,99 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.{RegexTokenizer, Tokenizer, TokenizerModel}
+import com.johnsnowlabs.nlp.annotators.RegexTokenizer
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BertTokenizer, SpecialTokens}
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+
+/** BLIPForQuestionAnswering can load BLIP models for visual question answering. The model
+  * consists of a vision encoder, a text encoder as well as a text decoder. The vision encoder
+  * will encode the input image, the text encoder will encode the input question together with the
+  * encoding of the image, and the text decoder will output the answer to the question.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val visualQAClassifier = BLIPForQuestionAnswering.pretrained()
+  *   .setInputCols("image_assembler")
+  *   .setOutputCol("answer")
+  * }}}
+  * The default model is `"blip_vqa_base"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
+  *
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/BLIPForQuestionAnsweringTest.scala]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val imageDF: DataFrame = ResourceHelper.spark.read
+  *  .format("image")
+  *  .option("dropInvalid", value = true)
+  *  .load(imageFolder)
+  *
+  * val testDF: DataFrame = imageDF.withColumn("text", lit("What's this picture about?"))
+  *
+  * val imageAssembler: ImageAssembler = new ImageAssembler()
+  *   .setInputCol("image")
+  *   .setOutputCol("image_assembler")
+  *
+  * val visualQAClassifier = BLIPForQuestionAnswering.pretrained()
+  *   .setInputCols("image_assembler")
+  *   .setOutputCol("answer")
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   imageAssembler,
+  *   visualQAClassifier
+  * ))
+  *
+  * val result = pipeline.fit(testDF).transform(testDF)
+  *
+  * result.select("image_assembler.origin", "answer.result").show(false)
+  * +--------------------------------------+------+
+  * |origin                                |result|
+  * +--------------------------------------+------+
+  * |[file:///content/images/cat_image.jpg]|[cats]|
+  * +--------------------------------------+------+
+  * }}}
+  *
+  * @see
+  *   [[CLIPForZeroShotClassification]] for Zero Shot Image Classifier
+  * @see
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based classifiers
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 
 class BLIPForQuestionAnswering(override val uid: String)
     extends AnnotatorModel[BLIPForQuestionAnswering]
