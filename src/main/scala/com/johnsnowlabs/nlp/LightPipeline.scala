@@ -44,7 +44,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   def fullAnnotate(target: String, optionalTarget: String = ""): Map[String, Seq[IAnnotation]] = {
     if (target.contains("/") && ResourceHelper.validFile(target)) {
-      fullAnnotateImage(target)
+      fullAnnotateImage(target, optionalTarget)
     } else {
       fullAnnotateInternal(target, optionalTarget)
     }
@@ -60,7 +60,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
     }
 
     if (targets.head.contains("/") && ResourceHelper.validFile(targets.head)) {
-      targets.par.map(target => fullAnnotateImage(target)).toArray
+      fullAnnotateImages(targets, optionalTargets)
     } else {
       (targets zip optionalTargets).par.map { case (target, optionalTarget) =>
         fullAnnotate(target, optionalTarget)
@@ -68,14 +68,19 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
     }
   }
 
-  def fullAnnotateImage(pathToImages: Array[String]): Array[Map[String, Seq[IAnnotation]]] = {
-    pathToImages.par
-      .map(imageFilePath => fullAnnotateInternal(imageFilePath))
-      .toArray
+  def fullAnnotateImages(
+      pathToImages: Array[String],
+      texts: Array[String] = Array.empty): Array[Map[String, Seq[IAnnotation]]] = {
+    val safeTexts = if (texts.isEmpty) Array.fill(pathToImages.length)("") else texts
+    (pathToImages zip safeTexts).par.map { case (imageFilePath, text) =>
+      fullAnnotateImage(imageFilePath, text)
+    }.toArray
   }
 
-  def fullAnnotateImage(pathToImage: String): Map[String, Seq[IAnnotation]] = {
-    fullAnnotateInternal(pathToImage)
+  def fullAnnotateImage(pathToImage: String, text: String = ""): Map[String, Seq[IAnnotation]] = {
+    if (!ResourceHelper.validFile(pathToImage)) {
+      Map()
+    } else fullAnnotateInternal(pathToImage, text)
   }
 
   def fullAnnotate(audio: Array[Double]): Map[String, Seq[IAnnotation]] = {
@@ -108,7 +113,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
             optionalTarget,
             annotations)
         case imageAssembler: ImageAssembler =>
-          processImageAssembler(target, imageAssembler, annotations)
+          processImageAssembler(target, optionalTarget, imageAssembler, annotations)
         case audioAssembler: AudioAssembler =>
           processAudioAssembler(audio, audioAssembler, annotations)
         case lazyAnnotator: AnnotatorModel[_] if lazyAnnotator.getLazyAnnotator => annotations
@@ -157,12 +162,13 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   private def processImageAssembler(
       target: String,
+      text: String,
       imageAssembler: ImageAssembler,
       annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
     val currentImageFields = ImageIOUtils.imagePathToImageFields(target)
     annotations.updated(
       imageAssembler.getOutputCol,
-      imageAssembler.assemble(currentImageFields, Map.empty[String, String]))
+      imageAssembler.assemble(currentImageFields, Map.empty[String, String], Some(text)))
   }
 
   private def processAudioAssembler(
@@ -209,9 +215,9 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       getCombinedAnnotations(batchedAnnotatorImage.getInputCols, annotations)
     val batchedAnnotations = Seq(combinedAnnotations.map(_.asInstanceOf[AnnotationImage]))
 
-    annotations.updated(
-      batchedAnnotatorImage.getOutputCol,
-      batchedAnnotatorImage.batchAnnotate(batchedAnnotations).head)
+    val outputCol = batchedAnnotatorImage.getOutputCol
+    val annotateResult = batchedAnnotatorImage.batchAnnotate(batchedAnnotations)
+    annotations.updated(outputCol, annotateResult.head)
   }
 
   private def processBatchedAnnotatorAudio(
@@ -361,15 +367,34 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
     fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
   }
 
-  def fullAnnotateImageJava(pathToImages: java.util.ArrayList[String])
-      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+  import scala.collection.JavaConverters._
 
-    pathToImages.asScala.par
-      .map { imageFilePath =>
-        fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+  def fullAnnotateImageJava(
+      pathToImages: java.util.ArrayList[String],
+      texts: java.util.ArrayList[String])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    if (texts.isEmpty) {
+      pathToImages.asScala.par
+        .map { imageFilePath =>
+          fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+        }
+        .toList
+        .asJava
+    } else {
+
+      if (pathToImages.size != texts.size) {
+        throw new IllegalArgumentException(
+          "pathToImages and texts must have the same number of elements.")
       }
-      .toList
-      .asJava
+      val imageTextPairs = pathToImages.asScala.zip(texts.asScala).par
+
+      imageTextPairs
+        .map { case (imageFilePath, text) =>
+          fullAnnotateImage(imageFilePath, text).mapValues(_.asJava).asJava
+        }
+        .toList
+        .asJava
+    }
   }
 
   def fullAnnotateSingleAudioJava(
@@ -394,14 +419,16 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
   }
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
-    fullAnnotate(target, optionalTarget).mapValues(_.map { iAnnotation =>
-      val annotation = iAnnotation.asInstanceOf[Annotation]
-      annotation.annotatorType match {
-        case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-            if parseEmbeddings =>
-          annotation.embeddings.mkString(" ")
-        case _ => annotation.result
-      }
+    val annotations = fullAnnotate(target, optionalTarget)
+    annotations.mapValues(_.map {
+      case annotation: Annotation =>
+        annotation.annotatorType match {
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+              if parseEmbeddings =>
+            annotation.embeddings.mkString(" ")
+          case _ => annotation.result
+        }
+      case _ => ""
     })
   }
 

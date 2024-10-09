@@ -48,7 +48,8 @@ case class AnnotationImage(
     nChannels: Int,
     mode: Int,
     result: Array[Byte],
-    metadata: Map[String, String])
+    metadata: Map[String, String],
+    text: String = "")
     extends IAnnotation {
 
   override def equals(obj: Any): Boolean = {
@@ -61,7 +62,8 @@ case class AnnotationImage(
         this.nChannels == annotation.nChannels &&
         this.mode == annotation.mode &&
         this.result.sameElements(annotation.result) &&
-        this.metadata == annotation.metadata
+        this.metadata == annotation.metadata &&
+        this.text == annotation.text
       case _ => false
     }
   }
@@ -94,6 +96,10 @@ case class AnnotationImage(
     metadata
   }
 
+  def getText: String = {
+    text
+  }
+
 }
 
 object AnnotationImage {
@@ -112,7 +118,8 @@ object AnnotationImage {
       StructField("mode", IntegerType, nullable = false),
       // Bytes in OpenCV-compatible order: row-wise BGR in most cases
       StructField("result", BinaryType, nullable = false),
-      StructField("metadata", MapType(StringType, StringType), nullable = true)))
+      StructField("metadata", MapType(StringType, StringType), nullable = true),
+      StructField("text", StringType, nullable = true)))
 
   val arrayType = new ArrayType(dataType, true)
 
@@ -122,7 +129,8 @@ object AnnotationImage {
       width: Int,
       nChannels: Int,
       mode: Int,
-      result: Array[Byte])
+      result: Array[Byte],
+      text: String)
 
   /** This method converts a [[org.apache.spark.sql.Row]] into an [[AnnotationImage]]
     *
@@ -132,6 +140,7 @@ object AnnotationImage {
     *   AnnotationImage
     */
   def apply(row: Row): AnnotationImage = {
+    println(s"row.getString(8): ${row.getString(8)}")
     AnnotationImage(
       row.getString(0),
       row.getString(1),
@@ -140,7 +149,8 @@ object AnnotationImage {
       row.getInt(4),
       row.getInt(5),
       row.getAs[Array[Byte]](6),
-      row.getMap[String, String](7))
+      row.getMap[String, String](7),
+      row.getString(8))
   }
 
   def apply(image: ImageFields): AnnotationImage =
@@ -152,6 +162,6 @@ object AnnotationImage {
       nChannels = image.nChannels,
       mode = image.mode,
       result = Array.emptyByteArray,
-      Map.empty[String, String])
-
+      metadata = Map.empty[String, String],
+      text = image.text)
 }

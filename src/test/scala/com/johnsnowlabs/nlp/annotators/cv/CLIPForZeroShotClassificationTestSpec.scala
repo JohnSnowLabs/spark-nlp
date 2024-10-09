@@ -74,7 +74,7 @@ class CLIPForZeroShotClassificationTestSpec extends AnyFlatSpec {
     val pipelineModel = pipeline.fit(imageDF)
     val lightPipeline = new LightPipeline(pipelineModel)
     val images = expected.keys.map(imageFolder + _).toArray
-    val result = lightPipeline.fullAnnotateImage(images)
+    val result = lightPipeline.fullAnnotateImages(images)
 
     result.foreach { row: Map[String, Seq[IAnnotation]] =>
       val imageName =
