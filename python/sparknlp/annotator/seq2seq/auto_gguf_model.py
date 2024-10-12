@@ -27,6 +27,10 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     `server.cpp <https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server>`__
     for more information.
 
+    If you want to extract embeddings instead, use the `setEmbedding` method. This will change the
+    model's output to embeddings instead of text completions. Note that inference parameters will
+    be ignored.
+
     If the parameters are not set, the annotator will default to use the parameters provided by
     the model.
 
