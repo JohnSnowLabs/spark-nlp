@@ -189,3 +189,33 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         metadata = model.getMetadata()
         assert len(metadata) > 0
         print(eval(metadata))
+
+
+@pytest.mark.slow
+class AutoGGUFModelEmbeddingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = (
+            self.spark.createDataFrame([["The moons of Jupiter are "]])
+            .toDF("text")
+            .repartition(1)
+        )
+
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+            .setEmbedding(True)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, model])
+        results = pipeline.fit(data).transform(data).select("embeddings").collect()
+
+        embeddings = results[0][0][0].embeddings
+        assert len(embeddings) == 3072  # phi3.5

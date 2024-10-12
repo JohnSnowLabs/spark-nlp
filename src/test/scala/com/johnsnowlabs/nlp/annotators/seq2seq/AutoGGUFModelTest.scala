@@ -41,7 +41,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     "The sun is " //
   ).toDF("text").repartition(1)
 
-  lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+  def pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 
   def assertAnnotationsNonEmpty(resultDf: DataFrame): Unit = {
     Annotation
@@ -183,5 +183,18 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
     val metadataMap = model.getMetadataMap
     assert(metadataMap.nonEmpty)
+  }
+
+  it should "produce embeddings" taggedAs SlowTest in {
+    val data = Seq("Hello, I am a").toDF("text")
+
+    model.setEmbedding(true)
+    model.setOutputCol("embeddings")
+    val result = pipeline.fit(data).transform(data)
+
+    val embeddings: Array[Float] =
+      Annotation.collect(result, "embeddings").head.head.embeddings
+
+    assert(embeddings.length == 3072) // phi3.5
   }
 }
