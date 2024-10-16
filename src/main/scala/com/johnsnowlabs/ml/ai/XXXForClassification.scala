@@ -304,6 +304,43 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  def predictSpanMultipleChoice(
+      documents: Seq[Annotation],
+      choicesDelimiter: String,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean): Seq[Annotation] = {
+
+    val questionAnnotation = Seq(documents.head)
+    val choices =
+      documents.drop(1).flatMap(annotation => annotation.result.split(choicesDelimiter))
+
+    val wordPieceTokenizedQuestions =
+      tokenizeDocument(questionAnnotation, maxSentenceLength, caseSensitive)
+
+    val inputIds = choices.flatMap { choice =>
+      val choiceAnnotation =
+        Seq(Annotation(AnnotatorType.DOCUMENT, 0, choice.length, choice, Map("sentence" -> "0")))
+      val wordPieceTokenizedChoice =
+        tokenizeDocument(choiceAnnotation, maxSentenceLength, caseSensitive)
+      encodeSequenceWithPadding(
+        wordPieceTokenizedQuestions,
+        wordPieceTokenizedChoice,
+        maxSentenceLength)
+    }
+
+    val scores = tagSpanMultipleChoice(inputIds)
+    val (score, scoreIndex) = scores.zipWithIndex.maxBy(_._1)
+    val prediction = choices(scoreIndex)
+
+    Seq(
+      Annotation(
+        annotatorType = AnnotatorType.CHUNK,
+        begin = 0,
+        end = if (prediction.isEmpty) 0 else prediction.length - 1,
+        result = prediction,
+        metadata = Map("sentence" -> "0", "chunk" -> "0", "score" -> score.toString)))
+  }
+
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
@@ -362,6 +399,38 @@ private[johnsnowlabs] trait XXXForClassification {
     Seq(Array(sentenceStartTokenId) ++ question ++ context)
   }
 
+  def encodeSequenceWithPadding(
+      seq1: Seq[WordpieceTokenizedSentence],
+      seq2: Seq[WordpieceTokenizedSentence],
+      maxSequenceLength: Int): Seq[Array[Int]] = {
+
+    val question = seq1.flatMap { wpTokSentence =>
+      wpTokSentence.tokens.map(t => t.pieceId)
+    }.toArray
+
+    val context = seq2.flatMap { wpTokSentence =>
+      wpTokSentence.tokens.map(t => t.pieceId)
+    }.toArray
+
+    val availableLength = maxSequenceLength - 3 // (excluding special tokens)
+    val truncatedQuestion = question.take(availableLength)
+    val remainingLength = availableLength - truncatedQuestion.length
+    val truncatedContext = context.take(remainingLength)
+
+    val assembleSequence =
+      Array(sentenceStartTokenId) ++ truncatedQuestion ++ Array(sentenceEndTokenId) ++
+        truncatedContext ++ Array(sentenceEndTokenId)
+
+    val paddingLength = maxSequenceLength - assembleSequence.length
+    val paddedSequence = if (paddingLength > 0) {
+      assembleSequence ++ Array.fill(paddingLength)(sentencePadTokenId)
+    } else {
+      assembleSequence
+    }
+
+    Seq(paddedSequence)
+  }
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]]
 
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]]
@@ -373,6 +442,8 @@ private[johnsnowlabs] trait XXXForClassification {
       activation: String): Array[Array[Float]]
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]])
+
+  def tagSpanMultipleChoice(batch: Seq[Array[Int]]): Array[Float] = Array()
 
   /** Calculate softmax from returned logits
     * @param scores

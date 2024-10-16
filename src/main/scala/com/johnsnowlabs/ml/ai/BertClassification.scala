@@ -130,7 +130,7 @@ private[johnsnowlabs] class BertClassification(
 
     // we need the original form of the token
     // let's lowercase if needed right before the encoding
-    val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
+    val basicTokenizer = new BasicTokenizer(caseSensitive = caseSensitive, hasBeginEnd = false)
     val encoder = new WordpieceEncoder(vocabulary)
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
@@ -546,6 +546,15 @@ private[johnsnowlabs] class BertClassification(
     (startScores, endScores)
   }
 
+  override def tagSpanMultipleChoice(batch: Seq[Array[Int]]): Array[Float] = {
+    val logits = detectedEngine match {
+      case ONNX.name => computeLogitsMultipleChoiceWithOnnx(batch)
+      case Openvino.name => computeLogitsMultipleChoiceWithOv(batch)
+    }
+
+    calculateSoftmax(logits)
+  }
+
   private def computeLogitsWithTF(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): (Array[Float], Array[Float]) = {
@@ -727,6 +736,87 @@ private[johnsnowlabs] class BertClassification(
       case e: Exception =>
         // Log the exception as a warning
         logger.warn("Exception: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
+
+  private def computeLogitsMultipleChoiceWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
+    val sequenceLength = batch.head.length
+    val inputIds = Array(batch.map(x => x.map(_.toLong)).toArray)
+    val attentionMask = Array(
+      batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+    val tokenTypeIds = Array(batch.map(_ => Array.fill(sequenceLength)(0L)).toArray)
+
+    val (ortSession, ortEnv) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val tokenTensors = OnnxTensor.createTensor(ortEnv, inputIds)
+    val maskTensors = OnnxTensor.createTensor(ortEnv, attentionMask)
+    val segmentTensors = OnnxTensor.createTensor(ortEnv, tokenTypeIds)
+
+    val inputs =
+      Map(
+        "input_ids" -> tokenTensors,
+        "attention_mask" -> maskTensors,
+        "token_type_ids" -> segmentTensors).asJava
+
+    try {
+      val output = ortSession.run(inputs)
+      try {
+
+        val logits = output
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+
+        logits
+      } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        println("Exception in computeLogitsMultipleChoiceWithOnnx: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
+
+  private def computeLogitsMultipleChoiceWithOv(batch: Seq[Array[Int]]): Array[Float] = {
+    val (numChoices, sequenceLength) = (batch.length, batch.head.length)
+    // batch_size, num_choices, sequence_length
+    val shape = Some(Array(1, numChoices, sequenceLength))
+    val (tokenTensors, maskTensors, segmentTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensorsWithSegment(
+        batch,
+        sequenceLength,
+        numChoices,
+        sentencePadTokenId,
+        shape)
+
+    val compiledModel = openvinoWrapper.get.getCompiledModel()
+    val inferRequest = compiledModel.create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        val logits = inferRequest
+          .get_output_tensor()
+          .data()
+
+        logits
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in computeLogitsMultipleChoiceWithOv", e)
         // Rethrow the exception to propagate it further
         throw e
     }

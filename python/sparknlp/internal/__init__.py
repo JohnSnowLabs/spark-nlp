@@ -113,6 +113,13 @@ class _BertQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _BertMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BertMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
 
 class _DeBERTaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
