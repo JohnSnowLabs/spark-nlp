@@ -16,9 +16,9 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.llama.LlamaModel
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -153,6 +153,8 @@ class AutoGGUFModel(override val uid: String)
     this
   }
 
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet.saveToFile(path)
@@ -261,6 +263,7 @@ trait ReadAutoGGUFModel {
     val annotatorModel = new AutoGGUFModel()
     annotatorModel
       .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
+      .setEngine(LlamaCPP.name)
 
     val metadata = LlamaModel.getMetadataFromFile(localPath)
     if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
