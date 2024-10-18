@@ -494,7 +494,8 @@ trait HasLlamaCppProperties {
     set(this.loraAdapters, scalaLoraAdapters.toMap)
   }
 
-  /** Whether to load model with embedding support
+  /** Whether to load model with embedding support. The model will return embeddings instead of
+    * text completions.
     *
     * @group setParam
     */
@@ -1158,6 +1159,9 @@ trait HasLlamaCppProperties {
 
   /** @group getParam */
   def getUseChatTemplate: Boolean = $(useChatTemplate)
+
+  /* Set reasonable defaults for users */
+  setDefault(useChatTemplate -> true, nCtx -> 4096, nBatch -> 512, embedding -> false)
 
   protected def getModelParameters: ModelParameters = {
     val modelParameters = new ModelParameters().setContinuousBatching(true) // Always enabled
