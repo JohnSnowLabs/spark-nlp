@@ -185,8 +185,8 @@ val llamaCppDependencies =
     Seq(llamaCppGPU)
   else if (is_silicon.equals("true"))
     Seq(llamaCppSilicon)
-//  else if (is_aarch64.equals("true"))
-//    Seq(openVinoCPU)
+  else if (is_aarch64.equals("true"))
+    Seq(llamaCppAarch64)
   else
     Seq(llamaCppCPU)
 

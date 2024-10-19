@@ -132,6 +132,7 @@ object Dependencies {
   val llamaCppCPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-cpu" % llamaCppVersion
   val llamaCppGPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-gpu" % llamaCppVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-silicon" % llamaCppVersion
+  val llamaCppAarch64 = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-aarch64" % llamaCppVersion
 
   /** ------- Dependencies end  ------- */
 }
