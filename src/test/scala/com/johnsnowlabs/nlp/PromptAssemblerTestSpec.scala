@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PromptAssemblerTestSpec extends AnyFlatSpec {
@@ -8,7 +9,7 @@ class PromptAssemblerTestSpec extends AnyFlatSpec {
 
   behavior of "PromptAssembler"
 
-  it should "create some prompts" in {
+  it should "create some prompts" taggedAs FastTest in {
     // Batches (whole conversations) of arrays of messages
     val data: Seq[Seq[(String, String)]] = Seq(
       Seq(
@@ -68,9 +69,24 @@ class PromptAssemblerTestSpec extends AnyFlatSpec {
       .setOutputCol("prompt")
       .setChatTemplate(template)
 
-    val promptDF = promptAssembler.transform(dataDF)
+    val results = promptAssembler.transform(dataDF)
 
-    promptDF.show(truncate = false)
+    val expectedOutputNoAss =
+      "<|start_header_id|>system<|end_header_id|>\n" + "\n" + "You are a helpful assistant.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n" + "\n" + "Hello there, how can I help you?<|eot_id|><|start_header_id|>user<|end_header_id|>\n" + "\n" + "I need help with organizing my room.<|eot_id|>"
+
+    val assistantHeader = "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+    Annotation.collect(results, "prompt").foreach { annotations =>
+      val prompt = annotations.map(_.result).head
+      assert(prompt === expectedOutputNoAss + assistantHeader)
+    }
+
+    val resultsNoAss = promptAssembler.setAddAssistant(false).transform(dataDF)
+
+    Annotation.collect(resultsNoAss, "prompt").foreach { annotations =>
+      val prompt = annotations.map(_.result).head
+      assert(prompt === expectedOutputNoAss)
+    }
   }
 
 }
