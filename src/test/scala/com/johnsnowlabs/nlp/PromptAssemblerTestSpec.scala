@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.SlowTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PromptAssemblerTestSpec extends AnyFlatSpec {
@@ -9,7 +9,7 @@ class PromptAssemblerTestSpec extends AnyFlatSpec {
 
   behavior of "PromptAssembler"
 
-  it should "create some prompts" taggedAs FastTest in {
+  it should "create some prompts" taggedAs SlowTest in {
     // Batches (whole conversations) of arrays of messages
     val data: Seq[Seq[(String, String)]] = Seq(
       Seq(
