@@ -24,11 +24,13 @@ class PromptAssemblerTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
         messages = [
-            ("system", "You are a helpful assistant."),
-            ("assistant", "Hello there, how can I help you?"),
-            ("user", "I need help with organizing my room."),
+            [
+                ("system", "You are a helpful assistant."),
+                ("assistant", "Hello there, how can I help you?"),
+                ("user", "I need help with organizing my room."),
+            ]
         ]
-        self.df = self.spark.createDataFrame([[messages]]).toDF("messages")
+        self.df = self.spark.createDataFrame([messages]).toDF("messages")
 
         # llama3.1
         self.template = (
@@ -79,10 +81,33 @@ class PromptAssemblerTest(unittest.TestCase):
 
     def runTest(self):
         prompt_assembler = (
-            PromptAssembler().setInputCol("messages").setOutputCol("prompt").setChatTemplate(self.template)
+            PromptAssembler()
+            .setInputCol("messages")
+            .setOutputCol("prompt")
+            .setChatTemplate(self.template)
         )
 
-        pipeline = Pipeline().setStages([prompt_assembler])
-        result_df = pipeline.fit(self.df).transform(self.df)
+        expectedNoAss = (
+            "<|start_header_id|>system<|end_header_id|>\n"
+            + "\n"
+            + "You are a helpful assistant.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
+            + "\n"
+            + "Hello there, how can I help you?<|eot_id|><|start_header_id|>user<|end_header_id|>\n"
+            + "\n"
+            + "I need help with organizing my room.<|eot_id|>"
+        )
 
-        result_df.show(truncate=False)
+        assistantHeader = "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+        results = prompt_assembler.transform(self.df).select("prompt.result").collect()
+
+        assert results[0].result[0] == expectedNoAss + assistantHeader
+
+        results_noass = (
+            prompt_assembler.setAddAssistant(False)
+            .transform(self.df)
+            .select("prompt.result")
+            .collect()
+        )
+
+        assert results_noass[0].result[0] == expectedNoAss
