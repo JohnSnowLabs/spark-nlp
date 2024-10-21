@@ -40,7 +40,7 @@ import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.{OutputHelper, ResourceHelper}
-import com.johnsnowlabs.nlp.{DocumentAssembler, TableAssembler, pretrained}
+import com.johnsnowlabs.nlp.{DocumentAssembler, PromptAssembler, TableAssembler, pretrained}
 import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
@@ -689,8 +689,8 @@ object PythonResourceDownloader {
     "MxbaiEmbeddings" -> MxbaiEmbeddings,
     "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings,
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
-    "BertForMultipleChoice" -> BertForMultipleChoice
-  )
+    "BertForMultipleChoice" -> BertForMultipleChoice,
+    "PromptAssembler" -> PromptAssembler)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
