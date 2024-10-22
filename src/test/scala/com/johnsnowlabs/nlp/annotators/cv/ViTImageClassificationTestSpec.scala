@@ -159,7 +159,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       val images =
         Array("src/test/resources/image/hen.JPEG", "src/test/resources/image/missing_file.mf")
-      val predictions = lightPipeline.fullAnnotateImage(images)
+      val predictions = lightPipeline.fullAnnotateImages(images)
 
       assert(predictions(0)("image_assembler").nonEmpty)
       assert(predictions(0)("class").nonEmpty)
@@ -185,7 +185,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       val images =
         Array("src/test/resources/image/hen.JPEG", "this is a text")
-      val predictions = lightPipeline.fullAnnotateImage(images)
+      val predictions = lightPipeline.fullAnnotateImages(images)
 
       assert(predictions(0)("image_assembler").nonEmpty)
       assert(predictions(0)("class").nonEmpty)
@@ -232,7 +232,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassif
       "tractor.JPEG" -> "tractor",
       "ox.JPEG" -> "ox")
 
-  private lazy val model: ViTForImageClassification = ViTForImageClassification.pretrained()
+  private val model: ViTForImageClassification = ViTForImageClassification.pretrained()
 
   it should behave like
     behaviorsViTForImageClassification[ViTForImageClassification](

@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ImageAssemblerTest extends AnyFlatSpec {
@@ -42,9 +43,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
     val assembled = imageAssembler.transform(dataFrame)
 
     val result = AssertAnnotations.getActualImageResult(assembled, "image_assembler")
-
     assert(result.nonEmpty)
-
     result.foreach(annotationImages =>
       annotationImages.foreach { annotationImage =>
         assert(annotationImage.annotatorType == IMAGE)
@@ -55,6 +54,32 @@ class ImageAssemblerTest extends AnyFlatSpec {
         assert(annotationImage.mode >= 0)
         assert(annotationImage.result.nonEmpty)
         assert(annotationImage.metadata.nonEmpty)
+        assert(annotationImage.text.isEmpty)
+      })
+  }
+
+  it should "work with text column" taggedAs FastTest in {
+
+    val testDF: DataFrame = dataFrame.withColumn("text", lit("What's this picture about?"))
+    val imageAssembler: ImageAssembler = new ImageAssembler()
+      .setInputCol("image")
+      .setOutputCol("image_assembler")
+
+    val assembled = imageAssembler.transform(testDF)
+
+    val result = AssertAnnotations.getActualImageResult(assembled, "image_assembler")
+    assert(result.nonEmpty)
+    result.foreach(annotationImages =>
+      annotationImages.foreach { annotationImage =>
+        assert(annotationImage.annotatorType == IMAGE)
+        assert(annotationImage.origin.contains(imagesPath))
+        assert(annotationImage.height >= 0)
+        assert(annotationImage.width >= 0)
+        assert(annotationImage.nChannels >= 0)
+        assert(annotationImage.mode >= 0)
+        assert(annotationImage.result.nonEmpty)
+        assert(annotationImage.metadata.nonEmpty)
+        assert(annotationImage.text.nonEmpty)
       })
   }
 
@@ -82,7 +107,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
     val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler))
     val pipelineModel = pipeline.fit(emptyDF)
     val lightPipeline = new LightPipeline(pipelineModel)
-    val result = lightPipeline.fullAnnotateImage(images)
+    val result = lightPipeline.fullAnnotateImages(images)
 
     assert(result.length == images.length)
     result.foreach(annotation => assert(annotation("image_assembler").nonEmpty))
