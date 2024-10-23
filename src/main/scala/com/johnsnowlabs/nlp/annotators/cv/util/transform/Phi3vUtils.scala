@@ -6,7 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 import ImageResizeUtils.resizeBufferedImage
 
-class Phi3vUtils {
+private[johnsnowlabs] object Phi3vUtils {
   // padding image
 
   def padding_336(image: BufferedImage): BufferedImage = {
@@ -68,7 +68,7 @@ class Phi3vUtils {
     (padded_width, padded_height)
   }
 
-  def HD_transform(img: BufferedImage, hdNum: Int = 16): BufferedImage = {
+  def HDTransform(img: BufferedImage, hdNum: Int = 16): BufferedImage = {
     var width = img.getWidth
     var height = img.getHeight
     var transposed = false
@@ -133,22 +133,45 @@ class Phi3vUtils {
   }
 
   // Function to calculate the shapes (height and width of the image)
-  def calculateShapes(images: List[BufferedImage]): List[(Int, Int)] = {
-    images.map(img => (img.getHeight, img.getWidth))
+  def calculateShapes(images: List[BufferedImage]): Array[Array[Int]] = {
+    images.map(img => Array(img.getHeight, img.getWidth)).toArray
   }
 
   // Function to calculate the number of image tokens
-  def calculateImageTokens(shapes: List[(Int, Int)]): List[Int] = {
-    shapes.map { case (h, w) =>
+//  def calculateImageTokens(shapes: List[(Int, Int)]): List[Int] = {
+//    shapes.map { case (h, w) =>
+//      ((h / 336) * (w / 336) + 1) * 144 + 1 + ((h / 336 + 1) * 12)
+//    }
+//  }
+
+  def calculateImageTokens(shapes: Array[Array[Int]]): List[Int] = {
+    shapes.map { case Array(h, w) =>
       ((h / 336) * (w / 336) + 1) * 144 + 1 + ((h / 336 + 1) * 12)
-    }
+    }.toList
   }
 
   // Function to reshape the images (assuming each image is already HD transformed)
+//  def reshapeImages(
+//      images: List[BufferedImage],
+//      shapes: List[(Int, Int)]): List[List[BufferedImage]] = {
+//    images.zip(shapes).map { case (img, (h, w)) =>
+//      val numH = h / 336
+//      val numW = w / 336
+//      val reshapedImages = new ListBuffer[BufferedImage]
+//
+//      // Splitting the image into 336x336 crops
+//      for (i <- 0 until numH; j <- 0 until numW) {
+//        val crop = getNewSubimage(img, j * 336, i * 336, 336, 336)
+//        reshapedImages += crop
+//      }
+//      reshapedImages.toList
+//    }
+//  }
+
   def reshapeImages(
       images: List[BufferedImage],
-      shapes: List[(Int, Int)]): List[List[BufferedImage]] = {
-    images.zip(shapes).map { case (img, (h, w)) =>
+      shapes: Array[Array[Int]]): List[List[BufferedImage]] = {
+    images.zip(shapes).map { case (img, Array(h, w)) =>
       val numH = h / 336
       val numW = w / 336
       val reshapedImages = new ListBuffer[BufferedImage]
@@ -208,7 +231,7 @@ class Phi3vUtils {
   // Main function that processes the HD transformed images
   def processHdImages(
       hdImages: List[BufferedImage],
-      numCrops: Int): (List[BufferedImage], List[(Int, Int)], List[Int]) = {
+      numCrops: Int): (List[BufferedImage], Array[Array[Int]], List[Int]) = {
     // Step 1: Create global images (resize to 336x336)
     // val resizeGlobal =
     val globalImages = hdImages.map(resizeBufferedImage(336, 336, 3))
@@ -230,8 +253,6 @@ class Phi3vUtils {
 
     // Step 6: Pad to max_num_crops if necessary
     val paddedImages = concatenatedImages.map(padToMaxNumCrops(_, numCrops + 1))
-    // val paddedImages = concatenatedImages
-    // Return the transformed images, their sizes, and the number of image tokens
     (paddedImages, shapes, numImgTokens)
   }
 
@@ -285,7 +306,7 @@ class Phi3vUtils {
       normalize: Boolean = false,
       mean: Array[Double] = Array(0.48145466, 0.4578275, 0.40821073),
       std: Array[Double] = Array(0.26862954, 0.26130258, 0.27577711))
-      : Array[Array[Array[Array[Float]]]] = {
+      : (Array[Array[Array[Array[Float]]]], Int) = {
     val height = image.getHeight
     val width = image.getWidth
 
@@ -316,7 +337,7 @@ class Phi3vUtils {
     }
 
     // Convert ArrayBuffer to an array
-    cropsBuffer.toArray
+    (cropsBuffer.toArray, numHCrops * numWCrops)
   }
 
   // Function to convert processedImages (BufferedImages) into a 5D array (b, h//336 * w//336, 3, 336, 336)
@@ -325,14 +346,14 @@ class Phi3vUtils {
       normalize: Boolean = false,
       mean: Array[Double] = Array(0.48145466, 0.4578275, 0.40821073),
       std: Array[Double] = Array(0.26862954, 0.26130258, 0.27577711))
-      : Array[Array[Array[Array[Array[Float]]]]] = {
+      : (Array[Array[Array[Array[Array[Float]]]]]) = {
     // Store the 5D array (b, h//336 * w//336, 3, 336, 336)
     val batchBuffer = ArrayBuffer[Array[Array[Array[Array[Float]]]]]()
-
     // Process each image in the batch
     processedImages.foreach { img =>
       // Split the image into crops, convert each crop into a 3D array, and normalize if required
-      val imageCropsArray = splitImageToCrops(img, normalize = normalize, mean = mean, std = std)
+      val (imageCropsArray, numCrops) =
+        splitImageToCrops(img, normalize = normalize, mean = mean, std = std)
       batchBuffer.append(imageCropsArray)
     }
 
