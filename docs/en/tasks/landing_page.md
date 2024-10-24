@@ -1,9 +1,9 @@
 ---
 layout: docs
 header: true
-seotitle: Tasks
+seotitle: Spark NLP -Tasks
 title: Spark NLP - Tasks
-permalink: docs/en/tasks/landing_page
+permalink: /docs/en/tasks/landing_page
 key: docs-tasks
 modify_date: "2024-09-26"
 show_nav: true
