@@ -1,4 +1,37 @@
 ========
+5.5.1
+========
+----------------
+New Features & Enhancements
+----------------
+* `BertForMultipleChoice` Transformer Added. Enhanced BERT’s capabilities to handle multiple-choice tasks such as standardized test questions and survey or quiz automation.
+* Integrated New Tasks and Documentation:
+  * Added support and documentation for the following tasks:
+  * Automatic Speech Recognition
+  * Dependency Parsing
+  * Image Captioning
+  * Image Classification
+  * Landing Page
+  * Question Answering
+  * Summarization
+  * Table Question Answering
+  * Text Classification
+  * Text Generation
+  * Text Preprocessing
+  * Token Classification
+  * Translation
+  * Zero-Shot Classification
+  * Zero-Shot Image Classification
+* `PromptAssembler` Annotator Introduced. Introduced a new annotator that constructs prompts for LLMs using a chat template and a sequence of messages. Accepts an array of tuples with roles (“system”, “user”, “assistant”) and message texts. Utilizes llama.cpp as a backend for template parsing, supporting basic template applications.
+
+----------------
+Bug Fixes
+----------------
+* Resolved Pretrained Model Loading Issue on DBFS Systems.
+* Fixed a bug where pretrained models were not found when running AutoGGUF model pipelines on Databricks due to incorrect path handling of gguf files.
+
+
+========
 5.5.0
 ========
 ----------------
