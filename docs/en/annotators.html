@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -767,6 +767,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="#postagger-part-of-speech-tagger">POSTagger (Part of speech tagger)</a></td>
         <td>Averaged Perceptron model to tag words part-of-speech.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#promptassembler">PromptAssembler</a></td>
+        <td>Assembles a sequence of messages into a single string using a template.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -7287,6 +7292,201 @@ Additionally, pretrained pipelines are available for this module, see <a href="h
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="promptassembler">PromptAssembler</h2>
+
+  <p>Assembles a sequence of messages into a single string using a template. These strings can then
+be used as prompts for large language models.</p>
+
+  <p>This annotator expects an array of two-tuples as the type of the input column (one array of
+tuples per row). The first element of the tuples should be the role and the second element is
+the text of the message. Possible roles are “system”, “user” and “assistant”.</p>
+
+  <p>An assistant header can be added to the end of the generated string by using
+<code class="language-plaintext highlighter-rouge">setAddAssistant(true)</code>.</p>
+
+  <p>At the moment, this annotator uses llama.cpp as a backend to parse and apply the templates.
+llama.cpp uses basic pattern matching to determine the type of the template, then applies a
+basic version of the template to the messages. This means that more advanced templates are not
+supported.</p>
+
+  <p>For an extended example see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/llama.cpp/PromptAssember_with_AutoGGUFModel.ipynb">example notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler">PromptAssembler</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/PromptAssembler">PromptAssembler</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/PromptAssembler.scala">PromptAssembler</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s">"system"</span><span class="p">,</span> <span class="s">"You are a helpful assistant."</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">"assistant"</span><span class="p">,</span> <span class="s">"Hello there, how can I help you?"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">"user"</span><span class="p">,</span> <span class="s">"I need help with organizing my room."</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">messages</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"messages"</span><span class="p">)</span>
+
+
+<span class="c1"># llama3.1
+</span><span class="n">template</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">"{{- bos_token }} {%- if custom_tools is defined %} {%- set tools = custom_tools %} {%- "</span>
+    <span class="s">"endif %} {%- if not tools_in_user_message is defined %} {%- set tools_in_user_message = true %} {%- "</span>
+    <span class="s">'endif %} {%- if not date_string is defined %} {%- set date_string = "26 Jul 2024" %} {%- endif %} '</span>
+    <span class="s">"{%- if not tools is defined %} {%- set tools = none %} {%- endif %} {#- This block extracts the "</span>
+    <span class="s">"system message, so we can slot it into the right place. #} {%- if messages[0]['role'] == 'system' %}"</span>
+    <span class="s">" {%- set system_message = messages[0]['content']|trim %} {%- set messages = messages[1:] %} {%- else"</span>
+    <span class="s">' %} {%- set system_message = "" %} {%- endif %} {#- System message + builtin tools #} {{- '</span>
+    <span class="s">'"&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- if builtin_tools is defined or tools is '</span>
+    <span class="s">'not none %} {{- "Environment: ipython</span><span class="se">\\</span><span class="s">n" }} {%- endif %} {%- if builtin_tools is defined %} {{- '</span>
+    <span class="s">'"Tools: " + builtin_tools | reject(</span><span class="se">\'</span><span class="s">equalto</span><span class="se">\'</span><span class="s">, </span><span class="se">\'</span><span class="s">code_interpreter</span><span class="se">\'</span><span class="s">) | join(", ") + "</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">"}} '</span>
+    <span class="s">'{%- endif %} {{- "Cutting Knowledge Date: December 2023</span><span class="se">\\</span><span class="s">n" }} {{- "Today Date: " + date_string '</span>
+    <span class="s">'+ "</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- if tools is not none and not tools_in_user_message %} {{- "You have access to '</span>
+    <span class="s">'the following functions. To call a function, please respond with JSON for a function call." }} {{- '</span>
+    <span class="s">'</span><span class="se">\'</span><span class="s">Respond in the format {"name": function name, "parameters": dictionary of argument name and its'</span>
+    <span class="s">' value}.</span><span class="se">\'</span><span class="s"> }} {{- "Do not use variables.</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- for t in tools %} {{- t | tojson(indent=4) '</span>
+    <span class="s">'}} {{- "</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- endfor %} {%- endif %} {{- system_message }} {{- "&lt;|eot_id|&gt;" }} {#- '</span>
+    <span class="s">"Custom tools are passed in a user message with some extra guidance #} {%- if tools_in_user_message "</span>
+    <span class="s">"and not tools is none %} {#- Extract the first user message so we can plug it in here #} {%- if "</span>
+    <span class="s">"messages | length != 0 %} {%- set first_user_message = messages[0]['content']|trim %} {%- set "</span>
+    <span class="s">'messages = messages[1:] %} {%- else %} {{- raise_exception("Cannot put tools in the first user '</span>
+    <span class="s">"message when there's no first user message!</span><span class="se">\"</span><span class="s">) }} {%- endif %} {{- "</span>
+    <span class="s">"'&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">' -}} {{- </span><span class="se">\"</span><span class="s">Given the following functions, please "</span>
+    <span class="s">'respond with a JSON for a function call " }} {{- "with its proper arguments that best answers the '</span>
+    <span class="s">'given prompt.</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {{- </span><span class="se">\'</span><span class="s">Respond in the format {"name": function name, "parameters": '</span>
+    <span class="s">'dictionary of argument name and its value}.</span><span class="se">\'</span><span class="s"> }} {{- "Do not use variables.</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- for t in '</span>
+    <span class="s">'tools %} {{- t | tojson(indent=4) }} {{- "</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- endfor %} {{- first_user_message + '</span>
+    <span class="s">"</span><span class="se">\"</span><span class="s">&lt;|eot_id|&gt;</span><span class="se">\"</span><span class="s">}} {%- endif %} {%- for message in messages %} {%- if not (message.role == 'ipython' "</span>
+    <span class="s">"or message.role == 'tool' or 'tool_calls' in message) %} {{- '&lt;|start_header_id|&gt;' + message['role']"</span>
+    <span class="s">" + '&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">'+ message['content'] | trim + '&lt;|eot_id|&gt;' }} {%- elif 'tool_calls' in "</span>
+    <span class="s">'message %} {%- if not message.tool_calls|length == 1 %} {{- raise_exception("This model only '</span>
+    <span class="s">'supports single tool-calls at once!") }} {%- endif %} {%- set tool_call = message.tool_calls[0]'</span>
+    <span class="s">".function %} {%- if builtin_tools is defined and tool_call.name in builtin_tools %} {{- "</span>
+    <span class="s">"'&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">' -}} {{- </span><span class="se">\"</span><span class="s">&lt;|python_tag|&gt;</span><span class="se">\"</span><span class="s"> + tool_call.name + "</span>
+    <span class="s">'".call(" }} {%- for arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + </span><span class="se">\'</span><span class="s">="</span><span class="se">\'</span><span class="s"> + '</span>
+    <span class="s">'arg_val + </span><span class="se">\'</span><span class="s">"</span><span class="se">\'</span><span class="s"> }} {%- if not loop.last %} {{- ", " }} {%- endif %} {%- endfor %} {{- ")" }} {%- '</span>
+    <span class="s">"else %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">' -}} {{- '{</span><span class="se">\"</span><span class="s">name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">' + "</span>
+    <span class="s">'tool_call.name + </span><span class="se">\'</span><span class="s">", </span><span class="se">\'</span><span class="s"> }} {{- </span><span class="se">\'</span><span class="s">"parameters": </span><span class="se">\'</span><span class="s"> }} {{- tool_call.arguments | tojson }} {{- "}" '</span>
+    <span class="s">"}} {%- endif %} {%- if builtin_tools is defined %} {#- This means we're in ipython mode #} {{- "</span>
+    <span class="s">'"&lt;|eom_id|&gt;" }} {%- else %} {{- "&lt;|eot_id|&gt;" }} {%- endif %} {%- elif message.role == "tool" '</span>
+    <span class="s">'or message.role == "ipython" %} {{- "&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">" }} {%- '</span>
+    <span class="s">"if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- "</span>
+    <span class="s">'else %} {{- message.content }} {%- endif %} {{- "&lt;|eot_id|&gt;" }} {%- endif %} {%- endfor %} {%- if '</span>
+    <span class="s">"add_generation_prompt %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\\</span><span class="s">n</span><span class="se">\n</span><span class="s">' }} {%- endif %} "</span>
+<span class="p">)</span>
+
+
+<span class="n">prompt_assembler</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PromptAssembler</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"messages"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"prompt"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setChatTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">prompt_assembler</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">"prompt.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                                                                                                                                                      <span class="o">|</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="o">&lt;|</span><span class="n">start_header_id</span><span class="o">|&gt;</span><span class="n">system</span><span class="o">&lt;|</span><span class="n">end_header_id</span><span class="o">|&gt;</span>\<span class="n">n</span>\<span class="n">nYou</span> <span class="n">are</span> <span class="n">a</span> <span class="n">helpful</span> <span class="n">assistant</span><span class="p">.</span><span class="o">&lt;|</span><span class="n">eot_id</span><span class="o">|&gt;&lt;|</span><span class="n">start_header_id</span><span class="o">|&gt;</span><span class="n">assistant</span><span class="o">&lt;|</span><span class="n">end_header_id</span><span class="o">|&gt;</span>\<span class="n">n</span>\<span class="n">nHello</span> <span class="n">there</span><span class="p">,</span> <span class="n">how</span> <span class="n">can</span> <span class="n">I</span> <span class="n">help</span> <span class="n">you</span><span class="err">?</span><span class="o">&lt;|</span><span class="n">eot_id</span><span class="o">|&gt;&lt;|</span><span class="n">start_header_id</span><span class="o">|&gt;</span><span class="n">user</span><span class="o">&lt;|</span><span class="n">end_header_id</span><span class="o">|&gt;</span>\<span class="n">n</span>\<span class="n">nI</span> <span class="n">need</span> <span class="n">help</span> <span class="k">with</span> <span class="n">organizing</span> <span class="n">my</span> <span class="n">room</span><span class="p">.</span><span class="o">&lt;|</span><span class="n">eot_id</span><span class="o">|&gt;&lt;|</span><span class="n">start_header_id</span><span class="o">|&gt;</span><span class="n">assistant</span><span class="o">&lt;|</span><span class="n">end_header_id</span><span class="o">|&gt;</span>\<span class="n">n</span>\<span class="n">n</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Batches (whole conversations) of arrays of messages</span>
+<span class="k">val</span> <span class="nv">data</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[(</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">)]]</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="nc">Seq</span><span class="o">(</span>
+    <span class="o">(</span><span class="s">"system"</span><span class="o">,</span> <span class="s">"You are a helpful assistant."</span><span class="o">),</span>
+    <span class="o">(</span><span class="s">"assistant"</span><span class="o">,</span> <span class="s">"Hello there, how can I help you?"</span><span class="o">),</span>
+    <span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="s">"I need help with organizing my room."</span><span class="o">)))</span>
+
+<span class="k">val</span> <span class="nv">dataDF</span> <span class="k">=</span> <span class="nv">data</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"messages"</span><span class="o">)</span>
+
+
+<span class="c1">// llama3.1</span>
+<span class="k">val</span> <span class="nv">template</span> <span class="k">=</span>
+  <span class="s">"{{- bos_token }} {%- if custom_tools is defined %} {%- set tools = custom_tools %} {%- "</span> <span class="o">+</span>
+    <span class="s">"endif %} {%- if not tools_in_user_message is defined %} {%- set tools_in_user_message = true %} {%- "</span> <span class="o">+</span>
+    <span class="s">"endif %} {%- if not date_string is defined %} {%- set date_string = \"26 Jul 2024\" %} {%- endif %} "</span> <span class="o">+</span>
+    <span class="s">"{%- if not tools is defined %} {%- set tools = none %} {%- endif %} {#- This block extracts the "</span> <span class="o">+</span>
+    <span class="s">"system message, so we can slot it into the right place. #} {%- if messages[0]['role'] == 'system' %}"</span> <span class="o">+</span>
+    <span class="s">" {%- set system_message = messages[0]['content']|trim %} {%- set messages = messages[1:] %} {%- else"</span> <span class="o">+</span>
+    <span class="s">" %} {%- set system_message = \"\" %} {%- endif %} {#- System message + builtin tools #} {{- "</span> <span class="o">+</span>
+    <span class="s">"\"&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\\n\\n\" }} {%- if builtin_tools is defined or tools is "</span> <span class="o">+</span>
+    <span class="s">"not none %} {{- \"Environment: ipython\\n\" }} {%- endif %} {%- if builtin_tools is defined %} {{- "</span> <span class="o">+</span>
+    <span class="s">"\"Tools: \" + builtin_tools | reject('equalto', 'code_interpreter') | join(\", \") + \"\\n\\n\"}} "</span> <span class="o">+</span>
+    <span class="s">"{%- endif %} {{- \"Cutting Knowledge Date: December 2023\\n\" }} {{- \"Today Date: \" + date_string "</span> <span class="o">+</span>
+    <span class="s">"+ \"\\n\\n\" }} {%- if tools is not none and not tools_in_user_message %} {{- \"You have access to "</span> <span class="o">+</span>
+    <span class="s">"the following functions. To call a function, please respond with JSON for a function call.\" }} {{- "</span> <span class="o">+</span>
+    <span class="s">"'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its"</span> <span class="o">+</span>
+    <span class="s">" value}.' }} {{- \"Do not use variables.\\n\\n\" }} {%- for t in tools %} {{- t | tojson(indent=4) "</span> <span class="o">+</span>
+    <span class="s">"}} {{- \"\\n\\n\" }} {%- endfor %} {%- endif %} {{- system_message }} {{- \"&lt;|eot_id|&gt;\" }} {#- "</span> <span class="o">+</span>
+    <span class="s">"Custom tools are passed in a user message with some extra guidance #} {%- if tools_in_user_message "</span> <span class="o">+</span>
+    <span class="s">"and not tools is none %} {#- Extract the first user message so we can plug it in here #} {%- if "</span> <span class="o">+</span>
+    <span class="s">"messages | length != 0 %} {%- set first_user_message = messages[0]['content']|trim %} {%- set "</span> <span class="o">+</span>
+    <span class="s">"messages = messages[1:] %} {%- else %} {{- raise_exception(\"Cannot put tools in the first user "</span> <span class="o">+</span>
+    <span class="s">"message when there's no first user message!\") }} {%- endif %} {{- "</span> <span class="o">+</span>
+    <span class="s">"'&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\\n\\n' -}} {{- \"Given the following functions, please "</span> <span class="o">+</span>
+    <span class="s">"respond with a JSON for a function call \" }} {{- \"with its proper arguments that best answers the "</span> <span class="o">+</span>
+    <span class="s">"given prompt.\\n\\n\" }} {{- 'Respond in the format {\"name\": function name, \"parameters\": "</span> <span class="o">+</span>
+    <span class="s">"dictionary of argument name and its value}.' }} {{- \"Do not use variables.\\n\\n\" }} {%- for t in "</span> <span class="o">+</span>
+    <span class="s">"tools %} {{- t | tojson(indent=4) }} {{- \"\\n\\n\" }} {%- endfor %} {{- first_user_message + "</span> <span class="o">+</span>
+    <span class="s">"\"&lt;|eot_id|&gt;\"}} {%- endif %} {%- for message in messages %} {%- if not (message.role == 'ipython' "</span> <span class="o">+</span>
+    <span class="s">"or message.role == 'tool' or 'tool_calls' in message) %} {{- '&lt;|start_header_id|&gt;' + message['role']"</span> <span class="o">+</span>
+    <span class="s">" + '&lt;|end_header_id|&gt;\\n\\n'+ message['content'] | trim + '&lt;|eot_id|&gt;' }} {%- elif 'tool_calls' in "</span> <span class="o">+</span>
+    <span class="s">"message %} {%- if not message.tool_calls|length == 1 %} {{- raise_exception(\"This model only "</span> <span class="o">+</span>
+    <span class="s">"supports single tool-calls at once!\") }} {%- endif %} {%- set tool_call = message.tool_calls[0]"</span> <span class="o">+</span>
+    <span class="s">".function %} {%- if builtin_tools is defined and tool_call.name in builtin_tools %} {{- "</span> <span class="o">+</span>
+    <span class="s">"'&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' -}} {{- \"&lt;|python_tag|&gt;\" + tool_call.name + "</span> <span class="o">+</span>
+    <span class="s">"\".call(\" }} {%- for arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + '=\"' + "</span> <span class="o">+</span>
+    <span class="s">"arg_val + '\"' }} {%- if not loop.last %} {{- \", \" }} {%- endif %} {%- endfor %} {{- \")\" }} {%- "</span> <span class="o">+</span>
+    <span class="s">"else %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' -}} {{- '{\"name\": \"' + "</span> <span class="o">+</span>
+    <span class="s">"tool_call.name + '\", ' }} {{- '\"parameters\": ' }} {{- tool_call.arguments | tojson }} {{- \"}\" "</span> <span class="o">+</span>
+    <span class="s">"}} {%- endif %} {%- if builtin_tools is defined %} {#- This means we're in ipython mode #} {{- "</span> <span class="o">+</span>
+    <span class="s">"\"&lt;|eom_id|&gt;\" }} {%- else %} {{- \"&lt;|eot_id|&gt;\" }} {%- endif %} {%- elif message.role == \"tool\" "</span> <span class="o">+</span>
+    <span class="s">"or message.role == \"ipython\" %} {{- \"&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;\\n\\n\" }} {%- "</span> <span class="o">+</span>
+    <span class="s">"if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- "</span> <span class="o">+</span>
+    <span class="s">"else %} {{- message.content }} {%- endif %} {{- \"&lt;|eot_id|&gt;\" }} {%- endif %} {%- endfor %} {%- if "</span> <span class="o">+</span>
+    <span class="s">"add_generation_prompt %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' }} {%- endif %} "</span>
+
+
+<span class="k">val</span> <span class="nv">promptAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PromptAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"messages"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"prompt"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setChatTemplate</span><span class="o">(</span><span class="n">template</span><span class="o">)</span>
+
+<span class="nv">promptAssembler</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">dataDF</span><span class="o">).</span><span class="py">select</span><span class="o">(</span><span class="s">"prompt.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                                                                                                                                                      <span class="o">|</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou</span> <span class="kt">are</span> <span class="kt">a</span> <span class="kt">helpful</span> <span class="kt">assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello</span> <span class="kt">there</span>, <span class="kt">how</span> <span class="kt">can</span> <span class="kt">I</span> <span class="kt">help</span> <span class="kt">you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI</span> <span class="kt">need</span> <span class="kt">help</span> <span class="kt">with</span> <span class="kt">organizing</span> <span class="kt">my</span> <span class="kt">room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n</span><span class="o">]|</span>
+<span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="tabs-box tabs-new">
 
   <h2 id="recursivetokenizer">RecursiveTokenizer</h2>
@@ -10942,7 +11142,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/concepts">General Concepts</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/transformers">Transformers</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/tasks/landing_page">Tasks</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/transformers">Transformers</a></div></div></div>
 
 </div>
 </div>
