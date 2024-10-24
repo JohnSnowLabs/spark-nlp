@@ -157,7 +157,7 @@ class AutoGGUFModel(override val uid: String)
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
   setDefault(engine -> LlamaCPP.name)
-  
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet.saveToFile(path)

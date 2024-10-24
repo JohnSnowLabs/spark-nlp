@@ -34,81 +34,81 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 /** BertForMultipleChoice can load BERT Models with a multiple choice classification head on top
- *  (a linear layer on top of the pooled output and a softmax) e.g. for RocStories/SWAG tasks.
- *
- * Pretrained models can be loaded with `pretrained` of the companion object:
- * {{{
- * val spanClassifier = BertForMultipleChoice.pretrained()
- *   .setInputCols(Array("document_question", "document_context"))
- *   .setOutputCol("answer")
- * }}}
- * The default model is `"bert_base_uncased_multiple_choice"`, if no name is provided.
- *
- * For available pretrained models please see the
- * [[https://sparknlp.org/models?task=Multiple+Choice Models Hub]].
- *
- * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
- * see which models are compatible and how to import them see
- * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
- * examples, see
- * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForMultipleChoiceTestSpec.scala BertForMultipleChoiceTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base._
- * import com.johnsnowlabs.nlp.annotator._
- * import org.apache.spark.ml.Pipeline
- *
- * val document = new MultiDocumentAssembler()
- *   .setInputCols("question", "context")
- *   .setOutputCols("document_question", "document_context")
- *
- * val questionAnswering = BertForMultipleChoice.pretrained()
- *   .setInputCols(Array("document_question", "document_context"))
- *   .setOutputCol("answer")
- *   .setCaseSensitive(false)
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   document,
- *   questionAnswering
- * ))
- *
- * val data = Seq("The Eiffel Tower is located in which country?", "Germany, France, Italy").toDF("question", "context")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.select("answer.result").show(false)
- * +---------------------+
- * |result               |
- * +---------------------+
- * |[France]              |
- * ++--------------------+
- * }}}
- *
- * @see
- *   [[BertForQuestionAnswering]] for Question Answering tasks
- * @see
- *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
- *   based classifiers
- * @param uid
- *   required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno
- *   Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param
- *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
- *   parameter values through setters and getters, respectively.
- */
+  * (a linear layer on top of the pooled output and a softmax) e.g. for RocStories/SWAG tasks.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val spanClassifier = BertForMultipleChoice.pretrained()
+  *   .setInputCols(Array("document_question", "document_context"))
+  *   .setOutputCol("answer")
+  * }}}
+  * The default model is `"bert_base_uncased_multiple_choice"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://sparknlp.org/models?task=Multiple+Choice Models Hub]].
+  *
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForMultipleChoiceTestSpec.scala BertForMultipleChoiceTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val document = new MultiDocumentAssembler()
+  *   .setInputCols("question", "context")
+  *   .setOutputCols("document_question", "document_context")
+  *
+  * val questionAnswering = BertForMultipleChoice.pretrained()
+  *   .setInputCols(Array("document_question", "document_context"))
+  *   .setOutputCol("answer")
+  *   .setCaseSensitive(false)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   document,
+  *   questionAnswering
+  * ))
+  *
+  * val data = Seq("The Eiffel Tower is located in which country?", "Germany, France, Italy").toDF("question", "context")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.select("answer.result").show(false)
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[France]              |
+  * ++--------------------+
+  * }}}
+  *
+  * @see
+  *   [[BertForQuestionAnswering]] for Question Answering tasks
+  * @see
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based classifiers
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 
 class BertForMultipleChoice(override val uid: String)
     extends AnnotatorModel[BertForMultipleChoice]

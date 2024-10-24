@@ -29,13 +29,13 @@ class BertForMultipleChoiceTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   lazy val pipelineModel = getBertForMultipleChoicePipelineModel
 
-  val testDataframe = Seq(
-    ("The Eiffel Tower is located in which country?", "Germany, France, Italy"))
-    .toDF("question", "context")
+  val testDataframe =
+    Seq(("The Eiffel Tower is located in which country?", "Germany, France, Italy"))
+      .toDF("question", "context")
 
   "BertForMultipleChoiceTestSpec" should "answer a multiple choice question" taggedAs SlowTest in {
     val resultDf = pipelineModel.transform(testDataframe)
-    resultDf.show(truncate=false)
+    resultDf.show(truncate = false)
 
     val result = AssertAnnotations.getActualResult(resultDf, "answer")
     result.foreach { annotation =>
@@ -70,7 +70,8 @@ class BertForMultipleChoiceTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setInputCols("question", "context")
       .setOutputCols("document_question", "document_context")
 
-    val bertForMultipleChoice = BertForMultipleChoice.pretrained()
+    val bertForMultipleChoice = BertForMultipleChoice
+      .pretrained()
       .setInputCols("document_question", "document_context")
       .setOutputCol("answer")
 
