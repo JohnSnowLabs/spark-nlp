@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "5.5.0"
+version := "5.5.1"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -185,8 +185,8 @@ val llamaCppDependencies =
     Seq(llamaCppGPU)
   else if (is_silicon.equals("true"))
     Seq(llamaCppSilicon)
-//  else if (is_aarch64.equals("true"))
-//    Seq(openVinoCPU)
+  else if (is_aarch64.equals("true"))
+    Seq(llamaCppAarch64)
   else
     Seq(llamaCppCPU)
 

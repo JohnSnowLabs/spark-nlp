@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 5.5.0 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 5.5.0 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -473,6 +473,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ParamsAndFeaturesWritable.html" title=""></a>
                         <a href="ParamsAndFeaturesWritable.html" title="">ParamsAndFeaturesWritable</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="PromptAssembler$.html" title="This is the companion object of PromptAssembler."></a>
+                        <a class="class" href="PromptAssembler.html" title="Assembles a sequence of messages into a single string using a template."></a>
+                        <a href="PromptAssembler.html" title="Assembles a sequence of messages into a single string using a template.">PromptAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="RawAnnotator.html" title=""></a>
@@ -1612,6 +1616,95 @@ root
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.PromptAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="PromptAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="PromptAssembler:PromptAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/PromptAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Assembles a sequence of messages into a single string using a template." href="PromptAssembler.html"><span class="name">PromptAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Assembles a sequence of messages into a single string using a template.</p><div class="fullcomment"><div class="comment cmt"><p>Assembles a sequence of messages into a single string using a template. These strings can then
+be used as prompts for large language models.</p><p>This annotator expects an array of two-tuples as the type of the input column (one array of
+tuples per row). The first element of the tuples should be the role and the second element is
+the text of the message. Possible roles are &quot;system&quot;, &quot;user&quot; and &quot;assistant&quot;.</p><p>An assistant header can be added to the end of the generated string by using
+<code>setAddAssistant(true)</code>.</p><p>At the moment, this annotator uses llama.cpp as a backend to parse and apply the templates.
+llama.cpp uses basic pattern matching to determine the type of the template, then applies a
+basic version of the template to the messages. This means that more advanced templates are not
+supported.</p><p>For an extended example see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/llama.cpp/PromptAssember_with_AutoGGUFModel.ipynb" target="_blank">example notebook</a>.</p><h4>Example</h4><pre><span class="cmt">// Batches (whole conversations) of arrays of messages</span>
+<span class="kw">val</span> data: <span class="std">Seq</span>[<span class="std">Seq</span>[(<span class="std">String</span>, <span class="std">String</span>)]] = <span class="std">Seq</span>(
+  <span class="std">Seq</span>(
+    (<span class="lit">"system"</span>, <span class="lit">"You are a helpful assistant."</span>),
+    (<span class="lit">"assistant"</span>, <span class="lit">"Hello there, how can I help you?"</span>),
+    (<span class="lit">"user"</span>, <span class="lit">"I need help with organizing my room."</span>)))
+
+<span class="kw">val</span> dataDF = data.toDF(<span class="lit">"messages"</span>)
+
+<span class="cmt">// llama3.1</span>
+<span class="kw">val</span> template =
+  <span class="lit">"{{- bos_token }} {%- if custom_tools is defined %} {%- set tools = custom_tools %} {%- "</span> +
+    <span class="lit">"endif %} {%- if not tools_in_user_message is defined %} {%- set tools_in_user_message = true %} {%- "</span> +
+    <span class="lit">"endif %} {%- if not date_string is defined %} {%- set date_string = \"26 Jul 2024\" %} {%- endif %} "</span> +
+    <span class="lit">"{%- if not tools is defined %} {%- set tools = none %} {%- endif %} {#- This block extracts the "</span> +
+    <span class="lit">"system message, so we can slot it into the right place. #} {%- if messages[0]['role'] == 'system' %}"</span> +
+    <span class="lit">" {%- set system_message = messages[0]['content']|trim %} {%- set messages = messages[1:] %} {%- else"</span> +
+    <span class="lit">" %} {%- set system_message = \"\" %} {%- endif %} {#- System message + builtin tools #} {{- "</span> +
+    <span class="lit">"\"&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\\n\\n\" }} {%- if builtin_tools is defined or tools is "</span> +
+    <span class="lit">"not none %} {{- \"Environment: ipython\\n\" }} {%- endif %} {%- if builtin_tools is defined %} {{- "</span> +
+    <span class="lit">"\"Tools: \" + builtin_tools | reject('equalto', 'code_interpreter') | join(\", \") + \"\\n\\n\"}} "</span> +
+    <span class="lit">"{%- endif %} {{- \"Cutting Knowledge Date: December 2023\\n\" }} {{- \"Today Date: \" + date_string "</span> +
+    <span class="lit">"+ \"\\n\\n\" }} {%- if tools is not none and not tools_in_user_message %} {{- \"You have access to "</span> +
+    <span class="lit">"the following functions. To call a function, please respond with JSON for a function call.\" }} {{- "</span> +
+    <span class="lit">"'Respond in the format {\"name\": function name, \"parameters\": dictionary of argument name and its"</span> +
+    <span class="lit">" value}.' }} {{- \"Do not use variables.\\n\\n\" }} {%- for t in tools %} {{- t | tojson(indent=4) "</span> +
+    <span class="lit">"}} {{- \"\\n\\n\" }} {%- endfor %} {%- endif %} {{- system_message }} {{- \"&lt;|eot_id|&gt;\" }} {#- "</span> +
+    <span class="lit">"Custom tools are passed in a user message with some extra guidance #} {%- if tools_in_user_message "</span> +
+    <span class="lit">"and not tools is none %} {#- Extract the first user message so we can plug it in here #} {%- if "</span> +
+    <span class="lit">"messages | length != 0 %} {%- set first_user_message = messages[0]['content']|trim %} {%- set "</span> +
+    <span class="lit">"messages = messages[1:] %} {%- else %} {{- raise_exception(\"Cannot put tools in the first user "</span> +
+    <span class="lit">"message when there's no first user message!\") }} {%- endif %} {{- "</span> +
+    <span class="lit">"'&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\\n\\n' -}} {{- \"Given the following functions, please "</span> +
+    <span class="lit">"respond with a JSON for a function call \" }} {{- \"with its proper arguments that best answers the "</span> +
+    <span class="lit">"given prompt.\\n\\n\" }} {{- 'Respond in the format {\"name\": function name, \"parameters\": "</span> +
+    <span class="lit">"dictionary of argument name and its value}.' }} {{- \"Do not use variables.\\n\\n\" }} {%- for t in "</span> +
+    <span class="lit">"tools %} {{- t | tojson(indent=4) }} {{- \"\\n\\n\" }} {%- endfor %} {{- first_user_message + "</span> +
+    <span class="lit">"\"&lt;|eot_id|&gt;\"}} {%- endif %} {%- for message in messages %} {%- if not (message.role == 'ipython' "</span> +
+    <span class="lit">"or message.role == 'tool' or 'tool_calls' in message) %} {{- '&lt;|start_header_id|&gt;' + message['role']"</span> +
+    <span class="lit">" + '&lt;|end_header_id|&gt;\\n\\n'+ message['content'] | trim + '&lt;|eot_id|&gt;' }} {%- elif 'tool_calls' in "</span> +
+    <span class="lit">"message %} {%- if not message.tool_calls|length == 1 %} {{- raise_exception(\"This model only "</span> +
+    <span class="lit">"supports single tool-calls at once!\") }} {%- endif %} {%- set tool_call = message.tool_calls[0]"</span> +
+    <span class="lit">".function %} {%- if builtin_tools is defined and tool_call.name in builtin_tools %} {{- "</span> +
+    <span class="lit">"'&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' -}} {{- \"&lt;|python_tag|&gt;\" + tool_call.name + "</span> +
+    <span class="lit">"\".call(\" }} {%- for arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + '=\"' + "</span> +
+    <span class="lit">"arg_val + '\"' }} {%- if not loop.last %} {{- \", \" }} {%- endif %} {%- endfor %} {{- \")\" }} {%- "</span> +
+    <span class="lit">"else %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' -}} {{- '{\"name\": \"' + "</span> +
+    <span class="lit">"tool_call.name + '\", ' }} {{- '\"parameters\": ' }} {{- tool_call.arguments | tojson }} {{- \"}\" "</span> +
+    <span class="lit">"}} {%- endif %} {%- if builtin_tools is defined %} {#- This means we're in ipython mode #} {{- "</span> +
+    <span class="lit">"\"&lt;|eom_id|&gt;\" }} {%- else %} {{- \"&lt;|eot_id|&gt;\" }} {%- endif %} {%- elif message.role == \"tool\" "</span> +
+    <span class="lit">"or message.role == \"ipython\" %} {{- \"&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;\\n\\n\" }} {%- "</span> +
+    <span class="lit">"if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- "</span> +
+    <span class="lit">"else %} {{- message.content }} {%- endif %} {{- \"&lt;|eot_id|&gt;\" }} {%- endif %} {%- endfor %} {%- if "</span> +
+    <span class="lit">"add_generation_prompt %} {{- '&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n' }} {%- endif %} "</span>
+
+<span class="kw">val</span> promptAssembler = <span class="kw">new</span> PromptAssembler()
+  .setInputCol(<span class="lit">"messages"</span>)
+  .setOutputCol(<span class="lit">"prompt"</span>)
+  .setChatTemplate(template)
+
+promptAssembler.transform(dataDF).select(<span class="lit">"prompt.result"</span>).show(truncate = <span class="kw">false</span>)
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result                                                                                                                                                                                                                                                                                                                      |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI need help <span class="kw">with</span> organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n]|
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="RawAnnotator[M&lt;:org.apache.spark.ml.Model[M]]extendsModel[M]withParamsAndFeaturesWritablewithHasOutputAnnotatorTypewithHasInputAnnotationColswithHasOutputAnnotationCol"></a><a id="RawAnnotator[M&lt;:Model[M]]:RawAnnotator[M]"></a>
       <span class="permalink">
@@ -2020,6 +2113,24 @@ documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="MultiDocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiDocumentAssembler">MultiDocumentAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="MultiDocumentAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiDocumentAssembler">MultiDocumentAssembler</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.PromptAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="PromptAssembler"></a><a id="PromptAssembler:PromptAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/PromptAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of PromptAssembler." href="PromptAssembler$.html"><span class="name">PromptAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="PromptAssembler.html" class="extype" name="com.johnsnowlabs.nlp.PromptAssembler">PromptAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="PromptAssembler.html" class="extype" name="com.johnsnowlabs.nlp.PromptAssembler">PromptAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="PromptAssembler.html" class="extype" name="com.johnsnowlabs.nlp.PromptAssembler">PromptAssembler</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.SparkNLP" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">

@@ -16,6 +16,8 @@
 package com.johnsnowlabs.ml.gguf
 
 import com.johnsnowlabs.nlp.llama.{LlamaModel, ModelParameters}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
@@ -72,7 +74,7 @@ object GGUFWrapper {
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeGGUFModelLoader(modelParameters: ModelParameters): LlamaModel =
     this.synchronized {
-      new LlamaModel(modelParameters) // TODO: Model parameters
+      new LlamaModel(modelParameters)
     }
 
   def read(sparkSession: SparkSession, modelPath: String): GGUFWrapper = {
@@ -88,5 +90,32 @@ object GGUFWrapper {
     } else throw new IllegalArgumentException(s"Model file $modelPath does not exist")
 
     new GGUFWrapper(modelFile.getName, modelFile.getParent)
+  }
+
+  def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapper = {
+    def findGGUFModelInFolder(folderPath: String): String = {
+      val folder = new File(folderPath)
+      if (folder.exists && folder.isDirectory) {
+        val ggufFile: String = folder.listFiles
+          .filter(_.isFile)
+          .filter(_.getName.endsWith(".gguf"))
+          .map(_.getAbsolutePath)
+          .headOption // Should only be one file
+          .getOrElse(
+            throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath"))
+
+        new File(ggufFile).getAbsolutePath
+      } else {
+        throw new IllegalArgumentException(s"Path $folderPath is not a directory")
+      }
+    }
+
+    val uri = new java.net.URI(modelFolderPath.replaceAllLiterally("\\", "/"))
+    // In case the path belongs to a different file system but doesn't have the scheme prepended (e.g. dbfs)
+    val fileSystem: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val actualFolderPath = fileSystem.resolvePath(new Path(modelFolderPath)).toString
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
+    val modelFile = findGGUFModelInFolder(localFolder)
+    read(spark, modelFile)
   }
 }

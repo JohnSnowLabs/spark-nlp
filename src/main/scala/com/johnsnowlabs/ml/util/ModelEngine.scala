@@ -43,7 +43,7 @@ final case object Openvino extends ModelEngine {
 }
 
 final case object LlamaCPP extends ModelEngine {
-  val name = "llama_cpp"
+  val name = "llamacpp"
 }
 
 final case object Unknown extends ModelEngine {

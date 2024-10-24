@@ -83,6 +83,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="Normalizer" summary="Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary."%}
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
 {% include templates/anno_table_entry.md path="" name="POSTagger (Part of speech tagger)" summary="Averaged Perceptron model to tag words part-of-speech."%}
+{% include templates/anno_table_entry.md path="" name="PromptAssembler" summary="Assembles a sequence of messages into a single string using a template."%}
 {% include templates/anno_table_entry.md path="" name="RecursiveTokenizer" summary="Tokenizes raw text recursively based on a handful of definable rules."%}
 {% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses rules to match a set of regular expressions and associate them with a provided identifier."%}
 {% include templates/anno_table_entry.md path="" name="RegexTokenizer" summary="A tokenizer that splits text by a regex pattern."%}
