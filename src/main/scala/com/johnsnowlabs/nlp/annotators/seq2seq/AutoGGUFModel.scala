@@ -23,9 +23,6 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import org.json4s.DefaultFormats
-import org.json4s.jackson.JsonMethods
-import org.slf4j.LoggerFactory
 
 /** Annotator that uses the llama.cpp library to generate text completions with large language
   * models.
@@ -148,7 +145,13 @@ class AutoGGUFModel(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
-  setDefault(engine -> LlamaCPP.name)
+  setDefault(
+    engine -> LlamaCPP.name,
+    useChatTemplate -> true,
+    nCtx -> 4096,
+    nBatch -> 512,
+    embedding -> false,
+    nPredict -> 100)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -165,6 +168,7 @@ class AutoGGUFModel(override val uid: String)
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     if (annotations.nonEmpty) {
+      val annotationsText = annotations.map(_.result)
 
       val modelParams =
         getModelParameters.setNParallel(getBatchSize) // set parallel decoding to batch size
@@ -172,18 +176,36 @@ class AutoGGUFModel(override val uid: String)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
-      val annotationsText = annotations.map(_.result)
-
-      val (completedTexts: Array[String], metadata: Map[String, String]) =
-        try {
-          (model.requestBatchCompletion(annotationsText.toArray, inferenceParams), Map.empty)
-        } catch {
-          case e: Exception =>
-            logger.error("Error in llama.cpp batch completion", e)
-            (Array[String](), Map("exception" -> e.getMessage))
+      if (getEmbedding) {
+        // Return embeddings in annotation
+        val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
+          try {
+            (model.requestBatchEmbeddings(annotationsText.toArray), Map.empty)
+          } catch {
+            case e: Exception =>
+              logger.error("Error in llama.cpp embeddings", e)
+              (Array.empty[Array[Float]], Map("llamacpp_exception" -> e.getMessage))
+          }
+        // Choose empty text for result annotations
+        annotations.zip(embeddings).map { case (annotation, embedding) =>
+          Seq(
+            new Annotation(
+              annotatorType = annotation.annotatorType,
+              begin = annotation.begin,
+              end = annotation.end,
+              result = annotation.result,
+              metadata = annotation.metadata ++ metadata,
+              embeddings = embedding))
         }
-
-      val result: Seq[Seq[Annotation]] =
+      } else {
+        val (completedTexts: Array[String], metadata: Map[String, String]) =
+          try {
+            (model.requestBatchCompletion(annotationsText.toArray, inferenceParams), Map.empty)
+          } catch {
+            case e: Exception =>
+              logger.error("Error in llama.cpp batch completion", e)
+              (Array[String](), Map("llamacpp_exception" -> e.getMessage))
+          }
         annotations.zip(completedTexts).map { case (annotation, text) =>
           Seq(
             new Annotation(
@@ -193,7 +215,7 @@ class AutoGGUFModel(override val uid: String)
               text,
               annotation.metadata ++ metadata))
         }
-      result
+      }
     } else Seq(Seq.empty[Annotation])
   }
 }

@@ -185,9 +185,10 @@ trait HasLlamaCppModelProperties {
 
   /** Set the pooling type for embeddings, use model default if unspecified
     *
-    *   - 0 UNSPECIFIED: Don't use any pooling
+    *   - 0 NONE: Don't use any pooling
     *   - 1 MEAN: Mean Pooling
-    *   - 2 CLS: CLS Pooling
+    *   - 2 CLS: Choose the CLS token
+    *   - 3 LAST: Choose the last token
     *
     * @group param
     */
@@ -214,6 +215,8 @@ trait HasLlamaCppModelProperties {
 
   /** @group param */
   val loraAdapters = new StructFeature[Map[String, Float]](this, "loraAdapters")
+
+  /** @group param */
   val embedding =
     new BooleanParam(this, "embedding", "Whether to load model with embedding support")
 
@@ -249,6 +252,14 @@ trait HasLlamaCppModelProperties {
   val chatTemplate =
     new Param[String](this, "chatTemplate", "The chat template to use")
 
+  private def checkEmbeddingMode(setter: => this.type): this.type = {
+    if (getEmbedding) {
+      logger.warn("Embeddings enabled. This parameter has no effect.")
+      this
+    } else
+      setter
+  }
+
   /** Set the number of threads to use during generation
     *
     * @group setParam
@@ -262,7 +273,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNThreadsDraft(nThreadsDraft: Int): this.type = {
-    set(this.nThreadsDraft, nThreadsDraft)
+    checkEmbeddingMode { set(this.nThreadsDraft, nThreadsDraft) }
   }
 
   /** Set the number of threads to use during batch and prompt processing
@@ -270,7 +281,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNThreadsBatch(nThreadsBatch: Int): this.type = {
-    set(this.nThreadsBatch, nThreadsBatch)
+    checkEmbeddingMode { set(this.nThreadsBatch, nThreadsBatch) }
   }
 
   /** Set the number of threads to use during batch and prompt processing
@@ -278,7 +289,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNThreadsBatchDraft(nThreadsBatchDraft: Int): this.type = {
-    set(this.nThreadsBatchDraft, nThreadsBatchDraft)
+    checkEmbeddingMode { set(this.nThreadsBatchDraft, nThreadsBatchDraft) }
   }
 
   /** Set the size of the prompt context
@@ -310,7 +321,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNDraft(nDraft: Int): this.type = {
-    set(this.nDraft, nDraft)
+    checkEmbeddingMode { set(this.nDraft, nDraft) }
   }
 
   /** Set the maximal number of chunks to process
@@ -334,7 +345,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setPSplit(pSplit: Float): this.type = {
-    set(this.pSplit, pSplit)
+    checkEmbeddingMode { set(this.pSplit, pSplit) }
   }
 
   /** Set the number of layers to store in VRAM (-1 - use default)
@@ -350,7 +361,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNGpuLayersDraft(nGpuLayersDraft: Int): this.type = {
-    set(this.nGpuLayersDraft, nGpuLayersDraft)
+    checkEmbeddingMode { set(this.nGpuLayersDraft, nGpuLayersDraft) }
   }
 
   /** Set how to split the model across GPUs
@@ -473,7 +484,13 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNumaStrategy(numa: String): this.type = {
-    set(this.numaStrategy, numa)
+    val numaUpper = numa.toUpperCase
+    val numaStrategies = Array("DISABLED", "DISTRIBUTE", "ISOLATE", "NUMA_CTL", "MIRROR")
+    require(
+      numaStrategies.contains(numaUpper),
+      s"Invalid NUMA strategy: $numa. " +
+        s"Valid values are: ${numaStrategies.mkString(", ")}")
+    set(this.numaStrategy, numaUpper)
   }
 
   /** Set the RoPE frequency scaling method, defaults to linear unless specified by the model.
@@ -490,14 +507,21 @@ trait HasLlamaCppModelProperties {
 
   /** Set the pooling type for embeddings, use model default if unspecified
     *
-    *   - UNSPECIFIED: Don't use any pooling
-    *   - MEAN: Mean Pooling
-    *   - CLS: CLS Pooling
+    *   - 0 NONE: Don't use any pooling and return token embeddings (if the model supports it)
+    *   - 1 MEAN: Mean Pooling
+    *   - 2 CLS: Choose the CLS token
+    *   - 3 LAST: Choose the last token
     *
     * @group setParam
     */
   def setPoolingType(poolingType: String): this.type = {
-    set(this.poolingType, poolingType)
+    val poolingTypeUpper = poolingType.toUpperCase
+    val poolingTypes = Array("NONE", "MEAN", "CLS", "LAST")
+    require(
+      poolingTypes.contains(poolingTypeUpper),
+      s"Invalid pooling type: $poolingType. " +
+        s"Valid values are: ${poolingTypes.mkString(", ")}")
+    set(this.poolingType, poolingTypeUpper)
   }
 
   /** Set the draft model for speculative decoding
@@ -505,23 +529,23 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setModelDraft(modelDraft: String): this.type = {
-    set(this.modelDraft, modelDraft)
+    checkEmbeddingMode { set(this.modelDraft, modelDraft) }
   }
 
-  /** Set a model alias
+  /** Set path to static lookup cache to use for lookup decoding (not updated by generation)
     *
     * @group setParam
     */
   def setLookupCacheStaticFilePath(lookupCacheStaticFilePath: String): this.type = {
-    set(this.lookupCacheStaticFilePath, lookupCacheStaticFilePath)
+    checkEmbeddingMode { set(this.lookupCacheStaticFilePath, lookupCacheStaticFilePath) }
   }
 
-  /** Set a model alias
+  /** Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
     *
     * @group setParam
     */
   def setLookupCacheDynamicFilePath(lookupCacheDynamicFilePath: String): this.type = {
-    set(this.lookupCacheDynamicFilePath, lookupCacheDynamicFilePath)
+    checkEmbeddingMode { set(this.lookupCacheDynamicFilePath, lookupCacheDynamicFilePath) }
   }
 
   /** Sets paths to lora adapters with user defined scale.
@@ -594,7 +618,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setSystemPrompt(systemPrompt: String): this.type = {
-    set(this.systemPrompt, systemPrompt)
+    checkEmbeddingMode { set(this.systemPrompt, systemPrompt) }
   }
 
   /** The chat template to use
@@ -602,7 +626,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setChatTemplate(chatTemplate: String): this.type = {
-    set(this.chatTemplate, chatTemplate)
+    checkEmbeddingMode { set(this.chatTemplate, chatTemplate) }
   }
 
   /** @group getParam */
