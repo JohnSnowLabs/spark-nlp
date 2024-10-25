@@ -25,12 +25,13 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods
+import org.slf4j.LoggerFactory
 
 /** Annotator that uses the llama.cpp library to generate text completions with large language
   * models.
   *
-  * For settable parameters, and their explanations, see [[HasLlamaCppProperties]] and refer to
-  * the llama.cpp documentation of
+  * For settable parameters, and their explanations, see [[HasLlamaCppInferenceProperties]],
+  * [[HasLlamaCppModelProperties]] and refer to the llama.cpp documentation of
   * [[https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server server.cpp]]
   * for more information.
   *
@@ -118,8 +119,11 @@ class AutoGGUFModel(override val uid: String)
     extends AnnotatorModel[AutoGGUFModel]
     with HasBatchedAnnotate[AutoGGUFModel]
     with HasEngine
-    with HasLlamaCppProperties
+    with HasLlamaCppModelProperties
+    with HasLlamaCppInferenceProperties
     with HasProtectedParams {
+
+  private val logger = LoggerFactory.getLogger(this.getClass)
 
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
