@@ -123,8 +123,6 @@ class AutoGGUFModel(override val uid: String)
     with HasLlamaCppInferenceProperties
     with HasProtectedParams {
 
-  private val logger = LoggerFactory.getLogger(this.getClass)
-
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
 
@@ -134,10 +132,6 @@ class AutoGGUFModel(override val uid: String)
   def this() = this(Identifiable.randomUID("AutoGGUFModel"))
 
   private var _model: Option[Broadcast[GGUFWrapper]] = None
-
-  // Values for automatic GPU support
-  private val defaultGpuLayers = 1000
-  private val defaultMainGpu = 0
 
   /** @group getParam */
   def getModelIfNotSet: GGUFWrapper = _model.get.value
@@ -149,13 +143,7 @@ class AutoGGUFModel(override val uid: String)
     }
 
     // Entrypoint for models. Automatically set GPU support if detected.
-    val usingGPUJar: Boolean = spark.sparkContext.listJars.exists(_.contains("spark-nlp-gpu"))
-    if (usingGPUJar) {
-      logger.info("Using GPU jar. Offloading all layers to GPU.")
-      setMainGpu(defaultMainGpu)
-      setNGpuLayers(defaultGpuLayers)
-    }
-    this
+    setGpuSupportIfAvailable(spark)
   }
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
@@ -207,15 +195,6 @@ class AutoGGUFModel(override val uid: String)
         }
       result
     } else Seq(Seq.empty[Annotation])
-  }
-
-  def getMetadataMap: Map[String, String] = {
-    val metadataJsonString = getMetadata
-    if (metadataJsonString.isEmpty) Map.empty
-    else {
-      implicit val formats: DefaultFormats.type = DefaultFormats
-      JsonMethods.parse(metadataJsonString).extract[Map[String, String]]
-    }
   }
 }
 

@@ -5,6 +5,10 @@ import com.johnsnowlabs.nlp.llama.ModelParameters
 import com.johnsnowlabs.nlp.llama.args.{GpuSplitMode, NumaStrategy, PoolingType, RopeScalingType}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param._
+import org.apache.spark.sql.SparkSession
+import org.json4s.DefaultFormats
+import org.json4s.jackson.JsonMethods
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
@@ -23,6 +27,7 @@ import scala.jdk.CollectionConverters._
   */
 trait HasLlamaCppModelProperties {
   this: ParamsAndFeaturesWritable with HasProtectedParams =>
+  protected val logger = LoggerFactory.getLogger(this.getClass)
 
   /** @group param */
   val nThreads =
@@ -736,6 +741,15 @@ trait HasLlamaCppModelProperties {
     */
   def getMetadata: String = $(metadata)
 
+  def getMetadataMap: Map[String, String] = {
+    val metadataJsonString = getMetadata
+    if (metadataJsonString.isEmpty) Map.empty
+    else {
+      implicit val formats: DefaultFormats.type = DefaultFormats
+      JsonMethods.parse(metadataJsonString).extract[Map[String, String]]
+    }
+  }
+
   protected def getModelParameters: ModelParameters = {
     val modelParameters = new ModelParameters().setContinuousBatching(true) // Always enabled
 
@@ -795,5 +809,21 @@ trait HasLlamaCppModelProperties {
     } // Need to convert to mutable map first
 
     modelParameters
+  }
+
+  // ---------------- GPU SUPPORT ----------------
+  // Values for automatic GPU support
+  protected val defaultGpuLayers = 1000
+  protected val defaultMainGpu = 0
+
+  // Entrypoint for models. Automatically set GPU support if detected.
+  protected def setGpuSupportIfAvailable(spark: SparkSession): this.type = {
+    val usingGPUJar: Boolean = spark.sparkContext.listJars.exists(_.contains("spark-nlp-gpu"))
+    if (usingGPUJar) {
+      logger.info("Using GPU jar. Offloading all layers to GPU.")
+      setMainGpu(defaultMainGpu)
+      setNGpuLayers(defaultGpuLayers)
+    }
+    this
   }
 }
