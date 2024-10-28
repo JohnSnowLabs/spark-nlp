@@ -20,37 +20,32 @@ import breeze.optimize.BatchSize
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.Phi3VWrappers
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.Phi3vUtils
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{
+  BpeTokenizer,
+  Phi3VisionTokenizer,
+  SpecialTokens
+}
 import org.intel.openvino.InferRequest
 
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class Phi3V(
-    val openvinoWrapper: Option[Phi3VWrappers],
     val onnxWrappers: Option[DecoderWrappers],
-    preprocessor: Preprocessor,
-    val spp: SentencePieceWrapper,
+    val openvinoWrapper: Option[Phi3VWrappers],
+    merges: Map[(String, String), Int],
+    vocabulary: Map[String, Int],
+    addedTokens: Map[String, Int],
     generationConfig: GenerationConfig)
     extends Serializable {
-
-  private def sessionWarmup(): Unit = {
-    val image =
-      ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
-    val bytes = ImageIOUtils.bufferedImageToByte(image.get)
-    val images =
-      Array(AnnotationImage("image", "ox.JPEG", 265, 360, 3, 16, bytes, Map("image" -> "0")))
-//    val encoded = encode(images, preprocessor)
-//    tag(encoded)
-  }
 
   val detectedEngine: String =
     if (onnxWrappers.isDefined) ONNX.name
@@ -66,8 +61,27 @@ private[johnsnowlabs] class Phi3V(
     suppressTokenIds,
     forcedDecoderIds) =
     generationConfig
+  val reversedVocabulary: Map[Int, String] = vocabulary.map(_.swap)
 
-  private val pieceSize = spp.getSppModel.getPieceSize
+  val specialTokens: SpecialTokens = SpecialTokens(
+    vocabulary,
+    startTokenString = reversedVocabulary(bosTokenId),
+    endTokenString = reversedVocabulary(eosTokenId),
+    unkTokenString = reversedVocabulary(eosTokenId),
+    maskTokenString = reversedVocabulary(eosTokenId),
+    padTokenString = reversedVocabulary(paddingTokenId),
+    additionalStrings = addedTokens.keys.toArray)
+
+  val bpeTokenizer: Phi3VisionTokenizer = BpeTokenizer
+    .forModel(
+      "phi3v",
+      merges = merges,
+      vocab = vocabulary,
+      specialTokens = Some(specialTokens),
+      addPrefixSpaceToSentence = true,
+      alwaysAddPrefix = false,
+      prependString = "")
+    .asInstanceOf[Phi3VisionTokenizer]
 
   /** Decode a sequence of sentences
     * @param sentences
@@ -76,26 +90,86 @@ private[johnsnowlabs] class Phi3V(
     *   Sequence of decoded sentences
     */
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
-    sentences.map { s =>
-      val filteredPieceIds = s.filter(x => x <= pieceSize)
-      spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt): _*)
+    sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
+  }
+
+  /** Encode a sequence of sentences
+    * @param sentences
+    *   Sequence of sentences
+    * @return
+    *   Sequence of encoded sentences
+    */
+  def encodeText(sentences: Seq[Annotation], imgTokenLen: List[Int]): Seq[Array[Int]] = {
+
+    val pattern = raw"<\|image_\d+\|>".r
+
+    // raise an error if the pattern is not found in the text
+    if (pattern.findFirstIn(sentences.head.result).isEmpty) {
+      throw new IllegalArgumentException(
+        "The pattern <\\|image_\\d+\\|> is not found in the text")
     }
+
+    // split the sentences into chunks based on the pattern and tokenize them
+    // eg in python prompt_chunks = [self.tokenizer(chunk).input_ids for chunk in re.split(pattern, texts)]
+    val promptChunks = sentences
+      .map(s => {
+        val sentWithTask = s.result
+        var offsetLength = 0
+        pattern
+          .split(sentWithTask)
+          .zipWithIndex
+          .map(s => {
+            val sentenceWithTask = Sentence(
+              content = s._1,
+              start = offsetLength,
+              end = offsetLength + s._1.length,
+              index = s._2)
+            offsetLength += s._1.length
+            bpeTokenizer
+              .tokenize(sentenceWithTask)
+              .map(bpeTokenizer.encode)
+              .flatMap(_.map(_.pieceId))
+          })
+      })
+
+    // inject the image padding tokens of length imgTokenLen between the prompt chunks and reduce the Seq[Array[Array[Int]]] to Seq[Array[Int]]
+    val tokens = promptChunks
+      .zip(imgTokenLen)
+      .map(s => {
+        val (promptChunk, imgTokenLen) = s
+        val imgPaddingTokens = Array.fill(imgTokenLen)(-1)
+        val combinedChunks = promptChunk
+          .map(_.toArray)
+          .reduce(_ ++ imgPaddingTokens ++ _)
+        Array(bosTokenId) ++ combinedChunks ++ Array(eosTokenId)
+      })
+
+//    val tokens = SentenceSplit
+//      .unpack(sentences)
+//      .map(s => {
+//        val sentWithTask = s
+//        bpeTokenizer
+//          .tokenize(sentWithTask)
+//          .map(bpeTokenizer.encode)
+//          .flatMap(_.map(_.pieceId))
+//      })
+    tokens
   }
   def encode(
       imageAnnotations: Seq[AnnotationImage],
       sentences: Seq[Annotation],
-      numOfCrops: Int = 17): (
+      numOfCrops: Int = 16): (
       Seq[Array[Int]],
       (Array[Array[Array[Array[Array[Float]]]]], Array[Array[Int]], List[Int])) = {
     val preprocessedImages = preprocessImage(imageAnnotations, numOfCrops)
-    val encodedText = encodeText(sentences).toArray
+    val encodedText = encodeText(sentences, preprocessedImages._3).toArray
 
     (encodedText, preprocessedImages)
   }
 
   def tag(
       batch: Seq[Array[Int]],
-      images: (Array[Array[Array[Array[Array[Float]]]]], Array[Array[Int]]),
+      images: (Array[Array[Array[Array[Array[Float]]]]], Array[Array[Int]], List[Int]),
       minOutputLength: Int,
       maxOutputLength: Int,
       doSample: Boolean,
@@ -109,9 +183,9 @@ private[johnsnowlabs] class Phi3V(
       beamSize: Int,
       maxInputLength: Int,
       stopTokenIds: Array[Int],
-      numOfCrops: Int = 17): Array[Array[Int]] = {
+      numOfCrops: Int = 16): Array[Array[Int]] = {
 
-    val (pixelValues, imageSizes) = images
+    val (pixelValues, imageSizes, imgTokens) = images
     val ignoreTokenIdsInt = ignoreTokenIds
     val expandedDecoderInputsVals = batch
     val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
@@ -164,10 +238,7 @@ private[johnsnowlabs] class Phi3V(
 
     var generatedIds: Array[Array[Int]] = Array()
     var decoderInputIdsCopied = decoderInputIds
-    while (!greedyGenerationFinished(
-        generatedIds.map(_.map(_.toInt)),
-        eosTokenId,
-        maxOutputLength)) {
+    while (!greedyGenerationFinished(generatedIds, eosTokenId, maxOutputLength)) {
       val decoderOutputs = getModelOutputs(
         encoderInputIds,
         decoderInputIdsCopied,
@@ -182,10 +253,14 @@ private[johnsnowlabs] class Phi3V(
         argmax(scores)
       }
 
-      generatedIds =
-        generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
-          currentIds ++ Array(nextId)
-        }
+      if (generatedIds.isEmpty) {
+        generatedIds = nextTokenIds.map(Array(_))
+      } else {
+        generatedIds =
+          generatedIds.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
+            currentIds ++ Array(nextId)
+          }
+      }
 
       // extend decoder input ids
       decoderInputIdsCopied =
@@ -217,7 +292,7 @@ private[johnsnowlabs] class Phi3V(
     val (pixelValues, imageSizes, imgTokens) = preprocessedImages
     val tagged = tag(
       encodedText,
-      (pixelValues, imageSizes),
+      preprocessedImages,
       minOutputLength,
       maxOutputLength,
       doSample,
@@ -232,6 +307,7 @@ private[johnsnowlabs] class Phi3V(
       maxInputLength,
       Array(eosTokenId))
     val decoded = decode(tagged)
+
     var sentBegin, nextSentEnd = 0
     val annotations = decoded.map { content =>
       nextSentEnd += content.length - 1
@@ -320,13 +396,6 @@ private[johnsnowlabs] class Phi3V(
     decoderOutputs.toArray
   }
 
-  def encodeText(sentences: Seq[Annotation]): Seq[Array[Int]] = {
-    sentences.map(s => {
-      val sentWithTask = "_" + s.result
-      Array(bosTokenId) ++ spp.getSppModel.encodeAsIds(sentWithTask)
-    })
-  }
-
   private def argmax(scores: Array[Float]): Int =
     scores.zipWithIndex.maxBy { case (score, _) =>
       score
@@ -335,10 +404,17 @@ private[johnsnowlabs] class Phi3V(
   private def greedyGenerationFinished(
       decoderIds: Seq[Array[Int]],
       eosTokenId: Int,
-      maxOutputLength: Int): Boolean =
-    decoderIds.map(_.last).forall(_ == eosTokenId) || decoderIds.head.length == maxOutputLength
+      maxOutputLength: Int): Boolean = {
+    if (decoderIds.isEmpty) {
+      false
+    } else {
+      decoderIds.forall { ids =>
+        ids.length >= maxOutputLength || ids.last == eosTokenId
+      }
+    }
+  }
 
-  def preprocessImage(imageAnnotations: Seq[AnnotationImage], numOfCrops: Int = 17)
+  def preprocessImage(imageAnnotations: Seq[AnnotationImage], numOfCrops: Int = 16)
       : (Array[Array[Array[Array[Array[Float]]]]], Array[Array[Int]], List[Int]) = {
 
     val hdTransformedImage = imageAnnotations
@@ -387,11 +463,11 @@ private[johnsnowlabs] class Phi3V(
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
         val pixelValuesTensor: org.intel.openvino.Tensor =
           new org.intel.openvino.Tensor(
-            Array(batchSize, numOfCrops, 3, 336, 336),
+            Array(batchSize, numOfCrops + 1, 3, 336, 336),
             pixelValues.flatten.flatten.flatten.flatten.map(_.toFloat))
 
         val imageSizesTensor: org.intel.openvino.Tensor =
-          new org.intel.openvino.Tensor(Array(batchSize, 2), imageSizes.flatten.map(_.toFloat))
+          new org.intel.openvino.Tensor(Array(batchSize, 2), imageSizes.flatten.map(_.toLong))
         inferRequestReshape.set_tensor("input_ids", inputIdsLongTensor)
         inferRequestReshape.set_tensor("pixel_values", pixelValuesTensor)
         inferRequestReshape.set_tensor("image_sizes", imageSizesTensor)
@@ -401,11 +477,11 @@ private[johnsnowlabs] class Phi3V(
         inferRequestReshape.get_output_tensor()
 
       } else {
-        inferRequestWTE.set_tensor("input_ids", inputIdsLongTensor)
+        inferRequestWTE.set_input_tensor(inputIdsLongTensor)
 
         inferRequestWTE.infer()
 
-        inferRequestReshape.get_output_tensor()
+        inferRequestWTE.get_output_tensor()
       }
     imageEmbeddings
   }
