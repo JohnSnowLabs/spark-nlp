@@ -25,35 +25,31 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{Openvino}
+import com.johnsnowlabs.ml.util.Openvino
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE}
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.RegexTokenizer
-import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import org.json4s.{DefaultFormats, JValue}
 import org.json4s.jackson.JsonMethods.parse
-//import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BertTokenizer, SpecialTokens}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.Phi3VWrappers
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.IntArrayParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** Phi3Vision can load BLIP models for visual question answering. The model consists of a vision
-  * encoder, a text encoder as well as a text decoder. The vision encoder will encode the input
-  * image, the text encoder will encode the input question together with the encoding of the
+/** Phi3Vision can load Phi3 Vision models for visual question answering. The model consists of a
+  * vision encoder, a text encoder as well as a text decoder. The vision encoder will encode the
+  * input image, the text encoder will encode the input question together with the encoding of the
   * image, and the text decoder will output the answer to the question.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val visualQAClassifier = Phi3Vision.pretrained()
+  * val visualQA = Phi3Vision.pretrained()
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"blip_vqa_base"`, if no name is provided.
+  * The default model is `"phi3v"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -76,7 +72,7 @@ import org.apache.spark.sql.SparkSession
   *  .option("dropInvalid", value = true)
   *  .load(imageFolder)
   *
-  * val testDF: DataFrame = imageDF.withColumn("text", lit("What's this picture about?"))
+  * val testDF: DataFrame = imageDF.withColumn("text", lit("<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n"))
   *
   * val imageAssembler: ImageAssembler = new ImageAssembler()
   *   .setInputCol("image")
@@ -97,7 +93,7 @@ import org.apache.spark.sql.SparkSession
   * +--------------------------------------+------+
   * |origin                                |result|
   * +--------------------------------------+------+
-  * |[file:///content/images/cat_image.jpg]|[cats]|
+  * |[file:///content/images/cat_image.jpg]|[The unusual aspect of this picture is the presence of two cats lying on a pink couch]|
   * +--------------------------------------+------+
   * }}}
   *
@@ -272,9 +268,9 @@ class Phi3Vision(override val uid: String)
       batchedAnnotations: Seq[Array[AnnotationImage]]): Seq[Seq[Annotation]] = {
 
     batchedAnnotations
-      .filter { annotationImages =>
-        annotationImages.exists(_.text.nonEmpty)
-      }
+//      .filter { annotationImages =>
+//        annotationImages.exists(_.text.nonEmpty)
+//      }
       .map { cleanAnnotationImages =>
         val validImages = cleanAnnotationImages.filter(_.result.nonEmpty)
         val questionAnnotations = extractInputAnnotation(validImages)
@@ -300,20 +296,42 @@ class Phi3Vision(override val uid: String)
 
   private def extractInputAnnotation(
       annotationImages: Array[AnnotationImage]): Seq[Annotation] = {
-    val questions = annotationImages.map(annotationImage => Annotation(annotationImage.text))
+    val questions = annotationImages.map(annotationImage => {
+      val imageText =
+        if (annotationImage.text.nonEmpty) annotationImage.text
+        else
+          "<|user|> \n <|image_1|> This is an image\n <|end|>\n <|assistant|>\n" // default question
+      Annotation(imageText)
+    })
 
     questions
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-//    writeTensorflowModelV2(
-//      path,
-//      spark,
-//      getModelIfNotSet.tensorflowWrapper,
-//      "_image_qa",
-//      Phi3Vision.tfFile,
-//      configProtoBytes = getConfigProtoBytes)
+    getEngine match {
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.reshape, "reshape_model.xml")),
+          Phi3Vision.suffix)
+
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.wte, "wte_model.xml")),
+          Phi3Vision.suffix)
+
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.languageModel, "language_model.xml")),
+          Phi3Vision.suffix)
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
 }
@@ -322,7 +340,7 @@ trait ReadablePretrainedPhi3Vision
     extends ParamsAndFeaturesReadable[Phi3Vision]
     with HasPretrained[Phi3Vision] {
 
-  override val defaultModelName: Some[String] = Some("blip_vqa_base")
+  override val defaultModelName: Some[String] = Some("phi3v")
 
   /** Java compliant-overrides */
   override def pretrained(): Phi3Vision = super.pretrained()

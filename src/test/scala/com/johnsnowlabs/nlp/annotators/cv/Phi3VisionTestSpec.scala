@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -29,124 +29,128 @@ class Phi3VisionTestSpec extends AnyFlatSpec {
 
   lazy val model = getBLIPForQuestionAnsweringPipelineModel
 
-//  "BLIP" should "answer a question for a given image" taggedAs FastTest in {
-//
-//    val testDF = getTestDF
-//    val result = model.transform(testDF)
-//
-//    val answerAnnotation = AssertAnnotations.getActualResult(result, "answer")
-//
-//    answerAnnotation.foreach { annotation =>
-//      annotation.foreach(a => assert(a.result.nonEmpty))
-//    }
-//
-//    answerAnnotation.foreach { annotation =>
-//      annotation.foreach(a => println(a.result))
-//    }
-//
-//  }
+  "BLIP" should "answer a question for a given image" taggedAs SlowTest in {
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+    val testDF = getTestDF
+    val result = model.transform(testDF)
+
+    val answerAnnotation = AssertAnnotations.getActualResult(result, "answer")
+
+    answerAnnotation.foreach { annotation =>
+      annotation.foreach(a => assert(a.result.nonEmpty))
+    }
+
+    answerAnnotation.foreach { annotation =>
+      annotation.foreach(a => println(a.result))
+    }
+
+  }
+
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"
     val resultAnnotate =
       lightPipeline.annotate(
         imagePath,
-        "<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n")
+        "<|user|> \n <|image_1|> \n What is unusual on this picture? <|end|>\n <|assistant|>\n")
     println(s"resultAnnotate: $resultAnnotate")
 
     assert(resultAnnotate("answer").head.contains("cat"))
   }
-//
-//  it should "work with light pipeline full annotate" taggedAs SlowTest in {
-//    val lightPipeline = new LightPipeline(model)
-//    val imagePath = "src/test/resources/image/bluetick.jpg"
-//    val resultFullAnnotate =
-//      lightPipeline.fullAnnotateImage(imagePath, "What's this picture about?")
-//
-//    val answerAnnotation = resultFullAnnotate("answer").head.asInstanceOf[Annotation]
-//
-//    println(s"imageName.result: ${answerAnnotation.result}")
-//    assert(answerAnnotation.result.nonEmpty)
-//  }
 
-//  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
-//    val lightPipeline = new LightPipeline(model)
-//    val imagesPath = Array(
-//      "src/test/resources/image/bluetick.jpg",
-//      "src/test/resources/image/chihuahua.jpg",
-//      "src/test/resources/image/egyptian_cat.jpeg")
-//    val question = "What's this picture about?"
-//    val questions = Array(question, "", question)
-//
-//    val resultFullAnnotate = lightPipeline.fullAnnotateImages(imagesPath, questions)
-//
-//    resultFullAnnotate.zip(imagesPath).foreach { case (annotateMap, imagePath) =>
-//      imagePath match {
-//        case "src/test/resources/image/chihuahua.jpg" =>
-//          // For the chihuahua image, the annotateMap should be empty because the question is empty
-//          assert(
-//            annotateMap.isEmpty,
-//            s"Expected empty map for image: $imagePath, but got: $annotateMap")
-//
-//        case _ =>
-//          assert(annotateMap.nonEmpty, s"Expected non-empty map for image: $imagePath")
-//
-//          annotateMap.get("answer") match {
-//            case Some(annotations) =>
-//              annotations.foreach { iAnnotation =>
-//                val annotation = iAnnotation.asInstanceOf[Annotation]
-//                assert(
-//                  annotation.result.nonEmpty,
-//                  s"Expected non-empty result for image: $imagePath, but got empty result")
-//              }
-//            case None =>
-//              fail(s"'answer' key not found in annotateMap for image: $imagePath")
-//          }
-//      }
-//    }
-//  }
+  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/image/bluetick.jpg"
+    val resultFullAnnotate =
+      lightPipeline.fullAnnotateImage(
+        imagePath,
+        "<|user|> \n <|image_1|> \n What's this picture about? <|end|>\n <|assistant|>\n")
 
-//  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
-//    val lightPipeline = new LightPipeline(model)
-//    val imagesPath = Array(
-//      "src/test/resources/image/bluetick.jpg",
-//      "src/test/resources/image/chihuahua.jpg",
-//      "src/test/resources/image/egyptian_cat.jpeg")
-//    val question = "What's this picture about?"
-//    val questions = Array(question, "", question)
-//
-//    val resultAnnotate = lightPipeline.annotate(imagesPath, questions)
-//
-//    resultAnnotate.foreach { annotate =>
-//      println(s"annotate: $annotate")
-//    }
-//
-//    resultAnnotate.zip(imagesPath).foreach { case (annotateMap, imagePath) =>
-//      imagePath match {
-//        case "src/test/resources/image/chihuahua.jpg" =>
-//          // For the chihuahua image, the annotateMap should be empty because the question is empty
-//          assert(
-//            annotateMap.isEmpty,
-//            s"Expected empty map for image: $imagePath, but got: $annotateMap")
-//
-//        case _ =>
-//          assert(annotateMap.nonEmpty, s"Expected non-empty map for image: $imagePath")
-//
-//          annotateMap.get("answer") match {
-//            case Some(annotations) =>
-//              annotations.foreach { annotation =>
-//                assert(
-//                  annotation.nonEmpty,
-//                  s"Expected non-empty result for image: $imagePath, but got empty result")
-//              }
-//            case None =>
-//              fail(s"'answer' key not found in annotateMap for image: $imagePath")
-//          }
-//      }
-//    }
-//
-//  }
+    val answerAnnotation = resultFullAnnotate("answer").head.asInstanceOf[Annotation]
+
+    println(s"imageName.result: ${answerAnnotation.result}")
+    assert(answerAnnotation.result.nonEmpty)
+  }
+
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagesPath = Array(
+      "src/test/resources/image/bluetick.jpg",
+      "src/test/resources/image/chihuahua.jpg",
+      "src/test/resources/image/egyptian_cat.jpeg")
+    val question =
+      "<|user|> \n <|image_1|> \n What's this picture about? <|end|>\n <|assistant|>\n"
+    val questions = Array(question, "", question)
+
+    val resultFullAnnotate = lightPipeline.fullAnnotateImages(imagesPath, questions)
+
+    resultFullAnnotate.zip(imagesPath).foreach { case (annotateMap, imagePath) =>
+      imagePath match {
+        case "src/test/resources/image/chihuahua.jpg" =>
+          // For the chihuahua image, the annotateMap should be empty because the question is empty
+          assert(
+            annotateMap.nonEmpty,
+            s"Expected empty map for image: $imagePath, but got: $annotateMap")
+
+        case _ =>
+          assert(annotateMap.nonEmpty, s"Expected non-empty map for image: $imagePath")
+
+          annotateMap.get("answer") match {
+            case Some(annotations) =>
+              annotations.foreach { iAnnotation =>
+                val annotation = iAnnotation.asInstanceOf[Annotation]
+                assert(
+                  annotation.result.nonEmpty,
+                  s"Expected non-empty result for image: $imagePath, but got empty result")
+              }
+            case None =>
+              fail(s"'answer' key not found in annotateMap for image: $imagePath")
+          }
+      }
+    }
+  }
+
+  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagesPath = Array(
+      "src/test/resources/image/bluetick.jpg",
+      "src/test/resources/image/chihuahua.jpg",
+      "src/test/resources/image/egyptian_cat.jpeg")
+    val question =
+      "<|user|> \n <|image_1|> \n What's this picture about? <|end|>\n <|assistant|>\n"
+    val questions = Array(question, "", question)
+
+    val resultAnnotate = lightPipeline.annotate(imagesPath, questions)
+
+    resultAnnotate.foreach { annotate =>
+      println(s"annotate: $annotate")
+    }
+
+    resultAnnotate.zip(imagesPath).foreach { case (annotateMap, imagePath) =>
+      imagePath match {
+        case "src/test/resources/image/chihuahua.jpg" =>
+          // For the chihuahua image, the annotateMap should be empty because the question is empty
+          assert(
+            annotateMap.nonEmpty,
+            s"Expected empty map for image: $imagePath, but got: $annotateMap")
+
+        case _ =>
+          assert(annotateMap.nonEmpty, s"Expected non-empty map for image: $imagePath")
+
+          annotateMap.get("answer") match {
+            case Some(annotations) =>
+              annotations.foreach { annotation =>
+                assert(
+                  annotation.nonEmpty,
+                  s"Expected non-empty result for image: $imagePath, but got empty result")
+              }
+            case None =>
+              fail(s"'answer' key not found in annotateMap for image: $imagePath")
+          }
+      }
+    }
+
+  }
 
   private def getBLIPForQuestionAnsweringPipelineModel = {
     val testDF = getTestDF
@@ -156,12 +160,9 @@ class Phi3VisionTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = Phi3Vision
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/Phi-3.5-vision/model/INT4",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
-//      .setSize(384)
 
     val newPipeline: Pipeline =
       new Pipeline().setStages(Array(imageAssembler, loadModel))
@@ -176,7 +177,9 @@ class Phi3VisionTestSpec extends AnyFlatSpec {
       .option("dropInvalid", value = true)
       .load(imageFolder)
 
-    val testDF: DataFrame = imageDF.withColumn("text", lit("What's this picture about?"))
+    val testDF: DataFrame = imageDF.withColumn(
+      "text",
+      lit("<|user|> \n <|image_1|> \n What's this picture about? <|end|>\n <|assistant|>\n"))
 
     testDF
   }

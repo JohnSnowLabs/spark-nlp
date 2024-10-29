@@ -189,7 +189,6 @@ private[johnsnowlabs] object Phi3vUtils {
   def concatenateImages(
       globalImage: BufferedImage,
       localImages: List[BufferedImage]): BufferedImage = {
-    println(localImages.size)
     val totalWidth = 336 * localImages.size + 336
     val totalHeight = 336
     val concatenatedImage = new BufferedImage(totalWidth, totalHeight, BufferedImage.TYPE_INT_RGB)
