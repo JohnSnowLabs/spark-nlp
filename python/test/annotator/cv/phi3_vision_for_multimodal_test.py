@@ -34,7 +34,7 @@ class Phi3VisionTestSetup(unittest.TestCase):
 
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
-        imageClassifier = Phi3Vision.loadSavedModel("/mnt/research/Projects/ModelZoo/Phi-3.5-vision/model/INT4", self.spark) \
+        imageClassifier = Phi3Vision.pretrained() \
             .setInputCols("image_assembler") \
             .setOutputCol("answer")
 
