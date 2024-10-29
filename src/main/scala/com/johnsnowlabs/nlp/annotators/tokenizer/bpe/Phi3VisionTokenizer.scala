@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common.IndexedToken
 import java.nio.charset.Charset
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
+import scala.collection.mutable
 
 class Phi3VisionTokenizer(
     merges: Map[(String, String), Int],
@@ -89,24 +90,22 @@ class Phi3VisionTokenizer(
   }
 
   def decodeTokens(tokens: Array[Int]): String = {
-    var text = tokens
-      .map(token => decoderVocab(token))
-      .filter(x => !specialTokens.contains(x))
-      .mkString("")
-
-    text = text.replaceAll("▁", " ").trim()
-
-    text =
-      try {
-        val bytes =
-          text.map(x => unicodeToByteMapping(x.toString)).map(x => x.toByte).toArray
-        new String(bytes, Charset.forName("UTF-8"))
-      } catch {
-        case e: Exception =>
-          {}
-          // Do nothing, just return the text
-          text
+    val decoded = new mutable.StringBuilder()
+    tokens.foreach { token =>
+      {
+        val decodedToken = decoderVocab(token)
+        if (!specialTokens.contains(decodedToken)) {
+          if (decodedToken.startsWith("<0x") && decodedToken.endsWith(">")) {
+            val strippedHex = decodedToken.replaceAll("<0x|>", "")
+            val byteValue = Integer.parseInt(strippedHex, 16)
+            decoded.append(byteValue.toChar)
+          } else {
+            decoded.append(decodedToken)
+          }
+        }
       }
-    text
+
+    }
+    decoded.toString().replaceAll(decoderVocab(29871), " ").trim()
   }
 }
