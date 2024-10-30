@@ -20,7 +20,7 @@ class Phi3Vision(AnnotatorModel,
                                HasEngine,
                                HasCandidateLabelsProperties,
                                HasRescaleFactor):
-    """BLIPForQuestionAnswering can load BLIP models  for visual question answering.
+    """Phi3Vision can load Phi3Vision models  for visual question answering.
     The model consists of a vision encoder, a text encoder as well as a text decoder.
     The vision encoder will encode the input image, the text encoder will encode the input question together
     with the encoding of the image, and the text decoder will output the answer to the question.
@@ -28,11 +28,11 @@ class Phi3Vision(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> visualQAClassifier = BLIPForQuestionAnswering.pretrained() \\
+    >>> visualQAClassifier = Phi3Vision.pretrained() \\
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"blip_vqa_base"``, if no name is
+    The default model is ``"phi3v"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -65,14 +65,13 @@ class Phi3Vision(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
-    >>> test_df = image_df.withColumn("text", lit("What's this picture about?"))
+    >>> test_df = image_df.withColumn("text", lit("<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n"))
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-    >>> visualQAClassifier = BLIPForQuestionAnswering.pretrained() \\
+    >>> visualQAClassifier = Phi3Vision.pretrained() \\
     ...     .setInputCols("image_assembler") \\
-    ...     .setOutputCol("answer") \\
-    ...     .setSize(384)
+    ...     .setOutputCol("answer")
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,
     ...     visualQAClassifier
@@ -82,7 +81,7 @@ class Phi3Vision(AnnotatorModel,
     +--------------------------------------+------+
     |origin                                |result|
     +--------------------------------------+------+
-    |[file:///content/images/cat_image.jpg]|[cats]|
+    |[file:///content/images/cat_image.jpg]|[The unusual aspect of this picture is the presence of two cats lying on a pink couch]|
     +--------------------------------------+------+
     """
 
@@ -313,7 +312,7 @@ class Phi3Vision(AnnotatorModel,
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "blip_vqa_tf"
+            "phi3v"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
