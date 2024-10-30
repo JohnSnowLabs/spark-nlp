@@ -27,9 +27,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class Phi3VisionTestSpec extends AnyFlatSpec {
 
-  lazy val model = getBLIPForQuestionAnsweringPipelineModel
+  lazy val model = getPhi3VisionPipelineModel
 
-  "BLIP" should "answer a question for a given image" taggedAs SlowTest in {
+  "Phi3Vision" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -152,7 +152,7 @@ class Phi3VisionTestSpec extends AnyFlatSpec {
 
   }
 
-  private def getBLIPForQuestionAnsweringPipelineModel = {
+  private def getPhi3VisionPipelineModel = {
     val testDF = getTestDF
 
     val imageAssembler: ImageAssembler = new ImageAssembler()
@@ -163,6 +163,7 @@ class Phi3VisionTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
+      .setMaxOutputLength(50)
 
     val newPipeline: Pipeline =
       new Pipeline().setStages(Array(imageAssembler, loadModel))
