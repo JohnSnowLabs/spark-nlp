@@ -4,13 +4,13 @@ title: English gemma_2_2b_it_q3_k_l AutoGGUFModel from lmstudio-community
 author: John Snow Labs
 name: gemma_2_2b_it_q3_k_l
 date: 2024-10-29
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, onnx, conversational, text_generation, text_to_text, tensorflow]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1
 spark_version: 3.0
 supported: true
-engine: llamacpp
+engine: tensorflow
 annotator: AutoGGUFModel
 article_header:
   type: cover
@@ -24,8 +24,8 @@ Pretrained AutoGGUFModel model, adapted from Hugging Face and curated to provide
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q3_k_l_en_5.5.1_3.0_1730229375329.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q3_k_l_en_5.5.1_3.0_1730229375329.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q3_k_l_en_5.5.1_3.0_1730198674631.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q3_k_l_en_5.5.1_3.0_1730198674631.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

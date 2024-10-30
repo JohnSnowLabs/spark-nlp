@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Multilingual llama_3.2_3b_instruct_q6_k AutoGGUFModel from lmstudio-community
+title: English gemma_2_2b_it_q4_k_m AutoGGUFModel from lmstudio-community
 author: John Snow Labs
-name: llama_3.2_3b_instruct_q6_k
-date: 2024-10-29
-tags: [xx, open_source, onnx, conversational, text_generation, text_to_text, en, de, fr, it, pt, hi, es, th, tensorflow]
+name: gemma_2_2b_it_q4_k_m
+date: 2024-10-10
+tags: [en, open_source, onnx, conversational, text_generation, text_to_text, tensorflow]
 task: Text Generation
-language: xx
-edition: Spark NLP 5.5.1
+language: en
+edition: Spark NLP 5.5.0
 spark_version: 3.0
 supported: true
 engine: tensorflow
@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained AutoGGUFModel model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`llama_3.2_3b_instruct_q6_k` is a Multilingual model prepared by lmstudio-community.
+Pretrained AutoGGUFModel model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`gemma_2_2b_it_q4_k_m` is a English model prepared by lmstudio-community.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/llama_3.2_3b_instruct_q6_k_xx_5.5.1_3.0_1730200181182.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/llama_3.2_3b_instruct_q6_k_xx_5.5.1_3.0_1730200181182.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q4_k_m_en_5.5.0_3.0_1728575388230.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/gemma_2_2b_it_q4_k_m_en_5.5.0_3.0_1728575388230.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -39,7 +39,7 @@ document = DocumentAssembler() \
        .setInputCol("text") \
        .setOutputCol("document")
     
-autoGGUFModel = AutoGGUFModel.pretrained("llama_3.2_3b_instruct_q6_k","xx") \
+autoGGUFModel = AutoGGUFModel.pretrained("gemma_2_2b_it_q4_k_m","en") \
     .setInputCols(["document"]) \
     .setOutputCol("completions") \
     .setBatchSize(4) \
@@ -62,7 +62,7 @@ val document = new DocumentAssembler()
      .setInputCol("text")
      .setOutputCol("document")
     
-val autoGGUFModel = AutoGGUFModel.pretrained("llama_3.2_3b_instruct_q6_k", "xx")
+val autoGGUFModel = AutoGGUFModel.pretrained("gemma_2_2b_it_q4_k_m", "en")
   .setInputCols("document")
   .setOutputCol("completions")
   .setBatchSize(4)
@@ -87,15 +87,15 @@ result.select("completions").show(truncate = false)
 
 {:.table-model}
 |---|---|
-|Model Name:|llama_3.2_3b_instruct_q6_k|
-|Compatibility:|Spark NLP 5.5.1+|
+|Model Name:|gemma_2_2b_it_q4_k_m|
+|Compatibility:|Spark NLP 5.5.0+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document]|
 |Output Labels:|[completions]|
-|Language:|xx|
-|Size:|2.6 GB|
+|Language:|en|
+|Size:|1.7 GB|
 
 ## References
 
-https://huggingface.co/lmstudio-community/Llama-3.2-3B-Instruct-GGUF
+https://huggingface.co/lmstudio-community/gemma-2-2b-it-GGUF
