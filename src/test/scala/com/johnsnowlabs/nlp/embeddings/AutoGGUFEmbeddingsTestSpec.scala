@@ -16,7 +16,10 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     .setOutputCol("document")
 
   lazy val data = Seq(
-    "The moons of Jupiter are " // "The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones. The four"
+    "The moons of Jupiter are ", // "The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones. The four"
+    "Earth is ", // "Earth is 4.5 billion years old. It has been home to countless species, some of which have gone extinct, while others have evolved into"
+    "The moon is ", // "The moon is 1/400th the size of the sun. The sun is 1.39 million kilometers in diameter, while"
+    "The sun is " //
   ).toDF("text").repartition(1)
 
   // nomic-embed-text-v1.5.f16.gguf
@@ -32,12 +35,15 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
 
   it should "produce embeddings" in {
     val result = pipeline().fit(data).transform(data)
-    val embeddings: Array[Float] = Annotation.collect(result, "embeddings").head.head.embeddings
+    val collected = Annotation.collect(result, "embeddings")
 
-    assert(embeddings != null, "embeddings should not be null")
-    assert(
-      embeddings.sum > 0.0,
-      "embeddings should not be zero. Was there an error on llama.cpp side?")
+    collected.foreach { annotations =>
+      val embeddings = annotations.head.embeddings
+      assert(embeddings != null, "embeddings should not be null")
+      assert(
+        embeddings.sum > 0.0,
+        "embeddings should not be zero. Was there an error on llama.cpp side?")
+    }
   }
 
   it should "produce embeddings of different pooling types" in {
