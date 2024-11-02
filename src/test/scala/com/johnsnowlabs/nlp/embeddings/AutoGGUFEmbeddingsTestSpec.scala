@@ -3,6 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -33,7 +34,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")) =
     new Pipeline().setStages(Array(documentAssembler, embedModel))
 
-  it should "produce embeddings" in {
+  it should "produce embeddings" taggedAs SlowTest in {
     val result = pipeline().fit(data).transform(data)
     val collected = Annotation.collect(result, "embeddings")
 
@@ -46,7 +47,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "produce embeddings of different pooling types" in {
+  it should "produce embeddings of different pooling types" taggedAs SlowTest in {
     def testPoolingType(poolingType: String): Unit = {
       val result = pipeline(model(poolingType)).fit(data).transform(data)
       val embeddings: Array[Float] = Annotation.collect(result, "embeddings").head.head.embeddings
@@ -58,5 +59,28 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     Seq("NONE", "MEAN", "CLS", "LAST").foreach(testPoolingType)
+  }
+
+  it should "be serializable" taggedAs SlowTest in {
+
+    val data = Seq("Hello, I am a").toDF("text")
+    lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model("MEAN")))
+
+    val pipelineModel = pipeline.fit(data)
+    val savePath = "./tmp_autogguf_model"
+    pipelineModel.stages.last
+      .asInstanceOf[AutoGGUFEmbeddings]
+      .write
+      .overwrite()
+      .save(savePath)
+
+    val loadedModel = AutoGGUFEmbeddings.load(savePath)
+    val newPipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler, loadedModel))
+
+    newPipeline
+      .fit(data)
+      .transform(data)
+      .select("embeddings.embeddings")
+      .show(truncate = false)
   }
 }
