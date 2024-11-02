@@ -38,7 +38,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("embeddings")
   * }}}
-  * The default model is `"nomic-embed-text-v1.5.f16.gguf"`, if no name is provided.
+  * The default model is `"nomic-embed-text-v1.5.Q8_0.gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -191,7 +191,7 @@ class AutoGGUFEmbeddings(override val uid: String)
 trait ReadablePretrainedAutoGGUFEmbeddings
     extends ParamsAndFeaturesReadable[AutoGGUFEmbeddings]
     with HasPretrained[AutoGGUFEmbeddings] {
-  override val defaultModelName: Some[String] = Some("nomic-embed-text-v1.5.f16.gguf")
+  override val defaultModelName: Some[String] = Some("nomic-embed-text-v1.5.Q8_0.gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

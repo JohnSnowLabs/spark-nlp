@@ -20,7 +20,7 @@ val autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained()
   .setOutputCol("embeddings")
 ```
 
-The default model is `"nomic-embed-text-v1.5.f16.gguf"`, if no name is provided.
+The default model is `"nomic-embed-text-v1.5.Q8_0.gguf"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 

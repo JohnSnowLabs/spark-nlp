@@ -23,9 +23,9 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     "The sun is " //
   ).toDF("text").repartition(1)
 
-  // nomic-embed-text-v1.5.f16.gguf
+  // nomic-embed-text-v1.5.Q8_0.gguf
   def model(poolingType: String): AutoGGUFEmbeddings = AutoGGUFEmbeddings
-    .loadSavedModel("models/nomic-embed-text-v1.5.f16.gguf", ResourceHelper.spark)
+    .pretrained()
     .setInputCols("document")
     .setOutputCol("embeddings")
     .setBatchSize(4)

@@ -42,10 +42,7 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
 
     def runTest(self):
         model = (
-            # AutoGGUFEmbeddings.pretrained()
-            AutoGGUFEmbeddings.loadSavedModel(
-                "models/nomic-embed-text-v1.5.f16.gguf", SparkContextForTest.spark
-            )
+            AutoGGUFEmbeddings.pretrained()
             .setInputCols("document")
             .setOutputCol("embeddings")
             .setBatchSize(4)
@@ -88,7 +85,7 @@ class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
         model = (
             # AutoGGUFEmbeddings.pretrained()
             AutoGGUFEmbeddings.loadSavedModel(
-                "models/nomic-embed-text-v1.5.f16.gguf", SparkContextForTest.spark
+                "models/nomic-embed-text-v1.5.Q8_0.gguf", SparkContextForTest.spark
             )
             .setInputCols("document")
             .setOutputCol("embeddings")
