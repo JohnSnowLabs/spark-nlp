@@ -1006,3 +1006,8 @@ class _SnowFlakeEmbeddingsLoader(ExtendedJavaWrapper):
         super(_SnowFlakeEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings.loadSavedModel", path, jspark
         )
+
+class _AutoGGUFEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AutoGGUFEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings.loadSavedModel", path, jspark)

@@ -478,7 +478,7 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
     @keyword_only
     def __init__(
         self,
-        classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFEmbeddings",
+        classname="com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings",
         java_model=None,
     ):
         super(AutoGGUFEmbeddings, self).__init__(
@@ -507,9 +507,9 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         AutoGGUFEmbeddings
             The restored model
         """
-        from sparknlp.internal import _AutoGGUFLoader
+        from sparknlp.internal import _AutoGGUFEmbeddingsLoader
 
-        jModel = _AutoGGUFLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _AutoGGUFEmbeddingsLoader(folder, spark_session._jsparkSession)._java_obj
         return AutoGGUFEmbeddings(java_model=jModel)
 
     @staticmethod
