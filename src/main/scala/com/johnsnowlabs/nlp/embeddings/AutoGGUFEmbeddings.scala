@@ -135,7 +135,12 @@ class AutoGGUFEmbeddings(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
-  setDefault(engine -> LlamaCPP.name, embedding -> true, poolingType -> "MEAN", nCtx -> 512)
+  setDefault(
+    engine -> LlamaCPP.name,
+    embedding -> true,
+    poolingType -> "MEAN",
+    nCtx -> 4096,
+    nBatch -> 512)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
