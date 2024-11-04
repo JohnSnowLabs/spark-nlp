@@ -156,7 +156,8 @@ lazy val utilDependencies = Seq(
     exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor"),
   greex,
   azureIdentity,
-  azureStorage)
+  azureStorage,
+  jsoup)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

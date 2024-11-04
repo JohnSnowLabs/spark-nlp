@@ -134,5 +134,8 @@ object Dependencies {
   val llamaCppSilicon = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-silicon" % llamaCppVersion
   val llamaCppAarch64 = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-aarch64" % llamaCppVersion
 
+  val jsoupVersion = "1.18.1"
+  val jsoup = "org.jsoup" % "jsoup" % jsoupVersion
+
   /** ------- Dependencies end  ------- */
 }

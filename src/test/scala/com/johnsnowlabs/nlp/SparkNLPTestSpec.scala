@@ -1,7 +1,23 @@
+/*
+ * Copyright 2017-2024 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.ConfigHelper.{awsJavaSdkVersion, hadoopAwsVersion}
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SparkNLPTestSpec extends AnyFlatSpec {
@@ -26,4 +42,40 @@ class SparkNLPTestSpec extends AnyFlatSpec {
       assert(spark.conf.get("spark.jars.packages").contains(pkg))
     }
   }
+
+  it should "structure HTML files" taggedAs FastTest in {
+    val htmlFilePath = "./src/test/resources/reader/html/example-10k.html"
+    val htmlDF = SparkNLP.read.html(htmlFilePath)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+  }
+
+  it should "structure HTML files with params" taggedAs FastTest in {
+    val htmlFilePath = "./src/test/resources/reader/html/example-10k.html"
+    val params = Map("titleFontSize" -> "10")
+    val htmlDF = SparkNLP.read(params).html(htmlFilePath)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+  }
+
+  it should "structure HTML in real time" taggedAs FastTest in {
+    val htmlFilePath = "https://www.wikipedia.org"
+    val htmlDF = SparkNLP.read.html(htmlFilePath)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+  }
+
+  it should "rise an exception when HTML file is invalid" taggedAs FastTest in {
+    val htmlFilePath = ""
+
+    val htmlDF = SparkNLP.read.html(htmlFilePath)
+
+    assertThrows[Exception] {
+      htmlDF.show()
+    }
+  }
+
 }
