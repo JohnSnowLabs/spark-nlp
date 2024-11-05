@@ -15,6 +15,38 @@ from sparknlp.internal import ExtendedJavaWrapper
 
 
 class SparkNLPReader(ExtendedJavaWrapper):
+    """Instantiates class to read HTML files.
+
+    Two types of input paths are supported,
+
+    htmlPath: this is a path to a directory of HTML files or a path to an HTML file
+    E.g. "path/html/files"
+
+    url: this is the URL or set of URLs of a website  . E.g., "https://www.wikipedia.org"
+
+    Parameters
+    ----------
+    params : spark
+        Spark session
+    params : dict, optional
+        Parameter with custom configuration
+
+    Examples
+    --------
+    >>> from sparknlp.reader import SparkNLPReader
+    >>> html_df = SparkNLPReader().html(spark, "https://www.wikipedia.org")
+    >>> html_df.show(truncate=False)
+    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |url                 |html                                                                                                                                                                                                                                                                                                                            |
+    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |https://example.com/|[{Title, 0, Example Domain, {pageNumber -> 1}}, {NarrativeText, 0, This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission., {pageNumber -> 1}}, {NarrativeText, 0, More information... More information..., {pageNumber -> 1}}]|
+    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+    >>> import sparknlp
+    >>> html_df = sparknlp.read().html("https://www.wikipedia.org")
+    >>> html_df.show(truncate=False)
+
+    """
 
     def __init__(self, spark, params=None):
         if params is None:

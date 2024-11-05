@@ -248,7 +248,8 @@ class HTMLReader(titleFontSize: Int = 16) extends Serializable {
   }
 
   private def isTextElement(elem: Element): Boolean = {
-    elem.attr("style").toLowerCase.contains("text") && !isFormattedAsTitle(elem)
+    !isFormattedAsTitle(elem) &&
+    (elem.attr("style").toLowerCase.contains("text") || elem.tagName().toLowerCase == "p")
   }
 
   private def isTitleElement(elem: Element): Boolean = {

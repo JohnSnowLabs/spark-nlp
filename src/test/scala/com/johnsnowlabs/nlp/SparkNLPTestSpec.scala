@@ -51,7 +51,7 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structure HTML files with params" taggedAs FastTest in {
+  it should "structured HTML files with params" taggedAs FastTest in {
     val htmlFilePath = "./src/test/resources/reader/html/example-10k.html"
     val params = Map("titleFontSize" -> "10")
     val htmlDF = SparkNLP.read(params).html(htmlFilePath)
@@ -60,9 +60,17 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structure HTML in real time" taggedAs FastTest in {
-    val htmlFilePath = "https://www.wikipedia.org"
-    val htmlDF = SparkNLP.read.html(htmlFilePath)
+  it should "structured HTML in real time" taggedAs FastTest in {
+    val url = "https://www.wikipedia.org"
+    val htmlDF = SparkNLP.read.html(url)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+  }
+
+  it should "structured HTML in real time for a set of URLs" taggedAs FastTest in {
+    val urls = Array("https://www.wikipedia.org", "https://example.com/")
+    val htmlDF = SparkNLP.read.html(urls)
     htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
