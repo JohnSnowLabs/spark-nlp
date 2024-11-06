@@ -160,9 +160,7 @@ class LLAVAForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = LLAVAForMultiModal
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/LLAVA/llava-1.5-7b-hf/INT4",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)
