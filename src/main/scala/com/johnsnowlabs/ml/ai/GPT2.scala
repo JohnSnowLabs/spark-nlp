@@ -18,8 +18,9 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -32,6 +33,7 @@ import scala.math.exp
 private[johnsnowlabs] class GPT2(
                                   val tensorflow: Option[TensorflowWrapper],
                                   val onnxWrapper: Option[OnnxWrapper],
+                                  val openvinoWrapper: Option[OpenvinoWrapper],
                                   val bpeTokenizer: Gpt2Tokenizer,
                                   configProtoBytes: Option[Array[Byte]] = None)
   extends Serializable {
@@ -46,6 +48,7 @@ private[johnsnowlabs] class GPT2(
   val detectedEngine: String =
     if (tensorflow.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else ONNX.name
 
   private def sessionWarmup(): Unit = {
@@ -241,7 +244,7 @@ private[johnsnowlabs] class GPT2(
             tensorDecoder.clearSession(decoderOuts)
             inputIdTensors.close()
           }
-          else{
+          else if (detectedEngine == ONNX.name) {
             val (session, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
             val decoderInputBuffers = decoderInputs
@@ -284,6 +287,58 @@ private[johnsnowlabs] class GPT2(
             decoderOuts.close()
 
           }
+          else {
+
+            val ovInferRequest =
+              openvinoWrapper.get.getCompiledModel().create_infer_request()
+
+            val decoderInputBuffers = decoderInputs
+              .map(tokenIds =>tokenIds.map(_.toLong))
+            val decoderPaddingBuffers =
+              decoderInputBuffers.map(x => x.map(xx => 1L))
+
+            val inputPositionIDsLong: Array[Array[Long]] =
+              decoderInputs.map { tokenIds =>
+                tokenIds.zipWithIndex.map { case (_, i) =>
+                  i.toLong
+                }
+              }
+
+            val decoderPositionIDs =
+              new org.intel.openvino.Tensor(
+                Array(inputPositionIDsLong.length, inputPositionIDsLong.head.length),
+                inputPositionIDsLong.flatten)
+            val decoderInputTensors =
+              new org.intel.openvino.Tensor(
+                Array(decoderInputBuffers.length, decoderInputBuffers.head.length),
+                decoderInputBuffers.flatten)
+            val decoderPaddingMaskTensors =
+              new org.intel.openvino.Tensor(
+                Array(decoderPaddingBuffers.length, decoderPaddingBuffers.head.length),
+                decoderPaddingBuffers.flatten)
+
+
+            ovInferRequest.set_tensor("input_ids", decoderInputTensors)
+            ovInferRequest.set_tensor("attention_mask", decoderPaddingMaskTensors)
+            ovInferRequest.set_tensor("position_ids", decoderPositionIDs)
+            ovInferRequest.infer()
+
+
+            val decoderOuts = ovInferRequest.get_tensor("logits")
+            decoderOutputs = decoderOuts
+              .data()
+              .grouped(vocab_size)
+              .toArray
+              .grouped(decoderInputLength)
+              .toArray
+          }
+
+
+
+
+
+
+
         var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
           nextTokenLogits = nextTokenLogits.map(logits => {

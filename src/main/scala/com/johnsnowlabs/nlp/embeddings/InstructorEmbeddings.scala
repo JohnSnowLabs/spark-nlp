@@ -19,18 +19,11 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.Instructor
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
@@ -151,6 +144,7 @@ class InstructorEmbeddings(override val uid: String)
     with HasBatchedAnnotate[InstructorEmbeddings]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with WriteSentencePieceModel
@@ -232,6 +226,7 @@ class InstructorEmbeddings(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
       spp: SentencePieceWrapper): InstructorEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
@@ -239,6 +234,7 @@ class InstructorEmbeddings(override val uid: String)
           new Instructor(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             spp = spp,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures)))
@@ -346,6 +342,14 @@ class InstructorEmbeddings(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           "_instructor",
           InstructorEmbeddings.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          InstructorEmbeddings.openvinoFile)
     }
     writeSentencePieceModel(
       path,
@@ -391,12 +395,13 @@ trait ReadablePretrainedInstructorModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel {
+trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel with ReadOpenvinoModel{
   this: ParamsAndFeaturesReadable[InstructorEmbeddings] =>
 
   override val tfFile: String = "instructor_tensorflow"
   override val sppFile: String = "instructor_spp"
   override val onnxFile: String = "instructor_onnx"
+  override val openvinoFile: String = "instructor_openvino"
 
   def readModel(instance: InstructorEmbeddings, path: String, spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_instructor_spp", sppFile)
@@ -410,7 +415,7 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
       "_instructor_tf",
       savedSignatures = instance.getSignatures,
       initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None, spp)
+    instance.setModelIfNotSet(spark, Some(tf), None, None, spp)
 
 
       case ONNX.name =>
@@ -422,7 +427,12 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
             zipped = true,
             useBundle = false,
             None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_deberta_openvino")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
+
 
     }
 
@@ -458,12 +468,25 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfwrapper), None, spModel)
+          .setModelIfNotSet(spark, Some(tfwrapper), None, None, spModel)
 
       case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
+
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

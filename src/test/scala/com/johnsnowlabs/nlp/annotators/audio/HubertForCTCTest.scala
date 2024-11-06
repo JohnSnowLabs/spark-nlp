@@ -36,7 +36,7 @@ class HubertForCTCTest extends AnyFlatSpec {
   it should "load from saved model" taggedAs SlowTest in {
 
     val hubert: HubertForCTC = HubertForCTC
-      .loadSavedModel(modelPath, spark)
+      .pretrained()
       .setInputCols("audio_assembler")
       .setOutputCol("text")
 

@@ -18,11 +18,13 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.ai.GPT2
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
@@ -147,6 +149,7 @@ class GPT2Transformer(override val uid: String)
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEngine {
 
   def this() = this(Identifiable.randomUID("GPT2TRANSFORMER"))
@@ -391,7 +394,8 @@ class GPT2Transformer(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession,
                        tfWrapper: Option[TensorflowWrapper],
-                       onnxWrapper: Option[OnnxWrapper]): this.type = {
+                       onnxWrapper: Option[OnnxWrapper],
+                       openvinoWrapper: Option[OpenvinoWrapper]): this.type = {
     if (_tfModel.isEmpty) {
 
       val bpeTokenizer = BpeTokenizer
@@ -400,7 +404,7 @@ class GPT2Transformer(override val uid: String)
 
       _tfModel = Some(
         spark.sparkContext.broadcast(
-          new GPT2(tfWrapper, onnxWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
+          new GPT2(tfWrapper, onnxWrapper, openvinoWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
     }
     this
   }
@@ -492,6 +496,14 @@ class GPT2Transformer(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           "_gpt2",
           GPT2Transformer.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          GPT2Transformer.openvinoFile)
     }
   }
 }
@@ -513,17 +525,18 @@ trait ReadablePretrainedGPT2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[GPT2Transformer] =>
 
   override val tfFile: String = "gpt2_tensorflow"
   override val onnxFile: String = "gpt2_onnx"
+  override val openvinoFile: String = "gpt2_openvino"
 
   def readModel(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case TensorFlow.name =>
         val tf = readTensorflowModel(path, spark, "_gpt2_tf")
-        instance.setModelIfNotSet(spark, Some(tf), None)
+        instance.setModelIfNotSet(spark, Some(tf), None, None)
         case ONNX.name =>
           val onnxWrapper =
             readOnnxModel(
@@ -533,7 +546,12 @@ trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
               zipped = true,
               useBundle = false,
               None)
-          instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+          instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_gpt2_openvino")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
+
     }
   }
 
@@ -572,12 +590,24 @@ trait ReadGPT2TransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
           * setModelIfNotSet
           */
         annotatorModel
-          .setModelIfNotSet(spark, Some(wrapper), None)
+          .setModelIfNotSet(spark, Some(wrapper), None, None)
 
       case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper))
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

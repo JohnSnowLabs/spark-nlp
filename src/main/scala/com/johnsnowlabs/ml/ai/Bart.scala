@@ -21,6 +21,7 @@ import com.johnsnowlabs.ml.ai.util.Generation.Generate
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits.OnnxSessionResult
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{EncoderDecoderWithoutPastWrappers => OpenvinoEncoderDecoderWithoutPastWrappers}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
@@ -44,6 +45,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Bart(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[EncoderDecoderWithoutPastWrappers],
+    val openvinoWrapper: Option[OpenvinoEncoderDecoderWithoutPastWrappers],
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None,
     merges: Map[(String, String), Int],
@@ -61,12 +63,16 @@ private[johnsnowlabs] class Bart(
   private val paddingTokenId = 1
   private val eosTokenId = 2
   private val vocabSize = 50264
+  private var decoderEncoderStateTensorsOV: Option[org.intel.openvino.Tensor] = None
+  private var encoderAttentionMaskOV: Option[org.intel.openvino.Tensor] = None
+
   var tensorDecoder = new TensorResources()
   private var nextStateTensor1: Option[org.tensorflow.Tensor] = None
   private var nextStateTensor2: Option[org.tensorflow.Tensor] = None
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
 
 
@@ -82,6 +88,20 @@ private[johnsnowlabs] class Bart(
 
     val decoderOutput: String = "logits"
   }
+
+  private object OpenVinoSignatures {
+    val encoderInputIDs: String = "input_ids"
+    val encoderAttentionMask: String = "attention_mask"
+
+    val encoderOutput: String = "last_hidden_state"
+
+    val decoderInputIDs: String = "input_ids"
+    val decoderEncoderAttentionMask: String = "encoder_attention_mask"
+    val decoderEncoderState: String = "encoder_hidden_states"
+
+    val decoderOutput: String = "logits"
+  }
+
 
   /** @param sentences
     *   Sequence of WordpieceTokenizedSentence
@@ -341,7 +361,7 @@ private[johnsnowlabs] class Bart(
       }
       modelOutputs
     }
-    else  {
+    else if (detectedEngine == ONNX.name) { {
 
       var (encoderSession, encoderEnv): (OrtSession, OrtEnvironment) = (null, null)
       var (decoderSession, decoderEnv): (OrtSession, OrtEnvironment) = (null, null)
@@ -416,6 +436,85 @@ private[johnsnowlabs] class Bart(
     }
 
   }
+    else {
+
+      val encoderInferRequest =
+        openvinoWrapper.get.encoder.getCompiledModel().create_infer_request()
+      val decoderInferRequest =
+        openvinoWrapper.get.decoder.getCompiledModel().create_infer_request()
+
+
+      val encoderAttentionMask: org.intel.openvino.Tensor =
+        new org.intel.openvino.Tensor(
+          Array(expandedEncoderInputIdsVals.length, expandedEncoderInputIdsVals.head.length),
+          expandedEncoderInputIdsVals.toArray.map(_.map(_ => 1L)).flatten)
+
+      val encoderInputTensors =
+        new org.intel.openvino.Tensor(
+          Array(expandedEncoderInputIdsVals.length, expandedEncoderInputIdsVals.head.length),
+          expandedEncoderInputIdsVals.toArray.map(_.map(_.toLong)).flatten)
+
+
+      encoderInferRequest.set_tensor(OpenVinoSignatures.encoderInputIDs, encoderInputTensors)
+      encoderInferRequest.set_tensor(OpenVinoSignatures.encoderAttentionMask, encoderAttentionMask)
+      encoderInferRequest.infer()
+
+      val encoderStateBuffer =
+        try {
+          val encoderStateTensor = encoderInferRequest.get_tensor(OpenVinoSignatures.encoderOutput)
+
+          val shape = encoderStateTensor.get_shape().map(_.toLong)
+          encoderStateTensor.data()
+            .grouped(shape(2).toInt)
+            .toArray
+            .grouped(shape(1).toInt)
+            .toArray
+        } catch {
+          case e: Exception =>
+            e.printStackTrace()
+            Array.empty[Float]
+            // Rethrow the exception to propagate it further
+            throw e
+        }
+
+      val decoderEncoderStateTensors =
+        new org.intel.openvino.Tensor(
+          Array(encoderStateBuffer.length, encoderStateBuffer.head.length,encoderStateBuffer.head.head.length),
+          encoderStateBuffer.flatten.flatten)
+
+
+
+      decoderEncoderStateTensorsOV = Some(decoderEncoderStateTensors)
+      encoderAttentionMaskOV = Some(encoderAttentionMask)
+
+      val modelOutputs = generate(
+        batch,
+        null,
+        null,
+        decoderInputs,
+        maxOutputLength,
+        minOutputLength,
+        doSample,
+        beamSize,
+        1,
+        temperature,
+        topK,
+        topP,
+        repetitionPenalty,
+        noRepeatNgramSize,
+        this.vocabSize,
+        this.eosTokenId,
+        this.paddingTokenId,
+        randomSeed,
+        ignoreTokenIdsInt,
+        null,
+        ovInferRequest = Some(decoderInferRequest))
+
+
+      modelOutputs
+
+    }
+  }
 
   /** Decode a sequence of sentences
     * @param sentences
@@ -473,7 +572,6 @@ private[johnsnowlabs] class Bart(
       maxLength: Int,
       session: Either[Session, (OrtEnvironment, OrtSession)],
       ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
-
 
     if (detectedEngine == TensorFlow.name) {
       // extract decoderEncoderStateTensors, encoderAttentionMaskTensors and Session from LEFT
@@ -535,10 +633,16 @@ private[johnsnowlabs] class Bart(
           r
         else
           r
-            .fetch(_tfBartSignatures
-              .getOrElse(ModelSignatureConstants.InitCachedOutput1.key, "missing_cache1_out_init"))
-            .fetch(_tfBartSignatures
-              .getOrElse(ModelSignatureConstants.InitCachedOutPut2.key, "missing_cache2_out_init"))
+            .fetch(
+              _tfBartSignatures
+                .getOrElse(
+                  ModelSignatureConstants.InitCachedOutput1.key,
+                  "missing_cache1_out_init"))
+            .fetch(
+              _tfBartSignatures
+                .getOrElse(
+                  ModelSignatureConstants.InitCachedOutPut2.key,
+                  "missing_cache2_out_init"))
       } else {
         sess.runner
           .feed(
@@ -603,7 +707,7 @@ private[johnsnowlabs] class Bart(
       decoderInputTensors.close()
       nextTokenLogits
     }
-    else  {
+    else if (detectedEngine == ONNX.name)  {
       val (env, decoderSession) = session.right.get
 
       val decoderInputLength = decoderInputIds.head.length
@@ -640,6 +744,36 @@ private[johnsnowlabs] class Bart(
 
 
       val logitsRaw = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
+      val decoderOutputs = (0 until batchSize).map(i => {
+        logitsRaw
+          .slice(
+            i * sequenceLength * vocabSize + (sequenceLength - 1) * vocabSize,
+            i * sequenceLength * vocabSize + sequenceLength * vocabSize)
+      })
+      decoderOutputs.toArray
+
+    }
+    else {
+      val decoderInputLength = decoderInputIds.head.length
+      val sequenceLength =decoderInputLength
+      val batchSize = encoderInputIds.length
+
+      val decoderInputIdsLong: Array[Array[Long]] =
+        decoderInputIds.map { tokenIds => tokenIds.map(_.toLong) }.
+          toArray.map { tokenIds =>tokenIds}
+
+
+      val decoderInputIdsLongTensor =
+        new org.intel.openvino.Tensor(Array(decoderInputIdsLong.length,decoderInputIdsLong.head.length), decoderInputIdsLong.flatten)
+
+
+      ovInferRequest.get.set_tensor(OpenVinoSignatures.decoderInputIDs, decoderInputIdsLongTensor)
+      ovInferRequest.get.set_tensor(OpenVinoSignatures.decoderEncoderAttentionMask, encoderAttentionMaskOV.get)
+      ovInferRequest.get.set_tensor(OpenVinoSignatures.decoderEncoderState, decoderEncoderStateTensorsOV.get)
+
+      ovInferRequest.get.infer()
+
+      val logitsRaw = ovInferRequest.get.get_tensor(OpenVinoSignatures.decoderOutput).data()
       val decoderOutputs = (0 until batchSize).map(i => {
         logitsRaw
           .slice(

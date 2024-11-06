@@ -18,9 +18,10 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 
@@ -30,6 +31,7 @@ import scala.collection.mutable.ArrayBuffer
 private[johnsnowlabs] class Wav2Vec2(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     vocabs: Map[String, BigInt],
     signatures: Option[Map[String, String]] = None)
@@ -42,6 +44,7 @@ private[johnsnowlabs] class Wav2Vec2(
   private val padVocabId = vocabs.getOrElse("<pad>", 0)
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
@@ -89,6 +92,18 @@ private[johnsnowlabs] class Wav2Vec2(
     tensors.clearSession(outs)
      output
 
+      case Openvino.name =>
+        val audioTensors =
+          new org.intel.openvino.Tensor(Array(batch.length,batch.head.length), batch.flatten)
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_values", audioTensors)
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor("logits")
+        val embeddings = result.data()
+
+        embeddings
+
       case ONNX.name =>
         val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
         val audioTensors =
@@ -99,12 +114,14 @@ private[johnsnowlabs] class Wav2Vec2(
         try {
           val results = runner.run(inputs)
           try {
-            results
+            val test =results
               .get("logits")
               .get()
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
               .array()
+            println("test")
+            test
           } finally if (results != null) results.close()
         } catch {
           case e: Exception =>

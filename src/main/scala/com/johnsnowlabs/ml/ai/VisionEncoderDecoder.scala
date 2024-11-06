@@ -23,20 +23,23 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.TensorResources.implicits._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{EncoderDecoderWithoutPastWrappers => OpenvinoEncoderDecoderWithoutPastWrappers}
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
 import org.intel.openvino.InferRequest
 import org.tensorflow.{Session, Tensor}
+import org.intel.openvino.{Tensor => OpenVinoTensor}
 
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class VisionEncoderDecoder(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
+    val openvinoWrapper: Option[OpenvinoEncoderDecoderWithoutPastWrappers],
     configProtoBytes: Option[Array[Byte]] = None,
     tokenizer: Gpt2Tokenizer,
     preprocessor: Preprocessor,
@@ -49,10 +52,12 @@ private[johnsnowlabs] class VisionEncoderDecoder(
 
   val tensorResources = new TensorResources()
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
+  private var decoderEncoderStateTensorsOV: Option[org.intel.openvino.Tensor] = None
 
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrappers.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else throw new IllegalArgumentException("No model engine defined.")
   private def sessionWarmup(): Unit = {
     val nChannels = 3
@@ -118,6 +123,16 @@ private[johnsnowlabs] class VisionEncoderDecoder(
 
   }
 
+  private object OpenVinoSignatures {
+    val encoderInputIdsTensor: String = "pixel_values"
+    val encoderOutputKey = "last_hidden_state"
+    val decoderOutputKey: String = "logits"
+    val decoderInputIDs: String = "input_ids"
+    val decoderEncoderState: String = "encoder_hidden_states"
+
+  }
+
+
   private def preprocessImages(
       annotations: Array[AnnotationImage]): Array[Array[Array[Array[Float]]]] = {
 
@@ -159,11 +174,32 @@ private[johnsnowlabs] class VisionEncoderDecoder(
     * @return
     *   Tensor with encoded representations of the batch
     */
+
+  private def encodeImagesOv(
+                            batch: Array[Array[Array[Array[Float]]]],
+                            beamSize: Int,
+                            inferRequest: InferRequest): OpenVinoTensor = {
+
+    val batchForBeams =
+      batch.flatMap(imageFloats => Array.fill(beamSize)(imageFloats))
+
+    val imageTensors: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        Array(batchForBeams.length, batchForBeams.head.length,batchForBeams.head.head.length,batchForBeams.head.head.head.length),
+        batchForBeams.flatten.flatten.flatten)
+
+    inferRequest.set_tensor(OpenVinoSignatures.encoderInputIdsTensor, imageTensors)
+    inferRequest.infer()
+    val result = inferRequest.get_tensor(OpenVinoSignatures.encoderOutputKey)
+    result
+
+  }
   private def encodeImages(
       batch: Array[Array[Array[Array[Float]]]],
       beamSize: Int,
       tfSession: Option[Session],
-      onnxSession: Option[(OrtSession, OrtEnvironment)]): AutoCloseable = {
+      onnxSession: Option[(OrtSession, OrtEnvironment)],
+      inferRequest: Option[InferRequest]): AutoCloseable = {
 
     val batchForBeams =
       batch.flatMap(imageFloats => Array.fill(beamSize)(imageFloats))
@@ -191,6 +227,16 @@ private[johnsnowlabs] class VisionEncoderDecoder(
           .asInstanceOf[OnnxTensor]
         output
 
+      case Openvino.name =>
+        val imageTensors: org.intel.openvino.Tensor =
+          new org.intel.openvino.Tensor(
+            Array(batchForBeams.length, batchForBeams.head.length,batchForBeams.head.head.length,batchForBeams.head.head.head.length),
+            batchForBeams.flatten.flatten.flatten)
+
+        inferRequest.get.set_tensor(OpenVinoSignatures.encoderInputIdsTensor, imageTensors)
+        inferRequest.get.infer()
+        val result = inferRequest.get.get_tensor(OpenVinoSignatures.encoderOutputKey)
+        result.asInstanceOf[Tensor]
       case _ =>
         throw new IllegalArgumentException("Unknown engine type.")
     }
@@ -226,7 +272,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
                 .getTFSessionWithSignature(
                   configProtoBytes = configProtoBytes,
                   initAllTables = false)
-              val encodedImages = encodeImages(preprocessedImages, beamSize, Some(session), None)
+              val encodedImages = encodeImages(preprocessedImages, beamSize, Some(session), None, None)
                 .asInstanceOf[Tensor]
               generate(
                 inputIds = encoderIds,
@@ -259,7 +305,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
                   preprocessedImages,
                   beamSize,
                   None,
-                  Some((encoderSession, encoderEnv)))
+                  Some((encoderSession, encoderEnv)), None)
                   .asInstanceOf[OnnxTensor]
               generate(
                 inputIds = batchDecoderStartIds,
@@ -283,6 +329,41 @@ private[johnsnowlabs] class VisionEncoderDecoder(
                 randomSeed,
                 Array.empty,
                 Right((decoderEnv, decoderSession)))
+
+
+              case Openvino.name =>
+                val encoderInferRequest =
+                  openvinoWrapper.get.encoder.getCompiledModel().create_infer_request()
+                val decoderInferRequest =
+                  openvinoWrapper.get.decoder.getCompiledModel().create_infer_request()
+
+                decoderEncoderStateTensorsOV =Some(
+          encodeImagesOv(
+          preprocessedImages,
+          beamSize, encoderInferRequest))
+            generate(
+              batchDecoderStartIds,
+              null,
+              null,
+              batchDecoderStartIds,
+              maxOutputLength,
+                  minOutputLength,
+                  doSample,
+                  beamSize,
+                  1,
+                  temperature,
+                  topK,
+                  topP,
+                  repetitionPenalty,
+                  noRepeatNgramSize,
+              generationConfig.vocabSize,
+              generationConfig.eosId,
+              generationConfig.padId,
+                  randomSeed,
+              Array.empty,
+              null,
+                  ovInferRequest = Some(decoderInferRequest))
+
 
           }
 
@@ -336,13 +417,22 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       maxLength: Int,
       session: Either[Session, (OrtEnvironment, OrtSession)],
       ovInferRequest: Option[InferRequest]): Array[Array[Float]] = {
-    getModelOutput(decoderInputIds, decoderEncoderStateTensors, session)
-  }
 
+    detectedEngine match {
+      case Openvino.name =>
+        getDecoderOutputsOv(decoderInputIds,  ovInferRequest.get)
+
+      case Openvino.name =>
+        getModelOutput(decoderInputIds, decoderEncoderStateTensors, session, ovInferRequest)
+      case TensorFlow.name =>
+        getModelOutput(decoderInputIds, decoderEncoderStateTensors, session, ovInferRequest)
+    }
+  }
   def getModelOutput(
       decoderInputIds: Seq[Array[Int]],
       decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
-      session: Either[Session, (OrtEnvironment, OrtSession)]) = {
+      session: Either[Session, (OrtEnvironment, OrtSession)],
+      ovInferRequest: Option[InferRequest]) = {
 
     val decoderEncoderStateTensor = decoderEncoderStateTensors.fold(
       tfTensor => {
@@ -393,8 +483,45 @@ private[johnsnowlabs] class VisionEncoderDecoder(
               i * sequenceLength * generationConfig.vocabSize + sequenceLength * generationConfig.vocabSize)
         })
         decoderOutputs.toArray
-
     }
   }
+
+
+  private def getDecoderOutputsOv(
+                                   decoderInputIds: Seq[Array[Int]],
+                                   ovInferRequest: InferRequest) = {
+
+
+
+    val decoderInputIdsLong: Array[Array[Long]] =
+      decoderInputIds.toArray.map { tokenIds => tokenIds.map(_.toLong) }
+
+    val decoderInputIdsTensor =
+      new org.intel.openvino.Tensor(Array(decoderInputIdsLong.length,decoderInputIdsLong.head.length), decoderInputIdsLong.flatten)
+
+
+
+    ovInferRequest.set_tensor(OpenVinoSignatures.decoderInputIDs, decoderInputIdsTensor)
+    ovInferRequest.set_tensor(OpenVinoSignatures.decoderEncoderState, decoderEncoderStateTensorsOV.get)
+
+
+    ovInferRequest.infer()
+    val sequenceLength = decoderInputIds.head.length
+    val batchSize = decoderInputIds.length
+
+    val logitsRaw = ovInferRequest.get_tensor(OpenVinoSignatures.decoderOutputKey).data()
+    val decoderOutputs = (0 until batchSize).map(i => {
+      logitsRaw
+        .slice(
+          i * sequenceLength * generationConfig.vocabSize + (sequenceLength - 1) * generationConfig.vocabSize,
+          i * sequenceLength * generationConfig.vocabSize + sequenceLength * generationConfig.vocabSize)
+    })
+    decoderOutputs.toArray
+
+
+
+
+  }
+
 
 }

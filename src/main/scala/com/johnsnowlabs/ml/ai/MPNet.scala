@@ -18,9 +18,10 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -43,6 +44,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class MPNet(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -57,6 +59,7 @@ private[johnsnowlabs] class MPNet(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -72,6 +75,9 @@ private[johnsnowlabs] class MPNet(
     val embeddings = detectedEngine match {
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch)
+
+      case Openvino.name =>
+        getSentenceEmbeddingsFromOv(paddedBatch, maxSentenceLength)
       case _ =>
         getSentenceEmbeddingFromTF(paddedBatch)
     }
@@ -167,9 +173,51 @@ private[johnsnowlabs] class MPNet(
     sentenceEmbeddingsFloatsArray
   }
 
+
+
+  private def getSentenceEmbeddingsFromOv( batch: Seq[Array[Int]],
+                                           maxSentenceLength: Int)= {
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors =
+      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+    val attentionMask = batch
+      .map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L))
+      .toArray
+    val  maskTensor = new org.intel.openvino.Tensor(
+      shape,
+      attentionMask.flatten)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensor)
+
+    inferRequest.infer()
+    try {
+      try {
+        val lastHiddenState = inferRequest
+          .get_tensor("last_hidden_state")
+        val shape = lastHiddenState.get_shape().map(_.toLong)
+        val flattenEmbeddings =  lastHiddenState
+          .data()
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
+
+      }
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        Array.empty[Float]
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L)).toArray
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)

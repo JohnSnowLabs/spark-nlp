@@ -20,7 +20,8 @@ import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-import org.apache.spark.ml.Pipeline
+import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.apache.spark.sql.functions.{col, size}
 
@@ -46,6 +47,63 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
     pipelineDF.select("mpnet.embeddings").show(truncate = false)
+
+  }
+
+
+  "MPNetEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Capitalism has been dominant in the Western world since the end of feudalism, but most feel[who?]" +
+        " that the term \"mixed economies\" more precisely describes most contemporary economies, due to their " +
+        "containing both private-owned and state-owned enterprises. In capitalism, prices determine the " +
+        "demand-supply scale. For example, higher demand for certain goods and services lead to higher prices " +
+        "and lower demand for certain goods lead to lower prices.",
+      "The disparate impact theory is especially controversial under the Fair Housing Act because the Act " +
+        "regulates many activities relating to housing, insurance, and mortgage loansâ€”and some scholars" +
+        " have argued that the theory's use under the Fair Housing Act, combined with extensions of the " +
+        "Community Reinvestment Act, contributed to rise of sub-prime lending and the crash of the U.S. " +
+        "housing market and ensuing global economic recession",
+      "Disparate impact in United States labor law refers to practices in employment, housing, and other" +
+        " areas that adversely affect one group of people of a protected characteristic more than another, " +
+        "even though rules applied by employers or landlords are formally neutral. Although the protected classes " +
+        "vary by statute, most federal civil rights laws protect based on race, color, religion, national origin, " +
+        "and sex as protected traits, and some laws include disability status and other traits as well.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = MPNetEmbeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("mpnet")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+
+    Benchmark.time("Time to save MPNetEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_mpnet_pipeline")
+    }
+
+    Benchmark.time("Time to save MPNetEmbeddings model") {
+      pipelineModel.stages.last
+        .asInstanceOf[MPNetEmbeddings]
+        .write
+        .overwrite()
+        .save("./tmp_mpnet_model")
+    }
+
+    val loadedPipelineModel = PipelineModel.load("./tmp_mpnet_pipeline")
+    loadedPipelineModel.transform(ddd).show()
+
+    val loadedInstructorModel = MPNetEmbeddings.load("./tmp_mpnet_model")
+    loadedInstructorModel.getDimension
 
   }
 
