@@ -14,13 +14,13 @@
 import unittest
 
 import pytest
-
+import os
 import sparknlp
 from test.util import SparkContextForTest
 
 
 @pytest.mark.fast
-class SparkNLPTestSpec(unittest.TestCase):
+class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.data
@@ -34,4 +34,29 @@ class SparkNLPTestSpec(unittest.TestCase):
         html_params_df = sparknlp.read(params).html("https://www.wikipedia.org")
         html_params_df.show()
 
-        assert html_params_df.select("html").count() > 0
+        self.assertTrue(html_params_df.select("html").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        html_file = "file:///" + os.getcwd() + "/../src/test/resources/reader/html/fake-html.html"
+        html_df = sparknlp.read().html(html_file)
+        html_df.show()
+        self.assertTrue(html_df.select("html").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestHTMLValidationSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        with pytest.raises(TypeError, match="htmlPath must be a string or a list of strings"):
+            sparknlp.read().html(123)
+

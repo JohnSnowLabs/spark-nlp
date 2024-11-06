@@ -55,6 +55,8 @@ class SparkNLPReader(ExtendedJavaWrapper):
         self.spark = spark
 
     def html(self, htmlPath):
+        if not isinstance(htmlPath, (str, list)) or (isinstance(htmlPath, list) and not all(isinstance(item, str) for item in htmlPath)):
+            raise TypeError("htmlPath must be a string or a list of strings")
         jdf = self._java_obj.html(htmlPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
