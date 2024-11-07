@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.BertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -270,7 +274,17 @@ class BertForZeroShotClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BertClassification(tensorflowWrapper, onnxWrapper, openvinoWrapper, sentenceStartTokenId, sentenceEndTokenId, configProtoBytes = getConfigProtoBytes, tags = $$(labels), signatures = getSignatures, $$(vocabulary), threshold = $(threshold))))
+          new BertClassification(
+            tensorflowWrapper,
+            onnxWrapper,
+            openvinoWrapper,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
+            configProtoBytes = getConfigProtoBytes,
+            tags = $$(labels),
+            signatures = getSignatures,
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this
@@ -380,7 +394,10 @@ trait ReadablePretrainedBertForZeroShotModel
       remoteLoc: String): BertForZeroShotClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadBertForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BertForZeroShotClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
@@ -469,7 +486,6 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel 
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =

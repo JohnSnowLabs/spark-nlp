@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.{BertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -212,11 +216,20 @@ class BertForQuestionAnswering(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
-        openvinoWrapper: Option[OpenvinoWrapper]): BertForQuestionAnswering = {
+      openvinoWrapper: Option[OpenvinoWrapper]): BertForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BertClassification(tensorflowWrapper, onnxWrapper, openvinoWrapper, sentenceStartTokenId, sentenceEndTokenId, configProtoBytes = getConfigProtoBytes, tags = Map.empty[String, Int], signatures = getSignatures, vocabulary = $$(vocabulary))))
+          new BertClassification(
+            tensorflowWrapper,
+            onnxWrapper,
+            openvinoWrapper,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
+            configProtoBytes = getConfigProtoBytes,
+            tags = Map.empty[String, Int],
+            signatures = getSignatures,
+            vocabulary = $$(vocabulary))))
     }
 
     this
@@ -291,8 +304,6 @@ class BertForQuestionAnswering(override val uid: String)
           BertForQuestionAnswering.openvinoFile)
     }
 
-
-
   }
 
 }
@@ -316,7 +327,10 @@ trait ReadablePretrainedBertForQAModel
       remoteLoc: String): BertForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel{
+trait ReadBertForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BertForQuestionAnswering] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
@@ -337,7 +351,6 @@ trait ReadBertForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadO
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "bert_qa_classification_ov")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

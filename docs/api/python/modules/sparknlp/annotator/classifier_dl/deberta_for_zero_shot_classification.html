@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification &#8212; Spark NLP 5.4.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification &#8212; Spark NLP 5.5.0 documentation</title>
   
   
   
@@ -364,7 +364,8 @@ document.write(`
                                           <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
                                           <span class="n">HasClassifierActivationProperties</span><span class="p">,</span>
                                           <span class="n">HasCandidateLabelsProperties</span><span class="p">,</span>
-                                          <span class="n">HasEngine</span><span class="p">):</span>
+                                          <span class="n">HasEngine</span><span class="p">,</span>
+                                          <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DeBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language</span>
 <span class="sd">    inference) tasks. Equivalent of `DeBertaForSequenceClassification` models, but these models don&#39;t require a hardcoded</span>
 <span class="sd">    number of potential classes, they can be chosen at runtime. It usually means it&#39;s slower but it is much more</span>
@@ -444,11 +445,6 @@ document.write(`
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
 
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
@@ -472,15 +468,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DeBertaForZeroShotClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/deberta_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification.DeBertaForZeroShotClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DeBertaForZeroShotClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/deberta_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification.DeBertaForZeroShotClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging</span>

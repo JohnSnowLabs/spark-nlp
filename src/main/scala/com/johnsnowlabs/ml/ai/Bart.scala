@@ -75,7 +75,6 @@ private[johnsnowlabs] class Bart(
     else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
 
-
   private object OnnxSignatures {
     val encoderInputIDs: String = "input_ids"
     val encoderAttentionMask: String = "attention_mask"
@@ -237,7 +236,6 @@ private[johnsnowlabs] class Bart(
     val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
-
     val numReturn_sequences = 1
     // from config
 
@@ -298,8 +296,11 @@ private[johnsnowlabs] class Bart(
             ModelSignatureConstants.EncoderAttentionMask.key,
             "missing_encoder_attention_mask"),
           encoderAttentionMaskTensors)
-        .fetch(_tfBartSignatures
-          .getOrElse(ModelSignatureConstants.CachedEncoderOutput.key, "missing_last_hidden_state"))
+        .fetch(
+          _tfBartSignatures
+            .getOrElse(
+              ModelSignatureConstants.CachedEncoderOutput.key,
+              "missing_last_hidden_state"))
 
       val encoderOuts = runner.run().asScala
       val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
@@ -360,9 +361,11 @@ private[johnsnowlabs] class Bart(
         nextStateTensor2 = None
       }
       modelOutputs
-    }
-    else if (detectedEngine == ONNX.name) { {
 
+    }
+    else if (detectedEngine == ONNX.name) { 
+
+    
       var (encoderSession, encoderEnv): (OrtSession, OrtEnvironment) = (null, null)
       var (decoderSession, decoderEnv): (OrtSession, OrtEnvironment) = (null, null)
 
@@ -375,10 +378,14 @@ private[johnsnowlabs] class Bart(
       decoderEnv = _decoderEnv
 
       val encoderAttentionMask: OnnxTensor =
-        OnnxTensor.createTensor(encoderEnv, expandedEncoderInputIdsVals.toArray.map(_.map(_ => 1L)))
+        OnnxTensor.createTensor(
+          encoderEnv,
+          expandedEncoderInputIdsVals.toArray.map(_.map(_ => 1L)))
 
       val encoderInputTensors: OnnxTensor =
-        OnnxTensor.createTensor(encoderEnv, expandedEncoderInputIdsVals.toArray.map(_.map(_.toLong)))
+        OnnxTensor.createTensor(
+          encoderEnv,
+          expandedEncoderInputIdsVals.toArray.map(_.map(_.toLong)))
 
       val encoderInputs: java.util.Map[String, OnnxTensor] = Map(
         OnnxSignatures.encoderInputIDs -> encoderInputTensors,
@@ -404,8 +411,6 @@ private[johnsnowlabs] class Bart(
           if (encoderResults != null) encoderResults.close()
         }
 
-
-
       val decoderEncoderStateTensors = OnnxTensor.createTensor(encoderEnv, encoderStateBuffer)
       val modelOutputs = generate(
         batch,
@@ -427,7 +432,7 @@ private[johnsnowlabs] class Bart(
         this.paddingTokenId,
         randomSeed,
         ignoreTokenIdsInt,
-        Right((decoderEnv,decoderSession)))
+        Right((decoderEnv, decoderSession)))
 
       encoderInputTensors.close()
       encoderAttentionMask.close()
@@ -706,18 +711,18 @@ private[johnsnowlabs] class Bart(
       }
       decoderInputTensors.close()
       nextTokenLogits
-    }
-    else if (detectedEngine == ONNX.name)  {
+    } else {
+
       val (env, decoderSession) = session.right.get
 
       val decoderInputLength = decoderInputIds.head.length
-      val sequenceLength =decoderInputLength
+      val sequenceLength = decoderInputLength
       val batchSize = encoderInputIds.length
 
       val decoderInputIdsLong: Array[Array[Long]] =
-        decoderInputIds.map { tokenIds => tokenIds.map(_.toLong) }.
-          toArray.map { tokenIds =>tokenIds}
-
+        decoderInputIds.map { tokenIds => tokenIds.map(_.toLong) }.toArray.map { tokenIds =>
+          tokenIds
+        }
 
       val decoderInputIdsLongTensor: OnnxTensor =
         OnnxTensor.createTensor(env, decoderInputIdsLong)
@@ -741,7 +746,6 @@ private[johnsnowlabs] class Bart(
         OnnxSignatures.decoderEncoderAttentionMask -> encoderAttentionMaskTensor,
         OnnxSignatures.decoderEncoderState -> decoderEncoderStateTensor).asJava
       val sessionOutput = decoderSession.run(decoderInputs)
-
 
       val logitsRaw = sessionOutput.getFloatArray(OnnxSignatures.decoderOutput)
       val decoderOutputs = (0 until batchSize).map(i => {
@@ -785,7 +789,6 @@ private[johnsnowlabs] class Bart(
     }
   }
 
-
   private def sessionWarmup(): Unit = {
     val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
     tag(
@@ -802,7 +805,6 @@ private[johnsnowlabs] class Bart(
       ignoreTokenIds = Array(0),
       beamSize = 1,
       maxInputLength = 512)
-
 
   }
 }

@@ -1,0 +1,1467 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
+    <script src="../../../../../../static/jquery.js"></script>
+    <script src="../../../../../../static/underscore.js"></script>
+    <script src="../../../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../../static/doctools.js"></script>
+    <script src="../../../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index';</script>
+    <link rel="shortcut icon" href="../../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/albert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/albert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/albert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/bart_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/camembert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.camembert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/camembert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.camembert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/camembert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/deberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/deberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/deberta_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/mpnet_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/mpnet_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.mpnet_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/xlm_roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/xlm_roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/xlm_roberta_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/xlnet_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/xlnet_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.xlnet_for_token_classification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dependency/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dependency/dependency_parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency.dependency_parser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dependency/typed_dependency_parser/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.dependency.typed_dependency_parser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/albert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.albert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/camembert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.camembert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/chunk_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.chunk_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/deberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.deberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/distil_bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.distil_bert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/doc2vec/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.doc2vec</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/e5_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.e5_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/elmo_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.elmo_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/instructor_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.instructor_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/longformer_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.longformer_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/mpnet_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.mpnet_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/mxbai_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.mxbai_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/nomic_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.nomic_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/roberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/roberta_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.roberta_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/snowflake_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.snowflake_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/uae_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.uae_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/universal_sentence_encoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.universal_sentence_encoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/word2vec/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.word2vec</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/word_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.word_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/xlm_roberta_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlm_roberta_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/xlm_roberta_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/xlnet_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.xlnet_embeddings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../er/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.er</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../er/entity_ruler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.er.entity_ruler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../keyword_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.keyword_extraction</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../keyword_extraction/yake_keyword_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.keyword_extraction.yake_keyword_extraction</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ld_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ld_dl</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ld_dl/language_detector_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ld_dl.language_detector_dl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../matcher/big_text_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.big_text_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../matcher/date_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.date_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../matcher/multi_date_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.multi_date_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../matcher/regex_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.regex_matcher</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../matcher/text_matcher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.matcher.text_matcher</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ner/ner_approach/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_approach</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ner/ner_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_converter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ner/ner_crf/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_crf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ner/ner_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ner/ner_overwriter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ner.ner_overwriter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../openai/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/openai_completion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_completion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/openai_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.openai.openai_embeddings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../param/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.param</span></code></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../pos/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pos/perceptron/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.pos.perceptron</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentence/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sentence/sentence_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sentence/sentence_detector_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentence.sentence_detector_dl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sentiment/sentiment_detector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.sentiment_detector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sentiment/vivekn_sentiment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.sentiment.vivekn_sentiment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.auto_gguf_model</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bart_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.bart_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cpm_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.cpm_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpt2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.gpt2_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../llama2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.llama2_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../llama3_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.llama3_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../m2m100_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.m2m100_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../marian_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.marian_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mistral_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.mistral_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nllb_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.nllb_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phi2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.phi2_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../phi3_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.phi3_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.qwen_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../starcoder_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.starcoder_transformer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../t5_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.t5_transformer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../spell_check/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../spell_check/context_spell_checker/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.context_spell_checker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spell_check/norvig_sweeting/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.norvig_sweeting</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spell_check/symmetric_delete/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.spell_check.symmetric_delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../token/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ws/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ws/word_segmenter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.ws.word_segmenter</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../chunk2_doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.chunk2_doc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chunker/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.chunker</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.date2_chunk</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../document_character_text_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_character_text_splitter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../document_normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../document_token_splitter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.document_token_splitter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../graph_extraction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.graph_extraction</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lemmatizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.lemmatizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../n_gram_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.n_gram_generator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../normalizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.normalizer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stemmer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stemmer</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../stop_words_cleaner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.stop_words_cleaner</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token2_chunk</span></code></a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.auto_gguf_model</span></code></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.annotator.seq2seq.auto_gguf_model">
+<span id="sparknlp-annotator-seq2seq-auto-gguf-model"></span><h1><a class="reference internal" href="#module-sparknlp.annotator.seq2seq.auto_gguf_model" title="sparknlp.annotator.seq2seq.auto_gguf_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.seq2seq.auto_gguf_model</span></code></a><a class="headerlink" href="#module-sparknlp.annotator.seq2seq.auto_gguf_model" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for the AutoGGUFModel.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel" title="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AutoGGUFModel</span></code></a></p></td>
+<td><p>Annotator that uses the llama.cpp library to generate text completions with large language</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AutoGGUFModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotator that uses the llama.cpp library to generate text completions with large language
+models.</p>
+<p>For settable parameters, and their explanations, see the parameters of this class and refer to
+the llama.cpp documentation of
+<a class="reference external" href="https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server">server.cpp</a>
+for more information.</p>
+<p>If the parameters are not set, the annotator will default to use the parameters provided by
+the model.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained" title="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_gguf_model</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;completions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span></code>, if no name is provided.</p>
+<p>For extended examples of usage, see the
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala">AutoGGUFModelTest</a>
+and the
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb">example notebook</a>.</p>
+<p>For available pretrained models please see the <a class="reference external" href="https://sparknlp.org/models">Models Hub</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>nThreads</strong></dt><dd><p>Set the number of threads to use during generation</p>
+</dd>
+<dt><strong>nThreadsDraft</strong></dt><dd><p>Set the number of threads to use during draft generation</p>
+</dd>
+<dt><strong>nThreadsBatch</strong></dt><dd><p>Set the number of threads to use during batch and prompt processing</p>
+</dd>
+<dt><strong>nThreadsBatchDraft</strong></dt><dd><p>Set the number of threads to use during batch and prompt processing</p>
+</dd>
+<dt><strong>nCtx</strong></dt><dd><p>Set the size of the prompt context</p>
+</dd>
+<dt><strong>nBatch</strong></dt><dd><p>Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</p>
+</dd>
+<dt><strong>nUbatch</strong></dt><dd><p>Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</p>
+</dd>
+<dt><strong>nDraft</strong></dt><dd><p>Set the number of tokens to draft for speculative decoding</p>
+</dd>
+<dt><strong>nChunks</strong></dt><dd><p>Set the maximal number of chunks to process</p>
+</dd>
+<dt><strong>nSequences</strong></dt><dd><p>Set the number of sequences to decode</p>
+</dd>
+<dt><strong>pSplit</strong></dt><dd><p>Set the speculative decoding split probability</p>
+</dd>
+<dt><strong>nGpuLayers</strong></dt><dd><p>Set the number of layers to store in VRAM (-1 - use default)</p>
+</dd>
+<dt><strong>nGpuLayersDraft</strong></dt><dd><p>Set the number of layers to store in VRAM for the draft model (-1 - use default)</p>
+</dd>
+<dt><strong>gpuSplitMode</strong></dt><dd><p>Set how to split the model across GPUs</p>
+</dd>
+<dt><strong>mainGpu</strong></dt><dd><p>Set the main GPU that is used for scratch and small tensors.</p>
+</dd>
+<dt><strong>tensorSplit</strong></dt><dd><p>Set how split tensors should be distributed across GPUs</p>
+</dd>
+<dt><strong>grpAttnN</strong></dt><dd><p>Set the group-attention factor</p>
+</dd>
+<dt><strong>grpAttnW</strong></dt><dd><p>Set the group-attention width</p>
+</dd>
+<dt><strong>ropeFreqBase</strong></dt><dd><p>Set the RoPE base frequency, used by NTK-aware scaling</p>
+</dd>
+<dt><strong>ropeFreqScale</strong></dt><dd><p>Set the RoPE frequency scaling factor, expands context by a factor of 1/N</p>
+</dd>
+<dt><strong>yarnExtFactor</strong></dt><dd><p>Set the YaRN extrapolation mix factor</p>
+</dd>
+<dt><strong>yarnAttnFactor</strong></dt><dd><p>Set the YaRN scale sqrt(t) or attention magnitude</p>
+</dd>
+<dt><strong>yarnBetaFast</strong></dt><dd><p>Set the YaRN low correction dim or beta</p>
+</dd>
+<dt><strong>yarnBetaSlow</strong></dt><dd><p>Set the YaRN high correction dim or alpha</p>
+</dd>
+<dt><strong>yarnOrigCtx</strong></dt><dd><p>Set the YaRN original context size of model</p>
+</dd>
+<dt><strong>defragmentationThreshold</strong></dt><dd><p>Set the KV cache defragmentation threshold</p>
+</dd>
+<dt><strong>numaStrategy</strong></dt><dd><p>Set optimization strategies that help on some NUMA systems (if available)</p>
+</dd>
+<dt><strong>ropeScalingType</strong></dt><dd><p>Set the RoPE frequency scaling method, defaults to linear unless specified by the model</p>
+</dd>
+<dt><strong>poolingType</strong></dt><dd><p>Set the pooling type for embeddings, use model default if unspecified</p>
+</dd>
+<dt><strong>modelDraft</strong></dt><dd><p>Set the draft model for speculative decoding</p>
+</dd>
+<dt><strong>modelAlias</strong></dt><dd><p>Set a model alias</p>
+</dd>
+<dt><strong>lookupCacheStaticFilePath</strong></dt><dd><p>Set path to static lookup cache to use for lookup decoding (not updated by generation)</p>
+</dd>
+<dt><strong>lookupCacheDynamicFilePath</strong></dt><dd><p>Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</p>
+</dd>
+<dt><strong>embedding</strong></dt><dd><p>Whether to load model with embedding support</p>
+</dd>
+<dt><strong>flashAttention</strong></dt><dd><p>Whether to enable Flash Attention</p>
+</dd>
+<dt><strong>inputPrefixBos</strong></dt><dd><p>Whether to add prefix BOS to user inputs, preceding the <cite>–in-prefix</cite> string</p>
+</dd>
+<dt><strong>useMmap</strong></dt><dd><p>Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</p>
+</dd>
+<dt><strong>useMlock</strong></dt><dd><p>Whether to force the system to keep model in RAM rather than swapping or compressing</p>
+</dd>
+<dt><strong>noKvOffload</strong></dt><dd><p>Whether to disable KV offload</p>
+</dd>
+<dt><strong>systemPrompt</strong></dt><dd><p>Set a system prompt to use</p>
+</dd>
+<dt><strong>chatTemplate</strong></dt><dd><p>The chat template to use</p>
+</dd>
+<dt><strong>inputPrefix</strong></dt><dd><p>Set the prompt to start generation with</p>
+</dd>
+<dt><strong>inputSuffix</strong></dt><dd><p>Set a suffix for infilling</p>
+</dd>
+<dt><strong>cachePrompt</strong></dt><dd><p>Whether to remember the prompt to avoid reprocessing it</p>
+</dd>
+<dt><strong>nPredict</strong></dt><dd><p>Set the number of tokens to predict</p>
+</dd>
+<dt><strong>topK</strong></dt><dd><p>Set top-k sampling</p>
+</dd>
+<dt><strong>topP</strong></dt><dd><p>Set top-p sampling</p>
+</dd>
+<dt><strong>minP</strong></dt><dd><p>Set min-p sampling</p>
+</dd>
+<dt><strong>tfsZ</strong></dt><dd><p>Set tail free sampling, parameter z</p>
+</dd>
+<dt><strong>typicalP</strong></dt><dd><p>Set locally typical sampling, parameter p</p>
+</dd>
+<dt><strong>temperature</strong></dt><dd><p>Set the temperature</p>
+</dd>
+<dt><strong>dynatempRange</strong></dt><dd><p>Set the dynamic temperature range</p>
+</dd>
+<dt><strong>dynatempExponent</strong></dt><dd><p>Set the dynamic temperature exponent</p>
+</dd>
+<dt><strong>repeatLastN</strong></dt><dd><p>Set the last n tokens to consider for penalties</p>
+</dd>
+<dt><strong>repeatPenalty</strong></dt><dd><p>Set the penalty of repeated sequences of tokens</p>
+</dd>
+<dt><strong>frequencyPenalty</strong></dt><dd><p>Set the repetition alpha frequency penalty</p>
+</dd>
+<dt><strong>presencePenalty</strong></dt><dd><p>Set the repetition alpha presence penalty</p>
+</dd>
+<dt><strong>miroStat</strong></dt><dd><p>Set MiroStat sampling strategies.</p>
+</dd>
+<dt><strong>mirostatTau</strong></dt><dd><p>Set the MiroStat target entropy, parameter tau</p>
+</dd>
+<dt><strong>mirostatEta</strong></dt><dd><p>Set the MiroStat learning rate, parameter eta</p>
+</dd>
+<dt><strong>penalizeNl</strong></dt><dd><p>Whether to penalize newline tokens</p>
+</dd>
+<dt><strong>nKeep</strong></dt><dd><p>Set the number of tokens to keep from the initial prompt</p>
+</dd>
+<dt><strong>seed</strong></dt><dd><p>Set the RNG seed</p>
+</dd>
+<dt><strong>nProbs</strong></dt><dd><p>Set the amount top tokens probabilities to output if greater than 0.</p>
+</dd>
+<dt><strong>minKeep</strong></dt><dd><p>Set the amount of tokens the samplers should return at least (0 = disabled)</p>
+</dd>
+<dt><strong>grammar</strong></dt><dd><p>Set BNF-like grammar to constrain generations</p>
+</dd>
+<dt><strong>penaltyPrompt</strong></dt><dd><p>Override which part of the prompt is penalized for repetition.</p>
+</dd>
+<dt><strong>ignoreEos</strong></dt><dd><p>Set whether to ignore end of stream token and continue generating (implies –logit-bias 2-inf)</p>
+</dd>
+<dt><strong>disableTokenIds</strong></dt><dd><p>Set the token ids to disable in the completion</p>
+</dd>
+<dt><strong>stopStrings</strong></dt><dd><p>Set strings upon seeing which token generation is stopped</p>
+</dd>
+<dt><strong>samplers</strong></dt><dd><p>Set which samplers to use for token generation in the given order</p>
+</dd>
+<dt><strong>useChatTemplate</strong></dt><dd><p>Set whether or not generate should apply a chat template</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+the number of GPU layers with the <cite>setNGpuLayers</cite> method.</p>
+<p>When using larger models, we recommend adjusting GPU usage with <cite>setNCtx</cite> and <cite>setNGpuLayers</cite>
+according to your hardware to avoid out-of-memory errors.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a href="#id1"><span class="problematic" id="id2">`</span></a>Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</p></li>
+</ul>
+<blockquote>
+<div><p>&lt;<a class="reference external" href="https://arxiv.org/abs/1910.13461">https://arxiv.org/abs/1910.13461</a>&gt;`__</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/pytorch/fairseq">pytorch/fairseq</a></p></li>
+</ul>
+<p><strong>Paper Abstract:</strong>
+<em>We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.
+BART is trained by (1) corrupting text with an arbitrary noising function, and (2)
+learning a model to reconstruct the original text. It uses a standard Tranformer-based
+neural machine translation architecture which, despite its simplicity, can be seen as
+generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),
+and many other more recent pretraining schemes. We evaluate a number of noising approaches,
+finding the best performance by both randomly shuffling the order of the original sentences
+and using a novel in-filling scheme, where spans of text are replaced with a single mask token.
+BART is particularly effective when fine tuned for text generation but also works well for
+comprehension tasks. It matches the performance of RoBERTa with comparable training resources
+on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,
+question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides
+a 1.1 BLEU increase over a back-translation system for machine translation, with only target
+language pretraining. We also report ablation experiments that replicate other pretraining
+schemes within the BART framework, to better measure which factors most influence end-task performance.</em></p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">autoGGUFModel</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;completions&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setNPredict</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTemperature</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTopK</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTopP</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setPenalizeNl</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">autoGGUFModel</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;Hello, I am a&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;completions&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|completions                                                                                                                        |</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[{document, 0, 78,  new user.  I am currently working on a project and I need to create a list of , {prompt -&gt; Hello, I am a}, []}]|</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreads">
+<span class="sig-name descname"><span class="pre">setNThreads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNThreads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreads" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of threads to use during generation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsDraft">
+<span class="sig-name descname"><span class="pre">setNThreadsDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNThreadsDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsDraft" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of threads to use during draft generation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatch">
+<span class="sig-name descname"><span class="pre">setNThreadsBatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsBatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNThreadsBatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of threads to use during batch and prompt processing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatchDraft">
+<span class="sig-name descname"><span class="pre">setNThreadsBatchDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsBatchDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNThreadsBatchDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatchDraft" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of threads to use during batch and prompt processing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNCtx">
+<span class="sig-name descname"><span class="pre">setNCtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nCtx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNCtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNCtx" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the size of the prompt context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNBatch">
+<span class="sig-name descname"><span class="pre">setNBatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nBatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNBatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNBatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNUbatch">
+<span class="sig-name descname"><span class="pre">setNUbatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nUbatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNUbatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNUbatch" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNDraft">
+<span class="sig-name descname"><span class="pre">setNDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNDraft" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of tokens to draft for speculative decoding</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNChunks">
+<span class="sig-name descname"><span class="pre">setNChunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nChunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNChunks" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the maximal number of chunks to process</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNSequences">
+<span class="sig-name descname"><span class="pre">setNSequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nSequences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNSequences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNSequences" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of sequences to decode</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPSplit">
+<span class="sig-name descname"><span class="pre">setPSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pSplit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setPSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPSplit" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the speculative decoding split probability</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayers">
+<span class="sig-name descname"><span class="pre">setNGpuLayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nGpuLayers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNGpuLayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayers" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of layers to store in VRAM (-1 - use default)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayersDraft">
+<span class="sig-name descname"><span class="pre">setNGpuLayersDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nGpuLayersDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNGpuLayersDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayersDraft" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of layers to store in VRAM for the draft model (-1 - use default)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGpuSplitMode">
+<span class="sig-name descname"><span class="pre">setGpuSplitMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpuSplitMode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setGpuSplitMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGpuSplitMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Set how to split the model across GPUs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMainGpu">
+<span class="sig-name descname"><span class="pre">setMainGpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mainGpu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMainGpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMainGpu" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the main GPU that is used for scratch and small tensors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTensorSplit">
+<span class="sig-name descname"><span class="pre">setTensorSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensorSplit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTensorSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTensorSplit" title="Permalink to this definition">#</a></dt>
+<dd><p>Set how split tensors should be distributed across GPUs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnN">
+<span class="sig-name descname"><span class="pre">setGrpAttnN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grpAttnN</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setGrpAttnN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnN" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the group-attention factor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnW">
+<span class="sig-name descname"><span class="pre">setGrpAttnW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grpAttnW</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setGrpAttnW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnW" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the group-attention width</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqBase">
+<span class="sig-name descname"><span class="pre">setRopeFreqBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ropeFreqBase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setRopeFreqBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqBase" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the RoPE base frequency, used by NTK-aware scaling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqScale">
+<span class="sig-name descname"><span class="pre">setRopeFreqScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ropeFreqScale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setRopeFreqScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqScale" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the RoPE frequency scaling factor, expands context by a factor of 1/N</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnExtFactor">
+<span class="sig-name descname"><span class="pre">setYarnExtFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yarnExtFactor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setYarnExtFactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnExtFactor" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the YaRN extrapolation mix factor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnAttnFactor">
+<span class="sig-name descname"><span class="pre">setYarnAttnFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yarnAttnFactor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setYarnAttnFactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnAttnFactor" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the YaRN scale sqrt(t) or attention magnitude</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaFast">
+<span class="sig-name descname"><span class="pre">setYarnBetaFast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yarnBetaFast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setYarnBetaFast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaFast" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the YaRN low correction dim or beta</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaSlow">
+<span class="sig-name descname"><span class="pre">setYarnBetaSlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yarnBetaSlow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setYarnBetaSlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaSlow" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the YaRN high correction dim or alpha</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnOrigCtx">
+<span class="sig-name descname"><span class="pre">setYarnOrigCtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yarnOrigCtx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setYarnOrigCtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnOrigCtx" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the YaRN original context size of model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDefragmentationThreshold">
+<span class="sig-name descname"><span class="pre">setDefragmentationThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defragmentationThreshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setDefragmentationThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDefragmentationThreshold" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the KV cache defragmentation threshold</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNumaStrategy">
+<span class="sig-name descname"><span class="pre">setNumaStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numaStrategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNumaStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNumaStrategy" title="Permalink to this definition">#</a></dt>
+<dd><p>Set optimization strategies that help on some NUMA systems (if available)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeScalingType">
+<span class="sig-name descname"><span class="pre">setRopeScalingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ropeScalingType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setRopeScalingType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeScalingType" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the RoPE frequency scaling method, defaults to linear unless specified by the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPoolingType">
+<span class="sig-name descname"><span class="pre">setPoolingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poolingType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setPoolingType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPoolingType" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the pooling type for embeddings, use model default if unspecified</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelDraft">
+<span class="sig-name descname"><span class="pre">setModelDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setModelDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelDraft" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the draft model for speculative decoding</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelAlias">
+<span class="sig-name descname"><span class="pre">setModelAlias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelAlias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setModelAlias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelAlias" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a model alias</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheStaticFilePath">
+<span class="sig-name descname"><span class="pre">setLookupCacheStaticFilePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookupCacheStaticFilePath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setLookupCacheStaticFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheStaticFilePath" title="Permalink to this definition">#</a></dt>
+<dd><p>Set path to static lookup cache to use for lookup decoding (not updated by generation)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheDynamicFilePath">
+<span class="sig-name descname"><span class="pre">setLookupCacheDynamicFilePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookupCacheDynamicFilePath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setLookupCacheDynamicFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheDynamicFilePath" title="Permalink to this definition">#</a></dt>
+<dd><p>Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setEmbedding">
+<span class="sig-name descname"><span class="pre">setEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setEmbedding" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to load model with embedding support</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFlashAttention">
+<span class="sig-name descname"><span class="pre">setFlashAttention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flashAttention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setFlashAttention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFlashAttention" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to enable Flash Attention</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefixBos">
+<span class="sig-name descname"><span class="pre">setInputPrefixBos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputPrefixBos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setInputPrefixBos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefixBos" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to add prefix BOS to user inputs, preceding the <cite>–in-prefix</cite> bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMmap">
+<span class="sig-name descname"><span class="pre">setUseMmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">useMmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setUseMmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMmap" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMlock">
+<span class="sig-name descname"><span class="pre">setUseMlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">useMlock</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setUseMlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMlock" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to force the system to keep model in RAM rather than swapping or compressing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNoKvOffload">
+<span class="sig-name descname"><span class="pre">setNoKvOffload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noKvOffload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNoKvOffload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNoKvOffload" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to disable KV offload</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSystemPrompt">
+<span class="sig-name descname"><span class="pre">setSystemPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">systemPrompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setSystemPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSystemPrompt" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a system prompt to use</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setChatTemplate">
+<span class="sig-name descname"><span class="pre">setChatTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chatTemplate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setChatTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setChatTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>The chat template to use</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefix">
+<span class="sig-name descname"><span class="pre">setInputPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputPrefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setInputPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefix" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the prompt to start generation with</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputSuffix">
+<span class="sig-name descname"><span class="pre">setInputSuffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputSuffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setInputSuffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputSuffix" title="Permalink to this definition">#</a></dt>
+<dd><p>Set a suffix for infilling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setCachePrompt">
+<span class="sig-name descname"><span class="pre">setCachePrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cachePrompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setCachePrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setCachePrompt" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to remember the prompt to avoid reprocessing it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNPredict">
+<span class="sig-name descname"><span class="pre">setNPredict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nPredict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNPredict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNPredict" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of tokens to predict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopK">
+<span class="sig-name descname"><span class="pre">setTopK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTopK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopK" title="Permalink to this definition">#</a></dt>
+<dd><p>Set top-k sampling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopP">
+<span class="sig-name descname"><span class="pre">setTopP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topP</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTopP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopP" title="Permalink to this definition">#</a></dt>
+<dd><p>Set top-p sampling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinP">
+<span class="sig-name descname"><span class="pre">setMinP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minP</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMinP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinP" title="Permalink to this definition">#</a></dt>
+<dd><p>Set min-p sampling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTfsZ">
+<span class="sig-name descname"><span class="pre">setTfsZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tfsZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTfsZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTfsZ" title="Permalink to this definition">#</a></dt>
+<dd><p>Set tail free sampling, parameter z</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTypicalP">
+<span class="sig-name descname"><span class="pre">setTypicalP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typicalP</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTypicalP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTypicalP" title="Permalink to this definition">#</a></dt>
+<dd><p>Set locally typical sampling, parameter p</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTemperature">
+<span class="sig-name descname"><span class="pre">setTemperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTemperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTemperature" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the temperature</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureRange">
+<span class="sig-name descname"><span class="pre">setDynamicTemperatureRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamicTemperatureRange</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setDynamicTemperatureRange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureRange" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the dynamic temperature range</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureExponent">
+<span class="sig-name descname"><span class="pre">setDynamicTemperatureExponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamicTemperatureExponent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setDynamicTemperatureExponent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureExponent" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the dynamic temperature exponent</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatLastN">
+<span class="sig-name descname"><span class="pre">setRepeatLastN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repeatLastN</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setRepeatLastN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatLastN" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the last n tokens to consider for penalties</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatPenalty">
+<span class="sig-name descname"><span class="pre">setRepeatPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repeatPenalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setRepeatPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatPenalty" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the penalty of repeated sequences of tokens</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFrequencyPenalty">
+<span class="sig-name descname"><span class="pre">setFrequencyPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequencyPenalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setFrequencyPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFrequencyPenalty" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the repetition alpha frequency penalty</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPresencePenalty">
+<span class="sig-name descname"><span class="pre">setPresencePenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">presencePenalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setPresencePenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPresencePenalty" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the repetition alpha presence penalty</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStat">
+<span class="sig-name descname"><span class="pre">setMiroStat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">miroStat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMiroStat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStat" title="Permalink to this definition">#</a></dt>
+<dd><p>Set MiroStat sampling strategies.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatTau">
+<span class="sig-name descname"><span class="pre">setMiroStatTau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">miroStatTau</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMiroStatTau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatTau" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the MiroStat target entropy, parameter tau</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatEta">
+<span class="sig-name descname"><span class="pre">setMiroStatEta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">miroStatEta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMiroStatEta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatEta" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the MiroStat learning rate, parameter eta</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenalizeNl">
+<span class="sig-name descname"><span class="pre">setPenalizeNl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">penalizeNl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setPenalizeNl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenalizeNl" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to penalize newline tokens</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNKeep">
+<span class="sig-name descname"><span class="pre">setNKeep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nKeep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNKeep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNKeep" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the number of tokens to keep from the initial prompt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSeed">
+<span class="sig-name descname"><span class="pre">setSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSeed" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the RNG seed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNProbs">
+<span class="sig-name descname"><span class="pre">setNProbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nProbs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setNProbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNProbs" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the amount top tokens probabilities to output if greater than 0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinKeep">
+<span class="sig-name descname"><span class="pre">setMinKeep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minKeep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setMinKeep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinKeep" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the amount of tokens the samplers should return at least (0 = disabled)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrammar">
+<span class="sig-name descname"><span class="pre">setGrammar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grammar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setGrammar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrammar" title="Permalink to this definition">#</a></dt>
+<dd><p>Set BNF-like grammar to constrain generations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenaltyPrompt">
+<span class="sig-name descname"><span class="pre">setPenaltyPrompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">penaltyPrompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setPenaltyPrompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenaltyPrompt" title="Permalink to this definition">#</a></dt>
+<dd><p>Override which part of the prompt is penalized for repetition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setIgnoreEos">
+<span class="sig-name descname"><span class="pre">setIgnoreEos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignoreEos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setIgnoreEos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setIgnoreEos" title="Permalink to this definition">#</a></dt>
+<dd><p>Set whether to ignore end of stream token and continue generating (implies –logit-bias 2-inf)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDisableTokenIds">
+<span class="sig-name descname"><span class="pre">setDisableTokenIds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disableTokenIds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setDisableTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDisableTokenIds" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the token ids to disable in the completion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setStopStrings">
+<span class="sig-name descname"><span class="pre">setStopStrings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stopStrings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setStopStrings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setStopStrings" title="Permalink to this definition">#</a></dt>
+<dd><p>Set strings upon seeing which token generation is stopped</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSamplers">
+<span class="sig-name descname"><span class="pre">setSamplers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samplers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setSamplers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSamplers" title="Permalink to this definition">#</a></dt>
+<dd><p>Set which samplers to use for token generation in the given order</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseChatTemplate">
+<span class="sig-name descname"><span class="pre">setUseChatTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">useChatTemplate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setUseChatTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseChatTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>Set whether generate should apply a chat template</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenIdBias">
+<span class="sig-name descname"><span class="pre">setTokenIdBias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenIdBias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTokenIdBias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenIdBias" title="Permalink to this definition">#</a></dt>
+<dd><p>Set token id bias</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenBias">
+<span class="sig-name descname"><span class="pre">setTokenBias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenBias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setTokenBias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenBias" title="Permalink to this definition">#</a></dt>
+<dd><p>Set token id bias</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLoraAdapters">
+<span class="sig-name descname"><span class="pre">setLoraAdapters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loraAdapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.setLoraAdapters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLoraAdapters" title="Permalink to this definition">#</a></dt>
+<dd><p>Set token id bias</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.getMetadata">
+<span class="sig-name descname"><span class="pre">getMetadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.getMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.getMetadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the metadata of the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads a locally saved model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the saved model</p>
+</dd>
+<dt><strong>spark_session</strong><span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AutoGGUFModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'phi3.5_mini_4k_instruct_q4_gguf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/auto_gguf_model.html#AutoGGUFModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “phi3.5_mini_4k_instruct_q4_gguf”</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AutoGGUFModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreads"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNThreads()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsDraft"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNThreadsDraft()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatch"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNThreadsBatch()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatchDraft"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNThreadsBatchDraft()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNCtx"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNCtx()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNBatch"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNBatch()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNUbatch"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNUbatch()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNDraft"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNDraft()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNChunks"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNChunks()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNSequences"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNSequences()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPSplit"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setPSplit()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayers"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNGpuLayers()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayersDraft"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNGpuLayersDraft()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGpuSplitMode"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setGpuSplitMode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMainGpu"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMainGpu()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTensorSplit"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTensorSplit()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnN"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setGrpAttnN()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnW"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setGrpAttnW()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqBase"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setRopeFreqBase()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqScale"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setRopeFreqScale()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnExtFactor"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setYarnExtFactor()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnAttnFactor"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setYarnAttnFactor()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaFast"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setYarnBetaFast()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaSlow"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setYarnBetaSlow()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnOrigCtx"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setYarnOrigCtx()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDefragmentationThreshold"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setDefragmentationThreshold()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNumaStrategy"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNumaStrategy()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeScalingType"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setRopeScalingType()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPoolingType"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setPoolingType()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelDraft"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setModelDraft()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelAlias"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setModelAlias()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheStaticFilePath"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setLookupCacheStaticFilePath()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheDynamicFilePath"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setLookupCacheDynamicFilePath()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setEmbedding"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setEmbedding()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFlashAttention"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setFlashAttention()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefixBos"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setInputPrefixBos()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMmap"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setUseMmap()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMlock"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setUseMlock()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNoKvOffload"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNoKvOffload()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSystemPrompt"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setSystemPrompt()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setChatTemplate"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setChatTemplate()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefix"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setInputPrefix()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputSuffix"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setInputSuffix()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setCachePrompt"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setCachePrompt()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNPredict"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNPredict()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopK"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTopK()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopP"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTopP()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinP"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMinP()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTfsZ"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTfsZ()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTypicalP"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTypicalP()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTemperature"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTemperature()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureRange"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setDynamicTemperatureRange()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureExponent"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setDynamicTemperatureExponent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatLastN"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setRepeatLastN()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatPenalty"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setRepeatPenalty()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFrequencyPenalty"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setFrequencyPenalty()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPresencePenalty"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setPresencePenalty()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStat"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMiroStat()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatTau"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMiroStatTau()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatEta"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMiroStatEta()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenalizeNl"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setPenalizeNl()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNKeep"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNKeep()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSeed"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setSeed()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNProbs"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setNProbs()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinKeep"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setMinKeep()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrammar"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setGrammar()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenaltyPrompt"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setPenaltyPrompt()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setIgnoreEos"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setIgnoreEos()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDisableTokenIds"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setDisableTokenIds()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setStopStrings"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setStopStrings()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSamplers"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setSamplers()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseChatTemplate"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setUseChatTemplate()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenIdBias"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTokenIdBias()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenBias"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setTokenBias()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLoraAdapters"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.setLoraAdapters()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.getMetadata"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.getMetadata()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.loadSavedModel()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained"><code class="docutils literal notranslate"><span class="pre">AutoGGUFModel.pretrained()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../../../../../_sources/reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

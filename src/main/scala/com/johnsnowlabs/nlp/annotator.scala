@@ -552,6 +552,9 @@ package object annotator {
 
   object CamemBertEmbeddings extends ReadablePretrainedCamemBertModel with ReadCamemBertDLModel
 
+  type CamemBertaForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForZeroShotClassification
+
   type SpanBertCorefModel = com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
 
   object SpanBertCorefModel
@@ -812,12 +815,14 @@ package object annotator {
 
   object UAEEmbeddings extends ReadablePretrainedUAEModel with ReadUAEDLModel
 
+  type AutoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
+  object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel
+
   type MxbaiEmbeddings =
     com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
 
   object MxbaiEmbeddings extends ReadablePretrainedMxbaiModel with ReadMxbaiDLModel
 
-  
   type SnowFlakeEmbeddings =
     com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings
 

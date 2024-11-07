@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.Tapas
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.base.TableAssembler
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, HasPretrained, ParamsAndFeaturesReadable}

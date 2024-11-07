@@ -115,9 +115,9 @@ private[johnsnowlabs] class Instructor(
 
   }
   private def getSentenceEmbeddingFromOnnx(
-                                          batch: Seq[Array[Int]],
-                                          contextLengths: Seq[Int],
-                                          maxSentenceLength: Int): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      contextLengths: Seq[Int],
+      maxSentenceLength: Int): Array[Array[Float]] = {
 
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
     val attentionMask = batch
@@ -138,9 +138,7 @@ private[johnsnowlabs] class Instructor(
     val maskTensors = OnnxTensor.createTensor(env, attentionMask)
 
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
@@ -181,9 +179,9 @@ private[johnsnowlabs] class Instructor(
   }
 
   private def getSentenceEmbeddingFromTF(
-                                          paddedBatch: Seq[Array[Int]],
-                                          contextLengths: Seq[Int],
-                                          maxSentenceLength: Int) = {
+      paddedBatch: Seq[Array[Int]],
+      contextLengths: Seq[Int],
+      maxSentenceLength: Int) = {
     // encode batch
     val tensorEncoder = new TensorResources()
     val inputDim = paddedBatch.length * maxSentenceLength
@@ -264,6 +262,7 @@ private[johnsnowlabs] class Instructor(
     sentenceEmbeddingsFloatsArray
 
   }
+
   /** Get sentence embeddings for a batch of sentences
     * @param batch
     *   batch of sentences

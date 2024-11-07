@@ -60,7 +60,6 @@ private[johnsnowlabs] class ViTClassifier(
 
   sessionWarmup()
 
-
   def getRawScoresWithTF(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
     val tensors = new TensorResources()
     val imageTensors = tensors.createTensor(batch)
@@ -102,10 +101,9 @@ private[johnsnowlabs] class ViTClassifier(
 
   def getRawScoresWithOnnx(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-    val imageTensors = OnnxTensor.createTensor(env,batch)
+    val imageTensors = OnnxTensor.createTensor(env, batch)
     val inputs =
-      Map(
-        "pixel_values" -> imageTensors).asJava
+      Map("pixel_values" -> imageTensors).asJava
 
     val results = runner.run(inputs)
     val rawScores = results
@@ -114,7 +112,6 @@ private[johnsnowlabs] class ViTClassifier(
       .asInstanceOf[OnnxTensor]
       .getFloatBuffer
       .array()
-
 
     results.close()
     imageTensors.close()

@@ -20,8 +20,17 @@ import com.johnsnowlabs.ml.ai.AlbertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -391,7 +400,8 @@ trait ReadAlbertForSequenceDLModel
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "albert_sequence_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "albert_sequence_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -440,7 +450,6 @@ trait ReadAlbertForSequenceDLModel
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
 
-
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
           OpenvinoWrapper.read(
@@ -451,7 +460,6 @@ trait ReadAlbertForSequenceDLModel
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

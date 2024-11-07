@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Getting Started &#8212; Spark NLP 5.4.2 documentation</title>
+    <title>Getting Started &#8212; Spark NLP 5.5.0 documentation</title>
   
   
   
@@ -347,22 +347,22 @@ document.write(`
 <h2>Spark NLP Cheat Sheet<a class="headerlink" href="#spark-nlp-cheat-sheet" title="Permalink to this heading">#</a></h2>
 <p>This cheat sheet can be used as a quick reference on how to set up your environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Spark NLP from PyPI</span>
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.4.2
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.0
 
 <span class="c1"># Install Spark NLP from Anaconda/Conda</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.4.2
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.0
 
 <span class="c1"># Load Spark NLP with Spark Shell</span>
-spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.2
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.0
 
 <span class="c1"># Load Spark NLP with PySpark</span>
-pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.2
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.0
 
 <span class="c1"># Load Spark NLP with Spark Submit</span>
-spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.2
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.0
 
 <span class="c1"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-5.4.2
+spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-5.5.0
 </pre></div>
 </div>
 </section>
@@ -398,7 +398,7 @@ Please refer to <a class="reference external" href="https://spark.apache.org/doc
 <p>Then we can create a new environment <code class="docutils literal notranslate"><span class="pre">sparknlp</span></code> and install the <code class="docutils literal notranslate"><span class="pre">spark-nlp</span></code> package with pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sparknlp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>sparknlp
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.4.2<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -411,7 +411,7 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 <p>We can also create a Python <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>sparknlp<span class="w"> </span>--python<span class="o">=</span>python3.8<span class="w"> </span><span class="c1"># depends on how your Python installation is set up</span>
 <span class="nb">source</span><span class="w"> </span>sparknlp/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.4.2<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -436,7 +436,7 @@ you can manually start the SparkSession with:</p>
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:5.4.2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.0&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>

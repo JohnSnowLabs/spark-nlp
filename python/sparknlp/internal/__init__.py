@@ -248,6 +248,14 @@ class _LLAMA2Loader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _LLAMA3Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_LLAMA3Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA3Transformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
 
 class _LongformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -852,6 +860,13 @@ class _CamemBertQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _CamemBertForZeroShotClassificationLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForZeroShotClassificationLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForZeroShotClassification.loadSavedModel",
+            path,
+            jspark,
+        )
 
 class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
     def __init__(self, path):
@@ -966,6 +981,12 @@ class _UAEEmbeddingsLoader(ExtendedJavaWrapper):
         )
 
 
+class _AutoGGUFLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AutoGGUFLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
+        
+        
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MxbaiEmbeddingsLoader, self).__init__(
@@ -978,4 +999,3 @@ class _SnowFlakeEmbeddingsLoader(ExtendedJavaWrapper):
         super(_SnowFlakeEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings.loadSavedModel", path, jspark
         )
-

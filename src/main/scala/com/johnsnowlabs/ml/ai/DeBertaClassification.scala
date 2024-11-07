@@ -305,7 +305,6 @@ private[johnsnowlabs] class DeBertaClassification(
     batchScores
   }
 
-
   private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
     if (arr.length >= maxLength) {
       arr
@@ -315,10 +314,10 @@ private[johnsnowlabs] class DeBertaClassification(
   }
 
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
@@ -335,8 +334,6 @@ private[johnsnowlabs] class DeBertaClassification(
       .grouped(dim)
       .toArray
   }
-
-
 
 
   def computeZeroShotLogitsWithOv(
@@ -372,10 +369,9 @@ private[johnsnowlabs] class DeBertaClassification(
   }
 
 
-
   def computeZeroShotLogitsWithONNX(
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -386,11 +382,8 @@ private[johnsnowlabs] class DeBertaClassification(
         env,
         batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val results = runner.run(inputs)
@@ -410,10 +403,9 @@ private[johnsnowlabs] class DeBertaClassification(
 
   }
 
-
   def computeZeroShotLogitsWithTF(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val tensors = new TensorResources()
 
     val batchLength = batch.length
@@ -475,7 +467,7 @@ private[johnsnowlabs] class DeBertaClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-   rawScores
+    rawScores
   }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {

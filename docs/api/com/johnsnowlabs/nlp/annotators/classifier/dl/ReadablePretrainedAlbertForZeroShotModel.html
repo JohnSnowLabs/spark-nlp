@@ -1,0 +1,1333 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title>Spark NLP 5.5.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel</title>
+          <meta name="description" content="Spark NLP 5.5.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel" />
+          <meta name="keywords" content="Spark NLP 5.5.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      
+      <link href="../../../../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.min.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../../../../index.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title">Spark NLP 5.5.0 ScalaDoc<span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="../../../../../../index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../../../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.com" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="com"></a><a id="com:com"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../../index.html"><span class="name">com</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="johnsnowlabs"></a><a id="johnsnowlabs:johnsnowlabs"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../../index.html"><span class="name">johnsnowlabs</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../../index.html" class="extype" name="com">com</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="nlp"></a><a id="nlp:nlp"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../index.html"><span class="name">nlp</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotators"></a><a id="annotators:annotators"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../index.html"><span class="name">annotators</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="classifier"></a><a id="classifier:classifier"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html"><span class="name">classifier</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dl"></a><a id="dl:dl"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="index.html"><span class="name">dl</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier">classifier</a></dd></dl></div>
+    </li><li class="current-entities indented6">
+                        <a class="object" href="AlbertForQuestionAnswering$.html" title="This is the companion object of AlbertForQuestionAnswering."></a>
+                        <a class="class" href="AlbertForQuestionAnswering.html" title="AlbertForQuestionAnswering can load ALBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="AlbertForQuestionAnswering.html" title="AlbertForQuestionAnswering can load ALBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">AlbertForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="AlbertForSequenceClassification$.html" title="This is the companion object of AlbertForSequenceClassification."></a>
+                        <a class="class" href="AlbertForSequenceClassification.html" title="AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="AlbertForSequenceClassification.html" title="AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">AlbertForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="AlbertForTokenClassification$.html" title="This is the companion object of AlbertForTokenClassification."></a>
+                        <a class="class" href="AlbertForTokenClassification.html" title="AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="AlbertForTokenClassification.html" title="AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">AlbertForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="AlbertForZeroShotClassification$.html" title="This is the companion object of AlbertForZeroShotClassification."></a>
+                        <a class="class" href="AlbertForZeroShotClassification.html" title=""></a>
+                        <a href="AlbertForZeroShotClassification.html" title="">AlbertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="BartForZeroShotClassification$.html" title="This is the companion object of BartForZeroShotClassification."></a>
+                        <a class="class" href="BartForZeroShotClassification.html" title="BartForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="BartForZeroShotClassification.html" title="BartForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">BartForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="BertForQuestionAnswering$.html" title="This is the companion object of BertForQuestionAnswering."></a>
+                        <a class="class" href="BertForQuestionAnswering.html" title="BertForQuestionAnswering can load Bert Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="BertForQuestionAnswering.html" title="BertForQuestionAnswering can load Bert Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">BertForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="BertForSequenceClassification$.html" title="This is the companion object of BertForSequenceClassification."></a>
+                        <a class="class" href="BertForSequenceClassification.html" title="BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="BertForSequenceClassification.html" title="BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">BertForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="BertForTokenClassification$.html" title="This is the companion object of BertForTokenClassification."></a>
+                        <a class="class" href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">BertForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="BertForZeroShotClassification$.html" title="This is the companion object of BertForZeroShotClassification."></a>
+                        <a class="class" href="BertForZeroShotClassification.html" title="BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="BertForZeroShotClassification.html" title="BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">BertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="CamemBertForQuestionAnswering$.html" title="This is the companion object of CamemBertForQuestionAnswering."></a>
+                        <a class="class" href="CamemBertForQuestionAnswering.html" title="CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="CamemBertForQuestionAnswering.html" title="CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">CamemBertForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="CamemBertForSequenceClassification$.html" title="This is the companion object of CamemBertForSequenceClassification."></a>
+                        <a class="class" href="CamemBertForSequenceClassification.html" title="CamemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="CamemBertForSequenceClassification.html" title="CamemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">CamemBertForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="CamemBertForTokenClassification$.html" title="This is the companion object of CamemBertForTokenClassification."></a>
+                        <a class="class" href="CamemBertForTokenClassification.html" title="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="CamemBertForTokenClassification.html" title="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">CamemBertForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="CamemBertForZeroShotClassification$.html" title="This is the companion object of CamemBertForZeroShotClassification."></a>
+                        <a class="class" href="CamemBertForZeroShotClassification.html" title=""></a>
+                        <a href="CamemBertForZeroShotClassification.html" title="">CamemBertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="ClassifierDLApproach$.html" title="This is the companion object of ClassifierDLApproach."></a>
+                        <a class="class" href="ClassifierDLApproach.html" title="Trains a ClassifierDL for generic Multi-class Text Classification."></a>
+                        <a href="ClassifierDLApproach.html" title="Trains a ClassifierDL for generic Multi-class Text Classification.">ClassifierDLApproach</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="ClassifierDLModel$.html" title="This is the companion object of ClassifierDLModel."></a>
+                        <a class="class" href="ClassifierDLModel.html" title="ClassifierDL for generic Multi-class Text Classification."></a>
+                        <a href="ClassifierDLModel.html" title="ClassifierDL for generic Multi-class Text Classification.">ClassifierDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ClassifierEncoder.html" title=""></a>
+                        <a href="ClassifierEncoder.html" title="">ClassifierEncoder</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ClassifierMetrics.html" title=""></a>
+                        <a href="ClassifierMetrics.html" title="">ClassifierMetrics</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DeBertaForQuestionAnswering$.html" title="This is the companion object of DeBertaForQuestionAnswering."></a>
+                        <a class="class" href="DeBertaForQuestionAnswering.html" title="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="DeBertaForQuestionAnswering.html" title="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">DeBertaForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DeBertaForSequenceClassification$.html" title="This is the companion object of DeBertaForSequenceClassification."></a>
+                        <a class="class" href="DeBertaForSequenceClassification.html" title="DeBertaForSequenceClassification can load DeBerta v2 &amp; v3 Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="DeBertaForSequenceClassification.html" title="DeBertaForSequenceClassification can load DeBerta v2 &amp; v3 Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">DeBertaForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DeBertaForTokenClassification$.html" title="This is the companion object of DeBertaForTokenClassification."></a>
+                        <a class="class" href="DeBertaForTokenClassification.html" title="DeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="DeBertaForTokenClassification.html" title="DeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">DeBertaForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DeBertaForZeroShotClassification$.html" title="This is the companion object of DeBertaForZeroShotClassification."></a>
+                        <a class="class" href="DeBertaForZeroShotClassification.html" title="DeBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="DeBertaForZeroShotClassification.html" title="DeBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">DeBertaForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DistilBertForQuestionAnswering$.html" title="This is the companion object of DistilBertForQuestionAnswering."></a>
+                        <a class="class" href="DistilBertForQuestionAnswering.html" title="DistilBertForQuestionAnswering can load DistilBert Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="DistilBertForQuestionAnswering.html" title="DistilBertForQuestionAnswering can load DistilBert Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">DistilBertForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DistilBertForSequenceClassification$.html" title="This is the companion object of DistilBertForSequenceClassification."></a>
+                        <a class="class" href="DistilBertForSequenceClassification.html" title="DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="DistilBertForSequenceClassification.html" title="DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">DistilBertForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DistilBertForTokenClassification$.html" title="This is the companion object of DistilBertForTokenClassification."></a>
+                        <a class="class" href="DistilBertForTokenClassification.html" title="DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="DistilBertForTokenClassification.html" title="DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">DistilBertForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="DistilBertForZeroShotClassification$.html" title="This is the companion object of DistilBertForZeroShotClassification."></a>
+                        <a class="class" href="DistilBertForZeroShotClassification.html" title="DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="DistilBertForZeroShotClassification.html" title="DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">DistilBertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="LongformerForQuestionAnswering$.html" title="This is the companion object of LongformerForQuestionAnswering."></a>
+                        <a class="class" href="LongformerForQuestionAnswering.html" title="LongformerForQuestionAnswering can load Longformer Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="LongformerForQuestionAnswering.html" title="LongformerForQuestionAnswering can load Longformer Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">LongformerForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="LongformerForSequenceClassification$.html" title="This is the companion object of LongformerForSequenceClassification."></a>
+                        <a class="class" href="LongformerForSequenceClassification.html" title="LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="LongformerForSequenceClassification.html" title="LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">LongformerForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="LongformerForTokenClassification$.html" title="This is the companion object of LongformerForTokenClassification."></a>
+                        <a class="class" href="LongformerForTokenClassification.html" title="LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="LongformerForTokenClassification.html" title="LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">LongformerForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="MPNetForQuestionAnswering$.html" title="This is the companion object of MPNetForQuestionAnswering."></a>
+                        <a class="class" href="MPNetForQuestionAnswering.html" title="MPNetForQuestionAnswering can load MPNet Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="MPNetForQuestionAnswering.html" title="MPNetForQuestionAnswering can load MPNet Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">MPNetForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="MPNetForSequenceClassification$.html" title="This is the companion object of MPNetForSequenceClassification."></a>
+                        <a class="class" href="MPNetForSequenceClassification.html" title="MPNetForSequenceClassification can load MPNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="MPNetForSequenceClassification.html" title="MPNetForSequenceClassification can load MPNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">MPNetForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="MPNetForTokenClassification$.html" title="This is the companion object of MPNetForTokenClassification."></a>
+                        <a class="class" href="MPNetForTokenClassification.html" title="MPNetForTokenClassification can load MPNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="MPNetForTokenClassification.html" title="MPNetForTokenClassification can load MPNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">MPNetForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="class" href="MultiClassifierDLApproach.html" title="Trains a MultiClassifierDL for Multi-label Text Classification."></a>
+                        <a href="MultiClassifierDLApproach.html" title="Trains a MultiClassifierDL for Multi-label Text Classification.">MultiClassifierDLApproach</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="MultiClassifierDLModel$.html" title="This is the companion object of MultiClassifierDLModel."></a>
+                        <a class="class" href="MultiClassifierDLModel.html" title="MultiClassifierDL for Multi-label Text Classification."></a>
+                        <a href="MultiClassifierDLModel.html" title="MultiClassifierDL for Multi-label Text Classification.">MultiClassifierDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadAlbertForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadAlbertForQuestionAnsweringDLModel.html" title="">ReadAlbertForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadAlbertForSequenceDLModel.html" title=""></a>
+                        <a href="ReadAlbertForSequenceDLModel.html" title="">ReadAlbertForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadAlbertForTokenDLModel.html" title=""></a>
+                        <a href="ReadAlbertForTokenDLModel.html" title="">ReadAlbertForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadAlbertForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadAlbertForZeroShotDLModel.html" title="">ReadAlbertForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBartForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadBartForZeroShotDLModel.html" title="">ReadBartForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBertForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadBertForQuestionAnsweringDLModel.html" title="">ReadBertForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBertForSequenceDLModel.html" title=""></a>
+                        <a href="ReadBertForSequenceDLModel.html" title="">ReadBertForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBertForTokenDLModel.html" title=""></a>
+                        <a href="ReadBertForTokenDLModel.html" title="">ReadBertForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBertForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadBertForZeroShotDLModel.html" title="">ReadBertForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertForQADLModel.html" title=""></a>
+                        <a href="ReadCamemBertForQADLModel.html" title="">ReadCamemBertForQADLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertForSequenceDLModel.html" title=""></a>
+                        <a href="ReadCamemBertForSequenceDLModel.html" title="">ReadCamemBertForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertForTokenDLModel.html" title=""></a>
+                        <a href="ReadCamemBertForTokenDLModel.html" title="">ReadCamemBertForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCamemBertForZeroShotClassification.html" title=""></a>
+                        <a href="ReadCamemBertForZeroShotClassification.html" title="">ReadCamemBertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadClassifierDLTensorflowModel.html" title=""></a>
+                        <a href="ReadClassifierDLTensorflowModel.html" title="">ReadClassifierDLTensorflowModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDeBertaForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadDeBertaForQuestionAnsweringDLModel.html" title="">ReadDeBertaForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDeBertaForSequenceDLModel.html" title=""></a>
+                        <a href="ReadDeBertaForSequenceDLModel.html" title="">ReadDeBertaForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDeBertaForTokenDLModel.html" title=""></a>
+                        <a href="ReadDeBertaForTokenDLModel.html" title="">ReadDeBertaForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDeBertaForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadDeBertaForZeroShotDLModel.html" title="">ReadDeBertaForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDistilBertForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadDistilBertForQuestionAnsweringDLModel.html" title="">ReadDistilBertForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDistilBertForSequenceDLModel.html" title=""></a>
+                        <a href="ReadDistilBertForSequenceDLModel.html" title="">ReadDistilBertForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDistilBertForTokenDLModel.html" title=""></a>
+                        <a href="ReadDistilBertForTokenDLModel.html" title="">ReadDistilBertForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadDistilBertForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadDistilBertForZeroShotDLModel.html" title="">ReadDistilBertForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLongformerForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadLongformerForQuestionAnsweringDLModel.html" title="">ReadLongformerForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLongformerForSequenceDLModel.html" title=""></a>
+                        <a href="ReadLongformerForSequenceDLModel.html" title="">ReadLongformerForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLongformerForTokenDLModel.html" title=""></a>
+                        <a href="ReadLongformerForTokenDLModel.html" title="">ReadLongformerForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMPNetForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadMPNetForQuestionAnsweringDLModel.html" title="">ReadMPNetForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMPNetForSequenceDLModel.html" title=""></a>
+                        <a href="ReadMPNetForSequenceDLModel.html" title="">ReadMPNetForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMPNetForTokenDLModel.html" title=""></a>
+                        <a href="ReadMPNetForTokenDLModel.html" title="">ReadMPNetForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadMultiClassifierDLTensorflowModel.html" title=""></a>
+                        <a href="ReadMultiClassifierDLTensorflowModel.html" title="">ReadMultiClassifierDLTensorflowModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPretrainedCamemBertForZeroShotClassification.html" title=""></a>
+                        <a href="ReadPretrainedCamemBertForZeroShotClassification.html" title="">ReadPretrainedCamemBertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadRoBertaForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadRoBertaForQuestionAnsweringDLModel.html" title="">ReadRoBertaForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadRoBertaForSequenceDLModel.html" title=""></a>
+                        <a href="ReadRoBertaForSequenceDLModel.html" title="">ReadRoBertaForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadRoBertaForTokenDLModel.html" title=""></a>
+                        <a href="ReadRoBertaForTokenDLModel.html" title="">ReadRoBertaForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadRoBertaForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadRoBertaForZeroShotDLModel.html" title="">ReadRoBertaForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadSentimentDLTensorflowModel.html" title=""></a>
+                        <a href="ReadSentimentDLTensorflowModel.html" title="">ReadSentimentDLTensorflowModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadTapasForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadTapasForQuestionAnsweringDLModel.html" title="">ReadTapasForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlmRoBertaForQuestionAnsweringDLModel.html" title=""></a>
+                        <a href="ReadXlmRoBertaForQuestionAnsweringDLModel.html" title="">ReadXlmRoBertaForQuestionAnsweringDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlmRoBertaForSequenceDLModel.html" title=""></a>
+                        <a href="ReadXlmRoBertaForSequenceDLModel.html" title="">ReadXlmRoBertaForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlmRoBertaForTokenDLModel.html" title=""></a>
+                        <a href="ReadXlmRoBertaForTokenDLModel.html" title="">ReadXlmRoBertaForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlmRoBertaForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadXlmRoBertaForZeroShotDLModel.html" title="">ReadXlmRoBertaForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlnetForSequenceDLModel.html" title=""></a>
+                        <a href="ReadXlnetForSequenceDLModel.html" title="">ReadXlnetForSequenceDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadXlnetForTokenDLModel.html" title=""></a>
+                        <a href="ReadXlnetForTokenDLModel.html" title="">ReadXlnetForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedAlbertForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedAlbertForQAModel.html" title="">ReadablePretrainedAlbertForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedAlbertForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedAlbertForSequenceModel.html" title="">ReadablePretrainedAlbertForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedAlbertForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedAlbertForTokenModel.html" title="">ReadablePretrainedAlbertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="" title=""></a>
+                        <a href="" title="">ReadablePretrainedAlbertForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBartForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedBartForZeroShotModel.html" title="">ReadablePretrainedBartForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBertForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedBertForQAModel.html" title="">ReadablePretrainedBertForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBertForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedBertForSequenceModel.html" title="">ReadablePretrainedBertForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBertForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedBertForTokenModel.html" title="">ReadablePretrainedBertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBertForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedBertForZeroShotModel.html" title="">ReadablePretrainedBertForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertForQAModel.html" title="">ReadablePretrainedCamemBertForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertForSequenceModel.html" title="">ReadablePretrainedCamemBertForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCamemBertForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedCamemBertForTokenModel.html" title="">ReadablePretrainedCamemBertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedClassifierDL.html" title=""></a>
+                        <a href="ReadablePretrainedClassifierDL.html" title="">ReadablePretrainedClassifierDL</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDeBertaForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedDeBertaForQAModel.html" title="">ReadablePretrainedDeBertaForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDeBertaForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedDeBertaForSequenceModel.html" title="">ReadablePretrainedDeBertaForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDeBertaForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedDeBertaForTokenModel.html" title="">ReadablePretrainedDeBertaForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDeBertaForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedDeBertaForZeroShotModel.html" title="">ReadablePretrainedDeBertaForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDistilBertForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedDistilBertForQAModel.html" title="">ReadablePretrainedDistilBertForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDistilBertForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedDistilBertForSequenceModel.html" title="">ReadablePretrainedDistilBertForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDistilBertForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedDistilBertForTokenModel.html" title="">ReadablePretrainedDistilBertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDistilBertForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedDistilBertForZeroShotModel.html" title="">ReadablePretrainedDistilBertForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLongformerForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedLongformerForQAModel.html" title="">ReadablePretrainedLongformerForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLongformerForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedLongformerForSequenceModel.html" title="">ReadablePretrainedLongformerForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLongformerForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedLongformerForTokenModel.html" title="">ReadablePretrainedLongformerForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMPNetForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedMPNetForQAModel.html" title="">ReadablePretrainedMPNetForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMPNetForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedMPNetForSequenceModel.html" title="">ReadablePretrainedMPNetForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMPNetForTokenDLModel.html" title=""></a>
+                        <a href="ReadablePretrainedMPNetForTokenDLModel.html" title="">ReadablePretrainedMPNetForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedMultiClassifierDL.html" title=""></a>
+                        <a href="ReadablePretrainedMultiClassifierDL.html" title="">ReadablePretrainedMultiClassifierDL</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedRoBertaForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedRoBertaForQAModel.html" title="">ReadablePretrainedRoBertaForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedRoBertaForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedRoBertaForSequenceModel.html" title="">ReadablePretrainedRoBertaForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedRoBertaForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedRoBertaForTokenModel.html" title="">ReadablePretrainedRoBertaForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedRoBertaForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedRoBertaForZeroShotModel.html" title="">ReadablePretrainedRoBertaForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedSentimentDL.html" title=""></a>
+                        <a href="ReadablePretrainedSentimentDL.html" title="">ReadablePretrainedSentimentDL</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedTapasForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedTapasForQAModel.html" title="">ReadablePretrainedTapasForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlmRoBertaForQAModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlmRoBertaForQAModel.html" title="">ReadablePretrainedXlmRoBertaForQAModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlmRoBertaForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlmRoBertaForSequenceModel.html" title="">ReadablePretrainedXlmRoBertaForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlmRoBertaForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlmRoBertaForTokenModel.html" title="">ReadablePretrainedXlmRoBertaForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlmRoBertaForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlmRoBertaForZeroShotModel.html" title="">ReadablePretrainedXlmRoBertaForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlnetForSequenceModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlnetForSequenceModel.html" title="">ReadablePretrainedXlnetForSequenceModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedXlnetForTokenModel.html" title=""></a>
+                        <a href="ReadablePretrainedXlnetForTokenModel.html" title="">ReadablePretrainedXlnetForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="RoBertaForQuestionAnswering$.html" title="This is the companion object of RoBertaForQuestionAnswering."></a>
+                        <a class="class" href="RoBertaForQuestionAnswering.html" title="RoBertaForQuestionAnswering can load RoBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="RoBertaForQuestionAnswering.html" title="RoBertaForQuestionAnswering can load RoBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">RoBertaForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="RoBertaForSequenceClassification$.html" title="This is the companion object of RoBertaForSequenceClassification."></a>
+                        <a class="class" href="RoBertaForSequenceClassification.html" title="RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="RoBertaForSequenceClassification.html" title="RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">RoBertaForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="RoBertaForTokenClassification$.html" title="This is the companion object of RoBertaForTokenClassification."></a>
+                        <a class="class" href="RoBertaForTokenClassification.html" title="RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="RoBertaForTokenClassification.html" title="RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">RoBertaForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="RoBertaForZeroShotClassification$.html" title="This is the companion object of RoBertaForZeroShotClassification."></a>
+                        <a class="class" href="RoBertaForZeroShotClassification.html" title="RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="RoBertaForZeroShotClassification.html" title="RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">RoBertaForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="object" href="SentimentApproach$.html" title="This is the companion object of SentimentApproach."></a>
+                        <a href="SentimentApproach$.html" title="This is the companion object of SentimentApproach.">SentimentApproach</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="class" href="SentimentDLApproach.html" title="Trains a SentimentDL, an annotator for multi-class sentiment analysis."></a>
+                        <a href="SentimentDLApproach.html" title="Trains a SentimentDL, an annotator for multi-class sentiment analysis.">SentimentDLApproach</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="SentimentDLModel$.html" title="This is the companion object of SentimentDLModel."></a>
+                        <a class="class" href="SentimentDLModel.html" title="SentimentDL, an annotator for multi-class sentiment analysis."></a>
+                        <a href="SentimentDLModel.html" title="SentimentDL, an annotator for multi-class sentiment analysis.">SentimentDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="TapasForQuestionAnswering$.html" title="This is the companion object of TapasForQuestionAnswering."></a>
+                        <a class="class" href="TapasForQuestionAnswering.html" title="TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically designed for answering questions about tabular data."></a>
+                        <a href="TapasForQuestionAnswering.html" title="TapasForQuestionAnswering is an implementation of TaPas - a BERT-based model specifically designed for answering questions about tabular data.">TapasForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlmRoBertaForQuestionAnswering$.html" title="This is the companion object of XlmRoBertaForQuestionAnswering."></a>
+                        <a class="class" href="XlmRoBertaForQuestionAnswering.html" title="XlmRoBertaForQuestionAnswering can load XLM-RoBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
+                        <a href="XlmRoBertaForQuestionAnswering.html" title="XlmRoBertaForQuestionAnswering can load XLM-RoBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">XlmRoBertaForQuestionAnswering</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlmRoBertaForSequenceClassification$.html" title="This is the companion object of XlmRoBertaForSequenceClassification."></a>
+                        <a class="class" href="XlmRoBertaForSequenceClassification.html" title="XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="XlmRoBertaForSequenceClassification.html" title="XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">XlmRoBertaForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlmRoBertaForTokenClassification$.html" title="This is the companion object of XlmRoBertaForTokenClassification."></a>
+                        <a class="class" href="XlmRoBertaForTokenClassification.html" title="XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="XlmRoBertaForTokenClassification.html" title="XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">XlmRoBertaForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlmRoBertaForZeroShotClassification$.html" title="This is the companion object of XlmRoBertaForZeroShotClassification."></a>
+                        <a class="class" href="XlmRoBertaForZeroShotClassification.html" title="XlmRoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="XlmRoBertaForZeroShotClassification.html" title="XlmRoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">XlmRoBertaForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlnetForSequenceClassification$.html" title="This is the companion object of XlnetForSequenceClassification."></a>
+                        <a class="class" href="XlnetForSequenceClassification.html" title="XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
+                        <a href="XlnetForSequenceClassification.html" title="XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">XlnetForSequenceClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="XlnetForTokenClassification$.html" title="This is the companion object of XlnetForTokenClassification."></a>
+                        <a class="class" href="XlnetForTokenClassification.html" title="XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
+                        <a href="XlnetForTokenClassification.html" title="XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">XlnetForTokenClassification</a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="trait type">
+      <div id="definition">
+        <div class="big-circle trait">t</div>
+        <p id="owner"><a href="../../../../../index.html" class="extype" name="com">com</a>.<a href="../../../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../../../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a>.<a href="../../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a>.<a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier">classifier</a>.<a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl">dl</a></p>
+        <h1>ReadablePretrainedAlbertForZeroShotModel<span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        <h3><span class="morelinks"></span></h3>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ReadablePretrainedAlbertForZeroShotModel</span><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">
+            Linear Supertypes
+          </span>
+          <div class="superTypes hiddenContent"><a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>], <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>], <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>], <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>], <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="AlbertForZeroShotClassification$.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></div>
+          </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              <li class="inherit out"><span>By Inheritance</span></li>
+            </ol>
+          </div>
+          <div class="ancestors">
+                  <span class="filtertype">Inherited<br />
+                  </span>
+                  <ol id="linearization">
+                    <li class="in" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel"><span>ReadablePretrainedAlbertForZeroShotModel</span></li><li class="in" name="com.johnsnowlabs.nlp.HasPretrained"><span>HasPretrained</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable"><span>ParamsAndFeaturesReadable</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsReadable"><span>DefaultParamsReadable</span></li><li class="in" name="org.apache.spark.ml.util.MLReadable"><span>MLReadable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  </ol>
+                </div><div class="ancestors">
+              <span class="filtertype"></span>
+              <ol>
+                <li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show All</span></li>
+              </ol>
+            </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#!=(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html###():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#==(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#addReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit"></a><a id="addReader((AlbertForZeroShotClassification,String,SparkSession)⇒Unit):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#addReader(reader:(T,String,org.apache.spark.sql.SparkSession)=&gt;Unit):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addReader</span><span class="params">(<span name="reader">reader: (<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#asInstanceOf[T0]:T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a><a id="clone():AnyRef"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#clone():Object" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#defaultLang" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultLang:String"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#defaultLang:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultLang</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasPretrained#defaultLoc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultLoc:String"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#defaultLoc:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultLoc</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#defaultModelName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultModelName:Some[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#defaultModelName:Some[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultModelName</span><span class="result">: <span class="extype" name="scala.Some">Some</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#equals(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#getClass():Class[_]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#hashCode():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#isInstanceOf[T0]:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.apache.spark.ml.util.MLReadable#load" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="load(path:String):T"></a><a id="load(String):AlbertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#load(path:String):T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">load</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>MLReadable</dd><dt>Annotations</dt><dd>
+                <span class="name">@Since</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;1.6.0&quot;</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#notify():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#notifyAll():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification"></a><a id="pretrained(String,String,String):AlbertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#pretrained(name:String,lang:String,remoteLoc:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="remoteLoc">remoteLoc: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Java default argument interoperability</p><div class="fullcomment"><div class="comment cmt"><p>Java default argument interoperability</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification"></a><a id="pretrained(String,String):AlbertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#pretrained(name:String,lang:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained(name:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification"></a><a id="pretrained(String):AlbertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#pretrained(name:String):com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel#pretrained" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pretrained():com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification"></a><a id="pretrained():AlbertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#pretrained():com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pretrained</span><span class="params">()</span><span class="result">: <a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Java compliant-overrides</p><div class="fullcomment"><div class="comment cmt"><p>Java compliant-overrides</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedAlbertForZeroShotModel">ReadablePretrainedAlbertForZeroShotModel</a> → <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable#read" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="read:org.apache.spark.ml.util.MLReader[T]"></a><a id="read:MLReader[AlbertForZeroShotClassification]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#read:org.apache.spark.ml.util.MLReader[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">read</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLReader">MLReader</span>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a> → DefaultParamsReadable → MLReadable</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#toString():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedAlbertForZeroShotModel.html#wait(x$1:Long):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.johnsnowlabs.nlp.HasPretrained">
+              <h3>Inherited from <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">
+              <h3>Inherited from <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</h3>
+            </div><div class="parent" name="org.apache.spark.ml.util.DefaultParamsReadable">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</h3>
+            </div><div class="parent" name="org.apache.spark.ml.util.MLReadable">
+              <h3>Inherited from <span class="extype" name="org.apache.spark.ml.util.MLReadable">MLReadable</span>[<a href="AlbertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForZeroShotClassification">AlbertForZeroShotClassification</a>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>

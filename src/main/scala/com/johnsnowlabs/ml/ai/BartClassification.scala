@@ -77,7 +77,6 @@ private[johnsnowlabs] class BartClassification(
 
   protected val logger: Logger = LoggerFactory.getLogger("BartClassification")
 
-
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
@@ -269,7 +268,6 @@ private[johnsnowlabs] class BartClassification(
     batchScores
   }
 
-
   private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
     if (arr.length >= maxLength) {
       arr
@@ -278,12 +276,11 @@ private[johnsnowlabs] class BartClassification(
     }
   }
 
-
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
@@ -301,12 +298,9 @@ private[johnsnowlabs] class BartClassification(
       .toArray
   }
 
-
-
   def computeZeroShotLogitsWithOv(
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int): Array[Float] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -321,7 +315,7 @@ private[johnsnowlabs] class BartClassification(
 
     try {
       try {
-       inferRequest
+        inferRequest
           .get_tensor("logits")
           .data()
       }
@@ -335,8 +329,8 @@ private[johnsnowlabs] class BartClassification(
   }
 
   def computeZeroShotLogitsWithONNX(
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -347,11 +341,8 @@ private[johnsnowlabs] class BartClassification(
         env,
         batch.map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L)).toArray)
 
-
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val results = runner.run(inputs)
@@ -371,8 +362,8 @@ private[johnsnowlabs] class BartClassification(
 
   }
   def computeZeroShotLogitsWithTF(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val tensors = new TensorResources()
 
     val batchLength = batch.length

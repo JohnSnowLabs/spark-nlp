@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.BertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -257,7 +261,17 @@ class BertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new BertClassification(tensorflowWrapper, onnxWrapper, openvinoWrapper, sentenceStartTokenId, sentenceEndTokenId, configProtoBytes = getConfigProtoBytes, tags = $$(labels), signatures = getSignatures, $$(vocabulary), threshold = $(threshold))))
+          new BertClassification(
+            tensorflowWrapper,
+            onnxWrapper,
+            openvinoWrapper,
+            sentenceStartTokenId,
+            sentenceEndTokenId,
+            configProtoBytes = getConfigProtoBytes,
+            tags = $$(labels),
+            signatures = getSignatures,
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this
@@ -364,7 +378,10 @@ trait ReadablePretrainedBertForSequenceModel
       remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadBertForSequenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"

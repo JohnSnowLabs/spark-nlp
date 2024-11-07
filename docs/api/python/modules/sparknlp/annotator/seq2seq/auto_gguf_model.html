@@ -1,0 +1,1220 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/auto_gguf_model';</script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.annotator.seq2seq.auto_gguf_model</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.seq2seq.auto_gguf_model</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2023 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the AutoGGUFModel.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="AutoGGUFModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel">[docs]</a><span class="k">class</span> <span class="nc">AutoGGUFModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Annotator that uses the llama.cpp library to generate text completions with large language</span>
+<span class="sd">    models.</span>
+
+<span class="sd">    For settable parameters, and their explanations, see the parameters of this class and refer to</span>
+<span class="sd">    the llama.cpp documentation of</span>
+<span class="sd">    `server.cpp &lt;https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server&gt;`__</span>
+<span class="sd">    for more information.</span>
+
+<span class="sd">    If the parameters are not set, the annotator will default to use the parameters provided by</span>
+<span class="sd">    the model.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_gguf_model = AutoGGUFModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;completions&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;``, if no name is provided.</span>
+
+<span class="sd">    For extended examples of usage, see the</span>
+<span class="sd">    `AutoGGUFModelTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala&gt;`__</span>
+<span class="sd">    and the</span>
+<span class="sd">    `example notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb&gt;`__.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nThreads</span>
+<span class="sd">        Set the number of threads to use during generation</span>
+<span class="sd">    nThreadsDraft</span>
+<span class="sd">        Set the number of threads to use during draft generation</span>
+<span class="sd">    nThreadsBatch</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nThreadsBatchDraft</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nCtx</span>
+<span class="sd">        Set the size of the prompt context</span>
+<span class="sd">    nBatch</span>
+<span class="sd">        Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nUbatch</span>
+<span class="sd">        Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nDraft</span>
+<span class="sd">        Set the number of tokens to draft for speculative decoding</span>
+<span class="sd">    nChunks</span>
+<span class="sd">        Set the maximal number of chunks to process</span>
+<span class="sd">    nSequences</span>
+<span class="sd">        Set the number of sequences to decode</span>
+<span class="sd">    pSplit</span>
+<span class="sd">        Set the speculative decoding split probability</span>
+<span class="sd">    nGpuLayers</span>
+<span class="sd">        Set the number of layers to store in VRAM (-1 - use default)</span>
+<span class="sd">    nGpuLayersDraft</span>
+<span class="sd">        Set the number of layers to store in VRAM for the draft model (-1 - use default)</span>
+<span class="sd">    gpuSplitMode</span>
+<span class="sd">        Set how to split the model across GPUs</span>
+<span class="sd">    mainGpu</span>
+<span class="sd">        Set the main GPU that is used for scratch and small tensors.</span>
+<span class="sd">    tensorSplit</span>
+<span class="sd">        Set how split tensors should be distributed across GPUs</span>
+<span class="sd">    grpAttnN</span>
+<span class="sd">        Set the group-attention factor</span>
+<span class="sd">    grpAttnW</span>
+<span class="sd">        Set the group-attention width</span>
+<span class="sd">    ropeFreqBase</span>
+<span class="sd">        Set the RoPE base frequency, used by NTK-aware scaling</span>
+<span class="sd">    ropeFreqScale</span>
+<span class="sd">        Set the RoPE frequency scaling factor, expands context by a factor of 1/N</span>
+<span class="sd">    yarnExtFactor</span>
+<span class="sd">        Set the YaRN extrapolation mix factor</span>
+<span class="sd">    yarnAttnFactor</span>
+<span class="sd">        Set the YaRN scale sqrt(t) or attention magnitude</span>
+<span class="sd">    yarnBetaFast</span>
+<span class="sd">        Set the YaRN low correction dim or beta</span>
+<span class="sd">    yarnBetaSlow</span>
+<span class="sd">        Set the YaRN high correction dim or alpha</span>
+<span class="sd">    yarnOrigCtx</span>
+<span class="sd">        Set the YaRN original context size of model</span>
+<span class="sd">    defragmentationThreshold</span>
+<span class="sd">        Set the KV cache defragmentation threshold</span>
+<span class="sd">    numaStrategy</span>
+<span class="sd">        Set optimization strategies that help on some NUMA systems (if available)</span>
+<span class="sd">    ropeScalingType</span>
+<span class="sd">        Set the RoPE frequency scaling method, defaults to linear unless specified by the model</span>
+<span class="sd">    poolingType</span>
+<span class="sd">        Set the pooling type for embeddings, use model default if unspecified</span>
+<span class="sd">    modelDraft</span>
+<span class="sd">        Set the draft model for speculative decoding</span>
+<span class="sd">    modelAlias</span>
+<span class="sd">        Set a model alias</span>
+<span class="sd">    lookupCacheStaticFilePath</span>
+<span class="sd">        Set path to static lookup cache to use for lookup decoding (not updated by generation)</span>
+<span class="sd">    lookupCacheDynamicFilePath</span>
+<span class="sd">        Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</span>
+<span class="sd">    embedding</span>
+<span class="sd">        Whether to load model with embedding support</span>
+<span class="sd">    flashAttention</span>
+<span class="sd">        Whether to enable Flash Attention</span>
+<span class="sd">    inputPrefixBos</span>
+<span class="sd">        Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string</span>
+<span class="sd">    useMmap</span>
+<span class="sd">        Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</span>
+<span class="sd">    useMlock</span>
+<span class="sd">        Whether to force the system to keep model in RAM rather than swapping or compressing</span>
+<span class="sd">    noKvOffload</span>
+<span class="sd">        Whether to disable KV offload</span>
+<span class="sd">    systemPrompt</span>
+<span class="sd">        Set a system prompt to use</span>
+<span class="sd">    chatTemplate</span>
+<span class="sd">        The chat template to use</span>
+<span class="sd">    inputPrefix</span>
+<span class="sd">        Set the prompt to start generation with</span>
+<span class="sd">    inputSuffix</span>
+<span class="sd">        Set a suffix for infilling</span>
+<span class="sd">    cachePrompt</span>
+<span class="sd">        Whether to remember the prompt to avoid reprocessing it</span>
+<span class="sd">    nPredict</span>
+<span class="sd">        Set the number of tokens to predict</span>
+<span class="sd">    topK</span>
+<span class="sd">        Set top-k sampling</span>
+<span class="sd">    topP</span>
+<span class="sd">        Set top-p sampling</span>
+<span class="sd">    minP</span>
+<span class="sd">        Set min-p sampling</span>
+<span class="sd">    tfsZ</span>
+<span class="sd">        Set tail free sampling, parameter z</span>
+<span class="sd">    typicalP</span>
+<span class="sd">        Set locally typical sampling, parameter p</span>
+<span class="sd">    temperature</span>
+<span class="sd">        Set the temperature</span>
+<span class="sd">    dynatempRange</span>
+<span class="sd">        Set the dynamic temperature range</span>
+<span class="sd">    dynatempExponent</span>
+<span class="sd">        Set the dynamic temperature exponent</span>
+<span class="sd">    repeatLastN</span>
+<span class="sd">        Set the last n tokens to consider for penalties</span>
+<span class="sd">    repeatPenalty</span>
+<span class="sd">        Set the penalty of repeated sequences of tokens</span>
+<span class="sd">    frequencyPenalty</span>
+<span class="sd">        Set the repetition alpha frequency penalty</span>
+<span class="sd">    presencePenalty</span>
+<span class="sd">        Set the repetition alpha presence penalty</span>
+<span class="sd">    miroStat</span>
+<span class="sd">        Set MiroStat sampling strategies.</span>
+<span class="sd">    mirostatTau</span>
+<span class="sd">        Set the MiroStat target entropy, parameter tau</span>
+<span class="sd">    mirostatEta</span>
+<span class="sd">        Set the MiroStat learning rate, parameter eta</span>
+<span class="sd">    penalizeNl</span>
+<span class="sd">        Whether to penalize newline tokens</span>
+<span class="sd">    nKeep</span>
+<span class="sd">        Set the number of tokens to keep from the initial prompt</span>
+<span class="sd">    seed</span>
+<span class="sd">        Set the RNG seed</span>
+<span class="sd">    nProbs</span>
+<span class="sd">        Set the amount top tokens probabilities to output if greater than 0.</span>
+<span class="sd">    minKeep</span>
+<span class="sd">        Set the amount of tokens the samplers should return at least (0 = disabled)</span>
+<span class="sd">    grammar</span>
+<span class="sd">        Set BNF-like grammar to constrain generations</span>
+<span class="sd">    penaltyPrompt</span>
+<span class="sd">        Override which part of the prompt is penalized for repetition.</span>
+<span class="sd">    ignoreEos</span>
+<span class="sd">        Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)</span>
+<span class="sd">    disableTokenIds</span>
+<span class="sd">        Set the token ids to disable in the completion</span>
+<span class="sd">    stopStrings</span>
+<span class="sd">        Set strings upon seeing which token generation is stopped</span>
+<span class="sd">    samplers</span>
+<span class="sd">        Set which samplers to use for token generation in the given order</span>
+<span class="sd">    useChatTemplate</span>
+<span class="sd">        Set whether or not generate should apply a chat template</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set</span>
+<span class="sd">    the number of GPU layers with the `setNGpuLayers` method.</span>
+
+<span class="sd">    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`</span>
+<span class="sd">    according to your hardware to avoid out-of-memory errors.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</span>
+<span class="sd">     &lt;https://arxiv.org/abs/1910.13461&gt;`__</span>
+<span class="sd">    - https://github.com/pytorch/fairseq</span>
+
+<span class="sd">    **Paper Abstract:**</span>
+<span class="sd">    *We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.</span>
+<span class="sd">    BART is trained by (1) corrupting text with an arbitrary noising function, and (2)</span>
+<span class="sd">    learning a model to reconstruct the original text. It uses a standard Tranformer-based</span>
+<span class="sd">    neural machine translation architecture which, despite its simplicity, can be seen as</span>
+<span class="sd">    generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),</span>
+<span class="sd">    and many other more recent pretraining schemes. We evaluate a number of noising approaches,</span>
+<span class="sd">    finding the best performance by both randomly shuffling the order of the original sentences</span>
+<span class="sd">    and using a novel in-filling scheme, where spans of text are replaced with a single mask token.</span>
+<span class="sd">    BART is particularly effective when fine tuned for text generation but also works well for</span>
+<span class="sd">    comprehension tasks. It matches the performance of RoBERTa with comparable training resources</span>
+<span class="sd">    on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,</span>
+<span class="sd">    question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides</span>
+<span class="sd">    a 1.1 BLEU increase over a back-translation system for machine translation, with only target</span>
+<span class="sd">    language pretraining. We also report ablation experiments that replicate other pretraining</span>
+<span class="sd">    schemes within the BART framework, to better measure which factors most influence end-task performance.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; document = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; autoGGUFModel = AutoGGUFModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;completions&quot;) \\</span>
+<span class="sd">    ...     .setBatchSize(4) \\</span>
+<span class="sd">    ...     .setNPredict(20) \\</span>
+<span class="sd">    ...     .setNGpuLayers(99) \\</span>
+<span class="sd">    ...     .setTemperature(0.4) \\</span>
+<span class="sd">    ...     .setTopK(40) \\</span>
+<span class="sd">    ...     .setTopP(0.9) \\</span>
+<span class="sd">    ...     .setPenalizeNl(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([document, autoGGUFModel])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Hello, I am a&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;completions&quot;).show(truncate = False)</span>
+<span class="sd">    +-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |completions                                                                                                                        |</span>
+<span class="sd">    +-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[{document, 0, 78,  new user.  I am currently working on a project and I need to create a list of , {prompt -&gt; Hello, I am a}, []}]|</span>
+<span class="sd">    +-----------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFModel&quot;</span>
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+
+    <span class="c1"># -------- MODEl PARAMETERS --------</span>
+    <span class="n">nThreads</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreads&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of threads to use during generation&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nThreadsDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of threads to use during draft generation&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nThreadsBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsBatch&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Set the number of threads to use during batch and prompt processing&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nThreadsBatchDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsBatchDraft&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Set the number of threads to use during batch and prompt processing&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nCtx</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nCtx&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the size of the prompt context&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nBatch&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nUbatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nUbatch&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of tokens to draft for speculative decoding&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nChunks</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nChunks&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the maximal number of chunks to process&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nSequences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nSequences&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of sequences to decode&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">pSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pSplit&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the speculative decoding split probability&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">nGpuLayers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nGpuLayers&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nGpuLayersDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nGpuLayersDraft&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Set the number of layers to store in VRAM for the draft model (-1 - use default)&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="c1"># Set how to split the model across GPUs</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - NONE: No GPU split</span>
+    <span class="c1">#   - LAYER: Split the model across GPUs by layer</span>
+    <span class="c1">#   - ROW: Split the model across GPUs by rows</span>
+    <span class="n">gpuSplitMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;gpuSplitMode&quot;</span><span class="p">,</span> <span class="s2">&quot;Set how to split the model across GPUs&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">mainGpu</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mainGpu&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the main GPU that is used for scratch and small tensors.&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">tensorSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;tensorSplit&quot;</span><span class="p">,</span> <span class="s2">&quot;Set how split tensors should be distributed across GPUs&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListFloat</span><span class="p">)</span>
+    <span class="n">grpAttnN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;grpAttnN&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the group-attention factor&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">grpAttnW</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;grpAttnW&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the group-attention width&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">ropeFreqBase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeFreqBase&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">ropeFreqScale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeFreqScale&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Set the RoPE frequency scaling factor, expands context by a factor of 1/N&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">yarnExtFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;yarnExtFactor&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the YaRN extrapolation mix factor&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">yarnAttnFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;yarnAttnFactor&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the YaRN scale sqrt(t) or attention magnitude&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">yarnBetaFast</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;yarnBetaFast&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the YaRN low correction dim or beta&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">yarnBetaSlow</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;yarnBetaSlow&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the YaRN high correction dim or alpha&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">yarnOrigCtx</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;yarnOrigCtx&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the YaRN original context size of model&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">defragmentationThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;defragmentationThreshold&quot;</span><span class="p">,</span>
+                                     <span class="s2">&quot;Set the KV cache defragmentation threshold&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="c1"># Set optimization strategies that help on some NUMA systems (if available)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Available Strategies:</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - DISABLED: No NUMA optimizations</span>
+    <span class="c1">#   - DISTRIBUTE: Spread execution evenly over all</span>
+    <span class="c1">#   - ISOLATE: Only spawn threads on CPUs on the node that execution started on</span>
+    <span class="c1">#   - NUMA_CTL: Use the CPU map provided by numactl</span>
+    <span class="c1">#   - MIRROR: Mirrors the model across NUMA nodes</span>
+    <span class="n">numaStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;numaStrategy&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="c1"># Set the RoPE frequency scaling method, defaults to linear unless specified by the model.</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - UNSPECIFIED: Don&#39;t use any scaling</span>
+    <span class="c1">#   - LINEAR: Linear scaling</span>
+    <span class="c1">#   - YARN: YaRN RoPE scaling</span>
+    <span class="n">ropeScalingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeScalingType&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="c1"># Set the pooling type for embeddings, use model default if unspecified</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - 0 UNSPECIFIED: Don&#39;t use any pooling</span>
+    <span class="c1">#   - 1 MEAN: Mean Pooling</span>
+    <span class="c1">#   - 2 CLS: CLS Pooling</span>
+    <span class="n">poolingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;poolingType&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Set the pooling type for embeddings, use model default if unspecified&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">modelDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the draft model for speculative decoding&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">modelAlias</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelAlias&quot;</span><span class="p">,</span> <span class="s2">&quot;Set a model alias&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">lookupCacheStaticFilePath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lookupCacheStaticFilePath&quot;</span><span class="p">,</span>
+                                      <span class="s2">&quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;</span><span class="p">,</span>
+                                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">lookupCacheDynamicFilePath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lookupCacheDynamicFilePath&quot;</span><span class="p">,</span>
+                                       <span class="s2">&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;</span><span class="p">,</span>
+                                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="c1"># loraAdapters = new StructFeature[Map[String, Float]](this, &quot;loraAdapters&quot;)</span>
+    <span class="n">embedding</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;embedding&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to load model with embedding support&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">flashAttention</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;flashAttention&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to enable Flash Attention&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">inputPrefixBos</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputPrefixBos&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">useMmap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useMmap&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">useMlock</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useMlock&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Whether to force the system to keep model in RAM rather than swapping or compressing&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">noKvOffload</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noKvOffload&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to disable KV offload&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">systemPrompt</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;systemPrompt&quot;</span><span class="p">,</span> <span class="s2">&quot;Set a system prompt to use&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">chatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chatTemplate&quot;</span><span class="p">,</span> <span class="s2">&quot;The chat template to use&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="c1"># -------- INFERENCE PARAMETERS --------</span>
+    <span class="n">inputPrefix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputPrefix&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the prompt to start generation with&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">inputSuffix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputSuffix&quot;</span><span class="p">,</span> <span class="s2">&quot;Set a suffix for infilling&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">cachePrompt</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cachePrompt&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to remember the prompt to avoid reprocessing it&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">nPredict</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nPredict&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of tokens to predict&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span> <span class="s2">&quot;Set top-k sampling&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span> <span class="s2">&quot;Set top-p sampling&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">minP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minP&quot;</span><span class="p">,</span> <span class="s2">&quot;Set min-p sampling&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">tfsZ</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;tfsZ&quot;</span><span class="p">,</span> <span class="s2">&quot;Set tail free sampling, parameter z&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">typicalP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;typicalP&quot;</span><span class="p">,</span> <span class="s2">&quot;Set locally typical sampling, parameter p&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the temperature&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">dynamicTemperatureRange</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dynatempRange&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the dynamic temperature range&quot;</span><span class="p">,</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">dynamicTemperatureExponent</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dynatempExponent&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the dynamic temperature exponent&quot;</span><span class="p">,</span>
+                                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">repeatLastN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repeatLastN&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the last n tokens to consider for penalties&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">repeatPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repeatPenalty&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the penalty of repeated sequences of tokens&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">frequencyPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;frequencyPenalty&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the repetition alpha frequency penalty&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">presencePenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;presencePenalty&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the repetition alpha presence penalty&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">miroStat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;miroStat&quot;</span><span class="p">,</span> <span class="s2">&quot;Set MiroStat sampling strategies.&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">miroStatTau</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mirostatTau&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the MiroStat target entropy, parameter tau&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">miroStatEta</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mirostatEta&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the MiroStat learning rate, parameter eta&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+    <span class="n">penalizeNl</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;penalizeNl&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to penalize newline tokens&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">nKeep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nKeep&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of tokens to keep from the initial prompt&quot;</span><span class="p">,</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the RNG seed&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">nProbs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nProbs&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the amount top tokens probabilities to output if greater than 0.&quot;</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">minKeep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minKeep&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Set the amount of tokens the samplers should return at least (0 = disabled)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+    <span class="n">grammar</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;grammar&quot;</span><span class="p">,</span> <span class="s2">&quot;Set BNF-like grammar to constrain generations&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">penaltyPrompt</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;penaltyPrompt&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Override which part of the prompt is penalized for repetition.&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">ignoreEos</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreEos&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">disableTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;disableTokenIds&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the token ids to disable in the completion&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+    <span class="n">stopStrings</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopStrings&quot;</span><span class="p">,</span> <span class="s2">&quot;Set strings upon seeing which token generation is stopped&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">samplers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;samplers&quot;</span><span class="p">,</span> <span class="s2">&quot;Set which samplers to use for token generation in the given order&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">useChatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useChatTemplate&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Set whether or not generate should apply a chat template&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="c1"># -------- MODEL SETTERS --------</span>
+<div class="viewcode-block" id="AutoGGUFModel.setNThreads"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreads">[docs]</a>    <span class="k">def</span> <span class="nf">setNThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during generation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreads</span><span class="o">=</span><span class="n">nThreads</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNThreadsDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setNThreadsDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during draft generation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsDraft</span><span class="o">=</span><span class="n">nThreadsDraft</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNThreadsBatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatch">[docs]</a>    <span class="k">def</span> <span class="nf">setNThreadsBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsBatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsBatch</span><span class="o">=</span><span class="n">nThreadsBatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNThreadsBatchDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNThreadsBatchDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setNThreadsBatchDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsBatchDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsBatchDraft</span><span class="o">=</span><span class="n">nThreadsBatchDraft</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNCtx"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNCtx">[docs]</a>    <span class="k">def</span> <span class="nf">setNCtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nCtx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the size of the prompt context&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nCtx</span><span class="o">=</span><span class="n">nCtx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNBatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNBatch">[docs]</a>    <span class="k">def</span> <span class="nf">setNBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nBatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nBatch</span><span class="o">=</span><span class="n">nBatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNUbatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNUbatch">[docs]</a>    <span class="k">def</span> <span class="nf">setNUbatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nUbatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nUbatch</span><span class="o">=</span><span class="n">nUbatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setNDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of tokens to draft for speculative decoding&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nDraft</span><span class="o">=</span><span class="n">nDraft</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNChunks"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNChunks">[docs]</a>    <span class="k">def</span> <span class="nf">setNChunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nChunks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximal number of chunks to process&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nChunks</span><span class="o">=</span><span class="n">nChunks</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNSequences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNSequences">[docs]</a>    <span class="k">def</span> <span class="nf">setNSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nSequences</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of sequences to decode&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nSequences</span><span class="o">=</span><span class="n">nSequences</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setPSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPSplit">[docs]</a>    <span class="k">def</span> <span class="nf">setPSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pSplit</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the speculative decoding split probability&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pSplit</span><span class="o">=</span><span class="n">pSplit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNGpuLayers"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayers">[docs]</a>    <span class="k">def</span> <span class="nf">setNGpuLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nGpuLayers</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nGpuLayers</span><span class="o">=</span><span class="n">nGpuLayers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNGpuLayersDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNGpuLayersDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setNGpuLayersDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nGpuLayersDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of layers to store in VRAM for the draft model (-1 - use default)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nGpuLayersDraft</span><span class="o">=</span><span class="n">nGpuLayersDraft</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setGpuSplitMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGpuSplitMode">[docs]</a>    <span class="k">def</span> <span class="nf">setGpuSplitMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gpuSplitMode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set how to split the model across GPUs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">gpuSplitMode</span><span class="o">=</span><span class="n">gpuSplitMode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMainGpu"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMainGpu">[docs]</a>    <span class="k">def</span> <span class="nf">setMainGpu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mainGpu</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the main GPU that is used for scratch and small tensors.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mainGpu</span><span class="o">=</span><span class="n">mainGpu</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTensorSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTensorSplit">[docs]</a>    <span class="k">def</span> <span class="nf">setTensorSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensorSplit</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set how split tensors should be distributed across GPUs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tensorSplit</span><span class="o">=</span><span class="n">tensorSplit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setGrpAttnN"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnN">[docs]</a>    <span class="k">def</span> <span class="nf">setGrpAttnN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnN</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention factor&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnN</span><span class="o">=</span><span class="n">grpAttnN</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setGrpAttnW"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrpAttnW">[docs]</a>    <span class="k">def</span> <span class="nf">setGrpAttnW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnW</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention width&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnW</span><span class="o">=</span><span class="n">grpAttnW</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setRopeFreqBase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqBase">[docs]</a>    <span class="k">def</span> <span class="nf">setRopeFreqBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeFreqBase</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeFreqBase</span><span class="o">=</span><span class="n">ropeFreqBase</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setRopeFreqScale"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeFreqScale">[docs]</a>    <span class="k">def</span> <span class="nf">setRopeFreqScale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeFreqScale</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling factor, expands context by a factor of 1/N&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeFreqScale</span><span class="o">=</span><span class="n">ropeFreqScale</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setYarnExtFactor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnExtFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setYarnExtFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnExtFactor</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN extrapolation mix factor&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnExtFactor</span><span class="o">=</span><span class="n">yarnExtFactor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setYarnAttnFactor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnAttnFactor">[docs]</a>    <span class="k">def</span> <span class="nf">setYarnAttnFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnAttnFactor</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN scale sqrt(t) or attention magnitude&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnAttnFactor</span><span class="o">=</span><span class="n">yarnAttnFactor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setYarnBetaFast"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaFast">[docs]</a>    <span class="k">def</span> <span class="nf">setYarnBetaFast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnBetaFast</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN low correction dim or beta&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnBetaFast</span><span class="o">=</span><span class="n">yarnBetaFast</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setYarnBetaSlow"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnBetaSlow">[docs]</a>    <span class="k">def</span> <span class="nf">setYarnBetaSlow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnBetaSlow</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN high correction dim or alpha&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnBetaSlow</span><span class="o">=</span><span class="n">yarnBetaSlow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setYarnOrigCtx"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setYarnOrigCtx">[docs]</a>    <span class="k">def</span> <span class="nf">setYarnOrigCtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnOrigCtx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN original context size of model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnOrigCtx</span><span class="o">=</span><span class="n">yarnOrigCtx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setDefragmentationThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDefragmentationThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setDefragmentationThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defragmentationThreshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the KV cache defragmentation threshold&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defragmentationThreshold</span><span class="o">=</span><span class="n">defragmentationThreshold</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNumaStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNumaStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setNumaStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numaStrategy</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numaStrategy</span><span class="o">=</span><span class="n">numaStrategy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setRopeScalingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeScalingType">[docs]</a>    <span class="k">def</span> <span class="nf">setRopeScalingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeScalingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeScalingType</span><span class="o">=</span><span class="n">ropeScalingType</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setPoolingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPoolingType">[docs]</a>    <span class="k">def</span> <span class="nf">setPoolingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolingType</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pooling type for embeddings, use model default if unspecified&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">poolingType</span><span class="o">=</span><span class="n">poolingType</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setModelDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setModelDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelDraft</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the draft model for speculative decoding&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelDraft</span><span class="o">=</span><span class="n">modelDraft</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setModelAlias"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelAlias">[docs]</a>    <span class="k">def</span> <span class="nf">setModelAlias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelAlias</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a model alias&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelAlias</span><span class="o">=</span><span class="n">modelAlias</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setLookupCacheStaticFilePath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheStaticFilePath">[docs]</a>    <span class="k">def</span> <span class="nf">setLookupCacheStaticFilePath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lookupCacheStaticFilePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lookupCacheStaticFilePath</span><span class="o">=</span><span class="n">lookupCacheStaticFilePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setLookupCacheDynamicFilePath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLookupCacheDynamicFilePath">[docs]</a>    <span class="k">def</span> <span class="nf">setLookupCacheDynamicFilePath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lookupCacheDynamicFilePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lookupCacheDynamicFilePath</span><span class="o">=</span><span class="n">lookupCacheDynamicFilePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setEmbedding"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setEmbedding">[docs]</a>    <span class="k">def</span> <span class="nf">setEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to load model with embedding support&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setFlashAttention"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFlashAttention">[docs]</a>    <span class="k">def</span> <span class="nf">setFlashAttention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flashAttention</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to enable Flash Attention&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">flashAttention</span><span class="o">=</span><span class="n">flashAttention</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setInputPrefixBos"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefixBos">[docs]</a>    <span class="k">def</span> <span class="nf">setInputPrefixBos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputPrefixBos</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` bool&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputPrefixBos</span><span class="o">=</span><span class="n">inputPrefixBos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setUseMmap"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMmap">[docs]</a>    <span class="k">def</span> <span class="nf">setUseMmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useMmap</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useMmap</span><span class="o">=</span><span class="n">useMmap</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setUseMlock"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseMlock">[docs]</a>    <span class="k">def</span> <span class="nf">setUseMlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useMlock</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to force the system to keep model in RAM rather than swapping or compressing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useMlock</span><span class="o">=</span><span class="n">useMlock</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNoKvOffload"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNoKvOffload">[docs]</a>    <span class="k">def</span> <span class="nf">setNoKvOffload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noKvOffload</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to disable KV offload&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noKvOffload</span><span class="o">=</span><span class="n">noKvOffload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setSystemPrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSystemPrompt">[docs]</a>    <span class="k">def</span> <span class="nf">setSystemPrompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemPrompt</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a system prompt to use&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">systemPrompt</span><span class="o">=</span><span class="n">systemPrompt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setChatTemplate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setChatTemplate">[docs]</a>    <span class="k">def</span> <span class="nf">setChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatTemplate</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The chat template to use&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chatTemplate</span><span class="o">=</span><span class="n">chatTemplate</span><span class="p">)</span></div>
+
+    <span class="c1"># -------- INFERENCE SETTERS --------</span>
+<div class="viewcode-block" id="AutoGGUFModel.setInputPrefix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputPrefix">[docs]</a>    <span class="k">def</span> <span class="nf">setInputPrefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputPrefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the prompt to start generation with&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputPrefix</span><span class="o">=</span><span class="n">inputPrefix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setInputSuffix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setInputSuffix">[docs]</a>    <span class="k">def</span> <span class="nf">setInputSuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputSuffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a suffix for infilling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputSuffix</span><span class="o">=</span><span class="n">inputSuffix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setCachePrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setCachePrompt">[docs]</a>    <span class="k">def</span> <span class="nf">setCachePrompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cachePrompt</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to remember the prompt to avoid reprocessing it&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cachePrompt</span><span class="o">=</span><span class="n">cachePrompt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNPredict"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNPredict">[docs]</a>    <span class="k">def</span> <span class="nf">setNPredict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nPredict</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of tokens to predict&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nPredict</span><span class="o">=</span><span class="n">nPredict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topK</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set top-k sampling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">topK</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topP</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set top-p sampling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">topP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMinP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinP">[docs]</a>    <span class="k">def</span> <span class="nf">setMinP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minP</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set min-p sampling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minP</span><span class="o">=</span><span class="n">minP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTfsZ"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTfsZ">[docs]</a>    <span class="k">def</span> <span class="nf">setTfsZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tfsZ</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set tail free sampling, parameter z&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tfsZ</span><span class="o">=</span><span class="n">tfsZ</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTypicalP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTypicalP">[docs]</a>    <span class="k">def</span> <span class="nf">setTypicalP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typicalP</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set locally typical sampling, parameter p&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">typicalP</span><span class="o">=</span><span class="n">typicalP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the temperature&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setDynamicTemperatureRange"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureRange">[docs]</a>    <span class="k">def</span> <span class="nf">setDynamicTemperatureRange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamicTemperatureRange</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the dynamic temperature range&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dynamicTemperatureRange</span><span class="o">=</span><span class="n">dynamicTemperatureRange</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setDynamicTemperatureExponent"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDynamicTemperatureExponent">[docs]</a>    <span class="k">def</span> <span class="nf">setDynamicTemperatureExponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamicTemperatureExponent</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the dynamic temperature exponent&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dynamicTemperatureExponent</span><span class="o">=</span><span class="n">dynamicTemperatureExponent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setRepeatLastN"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatLastN">[docs]</a>    <span class="k">def</span> <span class="nf">setRepeatLastN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repeatLastN</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the last n tokens to consider for penalties&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repeatLastN</span><span class="o">=</span><span class="n">repeatLastN</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setRepeatPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRepeatPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepeatPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repeatPenalty</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the penalty of repeated sequences of tokens&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repeatPenalty</span><span class="o">=</span><span class="n">repeatPenalty</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setFrequencyPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setFrequencyPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setFrequencyPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequencyPenalty</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the repetition alpha frequency penalty&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">frequencyPenalty</span><span class="o">=</span><span class="n">frequencyPenalty</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setPresencePenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPresencePenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setPresencePenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">presencePenalty</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the repetition alpha presence penalty&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">presencePenalty</span><span class="o">=</span><span class="n">presencePenalty</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMiroStat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStat">[docs]</a>    <span class="k">def</span> <span class="nf">setMiroStat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miroStat</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set MiroStat sampling strategies.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">miroStat</span><span class="o">=</span><span class="n">miroStat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMiroStatTau"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatTau">[docs]</a>    <span class="k">def</span> <span class="nf">setMiroStatTau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miroStatTau</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the MiroStat target entropy, parameter tau&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">miroStatTau</span><span class="o">=</span><span class="n">miroStatTau</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMiroStatEta"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMiroStatEta">[docs]</a>    <span class="k">def</span> <span class="nf">setMiroStatEta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miroStatEta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the MiroStat learning rate, parameter eta&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">miroStatEta</span><span class="o">=</span><span class="n">miroStatEta</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setPenalizeNl"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenalizeNl">[docs]</a>    <span class="k">def</span> <span class="nf">setPenalizeNl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">penalizeNl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to penalize newline tokens&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">penalizeNl</span><span class="o">=</span><span class="n">penalizeNl</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNKeep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNKeep">[docs]</a>    <span class="k">def</span> <span class="nf">setNKeep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nKeep</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of tokens to keep from the initial prompt&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nKeep</span><span class="o">=</span><span class="n">nKeep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RNG seed&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setNProbs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNProbs">[docs]</a>    <span class="k">def</span> <span class="nf">setNProbs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nProbs</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the amount top tokens probabilities to output if greater than 0.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nProbs</span><span class="o">=</span><span class="n">nProbs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setMinKeep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setMinKeep">[docs]</a>    <span class="k">def</span> <span class="nf">setMinKeep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minKeep</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the amount of tokens the samplers should return at least (0 = disabled)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minKeep</span><span class="o">=</span><span class="n">minKeep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setGrammar"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setGrammar">[docs]</a>    <span class="k">def</span> <span class="nf">setGrammar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grammar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set BNF-like grammar to constrain generations&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grammar</span><span class="o">=</span><span class="n">grammar</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setPenaltyPrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPenaltyPrompt">[docs]</a>    <span class="k">def</span> <span class="nf">setPenaltyPrompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">penaltyPrompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override which part of the prompt is penalized for repetition.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">penaltyPrompt</span><span class="o">=</span><span class="n">penaltyPrompt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setIgnoreEos"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setIgnoreEos">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreEos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignoreEos</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreEos</span><span class="o">=</span><span class="n">ignoreEos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setDisableTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setDisableTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setDisableTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disableTokenIds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the token ids to disable in the completion&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">disableTokenIds</span><span class="o">=</span><span class="n">disableTokenIds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setStopStrings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setStopStrings">[docs]</a>    <span class="k">def</span> <span class="nf">setStopStrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stopStrings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set strings upon seeing which token generation is stopped&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stopStrings</span><span class="o">=</span><span class="n">stopStrings</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setSamplers"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setSamplers">[docs]</a>    <span class="k">def</span> <span class="nf">setSamplers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set which samplers to use for token generation in the given order&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">samplers</span><span class="o">=</span><span class="n">samplers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setUseChatTemplate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setUseChatTemplate">[docs]</a>    <span class="k">def</span> <span class="nf">setUseChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useChatTemplate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set whether generate should apply a chat template&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useChatTemplate</span><span class="o">=</span><span class="n">useChatTemplate</span><span class="p">)</span></div>
+
+    <span class="c1"># -------- JAVA SETTERS --------</span>
+<div class="viewcode-block" id="AutoGGUFModel.setTokenIdBias"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenIdBias">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenIdBias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokenIdBias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set token id bias&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTokenIdBias&quot;</span><span class="p">,</span> <span class="n">tokenIdBias</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setTokenBias"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setTokenBias">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenBias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokenBias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set token id bias&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTokenBias&quot;</span><span class="p">,</span> <span class="n">tokenBias</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.setLoraAdapters"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setLoraAdapters">[docs]</a>    <span class="k">def</span> <span class="nf">setLoraAdapters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loraAdapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set token id bias&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setLoraAdapters&quot;</span><span class="p">,</span> <span class="n">loraAdapters</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFModel.getMetadata"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.getMetadata">[docs]</a>    <span class="k">def</span> <span class="nf">getMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the metadata of the model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getMetadata&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoGGUFModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="c1"># self._setDefault()</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFModel.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_AutoGGUFLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AutoGGUFLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">AutoGGUFModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AutoGGUFModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
