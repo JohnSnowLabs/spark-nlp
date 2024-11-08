@@ -620,6 +620,8 @@ pointed [here](#python-without-explicit-pyspark-installation)
 
 ## Databricks Cluster
 
+### Install Spark NLP on Databricks
+
 1. Create a cluster if you don't have one already
 
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
@@ -631,15 +633,37 @@ pointed [here](#python-without-explicit-pyspark-installation)
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp==5.5.1` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp==5.5.1` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: Databricks' runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark
-NLP Maven package name (Maven Coordinate) for your runtime from
-our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+NOTE: Databricks' runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven package name (Maven Coordinate) for your runtime from our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
+
+#### ONNX GPU Inference on Databricks
+
+To run infer ONNX models with GPU on Databricks clusters, we need to perform some additional setup steps. ONNX requires CUDA 12 and cuDNN 9 to be installed.
+
+Therefore, we need to use Databricks runtimes starting from version 15, as these come with CUDA 12. However, they come with cuDNN 8, which we need to upgrade manually.
+To do so, we have to add the following script as an [init script](https://docs.databricks.com/en/init-scripts/index.html):
+
+```bash
+#!/bin/bash
+sudo apt-get update && sudo apt-get -y install cudnn9-cuda-12
+```
+
+You need to save this script to a shell script file (i.e. `upgrade-cudnn9.sh`) in your workspace. Afterwards, you need to specify it on your compute resource under the *Advanced options* section. cuDNN will be upgraded to version 9 on all nodes before Spark is started.
+
+</div><div class="h3-box" markdown="1">
+
+### Databricks Notebooks
+
+You can view all the Databricks notebooks from this address:
+
+[https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html](https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html)
+
+Note: You can import these notebooks by using their URLs.
 
 </div><div class="h3-box" markdown="1">
 
@@ -849,6 +873,8 @@ Spark NLP 5.5.1 has been tested and is compatible with the following runtimes:
 - 14.0 ML
 - 14.1
 - 14.1 ML
+- 15.x
+- 15.x ML
 
 **GPU:**
 
@@ -871,39 +897,7 @@ Spark NLP 5.5.1 has been tested and is compatible with the following runtimes:
 - 13.3 ML & GPU
 - 14.0 ML & GPU
 - 14.1 ML & GPU
-
-</div><div class="h3-box" markdown="1">
-
-#### Install Spark NLP on Databricks
-
-1. Create a cluster if you don't have one already
-
-2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
-
-    ```bash
-    spark.kryoserializer.buffer.max 2000M
-    spark.serializer org.apache.spark.serializer.KryoSerializer
-    ```
-
-3. In `Libraries` tab inside your cluster you need to follow these steps:
-
-    3.1. Install New -> PyPI -> `spark-nlp` -> Install5.5.1
-
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1` -> Install
-
-4. Now you can attach your notebook to the cluster and use Spark NLP!
-
-NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name (Maven Coordinate) for your runtime from our [Packages Cheatsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
-
-</div><div class="h3-box" markdown="1">
-
-#### Databricks Notebooks
-
-You can view all the Databricks notebooks from this address:
-
-[https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html](https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html)
-
-Note: You can import these notebooks by using their URLs.
+- 15.x ML & GPU
 
 </div><div class="h3-box" markdown="1">
 
