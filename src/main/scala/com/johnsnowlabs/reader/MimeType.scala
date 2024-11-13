@@ -15,9 +15,13 @@
  */
 package com.johnsnowlabs.reader
 
-import scala.collection.mutable
+object MimeType {
 
-case class HTMLElement(
-    elementType: String,
-    content: String,
-    metadata: mutable.Map[String, String])
+  val TEXT_PLAIN = "text/plain"
+  val TEXT_HTML = "text/html"
+  val MULTIPART = "multipart/*"
+  val IMAGE = "image/*"
+  val APPLICATION = "application/*"
+  val UNKNOWN = "unknown"
+
+}

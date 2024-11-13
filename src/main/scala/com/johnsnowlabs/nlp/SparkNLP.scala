@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.reader.SparkNLPReader
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.JavaConverters._
 

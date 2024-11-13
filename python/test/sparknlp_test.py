@@ -42,11 +42,12 @@ class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.data
+        self.html_file = f"file:///{os.getcwd()}/../src/test/resources/reader/html/fake-html.html"
 
     def runTest(self):
-        html_file = "file:///" + os.getcwd() + "/../src/test/resources/reader/html/fake-html.html"
-        html_df = sparknlp.read().html(html_file)
+        html_df = sparknlp.read().html(self.html_file)
         html_df.show()
+
         self.assertTrue(html_df.select("html").count() > 0)
 
 
@@ -60,3 +61,16 @@ class SparkNLPTestHTMLValidationSpec(unittest.TestCase):
         with pytest.raises(TypeError, match="htmlPath must be a string or a list of strings"):
             sparknlp.read().html(123)
 
+
+@pytest.mark.fast
+class SparkNLPTestEmailFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.email_file = f"file:///{os.getcwd()}/../src/test/resources/reader/email/test-several-attachments.eml"
+
+    def runTest(self):
+        email_df = sparknlp.read().email(self.email_file)
+        email_df.show()
+
+        self.assertTrue(email_df.select("email").count() > 0)

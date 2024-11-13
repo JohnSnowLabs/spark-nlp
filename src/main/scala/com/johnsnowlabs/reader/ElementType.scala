@@ -24,5 +24,6 @@ object ElementType {
   val FORM = "Form"
   val LINK = "Link"
   val TABLE = "Table"
+  val ATTACHMENT = "Attachment"
 
 }

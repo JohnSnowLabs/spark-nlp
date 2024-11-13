@@ -137,5 +137,7 @@ object Dependencies {
   val jsoupVersion = "1.18.1"
   val jsoup = "org.jsoup" % "jsoup" % jsoupVersion
 
+  val jakartaMailVersion = "2.0.1"
+  val jakartaMail = "com.sun.mail" % "jakarta.mail" % "2.0.1"
   /** ------- Dependencies end  ------- */
 }
