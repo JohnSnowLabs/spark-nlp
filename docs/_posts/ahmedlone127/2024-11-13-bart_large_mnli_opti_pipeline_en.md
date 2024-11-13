@@ -23,8 +23,8 @@ Pretrained BartForZeroShotClassification, adapted from Hugging Face and curated 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_mnli_opti_pipeline_en_5.5.1_3.0_1731504346679.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_mnli_opti_pipeline_en_5.5.1_3.0_1731504346679.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_mnli_opti_pipeline_en_5.5.1_3.0_1731522351920.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_mnli_opti_pipeline_en_5.5.1_3.0_1731522351920.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
