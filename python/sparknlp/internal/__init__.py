@@ -121,6 +121,15 @@ class _BertMultipleChoiceLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _CoHereLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_CoHereLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.CoHereTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
+
 class _DeBERTaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_DeBERTaLoader, self).__init__(
