@@ -55,7 +55,7 @@ documentation and examples
 
 ## Quick Start
 
-This is a quick example of how to use Spark NLP pre-trained pipeline in Python and PySpark:
+This is a quick example of how to use a Spark NLP pre-trained pipeline in Python and PySpark:
 
 ```sh
 $ java -version
@@ -214,7 +214,7 @@ Check all available installations for Python in our official [documentation](htt
 
 ### Compiled JARs
 
-To compile the jars from source follow [these instructions](https://sparknlp.org/docs/en/compiled#jars) from our official documenation
+To compile the jars from source follow [these instructions](https://sparknlp.org/docs/en/compiled#jars) from our official documentation
 
 ## Platform-Specific Instructions
 
@@ -234,7 +234,7 @@ For detailed instructions on how to use Spark NLP on supported platforms, please
 
 Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet.
 Please check [these instructions](https://sparknlp.org/docs/en/install#s3-integration) from our official documentation
-to use Spark NLP offline
+to use Spark NLP offline.
 
 ## Advanced Settings
 
