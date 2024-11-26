@@ -24,8 +24,8 @@ Pretrained CPMTransformer, adapted from Hugging Face and curated to provide scal
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658064957.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658064957.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658809236.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658809236.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
