@@ -37,7 +37,7 @@ class Phi3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"phi3"``, if no name is provided. For available
+    The default model is ``phi_3_mini_128k_instruct``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=phi3>`__.
 
@@ -112,7 +112,7 @@ class Phi3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> phi3 = Phi3Transformer.pretrained("phi3") \\
+    >>> phi3 = Phi3Transformer.pretrained(phi_3_mini_128k_instruct) \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -308,13 +308,13 @@ class Phi3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return Phi3Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3", lang="en", remote_loc=None):
+    def pretrained(name=phi_3_mini_128k_instruct, lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "phi3"
+            Name of the pretrained model, by default phi_3_mini_128k_instruct
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
