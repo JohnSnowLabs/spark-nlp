@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`nomic_embed_v1` is a English model originally trained by facebook.
+Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`nllb_distilled_600M_8int` is a Multilingual model originally trained by facebook.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
