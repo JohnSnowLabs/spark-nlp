@@ -39,11 +39,11 @@ documentAssembler = DocumentAssembler() \
       .setInputCol("text") \
       .setOutputCol("document")
     
-embeddings = Phi3Transformer.pretrained("phi_3_mini_128k_instruct","en") \
+seq2seq = Phi3Transformer.pretrained("phi_3_mini_128k_instruct","en") \
       .setInputCols(["document"]) \
-      .setOutputCol("embeddings")       
+      .setOutputCol("generation")       
         
-pipeline = Pipeline().setStages([documentAssembler, embeddings])
+pipeline = Pipeline().setStages([documentAssembler, seq2seq])
 data = spark.createDataFrame([["I love spark-nlp"]]).toDF("text")
 pipelineModel = pipeline.fit(data)
 pipelineDF = pipelineModel.transform(data)
@@ -55,11 +55,11 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text") 
     .setOutputCol("document")
     
-val embeddings = Phi3Transformer.pretrained("phi_3_mini_128k_instruct","en") 
+val seq2seq = Phi3Transformer.pretrained("phi_3_mini_128k_instruct","en") 
     .setInputCols(Array("document")) 
-    .setOutputCol("embeddings")
+    .setOutputCol("generation")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq))
 val data = Seq("I love spark-nlp").toDF("text")
 val pipelineModel = pipeline.fit(data)
 val pipelineDF = pipelineModel.transform(data)
