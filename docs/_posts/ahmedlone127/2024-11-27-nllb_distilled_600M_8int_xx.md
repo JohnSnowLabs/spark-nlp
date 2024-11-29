@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`mini_cpm_2b_8bit` is a multilingual model originally trained by openbmb.
+Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`nomic_embed_v1` is a English model originally trained by facebook.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
