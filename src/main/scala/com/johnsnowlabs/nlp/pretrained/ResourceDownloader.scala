@@ -691,7 +691,11 @@ object PythonResourceDownloader {
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
     "PromptAssembler" -> PromptAssembler,
-    "CPMTransformer"-> CPMTransformer)
+    "CPMTransformer"-> CPMTransformer,
+    "NomicEmbeddings" -> NomicEmbeddings,
+    "NLLBTransformer" -> NLLBTransformer,
+    "Phi3Transformer" -> Phi3Transformer,
+    "QwenTransformer" -> QwenTransformer)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
