@@ -277,7 +277,7 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotateImage(self, path_to_image):
+    def fullAnnotateImage(self, path_to_image, text=None):
         """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
@@ -287,27 +287,38 @@ class LightPipeline:
         path_to_image : list or str
             Source path of image, list of paths to images
 
+        text: list or str, optional
+           Optional list or str of texts. If None, defaults to empty list if path_to_image is a list, or empty string if path_to_image is a string.
+
         Returns
         -------
         List[AnnotationImage]
             The result of the annotation
         """
+        if not isinstance(path_to_image, (str, list)):
+            raise TypeError("argument for path_to_image must be 'str' or 'list[str]'")
+
+        if text is None:
+            text = "" if isinstance(path_to_image, str) else []
+
+        if type(path_to_image) != type(text):
+            raise ValueError("`path_to_image` and `text` must be of the same type")
+
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
             self._validateStagesInputCols(stages)
 
-        if type(path_to_image) is str:
+        if isinstance(path_to_image, str):
             path_to_image = [path_to_image]
+            text = [text]
 
-        if type(path_to_image) is list:
-            result = []
+        result = []
 
-            for image_result in self._lightPipeline.fullAnnotateImageJava(path_to_image):
-                result.append(self.__buildStages(image_result))
+        for image_result in self._lightPipeline.fullAnnotateImageJava(path_to_image, text):
+            result.append(self.__buildStages(image_result))
 
-            return result
-        else:
-            raise TypeError("argument for annotation may be 'str' or list[str]")
+        return result
+
 
     def __buildStages(self, annotations_result):
         stages = {}

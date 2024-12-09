@@ -1006,3 +1006,11 @@ class _SnowFlakeEmbeddingsLoader(ExtendedJavaWrapper):
         super(_SnowFlakeEmbeddingsLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.SnowFlakeEmbeddings.loadSavedModel", path, jspark
         )
+
+class _BLIPForQuestionAnswering(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BLIPForQuestionAnswering, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.BLIPForQuestionAnswering.loadSavedModel",
+            path,
+            jspark,
+        )
