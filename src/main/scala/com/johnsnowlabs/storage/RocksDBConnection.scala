@@ -43,9 +43,11 @@ final class RocksDBConnection private (path: String) extends AutoCloseable {
 
   def findLocalIndex: String = {
     val tmpIndexStorageLocalPath = RocksDBConnection.getTmpIndexStorageLocalPath(path)
-    if (new File(tmpIndexStorageLocalPath).exists()) {
+    val tmpIndexStorageLocalPathExists = new File(tmpIndexStorageLocalPath).exists()
+    val pathExist = new File(path.stripPrefix("file:")).exists()
+    if (tmpIndexStorageLocalPathExists) {
       tmpIndexStorageLocalPath
-    } else if (new File(path).exists()) {
+    } else if (pathExist) {
       path
     } else {
       val localFromClusterPath = SparkFiles.get(path)
