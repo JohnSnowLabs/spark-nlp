@@ -735,4 +735,13 @@ object ResourceHelper {
     getFileFromPath(path).exists()
   }
 
+  def isValidURL(url: String): Boolean = {
+    try {
+      new URI(url).parseServerAuthority()
+      true
+    } catch {
+      case _: Exception => false
+    }
+  }
+
 }
