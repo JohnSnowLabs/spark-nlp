@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassificationBehaviors {

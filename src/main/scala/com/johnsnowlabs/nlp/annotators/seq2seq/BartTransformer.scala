@@ -19,19 +19,14 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.ai.Bart
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWithoutPastWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.{EncoderDecoderWithoutPastWrappers => OpenvinoEncoderDecoderWithoutPastWrappers}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.cv.VisionEncoderDecoderForImageCaptioning
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
@@ -160,6 +155,7 @@ class BartTransformer(override val uid: String)
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEngine
     with HasGeneratorProperties {
 
@@ -265,6 +261,7 @@ class BartTransformer(override val uid: String)
       spark: SparkSession,
       tfWrapper: Option[TensorflowWrapper],
       onnxWrappers: Option[EncoderDecoderWithoutPastWrappers],
+      openvinoWrapper: Option[OpenvinoEncoderDecoderWithoutPastWrappers],
       useCache: Boolean): this.type = {
     if (_tfModel.isEmpty) {
       setUseCache(useCache)
@@ -273,6 +270,7 @@ class BartTransformer(override val uid: String)
           new Bart(
             tfWrapper,
             onnxWrappers,
+            openvinoWrapper,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures,
             $$(merges),
@@ -353,27 +351,41 @@ class BartTransformer(override val uid: String)
     getEngine match {
 
       case TensorFlow.name =>
-        writeTensorflowModelV2(
-          path,
-          spark,
-          getModelIfNotSet.tensorflowWrapper.get,
-          BartTransformer.suffix,
-          BartTransformer.tfFile,
-          configProtoBytes = getConfigProtoBytes,
-          savedSignatures = getSignatures)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper.get,
+      BartTransformer.suffix,
+      BartTransformer.tfFile,
+      configProtoBytes = getConfigProtoBytes,
+      savedSignatures = getSignatures)
 
-      case ONNX.name =>
-        val wrappers = getModelIfNotSet.onnxWrapper
-        writeOnnxModels(
+    case ONNX.name =>
+    val wrappers = getModelIfNotSet.onnxWrapper
+    writeOnnxModels(
+      path,
+      spark,
+      Seq((wrappers.get.encoder, "encoder_model.onnx")),
+      BartTransformer.suffix)
+    writeOnnxModels(
+      path,
+      spark,
+      Seq((wrappers.get.decoder, "decoder_model.onnx")),
+      BartTransformer.suffix)
+
+      case Openvino.name =>
+        val wrappers = getModelIfNotSet.openvinoWrapper
+        writeOpenvinoModels(
           path,
           spark,
-          Seq((wrappers.get.encoder, "encoder_model.onnx")),
+          Seq((wrappers.get.encoder, "openvino_encoder_model.xml")),
           BartTransformer.suffix)
-        writeOnnxModels(
+        writeOpenvinoModels(
           path,
           spark,
-          Seq((wrappers.get.decoder, "decoder_model.onnx")),
+          Seq((wrappers.get.decoder, "openvino_decoder_model.xml")),
           BartTransformer.suffix)
+
     }
   }
 }
@@ -395,23 +407,24 @@ trait ReadablePretrainedBartTransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
   this: ParamsAndFeaturesReadable[BartTransformer] =>
 
   override val tfFile: String = "bart_tensorflow"
-  override val onnxFile: String = "bart_onnx"
+  override  val onnxFile: String = "bart_onnx"
+  override val openvinoFile: String = "bart_openvino"
   val suffix: String = "_bart"
   def readModel(instance: BartTransformer, path: String, spark: SparkSession): Unit = {
 
     instance.getEngine match {
       case TensorFlow.name =>
-        val tf = readTensorflowModel(
-          path,
-          spark,
-          "_bart_tf",
-          savedSignatures = instance.getSignatures,
-          initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None, instance.getUseCache)
+    val tf = readTensorflowModel(
+      path,
+      spark,
+      "_bart_tf",
+      savedSignatures = instance.getSignatures,
+      initAllTables = false)
+    instance.setModelIfNotSet(spark, Some(tf), None, None, instance.getUseCache)
 
       case ONNX.name =>
         val decoderWrappers =
@@ -422,7 +435,20 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
           EncoderDecoderWithoutPastWrappers(
             decoder = decoderWrappers("decoder_model.onnx"),
             encoder = encoderWrappers("encoder_model.onnx"))
-        instance.setModelIfNotSet(spark, None, Some(onnxWrappers), instance.getUseCache)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrappers), None, instance.getUseCache)
+
+      case Openvino.name =>
+        val decoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_decoder_model.xml"), suffix)
+        val encoderWrappers =
+          readOpenvinoModels(path, spark, Seq("openvino_encoder_model.xml"), suffix)
+        val ovWrapper = {
+          OpenvinoEncoderDecoderWithoutPastWrappers(
+            encoder = encoderWrappers("openvino_encoder_model.xml"),
+            decoder = decoderWrappers("openvino_decoder_model.xml"))
+        }
+        instance.setModelIfNotSet(spark, None, None, Some(ovWrapper), instance.getUseCache)
+
     }
   }
 
@@ -470,7 +496,7 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None, useCache)
+          .setModelIfNotSet(spark, Some(wrapper), None, None, useCache)
 
       case ONNX.name =>
         val onnxWrapperEncoder =
@@ -496,7 +522,30 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
             decoder = onnxWrapperDecoder)
 
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrappers), useCache)
+          .setModelIfNotSet(spark, None, Some(onnxWrappers), None, useCache)
+
+      case Openvino.name =>
+        val openvinoEncoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_encoder_model")
+        val openvinoDecoderWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine,
+            modelName = "openvino_decoder_model")
+        val openvinoWrapper =
+          OpenvinoEncoderDecoderWithoutPastWrappers(
+            encoder = openvinoEncoderWrapper,
+            decoder = openvinoDecoderWrapper)
+        annotatorModel.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), useCache)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -506,6 +555,6 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel with ReadOnnxModel 
 
 }
 
-object BartTransformer
+object  BartTransformer
     extends ReadablePretrainedBartTransformerModel
     with ReadBartTransformerDLModel

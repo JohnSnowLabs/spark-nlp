@@ -18,9 +18,10 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -42,6 +43,7 @@ import scala.util.Try
 private[johnsnowlabs] class SnowFlake(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -54,6 +56,7 @@ private[johnsnowlabs] class SnowFlake(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -72,6 +75,8 @@ private[johnsnowlabs] class SnowFlake(
     val sentenceEmbeddings: Array[Array[Float]] = detectedEngine match {
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch, maxSentenceLength, poolingStrategy)
+      case Openvino.name =>
+        getSentenceEmbeddingFromOpenvino(paddedBatch, maxSentenceLength, poolingStrategy)
       case _ => // TF Case
         getSentenceEmbeddingFromTF(paddedBatch, maxSentenceLength, poolingStrategy)
     }
@@ -206,6 +211,56 @@ private[johnsnowlabs] class SnowFlake(
     tensorEncoder.clearSession(sentenceEmbeddings)
 
     pool(sentenceEmbeddingsFloatsArray, attentionMask, poolingStrategy)
+  }
+
+  private def getSentenceEmbeddingFromOpenvino(
+                                            batch: Seq[Array[Int]],
+                                            maxSentenceLength: Int,
+                                            poolingStrategy: String): Array[Array[Float]] = {
+
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors =
+      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+
+
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val maskTensors = new org.intel.openvino.Tensor(
+      shape,
+      attentionMask.flatten)
+    val segmentTensors =
+      new org.intel.openvino.Tensor(
+        shape,
+        batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray.flatten)
+
+
+
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+    inferRequest.set_tensor("token_type_ids", segmentTensors)
+
+    inferRequest.infer()
+
+
+
+
+    val embeddings =
+      try {
+        val lastHiddenState =  inferRequest
+          .get_tensor("last_hidden_state")
+        val shape = lastHiddenState.get_shape()
+        val Array(_, sequenceLength, embeddingDim) = shape
+        try {
+          val flattenEmbeddings = lastHiddenState.data()
+
+          flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
+        }
+      }
+
+    pool(embeddings, attentionMask, poolingStrategy)
+
   }
 
   private def getSentenceEmbeddingFromOnnx(

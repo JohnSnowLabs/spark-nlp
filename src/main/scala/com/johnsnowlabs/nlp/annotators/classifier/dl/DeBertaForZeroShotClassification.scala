@@ -18,19 +18,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.DeBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  SentencePieceWrapper,
-  WriteSentencePieceModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -132,6 +124,7 @@ class DeBertaForZeroShotClassification(override val uid: String)
     with HasBatchedAnnotate[DeBertaForZeroShotClassification]
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -254,6 +247,7 @@ class DeBertaForZeroShotClassification(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
       spp: SentencePieceWrapper): DeBertaForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
@@ -261,6 +255,7 @@ class DeBertaForZeroShotClassification(override val uid: String)
           new DeBertaClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -326,21 +321,29 @@ class DeBertaForZeroShotClassification(override val uid: String)
 
     getEngine match {
       case TensorFlow.name =>
-        writeTensorflowModelV2(
-          path,
-          spark,
-          getModelIfNotSet.tensorflowWrapper.get,
-          "_deberta_classification",
-          DeBertaForZeroShotClassification.tfFile,
-          configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(
+      path,
+      spark,
+      getModelIfNotSet.tensorflowWrapper.get,
+      "_deberta_classification",
+      DeBertaForZeroShotClassification.tfFile,
+      configProtoBytes = getConfigProtoBytes)
 
-      case ONNX.name =>
+      case ONNX.name=>
         writeOnnxModel(
           path,
           spark,
           getModelIfNotSet.onnxWrapper.get,
           "_deberta_classification",
           DeBertaForZeroShotClassification.onnxFile)
+
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          DeBertaForZeroShotClassification.openvinoFile)
     }
     writeSentencePieceModel(
       path,
@@ -374,14 +377,12 @@ trait ReadablePretrainedDeBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForZeroShotDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel
-    with ReadOnnxModel {
+trait ReadDeBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel with ReadOpenvinoModel{
   this: ParamsAndFeaturesReadable[DeBertaForZeroShotClassification] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
-  override val onnxFile: String = "deberta_classification_onnx"
+  override  val onnxFile: String = "deberta_classification_onnx"
+  override val openvinoFile: String = "deberta_classification_openvino"
   override val sppFile: String = "deberta_spp"
 
   def readModel(
@@ -390,11 +391,12 @@ trait ReadDeBertaForZeroShotDLModel
       spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
 
+
     instance.getEngine match {
       case TensorFlow.name =>
         val tf =
           readTensorflowModel(path, spark, "_deberta_classification_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None, spp)
+        instance.setModelIfNotSet(spark, Some(tf), None, None, spp)
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(
@@ -404,7 +406,11 @@ trait ReadDeBertaForZeroShotDLModel
             zipped = true,
             useBundle = false,
             None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_deberta_classification_openvino")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
     }
 
   }
@@ -460,13 +466,24 @@ trait ReadDeBertaForZeroShotDLModel
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None, spModel)
+          .setModelIfNotSet(spark, Some(wrapper), None, None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
+
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

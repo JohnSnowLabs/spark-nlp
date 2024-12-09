@@ -83,13 +83,13 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .asInstanceOf[RoBertaSentenceEmbeddings]
       .write
       .overwrite()
-      .save("./tmp_sent_roberta_base")
+      .save("./tmp_sent_roberta_sentence_base")
 
-    val loadedEmbeddings = RoBertaSentenceEmbeddings.load("./tmp_sent_roberta_base")
+    val loadedEmbeddings = RoBertaSentenceEmbeddings.load("./tmp_sent_roberta_sentence_base")
     val pipeline2 = new Pipeline().setStages(Array(document, sentence, loadedEmbeddings))
 
     val model2 = pipeline2.fit(testData)
-    model2.transform(testData).select("id", "sentence_embeddings").show()
+    model2.transform(testData).select("id", "sentence_embeddings").show(truncate=false)
   }
 
   "RoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
@@ -131,7 +131,6 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     val conll = CoNLL()
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
-
     val embeddings = RoBertaSentenceEmbeddings
       .pretrained()
       .setInputCols("sentence")
@@ -193,8 +192,8 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
-    pipeline.fit(ddd).write.overwrite().save("./tmp_roberta_pipeline")
-    val pipelineModel = PipelineModel.load("./tmp_roberta_pipeline")
+    pipeline.fit(ddd).write.overwrite().save("./tmp_roberta_sentence_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_roberta_sentence_pipeline")
 
     pipelineModel.transform(ddd).show()
   }
