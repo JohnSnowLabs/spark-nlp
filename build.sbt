@@ -156,7 +156,10 @@ lazy val utilDependencies = Seq(
     exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor"),
   greex,
   azureIdentity,
-  azureStorage)
+  azureStorage,
+  jsoup,
+  jakartaMail
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
@@ -229,6 +232,7 @@ lazy val root = (project in file("."))
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("module-info.class") => MergeStrategy.discard // Discard any module-info.class globally
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _ @_*) => MergeStrategy.first
   case PathList("com.amazonaws", _ @_*) => MergeStrategy.last
