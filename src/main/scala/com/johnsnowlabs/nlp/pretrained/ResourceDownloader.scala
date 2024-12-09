@@ -690,7 +690,8 @@ object PythonResourceDownloader {
     "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings,
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
-    "PromptAssembler" -> PromptAssembler)
+    "PromptAssembler" -> PromptAssembler,
+    "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

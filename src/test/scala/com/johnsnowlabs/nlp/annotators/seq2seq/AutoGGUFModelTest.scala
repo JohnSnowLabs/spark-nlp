@@ -14,9 +14,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   behavior of "AutoGGUFModelTest"
 
-  // Set Spark Debug level
-  ResourceHelper.spark.sparkContext.setLogLevel("INFO")
-
   lazy val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
