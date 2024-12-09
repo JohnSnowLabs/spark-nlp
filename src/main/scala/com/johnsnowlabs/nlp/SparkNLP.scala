@@ -16,7 +16,10 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.reader.SparkNLPReader
 import org.apache.spark.sql.SparkSession
+
+import scala.collection.JavaConverters._
 
 object SparkNLP {
 
@@ -111,6 +114,12 @@ object SparkNLP {
 
   def version(): String = {
     currentVersion
+  }
+
+  def read: SparkNLPReader = new SparkNLPReader()
+
+  def read(params: Map[String, String]): SparkNLPReader = {
+    new SparkNLPReader(params.asJava)
   }
 
 }

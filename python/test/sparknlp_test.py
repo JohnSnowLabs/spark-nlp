@@ -1,0 +1,76 @@
+#  Copyright 2017-2024 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+import unittest
+
+import pytest
+import os
+import sparknlp
+from test.util import SparkContextForTest
+
+
+@pytest.mark.fast
+class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        html_df = sparknlp.read().html("https://www.wikipedia.org")
+        html_df.show()
+        assert html_df.select("html").count() > 0
+
+        params = {"titleFontSize": "12"}
+        html_params_df = sparknlp.read(params).html("https://www.wikipedia.org")
+        html_params_df.show()
+
+        self.assertTrue(html_params_df.select("html").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.html_file = f"file:///{os.getcwd()}/../src/test/resources/reader/html/fake-html.html"
+
+    def runTest(self):
+        html_df = sparknlp.read().html(self.html_file)
+        html_df.show()
+
+        self.assertTrue(html_df.select("html").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestHTMLValidationSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+
+    def runTest(self):
+        with pytest.raises(TypeError, match="htmlPath must be a string or a list of strings"):
+            sparknlp.read().html(123)
+
+
+@pytest.mark.fast
+class SparkNLPTestEmailFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.email_file = f"file:///{os.getcwd()}/../src/test/resources/reader/email/test-several-attachments.eml"
+
+    def runTest(self):
+        email_df = sparknlp.read().email(self.email_file)
+        email_df.show()
+
+        self.assertTrue(email_df.select("email").count() > 0)

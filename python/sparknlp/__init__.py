@@ -12,17 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import sys
 import subprocess
+import sys
 import threading
+
+from pyspark.conf import SparkConf
+from pyspark.context import SparkContext
+from pyspark.java_gateway import launch_gateway
 from pyspark.sql import SparkSession
+
 from sparknlp import annotator
 # Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
     Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
-from pyspark.conf import SparkConf
-from pyspark.context import SparkContext
-from pyspark.java_gateway import launch_gateway
+from sparknlp.reader import SparkNLPReader
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
 sys.modules['com.johnsnsowlabs.nlp.annotators.tokenizer'] = annotator
@@ -301,6 +304,9 @@ def start(gpu=False,
         spark_session = start_without_realtime_output()
         return spark_session
 
+def read(params=None):
+    spark_session = start()
+    return SparkNLPReader(spark_session, params)
 
 def version():
     """Returns the current Spark NLP version.

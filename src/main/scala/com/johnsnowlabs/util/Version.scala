@@ -48,9 +48,10 @@ object Version {
   def parse(str: String): Version = {
     val parts = str
       .replaceAll("-rc\\d", "")
-      .split('.')
+      .split("[.-]")
       .takeWhile(p => isInteger(p))
       .map(p => p.toInt)
+      .take(3)
       .toList
 
     Version(parts)

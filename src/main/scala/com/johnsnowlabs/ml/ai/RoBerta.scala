@@ -22,7 +22,7 @@ import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, ModelArch, Openvino, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -64,6 +64,7 @@ private[johnsnowlabs] class RoBerta(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -224,7 +225,7 @@ private[johnsnowlabs] class RoBerta(
           val results = runner.run(inputs)
           val lastHiddenState = results.get("last_hidden_state").get()
           val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
-          val shape = info.getShape
+          val tensorShape = info.getShape
           try {
             val flattenEmbeddings = results
               .get("last_hidden_state")
@@ -234,7 +235,7 @@ private[johnsnowlabs] class RoBerta(
               .array()
             tokenTensors.close()
             maskTensors.close()
-            val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
+            val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, tensorShape)
             val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
             LinAlg.denseMatrixToArray(normalizedEmbeddings)
           } finally if (results != null) results.close()
@@ -245,6 +246,36 @@ private[johnsnowlabs] class RoBerta(
             // Rethrow the exception to propagate it further
             throw e
         }
+
+        case Openvino.name =>
+          val shape = Array(batchLength, maxSentenceLength)
+          val tokenTensors =
+            new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+
+
+          val attentionMask = batch
+            .map(sentence => sentence.map(x => if (x == padTokenId) 0L else 1L))
+            .toArray
+
+          val maskTensors = new org.intel.openvino.Tensor(
+            shape,
+            attentionMask.flatten)
+          val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+          inferRequest.set_tensor("input_ids", tokenTensors)
+          inferRequest.set_tensor("attention_mask", maskTensors)
+
+          inferRequest.infer()
+
+          val lastHiddenState = inferRequest
+            .get_tensor("last_hidden_state")
+          val tensorShape = lastHiddenState.get_shape().map(_.toLong)
+          val flattenEmbeddings =  lastHiddenState
+            .data()
+          val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, tensorShape)
+          val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+          LinAlg.denseMatrixToArray(normalizedEmbeddings)
+
+
       case _ =>
         val tensors = new TensorResources()
 
