@@ -18,9 +18,10 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 
@@ -30,6 +31,7 @@ import scala.collection.mutable.ArrayBuffer
 private[johnsnowlabs] class Wav2Vec2(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     vocabs: Map[String, BigInt],
     signatures: Option[Map[String, String]] = None)
@@ -42,6 +44,7 @@ private[johnsnowlabs] class Wav2Vec2(
   private val padVocabId = vocabs.getOrElse("<pad>", 0)
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
@@ -62,58 +65,74 @@ private[johnsnowlabs] class Wav2Vec2(
   def tag(batch: Array[Array[Float]], vocabSize: Int): Array[Int] = {
 
     val rawScores =
-      detectedEngine match {
-        case TensorFlow.name =>
-          val tensors = new TensorResources()
+      detectedEngine match{
+      case TensorFlow.name =>
 
-          val audioTensors = tensors.createTensor(batch)
+    val tensors = new TensorResources()
 
-          val runner = tensorflowWrapper.get
-            .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-            .runner
+    val audioTensors = tensors.createTensor(batch)
 
-          runner
-            .feed(
-              _tfWav2Vec2Signatures
-                .getOrElse(ModelSignatureConstants.AudioValuesInput.key, "missing_input_values"),
-              audioTensors)
-            .fetch(_tfWav2Vec2Signatures
-              .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+    val runner = tensorflowWrapper.get
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .runner
 
-          val outs = runner.run().asScala
+    runner
+      .feed(
+        _tfWav2Vec2Signatures
+          .getOrElse(ModelSignatureConstants.AudioValuesInput.key, "missing_input_values"),
+        audioTensors)
+      .fetch(_tfWav2Vec2Signatures
+        .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
-          tensors.clearTensors()
-          audioTensors.close()
-          val output = TensorResources.extractFloats(outs.head)
-          tensors.clearSession(outs)
-          output
+    val outs = runner.run().asScala
 
-        case ONNX.name =>
-          val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-          val audioTensors =
-            OnnxTensor.createTensor(env, batch)
-          val inputs =
-            Map("input_values" -> audioTensors).asJava
+    tensors.clearTensors()
+    audioTensors.close()
+    val output = TensorResources.extractFloats(outs.head)
+    tensors.clearSession(outs)
+     output
+
+      case Openvino.name =>
+        val audioTensors =
+          new org.intel.openvino.Tensor(Array(batch.length,batch.head.length), batch.flatten)
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_values", audioTensors)
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor("logits")
+        val embeddings = result.data()
+
+        embeddings
+
+      case ONNX.name =>
+        val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
+        val audioTensors =
+          OnnxTensor.createTensor(env, batch)
+        val inputs =
+          Map(
+            "input_values" -> audioTensors).asJava
+        try {
+          val results = runner.run(inputs)
           try {
-            val results = runner.run(inputs)
-            try {
-              results
-                .get("logits")
-                .get()
-                .asInstanceOf[OnnxTensor]
-                .getFloatBuffer
-                .array()
-            } finally if (results != null) results.close()
-          } catch {
-            case e: Exception =>
-              // Handle exceptions by logging or other means.
-              e.printStackTrace()
-              Array.empty[Float] // Return an empty array or appropriate error handling
-          } finally {
-            // Close tensors outside the try-catch to avoid repeated null checks.
-            // These resources are initialized before the try-catch, so they should be closed here.
-            audioTensors.close()
-          }
+            val test =results
+              .get("logits")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            println("test")
+            test
+          } finally if (results != null) results.close()
+        } catch {
+          case e: Exception =>
+            // Handle exceptions by logging or other means.
+            e.printStackTrace()
+            Array.empty[Float] // Return an empty array or appropriate error handling
+        } finally {
+          // Close tensors outside the try-catch to avoid repeated null checks.
+          // These resources are initialized before the try-catch, so they should be closed here.
+          audioTensors.close()
+        }
       }
     rawScores
       .grouped(vocabSize)

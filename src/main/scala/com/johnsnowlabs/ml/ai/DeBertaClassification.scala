@@ -17,14 +17,17 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.BasicTokenizer
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.intel.openvino.Tensor
 import org.tensorflow.ndarray.buffer
 import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
 import org.slf4j.{Logger, LoggerFactory}
@@ -45,6 +48,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class DeBertaClassification(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
@@ -59,6 +63,7 @@ private[johnsnowlabs] class DeBertaClassification(
     signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else if (onnxWrapper.isDefined) ONNX.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
@@ -128,6 +133,7 @@ private[johnsnowlabs] class DeBertaClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch)
+      case Openvino.name => getRawScoresWithOv(batch)
       case _ => getRawScoresWithTF(batch)
     }
 
@@ -240,12 +246,47 @@ private[johnsnowlabs] class DeBertaClassification(
     }
   }
 
+
+  private def getRawScoresWithOv(
+                                  batch: Seq[Array[Int]]
+                                ): Array[Float] = {
+
+    val maxSentenceLength = batch.map(_.length).max
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOv", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
+
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
 
     val batchLength = batch.length
 
     val rawScores = detectedEngine match {
       case ONNX.name => getRawScoresWithOnnx(batch)
+      case Openvino.name => getRawScoresWithOv(batch)
       case _ => getRawScoresWithTF(batch)
     }
 
@@ -284,6 +325,7 @@ private[johnsnowlabs] class DeBertaClassification(
 
     val rawScores = detectedEngine match {
       case ONNX.name => computeZeroShotLogitsWithONNX(paddedBatch, maxSentenceLength)
+      case Openvino.name => computeZeroShotLogitsWithOv(paddedBatch, maxSentenceLength)
       case _ => computeZeroShotLogitsWithTF(paddedBatch, maxSentenceLength)
     }
 
@@ -292,6 +334,40 @@ private[johnsnowlabs] class DeBertaClassification(
       .grouped(dim)
       .toArray
   }
+
+
+  def computeZeroShotLogitsWithOv(
+                                   batch: Seq[Array[Int]],
+                                   maxSentenceLength: Int): Array[Float] = {
+    val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+
+    try {
+      try {
+        inferRequest
+          .get_tensor("logits")
+          .data()
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in computeZeroShotLogitsWithOv", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
+
 
   def computeZeroShotLogitsWithONNX(
       batch: Seq[Array[Int]],
@@ -398,7 +474,8 @@ private[johnsnowlabs] class DeBertaClassification(
     val batchLength = batch.length
     val (startLogits, endLogits) = detectedEngine match {
       case ONNX.name => computeLogitsWithOnnx(batch)
-      case _ => computeLogitsWithTF(batch)
+      case Openvino.name => computeLogitsWithOv(batch)
+      case TensorFlow.name => computeLogitsWithTF(batch)
     }
 
     val endDim = endLogits.length / batchLength
@@ -463,6 +540,42 @@ private[johnsnowlabs] class DeBertaClassification(
     tensors.clearTensors()
 
     (startLogits, endLogits)
+  }
+
+
+  private def computeLogitsWithOv(
+                                   batch: Seq[Array[Int]]
+                                   ): (Array[Float], Array[Float]) = {
+
+    val batchLength = batch.length
+    val maxSentenceLength = batch.map(_.length).max
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        val startLogits =  inferRequest
+          .get_tensor("start_logits")
+          .data()
+        val endLogits = inferRequest
+          .get_tensor("end_logits")
+          .data()
+
+        (startLogits, endLogits)
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in getRawScoresWithOnnx", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
   }
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {

@@ -18,17 +18,10 @@ package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.ml.ai.Wav2Vec2
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadJsonStringAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadJsonStringAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.{AUDIO, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
@@ -128,6 +121,7 @@ class Wav2Vec2ForCTC(override val uid: String)
     with HasAudioFeatureProperties
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
@@ -204,10 +198,10 @@ class Wav2Vec2ForCTC(override val uid: String)
   def getModelIfNotSet: Wav2Vec2 = _model.get.value
 
   /** @group setParam */
-  def setModelIfNotSet(
-      spark: SparkSession,
-      tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): this.type = {
+  def setModelIfNotSet(spark: SparkSession,
+                       tensorflowWrapper: Option[TensorflowWrapper],
+                       onnxWrapper: Option[OnnxWrapper],
+                       openvinoWrapper: Option[OpenvinoWrapper]): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -215,6 +209,7 @@ class Wav2Vec2ForCTC(override val uid: String)
           new Wav2Vec2(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             configProtoBytes = getConfigProtoBytes,
             vocabs = $$(vocabulary),
             signatures = getSignatures)))
@@ -294,6 +289,14 @@ class Wav2Vec2ForCTC(override val uid: String)
           getModelIfNotSet.onnxWrapper.get,
           "_wav_ctc",
           Wav2Vec2ForCTC.onnxFile)
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          Wav2Vec2ForCTC.openvinoFile)
+
     }
   }
 
@@ -316,24 +319,37 @@ trait ReadablePretrainedWav2Vec2ForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadWav2Vec2ForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadWav2Vec2ForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[Wav2Vec2ForCTC] =>
 
   override val tfFile: String = "wav_ctc_tensorflow"
   override val onnxFile: String = "wav_ctc_onnx"
+  override val openvinoFile: String = "wav_ctc_openvino"
+
   def readModel(instance: Wav2Vec2ForCTC, path: String, spark: SparkSession): Unit = {
 
-    instance.getEngine match {
+    instance.getEngine match{
       case TensorFlow.name =>
-        val tf = readTensorflowModel(path, spark, "_wav_ctc_tf", initAllTables = false)
-        instance.setModelIfNotSet(spark, Some(tf), None)
+    val tf = readTensorflowModel(path, spark, "_wav_ctc_tf", initAllTables = false)
+    instance.setModelIfNotSet(spark, Some(tf), None, None)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(path, spark, "_wav_ctc_onnx", zipped = true, useBundle = false, None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+          readOnnxModel(
+            path,
+            spark,
+            "_wav_ctc_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, "_wav_ctc_openvino")
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
+
       case _ =>
         throw new Exception(notSupportedEngineError)
-    }
+  }
   }
 
   addReader(readModel)
@@ -379,12 +395,23 @@ trait ReadWav2Vec2ForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(wrapper), None)
+          .setModelIfNotSet(spark, Some(wrapper), None, None)
       case ONNX.name =>
-        val onnxWrapper =
-          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper))
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
+
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper))
+
 
       case _ =>
         throw new Exception(notSupportedEngineError)

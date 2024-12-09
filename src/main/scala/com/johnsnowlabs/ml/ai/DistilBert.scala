@@ -19,9 +19,10 @@ package com.johnsnowlabs.ml.ai
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -71,6 +72,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class DistilBert(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -83,6 +85,7 @@ private[johnsnowlabs] class DistilBert(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -142,6 +145,35 @@ private[johnsnowlabs] class DistilBert(
           tokenTensors.close()
           maskTensors.close()
         }
+
+
+      case Openvino.name =>
+
+        val batchLength = batch.length
+        val shape = Array(batchLength, maxSentenceLength)
+        val (tokenTensors, maskTensors) =
+          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
+
+        inferRequest.infer()
+
+        try {
+          try {
+            inferRequest
+              .get_tensor("last_hidden_state")
+              .data()
+          }
+        } catch {
+          case e: Exception =>
+            e.printStackTrace()
+            Array.empty[Float]
+            // Rethrow the exception to propagate it further
+            throw e
+        }
+
       case _ =>
         val tensors = new TensorResources()
 
