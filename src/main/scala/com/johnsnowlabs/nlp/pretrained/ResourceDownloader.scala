@@ -691,6 +691,11 @@ object PythonResourceDownloader {
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
     "PromptAssembler" -> PromptAssembler,
+    "CPMTransformer"-> CPMTransformer,
+    "NomicEmbeddings" -> NomicEmbeddings,
+    "NLLBTransformer" -> NLLBTransformer,
+    "Phi3Transformer" -> Phi3Transformer,
+    "QwenTransformer" -> QwenTransformer,
     "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
