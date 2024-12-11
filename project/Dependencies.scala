@@ -134,10 +134,15 @@ object Dependencies {
   val llamaCppSilicon = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-silicon" % llamaCppVersion
   val llamaCppAarch64 = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-aarch64" % llamaCppVersion
 
-  val jsoupVersion = "1.18.1"
+  val jsoupVersion = "1.18.2"
   val jsoup = "org.jsoup" % "jsoup" % jsoupVersion
 
   val jakartaMailVersion = "2.0.1"
   val jakartaMail = "com.sun.mail" % "jakarta.mail" % "2.0.1"
+
+  val poiVersion = "4.1.2"
+  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
+  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
+
   /** ------- Dependencies end  ------- */
 }

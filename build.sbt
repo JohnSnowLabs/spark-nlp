@@ -158,7 +158,11 @@ lazy val utilDependencies = Seq(
   azureIdentity,
   azureStorage,
   jsoup,
-  jakartaMail
+  jakartaMail,
+  poiDocx
+    exclude ("org.apache.logging.log4j", "log4j-api"),
+  scratchpad
+    exclude ("org.apache.logging.log4j", "log4j-api")
 )
 
 lazy val typedDependencyParserDependencies = Seq(junit)
