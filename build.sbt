@@ -159,6 +159,7 @@ lazy val utilDependencies = Seq(
   azureStorage,
   jsoup,
   jakartaMail,
+  angusMail,
   poiDocx
     exclude ("org.apache.logging.log4j", "log4j-api"),
   scratchpad

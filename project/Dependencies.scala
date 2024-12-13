@@ -137,8 +137,10 @@ object Dependencies {
   val jsoupVersion = "1.18.2"
   val jsoup = "org.jsoup" % "jsoup" % jsoupVersion
 
-  val jakartaMailVersion = "2.0.1"
-  val jakartaMail = "com.sun.mail" % "jakarta.mail" % "2.0.1"
+  val jakartaMailVersion = "2.1.3"
+  val jakartaMail = "jakarta.mail" % "jakarta.mail-api" % jakartaMailVersion
+  val angusMailVersion = "2.0.3"
+  val angusMail = "org.eclipse.angus" % "angus-mail" % angusMailVersion
 
   val poiVersion = "4.1.2"
   val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
