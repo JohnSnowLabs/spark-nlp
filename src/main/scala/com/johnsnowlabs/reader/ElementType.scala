@@ -25,5 +25,7 @@ object ElementType {
   val LINK = "Link"
   val TABLE = "Table"
   val ATTACHMENT = "Attachment"
-
+  val LIST_ITEM = "ListItem"
+  val HEADER = "Header"
+  val FOOTER = "Footer"
 }

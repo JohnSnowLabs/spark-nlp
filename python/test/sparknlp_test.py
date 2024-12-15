@@ -74,3 +74,16 @@ class SparkNLPTestEmailFilesSpec(unittest.TestCase):
         email_df.show()
 
         self.assertTrue(email_df.select("email").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestWordFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.word_file = f"file:///{os.getcwd()}/../src/test/resources/reader/doc/contains-pictures.docx"
+
+    def runTest(self):
+        word_df = sparknlp.read().doc(self.word_file)
+        word_df.show()
+
+        self.assertTrue(word_df.select("doc").count() > 0)

@@ -17,10 +17,9 @@ package com.johnsnowlabs.reader
 
 import org.apache.spark.sql.DataFrame
 
-import java.util
 import scala.collection.JavaConverters._
 
-class SparkNLPReader(params: java.util.Map[String, String] = new util.HashMap()) {
+class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashMap()) {
 
   /** Instantiates class to read HTML files.
     *
@@ -154,6 +153,11 @@ class SparkNLPReader(params: java.util.Map[String, String] = new util.HashMap())
         case _: IllegalArgumentException => false
       }
     addAttachmentContent
+  }
+
+  def doc(docPath: String): DataFrame = {
+    val wordReader = new WordReader()
+    wordReader.doc(docPath)
   }
 
 }
