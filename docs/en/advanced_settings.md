@@ -96,6 +96,16 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 
 NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
 
+#### Additional Configuration for Databricks
+When running Email Reader feature `sparknlp.read().email("./email-files")` on Databricks, it is necessary to include the following Spark configurations to avoid dependency conflicts:
+
+```bash
+spark.driver.userClassPathFirst true
+spark.executor.userClassPathFirst true
+```
+These configurations are required because the Databricks runtime environment includes a bundled version of the `com.sun.mail:jakarta.mail` library, which conflicts with `jakarta.activation`.
+By setting these properties, the application ensures that the user-provided libraries take precedence over those bundled in the Databricks environment, resolving the dependency conflict.
+
 </div><div class="h3-box" markdown="1">
 
 ### S3 Integration
