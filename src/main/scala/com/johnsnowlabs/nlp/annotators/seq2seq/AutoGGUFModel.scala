@@ -16,9 +16,10 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.llama.LlamaModel
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -153,6 +154,10 @@ class AutoGGUFModel(override val uid: String)
     this
   }
 
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
+
+  setDefault(engine -> LlamaCPP.name)
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet.saveToFile(path)
@@ -232,25 +237,8 @@ trait ReadAutoGGUFModel {
   this: ParamsAndFeaturesReadable[AutoGGUFModel] =>
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
-    def findGGUFModelInFolder(): String = {
-      val folder =
-        new java.io.File(
-          path.replace("file:", "")
-        ) // File should be local at this point. TODO: Except if its HDFS?
-      if (folder.exists && folder.isDirectory) {
-        folder.listFiles
-          .filter(_.isFile)
-          .filter(_.getName.endsWith(".gguf"))
-          .map(_.getAbsolutePath)
-          .headOption // Should only be one file
-          .getOrElse(throw new IllegalArgumentException(s"Could not find GGUF model in $path"))
-      } else {
-        throw new IllegalArgumentException(s"Path $path is not a directory")
-      }
-    }
-
-    val model = AutoGGUFModel.loadSavedModel(findGGUFModelInFolder(), spark)
-    instance.setModelIfNotSet(spark, model.getModelIfNotSet)
+    val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)
+    instance.setModelIfNotSet(spark, model)
   }
 
   addReader(readModel)
@@ -261,6 +249,7 @@ trait ReadAutoGGUFModel {
     val annotatorModel = new AutoGGUFModel()
     annotatorModel
       .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
+      .setEngine(LlamaCPP.name)
 
     val metadata = LlamaModel.getMetadataFromFile(localPath)
     if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)

@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.base.prompt_assembler &#8212; Spark NLP 5.5.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js"></script>
+    <script src="../../../static/jquery.js"></script>
+    <script src="../../../static/underscore.js"></script>
+    <script src="../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../static/doctools.js"></script>
+    <script src="../../../static/sphinx_highlight.js"></script>
+    <script src="../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/base/prompt_assembler';</script>
+    <link rel="shortcut icon" href="../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.base.prompt_assembler</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.base.prompt_assembler</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2024 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the PromptAssembler.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorType</span>
+<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
+
+
+<div class="viewcode-block" id="PromptAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler">[docs]</a><span class="k">class</span> <span class="nc">PromptAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assembles a sequence of messages into a single string using a template. These strings can then</span>
+<span class="sd">    be used as prompts for large language models.</span>
+
+<span class="sd">    This annotator expects an array of two-tuples as the type of the input column (one array of</span>
+<span class="sd">    tuples per row). The first element of the tuples should be the role and the second element is</span>
+<span class="sd">    the text of the message. Possible roles are &quot;system&quot;, &quot;user&quot; and &quot;assistant&quot;.</span>
+
+<span class="sd">    An assistant header can be added to the end of the generated string by using</span>
+<span class="sd">    ``setAddAssistant(True)``.</span>
+
+<span class="sd">    At the moment, this annotator uses llama.cpp as a backend to parse and apply the templates.</span>
+<span class="sd">    llama.cpp uses basic pattern matching to determine the type of the template, then applies a</span>
+<span class="sd">    basic version of the template to the messages. This means that more advanced templates are not</span>
+<span class="sd">    supported.</span>
+
+<span class="sd">    For an extended example see the</span>
+<span class="sd">    `example notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/llama.cpp/PromptAssember_with_AutoGGUFModel.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``NONE``               ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputCol</span>
+<span class="sd">        Input column name</span>
+<span class="sd">    outputCol</span>
+<span class="sd">        Output column name</span>
+<span class="sd">    chatTemplate</span>
+<span class="sd">        Template used for the chat</span>
+<span class="sd">    addAssistant</span>
+<span class="sd">        Whether to add an assistant header to the end of the generated string</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; messages = [</span>
+<span class="sd">    ...     [</span>
+<span class="sd">    ...         (&quot;system&quot;, &quot;You are a helpful assistant.&quot;),</span>
+<span class="sd">    ...         (&quot;assistant&quot;, &quot;Hello there, how can I help you?&quot;),</span>
+<span class="sd">    ...         (&quot;user&quot;, &quot;I need help with organizing my room.&quot;),</span>
+<span class="sd">    ...     ]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; df = spark.createDataFrame([messages]).toDF(&quot;messages&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; template = (</span>
+<span class="sd">    ...     &quot;{{- bos_token }} {%- if custom_tools is defined %} {%- set tools = custom_tools %} {%- &quot;</span>
+<span class="sd">    ...     &quot;endif %} {%- if not tools_in_user_message is defined %} {%- set tools_in_user_message = true %} {%- &quot;</span>
+<span class="sd">    ...     &#39;endif %} {%- if not date_string is defined %} {%- set date_string = &quot;26 Jul 2024&quot; %} {%- endif %} &#39;</span>
+<span class="sd">    ...     &quot;{%- if not tools is defined %} {%- set tools = none %} {%- endif %} {#- This block extracts the &quot;</span>
+<span class="sd">    ...     &quot;system message, so we can slot it into the right place. #} {%- if messages[0][&#39;role&#39;] == &#39;system&#39; %}&quot;</span>
+<span class="sd">    ...     &quot; {%- set system_message = messages[0][&#39;content&#39;]|trim %} {%- set messages = messages[1:] %} {%- else&quot;</span>
+<span class="sd">    ...     &#39; %} {%- set system_message = &quot;&quot; %} {%- endif %} {#- System message + builtin tools #} {{- &#39;</span>
+<span class="sd">    ...     &#39;&quot;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\\n\\n&quot; }} {%- if builtin_tools is defined or tools is &#39;</span>
+<span class="sd">    ...     &#39;not none %} {{- &quot;Environment: ipython\\n&quot; }} {%- endif %} {%- if builtin_tools is defined %} {{- &#39;</span>
+<span class="sd">    ...     &#39;&quot;Tools: &quot; + builtin_tools | reject(\\&#39;equalto\&#39;, \\&#39;code_interpreter\\&#39;) | join(&quot;, &quot;) + &quot;\\n\\n&quot;}} &#39;</span>
+<span class="sd">    ...     &#39;{%- endif %} {{- &quot;Cutting Knowledge Date: December 2023\\n&quot; }} {{- &quot;Today Date: &quot; + date_string &#39;</span>
+<span class="sd">    ...     &#39;+ &quot;\\n\\n&quot; }} {%- if tools is not none and not tools_in_user_message %} {{- &quot;You have access to &#39;</span>
+<span class="sd">    ...     &#39;the following functions. To call a function, please respond with JSON for a function call.&quot; }} {{- &#39;</span>
+<span class="sd">    ...     &#39;\\&#39;Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: dictionary of argument name and its&#39;</span>
+<span class="sd">    ...     &#39; value}.\\&#39; }} {{- &quot;Do not use variables.\\n\\n&quot; }} {%- for t in tools %} {{- t | tojson(indent=4) &#39;</span>
+<span class="sd">    ...     &#39;}} {{- &quot;\\n\\n&quot; }} {%- endfor %} {%- endif %} {{- system_message }} {{- &quot;&lt;|eot_id|&gt;&quot; }} {#- &#39;</span>
+<span class="sd">    ...     &quot;Custom tools are passed in a user message with some extra guidance #} {%- if tools_in_user_message &quot;</span>
+<span class="sd">    ...     &quot;and not tools is none %} {#- Extract the first user message so we can plug it in here #} {%- if &quot;</span>
+<span class="sd">    ...     &quot;messages | length != 0 %} {%- set first_user_message = messages[0][&#39;content&#39;]|trim %} {%- set &quot;</span>
+<span class="sd">    ...     &#39;messages = messages[1:] %} {%- else %} {{- raise_exception(&quot;Cannot put tools in the first user &#39;</span>
+<span class="sd">    ...     &quot;message when there&#39;s no first user message!\\&quot;) }} {%- endif %} {{- &quot;</span>
+<span class="sd">    ...     &quot;&#39;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\\n\\n&#39; -}} {{- \\&quot;Given the following functions, please &quot;</span>
+<span class="sd">    ...     &#39;respond with a JSON for a function call &quot; }} {{- &quot;with its proper arguments that best answers the &#39;</span>
+<span class="sd">    ...     &#39;given prompt.\\n\\n&quot; }} {{- \\&#39;Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: &#39;</span>
+<span class="sd">    ...     &#39;dictionary of argument name and its value}.\\&#39; }} {{- &quot;Do not use variables.\\n\\n&quot; }} {%- for t in &#39;</span>
+<span class="sd">    ...     &#39;tools %} {{- t | tojson(indent=4) }} {{- &quot;\\n\\n&quot; }} {%- endfor %} {{- first_user_message + &#39;</span>
+<span class="sd">    ...     &quot;\\&quot;&lt;|eot_id|&gt;\\&quot;}} {%- endif %} {%- for message in messages %} {%- if not (message.role == &#39;ipython&#39; &quot;</span>
+<span class="sd">    ...     &quot;or message.role == &#39;tool&#39; or &#39;tool_calls&#39; in message) %} {{- &#39;&lt;|start_header_id|&gt;&#39; + message[&#39;role&#39;]&quot;</span>
+<span class="sd">    ...     &quot; + &#39;&lt;|end_header_id|&gt;\\n\\n&#39;+ message[&#39;content&#39;] | trim + &#39;&lt;|eot_id|&gt;&#39; }} {%- elif &#39;tool_calls&#39; in &quot;</span>
+<span class="sd">    ...     &#39;message %} {%- if not message.tool_calls|length == 1 %} {{- raise_exception(&quot;This model only &#39;</span>
+<span class="sd">    ...     &#39;supports single tool-calls at once!&quot;) }} {%- endif %} {%- set tool_call = message.tool_calls[0]&#39;</span>
+<span class="sd">    ...     &quot;.function %} {%- if builtin_tools is defined and tool_call.name in builtin_tools %} {{- &quot;</span>
+<span class="sd">    ...     &quot;&#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n&#39; -}} {{- \\&quot;&lt;|python_tag|&gt;\\&quot; + tool_call.name + &quot;</span>
+<span class="sd">    ...     &#39;&quot;.call(&quot; }} {%- for arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + \\&#39;=&quot;\\&#39; + &#39;</span>
+<span class="sd">    ...     &#39;arg_val + \\&#39;&quot;\\&#39; }} {%- if not loop.last %} {{- &quot;, &quot; }} {%- endif %} {%- endfor %} {{- &quot;)&quot; }} {%- &#39;</span>
+<span class="sd">    ...     &quot;else %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n&#39; -}} {{- &#39;{\\&quot;name\&quot;: \\&quot;&#39; + &quot;</span>
+<span class="sd">    ...     &#39;tool_call.name + \\&#39;&quot;, \\&#39; }} {{- \\&#39;&quot;parameters&quot;: \\&#39; }} {{- tool_call.arguments | tojson }} {{- &quot;}&quot; &#39;</span>
+<span class="sd">    ...     &quot;}} {%- endif %} {%- if builtin_tools is defined %} {#- This means we&#39;re in ipython mode #} {{- &quot;</span>
+<span class="sd">    ...     &#39;&quot;&lt;|eom_id|&gt;&quot; }} {%- else %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {%- endif %} {%- elif message.role == &quot;tool&quot; &#39;</span>
+<span class="sd">    ...     &#39;or message.role == &quot;ipython&quot; %} {{- &quot;&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;\\n\\n&quot; }} {%- &#39;</span>
+<span class="sd">    ...     &quot;if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- &quot;</span>
+<span class="sd">    ...     &#39;else %} {{- message.content }} {%- endif %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {%- endif %} {%- endfor %} {%- if &#39;</span>
+<span class="sd">    ...     &quot;add_generation_prompt %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n&#39; }} {%- endif %} &quot;</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; prompt_assembler = (</span>
+<span class="sd">    ...     PromptAssembler()</span>
+<span class="sd">    ...     .setInputCol(&quot;messages&quot;)</span>
+<span class="sd">    ...     .setOutputCol(&quot;prompt&quot;)</span>
+<span class="sd">    ...     .setChatTemplate(template)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; prompt_assembler.transform(df).select(&quot;prompt.result&quot;).show(truncate=False)</span>
+<span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                                                                                                                                                                                                                                                                      |</span>
+<span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI need help with organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n]|</span>
+<span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+
+    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;input column name&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">chatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;chatTemplate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Template used for the chat&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">addAssistant</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;addAssistant&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to add an assistant header to the end of the generated string&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;PromptAssembler&quot;</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PromptAssembler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.PromptAssembler&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="n">addAssistant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PromptAssembler.setInputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setInputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input column name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of the input column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PromptAssembler.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of the Output Column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PromptAssembler.setChatTemplate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate">[docs]</a>    <span class="k">def</span> <span class="nf">setChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the chat template.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Template used for the chat</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chatTemplate</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PromptAssembler.setAddAssistant"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant">[docs]</a>    <span class="k">def</span> <span class="nf">setAddAssistant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to add an assistant header to the end of the generated string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to add an assistant header to the end of the generated string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">addAssistant</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

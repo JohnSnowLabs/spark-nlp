@@ -82,18 +82,42 @@ private[johnsnowlabs] object PrepareEmbeddings {
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
       batchLength: Int,
-      sentencePadTokenId: Int = 0)
+      sentencePadTokenId: Int = 0,
+      shape: Option[Array[Int]] = None)
       : (org.intel.openvino.Tensor, org.intel.openvino.Tensor, org.intel.openvino.Tensor) = {
-    val shape = Array(batchLength, maxSentenceLength)
-    val tokenTensors =
-      new org.intel.openvino.Tensor(shape, batch.flatten.toArray)
-    val maskTensors = new org.intel.openvino.Tensor(
-      shape,
-      batch
-        .flatMap(sentence => sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-        .toArray)
+    val tensorsShape = if (shape.isDefined) shape.get else Array(batchLength, maxSentenceLength)
+    val inputIds = batch.flatten.toArray
+    val attentionMask = batch
+      .flatMap(sentence => sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      .toArray
+
+    val tokenTensors = new org.intel.openvino.Tensor(tensorsShape, inputIds)
+    val maskTensors = new org.intel.openvino.Tensor(tensorsShape, attentionMask)
+
     val segmentTensors =
-      new org.intel.openvino.Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0))
+      new org.intel.openvino.Tensor(tensorsShape, Array.fill(batchLength * maxSentenceLength)(0))
+
+    (tokenTensors, maskTensors, segmentTensors)
+  }
+
+  def prepareOvLongBatchTensorsWithSegment(
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int,
+      batchLength: Int,
+      sentencePadTokenId: Int = 0,
+      shape: Option[Array[Int]] = None)
+      : (org.intel.openvino.Tensor, org.intel.openvino.Tensor, org.intel.openvino.Tensor) = {
+    val tensorsShape = if (shape.isDefined) shape.get else Array(batchLength, maxSentenceLength)
+    val inputIds = batch.flatMap(x => x.map(xx => xx.toLong)).toArray
+    val attentionMask = batch
+      .flatMap(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+      .toArray
+
+    val tokenTensors = new org.intel.openvino.Tensor(tensorsShape, inputIds)
+    val maskTensors = new org.intel.openvino.Tensor(tensorsShape, attentionMask)
+
+    val segmentTensors =
+      new org.intel.openvino.Tensor(tensorsShape, Array.fill(batchLength * maxSentenceLength)(0L))
 
     (tokenTensors, maskTensors, segmentTensors)
   }

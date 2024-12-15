@@ -16,11 +16,14 @@
 
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.sql.SparkSession
+import com.johnsnowlabs.reader.SparkNLPReader
+import org.apache.spark.sql.{DataFrame, SparkSession}
+
+import scala.collection.JavaConverters._
 
 object SparkNLP {
 
-  val currentVersion = "5.5.0"
+  val currentVersion = "5.5.1"
   val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSparkSilicon = s"com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:$currentVersion"
@@ -111,6 +114,12 @@ object SparkNLP {
 
   def version(): String = {
     currentVersion
+  }
+
+  def read: SparkNLPReader = new SparkNLPReader()
+
+  def read(params: Map[String, String]): SparkNLPReader = {
+    new SparkNLPReader(params.asJava)
   }
 
 }

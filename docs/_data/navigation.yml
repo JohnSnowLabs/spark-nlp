@@ -44,6 +44,8 @@ sparknlp:
         url: /docs/en/pipelines
       - title: General Concepts
         url: /docs/en/concepts
+      - title: Tasks
+        url: /docs/en/tasks/landing_page
       - title: Annotators
         url: /docs/en/annotators
       - title: Transformers
