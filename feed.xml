@@ -1,696 +1,777 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-12-15T20:56:05+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">phi_3_mini_128k_instruct model from microsoft</title><link href="/2024/11/29/phi_3_mini_128k_instruct_en.html" rel="alternate" type="text/html" title="phi_3_mini_128k_instruct model from microsoft" /><published>2024-11-29T00:00:00+00:00</published><updated>2024-11-29T00:00:00+00:00</updated><id>/2024/11/29/phi_3_mini_128k_instruct_en</id><content type="html" xml:base="/2024/11/29/phi_3_mini_128k_instruct_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-12-16T09:13:59+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English 579_stmodel_v1 MPNetEmbeddings from jamiehudson</title><link href="/2024/12/16/579_stmodel_v1_en.html" rel="alternate" type="text/html" title="English 579_stmodel_v1 MPNetEmbeddings from jamiehudson" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/579_stmodel_v1_en</id><content type="html" xml:base="/2024/12/16/579_stmodel_v1_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained Phi3Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`phi_3_mini_128k_instruct` is a english model originally trained by openbmb.
+&lt;p&gt;Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;579_stmodel_v1&lt;/code&gt; is a English model originally trained by jamiehudson.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/phi_3_mini_128k_instruct_en_5.5.1_3.0_1732897700551.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/phi_3_mini_128k_instruct_en_5.5.1_3.0_1732897700551.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/579_stmodel_v1_en_5.5.1_3.0_1734316408701.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/579_stmodel_v1_en_5.5.1_3.0_1734316408701.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
- 
-documentAssembler = DocumentAssembler() \
-      .setInputCol(&quot;text&quot;) \
-      .setOutputCol(&quot;document&quot;)
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
-seq2seq = Phi3Transformer.pretrained(&quot;phi_3_mini_128k_instruct&quot;,&quot;en&quot;) \
-      .setInputCols([&quot;document&quot;]) \
-      .setOutputCol(&quot;generation&quot;)       
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;579_stmodel_v1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
         
-pipeline = Pipeline().setStages([documentAssembler, seq2seq])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
-
-val documentAssembler = new DocumentAssembler() 
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val seq2seq = Phi3Transformer.pretrained(&quot;phi_3_mini_128k_instruct&quot;,&quot;en&quot;) 
-    .setInputCols(Array(&quot;document&quot;)) 
-    .setOutputCol(&quot;generation&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;579_stmodel_v1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq))
-val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|phi_3_mini_128k_instruct|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|en|
-|Size:|3.5 GB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;579_stmodel_v1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[mpnet]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/microsoft/Phi-3-mini-128k-instruct</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="openvino" /><summary type="html">Description Pretrained Phi3Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.phi_3_mini_128k_instruct is a english model originally trained by openbmb. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) seq2seq = Phi3Transformer.pretrained(&quot;phi_3_mini_128k_instruct&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;generation&quot;) pipeline = Pipeline().setStages([documentAssembler, seq2seq]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val seq2seq = Phi3Transformer.pretrained(&quot;phi_3_mini_128k_instruct&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;generation&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: phi_3_mini_128k_instruct Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: en Size: 3.5 GB References https://huggingface.co/microsoft/Phi-3-mini-128k-instruct</summary></entry><entry><title type="html">qwen_7.5b_chat model from Qwen</title><link href="/2024/11/29/qwen_7.5b_chat_en.html" rel="alternate" type="text/html" title="qwen_7.5b_chat model from Qwen" /><published>2024-11-29T00:00:00+00:00</published><updated>2024-11-29T00:00:00+00:00</updated><id>/2024/11/29/qwen_7.5b_chat_en</id><content type="html" xml:base="/2024/11/29/qwen_7.5b_chat_en.html">## Description
+&lt;p&gt;https://huggingface.co/jamiehudson/579-STmodel-v1&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="mpnet" /><summary type="html">Description Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.579_stmodel_v1 is a English model originally trained by jamiehudson. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = MPNetEmbeddings.pretrained(&quot;579_stmodel_v1&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = MPNetEmbeddings.pretrained(&quot;579_stmodel_v1&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 579_stmodel_v1 Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [mpnet] Language: en Size: 407.2 MB References https://huggingface.co/jamiehudson/579-STmodel-v1</summary></entry><entry><title type="html">English 579_stmodel_v1_pipeline pipeline MPNetEmbeddings from jamiehudson</title><link href="/2024/12/16/579_stmodel_v1_pipeline_en.html" rel="alternate" type="text/html" title="English 579_stmodel_v1_pipeline pipeline MPNetEmbeddings from jamiehudson" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/579_stmodel_v1_pipeline_en</id><content type="html" xml:base="/2024/12/16/579_stmodel_v1_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained QwenTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`qwen_7.5b_chat` is a english model originally trained by Qwen.
+&lt;p&gt;Pretrained MPNetEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;579_stmodel_v1_pipeline&lt;/code&gt; is a English model originally trained by jamiehudson.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen_7.5b_chat_en_5.5.1_3.0_1732900154873.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/qwen_7.5b_chat_en_5.5.1_3.0_1732900154873.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/579_stmodel_v1_pipeline_en_5.5.1_3.0_1734316440472.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/579_stmodel_v1_pipeline_en_5.5.1_3.0_1734316440472.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;579_stmodel_v1_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;579_stmodel_v1_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
- 
-documentAssembler = DocumentAssembler() \
-      .setInputCol(&quot;text&quot;) \
-      .setOutputCol(&quot;document&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;579_stmodel_v1_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://huggingface.co/jamiehudson/579-STmodel-v1&lt;/p&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;MPNetEmbeddings&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained MPNetEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.579_stmodel_v1_pipeline is a English model originally trained by jamiehudson. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;579_stmodel_v1_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;579_stmodel_v1_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: 579_stmodel_v1_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 407.2 MB References https://huggingface.co/jamiehudson/579-STmodel-v1 Included Models DocumentAssembler MPNetEmbeddings</summary></entry><entry><title type="html">English 8_shot_sta_head_trained MPNetEmbeddings from Nhat1904</title><link href="/2024/12/16/8_shot_sta_head_trained_en.html" rel="alternate" type="text/html" title="English 8_shot_sta_head_trained MPNetEmbeddings from Nhat1904" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/8_shot_sta_head_trained_en</id><content type="html" xml:base="/2024/12/16/8_shot_sta_head_trained_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8_shot_sta_head_trained&lt;/code&gt; is a English model originally trained by Nhat1904.&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/8_shot_sta_head_trained_en_5.5.1_3.0_1734316408793.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/8_shot_sta_head_trained_en_5.5.1_3.0_1734316408793.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
-seq2seq = QwenTransformer.pretrained(&quot;qwen_7.5b_chat&quot;,&quot;en&quot;) \
-      .setInputCols([&quot;document&quot;]) \
-      .setOutputCol(&quot;generation&quot;)       
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8_shot_sta_head_trained&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
         
-pipeline = Pipeline().setStages([documentAssembler, seq2seq])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
-
-val documentAssembler = new DocumentAssembler() 
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     
-val seq2seq = QwenTransformer.pretrained(&quot;qwen_7.5b_chat&quot;,&quot;en&quot;) 
-    .setInputCols(Array(&quot;document&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8_shot_sta_head_trained&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq))
-val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|qwen_7.5b_chat|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|en|
-|Size:|7.0 GB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;8_shot_sta_head_trained&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[mpnet]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/Qwen/Qwen1.5-7B-Chat</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="openvino" /><summary type="html">Description Pretrained QwenTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.qwen_7.5b_chat is a english model originally trained by Qwen. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) seq2seq = QwenTransformer.pretrained(&quot;qwen_7.5b_chat&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;generation&quot;) pipeline = Pipeline().setStages([documentAssembler, seq2seq]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val seq2seq = QwenTransformer.pretrained(&quot;qwen_7.5b_chat&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: qwen_7.5b_chat Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: en Size: 7.0 GB References https://huggingface.co/Qwen/Qwen1.5-7B-Chat</summary></entry><entry><title type="html">nllb_distilled_600M_8int model from Facebook</title><link href="/2024/11/27/nllb_distilled_600M_8int_xx.html" rel="alternate" type="text/html" title="nllb_distilled_600M_8int model from Facebook" /><published>2024-11-27T00:00:00+00:00</published><updated>2024-11-27T00:00:00+00:00</updated><id>/2024/11/27/nllb_distilled_600M_8int_xx</id><content type="html" xml:base="/2024/11/27/nllb_distilled_600M_8int_xx.html">## Description
+&lt;p&gt;https://huggingface.co/Nhat1904/8_shot_STA_head_trained&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="embeddings" /><category term="mpnet" /><summary type="html">Description Pretrained MPNetEmbeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.8_shot_sta_head_trained is a English model originally trained by Nhat1904. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = MPNetEmbeddings.pretrained(&quot;8_shot_sta_head_trained&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = MPNetEmbeddings.pretrained(&quot;8_shot_sta_head_trained&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 8_shot_sta_head_trained Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [mpnet] Language: en Size: 407.0 MB References https://huggingface.co/Nhat1904/8_shot_STA_head_trained</summary></entry><entry><title type="html">English 8_shot_sta_head_trained_pipeline pipeline MPNetEmbeddings from Nhat1904</title><link href="/2024/12/16/8_shot_sta_head_trained_pipeline_en.html" rel="alternate" type="text/html" title="English 8_shot_sta_head_trained_pipeline pipeline MPNetEmbeddings from Nhat1904" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/8_shot_sta_head_trained_pipeline_en</id><content type="html" xml:base="/2024/12/16/8_shot_sta_head_trained_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`nllb_distilled_600M_8int` is a Multilingual model originally trained by facebook.
+&lt;p&gt;Pretrained MPNetEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8_shot_sta_head_trained_pipeline&lt;/code&gt; is a English model originally trained by Nhat1904.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nllb_distilled_600M_8int_xx_5.5.1_3.0_1732741416718.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/nllb_distilled_600M_8int_xx_5.5.1_3.0_1732741416718.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/8_shot_sta_head_trained_pipeline_en_5.5.1_3.0_1734316446090.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/8_shot_sta_head_trained_pipeline_en_5.5.1_3.0_1734316446090.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8_shot_sta_head_trained_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8_shot_sta_head_trained_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
- 
-documentAssembler = DocumentAssembler() \
-      .setInputCol(&quot;text&quot;) \
-      .setOutputCol(&quot;document&quot;)
-
-seq2seq = NLLBTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) \
-      .setInputCols([&quot;documents&quot;]) \
-      .setOutputCol(&quot;generation&quot;)       
-        
-pipeline = Pipeline().setStages([documentAssembler, seq2seq])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-val documentAssembler = new DocumentAssembler() 
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
-    
-val seq2seq = NLLBTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) 
-    .setInputCols(Array(&quot;documents&quot;)) 
-    .setOutputCol(&quot;generation&quot;)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq))
-val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
-
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|nllb_distilled_600M_8int|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|xx|
-|Size:|842.9 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;8_shot_sta_head_trained_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;407.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/facebook/nllb-200-distilled-600M</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="openvino" /><category term="xx" /><summary type="html">Description Pretrained NLLBTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.nllb_distilled_600M_8int is a Multilingual model originally trained by facebook. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) seq2seq = NLLBTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;generation&quot;) pipeline = Pipeline().setStages([documentAssembler, seq2seq]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val seq2seq = NLLBTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;generation&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: nllb_distilled_600M_8int Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: xx Size: 842.9 MB References https://huggingface.co/facebook/nllb-200-distilled-600M</summary></entry><entry><title type="html">nomic_embed_v1 model from nomic-ai</title><link href="/2024/11/27/nomic_embed_v1_en.html" rel="alternate" type="text/html" title="nomic_embed_v1 model from nomic-ai" /><published>2024-11-27T00:00:00+00:00</published><updated>2024-11-27T00:00:00+00:00</updated><id>/2024/11/27/nomic_embed_v1_en</id><content type="html" xml:base="/2024/11/27/nomic_embed_v1_en.html">## Description
+&lt;p&gt;https://huggingface.co/Nhat1904/8_shot_STA_head_trained&lt;/p&gt;
 
-Pretrained NomicEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`mini_cpm_2b_8bit` is a multilingual model originally trained by openbmb.
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nomic_embed_v1_en_5.5.1_3.0_1732743647389.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/nomic_embed_v1_en_5.5.1_3.0_1732743647389.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;MPNetEmbeddings&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained MPNetEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.8_shot_sta_head_trained_pipeline is a English model originally trained by Nhat1904. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;8_shot_sta_head_trained_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;8_shot_sta_head_trained_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: 8_shot_sta_head_trained_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 407.0 MB References https://huggingface.co/Nhat1904/8_shot_STA_head_trained Included Models DocumentAssembler MPNetEmbeddings</summary></entry><entry><title type="html">English absa_hos_multila T5Transformer from thanmj</title><link href="/2024/12/16/absa_hos_multila_en.html" rel="alternate" type="text/html" title="English absa_hos_multila T5Transformer from thanmj" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/absa_hos_multila_en</id><content type="html" xml:base="/2024/12/16/absa_hos_multila_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-## How to use
+&lt;p&gt;Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;absa_hos_multila&lt;/code&gt; is a English model originally trained by thanmj.&lt;/p&gt;
 
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/absa_hos_multila_en_5.5.1_3.0_1734328333368.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/absa_hos_multila_en_5.5.1_3.0_1734328333368.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
- 
-documentAssembler = DocumentAssembler() \
-      .setInputCol(&quot;text&quot;) \
-      .setOutputCol(&quot;document&quot;)
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_hos_multila&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;t5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_hos_multila&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
     
-embeddings = NomicEmbeddings.pretrained(&quot;nomic_embed_v1&quot;,&quot;en&quot;) \
-      .setInputCols([&quot;document&quot;]) \
-      .setOutputCol(&quot;embeddings&quot;)       
-        
-pipeline = Pipeline().setStages([documentAssembler, embeddings])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-```
-```scala
-
-val documentAssembler = new DocumentAssembler() 
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
-    
-val embeddings = NomicEmbeddings.pretrained(&quot;nomic_embed_v1&quot;,&quot;en&quot;) 
-    .setInputCols(Array(&quot;document&quot;)) 
-    .setOutputCol(&quot;embeddings&quot;)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
-val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
-
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|nomic_embed_v1|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|en|
-|Size:|255.0 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;absa_hos_multila&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[output]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;993.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/nomic-ai/nomic-embed-text-v1</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="openvino" /><summary type="html">Description Pretrained NomicEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.mini_cpm_2b_8bit is a multilingual model originally trained by openbmb. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = NomicEmbeddings.pretrained(&quot;nomic_embed_v1&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline().setStages([documentAssembler, embeddings]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = NomicEmbeddings.pretrained(&quot;nomic_embed_v1&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: nomic_embed_v1 Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: en Size: 255.0 MB References https://huggingface.co/nomic-ai/nomic-embed-text-v1</summary></entry><entry><title type="html">mini_cpm_2b_8bit model from</title><link href="/2024/11/26/mini_cpm_2b_8bit_xx.html" rel="alternate" type="text/html" title="mini_cpm_2b_8bit model from" /><published>2024-11-26T00:00:00+00:00</published><updated>2024-11-26T00:00:00+00:00</updated><id>/2024/11/26/mini_cpm_2b_8bit_xx</id><content type="html" xml:base="/2024/11/26/mini_cpm_2b_8bit_xx.html">## Description
+&lt;p&gt;https://huggingface.co/thanmj/ABSA_HOS_MultiLA&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="t5" /><category term="question_answering" /><category term="summarization" /><category term="translation" /><category term="text_generation" /><summary type="html">Description Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.absa_hos_multila is a English model originally trained by thanmj. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') t5 = T5Transformer.pretrained(&quot;absa_hos_multila&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;output&quot;) pipeline = Pipeline().setStages([documentAssembler, t5]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val t5 = T5Transformer.pretrained(&quot;absa_hos_multila&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;output&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, t5)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: absa_hos_multila Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [output] Language: en Size: 993.9 MB References https://huggingface.co/thanmj/ABSA_HOS_MultiLA</summary></entry><entry><title type="html">English absa_hos_multila_pipeline pipeline T5Transformer from thanmj</title><link href="/2024/12/16/absa_hos_multila_pipeline_en.html" rel="alternate" type="text/html" title="English absa_hos_multila_pipeline pipeline T5Transformer from thanmj" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/absa_hos_multila_pipeline_en</id><content type="html" xml:base="/2024/12/16/absa_hos_multila_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained CPMTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`mini_cpm_2b_8bit` is a multilingual model originally trained by openbmb.
+&lt;p&gt;Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;absa_hos_multila_pipeline&lt;/code&gt; is a English model originally trained by thanmj.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658809236.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/mini_cpm_2b_8bit_xx_5.5.1_3.0_1732658809236.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/absa_hos_multila_pipeline_en_5.5.1_3.0_1734328388782.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/absa_hos_multila_pipeline_en_5.5.1_3.0_1734328388782.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_hos_multila_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;absa_hos_multila_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
- 
-documentAssembler = DocumentAssembler() \
-      .setInputCol(&quot;text&quot;) \
-      .setOutputCol(&quot;document&quot;)
-
-seq2seq = CPMTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) \
-      .setInputCols([&quot;documents&quot;]) \
-      .setOutputCol(&quot;generation&quot;)       
-        
-pipeline = Pipeline().setStages([documentAssembler, seq2seq])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-val documentAssembler = new DocumentAssembler() 
-    .setInputCol(&quot;text&quot;) 
-    .setOutputCol(&quot;document&quot;)
-    
-val seq2seq = CPMTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) 
-    .setInputCols(Array(&quot;documents&quot;)) 
-    .setOutputCol(&quot;generation&quot;)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq))
-val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
-
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|mini_cpm_2b_8bit|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|xx|
-|Size:|3.0 GB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;absa_hos_multila_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;993.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="openvino" /><category term="xx" /><summary type="html">Description Pretrained CPMTransformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.mini_cpm_2b_8bit is a multilingual model originally trained by openbmb. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) seq2seq = CPMTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;generation&quot;) pipeline = Pipeline().setStages([documentAssembler, seq2seq]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val seq2seq = CPMTransformer.pretrained(&quot;mini_cpm_2b_8bit&quot;,&quot;xx&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;generation&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, seq2seq)) val data = Seq(&quot;I love spark-nlp&quot;).toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: mini_cpm_2b_8bit Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: xx Size: 3.0 GB References https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16</summary></entry><entry><title type="html">Financial English BERT Embeddings (Base)</title><link href="/2024/11/20/bert_embeddings_sec_bert_base_en.html" rel="alternate" type="text/html" title="Financial English BERT Embeddings (Base)" /><published>2024-11-20T00:00:00+00:00</published><updated>2024-11-20T00:00:00+00:00</updated><id>/2024/11/20/bert_embeddings_sec_bert_base_en</id><content type="html" xml:base="/2024/11/20/bert_embeddings_sec_bert_base_en.html">## Description
+&lt;p&gt;https://huggingface.co/thanmj/ABSA_HOS_MultiLA&lt;/p&gt;
 
-Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `sec-bert-base` is a English model orginally trained by `nlpaueb`. This is the reference base model, what means it uses the same architecture as BERT-BASE trained on financial documents.
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-## Predicted Entities
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;T5Transformer&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.absa_hos_multila_pipeline is a English model originally trained by thanmj. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;absa_hos_multila_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;absa_hos_multila_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: absa_hos_multila_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 993.9 MB References https://huggingface.co/thanmj/ABSA_HOS_MultiLA Included Models DocumentAssembler T5Transformer</summary></entry><entry><title type="html">English adapter_13classes_multi_label T5Transformer from CrisisNarratives</title><link href="/2024/12/16/adapter_13classes_multi_label_en.html" rel="alternate" type="text/html" title="English adapter_13classes_multi_label T5Transformer from CrisisNarratives" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/adapter_13classes_multi_label_en</id><content type="html" xml:base="/2024/12/16/adapter_13classes_multi_label_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
+&lt;p&gt;Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adapter_13classes_multi_label&lt;/code&gt; is a English model originally trained by CrisisNarratives.&lt;/p&gt;
 
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adapter_13classes_multi_label_en_5.5.1_3.0_1734332231906.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/adapter_13classes_multi_label_en_5.5.1_3.0_1734332231906.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_sec_bert_base_en_5.5.1_3.0_1732064992710.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_embeddings_sec_bert_base_en_5.5.1_3.0_1732064992710.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-## How to use
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
+&lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_13classes_multi_label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol(&quot;text&quot;) \
-.setOutputCol(&quot;document&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-tokenizer = Tokenizer() \
-.setInputCols(&quot;document&quot;) \
-.setOutputCol(&quot;token&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;t5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_13classes_multi_label&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \
-.setInputCols([&quot;document&quot;, &quot;token&quot;]) \
-.setOutputCol(&quot;embeddings&quot;)
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([[&quot;I love Spark NLP&quot;]]).toDF(&quot;text&quot;)
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol(&quot;text&quot;) 
-.setOutputCol(&quot;document&quot;)
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array(&quot;document&quot;))
-.setOutputCol(&quot;token&quot;)
-
-val embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) 
-.setInputCols(Array(&quot;document&quot;, &quot;token&quot;)) 
-.setOutputCol(&quot;embeddings&quot;)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq(&quot;I love Spark NLP&quot;).toDF(&quot;text&quot;)
-
-val result = pipeline.fit(data).transform(data)
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load(&quot;en.embed.sec_bert_base&quot;).predict(&quot;&quot;&quot;I love Spark NLP&quot;&quot;&quot;)
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|bert_embeddings_sec_bert_base|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[sentence, token]|
-|Output Labels:|[bert]|
-|Language:|en|
-|Size:|409.4 MB|
-|Case sensitive:|true|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;adapter_13classes_multi_label&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[output]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;520.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-- https://huggingface.co/nlpaueb/sec-bert-base
-- https://arxiv.org/abs/2203.06482
-- http://nlp.cs.aueb.gr/</content><author><name>John Snow Labs</name></author><category term="financial" /><category term="bert" /><category term="en" /><category term="embeddings" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. sec-bert-base is a English model orginally trained by nlpaueb. This is the reference base model, what means it uses the same architecture as BERT-BASE trained on financial documents. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings]) data = spark.createDataFrame([[&quot;I love Spark NLP&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;token&quot;) val embeddings = BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;, &quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings)) val data = Seq(&quot;I love Spark NLP&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) import nlu nlu.load(&quot;en.embed.sec_bert_base&quot;).predict(&quot;&quot;&quot;I love Spark NLP&quot;&quot;&quot;) Model Information Model Name: bert_embeddings_sec_bert_base Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [sentence, token] Output Labels: [bert] Language: en Size: 409.4 MB Case sensitive: true References https://huggingface.co/nlpaueb/sec-bert-base https://arxiv.org/abs/2203.06482 http://nlp.cs.aueb.gr/</summary></entry><entry><title type="html">English Legal RoBERTa Embeddings (CaseLaw, Base, Cased)</title><link href="/2024/11/13/roberta_embeddings_legal_roberta_base_en.html" rel="alternate" type="text/html" title="English Legal RoBERTa Embeddings (CaseLaw, Base, Cased)" /><published>2024-11-13T00:00:00+00:00</published><updated>2024-11-13T00:00:00+00:00</updated><id>/2024/11/13/roberta_embeddings_legal_roberta_base_en</id><content type="html" xml:base="/2024/11/13/roberta_embeddings_legal_roberta_base_en.html">## Description
+&lt;p&gt;https://huggingface.co/CrisisNarratives/adapter-13classes-multi_label&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="t5" /><category term="question_answering" /><category term="summarization" /><category term="translation" /><category term="text_generation" /><summary type="html">Description Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adapter_13classes_multi_label is a English model originally trained by CrisisNarratives. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') t5 = T5Transformer.pretrained(&quot;adapter_13classes_multi_label&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;output&quot;) pipeline = Pipeline().setStages([documentAssembler, t5]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val t5 = T5Transformer.pretrained(&quot;adapter_13classes_multi_label&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;output&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, t5)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: adapter_13classes_multi_label Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [output] Language: en Size: 520.8 MB References https://huggingface.co/CrisisNarratives/adapter-13classes-multi_label</summary></entry><entry><title type="html">English adapter_13classes_multi_label_pipeline pipeline T5Transformer from CrisisNarratives</title><link href="/2024/12/16/adapter_13classes_multi_label_pipeline_en.html" rel="alternate" type="text/html" title="English adapter_13classes_multi_label_pipeline pipeline T5Transformer from CrisisNarratives" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/adapter_13classes_multi_label_pipeline_en</id><content type="html" xml:base="/2024/12/16/adapter_13classes_multi_label_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained Legal RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `legal-roberta-base` is a English model orginally trained by `saibo`.
+&lt;p&gt;Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adapter_13classes_multi_label_pipeline&lt;/code&gt; is a English model originally trained by CrisisNarratives.&lt;/p&gt;
 
-## Predicted Entities
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adapter_13classes_multi_label_pipeline_en_5.5.1_3.0_1734332402763.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/adapter_13classes_multi_label_pipeline_en_5.5.1_3.0_1734332402763.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_13classes_multi_label_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_embeddings_legal_roberta_base_en_5.5.0_3.0_1731462634993.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_embeddings_legal_roberta_base_en_5.5.0_3.0_1731462634993.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_13classes_multi_label_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler() \
-.setInputCol(&quot;text&quot;) \
-.setOutputCol(&quot;document&quot;)
-
-tokenizer = Tokenizer() \
-.setInputCols(&quot;document&quot;) \
-.setOutputCol(&quot;token&quot;)
-
-embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \
-.setInputCols([&quot;document&quot;, &quot;token&quot;]) \
-.setOutputCol(&quot;embeddings&quot;)
-
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
-
-data = spark.createDataFrame([[&quot;I love Spark NLP&quot;]]).toDF(&quot;text&quot;)
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val documentAssembler = new DocumentAssembler() 
-.setInputCol(&quot;text&quot;) 
-.setOutputCol(&quot;document&quot;)
-
-val tokenizer = new Tokenizer() 
-.setInputCols(Array(&quot;document&quot;))
-.setOutputCol(&quot;token&quot;)
-
-val embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) 
-.setInputCols(Array(&quot;document&quot;, &quot;token&quot;)) 
-.setOutputCol(&quot;embeddings&quot;)
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
-
-val data = Seq(&quot;I love Spark NLP&quot;).toDF(&quot;text&quot;)
-
-val result = pipeline.fit(data).transform(data)
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load(&quot;en.embed.legal_roberta_base&quot;).predict(&quot;&quot;&quot;I love Spark NLP&quot;&quot;&quot;)
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|roberta_embeddings_legal_roberta_base|
-|Compatibility:|Spark NLP 5.5.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[sentence, token]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|468.9 MB|
-|Case sensitive:|true|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;adapter_13classes_multi_label_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;520.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## Benchmarking
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-```bash
-- https://huggingface.co/saibo/legal-roberta-base
-- https://www.kaggle.com/uspto/patent-litigations
-- https://case.law/
-- https://www.kaggle.com/bigquery/patents
-- https://www.kaggle.com/sohier/beyond-queries-exploring-the-bigquery-api
-```</content><author><name>John Snow Labs</name></author><category term="roberta" /><category term="embeddings" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description Pretrained Legal RoBERTa Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. legal-roberta-base is a English model orginally trained by saibo. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings]) data = spark.createDataFrame([[&quot;I love Spark NLP&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;token&quot;) val embeddings = RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;,&quot;en&quot;) .setInputCols(Array(&quot;document&quot;, &quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings)) val data = Seq(&quot;I love Spark NLP&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) import nlu nlu.load(&quot;en.embed.legal_roberta_base&quot;).predict(&quot;&quot;&quot;I love Spark NLP&quot;&quot;&quot;) Model Information Model Name: roberta_embeddings_legal_roberta_base Compatibility: Spark NLP 5.5.0+ License: Open Source Edition: Official Input Labels: [sentence, token] Output Labels: [embeddings] Language: en Size: 468.9 MB Case sensitive: true Benchmarking - https://huggingface.co/saibo/legal-roberta-base - https://www.kaggle.com/uspto/patent-litigations - https://case.law/ - https://www.kaggle.com/bigquery/patents - https://www.kaggle.com/sohier/beyond-queries-exploring-the-bigquery-api</summary></entry><entry><title type="html">English 4248_spanbert_base BertForQuestionAnswering from JMatthewChiam</title><link href="/2024/11/11/4248_spanbert_base_en.html" rel="alternate" type="text/html" title="English 4248_spanbert_base BertForQuestionAnswering from JMatthewChiam" /><published>2024-11-11T00:00:00+00:00</published><updated>2024-11-11T00:00:00+00:00</updated><id>/2024/11/11/4248_spanbert_base_en</id><content type="html" xml:base="/2024/11/11/4248_spanbert_base_en.html">## Description
+&lt;p&gt;https://huggingface.co/CrisisNarratives/adapter-13classes-multi_label&lt;/p&gt;
 
-Pretrained BertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`4248_spanbert_base` is a English model originally trained by JMatthewChiam.
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/4248_spanbert_base_en_5.5.1_3.0_1731288773376.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/4248_spanbert_base_en_5.5.1_3.0_1731288773376.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;T5Transformer&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adapter_13classes_multi_label_pipeline is a English model originally trained by CrisisNarratives. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;adapter_13classes_multi_label_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;adapter_13classes_multi_label_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: adapter_13classes_multi_label_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 520.8 MB References https://huggingface.co/CrisisNarratives/adapter-13classes-multi_label Included Models DocumentAssembler T5Transformer</summary></entry><entry><title type="html">English adapter_9classes_single_label T5Transformer from CrisisNarratives</title><link href="/2024/12/16/adapter_9classes_single_label_en.html" rel="alternate" type="text/html" title="English adapter_9classes_single_label T5Transformer from CrisisNarratives" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/adapter_9classes_single_label_en</id><content type="html" xml:base="/2024/12/16/adapter_9classes_single_label_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-## How to use
+&lt;p&gt;Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adapter_9classes_single_label&lt;/code&gt; is a English model originally trained by CrisisNarratives.&lt;/p&gt;
 
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adapter_9classes_single_label_en_5.5.1_3.0_1734327911768.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/adapter_9classes_single_label_en_5.5.1_3.0_1734327911768.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-             
-documentAssembler = MultiDocumentAssembler() \
-     .setInputCol([&quot;question&quot;, &quot;context&quot;]) \
-     .setOutputCol([&quot;document_question&quot;, &quot;document_context&quot;])
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_9classes_single_label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;t5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;T5Transformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_9classes_single_label&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
     
-spanClassifier = BertForQuestionAnswering.pretrained(&quot;4248_spanbert_base&quot;,&quot;en&quot;) \
-     .setInputCols([&quot;document_question&quot;,&quot;document_context&quot;]) \
-     .setOutputCol(&quot;answer&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I love spark-nlp&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-pipeline = Pipeline().setStages([documentAssembler, spanClassifier])
-data = spark.createDataFrame([[&quot;What framework do I use?&quot;,&quot;I use spark-nlp.&quot;]]).toDF(&quot;document_question&quot;, &quot;document_context&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-val documentAssembler = new MultiDocumentAssembler()
-    .setInputCol(Array(&quot;question&quot;, &quot;context&quot;)) 
-    .setOutputCol(Array(&quot;document_question&quot;, &quot;document_context&quot;))
-    
-val spanClassifier = BertForQuestionAnswering.pretrained(&quot;4248_spanbert_base&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;document_question&quot;,&quot;document_context&quot;)) 
-    .setOutputCol(&quot;answer&quot;) 
-    
-val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier))
-val data = Seq(&quot;What framework do I use?&quot;,&quot;I use spark-nlp.&quot;).toDS.toDF(&quot;document_question&quot;, &quot;document_context&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
-
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|4248_spanbert_base|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document_question, document_context]|
-|Output Labels:|[answer]|
-|Language:|en|
-|Size:|402.9 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;adapter_9classes_single_label&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[output]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;520.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/JMatthewChiam/4248-spanBERT-Base</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="question_answering" /><category term="bert" /><summary type="html">Description Pretrained BertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.4248_spanbert_base is a English model originally trained by JMatthewChiam. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = MultiDocumentAssembler() \ .setInputCol([&quot;question&quot;, &quot;context&quot;]) \ .setOutputCol([&quot;document_question&quot;, &quot;document_context&quot;]) spanClassifier = BertForQuestionAnswering.pretrained(&quot;4248_spanbert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;document_question&quot;,&quot;document_context&quot;]) \ .setOutputCol(&quot;answer&quot;) pipeline = Pipeline().setStages([documentAssembler, spanClassifier]) data = spark.createDataFrame([[&quot;What framework do I use?&quot;,&quot;I use spark-nlp.&quot;]]).toDF(&quot;document_question&quot;, &quot;document_context&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new MultiDocumentAssembler() .setInputCol(Array(&quot;question&quot;, &quot;context&quot;)) .setOutputCol(Array(&quot;document_question&quot;, &quot;document_context&quot;)) val spanClassifier = BertForQuestionAnswering.pretrained(&quot;4248_spanbert_base&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document_question&quot;,&quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, spanClassifier)) val data = Seq(&quot;What framework do I use?&quot;,&quot;I use spark-nlp.&quot;).toDS.toDF(&quot;document_question&quot;, &quot;document_context&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: 4248_spanbert_base Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: en Size: 402.9 MB References https://huggingface.co/JMatthewChiam/4248-spanBERT-Base</summary></entry><entry><title type="html">English 4248_spanbert_base_pipeline pipeline BertForQuestionAnswering from JMatthewChiam</title><link href="/2024/11/11/4248_spanbert_base_pipeline_en.html" rel="alternate" type="text/html" title="English 4248_spanbert_base_pipeline pipeline BertForQuestionAnswering from JMatthewChiam" /><published>2024-11-11T00:00:00+00:00</published><updated>2024-11-11T00:00:00+00:00</updated><id>/2024/11/11/4248_spanbert_base_pipeline_en</id><content type="html" xml:base="/2024/11/11/4248_spanbert_base_pipeline_en.html">## Description
+&lt;p&gt;https://huggingface.co/CrisisNarratives/adapter-9classes-single_label&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="t5" /><category term="question_answering" /><category term="summarization" /><category term="translation" /><category term="text_generation" /><summary type="html">Description Pretrained T5Transformer model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adapter_9classes_single_label is a English model originally trained by CrisisNarratives. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') t5 = T5Transformer.pretrained(&quot;adapter_9classes_single_label&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;output&quot;) pipeline = Pipeline().setStages([documentAssembler, t5]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val t5 = T5Transformer.pretrained(&quot;adapter_9classes_single_label&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;)) .setOutputCol(&quot;output&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, t5)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: adapter_9classes_single_label Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [output] Language: en Size: 520.8 MB References https://huggingface.co/CrisisNarratives/adapter-9classes-single_label</summary></entry><entry><title type="html">English adapter_9classes_single_label_pipeline pipeline T5Transformer from CrisisNarratives</title><link href="/2024/12/16/adapter_9classes_single_label_pipeline_en.html" rel="alternate" type="text/html" title="English adapter_9classes_single_label_pipeline pipeline T5Transformer from CrisisNarratives" /><published>2024-12-16T00:00:00+00:00</published><updated>2024-12-16T00:00:00+00:00</updated><id>/2024/12/16/adapter_9classes_single_label_pipeline_en</id><content type="html" xml:base="/2024/12/16/adapter_9classes_single_label_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Pretrained BertForQuestionAnswering, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`4248_spanbert_base_pipeline` is a English model originally trained by JMatthewChiam.
+&lt;p&gt;Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adapter_9classes_single_label_pipeline&lt;/code&gt; is a English model originally trained by CrisisNarratives.&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/4248_spanbert_base_pipeline_en_5.5.1_3.0_1731288794996.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/4248_spanbert_base_pipeline_en_5.5.1_3.0_1731288794996.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/adapter_9classes_single_label_pipeline_en_5.5.1_3.0_1734328079323.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/adapter_9classes_single_label_pipeline_en_5.5.1_3.0_1734328079323.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-## How to use
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_9classes_single_label_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;adapter_9classes_single_label_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-
-pipeline = PretrainedPipeline(&quot;4248_spanbert_base_pipeline&quot;, lang = &quot;en&quot;)
-annotations =  pipeline.transform(df)   
-
-```
-```scala
-
-val pipeline = new PretrainedPipeline(&quot;4248_spanbert_base_pipeline&quot;, lang = &quot;en&quot;)
-val annotations = pipeline.transform(df)
-
-```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|4248_spanbert_base_pipeline|
-|Type:|pipeline|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|402.9 MB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;adapter_9classes_single_label_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;520.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/JMatthewChiam/4248-spanBERT-Base
+&lt;p&gt;https://huggingface.co/CrisisNarratives/adapter-9classes-single_label&lt;/p&gt;
 
-## Included Models
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-- MultiDocumentAssembler
-- BertForQuestionAnswering</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BertForQuestionAnswering, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.4248_spanbert_base_pipeline is a English model originally trained by JMatthewChiam. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;4248_spanbert_base_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;4248_spanbert_base_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: 4248_spanbert_base_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 402.9 MB References https://huggingface.co/JMatthewChiam/4248-spanBERT-Base Included Models MultiDocumentAssembler BertForQuestionAnswering</summary></entry><entry><title type="html">English affilgood_ner RoBertaForTokenClassification from SIRIS-Lab</title><link href="/2024/11/11/affilgood_ner_en.html" rel="alternate" type="text/html" title="English affilgood_ner RoBertaForTokenClassification from SIRIS-Lab" /><published>2024-11-11T00:00:00+00:00</published><updated>2024-11-11T00:00:00+00:00</updated><id>/2024/11/11/affilgood_ner_en</id><content type="html" xml:base="/2024/11/11/affilgood_ner_en.html">## Description
-
-Pretrained RoBertaForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`affilgood_ner` is a English model originally trained by SIRIS-Lab.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/affilgood_ner_en_5.5.1_3.0_1731311681436.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/affilgood_ner_en_5.5.1_3.0_1731311681436.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-     
-documentAssembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
-    
-tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
-
-tokenClassifier  = RoBertaForTokenClassification.pretrained(&quot;affilgood_ner&quot;,&quot;en&quot;) \
-     .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \
-     .setOutputCol(&quot;ner&quot;)
-
-pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier])
-data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;)
-pipelineModel = pipeline.fit(data)
-pipelineDF = pipelineModel.transform(data)
-
-```
-```scala
-
-val documentAssembler = new DocumentAssembler()
-    .setInputCols(&quot;text&quot;)
-    .setOutputCols(&quot;document&quot;)
-    
-val tokenizer = new Tokenizer()
-    .setInputCols(&quot;document&quot;)
-    .setOutputCol(&quot;token&quot;)
-
-val tokenClassifier = RoBertaForTokenClassification.pretrained(&quot;affilgood_ner&quot;, &quot;en&quot;)
-    .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) 
-    .setOutputCol(&quot;ner&quot;) 
-    
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier))
-val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;)
-val pipelineModel = pipeline.fit(data)
-val pipelineDF = pipelineModel.transform(data)
-
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|affilgood_ner|
-|Compatibility:|Spark NLP 5.5.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document, token]|
-|Output Labels:|[ner]|
-|Language:|en|
-|Size:|466.1 MB|
-
-## References
-
-https://huggingface.co/SIRIS-Lab/affilgood-NER</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="token_classification" /><category term="roberta" /><category term="ner" /><summary type="html">Description Pretrained RoBertaForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.affilgood_ner is a English model originally trained by SIRIS-Lab. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') tokenClassifier = RoBertaForTokenClassification.pretrained(&quot;affilgood_ner&quot;,&quot;en&quot;) \ .setInputCols([&quot;documents&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;ner&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, tokenClassifier]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val tokenClassifier = RoBertaForTokenClassification.pretrained(&quot;affilgood_ner&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;ner&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: affilgood_ner Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [ner] Language: en Size: 466.1 MB References https://huggingface.co/SIRIS-Lab/affilgood-NER</summary></entry></feed>
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;T5Transformer&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained T5Transformer, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.adapter_9classes_single_label_pipeline is a English model originally trained by CrisisNarratives. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;adapter_9classes_single_label_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;adapter_9classes_single_label_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: adapter_9classes_single_label_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 520.8 MB References https://huggingface.co/CrisisNarratives/adapter-9classes-single_label Included Models DocumentAssembler T5Transformer</summary></entry></feed>
