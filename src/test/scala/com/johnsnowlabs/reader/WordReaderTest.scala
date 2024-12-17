@@ -31,7 +31,7 @@ class WordReaderTest extends AnyFlatSpec {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(docDirectory)
     wordDf.select("doc").show(false)
-
+    wordDf.printSchema()
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
   }
