@@ -1,4 +1,38 @@
 ========
+5.5.2
+========
+----------------
+New Features & Enhancements
+----------------
+* OpenVINO Support for Transformers (PR #14408):
+Added OpenVINO inference support to a broad range of transformer-based annotators, including DeBertaForQuestionAnswering, DeBertaForSequenceClassification, RoBertaForTokenClassification, XlmRobertaForZeroShotClassification, BartTransformer, GPT2Transformer, and many others.
+* BLIPForQuestionAnswering Transformer (PR #14422):
+Introduced a new transformer BLIPForQuestionAnswering for image-based question answering tasks. The transformer processes images alongside associated questions to provide relevant answers.
+* AutoGGUFEmbeddings Annotator (PR #14433):
+Added AutoGGUFEmbeddings to support embeddings from AutoGGUFModels, providing rich sentence embeddings. Includes an end-to-end example notebook for usage.
+* HTML Parsing into DataFrame (PR #14449):
+Introduced sparknlp.read().html() to parse local or remote HTML files and convert them into structured Spark DataFrames for easier analysis.
+* Email Parsing into DataFrame (PR #14455):
+Added sparknlp.read().email() method to parse email files into structured DataFrames, enabling scalable analysis of email content. (Note: Dependent on #14449)
+* Microsoft Word Document Parsing into DataFrame (PR #14476):
+Added a new feature to parse .docx and .doc files into a Spark DataFrame, streamlining the integration of Word documents into NLP pipelines.
+* Microsoft Fabric Support (PR #14467):
+Introduced support for leveraging Microsoft Fabric for word embeddings storage and retrieval, enhancing scalability and efficiency.
+* cuDNN Upgrade Instructions on Databricks (PR #14451):
+Added instructions on upgrading cuDNN for GPU inference and cleaned up redundant Databricks installation instructions.
+* ChunkEmbeddings Metadata Preservation (PR #14462):
+Modified ChunkEmbeddings to preserve the original chunk’s metadata in the resulting embeddings, ensuring richer contextual information is retained.
+* Default Names and Languages for Annotators (PR #14469):
+Updated default names and language configurations for newly created seq2seq annotators to improve consistency and clarity.
+
+----------------
+Bug Fixes
+----------------
+* Spark Version Errors (PR #14467):
+Resolved issues related to long Spark versions when integrating Microsoft Fabric support.
+
+
+========
 5.5.1
 ========
 ----------------
