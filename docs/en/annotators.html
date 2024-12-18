@@ -580,6 +580,11 @@ in the DataFrames.</li>
     </thead>
     <tbody>
       <tr>
+        <td><a href="#autoggufembeddings">AutoGGUFEmbeddings</a></td>
+        <td>Annotator that uses the llama.cpp library to generate text embeddings with large language models.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#autoggufmodel">AutoGGUFModel</a></td>
         <td>Annotator that uses the llama.cpp library to generate text completions with large language models.</td>
         <td>Opensource</td>
@@ -1260,6 +1265,121 @@ in the DataFrames.</li>
     });
 });
  */ </script>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="autoggufembeddings">AutoGGUFEmbeddings</h2>
+
+  <p>Annotator that uses the llama.cpp library to generate text embeddings with large language
+models.</p>
+
+  <p>The type of embedding pooling can be set with the <code class="language-plaintext highlighter-rouge">setPoolingType</code> method. The default is
+<code class="language-plaintext highlighter-rouge">"MEAN"</code>. The available options are <code class="language-plaintext highlighter-rouge">"NONE"</code>, <code class="language-plaintext highlighter-rouge">"MEAN"</code>, <code class="language-plaintext highlighter-rouge">"CLS"</code>, and <code class="language-plaintext highlighter-rouge">"LAST"</code>.</p>
+
+  <p>If the parameters are not set, the annotator will default to use the parameters provided by
+the model.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">autoGGUFEmbeddings</span> <span class="k">=</span> <span class="nv">AutoGGUFEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"nomic-embed-text-v1.5.Q8_0.gguf"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFEmbeddingsTest.scala">AutoGGUFEmbeddingsTest</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFEmbeddings.ipynb">example notebook</a>.</p>
+
+  <p><strong>Note</strong>: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+the number of GPU layers with the <code class="language-plaintext highlighter-rouge">setNGpuLayers</code> method.</p>
+
+  <p>When using larger models, we recommend adjusting GPU usage with <code class="language-plaintext highlighter-rouge">setNCtx</code> and <code class="language-plaintext highlighter-rouge">setNGpuLayers</code>
+according to your hardware to avoid out-of-memory errors.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/embeddings/auto_gguf_embeddings/index.html">AutoGGUFEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddings">AutoGGUFEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddings.scala">AutoGGUFEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">autoGGUFEmbeddings</span> <span class="o">=</span> <span class="n">AutoGGUFEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"completions"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setPoolingType</span><span class="p">(</span><span class="s">"MEAN"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">autoGGUFEmbeddings</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"completions"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                      <span class="n">embeddings</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[[</span><span class="o">-</span><span class="mf">0.034486726</span><span class="p">,</span> <span class="mf">0.07770534</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15982522</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.017873349</span><span class="p">,</span> <span class="mf">0.013914132</span><span class="p">,</span> <span class="mf">0.0365736</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">().</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">autoGGUFEmbeddings</span> <span class="k">=</span> <span class="nc">AutoGGUFEmbeddings</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setPoolingType</span><span class="o">(</span><span class="s">"MEAN"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">autoGGUFEmbeddings</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones."</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"embeddings.embeddings"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">truncate</span><span class="k">=</span><span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                      <span class="n">embeddings</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|[[</span><span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">034486726</span>, <span class="err">0</span><span class="kt">.</span><span class="err">07770534</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">15982522</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">017873349</span>, <span class="err">0</span><span class="kt">.</span><span class="err">013914132</span>, <span class="err">0</span><span class="kt">.</span><span class="err">0365736</span><span class="kt">...|</span>
+<span class="kt">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
 
 <div class="h3-box tabs-python-scala-box">
 

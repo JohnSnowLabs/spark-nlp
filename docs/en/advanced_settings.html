@@ -628,7 +628,7 @@
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000m"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.pretrained.cache_folder"</span><span class="p">,</span> <span class="s">"sample_data/pretrained"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.storage.cluster_tmp_dir"</span><span class="p">,</span> <span class="s">"sample_data/storage"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </code></pre></div>  </div>
 
@@ -641,7 +641,7 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2
 </code></pre></div>  </div>
 
   <p><strong>pyspark:</strong></p>
@@ -653,7 +653,7 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2
 </code></pre></div>  </div>
 
   <p><strong>Databricks:</strong></p>
@@ -668,6 +668,15 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 </code></pre></div>  </div>
 
   <p>NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.</p>
+
+  <h4 id="additional-configuration-for-databricks">Additional Configuration for Databricks</h4>
+  <p>When running Email Reader feature <code class="language-plaintext highlighter-rouge">sparknlp.read().email("./email-files")</code> on Databricks, it is necessary to include the following Spark configurations to avoid dependency conflicts:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.driver.userClassPathFirst <span class="nb">true
+</span>spark.executor.userClassPathFirst <span class="nb">true</span>
+</code></pre></div>  </div>
+  <p>These configurations are required because the Databricks runtime environment includes a bundled version of the <code class="language-plaintext highlighter-rouge">com.sun.mail:jakarta.mail</code> library, which conflicts with <code class="language-plaintext highlighter-rouge">jakarta.activation</code>.
+By setting these properties, the application ensures that the user-provided libraries take precedence over those bundled in the Databricks environment, resolving the dependency conflict.</p>
 
 </div>
 <div class="h3-box">
