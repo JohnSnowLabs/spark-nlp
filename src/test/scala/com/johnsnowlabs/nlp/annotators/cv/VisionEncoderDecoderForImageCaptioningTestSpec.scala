@@ -88,7 +88,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
       val pipelineModel = pipeline.fit(imageDF)
       val lightPipeline = new LightPipeline(pipelineModel)
       val image = imageFolder + "egyptian_cat.jpeg"
-      val results = lightPipeline.fullAnnotateImage(Array(image, image))
+      val results = lightPipeline.fullAnnotateImages(Array(image, image))
 
       results.foreach { result =>
         assert(result("image_assembler").nonEmpty)

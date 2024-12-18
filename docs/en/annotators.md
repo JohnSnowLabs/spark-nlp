@@ -45,6 +45,7 @@ There are two types of Annotators:
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
+{% include templates/anno_table_entry.md path="" name="AutoGGUFEmbeddings" summary="Annotator that uses the llama.cpp library to generate text embeddings with large language models."%}
 {% include templates/anno_table_entry.md path="" name="AutoGGUFModel" summary="Annotator that uses the llama.cpp library to generate text completions with large language models."%}
 {% include templates/anno_table_entry.md path="" name="BGEEmbeddings" summary="Sentence embeddings using BGE."%}
 {% include templates/anno_table_entry.md path="" name="BigTextMatcher" summary="Annotator to match exact phrases (by token) provided in a file against a Document."%}

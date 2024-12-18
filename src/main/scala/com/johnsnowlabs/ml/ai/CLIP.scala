@@ -17,10 +17,11 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
-import com.johnsnowlabs.ml.onnx.{OnnxWrapper, OnnxSession, TensorResources}
+import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper, TensorResources}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
 import com.johnsnowlabs.ml.util.LinAlg.{argmax, softmax}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
@@ -33,6 +34,7 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 private[johnsnowlabs] class CLIP(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     tokenizer: CLIPTokenizer,
     preprocessor: Preprocessor)
@@ -40,6 +42,7 @@ private[johnsnowlabs] class CLIP(
 
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else if (onnxWrapper.isDefined) ONNX.name
     else throw new IllegalArgumentException("No model engine defined.")
 
@@ -94,6 +97,30 @@ private[johnsnowlabs] class CLIP(
         val logits = rawLogits.grouped(batchSize).toArray.transpose
 
         logits.map(scores => softmax(scores))
+
+      case Openvino.name =>
+        val tokenTensors =
+          new org.intel.openvino.Tensor(Array(labels.length,labels.head.length), labels.flatten)
+       val pixelValuesTensor = new org.intel.openvino.Tensor(Array(batchImages.length,batchImages.head.length,batchImages.head.head.length,batchImages.head.head.head.length),
+          batchImages.flatten.flatten.flatten)
+        val attentionMaskTensor =
+          new org.intel.openvino.Tensor(Array(labels.length,labels.head.length),Array.fill(labels.length, labels.head.length)(1L).flatten)
+
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("pixel_values", pixelValuesTensor)
+        inferRequest.set_tensor("attention_mask", attentionMaskTensor)
+        inferRequest.infer()
+
+        val result = inferRequest.get_tensor("logits_per_text")
+        val rawLogits = result.data()
+
+        val batchSize = batchImages.length
+        val logits = rawLogits.grouped(batchSize).toArray.transpose
+
+        logits.map(scores => softmax(scores))
+
+
       case _ => throw new Exception("Only ONNX is currently supported.")
     }
   }

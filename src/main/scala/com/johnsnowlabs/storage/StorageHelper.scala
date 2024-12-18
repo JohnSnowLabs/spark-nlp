@@ -17,6 +17,7 @@
 package com.johnsnowlabs.storage
 
 import com.johnsnowlabs.client.CloudResources
+import com.johnsnowlabs.client.util.CloudHelper
 import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkContext, SparkFiles}
@@ -34,7 +35,6 @@ object StorageHelper {
       database: String,
       storageRef: String,
       withinStorage: Boolean): RocksDBConnection = {
-
     val dbFolder = StorageHelper.resolveStorageName(database, storageRef)
     val source = StorageLocator.getStorageSerializedPath(
       storageSourcePath.replaceAllLiterally("\\", "/"),
@@ -49,7 +49,11 @@ object StorageHelper {
       locator.destinationScheme,
       spark.sparkContext)
 
-    RocksDBConnection.getOrCreate(locator.clusterFileName)
+    val storagePath = if (locator.clusterFilePath.toString.startsWith("file:")) {
+      locator.clusterFilePath.toString
+    } else locator.clusterFileName
+
+    RocksDBConnection.getOrCreate(storagePath)
   }
 
   def save(
@@ -96,9 +100,19 @@ object StorageHelper {
           }
           case "s3a" =>
             copyIndexToLocal(source, new Path(tmpIndexStorageLocalPath), sparkContext)
-          case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
+          case _ => {
+            copyIndexToCluster(source, clusterFilePath, sparkContext)
+          }
         }
       }
+      case "abfss" =>
+        if (clusterFilePath.toString.startsWith("file:")) {
+          val tmpIndexStorageLocalPath =
+            RocksDBConnection.getTmpIndexStorageLocalPath(clusterFileName)
+          copyIndexToCluster(source, new Path("file://" + tmpIndexStorageLocalPath), sparkContext)
+        } else {
+          copyIndexToLocal(source, clusterFilePath, sparkContext)
+        }
       case _ => {
         copyIndexToCluster(source, clusterFilePath, sparkContext)
       }
@@ -120,7 +134,8 @@ object StorageHelper {
       sourcePath: Path,
       dst: Path,
       sparkContext: SparkContext): String = {
-    if (!new File(SparkFiles.get(dst.getName)).exists()) {
+    val destinationInSpark = new File(SparkFiles.get(dst.getName)).exists()
+    if (!destinationInSpark) {
       val srcFS = sourcePath.getFileSystem(sparkContext.hadoopConfiguration)
       val dstFS = dst.getFileSystem(sparkContext.hadoopConfiguration)
 
@@ -138,7 +153,9 @@ object StorageHelper {
           sparkContext.hadoopConfiguration)
       }
 
-      sparkContext.addFile(dst.toString, recursive = true)
+      if (!CloudHelper.isMicrosoftFabric) {
+        sparkContext.addFile(dst.toString, recursive = true)
+      }
     }
     dst.toString
   }

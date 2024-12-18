@@ -52,7 +52,7 @@ spark = SparkSession.builder
     .config("spark.kryoserializer.buffer.max", "2000m")
     .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
     .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2")
     .getOrCreate()
 ```
 
@@ -66,7 +66,7 @@ spark-shell \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2
 ```
 
 **pyspark:**
@@ -79,7 +79,7 @@ pyspark \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.1
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.2
 ```
 
 **Databricks:**
@@ -95,6 +95,16 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 ```
 
 NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
+
+#### Additional Configuration for Databricks
+When running Email Reader feature `sparknlp.read().email("./email-files")` on Databricks, it is necessary to include the following Spark configurations to avoid dependency conflicts:
+
+```bash
+spark.driver.userClassPathFirst true
+spark.executor.userClassPathFirst true
+```
+These configurations are required because the Databricks runtime environment includes a bundled version of the `com.sun.mail:jakarta.mail` library, which conflicts with `jakarta.activation`.
+By setting these properties, the application ensures that the user-provided libraries take precedence over those bundled in the Databricks environment, resolving the dependency conflict.
 
 </div><div class="h3-box" markdown="1">
 

@@ -31,7 +31,7 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
     ...     .setOutputCol("nomic_embeddings")
 
 
-    The default model is ``"nomic_small"``, if no name is provided.
+    The default model is ``"nomic_embed_v1"``, if no name is provided.
 
     For available pretrained models please see the
     `Models Hub <https://sparknlp.org/models?q=Nomic>`__.
@@ -159,13 +159,13 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
         return NomicEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="nomic_small", lang="en", remote_loc=None):
+    def pretrained(name="nomic_embed_v1", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "nomic_small"
+            Name of the pretrained model, by default "nomic_embed_v1"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

@@ -29,29 +29,47 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
     if (tmpLocation.matches("s3[a]?:/.*")) {
       tmpLocation
     } else {
-      val tmpLocationPath = new Path(tmpLocation)
-      fileSystem.mkdirs(tmpLocationPath)
-      fileSystem.deleteOnExit(tmpLocationPath)
-      tmpLocation
+      fileSystem.getScheme match {
+        case "abfss" =>
+          if (tmpLocation.startsWith("abfss:")) {
+            tmpLocation
+          } else {
+            "file:///" + tmpLocation
+          }
+        case _ =>
+          val tmpLocationPath = new Path(tmpLocation)
+          fileSystem.mkdirs(tmpLocationPath)
+          fileSystem.deleteOnExit(tmpLocationPath)
+          tmpLocation
+      }
     }
   }
 
-  val clusterFileName: String = {
-    StorageHelper.resolveStorageName(database, storageRef)
-  }
+  val clusterFileName: String = { StorageHelper.resolveStorageName(database, storageRef) }
 
   val clusterFilePath: Path = {
     if (!getTmpLocation.matches("s3[a]?:/.*")) {
       val scheme = Option(new Path(clusterTmpLocation).toUri.getScheme).getOrElse("")
       scheme match {
-        case "dbfs" | "hdfs" =>
-          Path.mergePaths(new Path(clusterTmpLocation), new Path("/" + clusterFileName))
-        case _ =>
-          Path.mergePaths(
-            new Path(fileSystem.getUri.toString + clusterTmpLocation),
-            new Path("/" + clusterFileName))
+        case "dbfs" | "hdfs" => mergePaths()
+        case "file" =>
+          val uri = fileSystem.getUri.toString
+          if (uri.startsWith("abfss:")) { mergePaths() }
+          else { mergePaths(withFileSystem = true) }
+        case "abfss" => mergePaths()
+        case _ => mergePaths(withFileSystem = true)
       }
-    } else new Path(clusterTmpLocation + "/" + clusterFileName)
+    } else {
+      new Path(clusterTmpLocation + "/" + clusterFileName)
+    }
+  }
+
+  private def mergePaths(withFileSystem: Boolean = false): Path = {
+    if (withFileSystem) {
+      Path.mergePaths(
+        new Path(fileSystem.getUri.toString + clusterTmpLocation),
+        new Path("/" + clusterFileName))
+    } else Path.mergePaths(new Path(clusterTmpLocation), new Path("/" + clusterFileName))
   }
 
   val destinationScheme: String = fileSystem.getScheme

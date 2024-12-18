@@ -15,8 +15,8 @@
  */
 package com.johnsnowlabs.client.util
 
-import com.johnsnowlabs.nlp.util.io.CloudStorageType
 import com.johnsnowlabs.nlp.util.io.CloudStorageType.CloudStorageType
+import com.johnsnowlabs.nlp.util.io.{CloudStorageType, ResourceHelper}
 
 import java.net.{URI, URL}
 
@@ -71,7 +71,8 @@ object CloudHelper {
   }
 
   def isCloudPath(uri: String): Boolean = {
-    isS3Path(uri) || isGCPStoragePath(uri) || isAzureBlobPath(uri)
+    val intraCloudPath = isIntraCloudPath(uri)
+    (isS3Path(uri) || isGCPStoragePath(uri) || isAzureBlobPath(uri)) && !intraCloudPath
   }
 
   def isS3Path(uri: String): Boolean = {
@@ -81,7 +82,16 @@ object CloudHelper {
   private def isGCPStoragePath(uri: String): Boolean = uri.startsWith("gs://")
 
   private def isAzureBlobPath(uri: String): Boolean = {
-    uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")
+    (uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")) || uri.startsWith(
+      "abfss://")
+  }
+
+  private def isIntraCloudPath(uri: String): Boolean = {
+    uri.startsWith("abfss://") && isMicrosoftFabric
+  }
+
+  def isMicrosoftFabric: Boolean = {
+    ResourceHelper.spark.conf.getAll.keys.exists(_.startsWith("spark.fabric"))
   }
 
   def cloudType(uri: String): CloudStorageType = {

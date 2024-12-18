@@ -828,4 +828,9 @@ package object annotator {
 
   object SnowFlakeEmbeddings extends ReadablePretrainedSnowFlakeModel with ReadSnowFlakeDLModel
 
+  type AutoGGUFEmbeddings = com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings
+  object AutoGGUFEmbeddings
+      extends ReadablePretrainedAutoGGUFEmbeddings
+      with ReadAutoGGUFEmbeddings
+
 }

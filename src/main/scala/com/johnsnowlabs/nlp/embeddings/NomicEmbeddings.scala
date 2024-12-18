@@ -49,7 +49,7 @@ import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOp
   *   .setInputCols("document")
   *   .setOutputCol("nomic_embeddings")
   * }}}
-  * The default model is `"nomic_small"`, if no name is provided.
+  * The default model is `"nomic_embed_v1"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?q=NomicEmbeddings Models Hub]].
@@ -86,7 +86,7 @@ import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOp
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val embeddings = NomicEmbeddings.pretrained("nomic_small", "en")
+  * val embeddings = NomicEmbeddings.pretrained("nomic_embed_v1", "en")
   *   .setInputCols("document")
   *   .setOutputCol("nomic_embeddings")
   *
@@ -357,7 +357,7 @@ class NomicEmbeddings(override val uid: String)
 trait ReadablePretrainedNomicEmbeddingsModel
     extends ParamsAndFeaturesReadable[NomicEmbeddings]
     with HasPretrained[NomicEmbeddings] {
-  override val defaultModelName: Some[String] = Some("nomic_small")
+  override val defaultModelName: Some[String] = Some("nomic_embed_v1")
 
   /** Java compliant-overrides */
   override def pretrained(): NomicEmbeddings = super.pretrained()

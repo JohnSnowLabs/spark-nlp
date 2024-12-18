@@ -18,12 +18,9 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, RoBertaClassification}
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -222,13 +219,15 @@ class LongformerForQuestionAnswering(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
-      onnxWrapper: Option[OnnxWrapper]): LongformerForQuestionAnswering = {
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper]): LongformerForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBertaClassification(
             tensorflowWrapper,
             onnxWrapper,
+            openvinoWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -326,7 +325,7 @@ trait ReadLongformerForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
     val tfWrapper =
       readTensorflowModel(path, spark, "_longformer_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+    instance.setModelIfNotSet(spark, Some(tfWrapper), None, None)
   }
 
   addReader(readModel)
@@ -366,7 +365,7 @@ trait ReadLongformerForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, Some(tfWrapper), None)
+          .setModelIfNotSet(spark, Some(tfWrapper), None, None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

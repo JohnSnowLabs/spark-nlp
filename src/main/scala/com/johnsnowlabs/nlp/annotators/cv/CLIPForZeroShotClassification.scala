@@ -18,20 +18,13 @@ package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.ml.ai.CLIP
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
-import com.johnsnowlabs.ml.tensorflow.{
-  ReadTensorflowModel,
-  TensorflowWrapper,
-  WriteTensorflowModel
-}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadJsonStringAsset,
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadJsonStringAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, CLIPTokenizer}
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -145,6 +138,7 @@ class CLIPForZeroShotClassification(override val uid: String)
     with HasImageFeatureProperties
     with WriteTensorflowModel
     with WriteOnnxModel
+    with WriteOpenvinoModel
     with HasEngine
     with HasRescaleFactor {
 
@@ -215,6 +209,7 @@ class CLIPForZeroShotClassification(override val uid: String)
       spark: SparkSession,
       tensorflow: Option[TensorflowWrapper],
       onnx: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
       preprocessor: Preprocessor): this.type = {
     if (_model.isEmpty) {
 
@@ -227,6 +222,7 @@ class CLIPForZeroShotClassification(override val uid: String)
           new CLIP(
             tensorflow,
             onnx,
+            openvinoWrapper,
             configProtoBytes = None,
             tokenizer = tokenizer,
             preprocessor = preprocessor)))
@@ -307,8 +303,15 @@ class CLIPForZeroShotClassification(override val uid: String)
           wrappers,
           CLIPForZeroShotClassification.suffix,
           CLIPForZeroShotClassification.onnxFile)
-    }
 
+    case Openvino.name =>
+    writeOpenvinoModel(
+      path,
+      spark,
+      getModelIfNotSet.openvinoWrapper.get,
+      "openvino_model.xml",
+      CLIPForZeroShotClassification.openvinoFile)
+    }
   }
 }
 
@@ -333,17 +336,30 @@ trait ReadablePretrainedCLIPForZeroShotClassificationModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with ReadOnnxModel {
+trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[CLIPForZeroShotClassification] =>
 
   override val tfFile: String = "clip_classification_tensorflow"
   override val onnxFile: String = "clip_classification_onnx"
+  override val openvinoFile: String = "clip_classification_openvino"
   val suffix: String = "_clip_classification"
 
   def readModel(
       instance: CLIPForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
+
+
+    val preprocessor = Preprocessor(
+      do_normalize = instance.getDoNormalize,
+      do_resize = instance.getDoRescale,
+      feature_extractor_type = "CLIPFeatureExtractor",
+      image_mean = instance.getImageMean,
+      image_std = instance.getImageStd,
+      resample = instance.getResample,
+      do_rescale = instance.getDoRescale,
+      rescale_factor = instance.getRescaleFactor,
+      size = instance.getSize)
 
     instance.getEngine match {
       case TensorFlow.name =>
@@ -352,18 +368,11 @@ trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with Re
         val onnxWrapper =
           readOnnxModel(path, spark, CLIPForZeroShotClassification.suffix)
 
-        val preprocessor = Preprocessor(
-          do_normalize = instance.getDoNormalize,
-          do_resize = instance.getDoRescale,
-          feature_extractor_type = "CLIPFeatureExtractor",
-          image_mean = instance.getImageMean,
-          image_std = instance.getImageStd,
-          resample = instance.getResample,
-          do_rescale = instance.getDoRescale,
-          rescale_factor = instance.getRescaleFactor,
-          size = instance.getSize)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, preprocessor)
+      case Openvino.name =>
+        val openvinoWrapper = readOpenvinoModel(path, spark, CLIPForZeroShotClassification.suffix)
+        instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), preprocessor)
 
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessor)
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -422,7 +431,19 @@ trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with Re
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper), preprocessorConfig)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, preprocessorConfig)
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), preprocessorConfig)
+
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

@@ -17,11 +17,13 @@
 package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{LinAlg, ONNX, TensorFlow}
+import com.johnsnowlabs.ml.util.{LinAlg, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
 import scala.collection.JavaConverters._
@@ -41,6 +43,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class Instructor(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
@@ -53,9 +56,64 @@ private[johnsnowlabs] class Instructor(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
+
+
+
+
+
+
+
+  private def getSentenceEmbeddingsFromOv( batch: Seq[Array[Int]],
+                                           contextLengths: Seq[Int],
+                                           maxSentenceLength: Int)= {
+  val batchLength = batch.length
+    val shape = Array(batchLength, maxSentenceLength)
+    val tokenTensors =
+      new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+    val attentionMask = batch
+      .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
+      .toArray
+
+    val contextMask = attentionMask.zipWithIndex.map { case (batchElement, idx) =>
+      batchElement.zipWithIndex.map { case (x, i) =>
+        if (i < contextLengths(idx)) 0L else x
+      }
+    }
+
+    val  maskTensor = new org.intel.openvino.Tensor(
+      shape,
+      attentionMask.flatten)
+
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+  inferRequest.set_tensor("input_ids", tokenTensors)
+  inferRequest.set_tensor("attention_mask", maskTensor)
+
+  inferRequest.infer()
+    try {
+      try {
+        val lastHiddenState = inferRequest
+          .get_tensor("token_embeddings")
+        val shape = lastHiddenState.get_shape().map(_.toLong)
+        val flattenEmbeddings =  lastHiddenState
+          .data()
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, contextMask, shape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
+
+      }
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        Array.empty[Float]
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+
+  }
   private def getSentenceEmbeddingFromOnnx(
       batch: Seq[Array[Int]],
       contextLengths: Seq[Int],
@@ -65,6 +123,8 @@ private[johnsnowlabs] class Instructor(
     val attentionMask = batch
       .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
       .toArray
+
+
 
     val contextMask = attentionMask.zipWithIndex.map { case (batchElement, idx) =>
       batchElement.zipWithIndex.map { case (x, i) =>
@@ -76,8 +136,7 @@ private[johnsnowlabs] class Instructor(
 
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)
     val maskTensors = OnnxTensor.createTensor(env, attentionMask)
-    val contextTensor =
-      OnnxTensor.createTensor(env, contextMask)
+
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
@@ -106,9 +165,10 @@ private[johnsnowlabs] class Instructor(
       // These resources are initialized before the try-catch, so they should be closed here.
       tokenTensors.close()
       maskTensors.close()
-      contextTensor.close()
     }
   }
+
+
 
   private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
     if (arr.length >= maxLength) {
@@ -219,6 +279,8 @@ private[johnsnowlabs] class Instructor(
     val sentenceEmbeddings: Array[Array[Float]] = detectedEngine match {
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch, contextLengths, maxSentenceLength)
+      case Openvino.name =>
+    getSentenceEmbeddingsFromOv(paddedBatch, contextLengths, maxSentenceLength)
       case _ => // TF Case
         getSentenceEmbeddingFromTF(paddedBatch, contextLengths, maxSentenceLength)
     }

@@ -68,7 +68,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama_2_7b_chat_hf_int4"`, if no name is provided. For available
+  * The default model is `"mini_cpm_2b_8bit"`, if no name is provided. For available
   * pretrained models please see the [[https://sparknlp.org/models?q=cpm Models Hub]].
   *
   * For extended examples of usage, see
@@ -94,7 +94,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val cpm = CPMTransformer.pretrained("llama_2_7b_chat_hf_int4")
+  * val cpm = CPMTransformer.pretrained("mini_cpm_2b_8bit")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -311,7 +311,8 @@ class CPMTransformer(override val uid: String)
 trait ReadablePretrainedCPMTransformerModel
     extends ParamsAndFeaturesReadable[CPMTransformer]
     with HasPretrained[CPMTransformer] {
-  override val defaultModelName: Some[String] = Some("llama_2_7b_chat_hf_int4")
+  override val defaultModelName: Some[String] = Some("mini_cpm_2b_8bit")
+  override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */
   override def pretrained(): CPMTransformer = super.pretrained()

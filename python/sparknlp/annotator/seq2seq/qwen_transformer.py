@@ -121,7 +121,7 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> qwen = QwenTransformer.pretrained("qwen-7b") \\
+    >>> qwen = QwenTransformer.pretrained("qwen_7.5b_chat") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -317,13 +317,13 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return QwenTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="qwen-7b", lang="en", remote_loc=None):
+    def pretrained(name="qwen_7.5b_chat", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "qwen-7b"
+            Name of the pretrained model, by default "qwen_7.5b_chat"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

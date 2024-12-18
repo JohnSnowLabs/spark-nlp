@@ -199,7 +199,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
     useChatTemplate
         Set whether or not generate should apply a chat template
 
-
     Notes
     -----
     To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
@@ -207,29 +206,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
 
     When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
     according to your hardware to avoid out-of-memory errors.
-
-    References
-    ----------
-    - `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension
-     <https://arxiv.org/abs/1910.13461>`__
-    - https://github.com/pytorch/fairseq
-
-    **Paper Abstract:**
-    *We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.
-    BART is trained by (1) corrupting text with an arbitrary noising function, and (2)
-    learning a model to reconstruct the original text. It uses a standard Tranformer-based
-    neural machine translation architecture which, despite its simplicity, can be seen as
-    generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),
-    and many other more recent pretraining schemes. We evaluate a number of noising approaches,
-    finding the best performance by both randomly shuffling the order of the original sentences
-    and using a novel in-filling scheme, where spans of text are replaced with a single mask token.
-    BART is particularly effective when fine tuned for text generation but also works well for
-    comprehension tasks. It matches the performance of RoBERTa with comparable training resources
-    on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,
-    question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides
-    a 1.1 BLEU increase over a back-translation system for machine translation, with only target
-    language pretraining. We also report ablation experiments that replicate other pretraining
-    schemes within the BART framework, to better measure which factors most influence end-task performance.*
 
     Examples
     --------
@@ -553,6 +529,13 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
 
     def setNumaStrategy(self, numaStrategy: str):
         """Set optimization strategies that help on some NUMA systems (if available)"""
+        numaUpper = numaStrategy.upper()
+        numaStrategies = ["DISABLED", "DISTRIBUTE", "ISOLATE", "NUMA_CTL", "MIRROR"]
+        if numaUpper not in numaStrategies:
+            raise ValueError(
+                f"Invalid NUMA strategy: {numaUpper}. "
+                + f"Valid values are: {numaStrategies}"
+            )
         return self._set(numaStrategy=numaStrategy)
 
     def setRopeScalingType(self, ropeScalingType: str):
@@ -561,6 +544,13 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
 
     def setPoolingType(self, poolingType: bool):
         """Set the pooling type for embeddings, use model default if unspecified"""
+        poolingTypeUpper = poolingType.upper()
+        poolingTypes = ["NONE", "MEAN", "CLS", "LAST"]
+        if poolingTypeUpper not in poolingTypes:
+            raise ValueError(
+                f"Invalid pooling type: {poolingType}. "
+                + f"Valid values are: {poolingTypes}"
+            )
         return self._set(poolingType=poolingType)
 
     def setModelDraft(self, modelDraft: str):

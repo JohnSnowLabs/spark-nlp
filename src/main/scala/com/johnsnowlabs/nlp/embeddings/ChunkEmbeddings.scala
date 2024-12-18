@@ -260,7 +260,7 @@ class ChunkEmbeddings(override val uid: String)
               begin = chunk.begin,
               end = chunk.end,
               result = chunk.result,
-              metadata = Map(
+              metadata = chunk.metadata ++ Map(
                 "sentence" -> sentenceIdx.toString,
                 "chunk" -> chunkIdx.toString,
                 "token" -> chunk.result,

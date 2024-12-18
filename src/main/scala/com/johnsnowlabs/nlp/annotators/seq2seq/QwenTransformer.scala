@@ -68,7 +68,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"Qwen-13b"`, if no name is provided. For available pretrained models
+  * The default model is `"qwen_7.5b_chat"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=Qwen Models Hub]].
   *
   * For extended examples of usage, see
@@ -113,7 +113,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val Qwen = QwenTransformer.pretrained("Qwen-7b")
+  * val Qwen = QwenTransformer.pretrained("qwen_7.5b_chat")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -334,7 +334,7 @@ class QwenTransformer(override val uid: String)
 trait ReadablePretrainedQwenTransformerModel
     extends ParamsAndFeaturesReadable[QwenTransformer]
     with HasPretrained[QwenTransformer] {
-  override val defaultModelName: Some[String] = Some("Qwen-7b")
+  override val defaultModelName: Some[String] = Some("qwen_7.5b_chat")
 
   /** Java compliant-overrides */
   override def pretrained(): QwenTransformer = super.pretrained()
