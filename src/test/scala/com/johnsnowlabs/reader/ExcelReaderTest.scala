@@ -25,7 +25,7 @@ class ExcelReaderTest extends AnyFlatSpec {
   }
 
   "ExcelReader" should "read a directory of excel files with custom cell separator" taggedAs FastTest in {
-    val excelReader = new ExcelReader(cellSeparator = "\t")
+    val excelReader = new ExcelReader(cellSeparator = ";")
     val excelDf = excelReader.xls(s"$docDirectory/vodafone.xlsx")
     excelDf.select("xls").show(false)
 
