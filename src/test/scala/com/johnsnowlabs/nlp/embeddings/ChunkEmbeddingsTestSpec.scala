@@ -16,14 +16,16 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.annotator.{Chunker, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.Row
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
@@ -264,6 +266,55 @@ class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineDF.select("embeddings").show(1)
     pipelineDF.select("sentence_embeddings").show(1)
 
+  }
+
+  "ChunkEmbeddings" should "return chunk metadata at output" taggedAs FastTest in {
+    import com.johnsnowlabs.nlp.AnnotationUtils._
+    val document = "Record: Bush Blue, ZIPCODE: XYZ84556222, phone: (911) 45 88".toRow()
+
+    val chunks = Row(
+      Seq(
+        Annotation(
+          CHUNK,
+          8,
+          16,
+          "Bush Blue",
+          Map("entity" -> "NAME", "sentence" -> "0", "chunk" -> "0", "confidence" -> "0.98"))
+          .toRow(),
+        Annotation(
+          CHUNK,
+          48,
+          58,
+          "(911) 45 88",
+          Map("entity" -> "PHONE", "sentence" -> "0", "chunk" -> "1", "confidence" -> "1.0"))
+          .toRow()))
+
+    val df = createAnnotatorDataframe("sentence", DOCUMENT, document)
+      .crossJoin(createAnnotatorDataframe("chunk", CHUNK, chunks))
+
+    val token = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val wordEmbeddings = WordEmbeddingsModel
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val chunkEmbeddings = new ChunkEmbeddings()
+      .setInputCols("chunk", "embeddings")
+      .setOutputCol("chunk_embeddings")
+      .setPoolingStrategy("AVERAGE")
+
+    val pipeline = new Pipeline().setStages(Array(token, wordEmbeddings, chunkEmbeddings))
+    val result_df = pipeline.fit(df).transform(df)
+    // result_df.selectExpr("explode(chunk_embeddings) as embeddings").show(false)
+    val annotations = Annotation.collect(result_df, "chunk_embeddings").flatten
+    assert(annotations.length == 2)
+    assert(annotations(0).metadata("entity") == "NAME")
+    assert(annotations(1).metadata("entity") == "PHONE")
+    val expectedMetadataKeys = Set("entity", "sentence", "chunk", "confidence")
+    assert(annotations.forall(anno => expectedMetadataKeys.forall(anno.metadata.contains)))
   }
 
 }

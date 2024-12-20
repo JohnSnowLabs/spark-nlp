@@ -65,7 +65,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"phi_3_mini_128k_instruct_int8"`, if no name is provided. For available
+  * The default model is `"phi_3_mini_128k_instruct"`, if no name is provided. For available
   * pretrained models please see the [[https://sparknlp.org/models?q=phi3 Models Hub]].
   *
   * For extended examples of usage, see
@@ -106,7 +106,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val phi3 = Phi3Transformer.pretrained("phi_3_mini_128k_instruct_int8")
+  * val phi3 = Phi3Transformer.pretrained("phi_3_mini_128k_instruct")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -323,7 +323,7 @@ class Phi3Transformer(override val uid: String)
 trait ReadablePretrainedPhi3TransformerModel
     extends ParamsAndFeaturesReadable[Phi3Transformer]
     with HasPretrained[Phi3Transformer] {
-  override val defaultModelName: Some[String] = Some("phi_3_mini_128k_instruct_int8")
+  override val defaultModelName: Some[String] = Some("phi_3_mini_128k_instruct")
 
   /** Java compliant-overrides */
   override def pretrained(): Phi3Transformer = super.pretrained()

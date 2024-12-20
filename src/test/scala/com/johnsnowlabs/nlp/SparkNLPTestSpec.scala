@@ -86,4 +86,12 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     }
   }
 
+  it should "structured Email files" taggedAs FastTest in {
+    val emailDirectory = "src/test/resources/reader/email"
+    val emailDF = SparkNLP.read.email(emailDirectory)
+    emailDF.show()
+
+    assert(!emailDF.select(col("email").getItem(0)).isEmpty)
+  }
+
 }

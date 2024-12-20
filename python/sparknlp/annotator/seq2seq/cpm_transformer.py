@@ -44,7 +44,7 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"llam2-7b"``, if no name is provided. For available
+    The default model is ``"mini_cpm_2b_8bit"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=cpm>`__.
 
@@ -104,7 +104,7 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> cpm = CPMTransformer.pretrained("llama_2_7b_chat_hf_int4") \\
+    >>> cpm = CPMTransformer.pretrained("mini_cpm_2b_8bit","xx") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(50) \\
     ...     .setOutputCol("generation")
@@ -299,15 +299,15 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return CPMTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llama_2_7b_chat_hf_int4", lang="en", remote_loc=None):
+    def pretrained(name="mini_cpm_2b_8bit", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "llama_2_7b_chat_hf_int4"
+            Name of the pretrained model, by default "mini_cpm_2b_8bit"
         lang : str, optional
-            Language of the pretrained model, by default "en"
+            Language of the pretrained model, by default "xx"
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.

@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "5.5.1"
+version := "5.5.2"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -157,7 +157,14 @@ lazy val utilDependencies = Seq(
   greex,
   azureIdentity,
   azureStorage,
-  jsoup)
+  jsoup,
+  jakartaMail,
+  angusMail,
+  poiDocx
+    exclude ("org.apache.logging.log4j", "log4j-api"),
+  scratchpad
+    exclude ("org.apache.logging.log4j", "log4j-api")
+)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
@@ -230,6 +237,7 @@ lazy val root = (project in file("."))
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("module-info.class") => MergeStrategy.discard // Discard any module-info.class globally
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _ @_*) => MergeStrategy.first
   case PathList("com.amazonaws", _ @_*) => MergeStrategy.last

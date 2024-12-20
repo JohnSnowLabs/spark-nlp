@@ -59,7 +59,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"nllb_418M"`, if no name is provided. For available pretrained models
+  * The default model is `"nllb_distilled_600M_8int"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=nllb Models Hub]].
   *
   * For extended examples of usage, see
@@ -156,7 +156,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val nllb = NLLBTransformer.pretrained("nllb_418M")
+  * val nllb = NLLBTransformer.pretrained("nllb_distilled_600M_8int")
   *   .setInputCols(Array("documents"))
   *   .setSrcLang("zho_Hans")
   *   .serTgtLang("eng_Latn")
@@ -635,7 +635,7 @@ class NLLBTransformer(override val uid: String)
 trait ReadablePretrainedNLLBTransformerModel
     extends ParamsAndFeaturesReadable[NLLBTransformer]
     with HasPretrained[NLLBTransformer] {
-  override val defaultModelName: Some[String] = Some("nllb_418M")
+  override val defaultModelName: Some[String] = Some("nllb_distilled_600M_8int")
   override val defaultLang: String = "xx"
 
   /** Java compliant-overrides */

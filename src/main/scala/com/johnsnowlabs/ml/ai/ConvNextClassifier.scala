@@ -22,21 +22,18 @@ import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
 
 private[johnsnowlabs] class ConvNextClassifier(
     tensorflowWrapper: Option[TensorflowWrapper],
     onnxWrapper: Option[OnnxWrapper],
+    openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
     preprocessor: Preprocessor,
     signatures: Option[Map[String, String]] = None)
-    extends ViTClassifier(
-      tensorflowWrapper,
-      onnxWrapper,
-      configProtoBytes,
-      tags,
-      preprocessor,
-      signatures) {
+
+    extends ViTClassifier(tensorflowWrapper, onnxWrapper, openvinoWrapper, configProtoBytes, tags, preprocessor, signatures) {
 
   override def encode(
       annotations: Array[AnnotationImage],

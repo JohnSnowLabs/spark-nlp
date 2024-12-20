@@ -16,11 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{SlowTest, FastTest}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BartTestSpec extends AnyFlatSpec {
@@ -55,6 +57,41 @@ class BartTestSpec extends AnyFlatSpec {
       .transform(testData)
       .show(truncate = false)
 
+  }
+
+  "distilbart_xsum_12_6" should "download, save, and load a model" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = BartTransformer
+      .pretrained("distilbart_xsum_12_6")
+      .setTask("summarize:")
+      .setInputCols(Array("documents"))
+      .setDoSample(true)
+      .setMaxOutputLength(30)
+      .setOutputCol("generation")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, bart)).fit(ddd)
+
+
+    pipeline.write.overwrite().save("./tmp_bart_transformer_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_bart_transformer_pipeline")
+
+    pipeline
+      .stages(1)
+      .asInstanceOf[BartTransformer]
+      .write
+      .overwrite()
+      .save("./tmp_bart_transformer_model")
+
+
+    pipelineModel.transform(ddd).show()
   }
   "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs SlowTest in {
     // text longer than 512

@@ -18,7 +18,8 @@ package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
-import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
+import com.johnsnowlabs.ml.openvino.OpenvinoWrapper
+import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp._
@@ -31,6 +32,7 @@ import scala.collection.JavaConverters._
 private[johnsnowlabs] class ViTClassifier(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
+    val openvinoWrapper: Option[OpenvinoWrapper],
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
     preprocessor: Preprocessor,
@@ -42,6 +44,7 @@ private[johnsnowlabs] class ViTClassifier(
   val detectedEngine: String =
     if (tensorflowWrapper.isDefined) TensorFlow.name
     else if (onnxWrapper.isDefined) ONNX.name
+    else if (openvinoWrapper.isDefined) Openvino.name
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
@@ -84,7 +87,19 @@ private[johnsnowlabs] class ViTClassifier(
     rawScores
   }
 
-  def getRowScoresWithOnnx(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
+
+  def getRawScoresWithOv(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
+    val pixelValuesTensor = new org.intel.openvino.Tensor(Array(batch.length,batch.head.length,batch.head.head.length,batch.head.head.head.length),
+      batch.flatten.flatten.flatten)
+    val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+    inferRequest.set_tensor("pixel_values", pixelValuesTensor)
+    inferRequest.infer()
+
+    val result = inferRequest.get_tensor("logits")
+    result.data()
+  }
+
+  def getRawScoresWithOnnx(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
     val imageTensors = OnnxTensor.createTensor(env, batch)
     val inputs =
@@ -109,7 +124,8 @@ private[johnsnowlabs] class ViTClassifier(
 
     val batchLength = batch.length
     val rawScores = detectedEngine match {
-      case ONNX.name => getRowScoresWithOnnx(batch)
+      case ONNX.name => getRawScoresWithOnnx(batch)
+      case Openvino.name => getRawScoresWithOv(batch)
       case _ => getRawScoresWithTF(batch)
     }
     val dim = rawScores.length / batchLength
