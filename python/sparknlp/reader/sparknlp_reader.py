@@ -219,3 +219,10 @@ class SparkNLPReader(ExtendedJavaWrapper):
         jdf = self._java_obj.xls(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
+
+    def ppt(self, docPath):
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.ppt(docPath)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe

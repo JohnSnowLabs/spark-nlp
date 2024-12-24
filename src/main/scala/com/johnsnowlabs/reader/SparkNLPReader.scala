@@ -261,4 +261,9 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     params.asScala.getOrElse("cellSeparator", "\t")
   }
 
+  def ppt(docPath: String): DataFrame = {
+    val powerPointReader = new PowerPointReader()
+    powerPointReader.ppt(docPath)
+  }
+
 }
