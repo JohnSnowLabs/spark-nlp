@@ -152,6 +152,38 @@ class SparkNLPReader(ExtendedJavaWrapper):
      |    |    |-- metadata: map (nullable = true)
      |    |    |    |-- key: string
      |    |    |    |-- value: string (valueContainsNull = true)
+
+
+    Instantiates class to read PowerPoint files.
+    docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+    "path/power-point/files"
+
+    Examples
+    --------
+    >>> from sparknlp.reader import SparkNLPReader
+    >>> ppt_df = SparkNLPReader().ppt(spark, "home/user/power-point-directory")
+
+    You can use SparkNLP for one line of code
+    >>> import sparknlp
+    >>> ppt_df = sparknlp.read().ppt("home/user/power-point-directory")
+    >>> ppt_df.show(truncate=False)
+    +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |ppt                                                                                                                                                                                                                                                                                                                      |
+    +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
+   +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    >>> ppt_df.printSchema()
+    root
+     |-- path: string (nullable = true)
+     |-- content: array (nullable = true)
+     |-- ppt: array (nullable = true)
+     |    |-- element: struct (containsNull = true)
+     |    |    |-- elementType: string (nullable = true)
+     |    |    |-- content: string (nullable = true)
+     |    |    |-- metadata: map (nullable = true)
+     |    |    |    |-- key: string
+     |    |    |    |-- value: string (valueContainsNull = true)
+
     """
 
     def __init__(self, spark, params=None):
