@@ -46,7 +46,7 @@ class AlbertForMultipleChoiceTestSetup(unittest.TestCase):
         self.pipeline_model = pipeline.fit(empty_df)
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 class AlbertForMultipleChoiceTest(AlbertForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -61,7 +61,7 @@ class AlbertForMultipleChoiceTest(AlbertForMultipleChoiceTestSetup, unittest.Tes
             self.assertTrue(row["answer"][0].result != "")
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 class LightAlbertForMultipleChoiceTest(AlbertForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):
