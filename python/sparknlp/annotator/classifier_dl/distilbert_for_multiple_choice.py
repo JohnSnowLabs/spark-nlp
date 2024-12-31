@@ -14,18 +14,18 @@
 
 from sparknlp.common import *
 
-class BertForMultipleChoice(AnnotatorModel,
-                            HasCaseSensitiveProperties,
-                            HasBatchedAnnotate,
-                            HasEngine,
-                            HasMaxSentenceLengthLimit):
-    """BertForMultipleChoice can load BERT Models with a multiple choice classification head on top
+class DistilBertForMultipleChoice(AnnotatorModel,
+                                HasCaseSensitiveProperties,
+                                HasBatchedAnnotate,
+                                HasEngine,
+                                HasMaxSentenceLengthLimit):
+    """DistilBertForMultipleChoice can load DistilBert Models with a multiple choice classification head on top
     (a linear layer on top of the pooled output and a softmax) e.g. for RocStories/SWAG tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> spanClassifier = BertForMultipleChoice.pretrained() \\
+    >>> spanClassifier = DistilBertForMultipleChoice.pretrained() \\
     ...     .setInputCols(["document_question", "document_context"]) \\
     ...     .setOutputCol("answer")
 
@@ -65,7 +65,7 @@ class BertForMultipleChoice(AnnotatorModel,
     >>> documentAssembler = MultiDocumentAssembler() \\
     ...     .setInputCols(["question", "context"]) \\
     ...     .setOutputCols(["document_question", "document_context"])
-    >>> questionAnswering = BertForMultipleChoice.pretrained() \\
+    >>> questionAnswering = DistilBertForMultipleChoice.pretrained() \\
     ...     .setInputCols(["document_question", "document_context"]) \\
     ...     .setOutputCol("answer") \\
     ...     .setCaseSensitive(False)
@@ -82,16 +82,16 @@ class BertForMultipleChoice(AnnotatorModel,
     |[France]             |
     +--------------------+
     """
-    name = "BertForMultipleChoice"
+    name = "DistilBertForMultipleChoice"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
     outputAnnotatorType = AnnotatorType.CHUNK
 
     choicesDelimiter = Param(Params._dummy(),
-                         "choicesDelimiter",
-                         "Delimiter character use to split the choices",
-                         TypeConverters.toString)
+                             "choicesDelimiter",
+                             "Delimiter character use to split the choices",
+                             TypeConverters.toString)
 
     def setChoicesDelimiter(self, value):
         """Sets delimiter character use to split the choices
@@ -104,9 +104,9 @@ class BertForMultipleChoice(AnnotatorModel,
         return self._set(caseSensitive=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForMultipleChoice",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForMultipleChoice",
                  java_model=None):
-        super(BertForMultipleChoice, self).__init__(
+        super(DistilBertForMultipleChoice, self).__init__(
             classname=classname,
             java_model=java_model
         )
@@ -130,15 +130,15 @@ class BertForMultipleChoice(AnnotatorModel,
 
         Returns
         -------
-        BertForMultipleChoice
+        DistilBertForMultipleChoice
             The restored model
         """
-        from sparknlp.internal import _BertMultipleChoiceLoader
-        jModel = _BertMultipleChoiceLoader(folder, spark_session._jsparkSession)._java_obj
-        return BertForMultipleChoice(java_model=jModel)
+        from sparknlp.internal import _DistilBertMultipleChoiceLoader
+        jModel = _DistilBertMultipleChoiceLoader(folder, spark_session._jsparkSession)._java_obj
+        return DistilBertForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_uncased_multiple_choice", lang="en", remote_loc=None):
+    def pretrained(name="distilbert_base_uncased_multiple_choice", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -154,8 +154,8 @@ class BertForMultipleChoice(AnnotatorModel,
 
         Returns
         -------
-        BertForMultipleChoice
+        DistilBertForMultipleChoice
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForMultipleChoice, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(DistilBertForMultipleChoice, name, lang, remote_loc)
