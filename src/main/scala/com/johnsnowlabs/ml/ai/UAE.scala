@@ -225,7 +225,7 @@ private[johnsnowlabs] class UAE(
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
 
 
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
     val maskTensors = new org.intel.openvino.Tensor(
       shape,
       attentionMask.flatten)

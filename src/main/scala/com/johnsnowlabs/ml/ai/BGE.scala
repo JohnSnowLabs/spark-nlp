@@ -168,22 +168,17 @@ private[johnsnowlabs] class BGE(
     sentenceEmbeddingsFloatsArray
   }
 
-
-
   private def getSentenceEmbeddingFromOv(
-                                            batch: Seq[Array[Int]],
-                                            maxSentenceLength: Int): Array[Array[Float]] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Array[Float]] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors =
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
 
-    val maskTensors = new org.intel.openvino.Tensor(
-      shape,
-      attentionMask.flatten)
+    val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
 
     val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
@@ -198,7 +193,7 @@ private[johnsnowlabs] class BGE(
         val lastHiddenState = inferRequest
           .get_tensor("last_hidden_state")
         val shape = lastHiddenState.get_shape().map(_.toLong)
-       val flattenEmbeddings =  lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .data()
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
@@ -214,7 +209,6 @@ private[johnsnowlabs] class BGE(
     }
 
   }
-
 
   private def getSentenceEmbeddingFromOnnx(
       batch: Seq[Array[Int]],
