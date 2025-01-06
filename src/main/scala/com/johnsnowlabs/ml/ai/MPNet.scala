@@ -182,7 +182,7 @@ private[johnsnowlabs] class MPNet(
     val tokenTensors =
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
     val attentionMask = batch
-      .map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L))
+      .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
       .toArray
     val  maskTensor = new org.intel.openvino.Tensor(
       shape,
@@ -217,7 +217,7 @@ private[johnsnowlabs] class MPNet(
 
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L)).toArray
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)
