@@ -4,10 +4,13 @@ import scala.collection.mutable.ListBuffer
 import java.awt.image.BufferedImage
 import scala.collection.mutable.ArrayBuffer
 import ImageResizeUtils.resizeBufferedImage
+import scala.collection.mutable.ArrayBuffer
+import scala.math.max
 
 object MllamaUtils {
 
   /** Get all supported aspect ratios for a given max number of image tiles
+    *
     * @param maxImageTiles
     * @return
     */
@@ -25,6 +28,7 @@ object MllamaUtils {
   }
 
   /** Get the size of the image that fits the canvas
+    *
     * @param imageHeight
     * @param imageWidth
     * @param canvasHeight
@@ -52,6 +56,7 @@ object MllamaUtils {
   }
 
   /** Get the optimal tiled canvas size for the image
+    *
     * @param imageHeight
     * @param imageWidth
     * @param maxImageTiles
@@ -96,6 +101,7 @@ object MllamaUtils {
   }
 
   /** Convert a crop of an image to a 3D array
+    *
     * @param imgCrop
     * @return
     */
@@ -118,6 +124,7 @@ object MllamaUtils {
   }
 
   /** Split an image into tiles
+    *
     * @param image
     * @param numTilesHeight
     * @param numTilesWidth
@@ -152,6 +159,7 @@ object MllamaUtils {
   }
 
   /** Convert a 3D array to a BufferedImage
+    *
     * @param imageArray
     * @return
     */
@@ -170,13 +178,36 @@ object MllamaUtils {
     image
   }
 
+  /** Convert a 3D array of floats to a BufferedImage
+    *
+    * @param imageArray
+    * @return
+    */
+  def floatArrayToBufferedImage(
+      imageArray: Array[Array[Array[Float]]],
+      rescaleFactor: Double): BufferedImage = {
+    val height = imageArray(0).length
+    val width = imageArray(0)(0).length
+
+    val image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+
+    for (y <- 0 until height; x <- 0 until width) {
+      val rgb = imageArray.map(_(y)(x)).map { x => (x * (1 / rescaleFactor)).toInt }
+      val color = new java.awt.Color(rgb(0), rgb(1), rgb(2))
+      image.setRGB(x, y, color.getRGB)
+    }
+
+    image
+  }
+
   /** Pack images into a 6D array
+    *
     * @param batchImages
     * @param maxImageTiles
     * @return
     */
   def packImages(
-      batchImages: List[Array[Array[Array[Array[Float]]]]],
+      batchImages: Array[Array[Array[Array[Array[Float]]]]],
       maxImageTiles: Int): (Array[Array[Array[Array[Array[Array[Float]]]]]], List[List[Int]]) = {
     val batchSize = batchImages.size
     val maxNumImages = batchImages.map(_.length).max
@@ -229,6 +260,7 @@ object MllamaUtils {
   }
 
   /** build aspect ratio mask
+    *
     * @param aspectRatios
     * @param maxImageTiles
     * @return
@@ -261,6 +293,7 @@ object MllamaUtils {
   }
 
   /** Pack aspect ratios into a 3D array
+    *
     * @param aspectRatios
     * @param padValue
     * @return
@@ -283,6 +316,7 @@ object MllamaUtils {
   }
 
   /** Convert aspect ratios to IDs
+    *
     * @param aspectRatios
     * @param maxImageTiles
     * @return
@@ -306,6 +340,7 @@ object MllamaUtils {
   }
 
   /** Resize an image to fit the canvas
+    *
     * @param width
     * @param height
     * @param resample
@@ -327,4 +362,122 @@ object MllamaUtils {
       resizeBufferedImage(canvasWidth, canvasHeight, resample)(image),
       (numTilesHeight, numTilesWidth))
   }
+
+  def padConstant(
+      image: Array[Array[Float]],
+      padding: Int,
+      constantValue: Float): Array[Array[Float]] = {
+    val rows = image.length
+    val cols = image(0).length
+
+    val paddedRows = rows + 2 * padding
+    val paddedCols = cols + 2 * padding
+
+    val paddedImage = Array.ofDim[Float](paddedRows, paddedCols)
+
+    for (i <- 0 until paddedRows) {
+      for (j <- 0 until paddedCols) {
+        if (i >= padding && i < rows + padding && j >= padding && j < cols + padding) {
+          paddedImage(i)(j) = image(i - padding)(j - padding)
+        } else {
+          paddedImage(i)(j) = constantValue
+        }
+      }
+    }
+
+    paddedImage
+  }
+
+  def padBufferedImage(
+      image: BufferedImage,
+      padding: (Int, Int),
+      constantColor: Int): BufferedImage = {
+    val originalWidth = image.getWidth
+    val originalHeight = image.getHeight
+
+    val paddedWidth = originalWidth + 2 * padding._2
+    val paddedHeight = originalHeight + 2 * padding._1
+
+    val paddedImage = new BufferedImage(paddedWidth, paddedHeight, image.getType)
+
+    for (x <- 0 until paddedWidth; y <- 0 until paddedHeight) {
+      if (x >= padding._2 && x < originalWidth + padding._2 && y >= padding._1 && y < originalHeight + padding._1) {
+        paddedImage.setRGB(x, y, image.getRGB(x - padding._2, y - padding._1))
+      } else {
+        paddedImage.setRGB(x, y, constantColor)
+      }
+    }
+
+    paddedImage
+  }
+
+  def pad(image: BufferedImage, paddingConstant: Int, aspectRatio: (Int, Int)): BufferedImage = {
+    val originalWidth = image.getWidth
+    val originalHeight = image.getHeight
+
+    val numTilesHeight = aspectRatio._1
+    val numTilesWidth = aspectRatio._2
+
+    val paddedWidth = numTilesWidth * originalWidth
+    val paddedHeight = numTilesHeight * originalHeight
+
+    val paddingHeight = paddedHeight - originalHeight
+    val paddingWidth = paddedWidth - originalWidth
+
+    val paddedImage = padBufferedImage(image, (paddingHeight, paddingWidth), paddingConstant)
+    paddedImage
+  }
+
+  def getCrossAttentionTokenMask(inputIds: Array[Int], imageTokenId: Int): Array[Array[Int]] = {
+    val imageTokenLocations = inputIds.zipWithIndex.filter(_._1 == imageTokenId).map(_._2)
+
+    if (imageTokenLocations.isEmpty) {
+      Array.empty
+    } else if (imageTokenLocations.length == 1) {
+      Array(Array(imageTokenLocations(0), -1))
+    } else {
+      val visionMasks =
+        imageTokenLocations.sliding(2).map(pair => Array(pair(0), pair(1))).toArray
+      visionMasks.init.zip(visionMasks.tail).foreach { case (prev, curr) =>
+        if (prev(0) + 1 == curr(0)) {
+          prev(1) = curr(1)
+        }
+      }
+      visionMasks.last(0) = visionMasks.last(0)
+      visionMasks.last(1) = inputIds.length
+      visionMasks
+    }
+  }
+
+  def convertSparseCrossAttentionMaskToDense(
+      crossAttentionTokenMask: Array[Array[Array[Int]]],
+      numTiles: Array[Array[Int]],
+      maxNumTiles: Int,
+      length: Int): Array[Array[Array[Array[Int]]]] = {
+    val batchSize = crossAttentionTokenMask.length
+    val maxNumImages = crossAttentionTokenMask.map(_.length).max
+
+    val crossAttentionMask = Array.ofDim[Int](batchSize, length, maxNumImages, maxNumTiles)
+
+    for {
+      sampleIdx <- crossAttentionTokenMask.indices
+      (sampleMasks, sampleNumTiles) <- crossAttentionTokenMask(sampleIdx)
+        .zip(numTiles(sampleIdx))
+        .zipWithIndex
+      (locations, maskNumTiles) <- sampleMasks.zip(sampleNumTiles).zipWithIndex
+      if locations.length == 2
+    } {
+      val (start, end) = (locations(0), locations(1))
+      val effectiveEnd = if (end == -1) length else math.min(end, length)
+      for {
+        i <- start until effectiveEnd
+        j <- 0 until maskNumTiles
+      } {
+        crossAttentionMask(sampleIdx)(i)(maskIdx)(j) = 1
+      }
+    }
+
+    crossAttentionMask
+  }
+
 }
