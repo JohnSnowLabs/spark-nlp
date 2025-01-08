@@ -119,3 +119,10 @@ class SparkNLPReader(ExtendedJavaWrapper):
         jdf = self._java_obj.doc(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
+
+    def pdf(self, pdfPath):
+        if not isinstance(pdfPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.pdf(pdfPath)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
