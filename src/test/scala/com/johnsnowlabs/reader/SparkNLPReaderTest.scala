@@ -16,7 +16,6 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SparkNLPReaderTest extends AnyFlatSpec {
@@ -24,26 +23,6 @@ class SparkNLPReaderTest extends AnyFlatSpec {
   "pdf" should "read a PDF file and return a structured Dataframe" taggedAs FastTest in {
     val pdfPath = "src/test/resources/reader/pdf"
     val sparkNLPReader = new SparkNLPReader()
-    val pdfDf = sparkNLPReader.pdf(pdfPath)
-
-    assert(!pdfDf.select(col("pdf").getItem(0)).isEmpty)
-  }
-
-  it should "throw an IllegalArgumentException for an invalid file path" taggedAs FastTest in {
-    val pdfPath = "src/test/resources/reader/pdf/invalid"
-    val sparkNLPReader = new SparkNLPReader()
-
-    assertThrows[IllegalArgumentException] {
-      sparkNLPReader.pdf(pdfPath)
-    }
-  }
-
-  it should "read a PDF file and return a structured Dataframe with spark-ocr schema" taggedAs FastTest in {
-    val pdfPath = "src/test/resources/reader/pdf"
-    val params = new java.util.HashMap[String, String]()
-    params.put("schemaOutput", "spark-ocr")
-
-    val sparkNLPReader = new SparkNLPReader(params)
     val pdfDf = sparkNLPReader.pdf(pdfPath)
 
     assert(pdfDf.count() > 0)

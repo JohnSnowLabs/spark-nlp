@@ -91,6 +91,40 @@ class SparkNLPReader(ExtendedJavaWrapper):
      |    |    |    |-- key: string
      |    |    |    |-- value: string (valueContainsNull = true)
 
+
+    Instantiates class to read PDF files.
+
+    pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
+    "path/pdfs/"
+
+    Examples
+    --------
+    >>> from sparknlp.reader import SparkNLPReader
+    >>> pdf_df = SparkNLPReader().pdf(spark, "home/user/pdfs-directory")
+
+    You can use SparkNLP for one line of code
+    >>> import sparknlp
+    >>> pdf_df = sparknlp.read().pdf("home/user/pdfs-directory")
+    >>> pdf_df.show(truncate=False)
+
+    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    |                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
+    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    |file:/content/pdf...|2025-01-15 20:48:...| 25803|This is a Title \...|             842|            596|[25 50 44 46 2D 3...|     NULL|      0|
+    |file:/content/pdf...|2025-01-15 20:48:...|  9487|This is a page.\n...|             841|            595|[25 50 44 46 2D 3...|     NULL|      0|
+    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+
+    pdf_df.printSchema()
+    root
+     |-- path: string (nullable = true)
+     |-- modificationTime: timestamp (nullable = true)
+     |-- length: long (nullable = true)
+     |-- text: string (nullable = true)
+     |-- height_dimension: integer (nullable = true)
+     |-- width_dimension: integer (nullable = true)
+     |-- content: binary (nullable = true)
+     |-- exception: string (nullable = true)
+     |-- pagenum: integer (nullable = true)
     """
 
     def __init__(self, spark, params=None):
