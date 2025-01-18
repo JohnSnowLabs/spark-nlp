@@ -43,7 +43,7 @@ import org.apache.spark.sql.SparkSession
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val autoGGUFModel = AutoGGUFModel.pretrained()
+  * val autoGGUFVisionModel = AutoGGUFVisionModel.pretrained()
   *   .setInputCols("image', "document")
   *   .setOutputCol("completions")
   * }}}
@@ -54,7 +54,7 @@ import org.apache.spark.sql.SparkSession
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala AutoGGUFVisionModelTest]]
   * and the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb example notebook]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb example notebook]].
   *
   * ==Note==
   * To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
@@ -90,7 +90,6 @@ import org.apache.spark.sql.SparkSession
   * val model = AutoGGUFVisionModel.pretrained()
   *   .setInputCols("caption_document", "image_assembler")
   *   .setOutputCol("completions")
-  *   .setChatTemplate("vicuna") // llava uses vicuna as default
   *   .setBatchSize(4)
   *   .setNGpuLayers(99)
   *   .setNCtx(4096)

@@ -36,8 +36,8 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
 
     .. code-block:: python
 
-        autoGGUFModel = AutoGGUFModel.pretrained() \\
-            .setInputCols(["image', "document"]) \\
+        autoGGUFVisionModel = AutoGGUFVisionModel.pretrained() \\
+            .setInputCols(["image", "document"]) \\
             .setOutputCol("completions")
 
 
@@ -48,7 +48,7 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
     For extended examples of usage, see the
     `AutoGGUFVisionModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala>`__
     and the
-    `example notebook <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb>`__.
+    `example notebook <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -231,7 +231,6 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
     >>> model = AutoGGUFVisionModel.pretrained() \\
     ...     .setInputCols(["caption_document", "image_assembler"]) \\
     ...     .setOutputCol("completions") \\
-    ...     .setChatTemplate("vicuna") \\
     ...     .setBatchSize(4) \\
     ...     .setNGpuLayers(99) \\
     ...     .setNCtx(4096) \\
