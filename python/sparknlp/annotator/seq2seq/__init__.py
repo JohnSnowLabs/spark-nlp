@@ -22,6 +22,7 @@ from sparknlp.annotator.seq2seq.m2m100_transformer import *
 from sparknlp.annotator.seq2seq.phi2_transformer import *
 from sparknlp.annotator.seq2seq.mistral_transformer import *
 from sparknlp.annotator.seq2seq.auto_gguf_model import *
+from sparknlp.annotator.seq2seq.auto_gguf_vision_model import *
 from sparknlp.annotator.seq2seq.phi3_transformer import *
 from sparknlp.annotator.seq2seq.nllb_transformer import *
 from sparknlp.annotator.seq2seq.cpm_transformer import *
