@@ -120,6 +120,8 @@ class AutoGGUFModel(override val uid: String)
     with HasLlamaCppInferenceProperties
     with HasProtectedParams {
 
+  private val logger = LoggerFactory.getLogger(this.getClass)
+
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
 
