@@ -220,5 +220,6 @@ object OpenvinoWrapper {
   case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
   case class MLLamaWrappers(
       visionEmbeddingsModel: OpenvinoWrapper,
-      languageModel: OpenvinoWrapper)
+      languageModel: OpenvinoWrapper,
+      reshapeModel: OpenvinoWrapper)
 }

@@ -4,8 +4,6 @@ import scala.collection.mutable.ListBuffer
 import java.awt.image.BufferedImage
 import scala.collection.mutable.ArrayBuffer
 import ImageResizeUtils.resizeBufferedImage
-import scala.collection.mutable.ArrayBuffer
-import scala.math.max
 
 object MllamaUtils {
 
@@ -49,9 +47,9 @@ object MllamaUtils {
     val scaleW = targetWidth.toDouble / imageWidth.toDouble
 
     if (scaleW < scaleH) {
-      (targetWidth, math.min(math.floor(imageHeight * scaleW).toInt, targetHeight))
+      (math.min(math.floor(imageHeight * scaleW).toInt, targetHeight), targetWidth)
     } else {
-      (math.min(math.floor(imageWidth * scaleH).toInt, targetWidth), targetHeight)
+      (targetHeight, math.min(math.floor(imageWidth * scaleH).toInt, targetWidth))
     }
   }
 
@@ -73,8 +71,8 @@ object MllamaUtils {
       (w * tileSize, h * tileSize)
     }
 
-    val targetHeights = possibleCanvasSizes.map(_._1)
-    val targetWidths = possibleCanvasSizes.map(_._2)
+    val targetHeights = possibleCanvasSizes.map(_._2)
+    val targetWidths = possibleCanvasSizes.map(_._1)
 
     val scaleH = targetHeights.map(_.toDouble / imageHeight.toDouble)
     val scaleW = targetWidths.map(_.toDouble / imageWidth.toDouble)
@@ -88,10 +86,10 @@ object MllamaUtils {
       scales.filter(_ < 1.0).max
     }
 
-    val chosenCanvas = possibleCanvasSizes.filter { case (_, h) =>
-      (h.toDouble / imageHeight.toDouble == selectedScale) ||
-      (h.toDouble / imageWidth.toDouble == selectedScale)
-    }
+    val chosenCanvas =
+      possibleCanvasSizes.zip(scales).filter { case (_, s) => s == selectedScale }.map {
+        case (size, _) => size
+      }
 
     if (chosenCanvas.size > 1) {
       chosenCanvas.minBy { case (w, h) => w * h }
@@ -133,7 +131,12 @@ object MllamaUtils {
   def splitToTiles(
       image: BufferedImage,
       numTilesHeight: Int,
-      numTilesWidth: Int): Array[Array[Array[Array[Float]]]] = {
+      numTilesWidth: Int,
+      mean: Array[Double],
+      std: Array[Double],
+      doNormalize: Boolean,
+      doRescale: Boolean,
+      rescaleFactor: Double): Array[Array[Array[Array[Float]]]] = {
     val cropHeight = image.getHeight / numTilesHeight
     val cropWidth = image.getWidth / numTilesWidth
 
@@ -141,16 +144,23 @@ object MllamaUtils {
 
     for (i <- 0 until numTilesHeight) {
       for (j <- 0 until numTilesWidth) {
-        // Extract a crop of 336x336
+        // Extract a crop of the image
         val imgCrop = image.getSubimage(j * cropHeight, i * cropWidth, cropHeight, cropWidth)
-        // Convert the crop to a 3D array (3, 336, 336)
-        val cropArray = imageCropToArray(imgCrop)
+        // Convert the crop to a 3D array (3, height, width)
+//        val cropArray = imageCropToArray(imgCrop)
+        val normalizedCrop = ImageResizeUtils.normalizeAndConvertBufferedImage(
+          img = imgCrop,
+          mean = mean,
+          std = std,
+          doNormalize = doNormalize,
+          doRescale = doRescale,
+          rescaleFactor = rescaleFactor)
 
         // Normalize the crop if the option is enabled
-        val normalizedCrop = {
-          // Convert Int array to Double array if normalization is off
-          cropArray.map(_.map(_.map(_.toFloat / 255.0.toFloat)))
-        }
+//        val normalizedCrop = {
+//          // Convert Int array to Double array if normalization is off
+//          cropArray.map(_.map(_.map(_.toFloat / 255.0.toFloat)))
+//        }
 
         cropsBuffer.append(normalizedCrop)
       }
@@ -207,14 +217,13 @@ object MllamaUtils {
     * @return
     */
   def packImages(
-      batchImages: Array[Array[Array[Array[Array[Float]]]]],
+      batchImages: List[Array[Array[Array[Array[Array[Float]]]]]],
       maxImageTiles: Int): (Array[Array[Array[Array[Array[Array[Float]]]]]], List[List[Int]]) = {
     val batchSize = batchImages.size
     val maxNumImages = batchImages.map(_.length).max
-
-    val channels = batchImages.head.head.length
-    val tileHeight = batchImages.head.head.head.length
-    val tileWidth = batchImages.head.head.head.head.length
+    val channels = batchImages.head.head.head.length
+    val tileHeight = batchImages.head.head.head.head.length
+    val tileWidth = batchImages.head.head.head.head.head.length
 
     // (batch_size, max_num_images, max_image_tiles, channels, tile_height, tile_width).
     val stackedImages = ArrayBuffer[Array[Array[Array[Array[Array[Float]]]]]]()
@@ -234,7 +243,7 @@ object MllamaUtils {
         for {
           k <- 0 until numTiles
         } {
-          tempStackedTiles.append(image)
+          tempStackedTiles.append(image(k))
         }
         // add padded images to the sample
         for (_ <- 0 until maxImageTiles - image.length) {
@@ -271,6 +280,7 @@ object MllamaUtils {
     val batchSize = aspectRatios.size
     val maxNumImages = aspectRatios.map(_.size).max
 
+    // Initialize the 3D array with zeros
     val aspectRatioMask = Array.ofDim[Int](batchSize, maxNumImages, maxImageTiles)
 
     // Set the first tile to 1 for all aspect ratios
@@ -281,10 +291,14 @@ object MllamaUtils {
       aspectRatioMask(i)(j)(0) = 1
     }
 
+    // Set the aspect ratio mask for the rest of the tiles
     for ((sampleAspectRatios, i) <- aspectRatios.zipWithIndex) {
-      for ((numTilesW, numTilesH) <- sampleAspectRatios) {
-        for (k <- 0 until numTilesW * numTilesH) {
-          aspectRatioMask(i)(numTilesH)(k) = 1
+      for ((aspectRatio, j) <- sampleAspectRatios.zipWithIndex) {
+        val (numTilesW, numTilesH) = aspectRatio
+        val numTiles = numTilesW * numTilesH
+
+        for (k <- 0 until math.min(numTiles, maxImageTiles)) {
+          aspectRatioMask(i)(j)(k) = 1
         }
       }
     }
@@ -308,7 +322,9 @@ object MllamaUtils {
 
     for ((row, i) <- aspectRatios.zipWithIndex) {
       if (row.nonEmpty) {
-        aspectRatiosStacked(i).take(row.size) = row.map(t => Array(t._1, t._2))
+        for ((aspectRatio, j) <- row.zipWithIndex) {
+          aspectRatiosStacked(i)(j) = Array(aspectRatio._1, aspectRatio._2)
+        }
       }
     }
 
@@ -353,14 +369,15 @@ object MllamaUtils {
     val imageHeight = image.getHeight
     val imageWidth = image.getWidth
 
-    val (canvasWidth, canvasHeight) =
+    val (canvasHeight, canvasWidth) =
       getOptimalTiledCanvas(imageHeight, imageWidth, maxImageTiles, height)
 
     val numTilesHeight = canvasHeight / height
     val numTilesWidth = canvasWidth / width
-    (
-      resizeBufferedImage(canvasWidth, canvasHeight, resample)(image),
-      (numTilesHeight, numTilesWidth))
+
+    val (newHeight, newWidth) =
+      getImageSizeFitToCanvas(imageHeight, imageWidth, canvasHeight, canvasWidth, height)
+    (resizeBufferedImage(newWidth, newHeight, resample)(image), (numTilesHeight, numTilesWidth))
   }
 
   def padConstant(
@@ -390,36 +407,51 @@ object MllamaUtils {
 
   def padBufferedImage(
       image: BufferedImage,
-      padding: (Int, Int),
+      totalPadding: (Int, Int),
       constantColor: Int): BufferedImage = {
     val originalWidth = image.getWidth
     val originalHeight = image.getHeight
 
-    val paddedWidth = originalWidth + 2 * padding._2
-    val paddedHeight = originalHeight + 2 * padding._1
+    val (totalPaddingHeight, totalPaddingWidth) = totalPadding
+
+    // Calculate padding on each side
+    val paddingWidthLeft = totalPaddingWidth
+    val paddingHeightTop = totalPaddingHeight
+
+    val paddedWidth = originalWidth + totalPaddingWidth
+    val paddedHeight = originalHeight + totalPaddingHeight
 
     val paddedImage = new BufferedImage(paddedWidth, paddedHeight, image.getType)
 
+    val colorRGB = new java.awt.Color(0, 0, 0)
+
     for (x <- 0 until paddedWidth; y <- 0 until paddedHeight) {
-      if (x >= padding._2 && x < originalWidth + padding._2 && y >= padding._1 && y < originalHeight + padding._1) {
-        paddedImage.setRGB(x, y, image.getRGB(x - padding._2, y - padding._1))
+      if (x < originalWidth
+        &&
+        y < originalHeight) {
+        paddedImage.setRGB(x, y, image.getRGB(x, y))
       } else {
-        paddedImage.setRGB(x, y, constantColor)
+        paddedImage.setRGB(x, y, colorRGB.getRGB)
       }
     }
 
     paddedImage
   }
 
-  def pad(image: BufferedImage, paddingConstant: Int, aspectRatio: (Int, Int)): BufferedImage = {
+  def pad(
+      image: BufferedImage,
+      paddingConstant: Int,
+      aspectRatio: (Int, Int),
+      tileHeight: Int,
+      tileWidth: Int): BufferedImage = {
     val originalWidth = image.getWidth
     val originalHeight = image.getHeight
 
     val numTilesHeight = aspectRatio._1
     val numTilesWidth = aspectRatio._2
 
-    val paddedWidth = numTilesWidth * originalWidth
-    val paddedHeight = numTilesHeight * originalHeight
+    val paddedWidth = numTilesWidth * tileWidth
+    val paddedHeight = numTilesHeight * tileHeight
 
     val paddingHeight = paddedHeight - originalHeight
     val paddingWidth = paddedWidth - originalWidth
@@ -457,27 +489,32 @@ object MllamaUtils {
     val batchSize = crossAttentionTokenMask.length
     val maxNumImages = crossAttentionTokenMask.map(_.length).max
 
+    // Initialize the 4D array with zeros
     val crossAttentionMask = Array.ofDim[Int](batchSize, length, maxNumImages, maxNumTiles)
 
-    for {
-      sampleIdx <- crossAttentionTokenMask.indices
-      (sampleMasks, sampleNumTiles) <- crossAttentionTokenMask(sampleIdx)
-        .zip(numTiles(sampleIdx))
-        .zipWithIndex
-      (locations, maskNumTiles) <- sampleMasks.zip(sampleNumTiles).zipWithIndex
-      if locations.length == 2
-    } {
-      val (start, end) = (locations(0), locations(1))
-      val effectiveEnd = if (end == -1) length else math.min(end, length)
-      for {
-        i <- start until effectiveEnd
-        j <- 0 until maskNumTiles
-      } {
-        crossAttentionMask(sampleIdx)(i)(maskIdx)(j) = 1
+    for (sampleIdx <- crossAttentionTokenMask.indices) {
+      val sampleMasks = crossAttentionTokenMask(sampleIdx)
+      val sampleNumTiles = numTiles(sampleIdx)
+
+      for (maskIdx <- sampleMasks.indices) {
+        val locations = sampleMasks(maskIdx)
+        val maskNumTiles = sampleNumTiles(maskIdx)
+
+        if (locations.length == 2) {
+          val start = locations(0)
+          var end = locations(1)
+
+          // Handle the case where `end == -1`
+          if (end == -1) end = length
+          end = math.min(end, length)
+
+          for (i <- start until end; j <- 0 until maskNumTiles) {
+            crossAttentionMask(sampleIdx)(i)(maskIdx)(j) = 1
+          }
+        }
       }
     }
 
     crossAttentionMask
   }
-
 }

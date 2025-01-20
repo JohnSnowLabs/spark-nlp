@@ -30,9 +30,9 @@ class MLLamaTokenizer(
     padWithSequenceTokens: Boolean = true,
     prependString: String = "",
     addPrefixSpaceToSentence: Boolean = false,
-    alwaysAddPrefix: Boolean = true,
+    alwaysAddPrefix: Boolean = false,
     splitPatternRegex: Regex =
-      raw"""(?i)(?:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+""".r)
+      raw"""(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+""".r)
     extends BpeTokenizer(
       merges,
       vocab,
@@ -84,28 +84,38 @@ class MLLamaTokenizer(
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
       .findAllMatchIn(if (prefixForPieceId.isDefined || text.startsWith(" ")) text
-      else " " + text) // Prepend space to the beginning of text
+      else text) // Prepend space to the beginning of text
       .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
       .toArray
   }
 
+//  def decodeTokens(tokens: Array[Int]): String = {
+//    val decoded = new mutable.StringBuilder()
+//    tokens.foreach { token =>
+//      {
+//        val decodedToken = decoderVocab(token)
+//        if (!specialTokens.contains(decodedToken)) {
+//          if (decodedToken.startsWith("<0x") && decodedToken.endsWith(">")) {
+//            val strippedHex = decodedToken.replaceAll("<0x|>", "")
+//            val byteValue = Integer.parseInt(strippedHex, 16)
+//            decoded.append(byteValue.toChar)
+//          } else {
+//            decoded.append(decodedToken)
+//          }
+//        }
+//      }
+//
+//    }
+//    decoded.toString().replaceAll(decoderVocab(29871), " ").trim()
+//  }
   def decodeTokens(tokens: Array[Int]): String = {
-    val decoded = new mutable.StringBuilder()
-    tokens.foreach { token =>
-      {
-        val decodedToken = decoderVocab(token)
-        if (!specialTokens.contains(decodedToken)) {
-          if (decodedToken.startsWith("<0x") && decodedToken.endsWith(">")) {
-            val strippedHex = decodedToken.replaceAll("<0x|>", "")
-            val byteValue = Integer.parseInt(strippedHex, 16)
-            decoded.append(byteValue.toChar)
-          } else {
-            decoded.append(decodedToken)
-          }
-        }
-      }
+    val text = tokens
+      .map(token => decoderVocab(token))
+      .filter(x => !specialTokens.contains(x))
+      .mkString("")
 
-    }
-    decoded.toString().replaceAll(decoderVocab(29871), " ").trim()
+    val bytes =
+      text.map(x => unicodeToByteMapping(x.toString)).map(x => x.toByte).toArray
+    new String(bytes, Charset.forName("UTF-8"))
   }
 }

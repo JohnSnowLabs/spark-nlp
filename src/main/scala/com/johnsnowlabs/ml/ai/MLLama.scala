@@ -30,9 +30,9 @@ private[johnsnowlabs] class MLLama(
     addedTokens: Map[String, Int],
     preprocessor: Preprocessor,
     generationConfig: GenerationConfig,
-    imageTokenLength: Int,
     imageToken: Int,
-    maxImageTiles: Int,
+    maxImageTiles: Int = 4,
+    numVisionTokens: Int = 1601,
     paddingConstant: Int = 0)
     extends Serializable {
 
@@ -68,7 +68,8 @@ private[johnsnowlabs] class MLLama(
       vocab = vocabulary,
       specialTokens = Some(specialTokens),
       addPrefixSpaceToSentence = false,
-      alwaysAddPrefix = false)
+      alwaysAddPrefix = true,
+      prependString = "")
     .asInstanceOf[MLLamaTokenizer]
 
   /** Decode a sequence of sentences
@@ -87,78 +88,94 @@ private[johnsnowlabs] class MLLama(
     * @return
     *   Sequence of encoded sentences
     */
-  def encodeText(sentences: Seq[Annotation], imgTokenLen: List[Int]): Seq[Array[Int]] = {
+  def encodeText(sentences: Seq[Annotation]): Seq[Array[Int]] = {
 
-    val pattern = raw"<\|image\|>".r
+//    val pattern = raw"<\|image\|>".r
+//
+//    // raise an error if the pattern is not found in the text
+//    if (pattern.findFirstIn(sentences.head.result).isEmpty) {
+//      throw new IllegalArgumentException("The pattern <\\|image\\|> is not found in the text")
+//    }
+//
+//    // split the sentences into chunks based on the pattern and tokenize them
+//    // eg in python prompt_chunks = [self.tokenizer(chunk).input_ids for chunk in re.split(pattern, texts)]
+//    val promptChunks = sentences
+//      .map(s => {
+//        val sentWithTask = s.result
+//        var offsetLength = 0
+//        pattern
+//          .split(sentWithTask)
+//          .zipWithIndex
+//          .map(s => {
+//            val sentenceWithTask = Sentence(
+//              content = s._1,
+//              start = offsetLength,
+//              end = offsetLength + s._1.length,
+//              index = s._2)
+//            offsetLength += s._1.length
+//            bpeTokenizer
+//              .tokenize(sentenceWithTask)
+//              .map(bpeTokenizer.encode)
+//              .flatMap(_.map(_.pieceId))
+//          })
+//      })
+//
+//    // inject the image padding tokens of length imgTokenLen between the prompt chunks and reduce the Seq[Array[Array[Int]]] to Seq[Array[Int]]
+//    val tokens = promptChunks
+//      .zip(imgTokenLen)
+//      .map(s => {
+//        val (promptChunk, imgTokenLen) = s
+//        val imgPaddingTokens = Array.fill(imgTokenLen)(imageToken)
+//        val combinedChunks = promptChunk
+//          .map(_.toArray)
+//          .reduce(_ ++ imgPaddingTokens ++ _)
+//        Array(bosTokenId) ++ combinedChunks
+//      })
 
-    // raise an error if the pattern is not found in the text
-    if (pattern.findFirstIn(sentences.head.result).isEmpty) {
-      throw new IllegalArgumentException("The pattern <\\|image\\|> is not found in the text")
-    }
-
-    // split the sentences into chunks based on the pattern and tokenize them
-    // eg in python prompt_chunks = [self.tokenizer(chunk).input_ids for chunk in re.split(pattern, texts)]
-    val promptChunks = sentences
+    val tokens = SentenceSplit
+      .unpack(sentences)
       .map(s => {
-        val sentWithTask = s.result
-        var offsetLength = 0
-        pattern
-          .split(sentWithTask)
-          .zipWithIndex
-          .map(s => {
-            val sentenceWithTask = Sentence(
-              content = s._1,
-              start = offsetLength,
-              end = offsetLength + s._1.length,
-              index = s._2)
-            offsetLength += s._1.length
-            bpeTokenizer
-              .tokenize(sentenceWithTask)
-              .map(bpeTokenizer.encode)
-              .flatMap(_.map(_.pieceId))
-          })
+        val sentWithTask = s
+        Array(bosTokenId) ++ bpeTokenizer
+          .tokenize(sentWithTask)
+          .map(bpeTokenizer.encode)
+          .flatMap(_.map(_.pieceId))
       })
-
-    // inject the image padding tokens of length imgTokenLen between the prompt chunks and reduce the Seq[Array[Array[Int]]] to Seq[Array[Int]]
-    val tokens = promptChunks
-      .zip(imgTokenLen)
-      .map(s => {
-        val (promptChunk, imgTokenLen) = s
-        val imgPaddingTokens = Array.fill(imgTokenLen)(imageToken)
-        val combinedChunks = promptChunk
-          .map(_.toArray)
-          .reduce(_ ++ imgPaddingTokens ++ _)
-        Array(bosTokenId) ++ combinedChunks
-      })
-
-    //    val tokens = SentenceSplit
-    //      .unpack(sentences)
-    //      .map(s => {
-    //        val sentWithTask = s
-    //        bpeTokenizer
-    //          .tokenize(sentWithTask)
-    //          .map(bpeTokenizer.encode)
-    //          .flatMap(_.map(_.pieceId))
-    //      })
     tokens
   }
 
-  def encode(
+  private def encode(
       imageAnnotations: Seq[AnnotationImage],
       sentences: Seq[Annotation],
-      preprocessor: Preprocessor,
-      imageTokenLength: Int = imageTokenLength)
-      : (Seq[Array[Int]], Array[Array[Array[Array[Float]]]]) = {
+      preprocessor: Preprocessor): Map[String, Any] = {
     val (preprocessedImages, aspectRatioIds, aspectRatioMask, numTiles) =
       encodeImage(imageAnnotations.toArray, preprocessor, maxImageTiles, paddingConstant)
-    val encodedText = encodeText(sentences, List(imageTokenLength)).toArray
+    val encodedText = encodeText(sentences).toArray
 
-    (encodedText, preprocessedImages)
+    println(encodedText.map(_.mkString(", ")).mkString("\n"))
+
+    val crossAttentionMask = encodedText.map { sentence =>
+      MllamaUtils.getCrossAttentionTokenMask(sentence, imageToken)
+    }
+    val maxLength = encodedText.map(_.length).max
+    val crossAttentionMaskDense = MllamaUtils.convertSparseCrossAttentionMaskToDense(
+      crossAttentionMask,
+      numTiles.map(_.toArray).toArray,
+      maxImageTiles,
+      maxLength)
+
+    Map(
+      "pixelValues" -> preprocessedImages,
+      "aspectRatioIds" -> aspectRatioIds,
+      "aspectRatioMask" -> aspectRatioMask,
+      "crossAttentionMask" -> crossAttentionMaskDense,
+      "numTiles" -> numTiles,
+      "encodedText" -> encodedText)
+
   }
 
   def tag(
-      batch: Seq[Array[Int]],
-      images: Array[Array[Array[Array[Float]]]],
+      inputs: Map[String, Any],
       minOutputLength: Int,
       maxOutputLength: Int,
       doSample: Boolean,
@@ -173,13 +190,11 @@ private[johnsnowlabs] class MLLama(
       maxInputLength: Int,
       stopTokenIds: Array[Int]): Array[Array[Int]] = {
 
-    val pixelValues = images
+    val inputIds = inputs("encodedText").asInstanceOf[Array[Array[Int]]]
     val ignoreTokenIdsInt = ignoreTokenIds
-    val expandedDecoderInputsVals = batch
+    val expandedDecoderInputsVals = inputIds
     val sequencesLength = expandedDecoderInputsVals.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
-    //    val pixelValues = images._1
-    //    val imageSizes = images._2
     val numReturn_sequences = 1
     // from config
 
@@ -198,44 +213,54 @@ private[johnsnowlabs] class MLLama(
       openvinoWrapper.get.languageModel.getCompiledModel().create_infer_request()
     val inferRequestVisionEmbeddingsModel =
       openvinoWrapper.get.visionEmbeddingsModel.getCompiledModel().create_infer_request()
-    val inferRequestTextEmbeddingsModel =
-      openvinoWrapper.get.textEmbeddingsModel.getCompiledModel().create_infer_request()
-    val inferRequestMergeModel =
-      openvinoWrapper.get.mergeModel.getCompiledModel().create_infer_request()
+    val inferRequestReshapeModel =
+      openvinoWrapper.get.reshapeModel.getCompiledModel().create_infer_request()
 
     val generatedIds = generateGreedy(
-      batch.toArray,
-      batch.toArray,
-      pixelValues,
+      inputIds,
+      inputIds,
+      inputs,
       maxOutputLength,
       inferRequestLanguageModel,
       inferRequestVisionEmbeddingsModel,
-      inferRequestTextEmbeddingsModel,
-      inferRequestMergeModel)
+      inferRequestReshapeModel)
     generatedIds
   }
 
   def generateGreedy(
       encoderInputIds: Array[Array[Int]],
       decoderInputIds: Array[Array[Int]],
-      pixelValues: Array[Array[Array[Array[Float]]]],
+      inputs: Map[String, Any],
       maxOutputLength: Int,
       inferRequestLanguageModel: InferRequest,
       inferRequestVisionEmbeddingsModel: InferRequest,
-      inferRequestTextEmbeddingsModel: InferRequest,
-      inferRequestMergeModel: InferRequest): Array[Array[Int]] = {
+      inferRequestReshapeModel: InferRequest): Array[Array[Int]] = {
 
     var generatedIds: Array[Array[Int]] = Array()
-    var decoderInputIdsCopied = decoderInputIds
+    var decoderInputIdsCopied = decoderInputIds.clone()
+    val pixelValues =
+      inputs("pixelValues").asInstanceOf[Array[Array[Array[Array[Array[Array[Float]]]]]]]
+    val aspectRatioIds = inputs("aspectRatioIds").asInstanceOf[Array[Array[Int]]]
+    val aspectRatioMask = inputs("aspectRatioMask").asInstanceOf[Array[Array[Array[Int]]]]
+
+    val (crossAttentionOutputNames, crossAttentionKeyValues) = getCrossAttentionKeyValues(
+      encoderInputIds,
+      decoderInputIds,
+      pixelValues,
+      aspectRatioIds,
+      aspectRatioMask,
+      inferRequestVisionEmbeddingsModel)
+
     while (!greedyGenerationFinished(generatedIds, eosTokenId, maxOutputLength)) {
       val decoderOutputs = getModelOutputs(
         encoderInputIds,
         decoderInputIdsCopied,
-        pixelValues,
+        inputs,
+        crossAttentionOutputNames,
+        crossAttentionKeyValues,
         inferRequestLanguageModel,
         inferRequestVisionEmbeddingsModel,
-        inferRequestTextEmbeddingsModel,
-        inferRequestMergeModel)
+        inferRequestReshapeModel)
 
       val nextTokenIds = decoderOutputs.map { scores =>
         argmax(scores)
@@ -256,6 +281,7 @@ private[johnsnowlabs] class MLLama(
           currentIds ++ Array(nextId)
         }
     }
+//    println(generatedIds.map(_.mkString(", ")).mkString("\n"))
     generatedIds
   }
 
@@ -276,10 +302,10 @@ private[johnsnowlabs] class MLLama(
       beamSize: Int,
       maxInputLength: Int): Seq[Annotation] = {
 
-    val (encodedText, preprocessedImages) = encode(imageAnnotations, sentences, preprocessor)
+    val inputs = encode(imageAnnotations, sentences, preprocessor)
+
     val tagged = tag(
-      encodedText,
-      preprocessedImages,
+      inputs,
       minOutputLength,
       maxOutputLength,
       doSample,
@@ -313,21 +339,17 @@ private[johnsnowlabs] class MLLama(
   def getModelOutputs(
       encoderInputIds: Array[Array[Int]],
       decoderInputIds: Array[Array[Int]],
-      pixelValues: Array[Array[Array[Array[Float]]]],
+      inputs: Map[String, Any],
+      crossAttentionOutputNames: Array[String],
+      crossAttentionKeyValues: Array[org.intel.openvino.Tensor],
       inferRequestLanguageModel: InferRequest,
       inferRequestVisionEmbeddingsModel: InferRequest,
-      inferRequestTextEmbeddingsModel: InferRequest,
-      inferRequestMergeModel: InferRequest): Array[Array[Float]] = {
-
-    val inputEmbeds = getMultimodalEmbeddings(
-      encoderInputIds,
-      decoderInputIds,
-      pixelValues,
-      inferRequestVisionEmbeddingsModel,
-      inferRequestTextEmbeddingsModel,
-      inferRequestMergeModel)
-
-    val (inputIdsLong, inputPositionIDsLong): (Array[Long], Array[Long]) =
+      inferRequestReshapeModel: InferRequest): Array[Array[Float]] = {
+    val crossAttentionMask =
+      inputs("crossAttentionMask").asInstanceOf[Array[Array[Array[Array[Int]]]]]
+    val numTiles = inputs("numTiles").asInstanceOf[List[List[Int]]]
+    val (inputIdsLong, inputPositionIDsLong, crossAttentionMaskDense)
+        : (Array[Long], Array[Long], Array[Array[Array[Array[Int]]]]) =
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
         // First pass
         val inpIdsLong = decoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }
@@ -336,7 +358,7 @@ private[johnsnowlabs] class MLLama(
             i.toLong
           }
         }
-        (inpIdsLong, posIdsLong)
+        (inpIdsLong, posIdsLong, crossAttentionMask)
       } else {
         // Subsequent passes
         val inpIdsLong = decoderInputIds.map { tokenIds => tokenIds.last.toLong }
@@ -345,7 +367,16 @@ private[johnsnowlabs] class MLLama(
             i.toLong
           }.last
         }
-        (inpIdsLong, posIdsLong)
+        val crossAttentionMask = decoderInputIds.map { sentence =>
+          MllamaUtils.getCrossAttentionTokenMask(sentence, imageToken)
+        }
+        val maxLength = decoderInputIds.map(_.length).max
+        val crossAttentionMaskDense = MllamaUtils.convertSparseCrossAttentionMaskToDense(
+          crossAttentionMask,
+          numTiles.map(_.toArray).toArray,
+          maxImageTiles,
+          maxLength)
+        (inpIdsLong, posIdsLong, crossAttentionMaskDense)
       }
     val attentionMask: Array[Long] =
       decoderInputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }
@@ -354,6 +385,9 @@ private[johnsnowlabs] class MLLama(
     val beamIdx: Array[Int] = new Array[Int](batchSize)
     val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
 
+    val inputIdsTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(shape, inputIdsLong)
+
     val decoderAttentionMask: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(Array(batchSize, decoderInputIds.head.length), attentionMask)
     val decoderPositionIDs: org.intel.openvino.Tensor =
@@ -361,15 +395,68 @@ private[johnsnowlabs] class MLLama(
     val beamIdxTensor: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(Array(batchSize), beamIdx)
 
-    inferRequestLanguageModel.set_tensor("inputs_embeds", inputEmbeds)
+    val crossAttentionMaskDenseTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        Array(
+          batchSize,
+          crossAttentionMaskDense.head.length,
+          crossAttentionMaskDense.head.head.length,
+          crossAttentionMaskDense.head.head.head.length),
+        crossAttentionMaskDense.flatten.flatten.flatten.map(_.toLong))
+
+    val numVisionTokensTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(Array[Int](), Array(numVisionTokens.toLong))
+
+    val pastCrossAttentionKVLength: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        Array[Int](),
+        Array(
+          crossAttentionKeyValues.head
+            .get_shape()(crossAttentionKeyValues.head.get_shape().length - 2)
+            .toLong))
+    inferRequestReshapeModel.set_tensor("current_input_ids", inputIdsTensor)
+    inferRequestReshapeModel.set_tensor("attention_mask", decoderAttentionMask)
+    inferRequestReshapeModel.set_tensor("cross_attention_mask", crossAttentionMaskDenseTensor)
+    inferRequestReshapeModel.set_tensor("num_vision_tokens", numVisionTokensTensor)
+    inferRequestReshapeModel.set_tensor("past_cross_attn_kv_length", pastCrossAttentionKVLength)
+
+    inferRequestReshapeModel.infer()
+    val crossAttentionMaskReshaped =
+      if (encoderInputIds.head.length == decoderInputIds.head.length) {
+        inferRequestReshapeModel.get_tensor("cross_attention_mask_first_pass")
+      } else {
+        inferRequestReshapeModel.get_tensor("cross_attention_mask_second_pass")
+      }
+    val cachePosition = inferRequestReshapeModel.get_tensor("cache_position")
+    val fullTextRowMaskedOutMask =
+      inferRequestReshapeModel.get_tensor("full_text_row_masked_out_mask")
+
+//    val crossAttentionMaskReshapedTensor: org.intel.openvino.Tensor =
+//      new org.intel.openvino.Tensor(
+//        crossAttentionMaskReshaped.get_shape(),
+//        crossAttentionMaskReshaped.as_int().map(_.toFloat))
+
+    inferRequestLanguageModel.set_tensor("input_ids", inputIdsTensor)
     inferRequestLanguageModel.set_tensor("attention_mask", decoderAttentionMask)
     inferRequestLanguageModel.set_tensor("position_ids", decoderPositionIDs)
     inferRequestLanguageModel.set_tensor("beam_idx", beamIdxTensor)
+    inferRequestLanguageModel.set_tensor("cross_attention_mask", crossAttentionMaskReshaped)
+    inferRequestLanguageModel.set_tensor("cache_position", cachePosition)
+    inferRequestLanguageModel.set_tensor(
+      "full_text_row_masked_out_mask",
+      fullTextRowMaskedOutMask)
+
+    for (i <- crossAttentionKeyValues.indices) {
+      inferRequestLanguageModel.set_tensor(
+        crossAttentionOutputNames(i),
+        crossAttentionKeyValues(i))
+    }
 
     inferRequestLanguageModel.infer()
 
     val result = inferRequestLanguageModel.get_tensor("logits")
     val logitsRaw = result.data()
+    val logitShape = result.get_shape()
 
     val sequenceLength = inputIdsLong.length / batchSize
     val decoderOutputs = (0 until batchSize).map(i => {
@@ -409,52 +496,63 @@ private[johnsnowlabs] class MLLama(
       Array[Array[Array[Int]]],
       List[List[Int]]) = {
 
-    val (batchProcessedImages, batchAspectRatios)
-        : (Array[Array[Array[Array[Array[Float]]]]], Array[List[(Int, Int)]]) = annotations.map {
-      annot =>
+    val processed: Array[(Array[Array[Array[Array[Float]]]], List[(Int, Int)])] =
+      annotations.map { annot =>
         val bufferedImage = ImageIOUtils.byteToBufferedImage(
           bytes = annot.result,
           w = annot.width,
           h = annot.height,
           nChannels = annot.nChannels)
 
-        val (resizedImage, (resizedImageHeight, resizedImageWidth)) =
+        val (resizedImage, (numTilesHeight, numTilesWidth)) =
           if (preprocessor.do_resize) {
             MllamaUtils.resizeImage(
               width = preprocessor.size,
               height = preprocessor.size,
               resample = preprocessor.resample,
               maxImageTiles = maxImageTiles)(bufferedImage)
-          } else (bufferedImage, (0, 0))
+          } else (bufferedImage, (annot.height, annot.width))
 
         val paddedImage = MllamaUtils.pad(
           image = resizedImage,
           paddingConstant = paddingConstant,
-          aspectRatio = (resizedImageHeight, resizedImageWidth))
+          aspectRatio = (numTilesHeight, numTilesWidth),
+          tileHeight = preprocessor.size,
+          tileWidth = preprocessor.size)
 
-        val normalizedImage =
-          ImageResizeUtils.normalizeAndConvertBufferedImage(
-            img = paddedImage,
-            mean = preprocessor.image_mean,
-            std = preprocessor.image_std,
-            doNormalize = preprocessor.do_normalize,
-            doRescale = preprocessor.do_rescale,
-            rescaleFactor = preprocessor.rescale_factor)
+//        val normalizedImage =
+//          ImageResizeUtils.normalizeAndConvertBufferedImage(
+//            img = paddedImage,
+//            mean = preprocessor.image_mean,
+//            std = preprocessor.image_std,
+//            doNormalize = preprocessor.do_normalize,
+//            doRescale = preprocessor.do_rescale,
+//            rescaleFactor = preprocessor.rescale_factor)
 
-        val normalizedImageBuffer =
-          MllamaUtils.floatArrayToBufferedImage(normalizedImage, preprocessor.rescale_factor)
-        val imageTiles = MllamaUtils.splitToTiles(
-          image = normalizedImageBuffer,
-          numTilesHeight = resizedImageHeight,
-          numTilesWidth = resizedImageWidth)
+//        val normalizedImageBuffer =
+//          MllamaUtils.floatArrayToBufferedImage(normalizedImage, preprocessor.rescale_factor)
 
-        val aspectRatioList: List[(Int, Int)] = List((resizedImageHeight, resizedImageWidth))
+        val imageTiles: Array[Array[Array[Array[Float]]]] = MllamaUtils.splitToTiles(
+          image = paddedImage,
+          numTilesHeight = numTilesHeight,
+          numTilesWidth = numTilesWidth,
+          mean = preprocessor.image_mean,
+          std = preprocessor.image_std,
+          doNormalize = preprocessor.do_normalize,
+          doRescale = preprocessor.do_rescale,
+          rescaleFactor = preprocessor.rescale_factor)
+
+        val aspectRatioList: List[(Int, Int)] = List((numTilesHeight, numTilesWidth))
 
         (imageTiles, aspectRatioList)
-    }
+      }
+
+    val (batchProcessedImages, batchAspectRatios) = processed.unzip
 
     val (images, numTiles) =
-      MllamaUtils.packImages(batchImages = batchProcessedImages, maxImageTiles = maxImageTiles)
+      MllamaUtils.packImages(
+        batchImages = List(batchProcessedImages),
+        maxImageTiles = maxImageTiles)
 
     val aspectRatioIds: Array[Array[Int]] =
       MllamaUtils.convertAspectRatiosToIds(
@@ -468,13 +566,24 @@ private[johnsnowlabs] class MLLama(
 
   }
 
-  def getMultimodalEmbeddings(
+  def getCrossAttentionKeyValues(
       encoderInputIds: Array[Array[Int]],
       decoderInputIds: Array[Array[Int]],
-      pixelValues: Array[Array[Array[Array[Float]]]],
-      inferRequestVisionEmbeddingsModel: InferRequest,
-      inferRequestTextEmbeddingsModel: InferRequest,
-      inferRequestMergeModel: InferRequest): org.intel.openvino.Tensor = {
+      pixelValues: Array[Array[Array[Array[Array[Array[Float]]]]]],
+      aspectRatioIds: Array[Array[Int]],
+      aspectRatioMask: Array[Array[Array[Int]]],
+      inferRequestVisionEmbeddingsModel: InferRequest)
+      : (Array[String], Array[org.intel.openvino.Tensor]) = {
+
+    // filter out the cross attention output names only containing the word "cross_attn_key_values"
+    val crossAttentionOutputNames =
+      openvinoWrapper.get.visionEmbeddingsModel
+        .getCompiledModel()
+        .outputs()
+        .asScala
+        .filter(_.get_any_name().contains("cross_attn_key_values"))
+        .map(_.get_any_name())
+        .toArray
     val inputIdsLong: Array[Long] =
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
         // First pass
@@ -488,49 +597,51 @@ private[johnsnowlabs] class MLLama(
       }
     val batchSize: Int = decoderInputIds.length
     val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
-    val inputIdsLongTensor: org.intel.openvino.Tensor =
-      new org.intel.openvino.Tensor(shape, inputIdsLong)
 
-    val imageEmbeddings: org.intel.openvino.Tensor =
+    val crossAttentionKeyValues: Array[org.intel.openvino.Tensor] =
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
+        val pixelValuesShape = Array(
+          pixelValues.length,
+          pixelValues.head.length,
+          pixelValues.head.head.length,
+          pixelValues.head.head.head.length,
+          pixelValues.head.head.head.head.length,
+          pixelValues.head.head.head.head.head.length)
         val pixelValuesTensor: org.intel.openvino.Tensor =
           new org.intel.openvino.Tensor(
-            Array(batchSize, 3, 336, 336),
-            pixelValues.flatten.flatten.flatten.map(_.toFloat))
+            pixelValuesShape,
+            pixelValues.flatten.flatten.flatten.flatten.flatten.map(_.toFloat))
+
+        val aspectRatioIdsShape = Array(aspectRatioIds.length, aspectRatioIds.head.length)
+        val aspectRatioIdsTensor: org.intel.openvino.Tensor =
+          new org.intel.openvino.Tensor(aspectRatioIdsShape, aspectRatioIds.flatten.map(_.toLong))
+
+        val aspectRatioMaskShape = Array(
+          aspectRatioMask.length,
+          aspectRatioMask.head.length,
+          aspectRatioMask.head.head.length)
+
+        val aspectRatioMaskTensor: org.intel.openvino.Tensor = new org.intel.openvino.Tensor(
+          aspectRatioMaskShape,
+          aspectRatioMask.flatten.flatten.map(_.toLong))
 
         // Get image embeddings
-        inferRequestVisionEmbeddingsModel.set_input_tensor(pixelValuesTensor)
+        inferRequestVisionEmbeddingsModel.set_tensor("pixel_values", pixelValuesTensor)
+        inferRequestVisionEmbeddingsModel.set_tensor("aspect_ratio_ids", aspectRatioIdsTensor)
+        inferRequestVisionEmbeddingsModel.set_tensor("aspect_ratio_mask", aspectRatioMaskTensor)
 
         inferRequestVisionEmbeddingsModel.infer()
 
-        val imageEmbeddings = inferRequestVisionEmbeddingsModel.get_output_tensor()
-
-        // Get text embeddings
-        inferRequestTextEmbeddingsModel.set_input_tensor(inputIdsLongTensor)
-
-        inferRequestTextEmbeddingsModel.infer()
-
-        val textEmbeddings = inferRequestTextEmbeddingsModel.get_output_tensor()
-
-        // Merge image and text embeddings
-        inferRequestMergeModel.set_tensor("vision_embeds", imageEmbeddings)
-        inferRequestMergeModel.set_tensor("inputs_embeds", textEmbeddings)
-        inferRequestMergeModel.set_tensor("input_ids", inputIdsLongTensor)
-
-        inferRequestMergeModel.infer()
-
-        inferRequestMergeModel.get_tensor("final_embedding")
+        val crossAttentionKeyValues = crossAttentionOutputNames.map { outputName =>
+          inferRequestVisionEmbeddingsModel.get_tensor(outputName)
+        }
+        crossAttentionKeyValues
       } else {
-        // Get text embeddings
-        inferRequestTextEmbeddingsModel.set_input_tensor(inputIdsLongTensor)
-
-        inferRequestTextEmbeddingsModel.infer()
-
-        val textEmbeddings = inferRequestTextEmbeddingsModel.get_output_tensor()
-
-        textEmbeddings
+        // shouldn't be called
+        throw new IllegalArgumentException("Should not be called for subsequent passes")
+        Array()
       }
-    imageEmbeddings
+    (crossAttentionOutputNames, crossAttentionKeyValues)
   }
 
 }
