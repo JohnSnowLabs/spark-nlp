@@ -27,9 +27,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class MLLamaForMultimodalTestSpec extends AnyFlatSpec {
 
-  lazy val model = getLLAVAForMultiModalPipelineModel
+  lazy val model = getMLLamaForMultiModalPipelineModel
 
-  "LLAVAForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
+  "MLLamaForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -46,7 +46,7 @@ class MLLamaForMultimodalTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -152,7 +152,7 @@ class MLLamaForMultimodalTestSpec extends AnyFlatSpec {
 
   }
 
-  private def getLLAVAForMultiModalPipelineModel = {
+  private def getMLLamaForMultiModalPipelineModel = {
     val testDF = getTestDF
 
     val imageAssembler: ImageAssembler = new ImageAssembler()

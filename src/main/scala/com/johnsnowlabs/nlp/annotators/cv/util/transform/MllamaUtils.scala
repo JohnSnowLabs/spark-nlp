@@ -147,7 +147,6 @@ object MllamaUtils {
         // Extract a crop of the image
         val imgCrop = image.getSubimage(j * cropHeight, i * cropWidth, cropHeight, cropWidth)
         // Convert the crop to a 3D array (3, height, width)
-//        val cropArray = imageCropToArray(imgCrop)
         val normalizedCrop = ImageResizeUtils.normalizeAndConvertBufferedImage(
           img = imgCrop,
           mean = mean,
@@ -155,12 +154,6 @@ object MllamaUtils {
           doNormalize = doNormalize,
           doRescale = doRescale,
           rescaleFactor = rescaleFactor)
-
-        // Normalize the crop if the option is enabled
-//        val normalizedCrop = {
-//          // Convert Int array to Double array if normalization is off
-//          cropArray.map(_.map(_.map(_.toFloat / 255.0.toFloat)))
-//        }
 
         cropsBuffer.append(normalizedCrop)
       }

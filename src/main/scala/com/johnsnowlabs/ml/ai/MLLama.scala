@@ -90,47 +90,12 @@ private[johnsnowlabs] class MLLama(
     */
   def encodeText(sentences: Seq[Annotation]): Seq[Array[Int]] = {
 
-//    val pattern = raw"<\|image\|>".r
-//
-//    // raise an error if the pattern is not found in the text
-//    if (pattern.findFirstIn(sentences.head.result).isEmpty) {
-//      throw new IllegalArgumentException("The pattern <\\|image\\|> is not found in the text")
-//    }
-//
-//    // split the sentences into chunks based on the pattern and tokenize them
-//    // eg in python prompt_chunks = [self.tokenizer(chunk).input_ids for chunk in re.split(pattern, texts)]
-//    val promptChunks = sentences
-//      .map(s => {
-//        val sentWithTask = s.result
-//        var offsetLength = 0
-//        pattern
-//          .split(sentWithTask)
-//          .zipWithIndex
-//          .map(s => {
-//            val sentenceWithTask = Sentence(
-//              content = s._1,
-//              start = offsetLength,
-//              end = offsetLength + s._1.length,
-//              index = s._2)
-//            offsetLength += s._1.length
-//            bpeTokenizer
-//              .tokenize(sentenceWithTask)
-//              .map(bpeTokenizer.encode)
-//              .flatMap(_.map(_.pieceId))
-//          })
-//      })
-//
-//    // inject the image padding tokens of length imgTokenLen between the prompt chunks and reduce the Seq[Array[Array[Int]]] to Seq[Array[Int]]
-//    val tokens = promptChunks
-//      .zip(imgTokenLen)
-//      .map(s => {
-//        val (promptChunk, imgTokenLen) = s
-//        val imgPaddingTokens = Array.fill(imgTokenLen)(imageToken)
-//        val combinedChunks = promptChunk
-//          .map(_.toArray)
-//          .reduce(_ ++ imgPaddingTokens ++ _)
-//        Array(bosTokenId) ++ combinedChunks
-//      })
+    val pattern = raw"<\|image\|>".r
+
+    // raise an error if the pattern is not found in the text
+    if (pattern.findFirstIn(sentences.head.result).isEmpty) {
+      throw new IllegalArgumentException("The pattern <\\|image\\|> is not found in the text")
+    }
 
     val tokens = SentenceSplit
       .unpack(sentences)
@@ -152,7 +117,7 @@ private[johnsnowlabs] class MLLama(
       encodeImage(imageAnnotations.toArray, preprocessor, maxImageTiles, paddingConstant)
     val encodedText = encodeText(sentences).toArray
 
-    println(encodedText.map(_.mkString(", ")).mkString("\n"))
+//    println(encodedText.map(_.mkString(", ")).mkString("\n"))
 
     val crossAttentionMask = encodedText.map { sentence =>
       MllamaUtils.getCrossAttentionTokenMask(sentence, imageToken)
@@ -456,7 +421,6 @@ private[johnsnowlabs] class MLLama(
 
     val result = inferRequestLanguageModel.get_tensor("logits")
     val logitsRaw = result.data()
-    val logitShape = result.get_shape()
 
     val sequenceLength = inputIdsLong.length / batchSize
     val decoderOutputs = (0 until batchSize).map(i => {
@@ -468,10 +432,24 @@ private[johnsnowlabs] class MLLama(
     decoderOutputs.toArray
   }
 
-  private def argmax(scores: Array[Float]): Int =
-    scores.zipWithIndex.maxBy { case (score, _) =>
-      score
-    }._2
+  private def argmax(scores: Array[Float]): Int = {
+    // Validate that the array is not empty
+    require(scores.nonEmpty, "Input array must not be empty")
+
+    // Initialize variables to track the maximum score and its index
+    var maxIndex = 0
+    var maxValue = scores(0)
+
+    // Iterate through the array to find the maximum value and its index
+    for (i <- 1 until scores.length) {
+      if (scores(i) > maxValue) {
+        maxValue = scores(i)
+        maxIndex = i
+      }
+    }
+
+    maxIndex
+  }
 
   private def greedyGenerationFinished(
       decoderIds: Seq[Array[Int]],
@@ -584,19 +562,6 @@ private[johnsnowlabs] class MLLama(
         .filter(_.get_any_name().contains("cross_attn_key_values"))
         .map(_.get_any_name())
         .toArray
-    val inputIdsLong: Array[Long] =
-      if (encoderInputIds.head.length == decoderInputIds.head.length) {
-        // First pass
-        val inpIdsLong = decoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }
-
-        inpIdsLong
-      } else {
-        // Subsequent passes
-        val inpIdsLong = decoderInputIds.map { tokenIds => tokenIds.last.toLong }
-        inpIdsLong
-      }
-    val batchSize: Int = decoderInputIds.length
-    val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
 
     val crossAttentionKeyValues: Array[org.intel.openvino.Tensor] =
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
@@ -610,7 +575,7 @@ private[johnsnowlabs] class MLLama(
         val pixelValuesTensor: org.intel.openvino.Tensor =
           new org.intel.openvino.Tensor(
             pixelValuesShape,
-            pixelValues.flatten.flatten.flatten.flatten.flatten.map(_.toFloat))
+            pixelValues.flatten.flatten.flatten.flatten.flatten)
 
         val aspectRatioIdsShape = Array(aspectRatioIds.length, aspectRatioIds.head.length)
         val aspectRatioIdsTensor: org.intel.openvino.Tensor =
@@ -632,9 +597,18 @@ private[johnsnowlabs] class MLLama(
 
         inferRequestVisionEmbeddingsModel.infer()
 
-        val crossAttentionKeyValues = crossAttentionOutputNames.map { outputName =>
-          inferRequestVisionEmbeddingsModel.get_tensor(outputName)
-        }
+        val crossAttentionKeyValues: Array[org.intel.openvino.Tensor] =
+          crossAttentionOutputNames.map { outputName =>
+            inferRequestVisionEmbeddingsModel.get_tensor(outputName)
+          }
+//        crossAttentionKeyValues.zip(crossAttentionOutputNames).foreach {
+//          case (value, name) => {
+//            println(s"Name: $name")
+//            println(s"Shape: ${value.get_shape().mkString(", ")}")
+//            println(s"Values: ${value.data().sum}")
+//          }
+//        }
+        // return the cross attention output names and the key values
         crossAttentionKeyValues
       } else {
         // shouldn't be called

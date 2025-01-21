@@ -347,7 +347,8 @@ class MLLamaForMultimodal(override val uid: String)
       val imageText =
         if (annotationImage.text.nonEmpty) annotationImage.text
         else
-          "<|user|> \n <|image|> This is an image\n <|end|>\n <|assistant|>\n" // default question
+          """<|begin_of_text|><|begin_of_text|><|start_header_id|>user<|end_header_id|>\n""" +
+            """\n<|image|>This is an image<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n""".stripMargin // default question
       Annotation(imageText)
     })
 
