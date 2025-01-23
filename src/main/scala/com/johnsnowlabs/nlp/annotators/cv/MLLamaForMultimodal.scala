@@ -39,10 +39,17 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** MLLamaForMultimodal can load LLAVA Vision models for visual question answering. The model
+/** MLLamaForMultimodal can load LLAMA 3.2 Vision models for visual question answering. The model
   * consists of a vision encoder, a text encoder as well as a text decoder. The vision encoder
   * will encode the input image, the text encoder will encode the input question together with the
   * encoding of the image, and the text decoder will output the answer to the question.
+  *
+  * The Llama 3.2-Vision collection of multimodal large language models (LLMs) is a collection of
+  * pretrained and instruction-tuned image reasoning generative models in 11B and 90B sizes (text
+  * + images in / text out). The Llama 3.2-Vision instruction-tuned models are optimized for
+  * visual recognition, image reasoning, captioning, and answering general questions about an
+  * image. The models outperform many of the available open source and closed multimodal models on
+  * common industry benchmarks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -73,7 +80,7 @@ import org.apache.spark.sql.SparkSession
   *  .option("dropInvalid", value = true)
   *  .load(imageFolder)
   *
-  * val testDF: DataFrame = imageDF.withColumn("text", lit("USER: \n <|image|> \nWhat is unusual on this picture? \n ASSISTANT:\n"))
+  * val testDF: DataFrame = imageDF.withColumn("text", lit("<|begin_of_text|><|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n<|image|>What is unusual on this image?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"))
   *
   * val imageAssembler: ImageAssembler = new ImageAssembler()
   *   .setInputCol("image")
@@ -298,8 +305,8 @@ class MLLamaForMultimodal(override val uid: String)
     stopTokenIds -> Array(128001, 128008, 128009),
     imageToken -> 128256,
     maxImageTiles -> 576,
-    numVisionTokens -> 32000,
-    paddingConstant -> 1601)
+    numVisionTokens -> 1601,
+    paddingConstant -> 0)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type

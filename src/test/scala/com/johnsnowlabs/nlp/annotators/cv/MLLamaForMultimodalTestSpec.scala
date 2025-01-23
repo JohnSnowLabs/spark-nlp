@@ -160,9 +160,7 @@ class MLLamaForMultimodalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = MLLamaForMultimodal
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/LLAMA-3.2-VI/Llama-3.2-11B-Vision-Instruct/OV",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)

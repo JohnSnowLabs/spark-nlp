@@ -117,8 +117,6 @@ private[johnsnowlabs] class MLLama(
       encodeImage(imageAnnotations.toArray, preprocessor, maxImageTiles, paddingConstant)
     val encodedText = encodeText(sentences).toArray
 
-//    println(encodedText.map(_.mkString(", ")).mkString("\n"))
-
     val crossAttentionMask = encodedText.map { sentence =>
       MllamaUtils.getCrossAttentionTokenMask(sentence, imageToken)
     }
@@ -173,14 +171,12 @@ private[johnsnowlabs] class MLLama(
       effectiveBatch_size = expandedDecoderInputsVals.length
       effectiveBatch_mult = 1
     }
-
-    val inferRequestLanguageModel =
+    val inferRequestLanguageModel: InferRequest =
       openvinoWrapper.get.languageModel.getCompiledModel().create_infer_request()
-    val inferRequestVisionEmbeddingsModel =
+    val inferRequestVisionEmbeddingsModel: InferRequest =
       openvinoWrapper.get.visionEmbeddingsModel.getCompiledModel().create_infer_request()
-    val inferRequestReshapeModel =
+    val inferRequestReshapeModel: InferRequest =
       openvinoWrapper.get.reshapeModel.getCompiledModel().create_infer_request()
-
     val generatedIds = generateGreedy(
       inputIds,
       inputIds,
@@ -208,7 +204,7 @@ private[johnsnowlabs] class MLLama(
     val aspectRatioIds = inputs("aspectRatioIds").asInstanceOf[Array[Array[Int]]]
     val aspectRatioMask = inputs("aspectRatioMask").asInstanceOf[Array[Array[Array[Int]]]]
 
-    val (crossAttentionOutputNames, crossAttentionKeyValues) = getCrossAttentionKeyValues(
+    val crossAttentionKeyValues = getCrossAttentionKeyValues(
       encoderInputIds,
       decoderInputIds,
       pixelValues,
@@ -221,11 +217,8 @@ private[johnsnowlabs] class MLLama(
         encoderInputIds,
         decoderInputIdsCopied,
         inputs,
-        crossAttentionOutputNames,
         crossAttentionKeyValues,
-        inferRequestLanguageModel,
-        inferRequestVisionEmbeddingsModel,
-        inferRequestReshapeModel)
+        inferRequestLanguageModel)
 
       val nextTokenIds = decoderOutputs.map { scores =>
         argmax(scores)
@@ -246,7 +239,6 @@ private[johnsnowlabs] class MLLama(
           currentIds ++ Array(nextId)
         }
     }
-//    println(generatedIds.map(_.mkString(", ")).mkString("\n"))
     generatedIds
   }
 
@@ -305,13 +297,11 @@ private[johnsnowlabs] class MLLama(
       encoderInputIds: Array[Array[Int]],
       decoderInputIds: Array[Array[Int]],
       inputs: Map[String, Any],
-      crossAttentionOutputNames: Array[String],
-      crossAttentionKeyValues: Array[org.intel.openvino.Tensor],
-      inferRequestLanguageModel: InferRequest,
-      inferRequestVisionEmbeddingsModel: InferRequest,
-      inferRequestReshapeModel: InferRequest): Array[Array[Float]] = {
-    val crossAttentionMask =
-      inputs("crossAttentionMask").asInstanceOf[Array[Array[Array[Array[Int]]]]]
+      crossAttentionKeyValues: Array[(String, org.intel.openvino.Tensor)],
+      inferRequestLanguageModel: InferRequest): Array[Array[Float]] = {
+    val inferRequestReshapeModel =
+      openvinoWrapper.get.reshapeModel.getCompiledModel().create_infer_request()
+
     val numTiles = inputs("numTiles").asInstanceOf[List[List[Int]]]
     val (inputIdsLong, inputPositionIDsLong, crossAttentionMaskDense)
         : (Array[Long], Array[Long], Array[Array[Array[Array[Int]]]]) =
@@ -323,6 +313,8 @@ private[johnsnowlabs] class MLLama(
             i.toLong
           }
         }
+        val crossAttentionMask =
+          inputs("crossAttentionMask").asInstanceOf[Array[Array[Array[Array[Int]]]]]
         (inpIdsLong, posIdsLong, crossAttentionMask)
       } else {
         // Subsequent passes
@@ -376,8 +368,8 @@ private[johnsnowlabs] class MLLama(
       new org.intel.openvino.Tensor(
         Array[Int](),
         Array(
-          crossAttentionKeyValues.head
-            .get_shape()(crossAttentionKeyValues.head.get_shape().length - 2)
+          crossAttentionKeyValues.head._2
+            .get_shape()(crossAttentionKeyValues.head._2.get_shape().length - 2)
             .toLong))
     inferRequestReshapeModel.set_tensor("current_input_ids", inputIdsTensor)
     inferRequestReshapeModel.set_tensor("attention_mask", decoderAttentionMask)
@@ -396,6 +388,23 @@ private[johnsnowlabs] class MLLama(
     val fullTextRowMaskedOutMask =
       inferRequestReshapeModel.get_tensor("full_text_row_masked_out_mask")
 
+    // recreate the tensors by extracting the values from the reshaped tensors
+
+    val clonedCrossAttentionMaskReshapedTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        crossAttentionMaskReshaped.get_shape(),
+        crossAttentionMaskReshaped.data().map(_.toFloat))
+
+    val clonedCachePositionTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        cachePosition.get_shape(),
+        cachePosition.as_int().map(_.toLong))
+
+    val clonedFullTextRowMaskedOutMaskTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(
+        fullTextRowMaskedOutMask.get_shape(),
+        fullTextRowMaskedOutMask.data().map(_.toFloat))
+
 //    val crossAttentionMaskReshapedTensor: org.intel.openvino.Tensor =
 //      new org.intel.openvino.Tensor(
 //        crossAttentionMaskReshaped.get_shape(),
@@ -405,16 +414,16 @@ private[johnsnowlabs] class MLLama(
     inferRequestLanguageModel.set_tensor("attention_mask", decoderAttentionMask)
     inferRequestLanguageModel.set_tensor("position_ids", decoderPositionIDs)
     inferRequestLanguageModel.set_tensor("beam_idx", beamIdxTensor)
-    inferRequestLanguageModel.set_tensor("cross_attention_mask", crossAttentionMaskReshaped)
-    inferRequestLanguageModel.set_tensor("cache_position", cachePosition)
+    inferRequestLanguageModel.set_tensor(
+      "cross_attention_mask",
+      clonedCrossAttentionMaskReshapedTensor)
+    inferRequestLanguageModel.set_tensor("cache_position", clonedCachePositionTensor)
     inferRequestLanguageModel.set_tensor(
       "full_text_row_masked_out_mask",
-      fullTextRowMaskedOutMask)
+      clonedFullTextRowMaskedOutMaskTensor)
 
-    for (i <- crossAttentionKeyValues.indices) {
-      inferRequestLanguageModel.set_tensor(
-        crossAttentionOutputNames(i),
-        crossAttentionKeyValues(i))
+    for ((name, tensor) <- crossAttentionKeyValues) {
+      inferRequestLanguageModel.set_tensor(name, tensor)
     }
 
     inferRequestLanguageModel.infer()
@@ -498,18 +507,6 @@ private[johnsnowlabs] class MLLama(
           tileHeight = preprocessor.size,
           tileWidth = preprocessor.size)
 
-//        val normalizedImage =
-//          ImageResizeUtils.normalizeAndConvertBufferedImage(
-//            img = paddedImage,
-//            mean = preprocessor.image_mean,
-//            std = preprocessor.image_std,
-//            doNormalize = preprocessor.do_normalize,
-//            doRescale = preprocessor.do_rescale,
-//            rescaleFactor = preprocessor.rescale_factor)
-
-//        val normalizedImageBuffer =
-//          MllamaUtils.floatArrayToBufferedImage(normalizedImage, preprocessor.rescale_factor)
-
         val imageTiles: Array[Array[Array[Array[Float]]]] = MllamaUtils.splitToTiles(
           image = paddedImage,
           numTilesHeight = numTilesHeight,
@@ -551,7 +548,7 @@ private[johnsnowlabs] class MLLama(
       aspectRatioIds: Array[Array[Int]],
       aspectRatioMask: Array[Array[Array[Int]]],
       inferRequestVisionEmbeddingsModel: InferRequest)
-      : (Array[String], Array[org.intel.openvino.Tensor]) = {
+      : Array[(String, org.intel.openvino.Tensor)] = {
 
     // filter out the cross attention output names only containing the word "cross_attn_key_values"
     val crossAttentionOutputNames =
@@ -563,7 +560,7 @@ private[johnsnowlabs] class MLLama(
         .map(_.get_any_name())
         .toArray
 
-    val crossAttentionKeyValues: Array[org.intel.openvino.Tensor] =
+    val crossAttentionKeyValues: Array[(String, org.intel.openvino.Tensor)] = {
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
         val pixelValuesShape = Array(
           pixelValues.length,
@@ -597,17 +594,10 @@ private[johnsnowlabs] class MLLama(
 
         inferRequestVisionEmbeddingsModel.infer()
 
-        val crossAttentionKeyValues: Array[org.intel.openvino.Tensor] =
+        val crossAttentionKeyValues: Array[(String, org.intel.openvino.Tensor)] =
           crossAttentionOutputNames.map { outputName =>
-            inferRequestVisionEmbeddingsModel.get_tensor(outputName)
+            (outputName, inferRequestVisionEmbeddingsModel.get_tensor(outputName))
           }
-//        crossAttentionKeyValues.zip(crossAttentionOutputNames).foreach {
-//          case (value, name) => {
-//            println(s"Name: $name")
-//            println(s"Shape: ${value.get_shape().mkString(", ")}")
-//            println(s"Values: ${value.data().sum}")
-//          }
-//        }
         // return the cross attention output names and the key values
         crossAttentionKeyValues
       } else {
@@ -615,7 +605,8 @@ private[johnsnowlabs] class MLLama(
         throw new IllegalArgumentException("Should not be called for subsequent passes")
         Array()
       }
-    (crossAttentionOutputNames, crossAttentionKeyValues)
+    }
+    crossAttentionKeyValues
   }
 
 }
