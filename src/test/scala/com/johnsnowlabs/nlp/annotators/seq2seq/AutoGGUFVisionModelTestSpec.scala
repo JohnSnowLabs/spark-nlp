@@ -42,10 +42,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
 
   lazy val nPredict = 40
   lazy val model = AutoGGUFVisionModel
-    .loadSavedModel(
-      "models/llava-v1.5-7b-Q4_0.gguf",
-      "models/llava-v1.5-7b-mmproj-model-f16.gguf",
-      ResourceHelper.spark)
+    .pretrained()
     .setInputCols("caption_document", "image_assembler")
     .setOutputCol("completions")
     .setChatTemplate("vicuna") // llava uses vicuna as default
