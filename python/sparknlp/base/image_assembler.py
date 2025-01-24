@@ -135,26 +135,34 @@ class ImageAssembler(AnnotatorTransformer):
         DataFrame
             A DataFrame containing the images as raw bytes along with their metadata.
         """
+
+        # Replace the path separator in the `origin` field and `path` column, so that they match
+        def replace_path(column_name: str):
+            return regexp_replace(col(column_name), ":///", ":/")
+
         # Load the images as metadata with the default Spark image format
         data = (
-            spark.read
-            .format("image")
+            spark.read.format("image")
             .option("dropInvalid", True)
             .load(path)
+            .withColumn(
+                "image", col("image").withField("origin", replace_path("image.origin"))
+            )
         )
 
         # Load the images as raw binary files
         image_bytes = (
-            spark.read
-            .format("binaryFile")
+            spark.read.format("binaryFile")
             .option("pathGlobFilter", "*.{jpeg,jpg,png,gif,bmp,JPEG,JPG,PNG,GIF,BMP}")
             .option("dropInvalid", True)
             .load(path)
-            .withColumn("path", regexp_replace(col("path"), ":/", ":///"))
+            .withColumn("path", replace_path("path"))
         )
 
         # Join the two datasets on the file path
-        df_joined = data.join(image_bytes, data["image.origin"] == image_bytes["path"], "inner")
+        df_joined = data.join(
+            image_bytes, data["image.origin"] == image_bytes["path"], "inner"
+        )
 
         # Replace the `data` field of the `image` column with raw bytes
         df_image_replaced = df_joined.withColumn(

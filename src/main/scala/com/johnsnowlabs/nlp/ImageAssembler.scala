@@ -230,11 +230,15 @@ object ImageAssembler extends DefaultParamsReadable[ImageAssembler] {
     *   A dataframe with the images as raw bytes, as well as their metadata.
     */
   def loadImagesAsBytes(spark: SparkSession, path: String): DataFrame = {
+    // Replace the path separator in the `origin` field and `path` column, so that they match
+    def replacePath(columnName: String) = regexp_replace(col(columnName), ":///", ":/")
+
     val data: DataFrame =
       spark.read
         .format("image")
         .option("dropInvalid", value = true)
         .load(path)
+        .withColumn("image", col("image").withField("origin", replacePath("image.origin")))
 
     val imageBytes: DataFrame =
       spark.read
@@ -242,10 +246,7 @@ object ImageAssembler extends DefaultParamsReadable[ImageAssembler] {
         .option("pathGlobFilter", "*.{jpeg,jpg,png,gif,bmp,JPEG,JPG,PNG,GIF,BMP}")
         .option("dropInvalid", value = true)
         .load(path)
-        .withColumn(
-          "path",
-          regexp_replace(col("path"), ":/", ":///")
-        ) // Paths are different for binary and image
+        .withColumn("path", replacePath("path"))
 
     // Join on path
     val dfJoined =
