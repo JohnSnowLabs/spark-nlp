@@ -39,11 +39,7 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
         )  # Add a caption to each image.
         nPredict = 40
         model = (
-            AutoGGUFVisionModel.loadSavedModel(
-                "models/llava-v1.5-7b-Q4_0.gguf",
-                "models/llava-v1.5-7b-mmproj-model-f16.gguf",
-                self.spark,
-            )
+            AutoGGUFVisionModel.pretrained()
             .setInputCols(["caption_document", "image_assembler"])
             .setOutputCol("completions")
             .setChatTemplate("vicuna")
