@@ -27,8 +27,8 @@ Pretrained DistilBertEmbeddings, adapted from Hugging Face and curated to provid
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/model_pipeline_en_5.5.1_3.0_1738044966643.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/model_pipeline_en_5.5.1_3.0_1738044966643.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/model_pipeline_en_5.5.1_3.0_1738068373880.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/model_pipeline_en_5.5.1_3.0_1738068373880.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -57,7 +57,7 @@ val annotations = pipeline.transform(df)
 |License:|Open Source|
 |Edition:|Official|
 |Language:|en|
-|Size:|412.7 MB|
+|Size:|292.8 MB|
 
 ## References
 
@@ -69,4 +69,4 @@ https://huggingface.co/Dinithi/Model
 
 - DocumentAssembler
 - TokenizerModel
-- BertForTokenClassification
+- CamemBertForTokenClassification
