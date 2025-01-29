@@ -267,19 +267,15 @@ private[johnsnowlabs] class XlmRoberta(
           LinAlg.denseMatrixToArray(normalizedEmbeddings)
         } finally if (results != null) results.close()
 
-
       case Openvino.name =>
         val shape = Array(batchLength, maxSentenceLength)
         val tokenTensors =
           new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
 
-        val attentionMask =  batch
+        val attentionMask = batch
           .map(sentence => sentence.map(x => if (x == SentencePadTokenId) 0L else 1L))
           .toArray
-        val maskTensors = new org.intel.openvino.Tensor(
-          shape,
-          attentionMask.flatten
-         )
+        val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
@@ -290,12 +286,11 @@ private[johnsnowlabs] class XlmRoberta(
         val lastHiddenState = inferRequest
           .get_tensor("last_hidden_state")
         val tensorShape = lastHiddenState.get_shape().map(_.toLong)
-        val flattenEmbeddings =  lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .data()
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, tensorShape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
         LinAlg.denseMatrixToArray(normalizedEmbeddings)
-
 
       case TensorFlow.name =>
         val tensors = new TensorResources()

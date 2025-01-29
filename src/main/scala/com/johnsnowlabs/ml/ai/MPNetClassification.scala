@@ -26,7 +26,7 @@ import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
-import org.intel.openvino.{ Tensor => OpenVinoTensor}
+import org.intel.openvino.{Tensor => OpenVinoTensor}
 import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -199,10 +199,7 @@ private[johnsnowlabs] class MPNetClassification(
     }
   }
 
-
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): Array[Float] = {
+  private def getRawScoresWithOv(batch: Seq[Array[Int]]): Array[Float] = {
 
     val maxSentenceLength = batch.map(_.length).max
     val batchLength = batch.length
@@ -231,7 +228,6 @@ private[johnsnowlabs] class MPNetClassification(
 
   }
 
-
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
     val batchLength = batch.length
 
@@ -255,21 +251,16 @@ private[johnsnowlabs] class MPNetClassification(
     batchScores
   }
 
-
-
-
-
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
       PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
 
-
     // Initialize the segment tensor as an array of arrays
-    val segmentTensor =  batch
+    val segmentTensor = batch
       .map(sentence =>
         sentence.indices
           .map(i =>
@@ -279,8 +270,8 @@ private[johnsnowlabs] class MPNetClassification(
           .toArray)
       .toArray
 
-
-    val segmentTensors = new OpenVinoTensor(Array(batch.length, maxSentenceLength), segmentTensor.flatten)
+    val segmentTensors =
+      new OpenVinoTensor(Array(batch.length, maxSentenceLength), segmentTensor.flatten)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -288,7 +279,6 @@ private[johnsnowlabs] class MPNetClassification(
     inferRequest.set_tensor("token_type_ids", segmentTensors)
 
     inferRequest.infer()
-
 
     try {
       try {
@@ -306,7 +296,6 @@ private[johnsnowlabs] class MPNetClassification(
 
   }
 
-
   private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
     if (arr.length >= maxLength) {
       arr
@@ -315,13 +304,11 @@ private[johnsnowlabs] class MPNetClassification(
     }
   }
 
-
-
   def tagZeroShotSequence(
-                           batch: Seq[Array[Int]],
-                           entailmentId: Int,
-                           contradictionId: Int,
-                           activation: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = {
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val paddedBatch = batch.map(arr => padArrayWithZeros(arr, maxSentenceLength))
@@ -427,9 +414,7 @@ private[johnsnowlabs] class MPNetClassification(
     (startScores, endScores)
   }
 
-  private def computeLogitsWithOv(
-                                   batch: Seq[Array[Int]]
-                                   ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     // [nb of encoded sentences , maxSentenceLength]
 
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
@@ -441,13 +426,9 @@ private[johnsnowlabs] class MPNetClassification(
     val maskTensors = new org.intel.openvino.Tensor(
       shape,
       batch
-        .flatMap(sentence => sentence.map(x =>  Array.fill(sentence.length)(1L)))
-        .toArray.flatten)
-
-
-
-
-
+        .flatMap(sentence => sentence.map(x => Array.fill(sentence.length)(1L)))
+        .toArray
+        .flatten)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -457,7 +438,7 @@ private[johnsnowlabs] class MPNetClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

@@ -20,8 +20,16 @@ import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, XlmRoBertaClassification}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -346,10 +354,9 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "xlm_roberta_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "xlm_roberta_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
-
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -402,7 +409,6 @@ trait ReadXlmRoBertaForQuestionAnsweringDLModel
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
