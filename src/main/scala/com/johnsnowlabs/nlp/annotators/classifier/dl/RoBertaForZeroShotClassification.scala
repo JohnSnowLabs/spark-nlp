@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -356,13 +360,13 @@ class RoBertaForZeroShotClassification(override val uid: String)
 
     getEngine match {
       case TensorFlow.name =>
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_roberta_classification",
-      RoBertaForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_roberta_classification",
+          RoBertaForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
 
       case ONNX.name =>
         writeOnnxModel(
@@ -404,7 +408,10 @@ trait ReadablePretrainedRoBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadRoBertaForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[RoBertaForZeroShotClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
@@ -432,11 +439,9 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxMod
             None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
-
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_roberta_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -505,7 +510,8 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxMod
           .setModelIfNotSet(spark, Some(tfWrapper), None, None)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
@@ -519,7 +525,6 @@ trait ReadRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxMod
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

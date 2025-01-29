@@ -247,34 +247,30 @@ private[johnsnowlabs] class RoBerta(
             throw e
         }
 
-        case Openvino.name =>
-          val shape = Array(batchLength, maxSentenceLength)
-          val tokenTensors =
-            new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
+      case Openvino.name =>
+        val shape = Array(batchLength, maxSentenceLength)
+        val tokenTensors =
+          new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
 
+        val attentionMask = batch
+          .map(sentence => sentence.map(x => if (x == padTokenId) 0L else 1L))
+          .toArray
 
-          val attentionMask = batch
-            .map(sentence => sentence.map(x => if (x == padTokenId) 0L else 1L))
-            .toArray
+        val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
+        val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
+        inferRequest.set_tensor("input_ids", tokenTensors)
+        inferRequest.set_tensor("attention_mask", maskTensors)
 
-          val maskTensors = new org.intel.openvino.Tensor(
-            shape,
-            attentionMask.flatten)
-          val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-          inferRequest.set_tensor("input_ids", tokenTensors)
-          inferRequest.set_tensor("attention_mask", maskTensors)
+        inferRequest.infer()
 
-          inferRequest.infer()
-
-          val lastHiddenState = inferRequest
-            .get_tensor("last_hidden_state")
-          val tensorShape = lastHiddenState.get_shape().map(_.toLong)
-          val flattenEmbeddings =  lastHiddenState
-            .data()
-          val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, tensorShape)
-          val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
-          LinAlg.denseMatrixToArray(normalizedEmbeddings)
-
+        val lastHiddenState = inferRequest
+          .get_tensor("last_hidden_state")
+        val tensorShape = lastHiddenState.get_shape().map(_.toLong)
+        val flattenEmbeddings = lastHiddenState
+          .data()
+        val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, tensorShape)
+        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+        LinAlg.denseMatrixToArray(normalizedEmbeddings)
 
       case _ =>
         val tensors = new TensorResources()

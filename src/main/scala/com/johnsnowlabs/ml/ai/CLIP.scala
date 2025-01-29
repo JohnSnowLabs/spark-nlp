@@ -100,11 +100,18 @@ private[johnsnowlabs] class CLIP(
 
       case Openvino.name =>
         val tokenTensors =
-          new org.intel.openvino.Tensor(Array(labels.length,labels.head.length), labels.flatten)
-       val pixelValuesTensor = new org.intel.openvino.Tensor(Array(batchImages.length,batchImages.head.length,batchImages.head.head.length,batchImages.head.head.head.length),
+          new org.intel.openvino.Tensor(Array(labels.length, labels.head.length), labels.flatten)
+        val pixelValuesTensor = new org.intel.openvino.Tensor(
+          Array(
+            batchImages.length,
+            batchImages.head.length,
+            batchImages.head.head.length,
+            batchImages.head.head.head.length),
           batchImages.flatten.flatten.flatten)
         val attentionMaskTensor =
-          new org.intel.openvino.Tensor(Array(labels.length,labels.head.length),Array.fill(labels.length, labels.head.length)(1L).flatten)
+          new org.intel.openvino.Tensor(
+            Array(labels.length, labels.head.length),
+            Array.fill(labels.length, labels.head.length)(1L).flatten)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
@@ -119,7 +126,6 @@ private[johnsnowlabs] class CLIP(
         val logits = rawLogits.grouped(batchSize).toArray.transpose
 
         logits.map(scores => softmax(scores))
-
 
       case _ => throw new Exception("Only ONNX is currently supported.")
     }

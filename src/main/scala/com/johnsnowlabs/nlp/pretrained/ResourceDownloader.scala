@@ -691,7 +691,7 @@ object PythonResourceDownloader {
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
     "PromptAssembler" -> PromptAssembler,
-    "CPMTransformer"-> CPMTransformer,
+    "CPMTransformer" -> CPMTransformer,
     "NomicEmbeddings" -> NomicEmbeddings,
     "NLLBTransformer" -> NLLBTransformer,
     "Phi3Transformer" -> Phi3Transformer,

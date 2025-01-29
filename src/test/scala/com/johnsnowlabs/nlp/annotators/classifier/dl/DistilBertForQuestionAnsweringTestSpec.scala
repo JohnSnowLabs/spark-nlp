@@ -122,7 +122,6 @@ class DistilBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
-
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 
     val pipelineModel = pipeline.fit(ddd)
@@ -145,7 +144,8 @@ class DistilBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_forquestionanswering_pipeline")
     loadedPipelineModel.transform(ddd).select("answer.result").show(false)
 
-    val loadedSequenceModel = DistilBertForQuestionAnswering.load("./tmp_forquestionanswering_model")
+    val loadedSequenceModel =
+      DistilBertForQuestionAnswering.load("./tmp_forquestionanswering_model")
 
   }
 

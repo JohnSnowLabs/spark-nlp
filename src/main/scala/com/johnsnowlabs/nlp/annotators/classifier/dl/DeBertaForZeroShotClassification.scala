@@ -20,8 +20,17 @@ import com.johnsnowlabs.ml.ai.DeBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -321,15 +330,15 @@ class DeBertaForZeroShotClassification(override val uid: String)
 
     getEngine match {
       case TensorFlow.name =>
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_deberta_classification",
-      DeBertaForZeroShotClassification.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_deberta_classification",
+          DeBertaForZeroShotClassification.tfFile,
+          configProtoBytes = getConfigProtoBytes)
 
-      case ONNX.name=>
+      case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
@@ -377,11 +386,15 @@ trait ReadablePretrainedDeBertaForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadDeBertaForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DeBertaForZeroShotClassification] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
-  override  val onnxFile: String = "deberta_classification_onnx"
+  override val onnxFile: String = "deberta_classification_onnx"
   override val openvinoFile: String = "deberta_classification_openvino"
   override val sppFile: String = "deberta_spp"
 
@@ -390,7 +403,6 @@ trait ReadDeBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentenc
       path: String,
       spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
-
 
     instance.getEngine match {
       case TensorFlow.name =>
@@ -469,10 +481,10 @@ trait ReadDeBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSentenc
           .setModelIfNotSet(spark, Some(wrapper), None, None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
-
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =

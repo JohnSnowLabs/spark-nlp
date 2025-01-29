@@ -68,8 +68,8 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"qwen_7.5b_chat"`, if no name is provided. For available pretrained models
-  * please see the [[https://sparknlp.org/models?q=Qwen Models Hub]].
+  * The default model is `"qwen_7.5b_chat"`, if no name is provided. For available pretrained
+  * models please see the [[https://sparknlp.org/models?q=Qwen Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/QwenTestSpec.scala QwenTestSpec]].

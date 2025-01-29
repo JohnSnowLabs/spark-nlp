@@ -98,14 +98,12 @@ class GPT2TestSpec extends AnyFlatSpec {
     val model = pipeline.fit(testData)
     val results = model.transform(testData)
 
-
     model
       .stages(1)
       .asInstanceOf[GPT2Transformer]
       .write
       .overwrite()
       .save("./tmp_gpt2_transformer_model")
-
 
     Benchmark.time("Time to save pipeline the first time", true) {
       results.select("generation.result").write.mode("overwrite").save("./tmp_gpt_pipeline")

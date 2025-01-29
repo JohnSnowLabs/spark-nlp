@@ -79,7 +79,6 @@ class BartTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, bart)).fit(ddd)
 
-
     pipeline.write.overwrite().save("./tmp_bart_transformer_pipeline")
     val pipelineModel = PipelineModel.load("./tmp_bart_transformer_pipeline")
 
@@ -89,7 +88,6 @@ class BartTestSpec extends AnyFlatSpec {
       .write
       .overwrite()
       .save("./tmp_bart_transformer_model")
-
 
     pipelineModel.transform(ddd).show()
   }
