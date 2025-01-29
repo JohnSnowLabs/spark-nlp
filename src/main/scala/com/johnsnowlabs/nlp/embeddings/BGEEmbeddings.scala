@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.BGE
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering
@@ -48,7 +52,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCols("document")
   *   .setOutputCol("embeddings")
   * }}}
-  * The default model is `"bge_base"`, if no name is provided.
+  * The default model is `"bge_small_en_v1.5"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?q=BGE Models Hub]].
@@ -89,7 +93,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val embeddings = BGEEmbeddings.pretrained("bge_base", "en")
+  * val embeddings = BGEEmbeddings.pretrained("bge_small_en_v1.5", "en")
   *   .setInputCols("document")
   *   .setOutputCol("bge_embeddings")
   *
@@ -152,6 +156,7 @@ class BGEEmbeddings(override val uid: String)
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
+    with HasClsTokenProperties
     with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
@@ -200,7 +205,7 @@ class BGEEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures =
+  val signatures: MapFeature[AnnotatorType, AnnotatorType] =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
   private var _model: Option[Broadcast[BGE]] = None
 
@@ -273,7 +278,17 @@ class BGEEmbeddings(override val uid: String)
     this
   }
 
-  setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 512, caseSensitive -> false)
+  override def setUseCLSToken(value: Boolean): this.type = {
+    set(this.useCLSToken, value)
+    this
+  }
+
+  setDefault(
+    dimension -> 768,
+    batchSize -> 8,
+    maxSentenceLength -> 512,
+    caseSensitive -> false,
+    useCLSToken -> true)
 
   def tokenize(sentences: Seq[Annotation]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
@@ -316,7 +331,8 @@ class BGEEmbeddings(override val uid: String)
         sentences = allAnnotations.map(_._1),
         tokenizedSentences = tokenizedSentences,
         batchSize = $(batchSize),
-        maxSentenceLength = $(maxSentenceLength))
+        maxSentenceLength = $(maxSentenceLength),
+        useCLSToken = $(useCLSToken))
     } else {
       Seq()
     }
@@ -397,7 +413,7 @@ class BGEEmbeddings(override val uid: String)
 trait ReadablePretrainedBGEModel
     extends ParamsAndFeaturesReadable[BGEEmbeddings]
     with HasPretrained[BGEEmbeddings] {
-  override val defaultModelName: Some[String] = Some("bge_base")
+  override val defaultModelName: Some[String] = Some("bge_small_en_v1.5")
 
   /** Java compliant-overrides */
   override def pretrained(): BGEEmbeddings = super.pretrained()
@@ -411,7 +427,7 @@ trait ReadablePretrainedBGEModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBGEDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel{
+trait ReadBGEDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[BGEEmbeddings] =>
 
   override val tfFile: String = "bge_tensorflow"
@@ -492,8 +508,6 @@ trait ReadBGEDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOp
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

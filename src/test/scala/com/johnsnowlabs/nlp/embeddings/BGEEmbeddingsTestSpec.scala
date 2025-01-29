@@ -48,9 +48,10 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("document")
 
     val embeddings = BGEEmbeddings
-      .pretrained()
+      .pretrained("bge_small_en_v1.5")
       .setInputCols(Array("document"))
       .setOutputCol("bge")
+      .setUseCLSToken(false)
 
     val pipeline = new Pipeline().setStages(Array(document, embeddings))
 
@@ -60,7 +61,6 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   "BGE Embeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
-
 
     import ResourceHelper.spark.implicits._
 
@@ -75,7 +75,6 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
         " governments.")
       .toDF("text")
 
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -84,6 +83,7 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("embeddings")
+      .setUseCLSToken(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, embeddings))
