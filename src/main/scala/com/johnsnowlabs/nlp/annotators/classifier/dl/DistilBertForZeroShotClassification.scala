@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -392,7 +396,10 @@ trait ReadablePretrainedDistilBertForZeroShotModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadDistilBertForZeroShotDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DistilBertForZeroShotClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
@@ -413,7 +420,8 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnx
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "_distilbert_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "_distilbert_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
     }
   }
@@ -474,10 +482,10 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnx
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None, None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
@@ -489,7 +497,6 @@ trait ReadDistilBertForZeroShotDLModel extends ReadTensorflowModel with ReadOnnx
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

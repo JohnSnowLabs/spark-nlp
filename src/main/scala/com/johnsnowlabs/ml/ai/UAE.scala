@@ -213,29 +213,22 @@ private[johnsnowlabs] class UAE(
     pool(sentenceEmbeddingsFloatsArray, attentionMask, poolingStrategy)
   }
 
-
   private def getSentenceEmbeddingFromOpenvino(
-                                                batch: Seq[Array[Int]],
-                                                maxSentenceLength: Int,
-                                                poolingStrategy: String): Array[Array[Float]] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int,
+      poolingStrategy: String): Array[Array[Float]] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors =
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
 
-
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
-    val maskTensors = new org.intel.openvino.Tensor(
-      shape,
-      attentionMask.flatten)
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
+    val maskTensors = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
     val segmentTensors =
       new org.intel.openvino.Tensor(
         shape,
         batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray.flatten)
-
-
-
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -244,12 +237,9 @@ private[johnsnowlabs] class UAE(
 
     inferRequest.infer()
 
-
-
-
     val embeddings =
       try {
-        val lastHiddenState =  inferRequest
+        val lastHiddenState = inferRequest
           .get_tensor("last_hidden_state")
         val shape = lastHiddenState.get_shape()
         val Array(_, sequenceLength, embeddingDim) = shape
@@ -270,7 +260,7 @@ private[johnsnowlabs] class UAE(
       poolingStrategy: String): Array[Array[Float]] = {
 
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 

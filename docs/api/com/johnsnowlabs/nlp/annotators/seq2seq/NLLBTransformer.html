@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer" />
+          <title>Spark NLP 5.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer</title>
+          <meta name="description" content="Spark NLP 5.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer" />
+          <meta name="keywords" content="Spark NLP 5.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.5.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -362,8 +362,8 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>NLLB : multilingual translation model</p><p>NLLB is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
 multilingual translation.</p><p>The model can directly translate between 200+ languages.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> nllb = NLLBTransformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;nllb_418M&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://sparknlp.org/models?q=nllb" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;nllb_distilled_600M_8int&quot;</code>, if no name is provided. For available
+pretrained models please see the <a href="https://sparknlp.org/models?q=nllb" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/NLLBTestSpec.scala" target="_blank">NLLBTestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://arxiv.org/pdf/2207.04672.pdf" target="_blank">No Language Left Behind: Scaling Human-Centered Machine Translation</a></li><li><a href="https://github.com/facebookresearch/fairseq/tree/nllb" target="_blank">https://github.com/facebookresearch/fairseq/tree/nllb</a></li></ul><p><b>Paper Abstract:</b></p><p><i>Driven by the goal of eradicating language barriers on a global scale, machine translation
 has solidified itself as a key focus of artificial intelligence research today. However, such
 efforts have coalesced around a small subset of languages, leaving behind the vast majority of
@@ -441,7 +441,7 @@ Eastern Yiddish (ydd_Hebr), Yoruba (yor_Latn), Yue Chinese (yue_Hant), Chinese (
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> nllb = NLLBTransformer.pretrained(<span class="lit">"nllb_418M"</span>)
+<span class="kw">val</span> nllb = NLLBTransformer.pretrained(<span class="lit">"nllb_distilled_600M_8int"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setSrcLang(<span class="lit">"zho_Hans"</span>)
   .serTgtLang(<span class="lit">"eng_Latn"</span>)

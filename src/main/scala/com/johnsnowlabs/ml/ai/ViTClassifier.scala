@@ -87,9 +87,9 @@ private[johnsnowlabs] class ViTClassifier(
     rawScores
   }
 
-
   def getRawScoresWithOv(batch: Array[Array[Array[Array[Float]]]]): Array[Float] = {
-    val pixelValuesTensor = new org.intel.openvino.Tensor(Array(batch.length,batch.head.length,batch.head.head.length,batch.head.head.head.length),
+    val pixelValuesTensor = new org.intel.openvino.Tensor(
+      Array(batch.length, batch.head.length, batch.head.head.length, batch.head.head.head.length),
       batch.flatten.flatten.flatten)
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("pixel_values", pixelValuesTensor)
