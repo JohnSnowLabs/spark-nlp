@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -620,7 +620,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -630,27 +630,38 @@ document.write(`
 <span class="sd">        path_to_image : list or str</span>
 <span class="sd">            Source path of image, list of paths to images</span>
 
+<span class="sd">        text: list or str, optional</span>
+<span class="sd">           Optional list or str of texts. If None, defaults to empty list if path_to_image is a list, or empty string if path_to_image is a string.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[AnnotationImage]</span>
 <span class="sd">            The result of the annotation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argument for path_to_image must be &#39;str&#39; or &#39;list[str]&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`path_to_image` and `text` must be of the same type&quot;</span><span class="p">)</span>
+
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">path_to_image</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_to_image</span><span class="p">]</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
 
-            <span class="k">for</span> <span class="n">image_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateImageJava</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">):</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">image_result</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">image_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateImageJava</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">image_result</span><span class="p">))</span>
 
-            <span class="k">return</span> <span class="n">result</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argument for annotation may be &#39;str&#39; or list[str]&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">result</span></div>
+
 
     <span class="k">def</span> <span class="nf">__buildStages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations_result</span><span class="p">):</span>
         <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>

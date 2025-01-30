@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.nomic_embeddings &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.nomic_embeddings &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -374,7 +374,7 @@ document.write(`
 <span class="sd">    ...     .setOutputCol(&quot;nomic_embeddings&quot;)</span>
 
 
-<span class="sd">    The default model is ``&quot;nomic_small&quot;``, if no name is provided.</span>
+<span class="sd">    The default model is ``&quot;nomic_embed_v1&quot;``, if no name is provided.</span>
 
 <span class="sd">    For available pretrained models please see the</span>
 <span class="sd">    `Models Hub &lt;https://sparknlp.org/models?q=Nomic&gt;`__.</span>
@@ -502,13 +502,13 @@ document.write(`
         <span class="k">return</span> <span class="n">NomicEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="NomicEmbeddings.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/nomic_embeddings/index.html#sparknlp.annotator.embeddings.nomic_embeddings.NomicEmbeddings.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;nomic_small&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="NomicEmbeddings.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/nomic_embeddings/index.html#sparknlp.annotator.embeddings.nomic_embeddings.NomicEmbeddings.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;nomic_embed_v1&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;nomic_small&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;nomic_embed_v1&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

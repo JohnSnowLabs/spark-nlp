@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" />
+          <title>Spark NLP 5.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer</title>
+          <meta name="description" content="Spark NLP 5.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" />
+          <meta name="keywords" content="Spark NLP 5.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.CPMTransformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.5.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -370,8 +370,8 @@ of the same scale, surpassing existing multimodal large models built on Phi-2 an
 performance comparable to or even better than 9.6B Qwen-VL-Chat on some tasks.</p><p>MiniCPM can be deployed and infer on smartphones, and the speed of streaming output is
 relatively higher than the verbal speed of human.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> cpm = CPMTransformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;llama_2_7b_chat_hf_int4&quot;</code>, if no name is provided. For available
-pretrained models please see the <a href="https://sparknlp.org/models?q=cpm" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;mini_cpm_2b_8bit&quot;</code>, if no name is provided. For available pretrained
+models please see the <a href="https://sparknlp.org/models?q=cpm" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/CPMTestSpec.scala" target="_blank">CPMTestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://shengdinghu.notion.site/MiniCPM-Unveiling-the-Potential-of-End-side-Large-Language-Models-d4d3a8c426424654a4e80e42a711cb20" target="_blank">MiniCPM: Unveiling the Potential of End-side Large Language Models</a></li><li><a href="https://github.com/OpenBMB/MiniCPM" target="_blank">https://github.com/OpenBMB/MiniCPM</a></li></ul><p><b>Note:</b></p><p>This is a very computationally expensive module especially on larger sequence. The use of an
 accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -382,7 +382,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> cpm = CPMTransformer.pretrained(<span class="lit">"llama_2_7b_chat_hf_int4"</span>)
+<span class="kw">val</span> cpm = CPMTransformer.pretrained(<span class="lit">"mini_cpm_2b_8bit"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)
