@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.ai.util.Generation.Generate
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -277,8 +278,8 @@ private[johnsnowlabs] class Bart(
     val decoderInputs = batch.map(_ => Array(this.eosTokenId)).toArray
     val modelOutputs = generate(
       batch,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
+      Left(decoderEncoderStateTensors),
+      Left(encoderAttentionMaskTensors),
       decoderInputs,
       maxOutputLength,
       minOutputLength,
@@ -295,7 +296,7 @@ private[johnsnowlabs] class Bart(
       this.paddingTokenId,
       randomSeed,
       ignoreTokenIdsInt,
-      session)
+      Left(session))
 
     tensorEncoder.clearTensors()
     tensorEncoder.clearSession(encoderOuts)
@@ -362,10 +363,19 @@ private[johnsnowlabs] class Bart(
   override def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
+      decoderEncoderStateTensors: Either[Tensor, OnnxTensor],
+      encoderAttentionMaskTensors: Either[Tensor, OnnxTensor],
       maxLength: Int,
-      session: Session): Array[Array[Float]] = {
+      session: Either[Session, (OrtEnvironment, OrtSession)]): Array[Array[Float]] = {
+
+    // extract decoderEncoderStateTensors, encoderAttentionMaskTensors and Session from LEFT
+    assert(decoderEncoderStateTensors.isLeft)
+    assert(encoderAttentionMaskTensors.isLeft)
+    assert(session.isLeft)
+
+    val decoderEncoderStateTensor: Tensor = decoderEncoderStateTensors.left.get
+    val encoderAttentionMaskTensor: Tensor = encoderAttentionMaskTensors.left.get
+    val sess: Session = session.left.get
 
     val sequencesLength = encoderInputIds.map(x => x.length).toArray
     var maxSentenceLength = sequencesLength.max // - curLen
@@ -394,7 +404,7 @@ private[johnsnowlabs] class Bart(
       decoderInputBuffers)
 
     val runner = if (nextStateTensor1.isEmpty || nextStateTensor2.isEmpty) {
-      val r = session.runner
+      val r = sess.runner
         .feed(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.InitDecoderInputIds.key,
@@ -404,12 +414,12 @@ private[johnsnowlabs] class Bart(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.InitDecoderEncoderInputIds.key,
             "missing_encoder_state_init"),
-          decoderEncoderStateTensors)
+          decoderEncoderStateTensor)
         .feed(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.InitDecoderEncoderAttentionMask.key,
             "missing_decoder_encoder_attention_mask_init"),
-          encoderAttentionMaskTensors)
+          encoderAttentionMaskTensor)
         .fetch(_tfBartSignatures
           .getOrElse(ModelSignatureConstants.InitLogitsOutput.key, "missing_logits_init"))
 
@@ -422,7 +432,7 @@ private[johnsnowlabs] class Bart(
           .fetch(_tfBartSignatures
             .getOrElse(ModelSignatureConstants.InitCachedOutPut2.key, "missing_cache2_out_init"))
     } else {
-      session.runner
+      sess.runner
         .feed(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.CachedDecoderInputIds.key,
@@ -432,12 +442,12 @@ private[johnsnowlabs] class Bart(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.CachedDecoderEncoderInputIds.key,
             "missing_encoder_state"),
-          decoderEncoderStateTensors)
+          decoderEncoderStateTensor)
         .feed(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.CachedDecoderEncoderAttentionMask.key,
             "missing_decoder_encoder_attention_mask"),
-          encoderAttentionMaskTensors)
+          encoderAttentionMaskTensor)
         .feed(
           _tfBartSignatures.getOrElse(
             ModelSignatureConstants.CachedDecoderInputCache1.key,

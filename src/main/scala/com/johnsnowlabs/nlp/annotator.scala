@@ -762,4 +762,18 @@ package object annotator {
   object DeBertaForZeroShotClassification
       extends ReadablePretrainedDeBertaForZeroShotModel
       with ReadDeBertaForZeroShotDLModel
+
+  type MPNetForSequenceClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification
+
+  object MPNetForSequenceClassification
+      extends ReadablePretrainedMPNetForSequenceModel
+      with ReadMPNetForSequenceDLModel
+
+  type MPNetForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering
+
+  object MPNetForQuestionAnswering
+      extends ReadablePretrainedMPNetForQAModel
+      with ReadMPNetForQuestionAnsweringDLModel
 }

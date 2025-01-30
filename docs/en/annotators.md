@@ -147,6 +147,8 @@ Additionally, these transformers are available.
 {% include templates/anno_table_entry.md path="./transformers" name="LongformerForTokenClassification" summary="LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MarianTransformer" summary="Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MPNetEmbeddings" summary="Sentence embeddings using MPNet."%}
+{% include templates/anno_table_entry.md path="./transformers" name="MPNetForQuestionAnswering" summary="MPNet Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
+{% include templates/anno_table_entry.md path="./transformers" name="MPNetForSequenceClassification" summary="MPNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="OpenAICompletion" summary="Transformer that makes a request for OpenAI Completion API for each executor."%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaEmbeddings" summary="RoBERTa: A Robustly Optimized BERT Pretraining Approach"%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaForQuestionAnswering" summary="RoBertaForQuestionAnswering can load RoBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}

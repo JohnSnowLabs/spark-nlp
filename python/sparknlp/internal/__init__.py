@@ -147,15 +147,21 @@ class _E5Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
 
+
 class _BGELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BGELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.BGEEmbeddings.loadSavedModel", path, jspark)
+
 
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_GPT2Loader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer.loadSavedModel", path, jspark)
 
+class _LLAMA2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LLAMA2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.LLAMA2Transformer.loadSavedModel", path, jspark)
 
 class _LongformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -588,4 +594,18 @@ class _DeBertaForZeroShotClassification(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_DeBertaForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForZeroShotClassification.loadSavedModel", path,
+            jspark)
+        
+        
+class _MPNetForSequenceClassificationLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MPNetForSequenceClassificationLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _MPNetForQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MPNetForQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.MPNetForQuestionAnswering.loadSavedModel", path,
             jspark)

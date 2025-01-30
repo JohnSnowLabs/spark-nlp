@@ -224,13 +224,23 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   def getIdentityRanking: Boolean = $(identityRanking)
 
+  val asRetrieverQuery = new Param[String](
+    this,
+    "asRetrieverQuery",
+    "Whether to set the model as retriever RAG with a specific query string. (Default: `empty`)")
+
+  def asRetriever(value: String): this.type = set(asRetrieverQuery, value)
+
+  def getAsRetrieverQuery: String = $(asRetrieverQuery)
+
   setDefault(
     similarityMethod -> "brp",
     numberOfNeighbours -> 10,
     bucketLength -> 2.0,
     numHashTables -> 3,
     visibleDistances -> false,
-    identityRanking -> false)
+    identityRanking -> false,
+    asRetrieverQuery -> "")
 
   def getNeighborsResultSet(
       query: (Int, Vector),
@@ -281,35 +291,49 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
           NeighborsResultSet(index, IndexedNeighbors(rankedNeighbours))
         }
-      case _ => throw new IllegalArgumentException("query is not of type (Int, DenseVector)")
+      case _ =>
+        throw new IllegalArgumentException("asRetrieverQuery is not of type (Int, DenseVector)")
     }
   }
 
   override def train(
-      dataset: Dataset[_],
+      embeddingsDataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
 
-    val embeddingsDataset = dataset.withColumn(LSH_INPUT_COL_NAME, col(INPUT_EMBEDDINGS))
-
     val similarityDataset: DataFrame = embeddingsDataset
-      .withColumn(s"$LSH_INPUT_COL_NAME", flatten(col(s"$LSH_INPUT_COL_NAME")))
-      .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(col(s"$LSH_INPUT_COL_NAME")))
+      .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(flatten(col(INPUT_EMBEDDINGS))))
 
-    val mh3UDF = udf { (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed) }
+    val mh3Func = (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
+    val mh3UDF = udf { mh3Func }
 
-    val similarityDatasetWithIndex =
+    val similarityDatasetWithHashIndex =
       similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
 
-    val indexedVectorTuples = similarityDatasetWithIndex
+    val indexedVectorTuples = similarityDatasetWithHashIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
       .rdd
       .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[Vector](LSH_INPUT_COL_NAME)))
       .collect()
 
-    val similarityMappings: Map[Int, NeighborAnnotation] = indexedVectorTuples
-      .map(query => getNeighborsResultSet(query, similarityDatasetWithIndex))
-      .map(_.result)
-      .toMap
+    val asRetrieverQuery = getAsRetrieverQuery
+
+    val similarityMappings: Map[Int, NeighborAnnotation] =
+      if (asRetrieverQuery.isEmpty)
+        indexedVectorTuples
+          .map(query => getNeighborsResultSet(query, similarityDatasetWithHashIndex))
+          .map(_.result)
+          .toMap
+      else
+        similarityDatasetWithHashIndex
+          .where(col("text") === asRetrieverQuery)
+          .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
+          .rdd
+          .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[Vector](LSH_INPUT_COL_NAME)))
+          .collect()
+          .map(asRetrieverQuery =>
+            getNeighborsResultSet(asRetrieverQuery, similarityDatasetWithHashIndex))
+          .map(_.result)
+          .toMap
 
     new DocumentSimilarityRankerModel()
       .setSimilarityMappings(Map("similarityMappings" -> similarityMappings))

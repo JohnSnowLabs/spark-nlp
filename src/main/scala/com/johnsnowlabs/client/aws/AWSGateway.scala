@@ -17,7 +17,6 @@
 package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
-import com.amazonaws.services.pi.model.InvalidArgumentException
 import com.amazonaws.services.s3.model.{
   GetObjectRequest,
   ObjectMetadata,
@@ -56,8 +55,7 @@ class AWSGateway(
 
   lazy val client: AmazonS3 = {
     if (region.isEmpty || region == null) {
-      throw new InvalidArgumentException(
-        "Region argument is mandatory to create Amazon S3 client.")
+      throw new Exception("Region argument is mandatory to create Amazon S3 client.")
     }
     var credentialParams =
       CredentialParams(accessKeyId, secretAccessKey, sessionToken, awsProfile, region)

@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -250,13 +251,15 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
       spp: SentencePieceWrapper): XlmRoBertaForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new XlmRoBertaClassification(
             tensorflowWrapper,
+            onnxWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -322,7 +325,7 @@ class XlmRoBertaForZeroShotClassification(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_xlmroberta_classification",
       XlmRoBertaForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -373,7 +376,7 @@ trait ReadXlmRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSent
     val tf =
       readTensorflowModel(path, spark, "_xlmroberta_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
-    instance.setModelIfNotSet(spark, tf, spp)
+    instance.setModelIfNotSet(spark, Some(tf), None, spp)
   }
 
   addReader(readModel)
@@ -429,7 +432,7 @@ trait ReadXlmRoBertaForZeroShotDLModel extends ReadTensorflowModel with ReadSent
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper, spModel)
+          .setModelIfNotSet(spark, Some(wrapper), None, spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
