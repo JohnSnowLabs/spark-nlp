@@ -1,0 +1,70 @@
+---
+layout: model
+title: Castilian, Spanish roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline pipeline RoBertaEmbeddings from serdarcaglar
+author: John Snow Labs
+name: roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline
+date: 2025-01-27
+tags: [es, open_source, pipeline, onnx]
+task: Embeddings
+language: es
+edition: Spark NLP 5.5.1
+spark_version: 3.0
+supported: true
+annotator: PipelineModel
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+Pretrained RoBertaEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline` is a Castilian, Spanish model originally trained by serdarcaglar.
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline_es_5.5.1_3.0_1737966109837.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline_es_5.5.1_3.0_1737966109837.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline("roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline", lang = "es")
+annotations =  pipeline.transform(df)   
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline("roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline", lang = "es")
+val annotations = pipeline.transform(df)
+
+```
+</div>
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|roberta_base_biomedical_clinical_spanish_serdarcaglar_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 5.5.1+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|es|
+|Size:|469.7 MB|
+
+## References
+
+https://huggingface.co/serdarcaglar/roberta-base-biomedical-clinical-es
+
+## Included Models
+
+- DocumentAssembler
+- TokenizerModel
+- RoBertaEmbeddings
