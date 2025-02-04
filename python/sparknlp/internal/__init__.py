@@ -67,6 +67,15 @@ class _AlbertForZeroShotClassificationLoader(ExtendedJavaWrapper):
         )
 
 
+class _AlbertMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_BertLoader, self).__init__(
