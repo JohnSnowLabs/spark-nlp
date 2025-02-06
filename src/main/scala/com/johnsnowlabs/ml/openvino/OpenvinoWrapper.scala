@@ -218,4 +218,13 @@ object OpenvinoWrapper {
       decoderWithPast: OpenvinoWrapper)
   case class DecoderWrappers(decoder: OpenvinoWrapper)
   case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
+  case class JanusWrappers(
+      languageModel: OpenvinoWrapper,
+      lmHeadModel: OpenvinoWrapper,
+      visionEmbeddingsModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      mergeModel: OpenvinoWrapper,
+      genHeadModel: OpenvinoWrapper,
+      genEmbeddingsModel: OpenvinoWrapper,
+      genDecoderModel: OpenvinoWrapper)
 }
