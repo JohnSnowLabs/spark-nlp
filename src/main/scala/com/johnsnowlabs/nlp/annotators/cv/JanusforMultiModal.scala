@@ -39,72 +39,61 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** JanusForMultiModal can load Janus Vision models for visual question answering. The model
-  * consists of a vision encoder, a text encoder as well as a text decoder. The vision encoder
-  * will encode the input image, the text encoder will encode the input question together with the
-  * encoding of the image, and the text decoder will output the answer to the question.
+/** JanusForMultiModal can load Janus models for unified multimodal understanding and generation.
+  * The model consists of a vision encoder, a text encoder, and a text decoder. Janus decouples
+  * visual encoding for enhanced flexibility, leveraging a unified transformer architecture for
+  * both understanding and generation tasks.
   *
-  * Pretrained models can be loaded with `pretrained` of the companion object:
-  * {{{
-  * val visualQA = JanusForMultiModal.pretrained()
-  *   .setInputCols("image_assembler")
-  *   .setOutputCol("answer")
-  * }}}
-  * The default model is `"Janus"`, if no name is provided.
+  * Janus uses SigLIP-L as the vision encoder, supporting 384 x 384 image inputs. For image
+  * generation, it utilizes a tokenizer with a downsample rate of 16. The framework is based on
+  * DeepSeek-LLM-1.3b-base, trained on approximately 500B text tokens.
   *
-  * For available pretrained models please see the
+  * Pretrained models can be loaded with `pretrained` from the companion object: {{ val visualQA =
+  * JanusForMultiModal.pretrained() .setInputCols("image_assembler") .setOutputCol("answer") }}
+  * The default model is "Janus" if no name is provided.
+  *
+  * For available pretrained models, please refer to the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
-  * see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
-  * examples, see
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. For
+  * compatibility details and import instructions, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]]. For extended examples, refer
+  * to
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/JanusForMultiModalTest.scala]].
   *
   * ==Example==
-  * {{{
-  * import spark.implicits._
-  * import com.johnsnowlabs.nlp.base._
-  * import com.johnsnowlabs.nlp.annotator._
-  * import org.apache.spark.ml.Pipeline
+  * {{ import spark.implicits._ import com.johnsnowlabs.nlp.base._ import
+  * com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline
   *
-  * val imageDF: DataFrame = ResourceHelper.spark.read
-  *  .format("image")
-  *  .option("dropInvalid", value = true)
-  *  .load(imageFolder)
+  * val imageDF: DataFrame = ResourceHelper.spark.read .format("image") .option("dropInvalid",
+  * value = true) .load(imageFolder)
   *
-  * val testDF: DataFrame = imageDF.withColumn("text", lit("USER: \n <|image|> \nWhat is unusual on this picture? \n ASSISTANT:\n"))
+  * val testDF: DataFrame = imageDF.withColumn("text", lit("USER: \n <image_placeholder> \nWhat is
+  * unusual in this picture? \n ASSISTANT:\n"))
   *
-  * val imageAssembler: ImageAssembler = new ImageAssembler()
-  *   .setInputCol("image")
-  *   .setOutputCol("image_assembler")
+  * val imageAssembler: ImageAssembler = new ImageAssembler() .setInputCol("image")
+  * .setOutputCol("image_assembler")
   *
-  * val visualQAClassifier = JanusForMultiModal.pretrained()
-  *   .setInputCols("image_assembler")
-  *   .setOutputCol("answer")
+  * val visualQAClassifier = JanusForMultiModal.pretrained() .setInputCols("image_assembler")
+  * .setOutputCol("answer")
   *
-  * val pipeline = new Pipeline().setStages(Array(
-  *   imageAssembler,
-  *   visualQAClassifier
-  * ))
+  * val pipeline = new Pipeline().setStages(Array( imageAssembler, visualQAClassifier ))
   *
   * val result = pipeline.fit(testDF).transform(testDF)
   *
   * result.select("image_assembler.origin", "answer.result").show(false)
-  * +--------------------------------------+------+
-  * |origin                                |result|
-  * +--------------------------------------+------+
-  * |[file:///content/images/cat_image.jpg]|[The unusual aspect of this picture is the presence of two cats lying on a pink couch]|
-  * +--------------------------------------+------+
-  * }}}
+  * | origin                                 | result                                                                                  |
+  * |:---------------------------------------|:----------------------------------------------------------------------------------------|
+  * | [file:///content/images/cat_image.jpg] | [The unusual aspect of this picture is the presence of two cats lying on a pink couch.] |
+  * }}
   *
   * @see
-  *   [[CLIPForZeroShotClassification]] for Zero Shot Image Classifier
+  *   [[CLIPForZeroShotClassification]] for Zero Shot Image Classification
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
-  *   based classifiers
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
+  *   transformer-based classifiers
   * @param uid
-  *   required uid for storing annotator to disk
+  *   Required UID for storing the annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types
@@ -112,7 +101,6 @@ import org.apache.spark.sql.SparkSession
   * @groupname param Parameters
   * @groupname setParam Parameter setters
   * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
   * @groupprio param  1
   * @groupprio anno  2
   * @groupprio Ungrouped 3
@@ -325,7 +313,7 @@ class JanusForMultiModal(override val uid: String)
       val imageText =
         if (annotationImage.text.nonEmpty) annotationImage.text
         else
-          "<|user|> \n <|image|> This is an image\n <|end|>\n <|assistant|>\n" // default question
+          "<|user|> \n <|image_placeholder|> This is an image\n <|end|>\n <|assistant|>\n" // default question
       Annotation(imageText)
     })
 
@@ -395,7 +383,7 @@ trait ReadablePretrainedJanusForMultiModal
     extends ParamsAndFeaturesReadable[JanusForMultiModal]
     with HasPretrained[JanusForMultiModal] {
 
-  override val defaultModelName: Some[String] = Some("Janus")
+  override val defaultModelName: Some[String] = Some("janus_1.3b_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): JanusForMultiModal = super.pretrained()
@@ -417,24 +405,6 @@ trait ReadJanusForMultiModalDLModel extends ReadOpenvinoModel {
   override val openvinoFile: String = "Janus_openvino"
   def readModel(instance: JanusForMultiModal, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
-//    VISION_EMBEDDINGS = "openvino_vision_embeddings_model.xml"
-//    TEXT_EMBEDDINGS = "openvino_text_embeddings_model.xml"
-//    LANGUAGE_MODEL = "openvino_language_model.xml"
-//    LM_HEAD = "openvino_lm_head_model.xml"
-//    MERGE_MULTIMODAL = "openvino_multimodal_merge_model.xml"
-//    GEN_HEAD = "openvino_gen_head_model.xml"
-//    GEN_EMBEDDINGS = "openvino_gen_embeddings_model.xml"
-//    GEN_DECODER = "openvino_gen_decoder_model.xml"
-
-//    JanusWrappers(
-//    languageModel: OpenvinoWrapper,
-//    lmHeadModel: OpenvinoWrapper,
-//    visionEmbeddingsModel: OpenvinoWrapper,
-//    textEmbeddingsModel: OpenvinoWrapper,
-//    mergeModel: OpenvinoWrapper,
-//    genHeadModel: OpenvinoWrapper,
-//    genEmbeddingsModel: OpenvinoWrapper,
-//    genDecoderModel: OpenvinoWrapper)
       case Openvino.name =>
         val languageModelWrappers =
           readOpenvinoModels(path, spark, Seq("openvino_language_model.xml"), suffix)
