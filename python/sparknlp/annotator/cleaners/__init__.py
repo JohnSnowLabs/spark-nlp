@@ -12,3 +12,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from sparknlp.annotator.cleaners.extractor import *
+from sparknlp.annotator.cleaners.cleaner import *

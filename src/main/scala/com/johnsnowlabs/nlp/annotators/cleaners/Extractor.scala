@@ -17,7 +17,7 @@ package com.johnsnowlabs.nlp.annotators.cleaners
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 
 import scala.util.matching.Regex
@@ -36,7 +36,7 @@ class Extractor(override val uid: String)
 
   private val EMAIL_DATETIMETZ_PATTERN =
     "[A-Za-z]{3},\\s\\d{1,2}\\s[A-Za-z]{3}\\s\\d{4}\\s\\d{2}:\\d{2}:\\d{2}\\s[+-]\\d{4}"
-  private val EMAIL_ADDRESS_PATTERN = "[a-z0-9\\.\\-+_]+@[a-z0-9\\.\\-+_]+\\.[a-z]+"
+  private val EMAIL_ADDRESS_PATTERN = "(?i)[a-z0-9\\.\\-+_]+@[a-z0-9\\.\\-+_]+\\.[a-z]+"
 
   private val IPV4_PATTERN: String =
     """(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}"""
@@ -45,7 +45,7 @@ class Extractor(override val uid: String)
   private val IP_ADDRESS_PATTERN: String = s"($IPV4_PATTERN|$IPV6_PATTERN)"
   private val IP_ADDRESS_NAME_PATTERN = "[a-zA-Z0-9-]*\\.[a-zA-Z]*\\.[a-zA-Z]*"
 
-  private val MAPI_ID_PATTERN = "[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]*;"
+  private val MAPI_ID_PATTERN = "[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]*"
   private val US_PHONE_NUMBERS_PATTERN =
     "(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})?[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$"
 
@@ -99,7 +99,11 @@ class Extractor(override val uid: String)
 
   def setTextPattern(value: String): this.type = set(textPattern, value)
 
-  /** extractor can take the following values:
+  val index = new IntParam(this, "index", "Specifies the index of the pattern to extract.")
+
+  def setIndex(value: Int): this.type = set(index, value)
+
+  /** extractorMode can take the following values:
     *   - `email_date`: extract email date
     *   - `email_address`: extract email address
     *   - `ip_address`: extract ip address
@@ -108,6 +112,8 @@ class Extractor(override val uid: String)
     *   - `us_phone_numbers`: extract US phone numbers
     *   - `image_urls`: extract image URLs
     *   - `bullets`: extract ordered bullets
+    *   - `text_after`: extract text after a pattern
+    *   - `text_before`: extract text before a pattern
     * @group param
     */
   val extractorMode: Param[String] = new Param[String](
@@ -142,6 +148,7 @@ class Extractor(override val uid: String)
     mapiIdPattern -> MAPI_ID_PATTERN,
     usPhoneNumbersPattern -> US_PHONE_NUMBERS_PATTERN,
     imageUrlPattern -> IMAGE_URL_PATTERN,
+    index -> 0,
     extractorMode -> "undefined")
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
@@ -170,11 +177,11 @@ class Extractor(override val uid: String)
         }
       case "text_after" =>
         annotations.map { annotation =>
-          extractTextAfter(annotation.result, $(textPattern))
+          extractTextAfter(annotation.result, $(textPattern), $(index))
         }
       case "text_before" =>
         annotations.map { annotation =>
-          extractTextBefore(annotation.result, $(textPattern))
+          extractTextBefore(annotation.result, $(textPattern), $(index))
         }
       case _ =>
         throw new IllegalArgumentException(s"Extractor mode ${$(extractorMode)} not supported.")
@@ -232,7 +239,7 @@ class Extractor(override val uid: String)
         annotatorType = outputAnnotatorType,
         begin = defaultBegin,
         end = defaultEnd,
-        result = "None,None,None",
+        result = "(None,None,None)",
         metadata = Map.empty)
     }
 
@@ -244,7 +251,7 @@ class Extractor(override val uid: String)
         annotatorType = outputAnnotatorType,
         begin = defaultBegin,
         end = defaultEnd,
-        result = "None,None,None",
+        result = "(None,None,None)",
         metadata = Map.empty)
     }
 
