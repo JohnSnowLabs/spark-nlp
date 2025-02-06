@@ -245,6 +245,14 @@ class _GPT2Loader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _JanusForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_JanusForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.JanusForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _LLAMA2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):

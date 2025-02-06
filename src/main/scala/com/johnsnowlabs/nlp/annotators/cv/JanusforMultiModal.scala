@@ -50,7 +50,7 @@ import org.apache.spark.sql.SparkSession
   *
   * Pretrained models can be loaded with `pretrained` from the companion object: {{ val visualQA =
   * JanusForMultiModal.pretrained() .setInputCols("image_assembler") .setOutputCol("answer") }}
-  * The default model is "Janus" if no name is provided.
+  * The default model is "janus_1_3b_int4" if no name is provided.
   *
   * For available pretrained models, please refer to the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -62,14 +62,19 @@ import org.apache.spark.sql.SparkSession
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/JanusForMultiModalTest.scala]].
   *
   * ==Example==
-  * {{ import spark.implicits._ import com.johnsnowlabs.nlp.base._ import
-  * com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline
+  * {{ import spark.implicits._
+  *
+  * import com.johnsnowlabs.nlp.base._
+  *
+  * import com.johnsnowlabs.nlp.annotator._
+  *
+  * import org.apache.spark.ml.Pipeline
   *
   * val imageDF: DataFrame = ResourceHelper.spark.read .format("image") .option("dropInvalid",
   * value = true) .load(imageFolder)
   *
-  * val testDF: DataFrame = imageDF.withColumn("text", lit("USER: \n <image_placeholder> \nWhat is
-  * unusual in this picture? \n ASSISTANT:\n"))
+  * val testDF: DataFrame = imageDF.withColumn("text", lit("User: <image_placeholder>Describe
+  * image in details Assistant:"))
   *
   * val imageAssembler: ImageAssembler = new ImageAssembler() .setInputCol("image")
   * .setOutputCol("image_assembler")
@@ -110,7 +115,6 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-
 class JanusForMultiModal(override val uid: String)
     extends AnnotatorModel[JanusForMultiModal]
     with HasBatchedAnnotateImage[JanusForMultiModal]
@@ -383,7 +387,7 @@ trait ReadablePretrainedJanusForMultiModal
     extends ParamsAndFeaturesReadable[JanusForMultiModal]
     with HasPretrained[JanusForMultiModal] {
 
-  override val defaultModelName: Some[String] = Some("janus_1.3b_int4")
+  override val defaultModelName: Some[String] = Some("janus_1_3b_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): JanusForMultiModal = super.pretrained()

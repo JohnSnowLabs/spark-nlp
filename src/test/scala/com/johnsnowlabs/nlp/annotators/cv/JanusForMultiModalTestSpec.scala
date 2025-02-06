@@ -29,7 +29,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getJanusForMultiModalPipelineModel
 
-  "JanusForMultiModal" should "answer a question for a given image" taggedAs FastTest in {
+  "JanusForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -160,7 +160,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = JanusForMultiModal
-      .loadSavedModel("/mnt/research/Projects/ModelZoo/Janus/Janus-1.3B-ov", ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)
