@@ -226,11 +226,8 @@ class AutoGGUFVisionModel(override val uid: String)
       batchedAnnotations: Seq[(Annotation, AnnotationImage)]): Seq[Seq[Annotation]] = {
     if (batchedAnnotations.nonEmpty) {
 
-      val modelParams =
-        // set parallel decoding to batch size
-        // TODO: might need to set this to 1 for now, as otherwise there are issues
-        getModelParameters.setNParallel(1)
-      val inferenceParams = getInferenceParameters
+      // set parallel decoding to batch size
+      val modelParams = getModelParameters.setNParallel(getBatchSize)
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
       val (prompts, base64EncodedImages) = batchedAnnotations.unzip match {
@@ -245,7 +242,10 @@ class AutoGGUFVisionModel(override val uid: String)
       val (completedTexts: Array[String], metadata: Map[String, String]) =
         try {
           (
-            model.requestBatchImageCompletion(prompts, base64EncodedImages, inferenceParams),
+            model.requestBatchImageCompletion(
+              prompts,
+              base64EncodedImages,
+              getInferenceParameters),
             Map.empty)
         } catch {
           case e: LlamaException =>

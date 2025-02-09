@@ -46,7 +46,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     .setInputCols("caption_document", "image_assembler")
     .setOutputCol("completions")
     .setChatTemplate("vicuna") // llava uses vicuna as default
-    .setBatchSize(4)
+    .setBatchSize(2)
     .setNGpuLayers(99)
     .setNCtx(4096)
     .setMinKeep(0)
