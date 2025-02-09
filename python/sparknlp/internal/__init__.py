@@ -992,7 +992,7 @@ class _AutoGGUFLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_AutoGGUFLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
-        
+
         
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
@@ -1021,3 +1021,9 @@ class _BLIPForQuestionAnswering(ExtendedJavaWrapper):
             path,
             jspark,
         )
+
+
+class _AutoGGUFVisionLoader(ExtendedJavaWrapper):
+    def __init__(self, modelPath, mmprojPath, jspark):
+        super(_AutoGGUFVisionLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel.loadSavedModel", modelPath, mmprojPath, jspark)

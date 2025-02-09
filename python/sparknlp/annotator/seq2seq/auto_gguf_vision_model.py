@@ -1,4 +1,4 @@
-#  Copyright 2017-2023 John Snow Labs
+#  Copyright 2017-2025 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -11,45 +11,51 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for the AutoGGUFModel."""
-from typing import List, Dict
-
+"""Contains classes for the AutoGGUFVisionModel."""
 from sparknlp.common import *
 
 
-class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
-    """
-    Annotator that uses the llama.cpp library to generate text completions with large language
-    models.
+class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
+    """Multimodal annotator that uses the llama.cpp library to generate text completions with large
+    language models. It supports ingesting images for captioning.
 
-    For settable parameters, and their explanations, see the parameters of this class and refer to
-    the llama.cpp documentation of
+    At the moment only CLIP based models are supported.
+
+    For settable parameters, and their explanations, see HasLlamaCppInferenceProperties,
+    HasLlamaCppModelProperties and refer to the llama.cpp documentation of
     `server.cpp <https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server>`__
     for more information.
 
     If the parameters are not set, the annotator will default to use the parameters provided by
     the model.
 
-    Pretrained models can be loaded with :meth:`.pretrained` of the companion
-    object:
+    This annotator expects a column of annotator type AnnotationImage for the image and
+    Annotation for the caption. Note that the image bytes in the image annotation need to be
+    raw image bytes without preprocessing. We provide the helper function
+    ImageAssembler.loadImagesAsBytes to load the image bytes from a directory.
 
-    >>> auto_gguf_model = AutoGGUFModel.pretrained() \\
-    ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("completions")
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
 
-    The default model is ``"phi3.5_mini_4k_instruct_q4_gguf"``, if no name is provided.
+    .. code-block:: python
 
-    For extended examples of usage, see the
-    `AutoGGUFModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala>`__
-    and the
-    `example notebook <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb>`__.
+        autoGGUFVisionModel = AutoGGUFVisionModel.pretrained() \\
+            .setInputCols(["image", "document"]) \\
+            .setOutputCol("completions")
+
+
+    The default model is ``"llava_v1.5_7b_Q4_0_gguf"``, if no name is provided.
 
     For available pretrained models please see the `Models Hub <https://sparknlp.org/models>`__.
+
+    For extended examples of usage, see the
+    `AutoGGUFVisionModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala>`__
+    and the
+    `example notebook <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``DOCUMENT``           ``DOCUMENT``
+    ``IMAGE, DOCUMENT``    ``DOCUMENT``
     ====================== ======================
 
     Parameters
@@ -208,46 +214,72 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     according to your hardware to avoid out-of-memory errors.
 
     Examples
-    --------
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
-    >>> document = DocumentAssembler() \\
-    ...     .setInputCol("text") \\
-    ...     .setOutputCol("document")
-    >>> autoGGUFModel = AutoGGUFModel.pretrained() \\
-    ...     .setInputCols(["document"]) \\
+    >>> from pyspark.sql.functions import lit
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("caption") \\
+    ...     .setOutputCol("caption_document")
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
+    ...     .setOutputCol("image_assembler")
+    >>> imagesPath = "src/test/resources/image/"
+    >>> data = ImageAssembler \\
+    ...     .loadImagesAsBytes(spark, imagesPath) \\
+    ...     .withColumn("caption", lit("Caption this image.")) # Add a caption to each image.
+    >>> nPredict = 40
+    >>> model = AutoGGUFVisionModel.pretrained() \\
+    ...     .setInputCols(["caption_document", "image_assembler"]) \\
     ...     .setOutputCol("completions") \\
     ...     .setBatchSize(4) \\
-    ...     .setNPredict(20) \\
     ...     .setNGpuLayers(99) \\
-    ...     .setTemperature(0.4) \\
+    ...     .setNCtx(4096) \\
+    ...     .setMinKeep(0) \\
+    ...     .setMinP(0.05) \\
+    ...     .setNPredict(nPredict) \\
+    ...     .setNProbs(0) \\
+    ...     .setPenalizeNl(False) \\
+    ...     .setRepeatLastN(256) \\
+    ...     .setRepeatPenalty(1.18) \\
+    ...     .setStopStrings(["</s>", "Llama:", "User:"]) \\
+    ...     .setTemperature(0.05) \\
+    ...     .setTfsZ(1) \\
+    ...     .setTypicalP(1) \\
     ...     .setTopK(40) \\
-    ...     .setTopP(0.9) \\
-    ...     .setPenalizeNl(True)
-    >>> pipeline = Pipeline().setStages([document, autoGGUFModel])
-    >>> data = spark.createDataFrame([["Hello, I am a"]]).toDF("text")
-    >>> result = pipeline.fit(data).transform(data)
-    >>> result.select("completions").show(truncate = False)
-    +-----------------------------------------------------------------------------------------------------------------------------------+
-    |completions                                                                                                                        |
-    +-----------------------------------------------------------------------------------------------------------------------------------+
-    |[{document, 0, 78,  new user.  I am currently working on a project and I need to create a list of , {prompt -> Hello, I am a}, []}]|
-    +-----------------------------------------------------------------------------------------------------------------------------------+
+    ...     .setTopP(0.95)
+    >>> pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model])
+    >>> pipeline.fit(data).transform(data) \\
+    ...     .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "completions.result") \\
+    ...     .show(truncate = False)
+    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |image_name       |result                                                                                                                                                                                        |
+    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |palace.JPEG      |[ The image depicts a large, ornate room with high ceilings and beautifully decorated walls. There are several chairs placed throughout the space, some of which have cushions]               |
+    |egyptian_cat.jpeg|[ The image features two cats lying on a pink surface, possibly a bed or sofa. One cat is positioned towards the left side of the scene and appears to be sleeping while holding]             |
+    |hippopotamus.JPEG|[ A large brown hippo is swimming in a body of water, possibly an aquarium. The hippo appears to be enjoying its time in the water and seems relaxed as it floats]                            |
+    |hen.JPEG         |[ The image features a large chicken standing next to several baby chickens. In total, there are five birds in the scene: one adult and four young ones. They appear to be gathered together] |
+    |ostrich.JPEG     |[ The image features a large, long-necked bird standing in the grass. It appears to be an ostrich or similar species with its head held high and looking around. In addition to]              |
+    |junco.JPEG       |[ A small bird with a black head and white chest is standing on the snow. It appears to be looking at something, possibly food or another animal in its vicinity. The scene takes place out]  |
+    |bluetick.jpg     |[ A dog with a red collar is sitting on the floor, looking at something. The dog appears to be staring into the distance or focusing its attention on an object in front of it.]              |
+    |chihuahua.jpg    |[ A small brown dog wearing a sweater is sitting on the floor. The dog appears to be looking at something, possibly its owner or another animal in the room. It seems comfortable and relaxed]|
+    |tractor.JPEG     |[ A man is sitting in the driver's seat of a green tractor, which has yellow wheels and tires. The tractor appears to be parked on top of an empty field with]                                |
+    |ox.JPEG          |[ A large bull with horns is standing in a grassy field.]                                                                                                                                     |
+    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------
     """
 
-    name = "AutoGGUFModel"
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+    name = "AutoGGUFVisionModel"
+    inputAnnotatorTypes = [AnnotatorType.IMAGE, AnnotatorType.DOCUMENT]
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
-
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel", java_model=None):
-        super(AutoGGUFModel, self).__init__(
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel", java_model=None):
+        super(AutoGGUFVisionModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
+
         self._setDefault(
             useChatTemplate=True,
             nCtx=4096,
@@ -257,33 +289,35 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
-        """Loads a locally saved model.
+    def loadSavedModel(modelPath, mmprojPath, spark_session):
+        """Loads a locally saved modelPath.
 
         Parameters
         ----------
-        folder : str
-            Folder of the saved model
+        modelPath : str
+            Path to the modelPath file
+        mmprojPath : str
+            Path to the mmprojPath file
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
 
         Returns
         -------
-        AutoGGUFModel
-            The restored model
+        AutoGGUFVisionModel
+            The restored modelPath
         """
-        from sparknlp.internal import _AutoGGUFLoader
-        jModel = _AutoGGUFLoader(folder, spark_session._jsparkSession)._java_obj
-        return AutoGGUFModel(java_model=jModel)
+        from sparknlp.internal import _AutoGGUFVisionLoader
+        jModel = _AutoGGUFVisionLoader(modelPath, mmprojPath, spark_session._jsparkSession)._java_obj
+        return AutoGGUFVisionModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3.5_mini_4k_instruct_q4_gguf", lang="en", remote_loc=None):
+    def pretrained(name="llava_v1.5_7b_Q4_0_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "phi3.5_mini_4k_instruct_q4_gguf"
+            Name of the pretrained model, by default "llava_v1.5_7b_Q4_0_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -292,8 +326,8 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         Returns
         -------
-        AutoGGUFModel
+        AutoGGUFVisionModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AutoGGUFModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(AutoGGUFVisionModel, name, lang, remote_loc)

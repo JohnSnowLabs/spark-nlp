@@ -102,7 +102,6 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setGpuSplitMode("NONE")
         model.setMainGpu(0)
         model.setTensorSplit([])
-        model.setNBeams(0)
         model.setGrpAttnN(1)
         model.setGrpAttnW(512)
         model.setRopeFreqBase(1.0)
@@ -115,11 +114,10 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setDefragmentationThreshold(-1.0)
         model.setNumaStrategy("DISTRIBUTE")
         model.setRopeScalingType("UNSPECIFIED")
-        model.setPoolingType("UNSPECIFIED")
+        model.setPoolingType("NONE")
         model.setModelDraft("")
         model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
         model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-        model.setLoraBase("")
         model.setEmbedding(False)
         model.setFlashAttention(False)
         model.setInputPrefixBos(False)
@@ -171,6 +169,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         pipeline = Pipeline().setStages([document_assembler, model])
         results = pipeline.fit(data).transform(data)
 
+        # Can fail due to bogus parameters, but at least we are testing the setters
         results.select("completions").show(truncate=False)
 
 

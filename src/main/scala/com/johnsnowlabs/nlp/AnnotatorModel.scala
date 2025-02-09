@@ -111,6 +111,23 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
             })
             .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
           dfWithMetadata
+
+        case withBatchAnnotateTextImage: HasBatchedAnnotateTextImage[M] =>
+          implicit val encoder: ExpressionEncoder[Row] =
+            SparkNlpConfig.getEncoder(inputDataset, newStructType)
+          val processedDataFrame = inputDataset.mapPartitions(partition => {
+            withBatchAnnotateTextImage.batchProcess(partition)
+          })
+
+          // TODO: Do we really need to repeat this in every case?
+          /** Put back column metadata from `inputDataset` after destructive mapPartitions */
+          val dfWithMetadata = inputDataset.schema.fields
+            .foldLeft(processedDataFrame)((dataFrame, field) => {
+              dataFrame
+                .withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+            })
+            .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+          dfWithMetadata
       }
     }
 

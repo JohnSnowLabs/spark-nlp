@@ -47,6 +47,7 @@ There are two types of Annotators:
 |---|---|---|
 {% include templates/anno_table_entry.md path="" name="AutoGGUFEmbeddings" summary="Annotator that uses the llama.cpp library to generate text embeddings with large language models."%}
 {% include templates/anno_table_entry.md path="" name="AutoGGUFModel" summary="Annotator that uses the llama.cpp library to generate text completions with large language models."%}
+{% include templates/anno_table_entry.md path="" name="AutoGGUFVisionModel" summary="Multimodal annotator that uses the llama.cpp library to generate text completions with large language models."%}
 {% include templates/anno_table_entry.md path="" name="BGEEmbeddings" summary="Sentence embeddings using BGE."%}
 {% include templates/anno_table_entry.md path="" name="BigTextMatcher" summary="Annotator to match exact phrases (by token) provided in a file against a Document."%}
 {% include templates/anno_table_entry.md path="" name="Chunk2Doc" summary="Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do further analysis on a `CHUNK` result."%}
