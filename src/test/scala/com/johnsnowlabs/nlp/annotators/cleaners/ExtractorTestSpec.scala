@@ -104,7 +104,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setInputCols("document")
       .setOutputCol("ip")
       .setExtractorMode("ip_address")
-      .setIPAddressPattern(
+      .setIpAddressPattern(
         "(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)){3}")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, ipAddressExtractor))
     val testDf = Seq(

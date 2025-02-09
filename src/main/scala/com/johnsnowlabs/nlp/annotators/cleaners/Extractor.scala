@@ -67,7 +67,7 @@ class Extractor(override val uid: String)
     new Param[String](this, "ipAddressPattern", "Specifies the pattern for IP addresses.")
 
   /** @group setParam */
-  def setIPAddressPattern(value: String): this.type = set(ipAddressPattern, value)
+  def setIpAddressPattern(value: String): this.type = set(ipAddressPattern, value)
 
   val ipAddressNamePattern = new Param[String](
     this,
@@ -99,8 +99,9 @@ class Extractor(override val uid: String)
 
   def setTextPattern(value: String): this.type = set(textPattern, value)
 
-  val index = new IntParam(this, "index", "Specifies the index of the pattern to extract.")
+  val index = new IntParam(this, "index", "Specifies the index of the pattern to extract in text after or before")
 
+  /** @group setParam */
   def setIndex(value: Int): this.type = set(index, value)
 
   /** extractorMode can take the following values:

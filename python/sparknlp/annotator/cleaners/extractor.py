@@ -83,6 +83,13 @@ class Extractor(AnnotatorModel):
         typeConverter=TypeConverters.toString
     )
 
+    index = Param(
+        Params._dummy(),
+        "index",
+        "Specifies the index of the pattern to extract in text after or before",
+        typeConverter=TypeConverters.toInt
+    )
+
     def setEmailDateTimeTzPattern(self, value):
         """Sets specifies the date-time pattern for email timestamps, including time zone formatting.
 
@@ -165,6 +172,16 @@ class Extractor(AnnotatorModel):
 
     def setExtractorMode(self, value):
         return self._set(extractorMode=value)
+
+    def setIndex(self, value):
+        """Sets the index of the pattern to extract in text after or before.
+
+        Parameters
+        ----------
+        value : int
+            Specifies the index of the pattern to extract in text after or before.
+        """
+        return self._set(index=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.cleaners.Extractor", java_model=None):
