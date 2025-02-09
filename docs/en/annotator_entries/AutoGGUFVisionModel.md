@@ -6,6 +6,8 @@ AutoGGUFVisionModel
 Multimodal annotator that uses the llama.cpp library to generate text completions with large
 language models. It supports ingesting images for captioning.
 
+At the moment only CLIP based models are supported.
+
 For settable parameters, and their explanations, see HasLlamaCppInferenceProperties,
 HasLlamaCppModelProperties and refer to the llama.cpp documentation of
 [server.cpp](https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server)
