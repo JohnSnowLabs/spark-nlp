@@ -12,9 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for Cleaner."""
+from sparknlp.annotator import MarianTransformer
 from sparknlp.common import *
 
-class Cleaner(AnnotatorModel):
+class Cleaner(MarianTransformer):
     name = "Cleaner"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]

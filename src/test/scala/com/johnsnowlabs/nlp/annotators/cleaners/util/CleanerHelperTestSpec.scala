@@ -15,7 +15,18 @@
  */
 package com.johnsnowlabs.nlp.annotators.cleaners.util
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{cleanBullets, cleanDashes, cleanExtraWhitespace, cleanNonAsciiChars, cleanOrderedBullets, cleanPostfix, cleanPrefix, cleanTrailingPunctuation, removePunctuation, replaceUnicodeCharacters}
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
+  cleanBullets,
+  cleanDashes,
+  cleanExtraWhitespace,
+  cleanNonAsciiChars,
+  cleanOrderedBullets,
+  cleanPostfix,
+  cleanPrefix,
+  cleanTrailingPunctuation,
+  removePunctuation,
+  replaceUnicodeCharacters
+}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks.forAll
@@ -24,22 +35,8 @@ import org.scalatest.prop.Tables.Table
 class CleanerHelperTestSpec extends AnyFlatSpec {
 
   "cleanTrailingPunctuation" should "remove a trailing symbols" taggedAs FastTest in {
-    val inputs = Seq(
-      "Hello.",
-      "Hello,",
-      "Hello:",
-      "Hello;",
-      "Hello,.",
-      ";",
-      ""
-    )
-    val expectedOutputs = Seq(
-      "Hello",
-      "Hello",
-      "Hello",
-      "Hello",
-      "Hello"
-    )
+    val inputs = Seq("Hello.", "Hello,", "Hello:", "Hello;", "Hello,.", ";", "")
+    val expectedOutputs = Seq("Hello", "Hello", "Hello", "Hello", "Hello")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanTrailingPunctuation(input)
@@ -48,16 +45,8 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
   }
 
   it should "not remove punctuation if none exists" taggedAs FastTest in {
-    val inputs = Seq(
-      "Hello",
-      "",
-      "Hello, world!"
-    )
-    val expectedOutputs = Seq(
-      "Hello",
-      "",
-      "Hello, world!"
-    )
+    val inputs = Seq("Hello", "", "Hello, world!")
+    val expectedOutputs = Seq("Hello", "", "Hello, world!")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanTrailingPunctuation(input)
@@ -72,16 +61,9 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "Hello\u2013World",
       "Hello-World\u2013Scala",
       "-Hello World-",
-      "---",
-    )
-    val expectedOutputs = Seq(
-      "Hello World",
-      "Hello   World",
-      "Hello World",
-      "Hello World Scala",
-      "Hello World",
-      ""
-    )
+      "---")
+    val expectedOutputs =
+      Seq("Hello World", "Hello   World", "Hello World", "Hello World Scala", "Hello World", "")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanDashes(input)
@@ -110,8 +92,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "RISK\n\nFACTORS",
       "Item\\xa01A",
       "  Risk factors ",
-      "Risk   factors "
-    )
+      "Risk   factors ")
     val expectedOutputs = Seq(
       "Hello World",
       "Hello World",
@@ -122,8 +103,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "RISK FACTORS",
       "Item 1A",
       "Risk factors",
-      "Risk factors"
-    )
+      "Risk factors")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanExtraWhitespace(input)
@@ -132,14 +112,8 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
   }
 
   it should "handle strings with no whitespace without modifying them" taggedAs FastTest in {
-    val inputs = Seq(
-      "HelloWorld",
-      ""
-    )
-    val expectedOutputs = Seq(
-      "HelloWorld",
-      ""
-    )
+    val inputs = Seq("HelloWorld", "")
+    val expectedOutputs = Seq("HelloWorld", "")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanExtraWhitespace(input)
@@ -153,16 +127,14 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       """●● An excellent point!""",
       """● An excellent point! ●●●""",
       """An excellent point!""",
-      """Morse code! ●●●"""
-    )
+      """Morse code! ●●●""")
 
     val expectedOutputs = Seq(
       "An excellent point!",
       """● An excellent point!""",
       "An excellent point! ●●●",
       "An excellent point!",
-      "Morse code! ●●●"
-    )
+      "Morse code! ●●●")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanBullets(input)
@@ -176,16 +148,10 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "\u2022  Item 2",
       "\u2043Item with dash bullet",
       "\u2022",
-      "\u2022\u2022 Multiple bullets"
-    )
+      "\u2022\u2022 Multiple bullets")
 
-    val expectedOutputs = Seq(
-      "Item 1",
-      "Item 2",
-      "Item with dash bullet",
-      "",
-      "\u2022 Multiple bullets"
-    )
+    val expectedOutputs =
+      Seq("Item 1", "Item 2", "Item with dash bullet", "", "\u2022 Multiple bullets")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = cleanBullets(input)
@@ -200,14 +166,11 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
   }
 
   it should "replace unicode characters" in {
-    val inputs = Seq("""\x93A lovely quote!\x94""",
-        """\x91A lovely quote!\x92""",
-        """Our dog&apos;s bowl."""
-    )
-    val expectedOutputs = Seq("“A lovely quote!”",
-    "‘A lovely quote!’",
-     "Our dog's bowl."
-    )
+    val inputs = Seq(
+      """\x93A lovely quote!\x94""",
+      """\x91A lovely quote!\x92""",
+      """Our dog&apos;s bowl.""")
+    val expectedOutputs = Seq("“A lovely quote!”", "‘A lovely quote!’", "Our dog's bowl.")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       assert(replaceUnicodeCharacters(input) == expected)
@@ -221,8 +184,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       """● An excellent point! ●●●""",
       """Item\xa01A""",
       """Our dog&apos;s bowl.""",
-      """5 w=E2=80=99s"""
-    )
+      """5 w=E2=80=99s""")
 
     val expectedOutputs = Seq(
       "This text contains non-ascii characters!",
@@ -230,8 +192,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       " An excellent point! ",
       "Item1A",
       "Our dog's bowl.",
-      "5 w=E2=80=99s"
-    )
+      "5 w=E2=80=99s")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       assert(cleanNonAsciiChars(input) == expected)
@@ -255,8 +216,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "2,3. Morse code 3. ●●●",
       "1..2.3 four",
       "Fig. 2: The relationship",
-      "23 is everywhere"
-    )
+      "23 is everywhere")
 
     val expectedOutputs = Seq(
       "Introduction:",
@@ -274,8 +234,7 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
       "2,3. Morse code 3. ●●●",
       "1..2.3 four",
       "Fig. 2: The relationship",
-      "23 is everywhere"
-    )
+      "23 is everywhere")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       assert(cleanOrderedBullets(input) == expected)
@@ -283,17 +242,9 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
   }
 
   "removePunctuation" should "remove punctuation" taggedAs FastTest in {
-    val inputs = Seq(
-      """“A lovely quote!”""",
-      """‘A lovely quote!’""",
-      """'()[]{};:'\",.?/\\-_"""
-    )
+    val inputs = Seq("""“A lovely quote!”""", """‘A lovely quote!’""", """'()[]{};:'\",.?/\\-_""")
 
-    val expectedOutputs = Seq(
-      "A lovely quote",
-      "A lovely quote",
-      ""
-    )
+    val expectedOutputs = Seq("A lovely quote", "A lovely quote", "")
 
     inputs.zip(expectedOutputs).foreach { case (input, expected) =>
       val actual = removePunctuation(input)
@@ -304,31 +255,34 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
   "cleanPrefix" should "remove the prefix and any following punctuation/whitespace" taggedAs FastTest in {
     val testCases = Table(
       ("description", "text", "pattern", "ignoreCase", "strip", "expected"),
-      ("Standard summary removal",
+      (
+        "Standard summary removal",
         "SUMMARY: A great SUMMARY",
         "(SUMMARY|DESC)",
         false,
         true,
         "A great SUMMARY"),
-      ("Desc removal with case-sensitive match",
+      (
+        "Desc removal with case-sensitive match",
         "DESC: A great SUMMARY",
         "(SUMMARY|DESC)",
         false,
         true,
         "A great SUMMARY"),
-      ("Without extra stripping",
+      (
+        "Without extra stripping",
         "SUMMARY: A great SUMMARY",
         "(SUMMARY|DESC)",
         false,
         false,
         "A great SUMMARY"),
-      ("Removal with case ignored",
+      (
+        "Removal with case ignored",
         "desc: A great SUMMARY",
         "(SUMMARY|DESC)",
         true,
         true,
-        "A great SUMMARY")
-    )
+        "A great SUMMARY"))
 
     forAll(testCases) { (desc, text, pattern, ignoreCase, strip, expected) =>
       withClue(s"Failed in case: $desc") {
@@ -340,32 +294,29 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
 
   "cleanPostfix" should "remove the postfix and any following punctuation/whitespace" taggedAs FastTest in {
     val testCases = Table(
-      ("description", "text",              "pattern",        "ignoreCase", "strip", "expected"),
-      ("Remove trailing 'END' with strip",
-        "The END! END",
-        "(END|STOP)",
-        false,
-        true,
-        "The END!"),
-      ("Remove trailing 'STOP' with strip",
+      ("description", "text", "pattern", "ignoreCase", "strip", "expected"),
+      ("Remove trailing 'END' with strip", "The END! END", "(END|STOP)", false, true, "The END!"),
+      (
+        "Remove trailing 'STOP' with strip",
         "The END! STOP",
         "(END|STOP)",
         false,
         true,
         "The END!"),
-      ("Keep trailing whitespace when not stripping",
+      (
+        "Keep trailing whitespace when not stripping",
         "The END! END",
         "(END|STOP)",
         false,
         false,
         "The END! "),
-      ("Remove trailing 'end' ignoring case",
+      (
+        "Remove trailing 'end' ignoring case",
         "The END! end",
         "(END|STOP)",
         true,
         true,
-        "The END!")
-    )
+        "The END!"))
 
     forAll(testCases) { (description, text, pattern, ignoreCase, strip, expected) =>
       withClue(s"Failed in case: $description") {

@@ -99,7 +99,10 @@ class Extractor(override val uid: String)
 
   def setTextPattern(value: String): this.type = set(textPattern, value)
 
-  val index = new IntParam(this, "index", "Specifies the index of the pattern to extract in text after or before")
+  val index = new IntParam(
+    this,
+    "index",
+    "Specifies the index of the pattern to extract in text after or before")
 
   /** @group setParam */
   def setIndex(value: Int): this.type = set(index, value)

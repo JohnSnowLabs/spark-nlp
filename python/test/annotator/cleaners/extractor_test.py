@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class ExtractorTestSpec(unittest.TestCase):
 
     def setUp(self):

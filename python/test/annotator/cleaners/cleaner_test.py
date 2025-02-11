@@ -20,8 +20,8 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
-class CleanerTestSpec(unittest.TestCase):
+@pytest.mark.fast
+class CleanerBytesTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -31,17 +31,43 @@ class CleanerTestSpec(unittest.TestCase):
     def runTest(self):
         document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-        extractor = Cleaner() \
+        cleaner = Cleaner() \
             .setInputCols(["document"]) \
             .setOutputCol("cleaned") \
             .setCleanerMode("bytes_string_to_string")
 
         pipeline = Pipeline().setStages([
             document_assembler,
-            extractor
+            cleaner
         ])
 
         model = pipeline.fit(self.data_set)
         result = model.transform(self.data_set)
         result.show(truncate=False)
 
+@pytest.mark.fast
+class CleanerBulletsTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        data = [("1.1 This is a very important point",),
+                ("a.1 This is a very important point",),
+                ("1.4.2 This is a very important point",)]
+        self.data_set = self.spark.createDataFrame(data).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+
+        cleaner = Cleaner() \
+            .setInputCols(["document"]) \
+            .setOutputCol("cleaned") \
+            .setCleanerMode("clean_ordered_bullets")
+
+        pipeline = Pipeline().setStages([
+            document_assembler,
+            cleaner
+        ])
+
+        model = pipeline.fit(self.data_set)
+        result = model.transform(self.data_set)
+        result.show(truncate=False)

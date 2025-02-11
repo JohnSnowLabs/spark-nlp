@@ -30,10 +30,8 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("cleaned")
       .setCleanerMode("bytes_string_to_string")
 
-    val testDf = Seq(
-      "This is a test with regular text",
-      "Hello ð\\x9f\\x98\\x80"
-    ).toDS.toDF("text")
+    val testDf =
+      Seq("This is a test with regular text", "Hello ð\\x9f\\x98\\x80").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -51,10 +49,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setExtraWhitespace(true)
       .setDashes(true)
 
-    val testDf = Seq(
-      "● An excellent point!",
-      "ITEM 1A:     RISK-FACTORS"
-    ).toDS.toDF("text")
+    val testDf = Seq("● An excellent point!", "ITEM 1A:     RISK-FACTORS").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -69,9 +64,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("cleaned")
       .setCleanerMode("clean_non_ascii_chars")
 
-    val testDf = Seq(
-      "\\x88This text contains ®non-ascii characters!●"
-    ).toDS.toDF("text")
+    val testDf = Seq("\\x88This text contains ®non-ascii characters!●").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -89,8 +82,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
     val testDf = Seq(
       "1.1 This is a very important point",
       "a.1 This is a very important point",
-      "1.4.2 This is a very important point"
-    ).toDS.toDF("text")
+      "1.4.2 This is a very important point").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -106,9 +98,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setCleanerMode("clean_postfix")
       .setCleanPrefixPattern("(END|STOP)")
 
-    val testDf = Seq(
-      "The end! END"
-    ).toDS.toDF("text")
+    val testDf = Seq("The end! END").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -124,9 +114,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setCleanerMode("clean_prefix")
       .setCleanPrefixPattern("(SUMMARY|DESCRIPTION):")
 
-    val testDf = Seq(
-      "SUMMARY: This is the best summary of all time!"
-    ).toDS.toDF("text")
+    val testDf = Seq("SUMMARY: This is the best summary of all time!").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -141,9 +129,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("cleaned")
       .setCleanerMode("remove_punctuation")
 
-    val testDf = Seq(
-      "$A lovely quote!”"
-    ).toDS.toDF("text")
+    val testDf = Seq("$A lovely quote!”").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -161,8 +147,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
     val testDf = Seq(
       """\x93A lovely quote!\x94""",
       """\x91A lovely quote!\x92""",
-      """"\u201CA lovely quote!\u201D — with a dash""""
-    ).toDS.toDF("text")
+      """"\u201CA lovely quote!\u201D — with a dash"""").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))
@@ -177,9 +162,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setInputCols("document")
       .setOutputCol("cleaned")
 
-    val testDf = Seq(
-      "This should go to French"
-    ).toDS.toDF("text")
+    val testDf = Seq("This should go to French").toDS.toDF("text")
     testDf.show(truncate = false)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, cleaner))

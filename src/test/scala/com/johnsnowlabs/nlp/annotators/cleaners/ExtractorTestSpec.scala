@@ -46,8 +46,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
     val actualResult = resultAnnotation.map(_.map(_.result))
     val expectedResult = Array(
       Seq("Fri, 26 Mar 2021 11:04:09 +1200"),
-      Seq("Fri, 26 Mar 2021 11:04:09 +1200", "Wed, 26 Jul 2025 11:04:09 +1200")
-    )
+      Seq("Fri, 26 Mar 2021 11:04:09 +1200", "Wed, 26 Jul 2025 11:04:09 +1200"))
 
     actualResult shouldEqual expectedResult
   }
@@ -60,17 +59,13 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(documentAssembler, emailExtractor))
     val testDf = Seq(
       "Me me@email.com and You <You@email.com>\n  ([ba23::58b5:2236:45g2:88h2]) (10.0.2.01)",
-      "Im Rabn <Im.Rabn@npf.gov.nr>"
-    ).toDS.toDF("text")
+      "Im Rabn <Im.Rabn@npf.gov.nr>").toDS.toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "email")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("me@email.com", "You@email.com"),
-      Seq("Im.Rabn@npf.gov.nr")
-    )
+    val expectedResult = Array(Seq("me@email.com", "You@email.com"), Seq("Im.Rabn@npf.gov.nr"))
 
     actualResult shouldEqual expectedResult
   }
@@ -81,20 +76,16 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("ip")
       .setExtractorMode("ip_address")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, ipAddressExtractor))
-    val testDf = Seq(
-      """from ABC.DEF.local ([ba23::58b5:2236:45g2:88h2]) by
+    val testDf = Seq("""from ABC.DEF.local ([ba23::58b5:2236:45g2:88h2]) by
     \n ABC.DEF.local ([68.183.71.12]) with mapi id\
-    n 32.88.5467.123; Fri, 26 Mar 2021 11:04:09 +1200"""
-    ).toDS
+    n 32.88.5467.123; Fri, 26 Mar 2021 11:04:09 +1200""").toDS
       .toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "ip")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("ba23::58b5:2236:45g2:88h2", "68.183.71.12")
-    )
+    val expectedResult = Array(Seq("ba23::58b5:2236:45g2:88h2", "68.183.71.12"))
 
     actualResult shouldEqual expectedResult
   }
@@ -107,17 +98,15 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setIpAddressPattern(
         "(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)){3}")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, ipAddressExtractor))
-    val testDf = Seq(
-      "Me me@email.com and You <You@email.com> ([ba23::58b5:2236:45g2:88h2]) (10.0.2.0)").toDS
-      .toDF("text")
+    val testDf =
+      Seq("Me me@email.com and You <You@email.com> ([ba23::58b5:2236:45g2:88h2]) (10.0.2.0)").toDS
+        .toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "ip")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("10.0.2.0")
-    )
+    val expectedResult = Array(Seq("10.0.2.0"))
 
     actualResult shouldEqual expectedResult
   }
@@ -134,9 +123,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "ip")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("ABC.DEF.local", "ABC.DEF.local")
-    )
+    val expectedResult = Array(Seq("ABC.DEF.local", "ABC.DEF.local"))
 
     actualResult shouldEqual expectedResult
   }
@@ -153,9 +140,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "mapi_id")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("32.88.5467.123")
-    )
+    val expectedResult = Array(Seq("32.88.5467.123"))
 
     actualResult shouldEqual expectedResult
   }
@@ -166,21 +151,15 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("us_phone")
       .setExtractorMode("us_phone_numbers")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, usPhonesExtractor))
-    val testDf = Seq(
-      "215-867-5309",
-      "Phone Number: +1 215.867.5309",
-      "Phone Number: Just Kidding"
-    ).toDS.toDF("text")
+    val testDf =
+      Seq("215-867-5309", "Phone Number: +1 215.867.5309", "Phone Number: Just Kidding").toDS
+        .toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "us_phone")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("215-867-5309"),
-      Seq("+1 215.867.5309"),
-      Seq()
-    )
+    val expectedResult = Array(Seq("215-867-5309"), Seq("+1 215.867.5309"), Seq())
 
     actualResult shouldEqual expectedResult
   }
@@ -231,8 +210,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       Seq("(None,None,None)"),
       Seq("(None,None,None)"),
       Seq("(None,None,None)"),
-      Seq("(None,None,None)")
-    )
+      Seq("(None,None,None)"))
 
     actualResult shouldEqual expectedResult
   }
@@ -253,9 +231,8 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "image_urls")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("https://example.com/images/photo1.jpg", "https://example.org/assets/icon.png")
-    )
+    val expectedResult =
+      Array(Seq("https://example.com/images/photo1.jpg", "https://example.org/assets/icon.png"))
 
     actualResult shouldEqual expectedResult
   }
@@ -293,8 +270,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       Seq("https://my-image.JPG", "http://my-image.BMP"),
       Seq("http://my-path-with-CAPS/my-image.JPG"),
       Seq("http://my-path/my%20image.JPG"),
-      Seq("https://my-image.jpg")
-    )
+      Seq("https://my-image.jpg"))
 
     actualResult shouldEqual expectedResult
   }
@@ -312,9 +288,7 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "text_after")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("Look at me, I'm flying!")
-    )
+    val expectedResult = Array(Seq("Look at me, I'm flying!"))
 
     actualResult shouldEqual expectedResult
   }
@@ -326,16 +300,12 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setExtractorMode("text_after")
       .setTextPattern("BLAH;")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, textAfterExtractor))
-    val testDf = Seq(
-      "Teacher: BLAH BLAH BLAH; Student: BLAH BLAH BLAH!"
-    ).toDS.toDF("text")
+    val testDf = Seq("Teacher: BLAH BLAH BLAH; Student: BLAH BLAH BLAH!").toDS.toDF("text")
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "text_after")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("Student: BLAH BLAH BLAH!")
-    )
+    val expectedResult = Array(Seq("Student: BLAH BLAH BLAH!"))
 
     actualResult shouldEqual expectedResult
   }
@@ -347,17 +317,13 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setExtractorMode("text_before")
       .setTextPattern("STOP")
     val pipeline = new Pipeline().setStages(Array(documentAssembler, textAfterExtractor))
-    val testDf = Seq(
-      "Here I am! STOP Look at me! STOP I'm flying! STOP"
-    ).toDS.toDF("text")
+    val testDf = Seq("Here I am! STOP Look at me! STOP I'm flying! STOP").toDS.toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "text_before")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("Here I am!")
-    )
+    val expectedResult = Array(Seq("Here I am!"))
 
     actualResult shouldEqual expectedResult
   }
@@ -370,17 +336,13 @@ class ExtractorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setTextPattern("BLAH")
       .setIndex(1)
     val pipeline = new Pipeline().setStages(Array(documentAssembler, textAfterExtractor))
-    val testDf = Seq(
-      "Teacher: BLAH BLAH BLAH; Student: BLAH BLAH BLAH!"
-    ).toDS.toDF("text")
+    val testDf = Seq("Teacher: BLAH BLAH BLAH; Student: BLAH BLAH BLAH!").toDS.toDF("text")
 
     val resultDf = pipeline.fit(testDf).transform(testDf)
 
     val resultAnnotation = AssertAnnotations.getActualResult(resultDf, "text_before")
     val actualResult = resultAnnotation.map(_.map(_.result))
-    val expectedResult = Array(
-      Seq("Teacher: BLAH")
-    )
+    val expectedResult = Array(Seq("Teacher: BLAH"))
 
     actualResult shouldEqual expectedResult
   }
