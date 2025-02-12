@@ -311,7 +311,7 @@ trait Generate {
           beamIndices(beamIdx(elem)) :+ beamIdx(elem)
         }
         currentLength = currentLength + 1
-        if (beamScorer.isDone || (expandedInputs.head.length >= maxLength)) {
+        if (beamScorer.isDone || (expandedInputs.head.length > maxLength)) {
           break
 
         }
