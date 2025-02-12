@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class OLMoTestSpec extends AnyFlatSpec {
 
-  "olmo" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "olmo" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -42,8 +42,31 @@ class OLMoTestSpec extends AnyFlatSpec {
       .setMaxOutputLength(100)
       .setOutputCol("generation")
       .setBeamSize(1)
-    new Pipeline()
+
+    val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, bart))
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+    pipelineModel.stages.last
+      .asInstanceOf[OLMoTransformer]
+      .write
+      .overwrite()
+      .save("/tmp/olmo-1b-4bit-model")
+
+    val loadedLLAMA3 = OLMoTransformer.load("/tmp/olmo-1b-4bit-model")
+
+    val loadedPipeline = new Pipeline().setStages(Array(documentAssembler, loadedLLAMA3))
+
+    loadedPipeline
       .fit(testData)
       .transform(testData)
       .show(truncate = false)

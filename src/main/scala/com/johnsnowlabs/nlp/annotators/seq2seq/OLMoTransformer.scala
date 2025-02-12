@@ -320,16 +320,23 @@ trait ReadablePretrainedOLMoTransformerModel
 trait ReadOLMoTransformerDLModel extends ReadOnnxModel {
   this: ParamsAndFeaturesReadable[OLMoTransformer] =>
 
-  override val onnxFile: String = "olmo_onnx"
+  override val onnxFile: String = "decoder_model.onnx"
   val suffix: String = "_olmo"
 
   def readModel(instance: OLMoTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       case ONNX.name =>
-        val wrappers =
-          readOnnxModels(path, spark, Seq("decoder_model.onnx"), suffix)
+        val wrapper =
+          readOnnxModel(
+            path,
+            spark,
+            suffix,
+            zipped = true,
+            useBundle = false,
+            modelName = Some("decoder_model.onnx"),
+            dataFilePostfix = Some(".onnx_data"))
         val onnxWrappers =
-          DecoderWrappers(decoder = wrappers("decoder_model.onnx"))
+          DecoderWrappers(decoder = wrapper)
         instance.setModelIfNotSet(spark, onnxWrappers)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -402,11 +409,13 @@ trait ReadOLMoTransformerDLModel extends ReadOnnxModel {
       case ONNX.name =>
         val onnxWrapperDecoder =
           OnnxWrapper.read(
+            spark,
             localModelPath,
             zipped = false,
             useBundle = true,
             modelName = "decoder_model",
-            dataFileSuffix = ".onnx_data")
+            dataFileSuffix = Some(".onnx_data"),
+            onnxFileSuffix = Some(suffix))
 
         val onnxWrappers = DecoderWrappers(onnxWrapperDecoder)
 
