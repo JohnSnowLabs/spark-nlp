@@ -31,7 +31,7 @@ class OLMoTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("generation")
 
 
-    The default model is ``"llam2-7b"``, if no name is provided. For available
+    The default model is ``"olmo_1b_int4"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=olmo>`__.
 
@@ -304,7 +304,7 @@ class OLMoTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return OLMoTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="olmo-1b", lang="en", remote_loc=None):
+    def pretrained(name="olmo_1b_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
