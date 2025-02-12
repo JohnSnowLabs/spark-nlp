@@ -55,7 +55,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"OLMo-1b"`, if no name is provided. For available pretrained models
+  * The default model is `"olmo_1b_int4"`, if no name is provided. For available pretrained models
   * please see the [[https://sparknlp.org/models?q=OLMo Models Hub]].
   *
   * For extended examples of usage, see
@@ -97,7 +97,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val OLMo = OLMoTransformer.pretrained("OLMo-7b")
+  * val OLMo = OLMoTransformer.pretrained("olmo_1b_int4")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(50)
@@ -303,7 +303,7 @@ class OLMoTransformer(override val uid: String)
 trait ReadablePretrainedOLMoTransformerModel
     extends ParamsAndFeaturesReadable[OLMoTransformer]
     with HasPretrained[OLMoTransformer] {
-  override val defaultModelName: Some[String] = Some("OLMo-7b")
+  override val defaultModelName: Some[String] = Some("olmo_1b_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): OLMoTransformer = super.pretrained()
