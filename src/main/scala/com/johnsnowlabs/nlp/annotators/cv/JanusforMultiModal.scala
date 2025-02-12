@@ -317,7 +317,7 @@ class JanusForMultiModal(override val uid: String)
       val imageText =
         if (annotationImage.text.nonEmpty) annotationImage.text
         else
-          "<|user|> \n <|image_placeholder|> This is an image\n <|end|>\n <|assistant|>\n" // default question
+          "You are a helpful language and vision assistant. You are able to understand the visual content that the user provides, and assist the user with a variety of tasks using natural language.\\n\\nUser: <image_placeholder>Describe image in details\\n\\nAssistant:" // default question
       Annotation(imageText)
     })
 
@@ -589,6 +589,10 @@ trait ReadJanusForMultiModalDLModel extends ReadOpenvinoModel {
       .setAddedTokens(addedTokens)
       .setImageToken(imageToken)
       .setImageTokenLength(imageTokenLength)
+      .setSize(preprocessorConfig.size)
+      .setImageMean(preprocessorConfig.image_mean)
+      .setImageStd(preprocessorConfig.image_std)
+      .setResample(preprocessorConfig.resample)
 
     val modelEngine =
       if (useOpenvino)
@@ -596,7 +600,6 @@ trait ReadJanusForMultiModalDLModel extends ReadOpenvinoModel {
       else
         detectedEngine
     annotatorModel.set(annotatorModel.engine, modelEngine)
-
     detectedEngine match {
       case Openvino.name =>
         val visionWrapper =
