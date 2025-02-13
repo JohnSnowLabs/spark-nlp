@@ -86,15 +86,15 @@ result.select("generation.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[CoHereTransformer](https://www.google.com/url?sa=E&source=gmail&q=https://www.google.com/url?sa=E%26source=gmail%26q=/api/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer)
+[CoHereTransformer](/api/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CoHereTransformer](https://www.google.com/url?sa=E&source=gmail&q=https://www.google.com/url?sa=E%26source=gmail%26q=/api/python/reference/autosummary/sparknlp/annotator/seq2seq/cohere/index.html#sparknlp.annotator.seq2seq.cohere.CoHereTransformer)
+[CoHereTransformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/cohere/index.html#sparknlp.annotator.seq2seq.cohere.CoHereTransformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[CoHereTransformer](https://www.google.com/url?sa=E&source=gmail&q=https://www.google.com/url?sa=E%26source=gmail%26q=https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer.scala)
+[CoHereTransformer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
