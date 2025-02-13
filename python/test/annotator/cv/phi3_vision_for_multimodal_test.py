@@ -24,7 +24,7 @@ from test.util import SparkSessionForTest,SparkContextForTest
 class Phi3VisionTestSetup(unittest.TestCase):
 
     def setUp(self):
-        self.images_path = os.getcwd() + "/../src/test/resources/image/"
+        self.images_path = "file://" + os.getcwd() + "/../src/test/resources/image/"
         self.spark = SparkContextForTest.spark
         image_df = SparkSessionForTest.spark.read.format("image").load(
             path=self.images_path
@@ -34,7 +34,7 @@ class Phi3VisionTestSetup(unittest.TestCase):
 
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
-        imageClassifier = Phi3Vision.pretrained() \
+        imageClassifier = Phi3Vision.loadSavedModel("/home/prabod/Projects/spark-nlp/examples/python/transformers/openvino/model/openvino/INT4", self.spark) \
             .setInputCols("image_assembler") \
             .setOutputCol("answer")
 

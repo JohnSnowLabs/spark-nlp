@@ -49,7 +49,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"phi3v"`, if no name is provided.
+  * The default model is `"phi_3_vision_128k_instruct"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -78,7 +78,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCol("image")
   *   .setOutputCol("image_assembler")
   *
-  * val visualQAClassifier = Phi3Vision.pretrained()
+  * val visualQAClassifier = Phi3Vision.pretrained("phi_3_vision_128k_instruct","en")
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   *
@@ -340,7 +340,7 @@ trait ReadablePretrainedPhi3Vision
     extends ParamsAndFeaturesReadable[Phi3Vision]
     with HasPretrained[Phi3Vision] {
 
-  override val defaultModelName: Some[String] = Some("phi3v")
+  override val defaultModelName: Some[String] = Some("phi_3_vision_128k_instruct")
 
   /** Java compliant-overrides */
   override def pretrained(): Phi3Vision = super.pretrained()

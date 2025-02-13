@@ -32,7 +32,7 @@ class Phi3Vision(AnnotatorModel,
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"phi3v"``, if no name is
+    The default model is ``"phi_3_vision_128k_instruct"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -69,7 +69,7 @@ class Phi3Vision(AnnotatorModel,
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-    >>> visualQAClassifier = Phi3Vision.pretrained() \\
+    >>> visualQAClassifier = Phi3Vision.pretrained("phi_3_vision_128k_instruct","en") \\
     ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
     >>> pipeline = Pipeline().setStages([
@@ -305,7 +305,7 @@ class Phi3Vision(AnnotatorModel,
         return Phi3Vision(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3v", lang="en", remote_loc=None):
+    def pretrained(name="phi_3_vision_128k_instruct", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
