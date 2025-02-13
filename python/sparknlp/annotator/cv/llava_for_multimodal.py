@@ -32,7 +32,7 @@ class LLAVAForMultiModal(AnnotatorModel,
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"llava"``, if no name is
+    The default model is ``"llava_1_5_7b_hf"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -305,14 +305,14 @@ class LLAVAForMultiModal(AnnotatorModel,
         return LLAVAForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3v", lang="en", remote_loc=None):
+    def pretrained(name="llava_1_5_7b_hf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "phi3v"
+            "llava_1_5_7b_hf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -321,7 +321,7 @@ class LLAVAForMultiModal(AnnotatorModel,
 
         Returns
         -------
-        CLIPForZeroShotClassification
+        LLAVAForMultiModal
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader

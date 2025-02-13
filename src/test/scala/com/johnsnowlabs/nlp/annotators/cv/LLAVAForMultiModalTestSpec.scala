@@ -168,7 +168,32 @@ class LLAVAForMultiModalTestSpec extends AnyFlatSpec {
     val newPipeline: Pipeline =
       new Pipeline().setStages(Array(imageAssembler, loadModel))
 
-    newPipeline.fit(testDF)
+    val pipelineModel = newPipeline.fit(testDF)
+
+    pipelineModel
+      .transform(testDF)
+      .show(truncate = false)
+
+    pipelineModel
+      .transform(testDF)
+      .show(truncate = false)
+
+    pipelineModel.stages.last
+      .asInstanceOf[LLAVAForMultiModal]
+      .write
+      .overwrite()
+      .save("/tmp/llava-7b-4bit-model")
+
+    val loadedLLAMA3 = LLAVAForMultiModal.load("/tmp/llava-7b-4bit-model")
+
+    val loadedPipeline = new Pipeline().setStages(Array(imageAssembler, loadedLLAMA3))
+
+    loadedPipeline
+      .fit(testDF)
+      .transform(testDF)
+      .show(truncate = false)
+
+    pipelineModel
   }
 
   private def getTestDF: DataFrame = {

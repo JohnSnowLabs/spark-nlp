@@ -50,7 +50,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"llava"`, if no name is provided.
+  * The default model is `"llava_1_5_7b_hf"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -371,7 +371,7 @@ trait ReadablePretrainedLLAVAForMultiModal
     extends ParamsAndFeaturesReadable[LLAVAForMultiModal]
     with HasPretrained[LLAVAForMultiModal] {
 
-  override val defaultModelName: Some[String] = Some("llava")
+  override val defaultModelName: Some[String] = Some("llava_1_5_7b_hf")
 
   /** Java compliant-overrides */
   override def pretrained(): LLAVAForMultiModal = super.pretrained()
@@ -446,6 +446,10 @@ trait ReadLLAVAForMultiModalDLModel extends ReadOpenvinoModel {
             "openvino_merge_model")))
     val modelConfig: JValue =
       parse(loadJsonStringAsset(localModelPath, "config.json"))
+
+    val generationConfigJson: JValue = parse(
+      loadJsonStringAsset(localModelPath, "generation_config.json"))
+
     val preprocessorConfigJsonContent =
       loadJsonStringAsset(localModelPath, "preprocessor_config.json")
     val preprocessorConfig = Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
@@ -467,9 +471,9 @@ trait ReadLLAVAForMultiModalDLModel extends ReadOpenvinoModel {
     def arrayOrNone[T](array: Array[T]): Option[Array[T]] =
       if (array.nonEmpty) Some(array) else None
 
-    val bosTokenId = (modelConfig \ "text_config" \ "bos_token_id").extract[Int]
-    val eosTokenId = (modelConfig \ "text_config" \ "eos_token_id").extract[Int]
-    val padTokenId = (modelConfig \ "text_config" \ "eos_token_id").extract[Int]
+    val bosTokenId = (generationConfigJson \ "bos_token_id").extract[Int]
+    val eosTokenId = (generationConfigJson \ "eos_token_id").extract[Int]
+    val padTokenId = (generationConfigJson \ "pad_token_id").extract[Int]
     val vocabSize = (modelConfig \ "text_config" \ "vocab_size").extract[Int]
 
     val imageToken = (modelConfig \ "image_token_index").extract[Int]
@@ -545,6 +549,10 @@ trait ReadLLAVAForMultiModalDLModel extends ReadOpenvinoModel {
       .setAddedTokens(addedTokens)
       .setImageToken(imageToken)
       .setImageTokenLength(imageTokenLength)
+      .setSize(preprocessorConfig.size)
+      .setImageMean(preprocessorConfig.image_mean)
+      .setImageStd(preprocessorConfig.image_std)
+      .setResample(preprocessorConfig.resample)
 
     val modelEngine =
       if (useOpenvino)
