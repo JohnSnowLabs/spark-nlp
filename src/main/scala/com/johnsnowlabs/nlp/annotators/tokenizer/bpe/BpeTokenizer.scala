@@ -319,7 +319,8 @@ object BpeTokenizer {
       padWithSequenceTokens: Boolean = false,
       addPrefixSpaceToSentence: Boolean = false,
       specialTokens: Option[SpecialTokens] = None,
-      alwaysAddPrefix: Boolean = true): BpeTokenizer = {
+      alwaysAddPrefix: Boolean = true,
+      prependString: String = ""): BpeTokenizer = {
 
     def modelSpecialTokens() = specialTokens match {
       case Some(specialTok) => specialTok
@@ -382,6 +383,14 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "llava" =>
+        new LLAVATokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }

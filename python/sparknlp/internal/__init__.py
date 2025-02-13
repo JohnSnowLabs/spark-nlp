@@ -299,6 +299,14 @@ class _LongformerQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _LLAVAForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_LLAVAForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.LLAVAForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _M2M100Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
