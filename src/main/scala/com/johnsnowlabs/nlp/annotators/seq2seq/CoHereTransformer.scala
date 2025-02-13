@@ -58,8 +58,8 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"cohere_35b_int4"`, if no name is provided. For available pretrained
-  * models please see the [[https://sparknlp.org/models?q=CoHere Models Hub]].
+  * The default model is `"c4ai_command_r_v01_int4"`, if no name is provided. For available
+  * pretrained models please see the [[https://sparknlp.org/models?q=CoHere Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTestSpec.scala CoHereTestSpec]].
@@ -83,7 +83,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val CoHere = CoHereTransformer.pretrained("CoHere_3_7b_chat_hf_int8")
+  * val CoHere = CoHereTransformer.pretrained("c4ai_command_r_v01_int4","en")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(15)
   *   .setMaxOutputLength(60)
@@ -334,7 +334,7 @@ class CoHereTransformer(override val uid: String)
 trait ReadablePretrainedCoHereTransformerModel
     extends ParamsAndFeaturesReadable[CoHereTransformer]
     with HasPretrained[CoHereTransformer] {
-  override val defaultModelName: Some[String] = Some("cohere_35b_int4")
+  override val defaultModelName: Some[String] = Some("c4ai_command_r_v01_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): CoHereTransformer = super.pretrained()

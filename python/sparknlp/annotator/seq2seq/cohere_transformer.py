@@ -32,7 +32,7 @@ class CoHereTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         ...     .setOutputCol("generation")
     
     
-        The default model is ``"CoHere-7b"``, if no name is provided. For available
+        The default model is ``"c4ai_command_r_v01_int4"``, if no name is provided. For available
         pretrained models please see the `Models Hub
         <https://sparknlp.org/models?q=CoHere>`__.
     
@@ -91,7 +91,7 @@ class CoHereTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         >>> documentAssembler = DocumentAssembler() \\
         ...     .setInputCol("text") \\
         ...     .setOutputCol("documents")
-        >>> CoHere = CoHereTransformer.pretrained() \\
+        >>> CoHere = CoHereTransformer.pretrained("c4ai_command_r_v01_int4","en") \\
         ...     .setInputCols(["documents"]) \\
         ...     .setMaxOutputLength(60) \\
         ...     .setOutputCol("generation")
@@ -335,13 +335,13 @@ class CoHereTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return CoHereTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="cohere_35b_int4", lang="en", remote_loc=None):
+    def pretrained(name="c4ai_command_r_v01_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "llama_2_7b_chat_hf_int4"
+            Name of the pretrained model, by default "c4ai_command_r_v01_int4"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
