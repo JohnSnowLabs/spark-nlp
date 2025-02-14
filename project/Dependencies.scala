@@ -76,12 +76,11 @@ object Dependencies {
   }
 
   /** ------- Scala version start ------- */
-  lazy val scala212 = "2.12.15"
-  lazy val scalaVer: String = scala212
+  lazy val scalaVer: String = "2.13.16"
 
-  lazy val supportedScalaVersions: Seq[String] = List(scala212)
+  lazy val supportedScalaVersions: Seq[String] = List(scalaVer)
 
-  val scalaTestVersion = "3.2.14"
+  val scalaTestVersion = "3.2.19"
 
   /** ------- Scala version end ------- */
 

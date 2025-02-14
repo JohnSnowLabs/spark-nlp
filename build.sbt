@@ -10,10 +10,10 @@ version := "6.2.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
-(ThisBuild / scalacOptions) += "-target:jvm-1.8"
+//(ThisBuild / scalacOptions) += "-target:11"
+(ThisBuild / javacOptions) ++= Seq("-source", "11", "-target", "11")
 
 (ThisBuild / javaOptions) += "-Xmx4096m"
-
 (ThisBuild / javaOptions) += "-XX:+UseG1GC"
 
 scalacOptions ++= Seq("-unchecked", "-feature", "-deprecation", "-language:implicitConversions")
@@ -58,7 +58,13 @@ lazy val utilDependencies = Seq(
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3")
     exclude ("com.google.code.findbugs", "annotations")
-    exclude ("org.slf4j", "slf4j-api"),
+    exclude ("org.slf4j", "slf4j-api")
+    exclude ("org.projectlombok", "lombok") // Java 11 Compatibility
+    exclude ("com.google.protobuf", "protobuf-java") // TODO: Do any annotators depend on this?
+    exclude ("com.google.protobuf", "protobuf-java-util"),
+  gcpStorage
+    exclude ("com.google.protobuf", "protobuf-java")
+    exclude ("com.google.protobuf", "protobuf-java-util"),
   gcpStorage
     exclude ("com.fasterxml.jackson.core", "jackson-core")
     exclude ("com.fasterxml.jackson.dataformat", "jackson-dataformat-cbor"),
