@@ -587,6 +587,10 @@ trait ReadQwen2VLTransformerDLModel extends ReadOpenvinoModel {
       .setVocabulary(vocabs)
       .setMerges(bytePairs)
       .setAddedTokens(addedTokens)
+      .setSize(preprocessorConfig.size)
+      .setImageMean(preprocessorConfig.image_mean)
+      .setImageStd(preprocessorConfig.image_std)
+      .setResample(preprocessorConfig.resample)
 
     val modelEngine =
       if (useOpenvino)
