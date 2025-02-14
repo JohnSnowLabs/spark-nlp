@@ -135,6 +135,9 @@ private[johnsnowlabs] object Preprocessor {
           // ConvNext case: Size of the output image after `resize` has been applied
           sizeMap("shortest_edge").toInt
         case sizeInt: BigInt => sizeInt.toInt
+        case sizeMap: Map[String, BigInt] if sizeMap.contains("max_pixels") =>
+          val max_pixels = sizeMap("max_pixels")
+          max_pixels.toInt
         case _ =>
           throw new IllegalArgumentException(
             "Unsupported format for size. Should either be int or dict with entries \'width\' and \'height\' or \'shortest_edge\'")
