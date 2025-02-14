@@ -38,7 +38,7 @@ Pretrained models can be loaded with :meth:`.pretrained` of the companion object
 ...     .setInputCols(["image_assembler"]) \\
 ...     .setOutputCol("answer")
 
-The default model is `"mllama"`, if no name is provided.
+The default model is `"llama_3_2_11b_vision_instruct_int4"`, if no name is provided.
 
 For available pretrained models, refer to the `Models Hub
 <https://sparknlp.org/models?task=Question+Answering>`__.
@@ -317,14 +317,14 @@ Examples
         return MLLamaForMultimodal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mllama", lang="en", remote_loc=None):
+    def pretrained(name="llama_3_2_11b_vision_instruct_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "phi3v"
+            "llama_3_2_11b_vision_instruct_int4"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -333,7 +333,7 @@ Examples
 
         Returns
         -------
-        CLIPForZeroShotClassification
+        MLLamaForMultimodal
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader

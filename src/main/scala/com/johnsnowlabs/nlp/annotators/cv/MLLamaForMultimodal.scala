@@ -57,7 +57,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"mllama"`, if no name is provided.
+  * The default model is `"llama_3_2_11b_vision_instruct_int4"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -398,7 +398,7 @@ trait ReadablePretrainedMLLamaForMultimodal
     extends ParamsAndFeaturesReadable[MLLamaForMultimodal]
     with HasPretrained[MLLamaForMultimodal] {
 
-  override val defaultModelName: Some[String] = Some("mllama")
+  override val defaultModelName: Some[String] = Some("llama_3_2_11b_vision_instruct_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): MLLamaForMultimodal = super.pretrained()
@@ -591,6 +591,10 @@ trait ReadMLLamaForMultimodalDLModel extends ReadOpenvinoModel {
       .setImageToken(imageToken)
       .setMaxImageTiles(maxImageTiles)
       .setNumVisionTokens(numVisionTokens)
+      .setSize(preprocessorConfig.size)
+      .setImageMean(preprocessorConfig.image_mean)
+      .setImageStd(preprocessorConfig.image_std)
+      .setResample(preprocessorConfig.resample)
 
     val modelEngine =
       if (useOpenvino)
