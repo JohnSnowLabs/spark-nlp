@@ -51,7 +51,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"Qwen/Qwen2-VL-@B-Instruct"`, if no name is provided.
+  * The default model is `"qwen2_vl_2b_instruct_int4"`, if no name is provided.
   *
   * For available pretrained models, please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -382,6 +382,13 @@ class Qwen2VLTransformer(override val uid: String)
           spark,
           Seq((wrappers.get.multimodalMergeModel, "openvino_multimodal_merge_model.xml")),
           Qwen2VLTransformer.suffix)
+
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.rotaryEmbedding, "openvino_rotary_embeddings_model.xml")),
+          Qwen2VLTransformer.suffix)
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -393,7 +400,7 @@ trait ReadablePretrainedQwen2VLTransformer
     extends ParamsAndFeaturesReadable[Qwen2VLTransformer]
     with HasPretrained[Qwen2VLTransformer] {
 
-  override val defaultModelName: Some[String] = Some("phi3v")
+  override val defaultModelName: Some[String] = Some("qwen2_vl_2b_instruct_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): Qwen2VLTransformer = super.pretrained()
@@ -411,8 +418,8 @@ trait ReadablePretrainedQwen2VLTransformer
 
 trait ReadQwen2VLTransformerDLModel extends ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[Qwen2VLTransformer] =>
-  val suffix: String = "_phi3v"
-  override val openvinoFile: String = "phi3v_openvino"
+  val suffix: String = "_qwen2vl"
+  override val openvinoFile: String = "qwen2vl_openvino"
   def readModel(instance: Qwen2VLTransformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
       // LANGUAGE_MODEL_NAME = "openvino_language_model.xml"

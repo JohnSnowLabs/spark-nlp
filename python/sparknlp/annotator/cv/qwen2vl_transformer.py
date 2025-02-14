@@ -33,7 +33,7 @@ class Qwen2VLTransformer(AnnotatorModel,
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
-    The default model is ``"Qwen/Qwen2-VL-7B-Instruct"``, if no name is provided.
+    The default model is ``"qwen2_vl_2b_instruct_int4"``, if no name is provided.
 
     For available pretrained models, please see the `Models Hub
     <https://sparknlp.org/models?task=Question+Answering>`__.
@@ -309,14 +309,14 @@ class Qwen2VLTransformer(AnnotatorModel,
         return Qwen2VLTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3v", lang="en", remote_loc=None):
+    def pretrained(name="qwen2_vl_2b_instruct_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "phi3v"
+            "qwen2_vl_2b_instruct_int4"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -325,7 +325,7 @@ class Qwen2VLTransformer(AnnotatorModel,
 
         Returns
         -------
-        CLIPForZeroShotClassification
+        Qwen2VLTransformer
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
