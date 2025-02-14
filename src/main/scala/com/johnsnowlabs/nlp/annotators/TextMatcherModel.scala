@@ -207,7 +207,7 @@ class TextMatcherModel(override val uid: String)
       }
     }
 
-    result
+    result.toSeq
   }
 
 }

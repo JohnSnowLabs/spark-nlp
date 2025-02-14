@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
 public class ScoreCollector implements Collector {
 
-    private float[] weights;
+    private final float[] weights;
     private float score;
 
     public float getScore() {

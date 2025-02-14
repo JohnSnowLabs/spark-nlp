@@ -62,10 +62,10 @@ trait WeightedLevenshtein {
       val lineFields = line.split("\\|")
       val dist = vocabIdxs
         .getOrElse(lineFields(0), mutable.Map[String, Float]())
-        .updated(lineFields(1), lineFields(2).toFloat)
+        .addOne((lineFields(1) -> lineFields(2).toFloat))
       vocabIdxs.update(lineFields(0), dist)
     }
-    vocabIdxs.toMap.mapValues(_.toMap)
+    vocabIdxs.toMap.view.mapValues(_.toMap).toMap
   }
 
   private def genCost(weights: Map[String, Map[String, Float]])(a: String, b: String): Float = {

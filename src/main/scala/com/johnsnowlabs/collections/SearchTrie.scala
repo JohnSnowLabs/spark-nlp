@@ -31,13 +31,13 @@ case class SearchTrie(
     // Previous Leaf - Link to leaf that suffix of current path from root
     nodes: Vector[(Int, Boolean, Int, Int)],
     caseSensitive: Boolean) {
-  val caseSearch =
+  val caseSearch: String => Int =
     if (caseSensitive)
       (word: String) => vocabulary.getOrElse(word, -1)
     else
       (word: String) => vocabulary.getOrElse(word.toLowerCase, -1)
 
-  /** Searchs phrases in the text
+  /** Searches phrases in the text
     * @param text
     *   test to search in
     * @return
@@ -83,7 +83,7 @@ case class SearchTrie(
       }
     }
 
-    result
+    result.toSeq
   }
 
   def pi(nodeId: Int): Int = nodes(nodeId)._1

@@ -20,6 +20,7 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{array, col, explode, udf}
 import org.apache.spark.sql.types.MetadataBuilder
 import org.apache.spark.sql.{DataFrame, Row}
+import com.johnsnowlabs.nlp.Annotation
 
 import scala.reflect.runtime.universe._
 

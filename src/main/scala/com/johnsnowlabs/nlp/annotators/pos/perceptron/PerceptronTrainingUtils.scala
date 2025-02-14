@@ -81,7 +81,9 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
       .groupBy(_.word.toLowerCase)
-      .mapValues(_.groupBy(_.tag).mapValues(_.length))
+      .view
+      .mapValues(_.groupBy(_.tag).view
+        .mapValues(_.length))
 
     tagFrequenciesByWord
       .filter { case (_, tagFrequencies) =>
@@ -94,6 +96,7 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
         logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
         (word, tag)
       }
+      .toMap
   }
 
   /** Iterates for training */

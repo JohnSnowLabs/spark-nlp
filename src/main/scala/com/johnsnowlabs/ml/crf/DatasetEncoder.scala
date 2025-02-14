@@ -125,8 +125,8 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
 
     new DatasetMetadata(
       labels,
-      copy(attributes),
-      copy(attrFeatures),
+      copy(attributes.toIndexedSeq),
+      copy(attrFeatures.toIndexedSeq),
       transitions.toArray,
       (attrsStat ++ transitionsStat).toArray)
   }

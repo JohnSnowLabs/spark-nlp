@@ -165,7 +165,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
             begin = begin,
             end = end,
             result = content,
-            metadata = finalMeta,
+            metadata = finalMeta.toMap,
             embeddings = Array.emptyFloatArray))
       } else None
     }

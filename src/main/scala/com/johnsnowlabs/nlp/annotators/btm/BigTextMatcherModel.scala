@@ -128,7 +128,7 @@ class BigTextMatcherModel(override val uid: String)
       }
     }
 
-    result
+    result.toSeq
   }
 
   override protected val databases: Array[Name] = BigTextMatcherModel.databases

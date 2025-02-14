@@ -576,7 +576,7 @@ class SentenceDetectorDLModel(override val uid: String)
     })
 
     outputAnnotations
-      .filter(anno => anno.result.length >= getMinLength && anno.result.length <= getMaxLength)
+      .filter(anno => anno.result.length >= getMinLength && anno.result.length <= getMaxLength).toSeq
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

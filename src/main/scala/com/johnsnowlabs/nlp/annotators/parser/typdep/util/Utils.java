@@ -24,7 +24,7 @@ public final class Utils {
         throw new IllegalStateException("Utility class");
     }
 
-    private static Random rnd = new Random(System.currentTimeMillis());
+    private static final Random rnd = new Random(System.currentTimeMillis());
 
     public static int log2(long x) {
         long y = 1;

@@ -27,8 +27,8 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import java.io.{IOException, ObjectInputStream, ObjectOutputStream}
-import scala.collection.JavaConverters._
-import scala.collection.mutable.Set
+import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 class TransducerSeqFeature(model: HasFeatures, override val name: String)
     extends Feature[Seq[SpecialClassParser], Seq[SpecialClassParser], Seq[SpecialClassParser]](
@@ -176,7 +176,7 @@ trait RegexParser extends SpecialClassParser {
 
 trait VocabParser extends SpecialClassParser {
 
-  var vocab: Set[String]
+  var vocab: mutable.Set[String]
 
   def generateTransducer: ITransducer[Candidate] = {
 
@@ -190,7 +190,7 @@ trait VocabParser extends SpecialClassParser {
   }
 
   def loadDataset(path: String, col: Option[String] = None) = {
-    Set() ++= (scala.io.Source.fromFile(path).getLines)
+    mutable.Set() ++= (scala.io.Source.fromFile(path).getLines)
   }
 }
 
@@ -230,7 +230,7 @@ class NumberToken extends RegexParser with SerializableClass {
 
 class LocationClass() extends VocabParser with SerializableClass {
 
-  override var vocab = Set.empty[String]
+  override var vocab = mutable.Set.empty[String]
   override var label: String = "_LOC_"
   override var maxDist: Int = 3
 
@@ -253,7 +253,7 @@ class LocationClass() extends VocabParser with SerializableClass {
 
 class MainVocab() extends VocabParser with SerializableClass {
 
-  override var vocab = Set.empty[String]
+  override var vocab = mutable.Set.empty[String]
   override var label: String = "_MAIN_"
   override var maxDist: Int = 3
 
@@ -276,7 +276,7 @@ class MainVocab() extends VocabParser with SerializableClass {
 
 class NamesClass extends VocabParser with SerializableClass {
 
-  override var vocab = Set.empty[String]
+  override var vocab = mutable.Set.empty[String]
   override var label: String = "_NAME_"
   override var maxDist: Int = 3
 
@@ -299,7 +299,7 @@ class NamesClass extends VocabParser with SerializableClass {
 
 class MedicationClass extends VocabParser with SerializableClass {
 
-  override var vocab = Set.empty[String]
+  override var vocab = mutable.Set.empty[String]
   override var label: String = "_MED_"
   override var maxDist: Int = 3
 
@@ -341,7 +341,7 @@ class AgeToken extends RegexParser with SerializableClass {
 
 class UnitToken extends VocabParser with SerializableClass {
 
-  override var vocab: Set[String] = Set(
+  override var vocab: mutable.Set[String] = mutable.Set(
     "MG=",
     "MEQ=",
     "TAB",
@@ -417,7 +417,7 @@ class DateToken extends RegexParser with WeightedLevenshtein with SerializableCl
 }
 
 class GenericVocabParser(
-    override var vocab: Set[String],
+    override var vocab: mutable.Set[String],
     override var label: String,
     override var maxDist: Int = 3)
     extends VocabParser

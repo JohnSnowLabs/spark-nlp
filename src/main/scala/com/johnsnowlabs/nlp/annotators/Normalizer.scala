@@ -253,7 +253,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     val loadSlangs = if (get(slangDictionary).isDefined) {
       val parsed = ResourceHelper.parseKeyValueText($(slangDictionary))
       if ($(slangMatchCase))
-        parsed.mapValues(_.trim)
+        parsed.view.mapValues(_.trim).toMap
       else
         parsed.map { case (k, v) => (k.toLowerCase, v.trim) }
     } else

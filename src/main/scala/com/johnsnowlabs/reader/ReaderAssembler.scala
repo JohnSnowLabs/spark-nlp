@@ -38,7 +38,7 @@ import org.apache.spark.sql.{Column, DataFrame, Dataset}
 
 import java.io.File
 import scala.collection.mutable
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 /** The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
   * readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable

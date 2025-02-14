@@ -29,7 +29,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
 import java.util
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** Implements a deep-learning based Noisy Channel Model Spell Algorithm. Correction candidates
@@ -625,10 +625,12 @@ class ContextSpellCheckerModel(override val uid: String)
         // ToDo: This is a backup plan for empty DecodedPath -- fix me!!
         if (decodedPath.nonEmpty)
           sentTokens.zip(decodedPath).map { case (orig, correct) =>
-            orig.copy(result = correct, metadata = orig.metadata.updated("cost", cost.toString))
+            orig.copy(
+              result = correct,
+              metadata = orig.metadata.concat(Seq("cost" -> cost.toString)))
           }
         else
-          sentTokens.map(orig => orig.copy(metadata = orig.metadata.updated("cost", "0")))
+          sentTokens.map(orig => orig.copy(metadata = orig.metadata.concat(Seq("cost" -> "0"))))
       }
 
     decodedSentPaths.values.toList.reverse.flatten
@@ -655,11 +657,11 @@ class ContextSpellCheckerModel(override val uid: String)
     // first pass - perplexities
     val encodedSent = Array($$(vocabIds)("_BOS_")) ++ annotations.map { ann =>
       if ($(compareLowcase))
-        $$(vocabIds)
-          .get(ann.result)
-          .getOrElse($$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode))
+        $$(vocabIds).getOrElse(
+          ann.result,
+          $$(vocabIds).getOrElse(ann.result.toLowerCase, unkCode))
       else
-        $$(vocabIds).get(ann.result).getOrElse(unkCode)
+        $$(vocabIds).getOrElse(ann.result, unkCode)
     } ++ Array($$(vocabIds)("_EOS_"))
 
     val cids = encodedSent.map { id =>

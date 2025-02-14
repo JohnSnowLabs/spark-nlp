@@ -232,7 +232,7 @@ object EnglishStemmer {
   /** Condition, that is checked against the beginning of the word Predicate to be applied to the
     * word
     */
-  private case class Condition(predicate: Word ⇒ Boolean) {
+  private case class Condition(predicate: Word => Boolean) {
     def + = new Pattern(this, _: String)
 
     def unary_~ : Condition = this // just syntactic sugar
@@ -240,17 +240,17 @@ object EnglishStemmer {
     def ~ = this
 
     def and(condition: Condition): Condition =
-      Condition((word) ⇒ predicate(word) && condition.predicate(word))
+      Condition((word) => predicate(word) && condition.predicate(word))
 
     def or(condition: Condition): Condition =
-      Condition((word) ⇒ predicate(word) || condition.predicate(word))
+      Condition((word) => predicate(word) || condition.predicate(word))
   }
 
-  private def not: Condition ⇒ Condition = { case Condition(predicate) ⇒
+  private def not: Condition => Condition = { case Condition(predicate) =>
     Condition(!predicate(_))
   }
 
-  private val emptyCondition = Condition(_ ⇒ true)
+  private val emptyCondition = Condition(_ => true)
 
   private object m {
     def >(measure: Int) = Condition(_.measure > measure)
@@ -274,7 +274,7 @@ object EnglishStemmer {
     * @param build
     *   Function to be called to build a stem
     */
-  private case class StemBuilder(build: Word ⇒ Word)
+  private case class StemBuilder(build: Word => Word)
 
   private def suffixStemBuilder(suffix: String) = StemBuilder(_ + suffix)
 
@@ -293,9 +293,9 @@ object EnglishStemmer {
 
     def hasConsonantAt(position: Int): Boolean =
       (word.indices contains position) && (word(position) match {
-        case 'a' | 'e' | 'i' | 'o' | 'u' ⇒ false
-        case 'y' if hasConsonantAt(position - 1) ⇒ false
-        case _ ⇒ true
+        case 'a' | 'e' | 'i' | 'o' | 'u' => false
+        case 'y' if hasConsonantAt(position - 1) => false
+        case _ => true
       })
 
     def hasVowelAt = !hasConsonantAt(_: Int)
@@ -319,9 +319,9 @@ object EnglishStemmer {
       * @return
       *   integer
       */
-    def measure = word.indices.filter(pos ⇒ hasVowelAt(pos) && hasConsonantAt(pos + 1)).length
+    def measure = word.indices.filter(pos => hasVowelAt(pos) && hasConsonantAt(pos + 1)).length
 
-    def matchedBy: Pattern ⇒ Boolean = { case Pattern(condition, suffix) ⇒
+    def matchedBy: Pattern => Boolean = { case Pattern(condition, suffix) =>
       endsWith(suffix) && (trimSuffix(suffix.length) satisfies condition)
     }
 
@@ -332,7 +332,7 @@ object EnglishStemmer {
     }
 
     def applyReplaces(commonCondition: Condition)(replaces: (Pattern, StemBuilder)*): Word =
-      applyReplaces(replaces map { case (Pattern(condition, suffix), stemBuilder) ⇒
+      applyReplaces(replaces map { case (Pattern(condition, suffix), stemBuilder) =>
         (Pattern(commonCondition and condition, suffix), stemBuilder)
       }: _*)
 
@@ -343,9 +343,9 @@ object EnglishStemmer {
   private implicit def pimpMyRule[P <% Pattern, SB <% StemBuilder](
       rule: (P, SB)): (Pattern, StemBuilder) = (rule._1, rule._2)
 
-  private implicit def emptyConditionPattern: String ⇒ Pattern = Pattern(emptyCondition, _)
+  private implicit def emptyConditionPattern: String => Pattern = Pattern(emptyCondition, _)
 
-  private implicit def emptySuffixPattern: Condition ⇒ Pattern = Pattern(_, "")
+  private implicit def emptySuffixPattern: Condition => Pattern = Pattern(_, "")
 
-  private implicit def suffixedStemBuilder: String ⇒ StemBuilder = suffixStemBuilder
+  private implicit def suffixedStemBuilder: String => StemBuilder = suffixStemBuilder
 }

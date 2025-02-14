@@ -133,7 +133,7 @@ object ResourceHelper {
         val files = fileSystem.listFiles(path.get, true)
         val buffer = ArrayBuffer.empty[InputStream]
         while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
-        buffer
+        buffer.toSeq
       }
     }
 
@@ -287,7 +287,7 @@ object ResourceHelper {
           }
         }
       }
-      return result.distinct.sorted
+      return result.distinct.sorted.toSeq
     }
 
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")

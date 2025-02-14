@@ -24,11 +24,11 @@ import java.util.Arrays;
 
 public class LocalFeatureData {
 
-    private DependencyInstance dependencyInstance;
-    private DependencyPipe pipe;
-    private SyntacticFeatureFactory synFactory;
-    private Options options;
-    private Parameters parameters;
+    private final DependencyInstance dependencyInstance;
+    private final DependencyPipe pipe;
+    private final SyntacticFeatureFactory synFactory;
+    private final Options options;
+    private final Parameters parameters;
 
     private final int sentenceLength;
     private final int numberOfLabelTypes;
@@ -45,8 +45,8 @@ public class LocalFeatureData {
     float[][] wpV2;
     float[][] wpW2;
 
-    private float[][] scoresOrProbabilities;
-    private float[][][] labelScores;
+    private final float[][] scoresOrProbabilities;
+    private final float[][][] labelScores;
 
     private static final int FORWARD_DIRECTION = 1;
     private static final int BACKWARD_DIRECTION = 2;

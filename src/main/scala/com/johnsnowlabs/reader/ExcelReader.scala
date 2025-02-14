@@ -26,8 +26,8 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
 import java.io.ByteArrayInputStream
-import scala.collection.JavaConverters._
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 /** This class is used to read and parse excel files.
   *
@@ -172,7 +172,7 @@ class ExcelReader(
       elementsBuffer ++= images
 
       workbook.close()
-      elementsBuffer
+      elementsBuffer.toSeq
     } catch {
       case e: Exception =>
         Seq(
@@ -261,7 +261,7 @@ class ExcelReader(
     val colBreaks: Seq[Int] = sheet match {
       case xssf: XSSFSheet =>
         if (xssf.getCTWorksheet.isSetColBreaks)
-          xssf.getCTWorksheet.getColBreaks.getBrkList.asScala.map(_.getId.toInt).sorted
+          xssf.getCTWorksheet.getColBreaks.getBrkList.asScala.map(_.getId.toInt).sorted.toSeq
         else Seq.empty[Int]
       case hssf: HSSFSheet =>
         Option(hssf.getColumnBreaks).map(_.toSeq).getOrElse(Seq.empty[Int])
@@ -322,7 +322,7 @@ class ExcelReader(
             content = "",
             metadata = metadata,
             binaryContent = Some(pic.getData))
-        }
+        }.toSeq
 
       case hssf: HSSFWorkbook =>
         hssf.getAllPictures.asScala.map { pic =>
@@ -334,7 +334,7 @@ class ExcelReader(
             content = "",
             metadata = metadata,
             binaryContent = Some(pic.getData))
-        }
+        }.toSeq
 
       case _ => Seq.empty
     }

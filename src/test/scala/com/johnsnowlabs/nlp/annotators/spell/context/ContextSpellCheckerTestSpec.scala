@@ -31,6 +31,7 @@ import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
+import java.util.Arrays.deepEquals
 import scala.collection.JavaConverters._
 
 class ContextSpellCheckerTestSpec extends AnyFlatSpec {
@@ -457,8 +458,7 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
       Array.fill(6)(("end", 1.2, "end")),
       Array.fill(6)((".", 1.2, ".")))
     val (decoded, _) = loadedModel.decodeViterbi(trellis)
-    assert(decoded.deep.equals(Array("the", "end", ".").deep))
-
+    assert(decoded sameElements Array("the", "end", "."))
   }
 
   "number classes" should "recognize different number patterns" taggedAs FastTest in {

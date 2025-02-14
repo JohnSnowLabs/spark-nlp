@@ -511,7 +511,7 @@ trait ReadLLAVAForMultiModalDLModel extends ReadOpenvinoModel {
       val addedTokens = (tokenizerConfig \ "added_tokens")
         .extract[List[Map[String, Any]]]
         .map { token =>
-          val id = token("id").asInstanceOf[BigInt].intValue()
+          val id = token("id").asInstanceOf[BigInt].intValue
           val content = token("content").asInstanceOf[String]
           (content, id)
         }

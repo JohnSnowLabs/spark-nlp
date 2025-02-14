@@ -11,7 +11,7 @@ import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 import java.io.File
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties {
 

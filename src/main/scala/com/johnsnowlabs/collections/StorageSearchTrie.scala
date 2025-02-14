@@ -79,7 +79,7 @@ class StorageSearchTrie(
       }
     }
 
-    result
+    result.toSeq
   }
 }
 

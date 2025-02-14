@@ -21,7 +21,11 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
+import scala.collection.parallel.CollectionConverters.{
+  ArrayIsParallelizable,
+  IterableIsParallelizable
+}
 import scala.util.{Failure, Success, Try}
 
 class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean = false) {
@@ -121,7 +125,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
           processRecursiveAnnotator(recursiveAnnotator, annotations)
         case annotatorModel: AnnotatorModel[_] =>
           processAnnotatorModel(annotatorModel, annotations)
-        case finisher: Finisher => annotations.filterKeys(finisher.getInputCols.contains)
+        case finisher: Finisher =>
+          annotations.view.filterKeys(finisher.getInputCols.contains).toMap
         case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
         case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
         case pipeline: PipelineModel =>
@@ -306,20 +311,22 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target)
+    fullAnnotate(target).view
       .mapValues(_.map { annotation =>
         castToJavaAnnotation(annotation)
       }.asJava)
+      .toMap
       .asJava
   }
 
   def fullAnnotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target, optionalTarget)
+    fullAnnotate(target, optionalTarget).view
       .mapValues(_.map { annotation =>
         castToJavaAnnotation(annotation)
       }.asJava)
+      .toMap
       .asJava
   }
 
@@ -364,10 +371,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   def fullAnnotateImageJava(
       pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
+    fullAnnotateImage(pathToImage).view.mapValues(_.asJava).toMap.asJava
   }
-
-  import scala.collection.JavaConverters._
 
   def fullAnnotateImageJava(
       pathToImages: java.util.ArrayList[String],
@@ -376,7 +381,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
     if (texts.isEmpty) {
       pathToImages.asScala.par
         .map { imageFilePath =>
-          fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+          fullAnnotateInternal(imageFilePath).view.mapValues(_.asJava).toMap.asJava
         }
         .toList
         .asJava
@@ -390,7 +395,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
       imageTextPairs
         .map { case (imageFilePath, text) =>
-          fullAnnotateImage(imageFilePath, text).mapValues(_.asJava).asJava
+          fullAnnotateImage(imageFilePath, text).view.mapValues(_.asJava).toMap.asJava
         }
         .toList
         .asJava
@@ -399,14 +404,14 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   def fullAnnotateSingleAudioJava(
       audio: java.util.ArrayList[Double]): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
+    fullAnnotate(audio.asScala.toArray).view.mapValues(_.asJava).toMap.asJava
   }
 
   def fullAnnotateAudiosJava(audios: java.util.ArrayList[java.util.ArrayList[Double]])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     audios.asScala.par
       .map { audio =>
-        fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
+        fullAnnotate(audio.asScala.toArray).view.mapValues(_.asJava).toMap.asJava
       }
       .toList
       .asJava
@@ -420,7 +425,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     val annotations = fullAnnotate(target, optionalTarget)
-    annotations.mapValues(_.map {
+    annotations.view.mapValues(_.map {
       case annotation: Annotation =>
         annotation.annotatorType match {
           case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
@@ -429,7 +434,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
           case _ => annotation.result
         }
       case _ => ""
-    })
+    }).toMap
   }
 
   def annotate(
@@ -447,13 +452,13 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target).mapValues(_.asJava).asJava
+    annotate(target).view.mapValues(_.asJava).toMap.asJava
   }
 
   def annotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target, optionalTarget).mapValues(_.asJava).asJava
+    annotate(target, optionalTarget).view.mapValues(_.asJava).toMap.asJava
   }
 
   def annotateJava(targets: java.util.ArrayList[String])

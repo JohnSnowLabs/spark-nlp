@@ -196,7 +196,7 @@ class TokenAssembler(override val uid: String)
 
       result.append(annotation)
     }
-    result
+    result.toSeq
   }
 
 }

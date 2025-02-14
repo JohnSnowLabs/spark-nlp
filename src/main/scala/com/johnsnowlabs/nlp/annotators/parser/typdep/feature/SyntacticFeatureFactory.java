@@ -35,7 +35,7 @@ import static com.johnsnowlabs.nlp.annotators.parser.typdep.feature.FeatureTempl
 public class SyntacticFeatureFactory implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
+    private final transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private static final int BITS = 30;
 
@@ -92,7 +92,7 @@ public class SyntacticFeatureFactory implements Serializable {
         this.flagBits = flagBits;
     }
 
-    private int numberLabeledArcFeatures;
+    private final int numberLabeledArcFeatures;
     private int numberWordFeatures;
 
     public int getNumberLabeledArcFeatures() {
@@ -106,7 +106,7 @@ public class SyntacticFeatureFactory implements Serializable {
     private boolean stoppedGrowth;
     private transient HashSet<Long> featureHashSet;
 
-    private Alphabet wordAlphabet;        // the alphabet of word features (e.g. \phi_h, \phi_m)
+    private final Alphabet wordAlphabet;        // the alphabet of word features (e.g. \phi_h, \phi_m)
 
     public SyntacticFeatureFactory() {
         wordAlphabet = new Alphabet();
@@ -1110,7 +1110,7 @@ public class SyntacticFeatureFactory implements Serializable {
      ************************************************************************/
 
     private long extractArcTemplateCode(long code) {
-        return (code >> flagBits) & ((1 << NUM_ARC_FEAT_BITS) - 1);
+        return (code >> flagBits) & ((1L << NUM_ARC_FEAT_BITS) - 1);
     }
 
     private long extractDistanceCode(long code) {
@@ -1118,11 +1118,11 @@ public class SyntacticFeatureFactory implements Serializable {
     }
 
     private long extractLabelCode(long code) {
-        return (code >> 4) & ((1 << depNumBits) - 1);
+        return (code >> 4) & ((1L << depNumBits) - 1);
     }
 
     private long extractPLabelCode(long code) {
-        return (code >> (depNumBits + 4)) & ((1 << depNumBits) - 1);
+        return (code >> (depNumBits + 4)) & ((1L << depNumBits) - 1);
     }
 
     private void extractArcCodeP(long code, int[] x) {

@@ -26,9 +26,9 @@ import java.io.Serializable;
 public class Parameters implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
+    private final transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
-    private float regularization;
+    private final float regularization;
     private float gammaLabel;
     private int rankFirstOrderTensor;
     private int rankSecondOrderTensor;
@@ -45,9 +45,9 @@ public class Parameters implements Serializable {
         this.rankSecondOrderTensor = rankSecondOrderTensor;
     }
 
-    private int numberWordFeatures;
-    private int T;
-    private int DL;
+    private final int numberWordFeatures;
+    private final int T;
+    private final int DL;
 
     public int getT() {
         return T;
@@ -61,17 +61,17 @@ public class Parameters implements Serializable {
         return DL;
     }
 
-    private float[] paramsL;
+    private final float[] paramsL;
 
     public float[] getParamsL() {
         return paramsL;
     }
 
-    private transient float[] totalL;
+    private final transient float[] totalL;
 
-    private float[][] U;
-    private float[][] V;
-    private float[][] WL;
+    private final float[][] U;
+    private final float[][] V;
+    private final float[][] WL;
 
     public float[][] getU() {
         return U;
@@ -85,10 +85,10 @@ public class Parameters implements Serializable {
         return WL;
     }
 
-    private float[][] U2;
-    private float[][] V2;
-    private float[][] W2;
-    private float[][] X2L;
+    private final float[][] U2;
+    private final float[][] V2;
+    private final float[][] W2;
+    private final float[][] X2L;
 
     public float[][] getU2() {
         return U2;
@@ -110,26 +110,26 @@ public class Parameters implements Serializable {
         return Y2L;
     }
 
-    private float[][] Y2L;
+    private final float[][] Y2L;
 
 
-    private transient float[][] totalU;
-    private transient float[][] totalV;
-    private transient float[][] totalWL;
-    private transient float[][] totalU2;
-    private transient float[][] totalV2;
-    private transient float[][] totalW2;
-    private transient float[][] totalX2L;
-    private transient float[][] totalY2L;
+    private final transient float[][] totalU;
+    private final transient float[][] totalV;
+    private final transient float[][] totalWL;
+    private final transient float[][] totalU2;
+    private final transient float[][] totalV2;
+    private final transient float[][] totalW2;
+    private final transient float[][] totalX2L;
+    private final transient float[][] totalY2L;
 
-    private transient FeatureVector[] dU;
-    private transient FeatureVector[] dV;
-    private transient FeatureVector[] dWL;
-    private transient FeatureVector[] dU2;
-    private transient FeatureVector[] dV2;
-    private transient FeatureVector[] dW2;
-    private transient FeatureVector[] dX2L;
-    private transient FeatureVector[] dY2L;
+    private final transient FeatureVector[] dU;
+    private final transient FeatureVector[] dV;
+    private final transient FeatureVector[] dWL;
+    private final transient FeatureVector[] dU2;
+    private final transient FeatureVector[] dV2;
+    private final transient FeatureVector[] dW2;
+    private final transient FeatureVector[] dX2L;
+    private final transient FeatureVector[] dY2L;
 
     public Parameters(DependencyPipe pipe, Options options) {
         numberWordFeatures = pipe.getSynFactory().getNumberWordFeatures();

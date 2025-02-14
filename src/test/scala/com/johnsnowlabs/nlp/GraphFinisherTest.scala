@@ -170,8 +170,8 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .select("finisher")
       .rdd
       .map { row =>
-        val result: Seq[Seq[String]] =
-          row.get(0).asInstanceOf[mutable.WrappedArray[mutable.WrappedArray[String]]]
+        val result =
+          row.get(0).asInstanceOf[mutable.ArraySeq[mutable.ArraySeq[String]]]
         result
       }
       .collect()
@@ -184,7 +184,7 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .select(column)
       .rdd
       .map { row =>
-        val result: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
+        val result = row.get(0).asInstanceOf[mutable.ArraySeq[String]].toSeq
         result
       }
       .collect()

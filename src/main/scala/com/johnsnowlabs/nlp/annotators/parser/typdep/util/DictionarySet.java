@@ -31,7 +31,7 @@ public class DictionarySet implements Serializable {
         TYPE_END
     }
 
-    private Dictionary[] dictionaries;
+    private final Dictionary[] dictionaries;
 
     private boolean isCounting;
 

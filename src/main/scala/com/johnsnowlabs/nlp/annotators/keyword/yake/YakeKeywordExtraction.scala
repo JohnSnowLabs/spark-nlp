@@ -325,22 +325,26 @@ class YakeKeywordExtraction(override val uid: String)
       tags
         .filter(x => x._4 == "n")
         .groupBy(x => x._1.toLowerCase)
+        .view
         .mapValues(_.length)
         .foreach(x => tokens.filter(y => y.token == x._1).head.nCount = x._2)
       tags
         .filter(x => x._4 == "a")
         .groupBy(x => x._1.toLowerCase)
+        .view
         .mapValues(_.length)
         .foreach(x => tokens.filter(y => y.token == x._1).head.aCount = x._2)
       tags
         .groupBy(x => x._1.toLowerCase)
+        .view
         .mapValues(x => medianCalculator(x.map(y => y._2)))
         .foreach(x => tokens.filter(y => y.token == x._1).head.medianSentenceOffset = x._2)
       tags
         .groupBy(x => x._1.toLowerCase)
+        .view
         .mapValues(x => x.map(y => y._2).length)
         .foreach(x => tokens.filter(y => y.token == x._1).head.numberOfSentences = x._2)
-      tokens
+      tokens.toSeq
     }
   }
 
@@ -478,7 +482,7 @@ class YakeKeywordExtraction(override val uid: String)
             "sentence" -> annotation.head.metadata.getOrElse("sentence", 0).toString))
       }
     })
-    annotatedKeywords
+    annotatedKeywords.toSeq
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

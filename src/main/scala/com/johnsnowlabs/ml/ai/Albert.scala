@@ -28,7 +28,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import org.intel.openvino.Tensor
 import org.slf4j.{Logger, LoggerFactory}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** This class is used to calculate ALBERT embeddings for For Sequence Batches of
   * WordpieceTokenizedSentence. Input for this model must be tokenzied with a SentencePieceModel,

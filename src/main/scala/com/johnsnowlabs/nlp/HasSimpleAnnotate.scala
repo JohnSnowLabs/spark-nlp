@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp
 import org.apache.spark.ml.Model
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
+import scala.collection.immutable
 
 trait HasSimpleAnnotate[M <: Model[M]] {
 
@@ -33,7 +34,7 @@ trait HasSimpleAnnotate[M <: Model[M]] {
     *   any number of annotations processed for every input annotation. Not necessary one to one
     *   relationship
     */
-  def annotate(annotations: Seq[Annotation]): Seq[Annotation]
+  def annotate(annotations: immutable.Seq[Annotation]): immutable.Seq[Annotation]
 
   /** Wraps annotate to happen inside SparkSQL user defined functions in order to act with
     * [[org.apache.spark.sql.Column]]
@@ -42,8 +43,9 @@ trait HasSimpleAnnotate[M <: Model[M]] {
     *   udf function to be applied to [[inputCols]] using this annotator's annotate function as
     *   part of ML transformation
     */
-  def dfAnnotate: UserDefinedFunction = udf { annotationProperties: Seq[AnnotationContent] =>
-    annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+  def dfAnnotate: UserDefinedFunction = udf {
+    annotationProperties: immutable.Seq[AnnotationContent] =>
+      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
   }
 
 }

@@ -138,7 +138,7 @@ public class DependencyInstance implements Serializable {
         return dependencyLabelIds;
     }
 
-    private static Pattern puncRegex = Pattern.compile("[\\p{Punct}]+", Pattern.UNICODE_CHARACTER_CLASS);
+    private static final Pattern puncRegex = Pattern.compile("[\\p{Punct}]+", Pattern.UNICODE_CHARACTER_CLASS);
 
     public DependencyInstance() {
     }

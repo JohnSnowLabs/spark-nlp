@@ -122,7 +122,7 @@ final class NativeLibrary {
         } catch (IOException e) {
             throw new UnsatisfiedLinkError(
                     String.format(
-                            "Unable to extract native library into a temporary file (%s)", e.toString()));
+                            "Unable to extract native library into a temporary file (%s)", e));
         }
     }
 

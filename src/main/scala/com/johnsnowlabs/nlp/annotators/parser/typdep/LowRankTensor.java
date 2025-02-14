@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 public class LowRankTensor {
 
-    private Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
-    private int dim;
-    private int rank;
-    private int[] N;
-    private ArrayList<MatEntry> list;
+    private final Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
+    private final int dim;
+    private final int rank;
+    private final int[] N;
+    private final ArrayList<MatEntry> list;
 
     private static final int MAX_ITER = 1000;
 

@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.pos.perceptron
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
@@ -159,7 +159,7 @@ class PerceptronApproachDistributed(override val uid: String)
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
       .groupByKey(tw => tw.word.toLowerCase)
-      .mapGroups { case (lw, tw) => (lw, tw.toSeq.groupBy(_.tag).mapValues(_.length)) }
+      .mapGroups { (lw, tw) => (lw, tw.toSeq.groupBy(_.tag).view.mapValues(_.length)) }
       .filter { lwtw =>
         val (_, mode) = lwtw._2.maxBy(t => t._2)
         val n = lwtw._2.values.sum

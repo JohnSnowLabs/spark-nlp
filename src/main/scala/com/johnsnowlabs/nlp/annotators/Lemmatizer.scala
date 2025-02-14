@@ -284,7 +284,7 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
       .rdd
       .flatMap { row =>
         val lemma: String = row.get(0).asInstanceOf[String]
-        val tokens: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]]
+        val tokens: Seq[String] = row.get(1).asInstanceOf[mutable.WrappedArray[String]].toSeq
         tokens.flatMap(t => Map(t -> lemma))
       }
       .collect()

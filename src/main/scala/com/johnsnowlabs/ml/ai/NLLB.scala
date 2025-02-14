@@ -426,14 +426,14 @@ private[johnsnowlabs] class NLLB(
       inferRequest: InferRequest): org.intel.openvino.Tensor = {
 
     val encoderAttentionMask: Array[Long] =
-      encoderInputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }(collection.breakOut)
+      encoderInputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }.toArray
     val encoderAttentionMaskTensor: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(
         Array(encoderInputIds.length, encoderInputIds.head.length),
         encoderAttentionMask)
 
     val encoderInputIdsLong: Array[Long] =
-      encoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }(collection.breakOut)
+      encoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }.toArray
 
     val encoderInputIdsLongTensor: org.intel.openvino.Tensor =
       new org.intel.openvino.Tensor(

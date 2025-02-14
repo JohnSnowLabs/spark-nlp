@@ -29,7 +29,7 @@ import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.CLIPTokenizer
 
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 private[johnsnowlabs] class CLIP(
     val tensorflowWrapper: Option[TensorflowWrapper],

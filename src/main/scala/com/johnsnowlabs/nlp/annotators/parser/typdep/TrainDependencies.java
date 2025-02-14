@@ -23,9 +23,9 @@ public class TrainDependencies implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private TrainFile trainFile;
+    private final TrainFile trainFile;
     private DependencyPipe dependencyPipe;
-    private TypedDependencyParser typedDependencyParser;
+    private final TypedDependencyParser typedDependencyParser;
     private Options options;
     private Parameters parameters;
 

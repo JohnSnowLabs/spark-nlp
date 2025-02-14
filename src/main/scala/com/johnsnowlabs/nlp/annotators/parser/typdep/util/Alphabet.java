@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class Alphabet implements Serializable {
     // Serialization
     private static final long serialVersionUID = 1;
-    private HashMap<Long, Integer> map;
+    private final HashMap<Long, Integer> map;
     private int numEntries;
     private boolean growthStopped = false;
 

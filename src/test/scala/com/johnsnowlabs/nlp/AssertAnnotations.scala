@@ -35,18 +35,22 @@ object AssertAnnotations {
       .rdd
       .map { row =>
         val resultSeq: Seq[String] =
-          row.getAs[String]("result").asInstanceOf[mutable.WrappedArray[String]]
+          row.getAs[String]("result").asInstanceOf[mutable.WrappedArray[String]].toSeq
         val metadataSeq: Seq[Map[String, String]] = row
           .getAs[Map[String, String]]("metadata")
           .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-        val beginSeq: Seq[Int] = row.getAs[Int]("begin").asInstanceOf[mutable.WrappedArray[Int]]
-        val endSeq: Seq[Int] = row.getAs[Int]("end").asInstanceOf[mutable.WrappedArray[Int]]
+          .toSeq
+        val beginSeq: Seq[Int] =
+          row.getAs[Int]("begin").asInstanceOf[mutable.WrappedArray[Int]].toSeq
+        val endSeq: Seq[Int] = row.getAs[Int]("end").asInstanceOf[mutable.WrappedArray[Int]].toSeq
         val annotatorTypeSeq: Seq[String] = row
           .getAs[String]("annotatorType")
           .asInstanceOf[mutable.WrappedArray[String]]
+          .toSeq
         val embeddings: Seq[Seq[Float]] = row
           .getAs[Seq[Float]]("embeddings")
           .asInstanceOf[mutable.WrappedArray[Seq[Float]]]
+          .toSeq
 
         resultSeq.zipWithIndex.map { case (token, index) =>
           Annotation(
@@ -114,30 +118,39 @@ object AssertAnnotations {
         val annotatorTypeSeq: Seq[String] = row
           .getAs[String]("annotatorType")
           .asInstanceOf[mutable.WrappedArray[String]]
+          .toSeq
         val originSeq: Seq[String] = row
           .getAs[String]("origin")
           .asInstanceOf[mutable.WrappedArray[String]]
+          .toSeq
         val heightSeq: Seq[Int] = row
           .getAs[Int]("height")
           .asInstanceOf[mutable.WrappedArray[Int]]
+          .toSeq
         val widthSeq: Seq[Int] = row
           .getAs[Int]("width")
           .asInstanceOf[mutable.WrappedArray[Int]]
+          .toSeq
         val nChannelsSeq: Seq[Int] = row
           .getAs[Int]("nChannels")
           .asInstanceOf[mutable.WrappedArray[Int]]
+          .toSeq
         val modeSeq: Seq[Int] = row
           .getAs[Int]("mode")
           .asInstanceOf[mutable.WrappedArray[Int]]
+          .toSeq
         val resultSeq: Seq[Seq[Byte]] = row
           .getAs[Seq[Byte]]("result")
           .asInstanceOf[mutable.WrappedArray[Seq[Byte]]]
+          .toSeq
         val metadataSeq: Seq[Map[String, String]] = row
           .getAs[Map[String, String]]("metadata")
           .asInstanceOf[mutable.WrappedArray[Map[String, String]]]
+          .toSeq
         val textSeq: Seq[String] = row
           .getAs[String]("text")
           .asInstanceOf[mutable.WrappedArray[String]]
+          .toSeq
 
         originSeq.zipWithIndex.map { case (origin, index) =>
           AnnotationImage(

@@ -41,7 +41,7 @@ object DatasetReader {
 
   private def readWithLabels(
       file: String,
-      skipLines: Int = 0): TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)] = {
+      skipLines: Int = 0): IterableOnce[(TextSentenceLabels, TextSentenceAttrs)] = {
     val lines = getSource(file)
       .getLines()
       .drop(skipLines)
@@ -51,7 +51,7 @@ object DatasetReader {
 
     def addToResultIfExists(): Option[(TextSentenceLabels, TextSentenceAttrs)] = {
       if (tokens.nonEmpty) {
-        val result = (TextSentenceLabels(labels), TextSentenceAttrs(tokens))
+        val result = (TextSentenceLabels(labels.toSeq), TextSentenceAttrs(tokens.toSeq))
 
         labels = new ArrayBuffer[String]()
         tokens = new ArrayBuffer[WordAttrs]()
@@ -147,7 +147,7 @@ object DatasetReader {
   def readAndEncode(
       file: String,
       skipLines: Int,
-      metadata: DatasetMetadata): TraversableOnce[(InstanceLabels, Instance)] = {
+      metadata: DatasetMetadata): IterableOnce[(InstanceLabels, Instance)] = {
     val textDataset = readWithLabels(file, skipLines)
 
     textDataset.map { case (sourceLabels, sourceInstance) =>

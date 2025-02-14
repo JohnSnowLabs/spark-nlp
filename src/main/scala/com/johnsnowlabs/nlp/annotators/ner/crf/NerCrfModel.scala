@@ -188,7 +188,7 @@ class NerCrfModel(override val uid: String)
   /** @group getParam */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
-  setDefault(dictionaryFeatures, () => Map.empty[String, String])
+  setDefault(dictionaryFeatures, () => Map.empty[String, String].toMap)
   setDefault(includeConfidence, false)
 
   /** Predicts Named Entities in input sentences

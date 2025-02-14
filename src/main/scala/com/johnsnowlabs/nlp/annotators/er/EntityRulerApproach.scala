@@ -380,15 +380,15 @@ class EntityRulerApproach(override val uid: String)
       }
 
       if (regexPatternsWriter.isEmpty) {
-        regexPatterns(label) = regexList
+        regexPatterns(label) = regexList.toSeq
       }
 
       if (patternsHasRegex && regexPatternsWriter.nonEmpty) {
-        storeRegexPattern(regexList, label, regexPatternsWriter.get)
+        storeRegexPattern(regexList.toSeq, label, regexPatternsWriter.get)
       }
 
       keywords.foreach { case (label, patterns) =>
-        keywordsPatterns.append(EntityPattern(label, patterns))
+        keywordsPatterns.append(EntityPattern(label, patterns.toSeq))
       }
       keywords.clear()
     }

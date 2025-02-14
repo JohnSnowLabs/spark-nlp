@@ -169,7 +169,7 @@ class PowerPointReader(
     val images = extractImages(ppt)
 
     ppt.close()
-    elements ++ images
+    (elements ++ images).toSeq
   }
 
   private def parsePptx(slideInputStream: ByteArrayInputStream): Seq[HTMLElement] = {
@@ -182,7 +182,7 @@ class PowerPointReader(
     val images = extractImages(pptx)
 
     pptx.close()
-    elements ++ images
+    (elements ++ images).toSeq
   }
 
   private def extractImages(pptx: XMLSlideShow): Seq[HTMLElement] = {
@@ -194,7 +194,7 @@ class PowerPointReader(
         content = "",
         metadata = metadata,
         binaryContent = Some(pic.getData))
-    }
+    }.toSeq
   }
 
   private def extractImages(ppt: HSLFSlideShow): Seq[HTMLElement] = {
@@ -205,7 +205,7 @@ class PowerPointReader(
         content = "",
         metadata = metadata,
         binaryContent = Some(pic.getData))
-    }
+    }.toSeq
   }
 
 }

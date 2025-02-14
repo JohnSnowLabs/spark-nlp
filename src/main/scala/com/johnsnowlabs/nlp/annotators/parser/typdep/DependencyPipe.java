@@ -41,11 +41,11 @@ import static com.johnsnowlabs.nlp.annotators.parser.typdep.util.DictionarySet.D
 public class DependencyPipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
+    private final transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
 
     private Options options;
     private DictionarySet dictionariesSet;
-    private SyntacticFeatureFactory synFactory;
+    private final SyntacticFeatureFactory synFactory;
 
     public Options getOptions() {
         return options;

@@ -149,7 +149,7 @@ object LinAlg {
       val expandedMask = DenseMatrix.zeros[Float](transposedMask.rows, embeddingSize)
       for (i <- 0 until transposedMask.rows; j <- 0 until embeddingSize) {
         expandedMask(i, j) =
-          transposedMask(i, 0) // Replicate the mask value across the embedding dimension
+          transposedMask(i, 0).toFloat // Replicate the mask value across the embedding dimension
       }
 
       expandedMask

@@ -25,7 +25,7 @@ import org.apache.spark.sql.functions.{col, udf}
 
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /** Class to parse and read PDF files.
@@ -132,13 +132,15 @@ class PdfReader(
     textStripper.setStartPage(1)
     textStripper.setEndPage(pdfDoc.getNumberOfPages)
     textStripper.getText(pdfDoc)
-    collectedElements
+    collectedElements.toSeq
   }
 
   private def groupTextPositionsByLine(
       textPositions: java.util.List[TextPosition]): Map[Int, Seq[TextPosition]] = {
     val yTolerance = 2f // Potential parameter, since needs to experiment to fit your PDFs
-    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round)
+    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round).map { case (k, v) =>
+      (k, v.toSeq)
+    }
   }
 
   private def classifyLineElement(

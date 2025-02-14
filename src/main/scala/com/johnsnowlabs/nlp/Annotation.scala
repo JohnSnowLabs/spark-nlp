@@ -184,7 +184,7 @@ object Annotation {
       .select(ANNOTATION_NAME)
       .as[AnnotationContainer]
       .map(_.__annotation)
-      .collect
+      .collect()
   }
 
   def collect(

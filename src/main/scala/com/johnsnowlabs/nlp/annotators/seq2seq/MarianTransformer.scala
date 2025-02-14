@@ -50,7 +50,7 @@ import org.apache.spark.ml.param.{
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-import scala.jdk.CollectionConverters.asScalaBufferConverter
+import scala.jdk.CollectionConverters._
 
 /** MarianTransformer: Fast Neural Machine Translation
   *

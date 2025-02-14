@@ -39,7 +39,7 @@ public class ConllData {
     }
 
     private String xPos;
-    private String deprel;
+    private final String deprel;
     private int head;
     private int begin;
     private int end;

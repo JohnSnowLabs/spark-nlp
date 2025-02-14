@@ -370,7 +370,7 @@ private[johnsnowlabs] class GPT2(
       }
 
       // set eos token prob to zero if minLength is not reached
-      if (!eosTokenId.isNaN && curLen < minOutputLength) {
+      if (!eosTokenId.toFloat.isNaN && curLen < minOutputLength) {
         // create eosTokenId boolean mask
         val isTokenLogit_eosToken =
           for (token <- 0 until vocab_size)
@@ -407,7 +407,7 @@ private[johnsnowlabs] class GPT2(
       var tokensToAdd = Array.ofDim[Int](decoderInputs.length)
 
       // update generations and finished sentences
-      if (!eosTokenId.isNaN)
+      if (!eosTokenId.toFloat.isNaN)
         // pad finished sentences if eos_token_id exist
         tokensToAdd =
           nextToken.zip(unfinishedSents).map(x => x._1 * x._2 + paddingTokenId * (1 - x._2))

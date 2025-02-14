@@ -135,8 +135,8 @@ class RecursiveTokenizerModel(override val uid: String)
           result = token._1,
           begin = token._2,
           end = token._3,
-          metadata = annotation.metadata
-            .updated("sentence", annotation.metadata.getOrElse("sentence", "0"))))
+          metadata = annotation.metadata.concat(
+            Seq("sentence" -> annotation.metadata.getOrElse("sentence", "0")))))
     }
 
   // hardcoded at this time

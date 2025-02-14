@@ -22,7 +22,7 @@ import java.util.List;
 
 public class PredictionParameters {
 
-    private HashMap<String, Integer> map;
+    private final HashMap<String, Integer> map;
 
     public PredictionParameters() {
         map = new HashMap(10000);

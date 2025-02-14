@@ -74,7 +74,7 @@ object PptParser {
           cellElements
 
         case _ => Seq()
-      }
+      }.toSeq
 
       titleElement ++ content
     }
@@ -137,7 +137,7 @@ object PptParser {
             cellElements
           }
         case _ => Seq()
-      }
+      }.toSeq
 
       val speakerNotes = if (includeSlideNotes) extractSpeakerNotes(slide.getNotes) else Seq()
 
@@ -168,7 +168,7 @@ object PptParser {
           elementType = ElementType.NARRATIVE_TEXT,
           content = shape.getText.trim,
           metadata = mutable.Map())
-    }
+    }.toSeq
   }
 
 }

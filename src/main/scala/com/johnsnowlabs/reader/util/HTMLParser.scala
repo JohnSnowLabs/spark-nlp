@@ -20,7 +20,7 @@ import org.json4s.jackson.Serialization
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-import scala.jdk.CollectionConverters.asScalaBufferConverter
+import scala.jdk.CollectionConverters._
 
 object HTMLParser {
 

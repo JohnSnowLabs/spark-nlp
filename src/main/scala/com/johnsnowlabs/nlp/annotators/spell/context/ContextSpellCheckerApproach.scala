@@ -24,6 +24,7 @@ import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.commons.io.IOUtils
+import org.apache.spark.api.java.function.MapGroupsFunction
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
@@ -35,7 +36,9 @@ import org.tensorflow.proto.framework.GraphDef
 
 import java.io.{BufferedWriter, File, FileWriter}
 import java.util
+import scala.collection.convert.ImplicitConversions.`iterator asScala`
 import scala.collection.mutable
+import scala.collection.parallel.CollectionConverters.ImmutableIterableIsParallelizable
 import scala.language.existentials
 
 case class LangModelSentence(ids: Array[Int], cids: Array[Int], cwids: Array[Int], len: Int)
@@ -413,8 +416,9 @@ class ContextSpellCheckerApproach(override val uid: String)
       usrLabel: String,
       vocabList: util.ArrayList[String],
       userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    import scala.collection.JavaConverters._
-    val vocab = vocabList.asScala.to[collection.mutable.Set]
+    import scala.jdk.CollectionConverters._
+    import scala.collection.mutable
+    val vocab: mutable.Set[String] = vocabList.asScala.toSet.to(mutable.Set)
     val nc = new GenericVocabParser(vocab, usrLabel, userDist)
     setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
@@ -477,7 +481,7 @@ class ContextSpellCheckerApproach(override val uid: String)
       .setVocabIds(word2ids)
       .setClasses(classes.map { case (k, v) => (word2ids(k), v) })
       .setVocabTransducer(createTransducer(vocabulary.keys.toList))
-      .setSpecialClassesTransducers(specialClassesTransducers)
+      .setSpecialClassesTransducers(specialClassesTransducers.toSeq)
       .setModelIfNotSet(dataset.sparkSession, tf)
       .setInputCols(getOrDefault(inputCols))
       .setWordMaxDistance($(wordMaxDistance))
@@ -540,13 +544,16 @@ class ContextSpellCheckerApproach(override val uid: String)
     // for every sentence we have one end and one begining
     val eosBosCount = dataset.count()
 
+    val countAnnotations: MapGroupsFunction[String, Annotation, (String, Double)] =
+      (token: String, insts: util.Iterator[Annotation]) => (token, insts.length.toDouble)
+
     var vocab = collection.mutable.HashMap(
       dataset
         .select(getInputCols.head)
         .as[Seq[Annotation]]
         .flatMap(identity)
         .groupByKey(_.result)
-        .mapGroups { case (token, insts) => (token, insts.length.toDouble) }
+        .mapGroups(countAnnotations, newProductEncoder)
         .collect(): _*)
 
     // words appearing less that minCount times will be unknown
@@ -758,7 +765,7 @@ class ContextSpellCheckerApproach(override val uid: String)
           .map(_.getAbsolutePath))
       .getOrElse(ResourceHelper.listResourceDirectory("/spell_nlm"))
 
-    graphFiles
+    graphFiles.toSeq
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator

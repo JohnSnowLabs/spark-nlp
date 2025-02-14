@@ -356,42 +356,45 @@ class SpanBertCorefModel(override val uid: String)
 //              getTokensFromSpan(xy).map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", "") ).mkString("").trim,
 //            ).mkString(", ")))
 //    }
-    predictedClusters.flatMap(cluster => {
+    predictedClusters
+      .flatMap(cluster => {
 
-      val clusterSpans = cluster.map(xy => getTokensFromSpan(xy))
-      val clusterHeadSpan = clusterSpans.head
-      val clusterHeadSpanText = clusterHeadSpan
-        .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
-        .mkString("")
-        .trim
-      Array(
-        Annotation(
-          annotatorType = AnnotatorType.DEPENDENCY,
-          begin = clusterHeadSpan.head._1.begin,
-          end = clusterHeadSpan.last._1.end,
-          result = clusterHeadSpanText,
-          metadata = Map(
-            "head" -> "ROOT",
-            "head.begin" -> "-1",
-            "head.end" -> "-1",
-            "head.sentence" -> "-1",
-            "sentence" -> clusterHeadSpan.head._2.toString))) ++ clusterSpans.tail.map(span => {
-        Annotation(
-          annotatorType = AnnotatorType.DEPENDENCY,
-          begin = span.head._1.begin,
-          end = span.last._1.end,
-          result = span
-            .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
-            .mkString("")
-            .trim,
-          metadata = Map(
-            "head" -> clusterHeadSpanText,
-            "head.begin" -> clusterHeadSpan.head._1.begin.toString,
-            "head.end" -> clusterHeadSpan.last._1.end.toString,
-            "head.sentence" -> clusterHeadSpan.head._2.toString,
-            "sentence" -> span.head._2.toString))
+        val clusterSpans = cluster.map(xy => getTokensFromSpan(xy))
+        val clusterHeadSpan = clusterSpans.head
+        val clusterHeadSpanText = clusterHeadSpan
+          .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
+          .mkString("")
+          .trim
+        Array(
+          Annotation(
+            annotatorType = AnnotatorType.DEPENDENCY,
+            begin = clusterHeadSpan.head._1.begin,
+            end = clusterHeadSpan.last._1.end,
+            result = clusterHeadSpanText,
+            metadata = Map(
+              "head" -> "ROOT",
+              "head.begin" -> "-1",
+              "head.end" -> "-1",
+              "head.sentence" -> "-1",
+              "sentence" -> clusterHeadSpan.head._2.toString))) ++ clusterSpans.tail.map(span => {
+          Annotation(
+            annotatorType = AnnotatorType.DEPENDENCY,
+            begin = span.head._1.begin,
+            end = span.last._1.end,
+            result = span
+              .map(x =>
+                (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
+              .mkString("")
+              .trim,
+            metadata = Map(
+              "head" -> clusterHeadSpanText,
+              "head.begin" -> clusterHeadSpan.head._1.begin.toString,
+              "head.end" -> clusterHeadSpan.last._1.end.toString,
+              "head.sentence" -> clusterHeadSpan.head._2.toString,
+              "sentence" -> span.head._2.toString))
+        })
       })
-    })
+      .toSeq
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

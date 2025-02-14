@@ -93,7 +93,7 @@ abstract class AnnotatorApproach[M <: Model[M]]
         getOutputCol,
         ArrayType(Annotation.dataType),
         nullable = false,
-        metadataBuilder.build)
+        metadataBuilder.build())
     StructType(outputFields)
   }
 }

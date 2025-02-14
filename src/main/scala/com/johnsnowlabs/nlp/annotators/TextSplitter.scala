@@ -76,7 +76,7 @@ class TextSplitter(
 
       if (total + len + separatorLenNonEmpty > chunkSize) {
         if (currentDoc.nonEmpty) {
-          val doc = joinDocs(currentDoc, separator)
+          val doc = joinDocs(currentDoc.toSeq, separator)
           if (doc.nonEmpty) {
             docs = docs :+ doc
           }
@@ -95,12 +95,12 @@ class TextSplitter(
       total += len + separatorLenActualText
     }
 
-    val doc = joinDocs(currentDoc, separator)
+    val doc = joinDocs(currentDoc.toSeq, separator)
     if (doc.nonEmpty) {
       docs = docs :+ doc
     }
 
-    docs
+    docs.toSeq
   }
 
   // noinspection RegExpRedundantEscape
@@ -144,7 +144,7 @@ class TextSplitter(
         goodSplits = goodSplits :+ s
       } else {
         if (goodSplits.nonEmpty) {
-          val mergedText = mergeSplits(goodSplits, separatorStr)
+          val mergedText = mergeSplits(goodSplits.toSeq, separatorStr)
           finalChunks = finalChunks ++ mergedText
           goodSplits = mutable.Seq.empty
         }
@@ -158,10 +158,10 @@ class TextSplitter(
     }
 
     if (goodSplits.nonEmpty) {
-      val mergedText = mergeSplits(goodSplits, separatorStr)
+      val mergedText = mergeSplits(goodSplits.toSeq, separatorStr)
       finalChunks = finalChunks ++ mergedText
     }
 
-    finalChunks
+    finalChunks.toSeq
   }
 }

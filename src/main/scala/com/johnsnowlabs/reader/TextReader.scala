@@ -202,7 +202,7 @@ class TextReader(
         i += 1
       }
     }
-    elements
+    elements.toSeq
   }
 
   /** Heuristic function to determine if a given line/block is a title candidate.

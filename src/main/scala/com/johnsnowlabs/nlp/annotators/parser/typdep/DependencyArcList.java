@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 public class DependencyArcList {
-    private int headsSize;
-    private int[] st;
-    private int[] edges;
+    private final int headsSize;
+    private final int[] st;
+    private final int[] edges;
 
     DependencyArcList(int[] heads) {
         headsSize = heads.length;

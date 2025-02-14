@@ -268,7 +268,7 @@ class WordSegmenterModel(override val uid: String)
     taggedSentences.zipWithIndex.flatMap { case (taggedSentence, index) =>
       val tagsSentence = taggedSentence.tags.mkString("")
       val wordIndexesByMatchedGroups = getWordIndexesByMatchedGroups(tagsSentence)
-      if (wordIndexesByMatchedGroups.isEmpty) {
+      val result: Seq[Annotation] = if (wordIndexesByMatchedGroups.isEmpty) {
         taggedSentence.indexedTaggedWords.map(indexedTaggedWord =>
           Annotation(
             TOKEN,
@@ -279,7 +279,8 @@ class WordSegmenterModel(override val uid: String)
       } else {
         annotateSegmentWords(wordIndexesByMatchedGroups, taggedSentence, index)
       }
-    }
+      result
+    }.toSeq
   }
 
   private def getWordIndexesByMatchedGroups(tagsSentence: String): List[List[RegexTagsInfo]] = {

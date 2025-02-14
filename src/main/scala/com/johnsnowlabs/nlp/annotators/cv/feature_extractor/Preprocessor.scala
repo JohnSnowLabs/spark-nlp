@@ -125,6 +125,7 @@ private[johnsnowlabs] object Preprocessor {
 
     def parseSize(config: PreprocessorConfig) = {
       config.size match {
+        // TODO: Type erasure
         case sizeMap: Map[String, BigInt] if sizeMap.contains("width") =>
           val width = sizeMap("width")
           require(

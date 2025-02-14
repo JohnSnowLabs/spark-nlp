@@ -253,7 +253,7 @@ private[johnsnowlabs] class TensorflowMultiClassifier(
     val tagsWithScoresBatch = encoder.decodeOutputData(tagIds = tagsId)
     tensors.clearTensors()
 
-    tagsWithScoresBatch.flatMap { tagsWithScores =>
+    tagsWithScoresBatch.toSeq.flatMap { tagsWithScores =>
       val labels = tagsWithScores.filter(tagWithScore => tagWithScore._2 >= threshold).map(_._1)
       val documentBegin = docs.head._2.head.begin
       val documentEnd = docs.last._2.last.end

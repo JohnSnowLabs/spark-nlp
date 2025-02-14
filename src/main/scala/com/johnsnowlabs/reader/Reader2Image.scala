@@ -34,7 +34,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 /** The Reader2Image annotator allows you to use the reading files with images more smoothly
   * within existing Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image

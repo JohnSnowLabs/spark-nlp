@@ -28,7 +28,7 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 
 /** The Reader2Doc annotator allows you to use the reading files more smoothly within existing
   * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
@@ -233,7 +233,7 @@ class Reader2Doc(override val uid: String)
             begin = begin,
             end = end,
             result = content,
-            metadata = finalMeta,
+            metadata = finalMeta.toMap,
             embeddings = Array.emptyFloatArray))
       }
     }

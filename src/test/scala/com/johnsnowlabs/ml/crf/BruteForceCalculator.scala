@@ -87,7 +87,7 @@ class BruteForceCalculator(val metadata: DatasetMetadata, val fbCalculator: FbCa
         for (path <- generatePaths(length - 1, to))
           result.append(start :: path)
       }
-      result
+      result.toSeq
     }
   }
 }

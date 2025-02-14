@@ -121,8 +121,10 @@ private[johnsnowlabs] abstract class MarianEncoderDecoder(
     val langIdPieceId = if (langId.nonEmpty) {
       vocabs.indexOf(langId)
     } else {
-      val lang = langCodeRe.findFirstIn(sentences.head.result.trim).getOrElse(-1L)
-      vocabs.indexOf(lang)
+      langCodeRe.findFirstIn(sentences.head.result.trim) match {
+        case Some(lang) => vocabs.indexOf(lang)
+        case None => -1
+      }
     }
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>

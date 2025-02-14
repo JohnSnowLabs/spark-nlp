@@ -142,7 +142,7 @@ class AhoCorasickAutomaton(
       chunk.clear()
     }
 
-    chunkAnnotations
+    chunkAnnotations.toSeq
   }
 
   private def findNextState(state: Int, char: Char): Int = {

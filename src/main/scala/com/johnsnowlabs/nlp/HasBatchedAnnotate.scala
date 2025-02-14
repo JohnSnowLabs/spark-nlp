@@ -20,6 +20,8 @@ import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.sql.Row
 
+import scala.collection.immutable
+
 trait HasBatchedAnnotate[M <: Model[M]] {
 
   this: RawAnnotator[M] =>
@@ -62,7 +64,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
         row.getAs[Seq[Row]](inputCol).map(Annotation(_))
       })
     })
-    val outputAnnotations = batchAnnotate(inputAnnotations)
+    val outputAnnotations = batchAnnotate(inputAnnotations.toSeq)
     batchedRows
       .zip(outputAnnotations)
       .map { case (row, annotations) =>
@@ -84,6 +86,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
     * IMPORTANT: !MUST! return sequences of equal lengths !! IMPORTANT: !MUST! return sentences
     * that belong to the same original row !! (challenging)
     */
-  def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]]
+  def batchAnnotate(
+      batchedAnnotations: immutable.Seq[Array[Annotation]]): immutable.Seq[Seq[Annotation]]
 
 }

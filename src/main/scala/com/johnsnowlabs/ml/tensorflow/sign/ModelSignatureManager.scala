@@ -194,7 +194,7 @@ object ModelSignatureManager {
 
     val signatureCandidates = getSignaturesFromModel(model)
     val signDefNames: Map[String, String] =
-      signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
+      signatureCandidates.view.filterKeys(_.contains(ModelSignatureConstants.Name.key)).toMap
 
     val modelProvider = classifyProvider(signDefNames)
 

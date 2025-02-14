@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class TypedDependencyParser implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
+    private final transient Logger logger = LoggerFactory.getLogger("TypedDependencyParser");
     /**
      * @group param
      **/

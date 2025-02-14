@@ -129,7 +129,7 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
       .select("token.result")
       .rdd
       .map { row =>
-        val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
+        val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]].toSeq
         resultSeq.toList
       }
       .collect()

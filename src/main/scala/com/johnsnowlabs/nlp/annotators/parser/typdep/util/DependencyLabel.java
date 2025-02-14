@@ -18,11 +18,11 @@ package com.johnsnowlabs.nlp.annotators.parser.typdep.util;
 
 public class DependencyLabel {
 
-    private String dependency;
-    private String label;
-    private int head;
-    private int begin;
-    private int end;
+    private final String dependency;
+    private final String label;
+    private final int head;
+    private final int begin;
+    private final int end;
 
     public String getDependency() {
         return dependency;

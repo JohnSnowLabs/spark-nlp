@@ -181,7 +181,7 @@ class WordReader(
       case _ => None
     }
 
-    elements
+    elements.toSeq
   }
 
   private def processParagraph(
@@ -225,9 +225,9 @@ class WordReader(
             processParagraph(paragraph, "table", tableLocation)
           }
         }
-    }
+    }.toSeq
 
-    if (tableHtml.isDefined) {
+    val result = if (tableHtml.isDefined) {
       if (outputFormat == "html-table") {
         val htmlElement =
           HTMLElement(ElementType.HTML, tableHtml.get, mutable.Map.empty[String, String])
@@ -241,6 +241,7 @@ class WordReader(
       } else tableElements
     } else tableElements
 
+    result.toSeq
   }
 
   private def parseDocToElements(document: HWPFDocument): Seq[HTMLElement] = {
@@ -277,7 +278,7 @@ class WordReader(
         content = "", // leave textual content empty
         metadata = metadata,
         binaryContent = Some(pic.getData))
-    }
+    }.toSeq
   }
 
   private def extractImages(document: HWPFDocument): Seq[HTMLElement] = {
@@ -288,7 +289,7 @@ class WordReader(
         content = "",
         metadata = metadata,
         binaryContent = Some(pic.getContent))
-    }
+    }.toSeq
   }
 
 }

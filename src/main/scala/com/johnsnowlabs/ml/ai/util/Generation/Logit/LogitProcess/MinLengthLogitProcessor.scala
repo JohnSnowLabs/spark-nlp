@@ -22,7 +22,7 @@ class MinLengthLogitProcessor(val eosTokenId: Int, val minLength: Int, val vocab
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    if (!eosTokenId.isNaN && currentLength < this.minLength) {
+    if (!eosTokenId.toFloat.isNaN && currentLength < this.minLength) {
       // create eosTokenId boolean mask
       val isTokenLogit_eosToken =
         for (token <- 0 until this.vocabSize)

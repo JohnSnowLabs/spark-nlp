@@ -4,7 +4,7 @@ import ai.onnxruntime.{OnnxTensor, OrtSession, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 
-import scala.jdk.CollectionConverters.{mapAsJavaMap, setAsJavaSet}
+import scala.jdk.CollectionConverters._
 
 private[johnsnowlabs] class OnnxMarianEncoderDecoder(
     val onnxEncoder: OnnxWrapper,
@@ -67,8 +67,8 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
 
     val encoderInputBuffers = batch
       .map(tokenIds =>
-        (tokenIds.take(maxSentenceLength).map(_.toLong) ++ Array.fill[Long](
-          maxSentenceLength - tokenIds.length)(paddingTokenId)))
+        tokenIds.take(maxSentenceLength).map(_.toLong) ++ Array.fill[Long](
+          maxSentenceLength - tokenIds.length)(paddingTokenId))
       .toArray
     val encoderAttentionMaskBuffers =
       encoderInputBuffers.map(x => x.map(xx => if (xx != paddingTokenId) 1L else 0L))
@@ -77,8 +77,9 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
     val encoderAttentionMaskTensors = OnnxTensor.createTensor(env, encoderAttentionMaskBuffers)
 
     val encoderResults = encoder.run(
-      mapAsJavaMap(
-        Map("input_ids" -> encoderInputTensors, "attention_mask" -> encoderAttentionMaskTensors)))
+      Map(
+        "input_ids" -> encoderInputTensors,
+        "attention_mask" -> encoderAttentionMaskTensors).asJava)
 
     val encoderStateBuffer =
       try {
@@ -166,9 +167,8 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
 
         val decoderInitFetchKeys =
           Array("logits") ++ encoderCacheOutputKeys ++ decoderCacheOutputKeys
-        decoderInitResults = decoderSession.run(
-          mapAsJavaMap(decoderInitFeedKeys),
-          setAsJavaSet(Set(decoderInitFetchKeys).flatten))
+        decoderInitResults =
+          decoderSession.run(decoderInitFeedKeys.asJava, Set(decoderInitFetchKeys).flatten.asJava)
 
         val decoderOutput = decoderInitResults
           .get(decoderInitFetchKeys.head)
@@ -203,9 +203,8 @@ private[johnsnowlabs] class OnnxMarianEncoderDecoder(
           }
         )
         val decoderFetchKeys = Array("logits") ++ decoderCacheOutputKeys
-        decoderResults = decoderSession.run(
-          mapAsJavaMap(decoderFeedKeys),
-          setAsJavaSet(Set(decoderFetchKeys).flatten))
+        decoderResults =
+          decoderSession.run(decoderFeedKeys.asJava, Set(decoderFetchKeys).flatten.asJava)
         val decoderOutput = decoderResults
           .get(decoderFetchKeys.head)
           .get
