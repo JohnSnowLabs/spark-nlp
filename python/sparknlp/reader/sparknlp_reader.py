@@ -254,3 +254,22 @@ class SparkNLPReader(ExtendedJavaWrapper):
         jdf = self._java_obj.ppt(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
+        return self.getDataFrame(self.spark, jdf)
+
+    def txt(self, docPath):
+        """Reads TXT files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        docPath : str
+            Path to a TXT file.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed document content.
+        """
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.txt(docPath)
+        return self.getDataFrame(self.spark, jdf)
