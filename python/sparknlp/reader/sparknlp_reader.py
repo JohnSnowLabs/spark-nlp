@@ -254,7 +254,6 @@ class SparkNLPReader(ExtendedJavaWrapper):
         jdf = self._java_obj.ppt(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
-        return self.getDataFrame(self.spark, jdf)
 
     def txt(self, docPath):
         """Reads TXT files and returns a Spark DataFrame.
