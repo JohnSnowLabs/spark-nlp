@@ -25,6 +25,10 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
                              "Force to store splitted pdf.",
                              typeConverter=TypeConverters.toBoolean)
 
+    splitPage = Param(Params._dummy(), "splitPage",
+                      "Param for enable/disable splitting document per page",
+                      typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         """
@@ -32,7 +36,6 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         """
         super(PdfToText, self).__init__()
         self._java_obj = self._new_java_obj("com.johnsnowlabs.reader.PdfToText", self.uid)
-
 
     def setInputCol(self, value):
         """
@@ -63,3 +66,9 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         Sets the value of :py:attr:`storeSplittedPdf`.
         """
         return self._set(storeSplittedPdf=value)
+
+    def setSplitPage(self, value):
+        """
+        Sets the value of :py:attr:`splitPage`.
+        """
+        return self._set(splitPage=value)

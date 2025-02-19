@@ -23,12 +23,13 @@ import org.apache.spark.internal.Logging
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.shared.{HasInputCol, HasOutputCol}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, posexplode_outer, udf}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 
+import java.io.ByteArrayOutputStream
 import scala.util.{Failure, Success, Try}
 
 class PdfToText(override val uid: String)
@@ -62,11 +63,21 @@ class PdfToText(override val uid: String)
   }
 
   final val pageNumCol = new Param[String](this, "pageNumCol", "Page number output column name.")
+  final val splitPage = new BooleanParam(
+    this,
+    "splitPage",
+    "Enable/disable splitting per page to identify page numbers and improve performance.")
   final val originCol =
     new Param[String](this, "originCol", "Input column name with original path of file.")
   final val partitionNum = new IntParam(this, "partitionNum", "Number of partitions.")
   final val storeSplittedPdf =
     new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
+
+  /** @group setParam */
+  def setPageNumCol(value: String): this.type = set(pageNumCol, value)
+
+  /** @group setParam */
+  def setSplitPage(value: Boolean): this.type = set(splitPage, value)
 
   /** @group getParam */
   def setOriginCol(value: String): this.type = set(originCol, value)
@@ -89,7 +100,8 @@ class PdfToText(override val uid: String)
     pageNumCol -> "pagenum",
     originCol -> "path",
     partitionNum -> 0,
-    storeSplittedPdf -> false)
+    storeSplittedPdf -> false,
+    splitPage -> true)
 
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte]) => {
@@ -99,7 +111,7 @@ class PdfToText(override val uid: String)
 
   private def doProcess(
       content: Array[Byte]): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
-    val pagesTry = Try(pdfToText(content, $(storeSplittedPdf)))
+    val pagesTry = Try(pdfToText(content, $(splitPage), $(storeSplittedPdf)))
 
     pagesTry match {
       case Failure(_) =>
@@ -166,6 +178,7 @@ trait PdfToTextTrait extends Logging with PdfUtils {
 
   def pdfToText(
       content: Array[Byte],
+      splitPage: Boolean,
       storeSplittedPdf: Boolean): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
     val validPdf = checkAndFixPdf(content)
     val pdfDoc = PDDocument.load(validPdf)
@@ -173,7 +186,7 @@ trait PdfToTextTrait extends Logging with PdfUtils {
     log.info(s"Number of pages ${numPages}")
     require(numPages >= 1, "pdf input stream cannot be empty")
 
-    val result = pdfboxMethod(pdfDoc, 0, numPages - 1, content, storeSplittedPdf)
+    val result = pdfboxMethod(pdfDoc, 0, numPages - 1, content, splitPage, storeSplittedPdf)
     pdfDoc.close()
     log.info("Close pdf")
     result
@@ -184,10 +197,40 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       startPage: Int,
       endPage: Int,
       content: Array[Byte],
+      splitPage: Boolean,
       storeSplittedPdf: Boolean): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
-    val text = extractText(pdfDoc, startPage, endPage).mkString(System.lineSeparator())
-    val heightDimension = pdfDoc.getPage(startPage).getMediaBox.getHeight.toInt
-    val widthDimension = pdfDoc.getPage(startPage).getMediaBox.getWidth.toInt
-    Seq((text, heightDimension, widthDimension, if (storeSplittedPdf) content else null, null, 0))
+    lazy val out: ByteArrayOutputStream = new ByteArrayOutputStream()
+    if (splitPage)
+      Range(startPage, endPage + 1).flatMap(pagenum =>
+        extractText(pdfDoc, pagenum, pagenum)
+          .map { text =>
+            out.reset()
+            val outputDocument = new PDDocument()
+            val page = pdfDoc.getPage(pagenum)
+            val splittedPdf = if (storeSplittedPdf) {
+              outputDocument.importPage(page)
+              outputDocument.save(out)
+              outputDocument.close()
+              out.toByteArray
+            } else null
+            (
+              text,
+              page.getMediaBox.getHeight.toInt,
+              page.getMediaBox.getWidth.toInt,
+              splittedPdf,
+              null,
+              pagenum)
+          })
+    else {
+      val text = extractText(pdfDoc, startPage, endPage).mkString(System.lineSeparator())
+      val heightDimension = pdfDoc.getPage(startPage).getMediaBox.getHeight.toInt
+      val widthDimension = pdfDoc.getPage(startPage).getMediaBox.getWidth.toInt
+      Seq(
+        (text, heightDimension, widthDimension, if (storeSplittedPdf) content else null, null, 0))
+    }
   }
+}
+
+object PdfToText extends DefaultParamsReadable[PdfToText] {
+  override def load(path: String): PdfToText = super.load(path)
 }
