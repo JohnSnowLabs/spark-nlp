@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.nllb_transformer &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.annotator.seq2seq.nllb_transformer &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -375,7 +375,7 @@ document.write(`
 <span class="sd">    ...     .setOutputCol(&quot;generation&quot;)</span>
 
 
-<span class="sd">    The default model is ``&quot;nllb_418M&quot;``, if no name is provided. For available</span>
+<span class="sd">    The default model is ``&quot;nllb_distilled_600M_8int&quot;``, if no name is provided. For available</span>
 <span class="sd">    pretrained models please see the `Models Hub</span>
 <span class="sd">    &lt;https://sparknlp.org/models?q=nllb&gt;`__.</span>
 
@@ -507,7 +507,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;documents&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; nllb = NLLBTransformer.pretrained(&quot;nllb_418M&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt; nllb = NLLBTransformer.pretrained(&quot;nllb_distilled_600M_8int&quot;) \\</span>
 <span class="sd">    ...     .setInputCols([&quot;documents&quot;]) \\</span>
 <span class="sd">    ...     .setMaxOutputLength(50) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;generation&quot;) \\</span>
@@ -741,13 +741,13 @@ document.write(`
         <span class="k">return</span> <span class="n">NLLBTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="NLLBTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;nllb_418M&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="NLLBTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;nllb_distilled_600M_8int&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;nllb_418M&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;nllb_distilled_600M_8int&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>
