@@ -18,6 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PdfToTextTest extends AnyFlatSpec {
@@ -37,6 +38,20 @@ class PdfToTextTest extends AnyFlatSpec {
     pdfDf.show()
 
     assert(pdfDf.count() > 0)
+  }
+
+  it should "not include content data when setStoreSplittedPdf is false" in {
+    val pdfToText = new PdfToText().setStoreSplittedPdf(false)
+    val dummyDataFrame = spark.read.format("binaryFile").load("src/test/resources/reader/pdf")
+
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    pdfDf.show()
+
+    assert(pdfDf.filter(col("content").isNotNull).count() == 0)
   }
 
 }

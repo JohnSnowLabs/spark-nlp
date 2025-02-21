@@ -204,13 +204,24 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
   def pdf(pdfPath: String): DataFrame = {
       val spark = ResourceHelper.spark
       spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
-      val pdfToText = new PdfToText().setStoreSplittedPdf(true)
+      val pdfToText = new PdfToText()
+        .setStoreSplittedPdf(getStoreSplittedPdf)
       val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
       val pipelineModel = new Pipeline()
         .setStages(Array(pdfToText))
         .fit(binaryPdfDF)
 
       pipelineModel.transform(binaryPdfDF)
+  }
+
+  private def getStoreSplittedPdf: Boolean = {
+    val splitPage =
+      try {
+        params.asScala.getOrElse("storeSplittedPdf", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    splitPage
   }
 
 }

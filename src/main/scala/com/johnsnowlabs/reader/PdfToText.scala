@@ -66,7 +66,7 @@ class PdfToText(override val uid: String)
     new Param[String](this, "originCol", "Input column name with original path of file.")
   final val partitionNum = new IntParam(this, "partitionNum", "Number of partitions.")
   final val storeSplittedPdf =
-    new BooleanParam(this, "storeSplittedPdf", "Force to store splitted pdf.")
+    new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
 
   /** @group getParam */
   def setOriginCol(value: String): this.type = set(originCol, value)

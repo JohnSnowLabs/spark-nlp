@@ -28,4 +28,15 @@ class SparkNLPReaderTest extends AnyFlatSpec {
     assert(pdfDf.count() > 0)
   }
 
+  it should "read a PDF file with params" taggedAs FastTest in {
+    val pdfPath = "src/test/resources/reader/pdf"
+    val params = new java.util.HashMap[String, String]()
+    params.put("storeSplittedPdf", "true")
+    val sparkNLPReader = new SparkNLPReader(params)
+    val pdfDf = sparkNLPReader.pdf(pdfPath)
+    pdfDf.show()
+
+    assert(pdfDf.count() > 0)
+  }
+
 }
