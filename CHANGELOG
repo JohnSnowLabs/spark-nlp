@@ -1,4 +1,18 @@
 ========
+5.5.3
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* BGEEmbeddings: The default pretrained model for BGEEmbeddings has been changed from "bge_base" to "bge_small_en_v1.5". Users relying on the old default will need to explicitly specify "bge_base" in the pretrained method.
+* Added useCLSToken parameter to allow users to choose between CLS token pooling and attention-based average pooling for sentence embeddings.
+* BGEEmbeddings: BGEEmbeddings now supports a `useCLSToken` parameter, which defaults to True. This affects the embedding calculation strategy. Existing users should verify their usage and potentially set this parameter explicitly.
+* Added HasClsTokenProperties in Scala: Introduced the HasClsTokenProperties trait in Scala providing useCLSToken parameter functionality for relevant annotators.
+* Fixing wrong padding in attention mask in `MPNet`, `BGE`, `E5`, `Mxbai`, `Nomic`, `SnowFlake`, and `UAE`. This resulted in wrong inference results in some cases and not equal to the ONNX version in transformers/sentence-transformers.
+* Various Performance Optimizations: Multiple changes across different models (Albert, Bart, CLIP, CamemBert, ConvNextClassifier, DeBerta, DistilBert, E5, Instructor, MPNet, Mxbai, Nomic, RoBerta, SnowFlake, UAE, ViTClassifier, VisionEncoderDecoder, Wav2Vec2, XlmRoBertaClassification, XlmRoberta) appear to focus on performance improvements and code cleanup, especially related to OpenVINO and ONNX inference. These may lead to faster inference times.
+* Fixing Llama3 download issue in Python.
+
+========
 5.5.2
 ========
 ----------------

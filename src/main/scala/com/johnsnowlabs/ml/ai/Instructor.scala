@@ -60,17 +60,11 @@ private[johnsnowlabs] class Instructor(
     else TensorFlow.name
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
-
-
-
-
-
-
-
-  private def getSentenceEmbeddingsFromOv( batch: Seq[Array[Int]],
-                                           contextLengths: Seq[Int],
-                                           maxSentenceLength: Int)= {
-  val batchLength = batch.length
+  private def getSentenceEmbeddingsFromOv(
+      batch: Seq[Array[Int]],
+      contextLengths: Seq[Int],
+      maxSentenceLength: Int) = {
+    val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors =
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
@@ -84,21 +78,19 @@ private[johnsnowlabs] class Instructor(
       }
     }
 
-    val  maskTensor = new org.intel.openvino.Tensor(
-      shape,
-      attentionMask.flatten)
+    val maskTensor = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
-  inferRequest.set_tensor("input_ids", tokenTensors)
-  inferRequest.set_tensor("attention_mask", maskTensor)
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensor)
 
-  inferRequest.infer()
+    inferRequest.infer()
     try {
       try {
         val lastHiddenState = inferRequest
           .get_tensor("token_embeddings")
         val shape = lastHiddenState.get_shape().map(_.toLong)
-        val flattenEmbeddings =  lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .data()
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, contextMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
@@ -123,8 +115,6 @@ private[johnsnowlabs] class Instructor(
     val attentionMask = batch
       .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
       .toArray
-
-
 
     val contextMask = attentionMask.zipWithIndex.map { case (batchElement, idx) =>
       batchElement.zipWithIndex.map { case (x, i) =>
@@ -167,8 +157,6 @@ private[johnsnowlabs] class Instructor(
       maskTensors.close()
     }
   }
-
-
 
   private def padArrayWithZeros(arr: Array[Int], maxLength: Int): Array[Int] = {
     if (arr.length >= maxLength) {
@@ -280,7 +268,7 @@ private[johnsnowlabs] class Instructor(
       case ONNX.name =>
         getSentenceEmbeddingFromOnnx(paddedBatch, contextLengths, maxSentenceLength)
       case Openvino.name =>
-    getSentenceEmbeddingsFromOv(paddedBatch, contextLengths, maxSentenceLength)
+        getSentenceEmbeddingsFromOv(paddedBatch, contextLengths, maxSentenceLength)
       case _ => // TF Case
         getSentenceEmbeddingFromTF(paddedBatch, contextLengths, maxSentenceLength)
     }

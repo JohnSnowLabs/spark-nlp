@@ -19,7 +19,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.{MPNetClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -308,9 +312,9 @@ trait ReadMPNetForQuestionAnsweringDLModel extends ReadOnnxModel with ReadOpenvi
           readOnnxModel(path, spark, "mpnet_qa_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, Some(onnxWrapper), None)
 
-
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
         instance.setModelIfNotSet(spark, None, Some(openvinoWrapper))
 
       case _ =>

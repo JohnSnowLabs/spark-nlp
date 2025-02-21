@@ -20,8 +20,17 @@ import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, XlmRoBertaClassification}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -118,7 +127,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     with HasBatchedAnnotate[XlmRoBertaForSequenceClassification]
     with WriteOnnxModel
     with WriteTensorflowModel
-      with WriteOpenvinoModel
+    with WriteOpenvinoModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
@@ -363,7 +372,7 @@ trait ReadXlmRoBertaForSequenceDLModel
     extends ReadTensorflowModel
     with ReadOnnxModel
     with ReadSentencePieceModel
-    with ReadOpenvinoModel{
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
@@ -394,7 +403,8 @@ trait ReadXlmRoBertaForSequenceDLModel
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "xlm_roberta_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "xlm_roberta_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
 
       case _ =>
@@ -451,7 +461,6 @@ trait ReadXlmRoBertaForSequenceDLModel
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

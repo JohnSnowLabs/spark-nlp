@@ -15,14 +15,12 @@ from sparknlp.internal import ExtendedJavaWrapper
 
 
 class SparkNLPReader(ExtendedJavaWrapper):
-    """Instantiates class to read HTML files.
+    """Instantiates class to read HTML, email, and document files.
 
-    Two types of input paths are supported,
+    Two types of input paths are supported:
 
-    htmlPath: this is a path to a directory of HTML files or a path to an HTML file
-    E.g. "path/html/files"
-
-    url: this is the URL or set of URLs of a website  . E.g., "https://www.wikipedia.org"
+    - `htmlPath`: A path to a directory of HTML files or a single HTML file (e.g., `"path/html/files"`).
+    - `url`: A single URL or a set of URLs (e.g., `"https://www.wikipedia.org"`).
 
     Parameters
     ----------

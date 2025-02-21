@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -336,6 +336,7 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/albert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.albert_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/auto_gguf_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.auto_gguf_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_embeddings</span></code></a></li>
@@ -721,32 +722,6 @@ and the
 the number of GPU layers with the <cite>setNGpuLayers</cite> method.</p>
 <p>When using larger models, we recommend adjusting GPU usage with <cite>setNCtx</cite> and <cite>setNGpuLayers</cite>
 according to your hardware to avoid out-of-memory errors.</p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">`</span></a>Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</p></li>
-</ul>
-<blockquote>
-<div><p>&lt;<a class="reference external" href="https://arxiv.org/abs/1910.13461">https://arxiv.org/abs/1910.13461</a>&gt;`__</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><a class="github reference external" href="https://github.com/pytorch/fairseq">pytorch/fairseq</a></p></li>
-</ul>
-<p><strong>Paper Abstract:</strong>
-<em>We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.
-BART is trained by (1) corrupting text with an arbitrary noising function, and (2)
-learning a model to reconstruct the original text. It uses a standard Tranformer-based
-neural machine translation architecture which, despite its simplicity, can be seen as
-generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),
-and many other more recent pretraining schemes. We evaluate a number of noising approaches,
-finding the best performance by both randomly shuffling the order of the original sentences
-and using a novel in-filling scheme, where spans of text are replaced with a single mask token.
-BART is particularly effective when fine tuned for text generation but also works well for
-comprehension tasks. It matches the performance of RoBERTa with comparable training resources
-on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,
-question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides
-a 1.1 BLEU increase over a back-translation system for machine translation, with only target
-language pretraining. We also report ablation experiments that replicate other pretraining
-schemes within the BART framework, to better measure which factors most influence end-task performance.</em></p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>

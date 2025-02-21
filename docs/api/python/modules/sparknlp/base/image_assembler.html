@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.image_assembler &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.base.image_assembler &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -408,6 +408,7 @@ document.write(`
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span>
 
     <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;input column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">textCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;textCol&quot;</span><span class="p">,</span> <span class="s2">&quot;text column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;output column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ImageAssembler&#39;</span>
 
@@ -443,7 +444,17 @@ document.write(`
 
 <div class="viewcode-block" id="ImageAssembler.getOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/image_assembler/index.html#sparknlp.base.image_assembler.ImageAssembler.getOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output column name of annotations.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCol</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCol</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ImageAssembler.setTextCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/image_assembler/index.html#sparknlp.base.image_assembler.ImageAssembler.setTextCol">[docs]</a>    <span class="k">def</span> <span class="nf">setTextCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an optional text column name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of an optional input text column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

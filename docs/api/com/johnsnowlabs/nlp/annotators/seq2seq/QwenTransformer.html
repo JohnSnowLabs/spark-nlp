@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer" />
+          <title>Spark NLP 5.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer</title>
+          <meta name="description" content="Spark NLP 5.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer" />
+          <meta name="keywords" content="Spark NLP 5.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.5.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -370,8 +370,8 @@ attention, mixture of sliding window attention and full attention, etc. Addition
 an improved tokenizer adaptive to multiple natural languages and codes. For the beta version,
 temporarily we did not include GQA and the mixture of SWA and full attention.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> Qwen = QwenTransformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;Qwen-13b&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://sparknlp.org/models?q=Qwen" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;qwen_7.5b_chat&quot;</code>, if no name is provided. For available pretrained
+models please see the <a href="https://sparknlp.org/models?q=Qwen" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/QwenTestSpec.scala" target="_blank">QwenTestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://arxiv.org/pdf/2309.16609.pdf:" target="_blank">Qwen Technical Report</a></li><li><a href="https://qwenlm.github.io/blog/qwen1.5/" target="_blank">https://qwenlm.github.io/blog/qwen1.5/</a></li><li><a href="https://github.com/QwenLM/Qwen1.5" target="_blank">https://github.com/QwenLM/Qwen1.5</a></li></ul><p><b>Paper Abstract:</b></p><p><i>Large language models (LLMs) have revolutionized the field of artificial intelligence,
 enabling natural language processing tasks that were previously thought to be exclusive to
 humans. In this work, we introduce Qwen, the first installment of our large language model
@@ -396,7 +396,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> Qwen = QwenTransformer.pretrained(<span class="lit">"Qwen-7b"</span>)
+<span class="kw">val</span> Qwen = QwenTransformer.pretrained(<span class="lit">"qwen_7.5b_chat"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)

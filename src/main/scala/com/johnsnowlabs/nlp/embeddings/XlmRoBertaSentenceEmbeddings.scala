@@ -20,8 +20,16 @@ import com.johnsnowlabs.ml.ai.XlmRoberta
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -397,7 +405,13 @@ trait ReadXlmRobertaSentenceDLModel
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, None, spp)
       case ONNX.name => {
         val onnxWrapper =
-          readOnnxModel(path, spark, "_xlmroberta_sent_onnx", zipped = true, useBundle = false, None)
+          readOnnxModel(
+            path,
+            spark,
+            "_xlmroberta_sent_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
       }
       case Openvino.name =>
@@ -452,7 +466,7 @@ trait ReadXlmRobertaSentenceDLModel
             useBundle = true,
             detectedEngine = detectedEngine)
         annotatorModel
-          .setModelIfNotSet(spark, None, None, Some(ovWrapper),spModel)
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
