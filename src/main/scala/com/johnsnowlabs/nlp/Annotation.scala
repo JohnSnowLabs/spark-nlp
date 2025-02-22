@@ -21,7 +21,7 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, Row}
 
-import scala.collection.Map
+import scala.collection.{Map, mutable}
 
 /** represents annotator's output parts and their details
   *
@@ -203,11 +203,11 @@ object Annotation {
   }
 
   def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+    row.getAs[mutable.Seq[Row]](colNum).map(obj => Annotation(obj)).toSeq
   }
 
   def getAnnotations(row: Row, colName: String): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colName).map(obj => Annotation(obj))
+    row.getAs[mutable.Seq[Row]](colName).map(obj => Annotation(obj)).toSeq
   }
 
   /** dataframe take of a specific annotation column */

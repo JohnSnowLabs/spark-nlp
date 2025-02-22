@@ -22,8 +22,11 @@ import com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.io.{BytesWritable, NullWritable}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.reflect.ClassTag
 
@@ -34,6 +37,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   model.features.append(this)
 
   private val spark: SparkSession = ResourceHelper.spark
+  protected lazy val logger: Logger = LoggerFactory.getLogger(s"${this.getClass.getName}-$name")
 
   val serializationMode: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.serializationMode)
@@ -46,6 +50,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final protected var fallbackLazyValue: Option[() => TComplete] = None
   final protected var isProtected: Boolean = false
 
+  // TODO: This should be kryo?
   final def serialize(
       spark: SparkSession,
       path: String,
@@ -120,10 +125,10 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final def setValue(value: Option[Any]): HasFeatures = {
     if (isProtected && isSet) {
       val warnString =
-        s"Warning: The parameter ${this.name} is protected and can only be set once." +
+        s"The parameter ${this.name} is protected and can only be set once." +
           " For a pretrained model, this was done during the initialization process." +
           " If you are trying to train your own model, please check the documentation."
-      println(warnString)
+      logger.warn(warnString)
     } else {
       if (useBroadcast) {
         if (isSet) broadcastValue.get.destroy()
@@ -155,6 +160,32 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     this
   }
 
+  /** Loads an object from a SequenceFile containing serialized objects. It tries to load the
+    * tuple across Scala version, handling serialVersionUID mismatches.
+    *
+    * Adapted from sparkContext.objectFile:
+    *
+    * "Load an RDD saved as a SequenceFile containing serialized objects, with NullWritable keys
+    * and BytesWritable values that contain a serialized partition."
+    *
+    * @param path
+    *   directory to the input data files, the path can be comma separated paths as a list of
+    *   inputs
+    * @return
+    *   RDD representing deserialized data from the file(s)
+    */
+  protected def deserializeLegacyObject[ObjectType: ClassTag](
+      spark: SparkSession,
+      path: String): RDD[ObjectType] = {
+    spark.sparkContext
+      .sequenceFile(
+        path,
+        classOf[NullWritable],
+        classOf[BytesWritable],
+        spark.sparkContext.defaultMinPartitions)
+      .flatMap((x: (NullWritable, BytesWritable)) =>
+        LegacyObjectInputStream.deserializeArray[ObjectType](x._2.getBytes))
+  }
 }
 
 class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
@@ -179,7 +210,17 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
+      try {
+        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
+      } catch {
+        case e: org.apache.spark.SparkException
+            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          println(
+            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
+          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).first)
+        case e: Exception =>
+          throw e
+      }
     } else {
       None
     }
@@ -221,6 +262,7 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
       field: String,
       value: Map[TKey, TValue]): Unit = {
     val dataPath = getFieldPath(path, field)
+    // TODO: Change this to kryo or some better serializer
     spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
   }
 
@@ -232,7 +274,17 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
+      try {
+        Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
+      } catch {
+        case e: org.apache.spark.SparkException
+            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          println(
+            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
+          Some(deserializeLegacyObject[(TKey, TValue)](spark, dataPath.toString).collect.toMap)
+        case e: Exception =>
+          throw e
+      }
     } else {
       None
     }

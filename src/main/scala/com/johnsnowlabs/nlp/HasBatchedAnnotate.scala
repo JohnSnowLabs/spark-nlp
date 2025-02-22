@@ -20,7 +20,7 @@ import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.sql.Row
 
-import scala.collection.immutable
+import scala.collection.{immutable, mutable}
 
 trait HasBatchedAnnotate[M <: Model[M]] {
 
@@ -61,7 +61,7 @@ trait HasBatchedAnnotate[M <: Model[M]] {
   private def processBatchRows(batchedRows: Seq[Row]): Seq[Row] = {
     val inputAnnotations = batchedRows.map(row => {
       getInputCols.flatMap(inputCol => {
-        row.getAs[Seq[Row]](inputCol).map(Annotation(_))
+        row.getAs[mutable.Seq[Row]](inputCol).map(Annotation(_)) // TODO fix which mutable and immutable
       })
     })
     val outputAnnotations = batchAnnotate(inputAnnotations.toSeq)
