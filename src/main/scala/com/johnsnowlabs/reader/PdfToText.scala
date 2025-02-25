@@ -70,6 +70,7 @@ class PdfToText(override val uid: String)
   final val originCol =
     new Param[String](this, "originCol", "Input column name with original path of file.")
   final val partitionNum = new IntParam(this, "partitionNum", "Number of partitions.")
+  final val onlyPageNum = new BooleanParam(this, "onlyPageNum", "Extract only page numbers.")
   final val storeSplittedPdf =
     new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
 
@@ -92,6 +93,9 @@ class PdfToText(override val uid: String)
   def setPartitionNum(value: Int): this.type = set(partitionNum, value)
 
   /** @group setParam */
+  def setOnlyPageNum(value: Boolean): this.type = set(onlyPageNum, value)
+
+  /** @group setParam */
   def setStoreSplittedPdf(value: Boolean): this.type = set(storeSplittedPdf, value)
 
   setDefault(
@@ -100,6 +104,7 @@ class PdfToText(override val uid: String)
     pageNumCol -> "pagenum",
     originCol -> "path",
     partitionNum -> 0,
+    onlyPageNum -> false,
     storeSplittedPdf -> false,
     splitPage -> true)
 
@@ -111,7 +116,7 @@ class PdfToText(override val uid: String)
 
   private def doProcess(
       content: Array[Byte]): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
-    val pagesTry = Try(pdfToText(content, $(splitPage), $(storeSplittedPdf)))
+    val pagesTry = Try(pdfToText(content, $(onlyPageNum), $(splitPage), $(storeSplittedPdf)))
 
     pagesTry match {
       case Failure(_) =>
@@ -178,6 +183,7 @@ trait PdfToTextTrait extends Logging with PdfUtils {
 
   def pdfToText(
       content: Array[Byte],
+      onlyPageNum: Boolean,
       splitPage: Boolean,
       storeSplittedPdf: Boolean): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
     val validPdf = checkAndFixPdf(content)
@@ -185,8 +191,11 @@ trait PdfToTextTrait extends Logging with PdfUtils {
     val numPages = pdfDoc.getNumberOfPages
     log.info(s"Number of pages ${numPages}")
     require(numPages >= 1, "pdf input stream cannot be empty")
-
-    val result = pdfboxMethod(pdfDoc, 0, numPages - 1, content, splitPage, storeSplittedPdf)
+    val result = if (!onlyPageNum) {
+      pdfboxMethod(pdfDoc, 0, numPages - 1, content, splitPage, storeSplittedPdf)
+    } else {
+      Range(1, numPages + 1).map(pageNum => ("", 1, 1, null, null, pageNum))
+    }
     pdfDoc.close()
     log.info("Close pdf")
     result

@@ -29,6 +29,10 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
                       "Param for enable/disable splitting document per page",
                       typeConverter=TypeConverters.toBoolean)
 
+    onlyPageNum = Param(Params._dummy(), "onlyPageNum",
+                        "Force to extract only number of pages",
+                        typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         """
@@ -72,3 +76,9 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         Sets the value of :py:attr:`splitPage`.
         """
         return self._set(splitPage=value)
+
+    def setOnlyPageNum(self, value):
+        """
+        Sets the value of :py:attr:`onlyPageNum`.
+        """
+        return self._set(onlyPageNum=value)
