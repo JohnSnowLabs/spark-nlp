@@ -18,15 +18,43 @@ package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AssertAnnotations, ImageAssembler}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers._
+import java.nio.file.{Files, Paths}
+import java.nio.charset.StandardCharsets
+import java.io.{File, FileOutputStream}
 
 class JanusForMultiModalTestSpec extends AnyFlatSpec {
 
+  def reshape2D(data: Array[Float], rows: Int, cols: Int): Array[Array[Float]] = {
+    data.grouped(cols).toArray.map(_.toArray)
+  }
+
+  def reshape3D(
+      data: Array[Float],
+      depth: Int,
+      rows: Int,
+      cols: Int): Array[Array[Array[Float]]] = {
+    data.grouped(rows * cols).toArray.map { slice =>
+      reshape2D(slice, rows, cols)
+    }
+  }
+
+  def reshape4D(
+      data: Array[Float],
+      batch: Int,
+      depth: Int,
+      rows: Int,
+      cols: Int): Array[Array[Array[Array[Float]]]] = {
+    data.grouped(depth * rows * cols).toArray.map { slice =>
+      reshape3D(slice, depth, rows, cols)
+    }
+  }
   lazy val model = getJanusForMultiModalPipelineModel
 
   "JanusForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
@@ -34,6 +62,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     val testDF = getTestDF
     val result = model.transform(testDF)
 
+    result.printSchema()
     val answerAnnotation = AssertAnnotations.getActualResult(result, "answer")
 
     answerAnnotation.foreach { annotation =>
@@ -44,6 +73,65 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
       annotation.foreach(a => println(a.result))
     }
 
+  }
+  "reshape2D" should "reshape a 1D array into a 2D array" taggedAs FastTest in {
+    val data = Array(1f, 2f, 3f, 4f, 5f, 6f)
+    val rows = 2
+    val cols = 3
+    val expected = Array(Array(1f, 2f, 3f), Array(4f, 5f, 6f))
+    reshape2D(data, rows, cols) shouldEqual expected
+  }
+
+  "reshape3D" should "reshape a 1D array into a 3D array" taggedAs FastTest in {
+    val data = Array(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f)
+    val depth = 2
+    val rows = 2
+    val cols = 3
+    val expected = Array(
+      Array(Array(1f, 2f, 3f), Array(4f, 5f, 6f)),
+      Array(Array(7f, 8f, 9f), Array(10f, 11f, 12f)))
+    reshape3D(data, depth, rows, cols) shouldBe expected
+  }
+
+  it should "generate images when generate image mode is set to true" taggedAs FastTest in {
+    model.stages.last.asInstanceOf[JanusForMultiModal].setImageGenerateMode(true)
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/image1.jpg"
+    val resultAnnotate =
+      lightPipeline.fullAnnotateImage(
+        imagePath,
+        "User: A close-up professional photo of Yorkshire Terrier on beach, extremely detailed, hyper realistic, full hd resolution, with a blurred background. The dog is looking at the camera, with a curious expression, and its fur is shiny and well-groomed. The beach is sandy, with gentle waves lapping at the shore, and a clear blue sky overhead. The lighting is soft and natural, casting a warm glow over the scene. The overall mood is peaceful and serene, capturing a moment of quiet contemplation and connection with nature.\n\nAssistant:")
+//        "User: Create a detailed image of a whimsical forest filled with vibrant, oversized mushrooms, glowing flowers, and towering, twisted trees with bioluminescent vines. The atmosphere is magical, with soft, ethereal light filtering through a misty canopy. Small floating orbs of light hover among the branches, and tiny fairy-like creatures flit through the air. A winding, moss-covered path leads to a mysterious glowing portal hidden within the trees. The scene should feel enchanting, otherworldly, and full of wonder, like a dreamlike fantasy realm.\n\nAssistant:")
+
+    val answerAnnotation = resultAnnotate("answer").head.asInstanceOf[Annotation]
+    println(s"imageName.result: ${answerAnnotation.result}")
+
+    // generated image should be in the metadata as a base64 string with the keys "generated_image_0", "generated_image_1", etc.
+    // find the keys that contain the generated images
+    val generatedImageKeys = answerAnnotation.metadata.keys.filter(_.contains("generated_image"))
+
+    assert(generatedImageKeys.nonEmpty)
+//    println(s"generated_image: ${answerAnnotation.metadata("generated_image")}")
+
+    for (key <- generatedImageKeys) {
+      val generatedImage = answerAnnotation.metadata(key).asInstanceOf[String]
+      val decodedImage =
+        java.util.Base64.getDecoder.decode(generatedImage)
+      // save the image to the disk
+      val fos =
+        new FileOutputStream(new File(s"src/test/resources/images/generated_image_$key.jpg"))
+      fos.write(decodedImage)
+      fos.close()
+    }
+//    // save the generated image by decoding the base64 string
+//    val generatedImage = answerAnnotation.metadata("generated_image_0").asInstanceOf[String]
+//    val decodedImage =
+//      java.util.Base64.getDecoder.decode(generatedImage)
+//    // save the image to the disk
+//    val fos =
+//      new FileOutputStream(new File("src/test/resources/images/generated_image.jpg"))
+//    fos.write(decodedImage)
+//    fos.close()
   }
 
   it should "work with light pipeline annotate" taggedAs SlowTest in {
@@ -160,7 +248,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = JanusForMultiModal
-      .pretrained()
+      .loadSavedModel("/mnt/research/Projects/ModelZoo/Janus/Janus-1.3B-ov", ResourceHelper.spark)
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)

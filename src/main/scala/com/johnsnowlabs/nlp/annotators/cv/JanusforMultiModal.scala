@@ -35,7 +35,7 @@ import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOp
 import com.johnsnowlabs.ml.openvino.OpenvinoWrapper.JanusWrappers
 import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{IntArrayParam, IntParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -134,14 +134,6 @@ class JanusForMultiModal(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(IMAGE)
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  /** @group setParam */
-  def setRandomSeed(value: Int): JanusForMultiModal.this.type = {
-    if (randomSeed.isEmpty) {
-      this.randomSeed = Some(value)
-    }
-    this
-  }
-
   /** A list of token ids which are ignored in the decoder's output (Default: `Array()`)
     *
     * @group param
@@ -228,6 +220,24 @@ class JanusForMultiModal(override val uid: String)
   /** @group getParam */
   def getImageTokenLength: Int = $(imageTokenLength)
 
+  val imageGenerateMode: BooleanParam =
+    new BooleanParam(this, "imageGenerateMode", "Image generation mode")
+
+  /** @group setParam */
+  def setImageGenerateMode(value: Boolean): this.type = set(imageGenerateMode, value)
+
+  /** @group getParam */
+  def getImageGenerateMode: Boolean = $(imageGenerateMode)
+
+  val numOfParallelImages: IntParam =
+    new IntParam(this, "numOfParallelImages", "Number of parallel images to Generate")
+
+  /** @group setParam */
+  def setNumOfParallelImages(value: Int): this.type = set(numOfParallelImages, value)
+
+  /** @group getParam */
+  def getNumOfParallelImages: Int = $(numOfParallelImages)
+
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
@@ -269,7 +279,9 @@ class JanusForMultiModal(override val uid: String)
     maxInputLength -> 4096,
     stopTokenIds -> Array(2),
     imageToken -> 100594,
-    imageTokenLength -> 576)
+    imageTokenLength -> 576,
+    imageGenerateMode -> false,
+    numOfParallelImages -> 1)
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -295,6 +307,7 @@ class JanusForMultiModal(override val uid: String)
         getModelIfNotSet.predict(
           questionAnnotations,
           validImages.toSeq,
+          imageGenerateMode = $(imageGenerateMode),
           batchSize = $(batchSize),
           minOutputLength = $(minOutputLength),
           maxOutputLength = $(maxOutputLength),
@@ -307,7 +320,8 @@ class JanusForMultiModal(override val uid: String)
           randomSeed = this.randomSeed,
           ignoreTokenIds = $(ignoreTokenIds),
           beamSize = $(beamSize),
-          maxInputLength = $(maxInputLength))
+          maxInputLength = $(maxInputLength),
+          numOfParallelImages = $(numOfParallelImages))
       }
   }
 
@@ -593,6 +607,7 @@ trait ReadJanusForMultiModalDLModel extends ReadOpenvinoModel {
       .setImageMean(preprocessorConfig.image_mean)
       .setImageStd(preprocessorConfig.image_std)
       .setResample(preprocessorConfig.resample)
+      .setRandomSeed(214567L)
 
     val modelEngine =
       if (useOpenvino)

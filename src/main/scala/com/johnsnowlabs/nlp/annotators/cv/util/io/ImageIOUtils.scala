@@ -203,4 +203,21 @@ private[johnsnowlabs] object ImageIOUtils {
 
   }
 
+  def arrayToBufferedImage(pixelArray: Array[Array[Array[Int]]]): BufferedImage = {
+    val height = pixelArray.length
+    val width = pixelArray.head.length
+    val image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+
+    for (x <- pixelArray.indices; y <- pixelArray(x).indices) {
+      val rgb = pixelArray(y)(x) match {
+        case Array(r, g, b) => new Color(r, g, b).getRGB
+        case _ =>
+          throw new IllegalArgumentException(
+            "Each pixel must have exactly 3 color channels (RGB)")
+      }
+      image.setRGB(x, y, rgb)
+    }
+    image
+  }
+
 }

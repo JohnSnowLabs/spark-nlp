@@ -25,14 +25,17 @@ import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
-
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, JanusTokenizer, SpecialTokens}
-import org.intel.openvino.InferRequest
+import org.intel.openvino.{InferRequest, Tensor}
+
+import javax.imageio.ImageIO
+import scala.util.Random
+import scala.reflect.ClassTag
 import java.awt.{Color, Graphics2D}
 import java.awt.image.BufferedImage
-
+import java.io.ByteArrayOutputStream
 import scala.collection.JavaConverters._
 
 private[johnsnowlabs] class Janus(
@@ -78,7 +81,7 @@ private[johnsnowlabs] class Janus(
       merges = merges,
       vocab = vocabulary,
       specialTokens = Some(specialTokens),
-      addPrefixSpaceToSentence = false,
+      addPrefixSpaceToSentence = true,
       alwaysAddPrefix = false)
     .asInstanceOf[JanusTokenizer]
 
@@ -90,6 +93,35 @@ private[johnsnowlabs] class Janus(
     */
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
     sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
+  }
+
+  /** Encode a sequence of sentences for generation
+    * @param sentences
+    *   Sequence of sentences
+    * @return
+    *   Sequence of encoded sentences
+    */
+  private def encodeTextForGeneration(sentences: Seq[Annotation]): Seq[Array[Int]] = {
+    val startOfImage = "<begin_of_image>"
+    val endOfImage = "<end_of_image>"
+    val startOfImageToken = vocabulary.getOrElse(startOfImage, 100016)
+    val endOfImageToken = vocabulary.getOrElse(endOfImage, 100593)
+
+    // encode text and add beginning of image token
+
+    val tokens = SentenceSplit
+      .unpack(sentences)
+      .map(s => {
+        val sentWithTask = s
+        bpeTokenizer
+          .tokenize(sentWithTask)
+          .map(bpeTokenizer.encode)
+          .flatMap(_.map(_.pieceId))
+      })
+      .map(s => Array(bosTokenId) ++ s ++ Array(startOfImageToken))
+
+    tokens
+
   }
 
   /** Encode a sequence of sentences
@@ -285,6 +317,7 @@ private[johnsnowlabs] class Janus(
   def predict(
       sentences: Seq[Annotation],
       imageAnnotations: Seq[AnnotationImage],
+      imageGenerateMode: Boolean,
       batchSize: Int,
       minOutputLength: Int,
       maxOutputLength: Int,
@@ -297,40 +330,97 @@ private[johnsnowlabs] class Janus(
       randomSeed: Option[Long] = None,
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int,
-      maxInputLength: Int): Seq[Annotation] = {
+      maxInputLength: Int,
+      numOfParallelImages: Int): Seq[Annotation] = {
 
-    val (encodedText, preprocessedImages) = encode(imageAnnotations, sentences, preprocessor)
-    val tagged = tag(
-      encodedText,
-      preprocessedImages,
-      minOutputLength,
-      maxOutputLength,
-      doSample,
-      temperature,
-      topK,
-      topP,
-      repetitionPenalty,
-      noRepeatNgramSize,
-      randomSeed,
-      ignoreTokenIds,
-      beamSize,
-      maxInputLength,
-      Array(eosTokenId))
-    val decoded = decode(tagged)
+    if (imageGenerateMode) {
+      val encodedText: Array[Array[Int]] = encodeTextForGeneration(sentences).toArray
+      val parallelSize = numOfParallelImages
+      val tokens = Array.ofDim[Int](parallelSize * 2, encodedText.head.length)
+      for (i <- 0 until parallelSize * 2) {
+        if (i % 2 != 0) {
+          tokens(i) = Array.fill(encodedText.head.length)(paddingTokenId)
+          // update the first and last token to bos and eos respectively
+          tokens(i)(0) = encodedText.head.head
+          tokens(i)(encodedText.head.length - 1) = encodedText.head.last
+        } else {
+          tokens(i) = encodedText.head
+        }
+      }
+      val generatedImages = generateImage(
+        tokens,
+        tokens,
+        parallelSize = parallelSize,
+        patchSize = 16,
+        imageSize = preprocessor.size,
+        randomSeed = randomSeed,
+        inferRequestTextEmbeddingsModel =
+          openvinoWrapper.get.textEmbeddingsModel.getCompiledModel().create_infer_request(),
+        inferRequestGenEmbeddingsModel =
+          openvinoWrapper.get.genEmbeddingsModel.getCompiledModel().create_infer_request(),
+        inferRequestGenHeadModel =
+          openvinoWrapper.get.genHeadModel.getCompiledModel().create_infer_request(),
+        inferRequestLanguageModel =
+          openvinoWrapper.get.languageModel.getCompiledModel().create_infer_request(),
+        inferRequestGenDecoderModel =
+          openvinoWrapper.get.genDecoderModel.getCompiledModel().create_infer_request())
 
-    var sentBegin, nextSentEnd = 0
-    val annotations = decoded.map { content =>
-      nextSentEnd += content.length - 1
-      val annots = new Annotation(
-        annotatorType = DOCUMENT,
-        begin = sentBegin,
-        end = nextSentEnd,
-        result = content,
-        metadata = Map())
-      sentBegin += nextSentEnd + 1
-      annots
+      // group generated images into ( batch_size, parallel_size) and convert them to annotations
+      val parallelSizeBatchedImages: Array[Array[BufferedImage]] =
+        generatedImages.grouped(parallelSize).toArray
+
+      val annotations = parallelSizeBatchedImages.zip(sentences).map { case (imgs, sent) =>
+        var metadata = Map[String, String]()
+        // add each image to the metadata
+        imgs.zipWithIndex.foreach { case (img, i) =>
+          val bos = new ByteArrayOutputStream()
+          ImageIO.write(img, "png", bos)
+          val base64EncodedImage = java.util.Base64.getEncoder.encodeToString(bos.toByteArray)
+          metadata += (s"generated_image_$i" -> base64EncodedImage)
+        }
+        val annots = new Annotation(
+          annotatorType = DOCUMENT,
+          begin = 0,
+          end = 0,
+          result = sent.result,
+          metadata = metadata)
+        annots
+      }
+      annotations
+    } else {
+      val (encodedText, preprocessedImages) = encode(imageAnnotations, sentences, preprocessor)
+      val tagged = tag(
+        encodedText,
+        preprocessedImages,
+        minOutputLength,
+        maxOutputLength,
+        doSample,
+        temperature,
+        topK,
+        topP,
+        repetitionPenalty,
+        noRepeatNgramSize,
+        randomSeed,
+        ignoreTokenIds,
+        beamSize,
+        maxInputLength,
+        Array(eosTokenId))
+      val decoded = decode(tagged)
+
+      var sentBegin, nextSentEnd = 0
+      val annotations = decoded.map { content =>
+        nextSentEnd += content.length - 1
+        val annots = new Annotation(
+          annotatorType = DOCUMENT,
+          begin = sentBegin,
+          end = nextSentEnd,
+          result = content,
+          metadata = Map())
+        sentBegin += nextSentEnd + 1
+        annots
+      }
+      annotations
     }
-    annotations
   }
 
   def getModelOutputs(
@@ -409,6 +499,263 @@ private[johnsnowlabs] class Janus(
           i * sequenceLength * vocabSize + sequenceLength * vocabSize)
     })
     decoderOutputs.toArray
+  }
+
+  def generateImage(
+      encoderInputIds: Array[Array[Int]],
+      decoderInputIds: Array[Array[Int]],
+      parallelSize: Int = 1,
+      patchSize: Int = 16,
+      imageSize: Int = preprocessor.size,
+      randomSeed: Option[Long] = None,
+      inferRequestTextEmbeddingsModel: InferRequest,
+      inferRequestGenEmbeddingsModel: InferRequest,
+      inferRequestGenHeadModel: InferRequest,
+      inferRequestLanguageModel: InferRequest,
+      inferRequestGenDecoderModel: InferRequest): Array[BufferedImage] = {
+
+    val generatedTokens = getImageModelOutputs(
+      encoderInputIds,
+      decoderInputIds,
+      randomSeed,
+      inferRequestTextEmbeddingsModel,
+      inferRequestGenEmbeddingsModel,
+      inferRequestGenHeadModel,
+      inferRequestLanguageModel)
+
+    inferRequestGenDecoderModel.set_tensor(
+      "code_b",
+      new org.intel.openvino.Tensor(
+        Array(generatedTokens.length, generatedTokens.head.length),
+        generatedTokens.flatten.map(_.toLong)))
+
+    inferRequestGenDecoderModel.set_tensor(
+      "shape",
+      new org.intel.openvino.Tensor(
+        Array(4),
+        Array(parallelSize, 8, imageSize / patchSize, imageSize / patchSize).map(_.toLong)))
+
+    inferRequestGenDecoderModel.infer()
+
+    val dec = inferRequestGenDecoderModel.get_output_tensor()
+
+    val decShape = dec.get_shape()
+    val decChannelsLast = transposeArray(dec.data(), decShape, Array(0, 2, 3, 1))
+
+    val decChannelsLastReshaped =
+      reshape4D(decChannelsLast, decShape(0), decShape(2), decShape(3), decShape(1))
+
+    val decClipped: Array[Array[Array[Array[Int]]]] = decChannelsLastReshaped.map { x =>
+      x.map { y =>
+        y.map { z =>
+          z.map { w =>
+            Math.min(Math.max(((w + 1) / 2) * 255, 0), 255).toInt
+          }
+        }
+      }
+    }
+
+    // convert each image to a BufferedImage
+    val bufferedImages = decClipped.map { img =>
+      ImageIOUtils.arrayToBufferedImage(img)
+    }
+    bufferedImages
+  }
+
+  def getImageModelOutputs(
+      encoderInputIds: Array[Array[Int]],
+      decoderInputIds: Array[Array[Int]],
+      randomSeed: Option[Long] = None,
+      inferRequestTextEmbeddingsModel: InferRequest,
+      inferRequestGenEmbeddingsModel: InferRequest,
+      inferRequestGenHeadModel: InferRequest,
+      inferRequestLanguageModel: InferRequest): Array[Array[Int]] = {
+
+    var generatedTokens: Array[Array[Int]] = Array()
+    var nextInputEmbedsTensor: Option[org.intel.openvino.Tensor] = None
+    var decoderInputIdsCopied = decoderInputIds.clone()
+    // run the model for imageTokenLength times
+    for (i <- 0 until imageTokenLength) {
+      val nextTokenIds = getNextImageTokens(
+        encoderInputIds,
+        decoderInputIdsCopied,
+        cfgWeight = 5.0f,
+        temperature = 1.0f,
+        randomSeed = randomSeed,
+        inputEmbeds = nextInputEmbedsTensor,
+        inferRequestTextEmbeddingsModel,
+        inferRequestGenHeadModel,
+        inferRequestLanguageModel)
+
+      val nextTokenIdsTensor = new org.intel.openvino.Tensor(
+        Array(nextTokenIds.length * 2),
+        nextTokenIds.flatMap(x => Array(x, x)).map(_.toLong))
+
+      inferRequestGenEmbeddingsModel.set_input_tensor(nextTokenIdsTensor)
+      inferRequestGenEmbeddingsModel.infer()
+
+      val imageEmbeddings = inferRequestGenEmbeddingsModel.get_output_tensor()
+
+      nextInputEmbedsTensor = Some(
+        new org.intel.openvino.Tensor(
+          Array(imageEmbeddings.get_shape()(0), 1, imageEmbeddings.get_shape()(1)),
+          imageEmbeddings.data()))
+
+      if (generatedTokens.isEmpty) {
+        generatedTokens = nextTokenIds.map(Array(_))
+      } else {
+        generatedTokens =
+          generatedTokens.zip(nextTokenIds).map { case (currentIds: Array[Int], nextId: Int) =>
+            currentIds ++ Array(nextId)
+          }
+      }
+
+      // repeat the nextTokenIds twice and add them to the decoder input ids
+      val repeatedNextTokenIds = nextTokenIds.flatMap(x => Array(x, x))
+
+      // extend decoder input ids to include the generated tokens. Decoder input ids are duplicated for each image
+      decoderInputIdsCopied =
+        decoderInputIdsCopied.zip(repeatedNextTokenIds).map { case (currentIds, nextId) =>
+          currentIds ++ Array(nextId)
+        }
+    }
+    generatedTokens
+  }
+
+  private def getNextImageTokens(
+      encoderInputIds: Array[Array[Int]],
+      decoderInputIds: Array[Array[Int]],
+      cfgWeight: Float = 5.0f,
+      temperature: Float = 1.0f,
+      randomSeed: Option[Long] = None,
+      inputEmbeds: Option[Tensor],
+      inferRequestTextEmbeddingsModel: InferRequest,
+      inferRequestGenHeadModel: InferRequest,
+      inferRequestLanguageModel: InferRequest): Array[Int] = {
+
+    val (inputIdsLong, inputPositionIDsLong): (Array[Long], Array[Long]) =
+      if (encoderInputIds.head.length == decoderInputIds.head.length) {
+        // First pass
+        val inpIdsLong = decoderInputIds.flatMap { tokenIds => tokenIds.map(_.toLong) }
+        val posIdsLong = decoderInputIds.flatMap { tokenIds =>
+          tokenIds.zipWithIndex.map { case (_, i) =>
+            i.toLong
+          }
+        }
+        (inpIdsLong, posIdsLong)
+      } else {
+        // Subsequent passes
+        val inpIdsLong = decoderInputIds.map { tokenIds => tokenIds.last.toLong }
+        val posIdsLong = decoderInputIds.map { tokenIds =>
+          tokenIds.zipWithIndex.map { case (_, i) =>
+            i.toLong
+          }.last
+        }
+        (inpIdsLong, posIdsLong)
+      }
+    val attentionMask: Array[Long] =
+      decoderInputIds.flatMap { tokenIds => tokenIds.map(_ => 1L) }
+
+    val batchSize: Int = decoderInputIds.length
+    val beamIdx: Array[Int] = new Array[Int](batchSize)
+    val shape: Array[Int] = Array(batchSize, inputIdsLong.length / batchSize)
+
+    val decoderAttentionMask: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(Array(batchSize, decoderInputIds.head.length), attentionMask)
+    val decoderPositionIDs: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(shape, inputPositionIDsLong)
+    val beamIdxTensor: org.intel.openvino.Tensor =
+      new org.intel.openvino.Tensor(Array(batchSize), beamIdx)
+
+    val inputEmbedsTensor: org.intel.openvino.Tensor = if (inputEmbeds.isDefined) {
+      inputEmbeds.get
+    } else {
+      val inputIdsLongTensor: org.intel.openvino.Tensor =
+        new org.intel.openvino.Tensor(shape, inputIdsLong)
+      inferRequestTextEmbeddingsModel.set_input_tensor(inputIdsLongTensor)
+      inferRequestTextEmbeddingsModel.infer()
+
+      val textEmbeddings = inferRequestTextEmbeddingsModel.get_output_tensor()
+      textEmbeddings
+    }
+
+    inferRequestLanguageModel.set_tensor("inputs_embeds", inputEmbedsTensor)
+    inferRequestLanguageModel.set_tensor("attention_mask", decoderAttentionMask)
+    inferRequestLanguageModel.set_tensor("position_ids", decoderPositionIDs)
+    inferRequestLanguageModel.set_tensor("beam_idx", beamIdxTensor)
+
+    inferRequestLanguageModel.infer()
+
+    val result = inferRequestLanguageModel.get_tensor("last_hidden_state")
+    val resultShape = result.get_shape()
+    // select the last hidden state
+    // (2*parallel_images, sequence_length, hidden_size)
+    // Reshape the tensor
+    val reshapedArray: Array[Array[Array[Float]]] =
+      reshape3D(result.data(), resultShape(0), resultShape(1), resultShape(2))
+    val lastResult = reshapedArray.map { x =>
+      x(resultShape(1) - 1)
+    }.toArray
+    val lastResultTensor =
+      new org.intel.openvino.Tensor(Array(resultShape(0), resultShape(2)), lastResult.flatten)
+
+    inferRequestGenHeadModel.set_input_tensor(lastResultTensor)
+    inferRequestGenHeadModel.infer()
+
+    val logits = inferRequestGenHeadModel.get_output_tensor()
+    val logitsShape = logits.get_shape()
+
+    val logitsRaw = logits.data()
+    val reshapedLogits: Array[Array[Float]] =
+      reshape2D(logitsRaw, logitsShape(0), logitsShape(1))
+
+    // every second element starting from 0 to the end will be the conditional logits
+    val logitCond = reshapedLogits.zipWithIndex.collect {
+      case (logit, i) if i % 2 == 0 => logit
+    }
+    // every second element starting from 1 to the end will be the unconditional logits
+    val logitUncond = reshapedLogits.zipWithIndex.collect {
+      case (logit, i) if i % 2 == 1 => logit
+    }
+
+    val logitDiff = logitCond.zip(logitUncond).map { case (cond, uncond) =>
+      cond.zip(uncond).map { case (c, u) =>
+        ((u + cfgWeight * (c - u)) / temperature).toFloat
+      }
+    }
+    val probs = logitDiff.map(softmax)
+    val nextTokenIds = multinomial(probs, seed = randomSeed)
+    nextTokenIds.map(_.head)
+  }
+
+  private def multinomial(
+      probs: Array[Array[Float]],
+      numSamples: Int = 1,
+      seed: Option[Long] = None): Array[Array[Int]] = {
+    val random = seed.map(s => new Random(s)).getOrElse(new Random())
+
+    probs.map { p =>
+      require(p.forall(_ >= 0.0f), "Probabilities must be non-negative")
+      require(p.sum >= 0.99f && p.sum <= 1.01f, "Probabilities must sum to approximately 1.0")
+
+      if (p.isEmpty) {
+        throw new IllegalArgumentException("Probability array cannot be empty")
+      }
+
+      if (p.forall(_ == 0.0f)) {
+        throw new IllegalArgumentException("Probability array cannot contain all zeros")
+      }
+
+      val cumSum = p.scanLeft(0.0f)(_ + _).tail
+
+      (0 until numSamples).map { _ =>
+        val rand = random.nextFloat()
+        cumSum.zipWithIndex
+          .find { case (c, _) => c > rand }
+          .map(_._2)
+          .getOrElse(throw new IllegalStateException("Could not find a valid category"))
+      }.toArray
+    }.toArray
   }
 
   private def argmax(scores: Array[Float]): Int =
@@ -580,6 +927,83 @@ private[johnsnowlabs] class Janus(
         textEmbeddings
       }
     imageEmbeddings
+  }
+
+  def softmax(logitValues: Array[Float]): Array[Float] = {
+    val maxLogit = logitValues.max
+    val logitsExp = logitValues.map(l => Math.exp(l - maxLogit))
+    val expSum = logitsExp.sum
+    logitsExp.map(exp => (exp / expSum).toFloat)
+  }
+
+  // Function to reshape the flattened array
+  def reshapeArray(flatArray: Array[Float], shape: Array[Int]): Any = {
+    require(flatArray.length == shape.product, "Shape does not match data length")
+
+    def recursiveReshape(data: Array[Float], shape: List[Int]): Any = shape match {
+      case Nil => data.head // Base case: return a single element
+      case head :: Nil => data.grouped(head).toArray.asInstanceOf[Array[Any]] // 1D array
+      case head :: tail =>
+        data
+          .grouped(head)
+          .map(subArr => recursiveReshape(subArr, tail))
+          .toArray
+          .asInstanceOf[Array[Any]] // Cast to Array[Any] to preserve structure
+    }
+
+    recursiveReshape(flatArray, shape.toList).asInstanceOf[Array[Any]]
+  }
+
+  def reshape2D(data: Array[Float], rows: Int, cols: Int): Array[Array[Float]] = {
+    data.grouped(cols).toArray.map(_.toArray)
+  }
+
+  def reshape3D(
+      data: Array[Float],
+      depth: Int,
+      rows: Int,
+      cols: Int): Array[Array[Array[Float]]] = {
+    data.grouped(rows * cols).toArray.map { slice =>
+      reshape2D(slice, rows, cols)
+    }
+  }
+
+  def reshape4D(
+      data: Array[Float],
+      batch: Int,
+      depth: Int,
+      rows: Int,
+      cols: Int): Array[Array[Array[Array[Float]]]] = {
+    data.grouped(depth * rows * cols).toArray.map { slice =>
+      reshape3D(slice, depth, rows, cols)
+    }
+  }
+
+  def transposeArray[T: ClassTag](
+      inputArray: Array[T],
+      inputArrayShape: Array[Int],
+      axes: Array[Int]): Array[T] = {
+    require(
+      inputArrayShape.length == axes.length,
+      "Axes must have the same length as the shape dimensions")
+
+    val outputShape = axes.map(inputArrayShape(_))
+    val size = inputArray.length
+    val inputStrides = inputArrayShape.scanRight(1)(_ * _).tail
+    val outputStrides = outputShape.scanRight(1)(_ * _).tail
+
+    def getTransposedIndex(index: Int): Int = {
+      val originalIndices =
+        inputArrayShape.indices.map(i => (index / inputStrides(i)) % inputArrayShape(i))
+      val transposedIndices = axes.map(originalIndices)
+      transposedIndices.zip(outputStrides).map { case (idx, stride) => idx * stride }.sum
+    }
+
+    val outputArray = new Array[T](size)
+    for (i <- inputArray.indices) {
+      outputArray(getTransposedIndex(i)) = inputArray(i)
+    }
+    outputArray
   }
 
 }
