@@ -34,7 +34,7 @@ class PdfToTextTest extends AnyFlatSpec {
       .fit(dummyDataFrame)
 
     val pdfDf = pipelineModel.transform(dummyDataFrame)
-    pdfDf.show()
+    pdfDf.show(truncate = false)
 
     assert(pdfDf.count() > 0)
   }
@@ -82,6 +82,21 @@ class PdfToTextTest extends AnyFlatSpec {
 
     assert(pdfDf.filter(col("pagenum") === 0).count() == 0)
     assert(pdfDf.filter(col("text") === "").count() > 0)
+  }
+
+  it should "work for Layout Text Stripper" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setTextStripper("PDFLayoutTextStripper")
+    val dummyDataFrame =
+      spark.read.format("binaryFile").load("/home/danilo/Downloads/PDFTestLayout.pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    pdfDf.select("text").show(truncate = false)
+
+    assert(pdfDf.count() > 0)
   }
 
 }

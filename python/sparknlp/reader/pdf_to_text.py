@@ -1,8 +1,23 @@
+#  Copyright 2017-2025 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 from pyspark import keyword_only
 from pyspark.ml.param import Param, Params, TypeConverters
 from pyspark.ml.param.shared import HasInputCol, HasOutputCol
 from pyspark.ml.util import JavaMLReadable, JavaMLWritable
 from pyspark.ml.wrapper import JavaTransformer
+
+from sparknlp.reader.enums import TextStripperType
 
 
 class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
@@ -28,6 +43,14 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
     splitPage = Param(Params._dummy(), "splitPage",
                       "Param for enable/disable splitting document per page",
                       typeConverter=TypeConverters.toBoolean)
+
+    textStripper = Param(Params._dummy(), "textStripper",
+                         "Text stripper type used for output layout and formatting",
+                         typeConverter=TypeConverters.toString)
+
+    sort = Param(Params._dummy(), "sort",
+                 "Param for enable/disable sort lines",
+                 typeConverter=TypeConverters.toBoolean)
 
     onlyPageNum = Param(Params._dummy(), "onlyPageNum",
                         "Force to extract only number of pages",
@@ -82,3 +105,20 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         Sets the value of :py:attr:`onlyPageNum`.
         """
         return self._set(onlyPageNum=value)
+
+    def setTextStripper(self, value):
+        """
+        Sets the value of :py:attr:`textStripper`.
+        """
+        if isinstance(value, TextStripperType):
+            value = value.value
+        if value not in [i.value for i in TextStripperType]:
+            type_value = type(value)
+            raise ValueError(f"Param textStripper must be a 'TextStripperType' enum but got {type_value}.")
+        return self._set(textStripper=str(value))
+
+    def setSort(self, value):
+        """
+        Sets the value of :py:attr:`sort`.
+        """
+        return self._set(sort=value)
