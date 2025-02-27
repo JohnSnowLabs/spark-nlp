@@ -73,7 +73,10 @@ class PdfToText(override val uid: String)
   final val onlyPageNum = new BooleanParam(this, "onlyPageNum", "Extract only page numbers.")
   final val storeSplittedPdf =
     new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
-  final val textStripper = new Param[String](this, "textStripper", "Text stripper type used for output layout and formatting")
+  final val textStripper = new Param[String](
+    this,
+    "textStripper",
+    "Text stripper type used for output layout and formatting")
   final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
 
   /** @group setParam */

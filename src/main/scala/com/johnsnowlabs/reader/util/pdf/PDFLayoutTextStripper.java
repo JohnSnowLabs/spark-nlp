@@ -172,12 +172,11 @@ public class PDFLayoutTextStripper extends PDFTextStripper {
      */
     @SuppressWarnings("unchecked")
     private void sortTextPositionList(final List<TextPosition> textList) {
-        TextPositionComparator comparator = new TextPositionComparator();
-        Collections.sort(textList, comparator);
+        textList.sort(new TextPositionComparator());
     }
 
     private void writeLine(final List<TextPosition> textPositionList) {
-        if ( textPositionList.size() > 0 ) {
+        if (!textPositionList.isEmpty()) {
             TextLine textLine = this.addNewLine();
             boolean firstCharacterOfLineFound = false;
             for (TextPosition textPosition : textPositionList ) {
