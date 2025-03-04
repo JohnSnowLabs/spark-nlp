@@ -15,6 +15,8 @@
  */
 package com.johnsnowlabs.reader.util.pdf
 
+import com.johnsnowlabs.nlp.IAnnotation
+
 trait PdfUtils {
   val MAX_CHARACTER_BEFORE_HEADER = 1000
 
@@ -26,4 +28,36 @@ trait PdfUtils {
     validContent
   }
 
+  implicit class exceptionUtils(existingException: String) {
+    def concatException(newException: String): String = {
+      newException match {
+        case null => existingException
+        case _ => {
+          existingException match {
+            case null => newException
+            case _ => existingException + " " + newException
+          }
+        }
+      }
+    }
+  }
+
+  implicit class ChainException(lightRecord: Map[String, Seq[IAnnotation]]) {
+    def chainExceptions(
+        e: IAnnotation,
+        exceptionKey: String = "exception"): Map[String, Seq[IAnnotation]] = {
+      // chain exceptions
+      val chainedExceptions = lightRecord.getOrElse("exception", Seq.empty) :+ e
+      lightRecord.updated(exceptionKey, chainedExceptions)
+    }
+    def chainExceptions(e: String): Map[String, Seq[IAnnotation]] = chainExceptions(
+      PdfPipelineException(e))
+  }
+
+}
+
+case class PdfPipelineException(message: String, source: String = "pdf_pipeline_exception")
+    extends IAnnotation {
+  override def annotatorType: String = source
+  def asString = s"$source::$message"
 }

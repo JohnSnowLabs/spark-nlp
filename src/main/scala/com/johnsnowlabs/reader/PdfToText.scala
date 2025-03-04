@@ -26,11 +26,11 @@ import org.apache.spark.ml.param.shared.{HasInputCol, HasOutputCol}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{col, posexplode_outer, udf}
+import org.apache.spark.sql.functions.{col, lit, posexplode_outer, udf}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-import java.io.ByteArrayOutputStream
+import java.io.{ByteArrayOutputStream, PrintWriter, StringWriter}
 import scala.util.{Failure, Success, Try}
 
 class PdfToText(override val uid: String)
@@ -138,13 +138,14 @@ class PdfToText(override val uid: String)
     normalizeLigatures -> true)
 
   private def transformUDF: UserDefinedFunction = udf(
-    (path: String, content: Array[Byte]) => {
-      doProcess(content)
+    (path: String, content: Array[Byte], exception: String) => {
+      doProcess(content, exception)
     },
     ArrayType(outputDataType))
 
-  private def doProcess(content: Array[Byte])
-      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
+  private def doProcess(
+      content: Array[Byte],
+      exception: String): Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     val pagesTry = Try(
       pdfToText(
         content,
@@ -157,8 +158,14 @@ class PdfToText(override val uid: String)
         $(normalizeLigatures)))
 
     pagesTry match {
-      case Failure(_) =>
-        Seq()
+      case Failure(e) =>
+        log.error("Pdf load error during text extraction")
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        log.error(sw.toString)
+        log.error(pagesTry.toString)
+        val errMessage = e.toString + " " + e.getMessage
+        Seq(("", Seq(), -1, -1, Array(), exception.concatException(s"PdfToText: $errMessage"), 0))
       case Success(content) =>
         content
     }
@@ -169,7 +176,15 @@ class PdfToText(override val uid: String)
 
     val selCols1 = df.columns
       .filterNot(_ == $(inputCol))
-      .map(col) :+ posexplode_outer(transformUDF(df.col($(originCol)), df.col($(inputCol))))
+      .map(col) :+ posexplode_outer(
+      transformUDF(
+        df.col($(originCol)),
+        df.col($(inputCol)),
+        if (df.columns.contains("exception")) {
+          col("exception")
+        } else {
+          lit(null)
+        }))
       .as(Seq("tmp_num", "tmp_result"))
     val selCols = df.columns
       .filterNot(_ == $(inputCol))
@@ -191,21 +206,25 @@ class PdfToText(override val uid: String)
         getOrDefault(inputCol),
         throw new RuntimeException(s"Column not found ${getOrDefault(inputCol)}"))
 
-      pdfs flatMap { case BinaryFile(bytes, path) =>
-        doProcess(bytes).zipWithIndex.map {
-          case ((text, pageMatrix, _, _, content, exception, _), pageNum) =>
-            val metadata =
-              Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
+      pdfs flatMap {
+        case BinaryFile(bytes, path) =>
+          doProcess(bytes, path).zipWithIndex.map {
+            case ((text, pageMatrix, _, _, content, exception, _), pageNum) =>
+              val metadata =
+                Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
 
-            val result = lightRecord ++ Map(
-              getOutputCol -> Seq(OcrText(text, metadata, content)),
-              getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
+              val result = lightRecord ++ Map(
+                getOutputCol -> Seq(OcrText(text, metadata, content)),
+                getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
 
-            if ($(extractCoordinates))
-              result ++ Map("positions" -> pageMatrix.map(pm => PositionsOutput(pm.mapping)))
-            else
-              result
-        }
+              if ($(extractCoordinates))
+                result ++ Map("positions" -> pageMatrix.map(pm => PositionsOutput(pm.mapping)))
+              else
+                result
+
+            case _ => lightRecord.chainExceptions(s"Wrong Input in $uid")
+          }
+        case _ => Seq(lightRecord.chainExceptions(s"Wrong Input in $uid"))
       }
     }
   }
