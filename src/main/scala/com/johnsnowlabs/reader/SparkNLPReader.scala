@@ -211,6 +211,8 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
       .setOnlyPageNum(getOnlyPageNum)
       .setTextStripper(getTextStripper)
       .setSort(getSort)
+      .setExtractCoordinates(getExtractCoordinates)
+      .setNormalizeLigatures(getNormalizeLigatures)
     val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
     val pipelineModel = new Pipeline()
       .setStages(Array(pdfToText))
@@ -265,6 +267,26 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
         params.asScala.getOrElse("sort", "false").toBoolean
       } catch {
         case _: IllegalArgumentException => false
+      }
+    sort
+  }
+
+  private def getExtractCoordinates: Boolean = {
+    val sort =
+      try {
+        params.asScala.getOrElse("extractCoordinates", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    sort
+  }
+
+  private def getNormalizeLigatures: Boolean = {
+    val sort =
+      try {
+        params.asScala.getOrElse("normalizeLigatures", "true").toBoolean
+      } catch {
+        case _: IllegalArgumentException => true
       }
     sort
   }

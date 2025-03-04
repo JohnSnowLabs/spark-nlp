@@ -56,6 +56,14 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
                         "Force to extract only number of pages",
                         typeConverter=TypeConverters.toBoolean)
 
+    extractCoordinates = Param(Params._dummy(), "extractCoordinates",
+                               "Force extract coordinates of text.",
+                               typeConverter=TypeConverters.toBoolean)
+
+    normalizeLigatures = Param(Params._dummy(), "normalizeLigatures",
+                               "Whether to convert ligature chars such as 'ﬂ' into its corresponding chars (e.g., {'f', 'l'}).",
+                               typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         """
@@ -87,7 +95,6 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         Sets the value of :py:attr:`partitionNum`.
         """
         return self._set(partitionNum=value)
-
     def setStoreSplittedPdf(self, value):
         """
         Sets the value of :py:attr:`storeSplittedPdf`.
@@ -122,3 +129,15 @@ class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
         Sets the value of :py:attr:`sort`.
         """
         return self._set(sort=value)
+
+    def setExtractCoordinates(self, value):
+        """
+        Sets the value of :py:attr:`extractCoordinates`.
+        """
+        return self._set(extractCoordinates=value)
+
+    def setNormalizeLigatures(self, value):
+        """
+        Sets the value of :py:attr:`normalizeLigatures`.
+        """
+        return self._set(normalizeLigatures=value)

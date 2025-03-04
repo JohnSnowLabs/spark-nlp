@@ -17,6 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.IAnnotation
 import com.johnsnowlabs.reader.util.pdf._
+import com.johnsnowlabs.reader.util.pdf.schema.{MappingMatrix, PageMatrix}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.spark.internal.Logging
@@ -47,6 +48,7 @@ class PdfToText(override val uid: String)
 
   protected def outputDataType: StructType = new StructType()
     .add($(outputCol), StringType)
+    .add("positions", PageMatrix.dataType)
     .add("height_dimension", IntegerType)
     .add("width_dimension", IntegerType)
     .add($(inputCol), BinaryType)
@@ -78,6 +80,12 @@ class PdfToText(override val uid: String)
     "textStripper",
     "Text stripper type used for output layout and formatting")
   final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
+  final val extractCoordinates =
+    new BooleanParam(this, "extractCoordinates", "Force extract coordinates of text.")
+  final val normalizeLigatures = new BooleanParam(
+    this,
+    "normalizeLigatures",
+    "Whether to convert ligature chars such as 'ﬂ' into its corresponding chars (e.g., {'f', 'l'}).")
 
   /** @group setParam */
   def setPageNumCol(value: String): this.type = set(pageNumCol, value)
@@ -109,6 +117,12 @@ class PdfToText(override val uid: String)
   /** @group setParam */
   def setSort(value: Boolean): this.type = set(sort, value)
 
+  /** @group setParam */
+  def setExtractCoordinates(value: Boolean): this.type = set(extractCoordinates, value)
+
+  /** @group setParam */
+  def setNormalizeLigatures(value: Boolean): this.type = set(normalizeLigatures, value)
+
   setDefault(
     inputCol -> "content",
     outputCol -> "text",
@@ -119,7 +133,9 @@ class PdfToText(override val uid: String)
     storeSplittedPdf -> false,
     splitPage -> true,
     sort -> false,
-    textStripper -> TextStripperType.PDF_TEXT_STRIPPER)
+    textStripper -> TextStripperType.PDF_TEXT_STRIPPER,
+    extractCoordinates -> false,
+    normalizeLigatures -> true)
 
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte]) => {
@@ -127,8 +143,8 @@ class PdfToText(override val uid: String)
     },
     ArrayType(outputDataType))
 
-  private def doProcess(
-      content: Array[Byte]): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+  private def doProcess(content: Array[Byte])
+      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     val pagesTry = Try(
       pdfToText(
         content,
@@ -136,7 +152,9 @@ class PdfToText(override val uid: String)
         $(splitPage),
         $(storeSplittedPdf),
         $(sort),
-        $(textStripper)))
+        $(textStripper),
+        $(extractCoordinates),
+        $(normalizeLigatures)))
 
     pagesTry match {
       case Failure(_) =>
@@ -174,14 +192,19 @@ class PdfToText(override val uid: String)
         throw new RuntimeException(s"Column not found ${getOrDefault(inputCol)}"))
 
       pdfs flatMap { case BinaryFile(bytes, path) =>
-        doProcess(bytes).zipWithIndex.map { case ((text, _, _, content, exception, _), pageNum) =>
-          val metadata =
-            Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
+        doProcess(bytes).zipWithIndex.map {
+          case ((text, pageMatrix, _, _, content, exception, _), pageNum) =>
+            val metadata =
+              Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
 
-          val result = lightRecord ++ Map(
-            getOutputCol -> Seq(OcrText(text, metadata, content)),
-            getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
-          result
+            val result = lightRecord ++ Map(
+              getOutputCol -> Seq(OcrText(text, metadata, content)),
+              getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
+
+            if ($(extractCoordinates))
+              result ++ Map("positions" -> pageMatrix.map(pm => PositionsOutput(pm.mapping)))
+            else
+              result
         }
       }
     }
@@ -218,11 +241,14 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       splitPage: Boolean,
       storeSplittedPdf: Boolean,
       sort: Boolean,
-      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      textStripper: String,
+      extractCoordinates: Boolean,
+      normalizeLigatures: Boolean = false)
+      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     val validPdf = checkAndFixPdf(content)
     val pdfDoc = PDDocument.load(validPdf)
     val numPages = pdfDoc.getNumberOfPages
-    log.info(s"Number of pages ${numPages}")
+    log.info(s"Number of pages $numPages")
     require(numPages >= 1, "pdf input stream cannot be empty")
     val result = if (!onlyPageNum) {
       pdfboxMethod(
@@ -233,16 +259,11 @@ trait PdfToTextTrait extends Logging with PdfUtils {
         splitPage,
         storeSplittedPdf,
         sort,
-        textStripper)
+        textStripper,
+        extractCoordinates,
+        normalizeLigatures = normalizeLigatures)
     } else {
-      Range(1, numPages + 1).map( pageNum =>
-        ("",
-          1,
-          1,
-          null,
-          null,
-          pageNum
-        ))
+      Range(1, numPages + 1).map(pageNum => ("", null, 1, 1, null, null, pageNum))
     }
     pdfDoc.close()
     log.info("Close pdf")
@@ -257,9 +278,13 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       splitPage: Boolean,
       storeSplittedPdf: Boolean,
       sort: Boolean,
-      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      textStripper: String,
+      extractCoordinates: Boolean,
+      normalizeCoordinates: Boolean = true,
+      normalizeLigatures: Boolean = false)
+      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     lazy val out: ByteArrayOutputStream = new ByteArrayOutputStream()
-    if (splitPage)
+    if (splitPage) {
       Range(startPage, endPage + 1).flatMap(pagenum =>
         extractText(pdfDoc, pagenum, pagenum, sort, textStripper)
           .map { text =>
@@ -272,22 +297,77 @@ trait PdfToTextTrait extends Logging with PdfUtils {
               outputDocument.close()
               out.toByteArray
             } else null
+            val coordinates =
+              if (extractCoordinates)
+                getCoordinates(pdfDoc, pagenum, pagenum, normalizeCoordinates, normalizeLigatures)
+              else null
             (
               text,
+              coordinates,
               page.getMediaBox.getHeight.toInt,
               page.getMediaBox.getWidth.toInt,
               splittedPdf,
               null,
               pagenum)
           })
-    else {
+    } else {
       val text = extractText(pdfDoc, startPage, endPage, sort, textStripper).mkString(
         System.lineSeparator())
       val heightDimension = pdfDoc.getPage(startPage).getMediaBox.getHeight.toInt
       val widthDimension = pdfDoc.getPage(startPage).getMediaBox.getWidth.toInt
+      val coordinates =
+        if (extractCoordinates)
+          getCoordinates(pdfDoc, startPage, endPage, normalizeCoordinates, normalizeLigatures)
+        else null
       Seq(
-        (text, heightDimension, widthDimension, if (storeSplittedPdf) content else null, null, 0))
+        (
+          text,
+          coordinates,
+          heightDimension,
+          widthDimension,
+          if (storeSplittedPdf) content else null,
+          null,
+          0))
     }
+  }
+
+  private def getCoordinates(
+      doc: => PDDocument,
+      startPage: Int,
+      endPage: Int,
+      normalizeOutput: Boolean = true,
+      normalizeLigatures: Boolean = true): Seq[PageMatrix] = {
+    import scala.collection.JavaConverters._
+    val unicodeUtils = new UnicodeUtils
+    Range(startPage, endPage + 1).map(pagenum => {
+      val (_, pHeight) = getPageDims(pagenum, doc)
+      val stripper = new CustomStripper
+      stripper.setStartPage(pagenum + 1)
+      stripper.setEndPage(pagenum + 1)
+      stripper.getText(doc)
+      val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
+
+      val mappings = line.toArray.map(p => {
+        MappingMatrix(
+          p.toString,
+          p.getTextMatrix.getTranslateX,
+          if (normalizeOutput) pHeight - p.getTextMatrix.getTranslateY - p.getHeightDir
+          else p.getTextMatrix.getTranslateY,
+          p.getWidth,
+          p.getHeightDir,
+          0,
+          "pdf")
+      })
+
+      val coordinates =
+        if (normalizeLigatures) unicodeUtils.normalizeLigatures(mappings) else mappings
+      PageMatrix(coordinates)
+    })
+  }
+
+  private def getPageDims(numPage: Int, document: PDDocument) = {
+    val page = document.getPage(numPage).getMediaBox
+    (page.getWidth, page.getHeight)
   }
 }
 
