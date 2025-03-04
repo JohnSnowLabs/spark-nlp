@@ -15,6 +15,7 @@
  */
 
 package com.johnsnowlabs.ml.ai
+import java.lang.Math
 
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.DecoderWrappers
@@ -84,6 +85,8 @@ private[johnsnowlabs] class Janus(
       addPrefixSpaceToSentence = true,
       alwaysAddPrefix = false)
     .asInstanceOf[JanusTokenizer]
+
+  var randomSeedGenerator = new Random()
 
   /** Decode a sequence of sentences
     * @param sentences
@@ -334,6 +337,7 @@ private[johnsnowlabs] class Janus(
       numOfParallelImages: Int): Seq[Annotation] = {
 
     if (imageGenerateMode) {
+      randomSeedGenerator = randomSeed.map(s => new Random(s)).getOrElse(new Random())
       val encodedText: Array[Array[Int]] = encodeTextForGeneration(sentences).toArray
       val parallelSize = numOfParallelImages
       val tokens = Array.ofDim[Int](parallelSize * 2, encodedText.head.length)
@@ -586,7 +590,6 @@ private[johnsnowlabs] class Janus(
         inferRequestTextEmbeddingsModel,
         inferRequestGenHeadModel,
         inferRequestLanguageModel)
-
       val nextTokenIdsTensor = new org.intel.openvino.Tensor(
         Array(nextTokenIds.length * 2),
         nextTokenIds.flatMap(x => Array(x, x)).map(_.toLong))
@@ -596,6 +599,7 @@ private[johnsnowlabs] class Janus(
 
       val imageEmbeddings = inferRequestGenEmbeddingsModel.get_output_tensor()
 
+      nextInputEmbedsTensor = None
       nextInputEmbedsTensor = Some(
         new org.intel.openvino.Tensor(
           Array(imageEmbeddings.get_shape()(0), 1, imageEmbeddings.get_shape()(1)),
@@ -708,24 +712,24 @@ private[johnsnowlabs] class Janus(
     val logitsRaw = logits.data()
     val reshapedLogits: Array[Array[Float]] =
       reshape2D(logitsRaw, logitsShape(0), logitsShape(1))
-
-    // every second element starting from 0 to the end will be the conditional logits
-    val logitCond = reshapedLogits.zipWithIndex.collect {
-      case (logit, i) if i % 2 == 0 => logit
-    }
+    // every second element starting from 0 to the end will be the conditional logits\
+    val logitCond = reshapedLogits.zipWithIndex.filter(_._2 % 2 == 0).map(_._1)
     // every second element starting from 1 to the end will be the unconditional logits
-    val logitUncond = reshapedLogits.zipWithIndex.collect {
-      case (logit, i) if i % 2 == 1 => logit
-    }
+    val logitUncond = reshapedLogits.zipWithIndex.filter(_._2 % 2 == 1).map(_._1)
 
     val logitDiff = logitCond.zip(logitUncond).map { case (cond, uncond) =>
       cond.zip(uncond).map { case (c, u) =>
-        ((u + cfgWeight * (c - u)) / temperature).toFloat
+        u + cfgWeight * (c - u)
       }
     }
+
     val probs = logitDiff.map(softmax)
-    val nextTokenIds = multinomial(probs, seed = randomSeed)
+    val nextTokenIds = multinomial(probs, numSamples = 1, seed = randomSeed)
+    // pick a random token from the nextTokenIds
+//    val randomIndex = new Random()
+//    nextTokenIds.map(x => x(randomIndex.nextInt(x.length)))
     nextTokenIds.map(_.head)
+
   }
 
   private def multinomial(
@@ -733,27 +737,20 @@ private[johnsnowlabs] class Janus(
       numSamples: Int = 1,
       seed: Option[Long] = None): Array[Array[Int]] = {
     val random = seed.map(s => new Random(s)).getOrElse(new Random())
-
     probs.map { p =>
+      require(p.nonEmpty, "Probability array cannot be empty")
       require(p.forall(_ >= 0.0f), "Probabilities must be non-negative")
-      require(p.sum >= 0.99f && p.sum <= 1.01f, "Probabilities must sum to approximately 1.0")
+      require(Math.abs(p.sum - 1.0f) < 1e-3, "Probabilities must sum to approximately 1.0")
+      require(p.exists(_ > 0.0f), "Probability array cannot contain all zeros")
 
-      if (p.isEmpty) {
-        throw new IllegalArgumentException("Probability array cannot be empty")
-      }
-
-      if (p.forall(_ == 0.0f)) {
-        throw new IllegalArgumentException("Probability array cannot contain all zeros")
-      }
-
-      val cumSum = p.scanLeft(0.0f)(_ + _).tail
+      val cumSum = p.scanLeft(0.0f)(_ + _).drop(1)
 
       (0 until numSamples).map { _ =>
-        val rand = random.nextFloat()
-        cumSum.zipWithIndex
-          .find { case (c, _) => c > rand }
-          .map(_._2)
-          .getOrElse(throw new IllegalStateException("Could not find a valid category"))
+        val rand = Math.nextAfter(random.nextFloat(), Float.PositiveInfinity)
+        cumSum.indexWhere(_ > rand) match {
+          case -1 => cumSum.length - 1 // Ensure a valid index is always chosen
+          case idx => idx
+        }
       }.toArray
     }.toArray
   }
@@ -936,6 +933,15 @@ private[johnsnowlabs] class Janus(
     logitsExp.map(exp => (exp / expSum).toFloat)
   }
 
+  // logSoftmax
+  def logSoftmax(logitValues: Array[Float]): Array[Float] = {
+    val maxLogit = logitValues.max
+    val logitsExp = logitValues.map(l => Math.exp(l - maxLogit))
+    val expSum = logitsExp.sum
+    val logSumExp = Math.log(expSum)
+    logitValues.map(l => l - maxLogit - logSumExp).map(_.toFloat)
+  }
+
   // Function to reshape the flattened array
   def reshapeArray(flatArray: Array[Float], shape: Array[Int]): Any = {
     require(flatArray.length == shape.product, "Shape does not match data length")
@@ -955,7 +961,14 @@ private[johnsnowlabs] class Janus(
   }
 
   def reshape2D(data: Array[Float], rows: Int, cols: Int): Array[Array[Float]] = {
-    data.grouped(cols).toArray.map(_.toArray)
+//    data.grouped(cols).toArray.map(_.toArray)
+//    i * sequenceLength * vocabSize + (sequenceLength - 1) * vocabSize,
+//    i * sequenceLength * vocabSize + sequenceLength * vocabSize)
+    0.until(rows)
+      .map { i =>
+        data.slice(i * cols, (i + 1) * cols)
+      }
+      .toArray
   }
 
   def reshape3D(
@@ -963,9 +976,18 @@ private[johnsnowlabs] class Janus(
       depth: Int,
       rows: Int,
       cols: Int): Array[Array[Array[Float]]] = {
-    data.grouped(rows * cols).toArray.map { slice =>
-      reshape2D(slice, rows, cols)
-    }
+//    data.grouped(rows * cols).toArray.map { slice =>
+//      reshape2D(slice, rows, cols)
+//    }
+    // use the depth to slice the data
+    0.until(depth)
+      .map { i =>
+        data.slice(i * rows * cols, (i + 1) * rows * cols)
+      }
+      .map { slice =>
+        reshape2D(slice, rows, cols)
+      }
+      .toArray
   }
 
   def reshape4D(

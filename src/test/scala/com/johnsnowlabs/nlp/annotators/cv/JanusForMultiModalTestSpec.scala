@@ -74,7 +74,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     }
 
   }
-  "reshape2D" should "reshape a 1D array into a 2D array" taggedAs FastTest in {
+  "reshape2D" should "reshape a 1D array into a 2D array" taggedAs SlowTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f)
     val rows = 2
     val cols = 3
@@ -82,7 +82,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     reshape2D(data, rows, cols) shouldEqual expected
   }
 
-  "reshape3D" should "reshape a 1D array into a 3D array" taggedAs FastTest in {
+  "reshape3D" should "reshape a 1D array into a 3D array" taggedAs SlowTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f)
     val depth = 2
     val rows = 2
@@ -93,8 +93,10 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     reshape3D(data, depth, rows, cols) shouldBe expected
   }
 
-  it should "generate images when generate image mode is set to true" taggedAs FastTest in {
+  it should "generate images when generate image mode is set to true" taggedAs SlowTest in {
     model.stages.last.asInstanceOf[JanusForMultiModal].setImageGenerateMode(true)
+    model.stages.last.asInstanceOf[JanusForMultiModal].setRandomSeed(123467L)
+    model.stages.last.asInstanceOf[JanusForMultiModal].setNumOfParallelImages(1)
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -111,7 +113,6 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     val generatedImageKeys = answerAnnotation.metadata.keys.filter(_.contains("generated_image"))
 
     assert(generatedImageKeys.nonEmpty)
-//    println(s"generated_image: ${answerAnnotation.metadata("generated_image")}")
 
     for (key <- generatedImageKeys) {
       val generatedImage = answerAnnotation.metadata(key).asInstanceOf[String]
@@ -123,15 +124,6 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
       fos.write(decodedImage)
       fos.close()
     }
-//    // save the generated image by decoding the base64 string
-//    val generatedImage = answerAnnotation.metadata("generated_image_0").asInstanceOf[String]
-//    val decodedImage =
-//      java.util.Base64.getDecoder.decode(generatedImage)
-//    // save the image to the disk
-//    val fos =
-//      new FileOutputStream(new File("src/test/resources/images/generated_image.jpg"))
-//    fos.write(decodedImage)
-//    fos.close()
   }
 
   it should "work with light pipeline annotate" taggedAs SlowTest in {
@@ -248,7 +240,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = JanusForMultiModal
-      .loadSavedModel("/mnt/research/Projects/ModelZoo/Janus/Janus-1.3B-ov", ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)

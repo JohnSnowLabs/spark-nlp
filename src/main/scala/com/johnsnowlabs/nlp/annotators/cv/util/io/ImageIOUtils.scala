@@ -208,7 +208,7 @@ private[johnsnowlabs] object ImageIOUtils {
     val width = pixelArray.head.length
     val image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
 
-    for (x <- pixelArray.indices; y <- pixelArray(x).indices) {
+    for (y <- pixelArray.indices; x <- pixelArray(y).indices) {
       val rgb = pixelArray(y)(x) match {
         case Array(r, g, b) => new Color(r, g, b).getRGB
         case _ =>

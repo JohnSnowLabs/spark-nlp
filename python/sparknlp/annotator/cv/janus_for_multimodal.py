@@ -151,6 +151,12 @@ class JanusForMultiModal(AnnotatorModel,
     beamSize = Param(Params._dummy(), "beamSize",
                      "The Number of beams for beam search.",
                      typeConverter=TypeConverters.toInt)
+    imageGenerateMode = Param(Params._dummy(), "imageGenerateMode",
+                      "Image generation mode",
+                      typeConverter=TypeConverters.toBoolean)
+    numOfParallelImages = Param(Params._dummy(), "numOfParallelImages",
+                    "Number of parallel images to Generate",
+                    typeConverter=TypeConverters.toInt)
 
     def setMaxSentenceSize(self, value):
         """Sets Maximum sentence length that the annotator will process, by
@@ -268,6 +274,25 @@ class JanusForMultiModal(AnnotatorModel,
             Number of beam size for beam search
         """
         return self._set(beamSize=value)
+
+    def setImageGenerateMode(self, value):
+        """Sets the image generation mode.
+        Parameters
+        ----------
+        value : bool
+            Image generation mode
+        """
+        return self._set(imageGenerateMode=value)
+
+    def setNumOfParallelImages(self, value):
+        """Sets the number of parallel images to generate.
+        Parameters
+        ----------
+        value : int
+            Number of parallel images to generate
+        """
+        return self._set(numOfParallelImages=value)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.cv.JanusForMultiModal",
                  java_model=None):
@@ -287,6 +312,8 @@ class JanusForMultiModal(AnnotatorModel,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
             beamSize=1,
+            imageGenerateMode=False,
+            numOfParallelImages=1
         )
 
     @staticmethod

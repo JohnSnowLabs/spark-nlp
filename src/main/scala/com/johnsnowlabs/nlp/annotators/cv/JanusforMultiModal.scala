@@ -607,7 +607,6 @@ trait ReadJanusForMultiModalDLModel extends ReadOpenvinoModel {
       .setImageMean(preprocessorConfig.image_mean)
       .setImageStd(preprocessorConfig.image_std)
       .setResample(preprocessorConfig.resample)
-      .setRandomSeed(214567L)
 
     val modelEngine =
       if (useOpenvino)
