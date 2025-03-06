@@ -12,7 +12,11 @@ import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class ExcelReader(titleFontSize: Int = 9, cellSeparator: String = "\t") extends Serializable {
+class ExcelReader(
+    titleFontSize: Int = 9,
+    cellSeparator: String = "\t",
+    storeContent: Boolean = false)
+    extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -24,9 +28,11 @@ class ExcelReader(titleFontSize: Int = 9, cellSeparator: String = "\t") extends 
         val byteArray = portableDataStream.toArray()
         (path, byteArray)
       }
-      byteArrayRDD
+      val excelDf = byteArrayRDD
         .toDF("path", "content")
         .withColumn("xls", parseExcelUDF(col("content")))
+      if (storeContent) excelDf.select("path", "xls", "content")
+      else excelDf.select("path", "xls")
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

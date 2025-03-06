@@ -162,47 +162,47 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
   }
 
   /** Instantiates class to read Word files.
-   *
-   * docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
-   * "path/word/files"
-   *
-   * ==Example==
-   * {{{
-   * val docsPath = "home/user/word-directory"
-   * val sparkNLPReader = new SparkNLPReader()
-   * val docsDf = sparkNLPReader.email(docsPath)
-   * }}}
-   *
-   * ==Example 2==
-   * You can use SparkNLP for one line of code
-   * {{{
-   * val docsDf = SparkNLP.read.doc(docsPath)
-   * }}}
-   *
-   * {{{
-   * docsDf.select("doc").show(false)
-   * +----------------------------------------------------------------------------------------------------------------------------------------------------+
-   * |doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-   * +----------------------------------------------------------------------------------------------------------------------------------------------------+
-   * |[{Table, Header Col 1, {}}, {Table, Header Col 2, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |
-   * +----------------------------------------------------------------------------------------------------------------------------------------------------+
-   *
-   * docsDf.printSchema()
-   * root
-   *  |-- path: string (nullable = true)
-   *  |-- content: binary (nullable = true)
-   *  |-- doc: array (nullable = true)
-   *  |    |-- element: struct (containsNull = true)
-   *  |    |    |-- elementType: string (nullable = true)
-   *  |    |    |-- content: string (nullable = true)
-   *  |    |    |-- metadata: map (nullable = true)
-   *  |    |    |    |-- key: string
-   *  |    |    |    |-- value: string (valueContainsNull = true)
-   * }}}
-   *
-   * @param params
-   *   Parameter with custom configuration
-   */
+    *
+    * docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+    * "path/word/files"
+    *
+    * ==Example==
+    * {{{
+    * val docsPath = "home/user/word-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val docsDf = sparkNLPReader.email(docsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val docsDf = SparkNLP.read.doc(docsPath)
+    * }}}
+    *
+    * {{{
+    * docsDf.select("doc").show(false)
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Table, Header Col 1, {}}, {Table, Header Col 2, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * docsDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- doc: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
 
   def doc(docPath: String): DataFrame = {
     val wordReader = new WordReader(getStoreContent)
@@ -253,7 +253,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def xls(docPath: String): DataFrame = {
-    val excelReader = new ExcelReader(getTitleFontSize, getCellSeparator)
+    val excelReader = new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent)
     excelReader.xls(docPath)
   }
 

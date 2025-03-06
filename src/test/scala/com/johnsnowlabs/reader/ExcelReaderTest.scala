@@ -14,6 +14,7 @@ class ExcelReaderTest extends AnyFlatSpec {
     excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(!excelDf.columns.contains("content"))
   }
 
   "ExcelReader" should "read a directory of excel files" taggedAs FastTest in {
@@ -22,6 +23,7 @@ class ExcelReaderTest extends AnyFlatSpec {
     excelDf.select("xls") show (false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(!excelDf.columns.contains("content"))
   }
 
   "ExcelReader" should "read a directory of excel files with custom cell separator" taggedAs FastTest in {
@@ -30,6 +32,16 @@ class ExcelReaderTest extends AnyFlatSpec {
     excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(!excelDf.columns.contains("content"))
+  }
+
+  "ExcelReader" should "store content" taggedAs FastTest in {
+    val excelReader = new ExcelReader(storeContent = true)
+    val excelDf = excelReader.xls(docDirectory)
+    excelDf.select("xls").show(false)
+
+    assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(excelDf.columns.contains("content"))
   }
 
 }
