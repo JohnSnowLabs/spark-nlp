@@ -26,7 +26,7 @@ import org.apache.spark.sql.functions.{col, udf}
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 
-class PowerPointReader extends Serializable {
+class PowerPointReader(storeContent: Boolean = false) extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -38,9 +38,11 @@ class PowerPointReader extends Serializable {
         val byteArray = portableDataStream.toArray()
         (path, byteArray)
       }
-      byteArrayRDD
+      val powerPointDf = byteArrayRDD
         .toDF("path", "content")
         .withColumn("ppt", parsePowerPointUDF(col("content")))
+      if (storeContent) powerPointDf.select("path", "ppt", "content")
+      else powerPointDf.select("path", "ppt")
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

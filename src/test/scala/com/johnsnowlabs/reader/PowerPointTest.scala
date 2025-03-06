@@ -30,6 +30,7 @@ class PowerPointTest extends AnyFlatSpec {
     pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(!pptDf.columns.contains("content"))
   }
 
   "PowerPointReader" should "read a power point directory" taggedAs FastTest in {
@@ -38,6 +39,7 @@ class PowerPointTest extends AnyFlatSpec {
     pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(!pptDf.columns.contains("content"))
   }
 
   "PowerPointReader" should "read a power point file with table" taggedAs FastTest in {
@@ -46,6 +48,16 @@ class PowerPointTest extends AnyFlatSpec {
     pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(!pptDf.columns.contains("content"))
+  }
+
+  "PowerPointReader" should "store content" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader(storeContent = true)
+    val pptDf = powerPointReader.ppt(docDirectory)
+    pptDf.show()
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(pptDf.columns.contains("content"))
   }
 
 }
