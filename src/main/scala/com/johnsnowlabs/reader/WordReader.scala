@@ -28,7 +28,7 @@ import java.io.{ByteArrayInputStream, IOException}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class WordReader extends Serializable {
+class WordReader(storeContent: Boolean = false) extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -40,9 +40,10 @@ class WordReader extends Serializable {
         val byteArray = portableDataStream.toArray()
         (path, byteArray)
       }
-      byteArrayRDD
+      val wordDf = byteArrayRDD
         .toDF("path", "content")
         .withColumn("doc", parseWordUDF(col("content")))
+      if (storeContent) wordDf.select("path", "doc", "content") else wordDf.select("path", "doc")
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

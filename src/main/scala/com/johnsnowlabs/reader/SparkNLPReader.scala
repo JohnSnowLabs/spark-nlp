@@ -68,17 +68,17 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def html(htmlPath: String): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(htmlPath)
   }
 
   def html(urls: Array[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(urls.asScala.toArray)
   }
 
@@ -91,6 +91,16 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
       }
 
     titleFontSize
+  }
+
+  private def getStoreContent: Boolean = {
+    val storeContent =
+      try {
+        params.asScala.getOrElse("storeContent", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    storeContent
   }
 
   /** Instantiates class to read email files.
@@ -137,7 +147,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def email(emailPath: String): DataFrame = {
-    val emailReader = new EmailReader(getAddAttachmentContent)
+    val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
     emailReader.read(emailPath)
   }
 
@@ -152,7 +162,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
   }
 
   def doc(docPath: String): DataFrame = {
-    val wordReader = new WordReader()
+    val wordReader = new WordReader(getStoreContent)
     wordReader.doc(docPath)
   }
 
