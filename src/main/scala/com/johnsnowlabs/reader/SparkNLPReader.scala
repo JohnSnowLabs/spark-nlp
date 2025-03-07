@@ -352,7 +352,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     *   Parameter with custom configuration
     */
   def txt(filePath: String): DataFrame = {
-    val textReader = new TextReader(getTitleLengthSize)
+    val textReader = new TextReader(getTitleLengthSize, getStoreContent)
     textReader.txt(filePath)
   }
 

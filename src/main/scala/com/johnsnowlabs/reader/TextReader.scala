@@ -21,7 +21,7 @@ import org.apache.spark.sql.functions.udf
 
 import scala.collection.mutable
 
-class TextReader(titleLengthSize: Int = 50) extends Serializable {
+class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -36,9 +36,10 @@ class TextReader(titleLengthSize: Int = 50) extends Serializable {
   def txt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val textFilesRDD = spark.sparkContext.wholeTextFiles(filePath)
-      textFilesRDD
+      val textDf = textFilesRDD
         .toDF("path", "content")
         .withColumn("txt", parseTxtUDF($"content"))
+      if (storeContent) textDf.select("path", "txt", "content") else textDf.select("path", "txt")
     } else {
       throw new IllegalArgumentException(s"Invalid filePath: $filePath")
     }
@@ -102,7 +103,7 @@ class TextReader(titleLengthSize: Int = 50) extends Serializable {
     if (trimmed.isEmpty) return false
     val isAllUpper = trimmed.forall(c => !c.isLetter || c.isUpper)
     val isTitleCase = trimmed.split("\\s+").forall(word => word.headOption.exists(_.isUpper))
-    val isShort = trimmed.length <= 50
+    val isShort = trimmed.length <= titleLengthSize
     val hasLetters = trimmed.exists(_.isLetter)
     (isAllUpper || isTitleCase) && isShort && hasLetters
   }

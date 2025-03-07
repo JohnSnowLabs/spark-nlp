@@ -29,6 +29,16 @@ class TextReaderTest extends AnyFlatSpec {
     textDf.select("txt").show(false)
 
     assert(!textDf.select(col("txt").getItem(0)).isEmpty)
+    assert(!textDf.columns.contains("content"))
+  }
+
+  "Text Reader" should "store content" taggedAs FastTest in {
+    val textReader = new TextReader(storeContent = true)
+    val textDf = textReader.txt(txtDirectory)
+    textDf.show()
+
+    assert(!textDf.select(col("txt").getItem(0)).isEmpty)
+    assert(textDf.columns.contains("content"))
   }
 
 }
