@@ -185,6 +185,16 @@ class AutoGGUFVisionModel(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
+  /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
+    *
+    * @group setParam
+    * @param nParallel
+    *   The number of parallel processes for decoding
+    */
+  def setNParallel(nParallel: Int): this.type = {
+    setBatchSize(nParallel)
+  }
+
   setDefault(
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
@@ -252,7 +262,7 @@ class AutoGGUFVisionModel(override val uid: String)
         } catch {
           case e: LlamaException =>
             logger.error("Error in llama.cpp image batch completion", e)
-            (Array[String](), Map("LlamaException" -> e.getMessage))
+            (Array.fill(prompts.length)(""), Map("llamacpp_exception" -> e.getMessage))
         }
 
       val result: Seq[Seq[Annotation]] =

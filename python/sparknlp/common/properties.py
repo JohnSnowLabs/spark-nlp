@@ -1246,6 +1246,10 @@ class HasLlamaCppProperties:
     def setUseChatTemplate(self, useChatTemplate: bool):
         """Set whether generate should apply a chat template"""
         return self._set(useChatTemplate=useChatTemplate)
+    
+    def setNParallel(self, nParallel: int):
+        """Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`."""
+        return self.setBatchSize(nParallel)
 
     # -------- JAVA SETTERS --------
     def setTokenIdBias(self, tokenIdBias: Dict[int, float]):
