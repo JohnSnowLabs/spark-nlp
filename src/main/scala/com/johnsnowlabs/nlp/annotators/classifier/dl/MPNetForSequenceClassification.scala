@@ -19,7 +19,11 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.MPNetClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -237,8 +241,7 @@ class MPNetForSequenceClassification(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       onnxWrapper: Option[OnnxWrapper],
-      openvinoWrapper: Option[OpenvinoWrapper]
-                      ): MPNetForSequenceClassification = {
+      openvinoWrapper: Option[OpenvinoWrapper]): MPNetForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -375,7 +378,8 @@ trait ReadMPNetForSequenceDLModel extends ReadOnnxModel with ReadOpenvinoModel {
         instance.setModelIfNotSet(spark, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
         instance.setModelIfNotSet(spark, None, Some(openvinoWrapper))
 
       case _ =>

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.bge_embeddings &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.bge_embeddings &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -364,7 +364,8 @@ document.write(`
                     <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                     <span class="n">HasStorageRef</span><span class="p">,</span>
                     <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                    <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
+                    <span class="n">HasMaxSentenceLengthLimit</span><span class="p">,</span>
+                    <span class="n">HasClsTokenProperties</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sentence embeddings using BGE.</span>
 
 <span class="sd">   BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense </span>
@@ -403,6 +404,8 @@ document.write(`
 <span class="sd">        Max sentence length to process, by default 512</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    useCLSToken</span>
+<span class="sd">        Whether to use the CLS token for sentence embeddings, by default True</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -491,6 +494,7 @@ document.write(`
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
             <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">useCLSToken</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
@@ -514,13 +518,13 @@ document.write(`
         <span class="k">return</span> <span class="n">BGEEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BGEEmbeddings.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bge_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BGEEmbeddings.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/bge_embeddings/index.html#sparknlp.annotator.embeddings.bge_embeddings.BGEEmbeddings.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bge_small_en_v1.5&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;bge_base&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;bge_small_en_v1.5&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

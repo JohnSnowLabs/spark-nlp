@@ -682,6 +682,7 @@ object PythonResourceDownloader {
     "MPNetForSequenceClassification" -> MPNetForSequenceClassification,
     "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering,
     "LLAMA2Transformer" -> LLAMA2Transformer,
+    "LLAMA3Transformer" -> LLAMA3Transformer,
     "M2M100Transformer" -> M2M100Transformer,
     "UAEEmbeddings" -> UAEEmbeddings,
     "AutoGGUFModel" -> AutoGGUFModel,

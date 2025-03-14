@@ -151,12 +151,7 @@ private[johnsnowlabs] class DistilBertClassification(
     }
   }
 
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]],
-                                  maxSentenceLength: Int
-                                ): Array[Float] = {
-
-
+  private def getRawScoresWithOv(batch: Seq[Array[Int]], maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -184,8 +179,6 @@ private[johnsnowlabs] class DistilBertClassification(
     }
 
   }
-
-
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val batchLength = batch.length
@@ -349,11 +342,9 @@ private[johnsnowlabs] class DistilBertClassification(
       .toArray
   }
 
-
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -382,8 +373,7 @@ private[johnsnowlabs] class DistilBertClassification(
     }
   }
 
-
-    def computeZeroShotLogitsWithONNX(batch: Seq[Array[Int]]): Array[Float] = {
+  def computeZeroShotLogitsWithONNX(batch: Seq[Array[Int]]): Array[Float] = {
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
 
@@ -539,10 +529,7 @@ private[johnsnowlabs] class DistilBertClassification(
     (startLogits, endLogits)
   }
 
-
-  private def computeLogitsWithOv(
-                                   batch: Seq[Array[Int]]
-                                 ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
 
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
@@ -557,7 +544,7 @@ private[johnsnowlabs] class DistilBertClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

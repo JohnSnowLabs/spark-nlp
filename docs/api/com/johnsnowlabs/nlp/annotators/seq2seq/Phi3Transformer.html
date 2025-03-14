@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer" />
+          <title>Spark NLP 5.5.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer</title>
+          <meta name="description" content="Spark NLP 5.5.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer" />
+          <meta name="keywords" content="Spark NLP 5.5.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 5.5.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -370,7 +370,7 @@ language understanding, mathematics, coding, long-term context, and logical reas
 Phi-3 Mini-128K-Instruct demonstrated robust and state-of-the-art performance among models
 with fewer than 13 billion parameters.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> phi3 = Phi3Transformer.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;phi_3_mini_128k_instruct_int8&quot;</code>, if no name is provided. For available
+  .setOutputCol(<span class="lit">"generation"</span>)</pre><p>The default model is <code>&quot;phi_3_mini_128k_instruct&quot;</code>, if no name is provided. For available
 pretrained models please see the <a href="https://sparknlp.org/models?q=phi3" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Phi3TestSpec.scala" target="_blank">Phi3TestSpec</a>.</p><p><b>References:</b></p><ul><li><a href="https://news.microsoft.com/source/features/ai/the-phi-3-small-language-models-with-big-potential/" target="_blank">https://news.microsoft.com/source/features/ai/the-phi-3-small-language-models-with-big-potential/</a></li><li><a href="https://arxiv.org/abs/2404.14219" target="_blank">https://arxiv.org/abs/2404.14219</a></li></ul><p><b>Paper Abstract:</b></p><p><i>We introduce phi-3-mini, a 3.8 billion parameter language model trained on 3.3 trillion
 tokens, whose overall performance, as measured by both academic benchmarks and internal
@@ -393,7 +393,7 @@ accelerator such as GPU is recommended.</p><h4>Example</h4><pre><span class="kw"
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"documents"</span>)
 
-<span class="kw">val</span> phi3 = Phi3Transformer.pretrained(<span class="lit">"phi_3_mini_128k_instruct_int8"</span>)
+<span class="kw">val</span> phi3 = Phi3Transformer.pretrained(<span class="lit">"phi_3_mini_128k_instruct"</span>)
   .setInputCols(<span class="std">Array</span>(<span class="lit">"documents"</span>))
   .setMinOutputLength(<span class="num">10</span>)
   .setMaxOutputLength(<span class="num">50</span>)

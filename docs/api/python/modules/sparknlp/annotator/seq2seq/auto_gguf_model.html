@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -542,7 +542,6 @@ document.write(`
 <span class="sd">    useChatTemplate</span>
 <span class="sd">        Set whether or not generate should apply a chat template</span>
 
-
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set</span>
@@ -550,29 +549,6 @@ document.write(`
 
 <span class="sd">    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`</span>
 <span class="sd">    according to your hardware to avoid out-of-memory errors.</span>
-
-<span class="sd">    References</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</span>
-<span class="sd">     &lt;https://arxiv.org/abs/1910.13461&gt;`__</span>
-<span class="sd">    - https://github.com/pytorch/fairseq</span>
-
-<span class="sd">    **Paper Abstract:**</span>
-<span class="sd">    *We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.</span>
-<span class="sd">    BART is trained by (1) corrupting text with an arbitrary noising function, and (2)</span>
-<span class="sd">    learning a model to reconstruct the original text. It uses a standard Tranformer-based</span>
-<span class="sd">    neural machine translation architecture which, despite its simplicity, can be seen as</span>
-<span class="sd">    generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),</span>
-<span class="sd">    and many other more recent pretraining schemes. We evaluate a number of noising approaches,</span>
-<span class="sd">    finding the best performance by both randomly shuffling the order of the original sentences</span>
-<span class="sd">    and using a novel in-filling scheme, where spans of text are replaced with a single mask token.</span>
-<span class="sd">    BART is particularly effective when fine tuned for text generation but also works well for</span>
-<span class="sd">    comprehension tasks. It matches the performance of RoBERTa with comparable training resources</span>
-<span class="sd">    on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,</span>
-<span class="sd">    question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides</span>
-<span class="sd">    a 1.1 BLEU increase over a back-translation system for machine translation, with only target</span>
-<span class="sd">    language pretraining. We also report ablation experiments that replicate other pretraining</span>
-<span class="sd">    schemes within the BART framework, to better measure which factors most influence end-task performance.*</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -896,6 +872,13 @@ document.write(`
 
 <div class="viewcode-block" id="AutoGGUFModel.setNumaStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setNumaStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setNumaStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numaStrategy</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;&quot;&quot;</span>
+        <span class="n">numaUpper</span> <span class="o">=</span> <span class="n">numaStrategy</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">numaStrategies</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DISABLED&quot;</span><span class="p">,</span> <span class="s2">&quot;DISTRIBUTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ISOLATE&quot;</span><span class="p">,</span> <span class="s2">&quot;NUMA_CTL&quot;</span><span class="p">,</span> <span class="s2">&quot;MIRROR&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">numaUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numaStrategies</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid NUMA strategy: </span><span class="si">{</span><span class="n">numaUpper</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">numaStrategies</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numaStrategy</span><span class="o">=</span><span class="n">numaStrategy</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AutoGGUFModel.setRopeScalingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setRopeScalingType">[docs]</a>    <span class="k">def</span> <span class="nf">setRopeScalingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeScalingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -904,6 +887,13 @@ document.write(`
 
 <div class="viewcode-block" id="AutoGGUFModel.setPoolingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setPoolingType">[docs]</a>    <span class="k">def</span> <span class="nf">setPoolingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolingType</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pooling type for embeddings, use model default if unspecified&quot;&quot;&quot;</span>
+        <span class="n">poolingTypeUpper</span> <span class="o">=</span> <span class="n">poolingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">poolingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEAN&quot;</span><span class="p">,</span> <span class="s2">&quot;CLS&quot;</span><span class="p">,</span> <span class="s2">&quot;LAST&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">poolingTypeUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poolingTypes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid pooling type: </span><span class="si">{</span><span class="n">poolingType</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">poolingTypes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">poolingType</span><span class="o">=</span><span class="n">poolingType</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AutoGGUFModel.setModelDraft"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.setModelDraft">[docs]</a>    <span class="k">def</span> <span class="nf">setModelDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelDraft</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>

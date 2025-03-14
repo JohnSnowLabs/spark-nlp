@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.RoBerta
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -418,7 +422,10 @@ trait ReadablePretrainedRobertaSentenceModel
       remoteLoc: String): RoBertaSentenceEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadRobertaSentenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[RoBertaSentenceEmbeddings] =>
 
   override val tfFile: String = "roberta_tensorflow"
@@ -440,7 +447,6 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_roberta_sent_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

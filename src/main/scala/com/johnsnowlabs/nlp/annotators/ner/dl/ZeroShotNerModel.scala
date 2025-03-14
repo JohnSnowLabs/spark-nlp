@@ -512,7 +512,7 @@ object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotN
       case TensorFlow.name =>
         newModel.setModelIfNotSet(spark, model.getModelIfNotSet.tensorflowWrapper, None, None)
       case ONNX.name =>
-        newModel.setModelIfNotSet(spark, None, model.getModelIfNotSet.onnxWrapper, None )
+        newModel.setModelIfNotSet(spark, None, model.getModelIfNotSet.onnxWrapper, None)
     }
 
     model
