@@ -189,3 +189,52 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         metadata = model.getMetadata()
         assert len(metadata) > 0
         print(eval(metadata))
+
+
+@pytest.mark.slow
+class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.data = (
+            self.spark.createDataFrame(
+                [
+                    ["The moons of Jupiter are "],
+                    ["Earth is "],
+                    ["The moon is "],
+                    ["The sun is "],
+                ]
+            )
+            .toDF("text")
+            .repartition(1)
+        )
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .setGrammar("root ::= (")  # Invalid grammar
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        result = pipeline.fit(self.data).transform(self.data)
+
+        collected = result.select("completions").collect()
+
+        self.assertEqual(
+            len(collected), self.data.count(), "Should return the same number of rows"
+        )
+        for row in collected:
+            annotation = row[0][0]
+            self.assertEqual(
+                annotation["result"], "", "Completions should be empty"
+            )
+            self.assertIn(
+                "llamacpp_exception",
+                annotation["metadata"],
+                "llamacpp_exception should be present",
+            )
