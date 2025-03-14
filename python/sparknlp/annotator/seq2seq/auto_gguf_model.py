@@ -601,6 +601,10 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate):
         """The chat template to use"""
         return self._set(chatTemplate=chatTemplate)
 
+    def setNParallel(self, nParallel: int):
+        """Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`."""
+        return self.setBatchSize(nParallel)
+
     # -------- INFERENCE SETTERS --------
     def setInputPrefix(self, inputPrefix: str):
         """Set the prompt to start generation with"""

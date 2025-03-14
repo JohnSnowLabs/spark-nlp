@@ -471,15 +471,19 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         """Whether to disable KV offload"""
         return self._set(noKvOffload=noKvOffload)
 
+    def setNParallel(self, nParallel: int):
+        """Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`."""
+        return self.setBatchSize(nParallel)
+
     def getMetadata(self):
         """Gets the metadata of the model"""
         return self._call_java("getMetadata")
 
     @keyword_only
     def __init__(
-        self,
-        classname="com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings",
-        java_model=None,
+            self,
+            classname="com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings",
+            java_model=None,
     ):
         super(AutoGGUFEmbeddings, self).__init__(
             classname=classname, java_model=java_model
