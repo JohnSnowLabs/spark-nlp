@@ -130,7 +130,7 @@ class BertForMultipleChoice(AnnotatorModel,
 
         Returns
         -------
-        BertForQuestionAnswering
+        BertForMultipleChoice
             The restored model
         """
         from sparknlp.internal import _BertMultipleChoiceLoader
@@ -154,7 +154,7 @@ class BertForMultipleChoice(AnnotatorModel,
 
         Returns
         -------
-        BertForQuestionAnswering
+        BertForMultipleChoice
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
