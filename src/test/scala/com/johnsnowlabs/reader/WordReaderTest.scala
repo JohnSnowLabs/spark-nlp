@@ -31,8 +31,9 @@ class WordReaderTest extends AnyFlatSpec {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(docDirectory)
     wordDf.select("doc").show(false)
-
+    wordDf.printSchema()
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(!wordDf.columns.contains("content"))
   }
 
   "WordReader" should "read a docx file with page breaks" taggedAs FastTest in {
@@ -46,6 +47,7 @@ class WordReaderTest extends AnyFlatSpec {
       .count()
 
     assert(pageBreakCount == 5)
+    assert(!wordDf.columns.contains("content"))
   }
 
   "WordReader" should "read a docx file with tables" taggedAs FastTest in {
@@ -54,6 +56,7 @@ class WordReaderTest extends AnyFlatSpec {
     wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(!wordDf.columns.contains("content"))
   }
 
   "WordReader" should "read a docx file with images on it" taggedAs FastTest in {
@@ -62,6 +65,16 @@ class WordReaderTest extends AnyFlatSpec {
     wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(!wordDf.columns.contains("content"))
+  }
+
+  "WordReader" should "store content" taggedAs FastTest in {
+    val wordReader = new WordReader(storeContent = true)
+    val wordDf = wordReader.doc(s"$docDirectory")
+    wordDf.select("doc").show(false)
+
+    assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(wordDf.columns.contains("content"))
   }
 
 }
