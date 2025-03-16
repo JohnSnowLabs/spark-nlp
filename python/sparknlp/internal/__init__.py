@@ -457,6 +457,15 @@ class _RoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
         )
 
 
+class _RoBertaMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _StarCoderLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_StarCoderLoader, self).__init__(
