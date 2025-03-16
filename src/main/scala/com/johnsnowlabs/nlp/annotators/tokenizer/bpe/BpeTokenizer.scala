@@ -391,6 +391,15 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "Janus" =>
+        new JanusTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
+          prependString = prependString)
       case "mllama" =>
         new MLLamaTokenizer(
           merges,

@@ -114,6 +114,8 @@ object LoadExternalModel {
         val ovModelXml = new File(modelPath, s"${model}.xml")
         val ovModelBin = new File(modelPath, s"${model}.bin")
         if (!ovModelXml.exists() || !ovModelBin.exists()) {
+          // If any of the custom models are missing, return false
+          println(s"Custom model $model is missing")
           println(s"Model $model not found in $modelPath")
           return false
         }
