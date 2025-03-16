@@ -561,6 +561,15 @@ class _XlmRoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
         )
 
 
+class _XlmRoBertaMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _XlnetLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlnetLoader, self).__init__(
