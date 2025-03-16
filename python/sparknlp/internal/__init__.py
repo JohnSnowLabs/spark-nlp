@@ -229,6 +229,15 @@ class _DistilBertQuestionAnsweringLoader(ExtendedJavaWrapper):
         )
 
 
+class _DistilBertMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _ElmoLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ElmoLoader, self).__init__(
