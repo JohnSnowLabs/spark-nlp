@@ -102,7 +102,6 @@ class DeBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
-
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 
     val pipelineModel = pipeline.fit(ddd)
@@ -128,8 +127,6 @@ class DeBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val loadedSequenceModel = DeBertaForQuestionAnswering.load("./tmp_forquestionanswering_model")
 
   }
-
-
 
   "DeBertaForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {
 

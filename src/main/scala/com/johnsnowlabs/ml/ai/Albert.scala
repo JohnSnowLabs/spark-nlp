@@ -160,11 +160,7 @@ private[johnsnowlabs] class Albert(
           segmentTensors.close()
         }
 
-
       case Openvino.name =>
-
-
-
         val batchLength = batch.length
         val shape = Array(batchLength, maxSentenceLength)
         val (tokenTensors, maskTensors) =
@@ -191,8 +187,6 @@ private[johnsnowlabs] class Albert(
             // Rethrow the exception to propagate it further
             throw e
         }
-
-
 
       case _ =>
         val tensors = new TensorResources()

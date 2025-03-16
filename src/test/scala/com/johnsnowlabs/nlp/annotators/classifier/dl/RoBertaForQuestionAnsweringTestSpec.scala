@@ -104,7 +104,6 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
       .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
-
     val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
 
     val pipelineModel = pipeline.fit(ddd)

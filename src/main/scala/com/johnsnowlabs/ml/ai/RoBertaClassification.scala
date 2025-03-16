@@ -288,9 +288,7 @@ private[johnsnowlabs] class RoBertaClassification(
     batchScores
   }
 
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): Array[Float] = {
+  private def getRawScoresWithOv(batch: Seq[Array[Int]]): Array[Float] = {
 
     val maxSentenceLength = batch.map(_.length).max
     val batchLength = batch.length
@@ -320,12 +318,9 @@ private[johnsnowlabs] class RoBertaClassification(
 
   }
 
-
-
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -353,9 +348,6 @@ private[johnsnowlabs] class RoBertaClassification(
 
     }
   }
-
-
-
 
   def computeZeroShotLogitsWithONNX(
       batch: Seq[Array[Int]],
@@ -626,10 +618,7 @@ private[johnsnowlabs] class RoBertaClassification(
     (startLogits, endLogits)
   }
 
-
-  private def computeLogitsWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
 
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
@@ -644,7 +633,7 @@ private[johnsnowlabs] class RoBertaClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

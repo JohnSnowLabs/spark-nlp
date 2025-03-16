@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.SnowFlake
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -464,12 +468,12 @@ trait ReadSnowFlakeDLModel extends ReadTensorflowModel with ReadOnnxModel with R
     instance.getEngine match {
       case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_SnowFlake_tf")
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None,None)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None)
 
       case ONNX.name =>
         val onnxWrapper =
           readOnnxModel(path, spark, "_SnowFlake_onnx", zipped = true, useBundle = false, None)
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper),None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_snowflake_sent_openvino")
@@ -520,7 +524,7 @@ trait ReadSnowFlakeDLModel extends ReadTensorflowModel with ReadOnnxModel with R
         val onnxWrapper =
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper),None)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
@@ -532,7 +536,6 @@ trait ReadSnowFlakeDLModel extends ReadTensorflowModel with ReadOnnxModel with R
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
