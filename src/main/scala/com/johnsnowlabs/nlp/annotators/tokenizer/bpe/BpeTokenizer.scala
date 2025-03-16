@@ -353,6 +353,13 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "olmo" =>
+        new OLMoTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case "clip" =>
         new CLIPTokenizer(merges, vocab, modelSpecialTokens())
       case "phi2" =>

@@ -345,6 +345,10 @@ class _MPNetLoader(ExtendedJavaWrapper):
         )
 
 
+class _OLMoLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_OLMoLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.OLMoTransformer.loadSavedModel", path, jspark)
 class _Phi2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_Phi2Loader, self).__init__(
@@ -1001,8 +1005,8 @@ class _AutoGGUFLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_AutoGGUFLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
-        
-        
+
+
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MxbaiEmbeddingsLoader, self).__init__(
