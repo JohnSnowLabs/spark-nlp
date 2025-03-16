@@ -65,7 +65,6 @@ class InstructorEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-
   "InstructorEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._

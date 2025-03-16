@@ -67,6 +67,33 @@ class HasCaseSensitiveProperties:
         return self.getOrDefault(self.caseSensitive)
 
 
+class HasClsTokenProperties:
+    useCLSToken = Param(Params._dummy(),
+                        "useCLSToken",
+                        "Whether to use CLS token for pooling (true) or attention-based average pooling (false)",
+                        typeConverter=TypeConverters.toBoolean)
+
+    def setUseCLSToken(self, value):
+        """Sets whether to ignore case in tokens for embeddings matching.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use CLS token for pooling (true) or attention-based average pooling (false)
+        """
+        return self._set(useCLSToken=value)
+
+    def getUseCLSToken(self):
+        """Gets whether to use CLS token for pooling (true) or attention-based average pooling (false)
+
+        Returns
+        -------
+        bool
+            Whether to use CLS token for pooling (true) or attention-based average pooling (false)
+        """
+        return self.getOrDefault(self.useCLSToken)
+
+
 class HasClassifierActivationProperties:
     activation = Param(Params._dummy(),
                        "activation",

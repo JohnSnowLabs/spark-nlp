@@ -34,6 +34,7 @@ class EmailReaderTest extends AnyFlatSpec {
     emailDf.printSchema()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
+    assert(!emailDf.columns.contains("content"))
   }
 
   it should "read email file with attachments" taggedAs FastTest in {
@@ -56,11 +57,11 @@ class EmailReaderTest extends AnyFlatSpec {
       .filter($"elementType" === ElementType.NARRATIVE_TEXT)
       .count()
 
-    println(s"textCount = $textCount")
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
     assert(attachmentCount == 3)
     assert(titleCount == 1)
     assert(textCount == 2)
+    assert(!emailDf.columns.contains("content"))
   }
 
   it should "read email file with two text attachments" taggedAs FastTest in {
@@ -88,6 +89,7 @@ class EmailReaderTest extends AnyFlatSpec {
     assert(attachmentCount == 2)
     assert(titleCount == 1)
     assert(textCount == 2)
+    assert(!emailDf.columns.contains("content"))
   }
 
   it should "read attachment content when addAttachmentContent = true" taggedAs FastTest in {
@@ -115,6 +117,16 @@ class EmailReaderTest extends AnyFlatSpec {
     assert(attachmentCount == 2)
     assert(titleCount == 1)
     assert(textCount == 4)
+    assert(!emailDf.columns.contains("content"))
+  }
+
+  it should "store content" taggedAs FastTest in {
+    val emailReader = new EmailReader(storeContent = true)
+    val emailDf = emailReader.read(emailDirectory)
+    emailDf.show()
+
+    assert(!emailDf.select(col("email").getItem(0)).isEmpty)
+    assert(emailDf.columns.contains("content"))
   }
 
 }

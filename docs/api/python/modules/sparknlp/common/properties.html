@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 5.5.1 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 5.5.3 documentation</title>
   
   
   
@@ -408,6 +408,33 @@ document.write(`
 <span class="sd">            Whether to ignore case in tokens for embeddings matching</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">caseSensitive</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HasClsTokenProperties</span><span class="p">:</span>
+    <span class="n">useCLSToken</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;useCLSToken&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Whether to use CLS token for pooling (true) or attention-based average pooling (false)&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setUseCLSToken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore case in tokens for embeddings matching.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to use CLS token for pooling (true) or attention-based average pooling (false)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCLSToken</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getUseCLSToken</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether to use CLS token for pooling (true) or attention-based average pooling (false)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Whether to use CLS token for pooling (true) or attention-based average pooling (false)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">useCLSToken</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">HasClassifierActivationProperties</span><span class="p">:</span>

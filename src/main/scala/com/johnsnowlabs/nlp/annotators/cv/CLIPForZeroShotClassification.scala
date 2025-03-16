@@ -19,8 +19,17 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.ml.ai.CLIP
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper, WriteTensorflowModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadJsonStringAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.{
+  ReadTensorflowModel,
+  TensorflowWrapper,
+  WriteTensorflowModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
@@ -304,13 +313,13 @@ class CLIPForZeroShotClassification(override val uid: String)
           CLIPForZeroShotClassification.suffix,
           CLIPForZeroShotClassification.onnxFile)
 
-    case Openvino.name =>
-    writeOpenvinoModel(
-      path,
-      spark,
-      getModelIfNotSet.openvinoWrapper.get,
-      "openvino_model.xml",
-      CLIPForZeroShotClassification.openvinoFile)
+      case Openvino.name =>
+        writeOpenvinoModel(
+          path,
+          spark,
+          getModelIfNotSet.openvinoWrapper.get,
+          "openvino_model.xml",
+          CLIPForZeroShotClassification.openvinoFile)
     }
   }
 }
@@ -336,7 +345,10 @@ trait ReadablePretrainedCLIPForZeroShotClassificationModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadCLIPForZeroShotClassificationModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[CLIPForZeroShotClassification] =>
 
   override val tfFile: String = "clip_classification_tensorflow"
@@ -348,7 +360,6 @@ trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with Re
       instance: CLIPForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
-
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -442,7 +453,6 @@ trait ReadCLIPForZeroShotClassificationModel extends ReadTensorflowModel with Re
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), preprocessorConfig)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

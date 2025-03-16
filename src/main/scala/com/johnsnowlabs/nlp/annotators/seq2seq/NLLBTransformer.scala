@@ -59,8 +59,8 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"nllb_distilled_600M_8int"`, if no name is provided. For available pretrained models
-  * please see the [[https://sparknlp.org/models?q=nllb Models Hub]].
+  * The default model is `"nllb_distilled_600M_8int"`, if no name is provided. For available
+  * pretrained models please see the [[https://sparknlp.org/models?q=nllb Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/NLLBTestSpec.scala NLLBTestSpec]].

@@ -33,7 +33,6 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
-      
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -47,7 +46,8 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AlbertEmbeddings.pretrained()
+    val embeddings = AlbertEmbeddings
+      .pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
@@ -67,12 +67,9 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "AlbertEmbeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
 
-
     val ddd = ResourceHelper.spark.read
       .option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
-      
-
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -118,14 +115,12 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-
   "AlbertEmbeddings" should "benchmark test" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
-        
 
     val embeddings = AlbertEmbeddings
       .pretrained()

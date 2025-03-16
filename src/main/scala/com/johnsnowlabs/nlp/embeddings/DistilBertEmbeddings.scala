@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.DistilBert
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ModelArch, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -428,7 +432,10 @@ trait ReadablePretrainedDistilBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadDistilBertDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DistilBertEmbeddings] =>
 
   override val tfFile: String = "distilbert_tensorflow"
@@ -450,7 +457,6 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel with ReadOnnxModel with 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_distilbert_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -504,7 +510,6 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel with ReadOnnxModel with 
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

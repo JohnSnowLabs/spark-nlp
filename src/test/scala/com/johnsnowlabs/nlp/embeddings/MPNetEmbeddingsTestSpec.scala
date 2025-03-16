@@ -50,7 +50,6 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-
   "MPNetEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._

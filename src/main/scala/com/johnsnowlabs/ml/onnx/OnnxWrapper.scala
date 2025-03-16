@@ -134,7 +134,9 @@ object OnnxWrapper {
 
     val onnxDataFileExist: Boolean = {
       if (onnxFileSuffix.isDefined && dataFileSuffix.isDefined) {
-        val onnxDataFilePath = s"${onnxFileSuffix.get}_$modelName${dataFileSuffix.get}"
+        var modelNameWithoutSuffix = modelName.replace(".onnx", "")
+        val onnxDataFilePath =
+          s"${onnxFileSuffix.get}_$modelNameWithoutSuffix${dataFileSuffix.get}"
         onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
         onnxDataFile.exists()
       } else false
