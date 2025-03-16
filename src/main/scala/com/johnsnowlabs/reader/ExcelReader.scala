@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2024 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -72,17 +88,33 @@ class ExcelReader(
       val rowIterator = sheet.iterator()
       while (rowIterator.hasNext) {
         val row = rowIterator.next()
+        val rowIndex = row.getRowNum
+
         val elementType =
           if (row.isTitle(titleFontSize)) ElementType.TITLE else ElementType.NARRATIVE_TEXT
 
-        val cellValues = row.cellIterator().asScala.map(_.getCellValue).toSeq
-        val content = cellValues.mkString(cellSeparator).trim
+        val cellValuesWithMetadata = row
+          .cellIterator()
+          .asScala
+          .map { cell =>
+            val cellIndex = cell.getColumnIndex
+            val cellValue = cell.getCellValue.trim
+
+            val cellMetadata = mutable.Map(
+              "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})",
+              "SheetName" -> sheetName)
+            (cellValue, cellMetadata)
+          }
+          .toSeq
+
+        val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
+        val rowMetadata = cellValuesWithMetadata.flatMap(_._2).toMap
 
         if (content.nonEmpty) {
           val element = HTMLElement(
             elementType = elementType,
             content = content,
-            metadata = mutable.Map("SheetName" -> sheetName))
+            metadata = mutable.Map(rowMetadata.toSeq: _*))
           elementsBuffer += element
         }
       }

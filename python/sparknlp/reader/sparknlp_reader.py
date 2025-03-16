@@ -202,20 +202,55 @@ class SparkNLPReader(ExtendedJavaWrapper):
         |[{Title, Financial performance, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Quarterly revenue\tNine quarters to 30 June 2023\t\t\t1.0, {SheetName -> Index}}, {NarrativeText, Group financial performance\tFY 22\tFY 23\t\t2.0, {SheetName -> Index}}, {NarrativeText, Segmental results\tFY 22\tFY 23\t\t3.0, {SheetName -> Index}}, {NarrativeText, Segmental analysis\tFY 22\tFY 23\t\t4.0, {SheetName -> Index}}, {NarrativeText, Cash flow\tFY 22\tFY 23\t\t5.0, {SheetName -> Index}}, {Title, Operational metrics, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Mobile customers\tNine quarters to 30 June 2023\t\t\t6.0, {SheetName -> Index}}, {NarrativeText, Fixed broadband customers\tNine quarters to 30 June 2023\t\t\t7.0, {SheetName -> Index}}, {NarrativeText, Marketable homes passed\tNine quarters to 30 June 2023\t\t\t8.0, {SheetName -> Index}}, {NarrativeText, TV customers\tNine quarters to 30 June 2023\t\t\t9.0, {SheetName -> Index}}, {NarrativeText, Converged customers\tNine quarters to 30 June 2023\t\t\t10.0, {SheetName -> Index}}, {NarrativeText, Mobile churn\tNine quarters to 30 June 2023\t\t\t11.0, {SheetName -> Index}}, {NarrativeText, Mobile data usage\tNine quarters to 30 June 2023\t\t\t12.0, {SheetName -> Index}}, {NarrativeText, Mobile ARPU\tNine quarters to 30 June 2023\t\t\t13.0, {SheetName -> Index}}, {Title, Other, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Average foreign exchange rates\tNine quarters to 30 June 2023\t\t\t14.0, {SheetName -> Index}}, {NarrativeText, Guidance rates\tFY 23/24\t\t\t14.0, {SheetName -> Index}}]|
         +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-       xlsDf.printSchema()
-      root
-       |-- path: string (nullable = true)
-       |-- content: binary (nullable = true)
-       |-- xls: array (nullable = true)
-       |    |-- element: struct (containsNull = true)
-       |    |    |-- elementType: string (nullable = true)
-       |    |    |-- content: string (nullable = true)
-       |    |    |-- metadata: map (nullable = true)
-       |    |    |    |-- key: string
-       |    |    |    |-- value: string (valueContainsNull = true)
+       >>> xlsDf.printSchema()
+       root
+        |-- path: string (nullable = true)
+        |-- content: binary (nullable = true)
+        |-- xls: array (nullable = true)
+        |    |-- element: struct (containsNull = true)
+        |    |    |-- elementType: string (nullable = true)
+        |    |    |-- content: string (nullable = true)
+        |    |    |-- metadata: map (nullable = true)
+        |    |    |    |-- key: string
+        |    |    |    |-- value: string (valueContainsNull = true)
        """
         if not isinstance(docPath, str):
             raise TypeError("docPath must be a string")
         jdf = self._java_obj.xls(docPath)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
+
+    def ppt(self, docPath):
+        """
+        Reads power point document files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        docPath : str
+            Path to an excel document file.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed document content.
+
+        Examples
+        --------
+        >>> from sparknlp.reader import SparkNLPReader
+        >>> pptDf = SparkNLPReader().ppt(spark, "home/user/powerpoint-directory")
+
+        You can use SparkNLP for one line of code
+        >>> import sparknlp
+        >>> pptDf = sparknlp.read().ppt("home/user/powerpoint-directory")
+        >>> pptDf.show(truncate=False)
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |ppt                                                                                                                                                                                                                                                                                                                      |
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        """
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.ppt(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe

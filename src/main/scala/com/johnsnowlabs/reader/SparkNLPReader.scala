@@ -261,4 +261,52 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     params.asScala.getOrElse("cellSeparator", "\t")
   }
 
+  /** Instantiates class to read PowerPoint files.
+    *
+    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * "path/power-point/files"
+    *
+    * ==Example==
+    * {{{
+    * val docsPath = "home/user/power-point-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val pptDf = sparkNLPReader.ppt(docsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val pptDf = SparkNLP.read.ppt(docsPath)
+    * }}}
+    *
+    * {{{
+    * xlsDf.select("ppt").show(false)
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |ppt                                                                                                                                                                                                                                                                                                                      |
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * pptDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- ppt: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+
+  def ppt(docPath: String): DataFrame = {
+    val powerPointReader = new PowerPointReader(getStoreContent)
+    powerPointReader.ppt(docPath)
+  }
+
 }
