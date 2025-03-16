@@ -353,6 +353,14 @@ class _MistralLoader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _MLLamaForMultimodalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_MLLamaForMultimodalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.MLLamaForMultimodal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _NLLBLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark,  use_openvino=False):

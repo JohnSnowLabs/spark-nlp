@@ -391,6 +391,13 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "mllama" =>
+        new MLLamaTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case "qwen2vl" =>
         new Qwen2VLTokenizer(
           merges,
@@ -414,6 +421,7 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")

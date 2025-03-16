@@ -218,6 +218,10 @@ object OpenvinoWrapper {
       decoderWithPast: OpenvinoWrapper)
   case class DecoderWrappers(decoder: OpenvinoWrapper)
   case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
+  case class MLLamaWrappers(
+      visionEmbeddingsModel: OpenvinoWrapper,
+      languageModel: OpenvinoWrapper,
+      reshapeModel: OpenvinoWrapper)
 //  LANGUAGE_MODEL_NAME = "openvino_language_model.xml"
 //IMAGE_EMBEDDING_NAME = "openvino_vision_embeddings_model.xml"
 //IMAGE_EMBEDDING_MERGER_NAME = "openvino_vision_embeddings_merger_model.xml"
