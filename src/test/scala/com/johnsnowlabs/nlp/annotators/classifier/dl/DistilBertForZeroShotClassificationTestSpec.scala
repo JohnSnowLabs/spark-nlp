@@ -54,7 +54,7 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .loadSavedModel("1", ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("multi_class")
       .setCaseSensitive(true)
@@ -102,7 +102,7 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .loadSavedModel("1", ResourceHelper.spark)
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -148,7 +148,7 @@ class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
         .limit(30)
 
     val tokenClassifier = DistilBertForZeroShotClassification
-      .loadSavedModel("1",ResourceHelper.spark)
+      .loadSavedModel("1", ResourceHelper.spark)
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("class")
       .setCaseSensitive(true)

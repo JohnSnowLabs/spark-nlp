@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -357,7 +361,10 @@ trait ReadablePretrainedRoBertaForTokenModel
       remoteLoc: String): RoBertaForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadRoBertaForTokenDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[RoBertaForTokenClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"

@@ -240,16 +240,17 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     }
   }
 
-
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): Array[Float] = {
+  private def getRawScoresWithOv(batch: Seq[Array[Int]]): Array[Float] = {
 
     val maxSentenceLength = batch.map(_.length).max
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength, sentencePadTokenId)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -340,13 +341,16 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   }
 
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength, sentencePadTokenId)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -520,14 +524,16 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     (startLogits, endLogits)
   }
 
-  private def computeLogitsWithOv(
-                                   batch: Seq[Array[Int]]
-                                 ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
 
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength, sentencePadTokenId)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -537,7 +543,7 @@ private[johnsnowlabs] class XlmRoBertaClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

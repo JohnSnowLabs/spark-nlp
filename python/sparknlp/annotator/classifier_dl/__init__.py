@@ -56,3 +56,4 @@ from sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification import
 from sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification import *
 from sparknlp.annotator.classifier_dl.bert_for_multiple_choice import *
 from sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice import *
+from sparknlp.annotator.classifier_dl.albert_for_multiple_choice import *

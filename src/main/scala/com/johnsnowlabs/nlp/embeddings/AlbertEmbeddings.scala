@@ -20,8 +20,16 @@ import com.johnsnowlabs.ml.ai.Albert
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification
@@ -357,8 +365,6 @@ class AlbertEmbeddings(override val uid: String)
           "openvino_model.xml",
           AlbertEmbeddings.openvinoFile)
 
-
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -407,7 +413,6 @@ trait ReadAlbertDLModel
   def readModel(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
-
 
     instance.getEngine match {
       case TensorFlow.name =>

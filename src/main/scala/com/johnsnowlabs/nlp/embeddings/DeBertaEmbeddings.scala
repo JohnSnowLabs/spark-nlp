@@ -20,8 +20,16 @@ import com.johnsnowlabs.ml.ai.DeBerta
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ModelEngine, ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -373,7 +381,7 @@ trait ReadDeBertaDLModel
     extends ReadTensorflowModel
     with ReadSentencePieceModel
     with ReadOnnxModel
-    with ReadOpenvinoModel{
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DeBertaEmbeddings] =>
 
   override val tfFile: String = "deberta_tensorflow"
@@ -393,7 +401,6 @@ trait ReadDeBertaDLModel
         val onnxWrapper =
           readOnnxModel(path, spark, "_deberta_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
-
 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_deberta_openvino")
@@ -440,16 +447,16 @@ trait ReadDeBertaDLModel
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
 
-        case Openvino.name =>
-          val ovWrapper: OpenvinoWrapper =
-            OpenvinoWrapper.read(
-              spark,
-              localModelPath,
-              zipped = false,
-              useBundle = true,
-              detectedEngine = detectedEngine)
-          annotatorModel
-            .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
+      case Openvino.name =>
+        val ovWrapper: OpenvinoWrapper =
+          OpenvinoWrapper.read(
+            spark,
+            localModelPath,
+            zipped = false,
+            useBundle = true,
+            detectedEngine = detectedEngine)
+        annotatorModel
+          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
