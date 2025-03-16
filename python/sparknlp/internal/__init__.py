@@ -1051,3 +1051,12 @@ class _BLIPForQuestionAnswering(ExtendedJavaWrapper):
             path,
             jspark,
         )
+
+class _Qwen2VLTransformerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Qwen2VLTransformerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Qwen2VLTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )

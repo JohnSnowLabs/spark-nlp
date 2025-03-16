@@ -698,6 +698,7 @@ object PythonResourceDownloader {
     "Phi3Transformer" -> Phi3Transformer,
     "QwenTransformer" -> QwenTransformer,
     "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings,
+    "Qwen2VLTransformer" -> Qwen2VLTransformer,
     "CoHereTransformer" -> CoHereTransformer,
     "LLAVAForMultiModal" -> LLAVAForMultiModal,
     "Phi3Vision" -> Phi3Vision,
