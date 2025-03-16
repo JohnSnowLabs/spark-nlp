@@ -223,4 +223,8 @@ object OpenvinoWrapper {
       visionEmbeddingsModel: OpenvinoWrapper,
       textEmbeddingsModel: OpenvinoWrapper,
       mergeModel: OpenvinoWrapper)
+  case class Phi3VWrappers(
+      wte: OpenvinoWrapper,
+      reshape: OpenvinoWrapper,
+      languageModel: OpenvinoWrapper)
 }
