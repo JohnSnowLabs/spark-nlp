@@ -113,3 +113,16 @@ class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
         excel_df.show()
 
         self.assertTrue(excel_df.select("ppt").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestTXTFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.txt_file = f"file:///{os.getcwd()}/../src/test/resources/reader/txt/simple-text.txt"
+
+    def runTest(self):
+        txt_df = sparknlp.read().txt(self.txt_file)
+        txt_df.show()
+
+        self.assertTrue(txt_df.select("txt").count() > 0)

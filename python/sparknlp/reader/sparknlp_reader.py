@@ -353,3 +353,36 @@ class SparkNLPReader(ExtendedJavaWrapper):
         jdf = self._java_obj.ppt(docPath)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
+
+    def txt(self, docPath):
+        """Reads TXT files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        docPath : str
+            Path to a TXT file.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed document content.
+
+        Examples
+        --------
+        >>> from sparknlp.reader import SparkNLPReader
+        >>> txtDf = SparkNLPReader().txt(spark, "home/user/txt/files")
+
+        You can use SparkNLP for one line of code
+        >>> import sparknlp
+        >>> txtDf = sparknlp.read().txt("home/user/txt/files")
+        >>> txtDf.show(truncate=False)
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |[{Title, BIG DATA ANALYTICS, {paragraph -> 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -> 0}}, {Title, MACHINE LEARNING, {paragraph -> 1}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -> 1}}]|
+        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        """
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.txt(docPath)
+        return self.getDataFrame(self.spark, jdf)

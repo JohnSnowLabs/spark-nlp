@@ -375,4 +375,62 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     powerPointReader.ppt(docPath)
   }
 
+  /** Instantiates class to read txt files.
+    *
+    * filePath: this is a path to a directory of TXT files or a path to an TXT file E.g.
+    * "path/txt/files"
+    *
+    * ==Example==
+    * {{{
+    * val filePath = "home/user/txt/files"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val txtDf = sparkNLPReader.txt(filePath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val txtDf = SparkNLP.read.txt(filePath)
+    * }}}
+    *
+    * {{{
+    * txtDf.select("txt").show(false)
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, BIG DATA ANALYTICS, {paragraph -> 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -> 0}}, {Title, MACHINE LEARNING, {paragraph -> 1}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -> 1}}]|
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * emailDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- txt: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+  def txt(filePath: String): DataFrame = {
+    val textReader = new TextReader(getTitleLengthSize, getStoreContent)
+    textReader.txt(filePath)
+  }
+
+  private def getTitleLengthSize: Int = {
+    val titleLengthSize =
+      try {
+        params.asScala.getOrElse("titleLengthSize", "50").toInt
+      } catch {
+        case _: IllegalArgumentException => 50
+      }
+
+    titleLengthSize
+  }
+
 }
