@@ -128,13 +128,14 @@ object Dependencies {
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
-  val llamaCppVersion = "0.1.4"
+  val llamaCppVersion = "0.1.6"
   val llamaCppCPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-cpu" % llamaCppVersion
   val llamaCppGPU = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-gpu" % llamaCppVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-silicon" % llamaCppVersion
   val llamaCppAarch64 = "com.johnsnowlabs.nlp" %% "jsl-llamacpp-aarch64" % llamaCppVersion
 
   val jsoupVersion = "1.18.2"
+
   val jsoup = "org.jsoup" % "jsoup" % jsoupVersion
 
   val jakartaMailVersion = "2.1.3"
@@ -146,5 +147,7 @@ object Dependencies {
   val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
   val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
 
+  val pdfBoxVersion = "2.0.28"
+  val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
   /** ------- Dependencies end  ------- */
 }

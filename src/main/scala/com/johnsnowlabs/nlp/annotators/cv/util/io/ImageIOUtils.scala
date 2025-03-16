@@ -67,20 +67,18 @@ private[johnsnowlabs] object ImageIOUtils {
   def readImage(file: File): Option[BufferedImage] = {
     Try(ImageIO.read(file)) match {
       case Success(bufferedImage) => Some(bufferedImage)
-      case Failure(_) => {
+      case Failure(_) =>
         logger.warn(s"Error in ImageIOUtils.readImage while reading file: ${file.getPath}")
         None
-      }
     }
   }
 
   def readImage(inputStream: InputStream): Option[BufferedImage] = {
     Try(ImageIO.read(inputStream)) match {
       case Success(bufferedImage) => Some(bufferedImage)
-      case Failure(_) => {
+      case Failure(_) =>
         logger.warn(s"Error in ImageIOUtils.readImage while reading inputStream")
         None
-      }
     }
   }
 
@@ -219,5 +217,7 @@ private[johnsnowlabs] object ImageIOUtils {
     }
     image
   }
+  def encodeImageBase64(image: Array[Byte]): String =
+    java.util.Base64.getEncoder.encodeToString(image)
 
 }

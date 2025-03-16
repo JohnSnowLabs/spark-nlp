@@ -833,4 +833,8 @@ package object annotator {
       extends ReadablePretrainedAutoGGUFEmbeddings
       with ReadAutoGGUFEmbeddings
 
+  type AutoGGUFVisionModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
+  object AutoGGUFVisionModel
+      extends ReadablePretrainedAutoGGUFVisionModel
+      with ReadAutoGGUFVisionModel
 }

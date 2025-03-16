@@ -25,8 +25,11 @@ class HTMLReaderTest extends AnyFlatSpec {
 
   it should "read html as dataframe" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
-    val result = HTMLReader.read(htmlFilesDirectory)
-    result.show()
+    val htmlDF = HTMLReader.read(htmlFilesDirectory)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
   }
 
   it should "read html as dataframe with params" taggedAs FastTest in {
@@ -35,6 +38,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
   }
 
   it should "parse an html in real time" taggedAs FastTest in {
@@ -43,6 +47,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
   }
 
   it should "parse URLS in real time" taggedAs FastTest in {
@@ -51,6 +56,16 @@ class HTMLReaderTest extends AnyFlatSpec {
     htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
+  }
+
+  it should "store content" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(storeContent = true)
+    val htmlDF = HTMLReader.read(htmlFilesDirectory)
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(htmlDF.columns.contains("content"))
   }
 
 }

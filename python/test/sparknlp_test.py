@@ -87,3 +87,42 @@ class SparkNLPTestWordFilesSpec(unittest.TestCase):
         word_df.show()
 
         self.assertTrue(word_df.select("doc").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestExcelFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.excel_file = f"file:///{os.getcwd()}/../src/test/resources/reader/xls/vodafone.xlsx"
+
+    def runTest(self):
+        excel_df = sparknlp.read().xls(self.excel_file)
+        excel_df.show()
+
+        self.assertTrue(excel_df.select("xls").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.excel_file = f"file:///{os.getcwd()}/../src/test/resources/reader/ppt"
+
+    def runTest(self):
+        excel_df = sparknlp.read().ppt(self.excel_file)
+        excel_df.show()
+
+        self.assertTrue(excel_df.select("ppt").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestTXTFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.txt_file = f"file:///{os.getcwd()}/../src/test/resources/reader/txt/simple-text.txt"
+
+    def runTest(self):
+        txt_df = sparknlp.read().txt(self.txt_file)
+        txt_df.show()
+
+        self.assertTrue(txt_df.select("txt").count() > 0)
