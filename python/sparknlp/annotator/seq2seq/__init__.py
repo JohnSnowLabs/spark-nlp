@@ -29,3 +29,4 @@ from sparknlp.annotator.seq2seq.qwen_transformer import *
 from sparknlp.annotator.seq2seq.starcoder_transformer import *
 from sparknlp.annotator.seq2seq.llama3_transformer import *
 from sparknlp.annotator.seq2seq.cohere_transformer import *
+from sparknlp.annotator.seq2seq.olmo_transformer import *
