@@ -297,15 +297,16 @@ private[nlp] abstract class BpeTokenizer(
   def encode(indToken: IndexedToken): Array[TokenPiece] = {
     if (!specialTokens.contains(indToken.token))
       bpe(indToken)
-    else
+    else {
       Array(
         TokenPiece(
           indToken.token,
           indToken.token,
           vocab(indToken.token),
-          isWordStart = true,
+          isWordStart = false,
           indToken.begin,
           indToken.end))
+    }
   }
 
   def encode(indTokens: Array[IndexedToken]): Array[TokenPiece] = indTokens.flatMap(encode(_))
@@ -353,6 +354,13 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "olmo" =>
+        new OLMoTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case "clip" =>
         new CLIPTokenizer(merges, vocab, modelSpecialTokens())
       case "phi2" =>
@@ -385,6 +393,29 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case "mllama" =>
         new MLLamaTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "qwen2vl" =>
+        new Qwen2VLTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
+      case "llava" =>
+        new LLAVATokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
+      case "phi3v" =>
+        new Phi3VisionTokenizer(
           merges,
           vocab,
           modelSpecialTokens(),

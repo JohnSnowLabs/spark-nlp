@@ -26,7 +26,8 @@ import java.util.Properties
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class EmailReader(addAttachmentContent: Boolean = false) extends Serializable {
+class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean = false)
+    extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -38,9 +39,11 @@ class EmailReader(addAttachmentContent: Boolean = false) extends Serializable {
         val byteArray = portableDataStream.toArray()
         (path, byteArray)
       }
-      byteArrayRDD
+      val emailDf = byteArrayRDD
         .toDF("path", "content")
         .withColumn("email", parseEmailUDF(col("content")))
+      if (storeContent) emailDf.select("path", "email", "content")
+      else emailDf.select("path", "email")
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
