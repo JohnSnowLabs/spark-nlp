@@ -218,7 +218,6 @@ object OpenvinoWrapper {
       decoderWithPast: OpenvinoWrapper)
   case class DecoderWrappers(decoder: OpenvinoWrapper)
   case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
-
 //  LANGUAGE_MODEL_NAME = "openvino_language_model.xml"
 //IMAGE_EMBEDDING_NAME = "openvino_vision_embeddings_model.xml"
 //IMAGE_EMBEDDING_MERGER_NAME = "openvino_vision_embeddings_merger_model.xml"
@@ -233,4 +232,13 @@ object OpenvinoWrapper {
       rotaryEmbedding: OpenvinoWrapper,
       patchReshapeModel: OpenvinoWrapper,
       multimodalMergeModel: OpenvinoWrapper)
+  case class LLAVAWrappers(
+      languageModel: OpenvinoWrapper,
+      visionEmbeddingsModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      mergeModel: OpenvinoWrapper)
+  case class Phi3VWrappers(
+      wte: OpenvinoWrapper,
+      reshape: OpenvinoWrapper,
+      languageModel: OpenvinoWrapper)
 }
