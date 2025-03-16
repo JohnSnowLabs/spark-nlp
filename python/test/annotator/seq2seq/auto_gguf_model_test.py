@@ -102,7 +102,6 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setGpuSplitMode("NONE")
         model.setMainGpu(0)
         model.setTensorSplit([])
-        model.setNBeams(0)
         model.setGrpAttnN(1)
         model.setGrpAttnW(512)
         model.setRopeFreqBase(1.0)
@@ -115,11 +114,10 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setDefragmentationThreshold(-1.0)
         model.setNumaStrategy("DISTRIBUTE")
         model.setRopeScalingType("UNSPECIFIED")
-        model.setPoolingType("UNSPECIFIED")
+        model.setPoolingType("NONE")
         model.setModelDraft("")
         model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
         model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-        model.setLoraBase("")
         model.setEmbedding(False)
         model.setFlashAttention(False)
         model.setInputPrefixBos(False)
@@ -171,6 +169,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         pipeline = Pipeline().setStages([document_assembler, model])
         results = pipeline.fit(data).transform(data)
 
+        # Can fail due to bogus parameters, but at least we are testing the setters
         results.select("completions").show(truncate=False)
 
 
@@ -189,3 +188,52 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         metadata = model.getMetadata()
         assert len(metadata) > 0
         print(eval(metadata))
+
+
+@pytest.mark.slow
+class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.data = (
+            self.spark.createDataFrame(
+                [
+                    ["The moons of Jupiter are "],
+                    ["Earth is "],
+                    ["The moon is "],
+                    ["The sun is "],
+                ]
+            )
+            .toDF("text")
+            .repartition(1)
+        )
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .setGrammar("root ::= (")  # Invalid grammar
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        result = pipeline.fit(self.data).transform(self.data)
+
+        collected = result.select("completions").collect()
+
+        self.assertEqual(
+            len(collected), self.data.count(), "Should return the same number of rows"
+        )
+        for row in collected:
+            annotation = row[0][0]
+            self.assertEqual(
+                annotation["result"], "", "Completions should be empty"
+            )
+            self.assertIn(
+                "llamacpp_exception",
+                annotation["metadata"],
+                "llamacpp_exception should be present",
+            )

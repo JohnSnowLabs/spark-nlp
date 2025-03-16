@@ -20,12 +20,12 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
-import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 
-class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Serializable {
+class GGUFWrapperMultiModal(var modelFileName: String, var mmprojFileName: String)
+    extends Serializable {
 
   /** For Deserialization */
   def this() = {
@@ -38,12 +38,15 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
   def getSession(modelParameters: ModelParameters): LlamaModel =
     this.synchronized {
       if (llamaModel == null) {
-        // TODO: Validate when modelFileName or tmpFolder is None??
         val modelFilePath = SparkFiles.get(modelFileName)
+        val mmprojFilePath = SparkFiles.get(mmprojFileName)
+        val filesExist =
+          Paths.get(modelFilePath).toFile.exists() && Paths.get(mmprojFilePath).toFile.exists()
 
-        if (Paths.get(modelFilePath).toFile.exists()) {
+        if (filesExist) {
           modelParameters.setModelFilePath(modelFilePath)
-          llamaModel = GGUFWrapper.withSafeGGUFModelLoader(modelParameters)
+          modelParameters.setMMProj(mmprojFilePath)
+          llamaModel = GGUFWrapperMultiModal.withSafeGGUFModelLoader(modelParameters)
         } else
           throw new IllegalStateException(
             s"Model file $modelFileName does not exist in SparkFiles.")
@@ -52,10 +55,13 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
       llamaModel
     }
 
-  def saveToFile(file: String): Unit = {
+  def saveToFile(folder: String): Unit = {
     val modelFilePath = SparkFiles.get(modelFileName)
-    val modelOutputPath = Paths.get(file, modelFileName)
+    val mmprojFilePath = SparkFiles.get(mmprojFileName)
+    val modelOutputPath = Paths.get(folder, modelFileName)
+    val mmprojOutputPath = Paths.get(folder, mmprojFileName)
     Files.copy(Paths.get(modelFilePath), modelOutputPath)
+    Files.copy(Paths.get(mmprojFilePath), mmprojOutputPath)
   }
 
   // Destructor to free the model when this object is garbage collected
@@ -68,47 +74,65 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
 }
 
 /** Companion object */
-object GGUFWrapper {
-  private[GGUFWrapper] val logger: Logger = LoggerFactory.getLogger("GGUFWrapper")
-
-  // TODO: make sure this.synchronized is needed or it's not a bottleneck
+object GGUFWrapperMultiModal {
   private def withSafeGGUFModelLoader(modelParameters: ModelParameters): LlamaModel =
     this.synchronized {
       new LlamaModel(modelParameters)
     }
 
   /** Reads the GGUF model from file during loadSavedModel. */
-  def read(sparkSession: SparkSession, modelPath: String): GGUFWrapper = {
-    // TODO Better Sanity Check
+  def read(
+      sparkSession: SparkSession,
+      modelPath: String,
+      mmprojPath: String): GGUFWrapperMultiModal = {
     val modelFile = new File(modelPath)
-    val modelFileExist: Boolean = modelFile.exists()
+    val mmprojFile = new File(mmprojPath)
 
     if (!modelFile.getName.endsWith(".gguf"))
       throw new IllegalArgumentException(s"Model file $modelPath is not a GGUF model file")
 
-    if (modelFileExist) {
-      sparkSession.sparkContext.addFile(modelPath)
-    } else throw new IllegalArgumentException(s"Model file $modelPath does not exist")
+    if (!mmprojFile.getName.endsWith(".gguf"))
+      throw new IllegalArgumentException(s"mmproj file $mmprojPath is not a GGUF model file")
 
-    new GGUFWrapper(modelFile.getName, modelFile.getParent)
+    if (!mmprojFile.getName.contains("mmproj"))
+      throw new IllegalArgumentException(
+        s"mmproj file $mmprojPath is not a GGUF mmproj file (should contain 'mmproj' in its name)")
+
+    if (modelFile.exists() && mmprojFile.exists()) {
+      sparkSession.sparkContext.addFile(modelPath)
+      sparkSession.sparkContext.addFile(mmprojPath)
+    } else
+      throw new IllegalArgumentException(
+        s"Model file $modelPath or mmproj file $mmprojPath does not exist")
+
+    new GGUFWrapperMultiModal(modelFile.getName, mmprojFile.getName)
   }
 
   /** Reads the GGUF model from the folder passed by the Spark Reader during loading of a
     * serialized model.
     */
-  def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapper = {
-    def findGGUFModelInFolder(folderPath: String): String = {
+  def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapperMultiModal = {
+    def findGGUFModelsInFolder(folderPath: String): (String, String) = {
       val folder = new File(folderPath)
       if (folder.exists && folder.isDirectory) {
-        val ggufFile: String = folder.listFiles
+        val ggufFiles: Array[String] = folder.listFiles
           .filter(_.isFile)
           .filter(_.getName.endsWith(".gguf"))
           .map(_.getAbsolutePath)
-          .headOption // Should only be one file
-          .getOrElse(
-            throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath"))
 
-        new File(ggufFile).getAbsolutePath
+        val (ggufMainPath, ggufMmprojPath) =
+          if (ggufFiles.length == 2 && ggufFiles.exists(_.contains("mmproj"))) {
+            val Array(firstModel, secondModel) = ggufFiles
+            if (firstModel.contains("mmproj")) (secondModel, firstModel)
+            else (firstModel, secondModel)
+          } else
+            throw new IllegalArgumentException(
+              s"Could not determine main GGUF model or mmproj GGUF model in $folderPath." +
+                s" The folder should contain exactly two files:" +
+                s" One main GGUF model and one mmproj GGUF model." +
+                s" The mmproj model should have 'mmproj' in its name.")
+
+        (ggufMainPath, ggufMmprojPath)
       } else {
         throw new IllegalArgumentException(s"Path $folderPath is not a directory")
       }
@@ -119,7 +143,7 @@ object GGUFWrapper {
     val fileSystem: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val actualFolderPath = fileSystem.resolvePath(new Path(modelFolderPath)).toString
     val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
-    val modelFile = findGGUFModelInFolder(localFolder)
-    read(spark, modelFile)
+    val (ggufMainPath, ggufMmprojPath) = findGGUFModelsInFolder(localFolder)
+    read(spark, ggufMainPath, ggufMmprojPath)
   }
 }

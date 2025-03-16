@@ -32,7 +32,7 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("embeddings")
 
-    The default model is ``"nomic-embed-text-v1.5.Q8_0.gguf"``, if no name is provided.
+    The default model is ``"Nomic_Embed_Text_v1.5.Q8_0.gguf"``, if no name is provided.
 
     For extended examples of usage, see the
     `AutoGGUFEmbeddingsTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddingsTest.scala>`__
@@ -471,15 +471,19 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         """Whether to disable KV offload"""
         return self._set(noKvOffload=noKvOffload)
 
+    def setNParallel(self, nParallel: int):
+        """Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`."""
+        return self.setBatchSize(nParallel)
+
     def getMetadata(self):
         """Gets the metadata of the model"""
         return self._call_java("getMetadata")
 
     @keyword_only
     def __init__(
-        self,
-        classname="com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings",
-        java_model=None,
+            self,
+            classname="com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings",
+            java_model=None,
     ):
         super(AutoGGUFEmbeddings, self).__init__(
             classname=classname, java_model=java_model
@@ -513,13 +517,13 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         return AutoGGUFEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="nomic-embed-text-v1.5.Q8_0.gguf", lang="en", remote_loc=None):
+    def pretrained(name="Nomic_Embed_Text_v1.5.Q8_0.gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "nomic-embed-text-v1.5.Q8_0.gguf"
+            Name of the pretrained model, by default "Nomic_Embed_Text_v1.5.Q8_0.gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

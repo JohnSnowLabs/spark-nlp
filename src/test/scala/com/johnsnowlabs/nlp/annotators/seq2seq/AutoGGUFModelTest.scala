@@ -181,4 +181,28 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     val metadataMap = model.getMetadataMap
     assert(metadataMap.nonEmpty)
   }
+
+  it should "return error messages when completions can't be produced" taggedAs SlowTest in {
+    val model = AutoGGUFModel
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setGrammar("root ::= (") // Invalid grammar
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(data).transform(data)
+
+    val collected = Annotation
+      .collect(result, "completions")
+
+    assert(collected.length == data.count().toInt, "Should return the same number of rows")
+    collected
+      .foreach(annotations => {
+        assert(annotations.head.result.isEmpty, "Completions should be empty")
+        assert(
+          annotations.head.metadata.contains("llamacpp_exception"),
+          "llamacpp_exception should be present")
+      })
+  }
 }

@@ -1096,6 +1096,13 @@ class _BLIPForQuestionAnswering(ExtendedJavaWrapper):
             jspark,
         )
 
+
+class _AutoGGUFVisionLoader(ExtendedJavaWrapper):
+    def __init__(self, modelPath, mmprojPath, jspark):
+        super(_AutoGGUFVisionLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel.loadSavedModel", modelPath, mmprojPath, jspark)
+        
+               
 class _Qwen2VLTransformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_Qwen2VLTransformerLoader, self).__init__(
