@@ -367,6 +367,15 @@ class _Phi3Loader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _Phi3VisionLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Phi3VisionLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Phi3Vision.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
+
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_RoBertaLoader, self).__init__(

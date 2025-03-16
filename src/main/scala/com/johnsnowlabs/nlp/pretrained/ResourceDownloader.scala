@@ -698,6 +698,7 @@ object PythonResourceDownloader {
     "Phi3Transformer" -> Phi3Transformer,
     "QwenTransformer" -> QwenTransformer,
     "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings,
+    "Phi3Vision" -> Phi3Vision,
     "OLMoTransformer" -> OLMoTransformer)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
