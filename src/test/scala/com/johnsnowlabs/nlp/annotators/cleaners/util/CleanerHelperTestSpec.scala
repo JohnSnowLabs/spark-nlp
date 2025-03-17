@@ -346,5 +346,4 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
     assert(actual == expected)
   }
 
-
 }

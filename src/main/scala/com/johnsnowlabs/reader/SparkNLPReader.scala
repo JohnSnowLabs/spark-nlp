@@ -212,59 +212,59 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
   }
 
   /** Instantiates class to read PDF files.
-   *
-   *  pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
-   * "path/pdfs/"
-   *
-   * ==Example==
-   * {{{
-   * val pdfsPath = "home/user/pdfs-directory"
-   * val sparkNLPReader = new SparkNLPReader()
-   * val pdfDf = sparkNLPReader.pdf(pdfsPath)
-   * }}}
-   *
-   * ==Example 2==
-   * You can use SparkNLP for one line of code
-   * {{{
-   * val pdfDf = SparkNLP.read.pdf(pdfsPath)
-   * }}}
-   *
-   * {{{
-   * pdfDf.show(false)
-   * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-   * |                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
-   * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-   * |file:/content/pdf...|2025-01-15 20:48:...| 25803|This is a Title \...|             842|            596|[25 50 44 46 2D 3...|     NULL|      0|
-   * |file:/content/pdf...|2025-01-15 20:48:...|  9487|This is a page.\n...|             841|            595|[25 50 44 46 2D 3...|     NULL|      0|
-   * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-   *
-   * pdf_df.printSchema()
-   * root
-   *  |-- path: string (nullable = true)
-   *  |-- modificationTime: timestamp (nullable = true)
-   *  |-- length: long (nullable = true)
-   *  |-- text: string (nullable = true)
-   *  |-- height_dimension: integer (nullable = true)
-   *  |-- width_dimension: integer (nullable = true)
-   *  |-- content: binary (nullable = true)
-   *  |-- exception: string (nullable = true)
-   *  |-- pagenum: integer (nullable = true)
-   * }}}
-   *
-   * @param params
-   *   Parameter with custom configuration
-   */
+    *
+    * pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
+    * "path/pdfs/"
+    *
+    * ==Example==
+    * {{{
+    * val pdfsPath = "home/user/pdfs-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val pdfDf = sparkNLPReader.pdf(pdfsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val pdfDf = SparkNLP.read.pdf(pdfsPath)
+    * }}}
+    *
+    * {{{
+    * pdfDf.show(false)
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    * |                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    * |file:/content/pdf...|2025-01-15 20:48:...| 25803|This is a Title \...|             842|            596|[25 50 44 46 2D 3...|     NULL|      0|
+    * |file:/content/pdf...|2025-01-15 20:48:...|  9487|This is a page.\n...|             841|            595|[25 50 44 46 2D 3...|     NULL|      0|
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    *
+    * pdf_df.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- modificationTime: timestamp (nullable = true)
+    *  |-- length: long (nullable = true)
+    *  |-- text: string (nullable = true)
+    *  |-- height_dimension: integer (nullable = true)
+    *  |-- width_dimension: integer (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- exception: string (nullable = true)
+    *  |-- pagenum: integer (nullable = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
   def pdf(pdfPath: String): DataFrame = {
-      val spark = ResourceHelper.spark
-      spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
-      val pdfToText = new PdfToText()
-        .setStoreSplittedPdf(getStoreSplittedPdf)
-      val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
-      val pipelineModel = new Pipeline()
-        .setStages(Array(pdfToText))
-        .fit(binaryPdfDF)
+    val spark = ResourceHelper.spark
+    spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(getStoreSplittedPdf)
+    val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(binaryPdfDF)
 
-      pipelineModel.transform(binaryPdfDF)
+    pipelineModel.transform(binaryPdfDF)
   }
 
   private def getStoreSplittedPdf: Boolean = {
@@ -275,6 +275,8 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
         case _: IllegalArgumentException => false
       }
     splitPage
+  }
+
   /** Instantiates class to read Excel files.
     *
     * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.

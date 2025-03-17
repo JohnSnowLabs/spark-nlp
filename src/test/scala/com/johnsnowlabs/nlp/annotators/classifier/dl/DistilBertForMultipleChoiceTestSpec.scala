@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, MultiDocumentAssembler}
@@ -33,7 +32,6 @@ class DistilBertForMultipleChoiceTestSpec extends AnyFlatSpec with SparkSessionT
   val testDataframe =
     Seq(("The Eiffel Tower is located in which country?", "Germany, France, Italy"))
       .toDF("question", "context")
-
 
   "DistilBertForMultipleChoiceTestSpec" should "answer a multiple choice question" taggedAs SlowTest in {
     val resultDf = pipelineModel.transform(testDataframe)

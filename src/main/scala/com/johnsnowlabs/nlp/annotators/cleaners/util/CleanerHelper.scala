@@ -43,8 +43,7 @@ object CleanerHelper {
     "",
     "\\*", // Escaped for regex compatibility
     "\u0095",
-    "·"
-  )
+    "·")
 
   private val BULLETS_PATTERN = UNICODE_BULLETS.map(Pattern.quote).mkString("|")
   private val UNICODE_BULLETS_RE: Regex = new Regex(s"(?:$BULLETS_PATTERN)")
@@ -52,28 +51,34 @@ object CleanerHelper {
   private val HTML_APOSTROPHE_ENTITY: String = "&apos;"
   private val HEXADECIMAL_ESCAPE_SEQUENCE: Regex = """\\x([0-9A-Fa-f]{2})""".r
 
-  /**
-   * Parses a string containing escape sequences (e.g., `\x9f`) into a byte array.
-   *
-   * @param text The input string with escape sequences.
-   * @return A byte array representing the parsed bytes.
-   */
+  /** Parses a string containing escape sequences (e.g., `\x9f`) into a byte array.
+    *
+    * @param text
+    *   The input string with escape sequences.
+    * @return
+    *   A byte array representing the parsed bytes.
+    */
   def parseEscapedBytes(text: String): Array[Byte] = {
     val RawByteCharset: Charset = Charset.forName("ISO-8859-1")
 
     // Replace escape sequences with their byte values
-    HEXADECIMAL_ESCAPE_SEQUENCE.replaceAllIn(text, m => {
-      val hexValue = m.group(1)
-      Integer.parseInt(hexValue, 16).toChar.toString
-    }).getBytes(RawByteCharset)
+    HEXADECIMAL_ESCAPE_SEQUENCE
+      .replaceAllIn(
+        text,
+        m => {
+          val hexValue = m.group(1)
+          Integer.parseInt(hexValue, 16).toChar.toString
+        })
+      .getBytes(RawByteCharset)
   }
 
-  /**
-   * Formats an input encoding string (e.g., `utf-8`, `iso-8859-1`, etc).
-   *
-   * @param encoding The encoding string to be formatted.
-   * @return The formatted encoding string.
-   */
+  /** Formats an input encoding string (e.g., `utf-8`, `iso-8859-1`, etc).
+    *
+    * @param encoding
+    *   The encoding string to be formatted.
+    * @return
+    *   The formatted encoding string.
+    */
   def formatEncodingStr(encoding: String): String = {
     var formattedEncoding = encoding.toLowerCase.replace("_", "-")
 
@@ -122,9 +127,9 @@ object CleanerHelper {
   }
 
   def cleanNonAsciiChars(text: String): String = {
-    val decodedText = HEXADECIMAL_ESCAPE_SEQUENCE.replaceAllIn(text, m =>
-      Integer.parseInt(m.group(1), 16).toChar.toString
-    )
+    val decodedText = HEXADECIMAL_ESCAPE_SEQUENCE.replaceAllIn(
+      text,
+      m => Integer.parseInt(m.group(1), 16).toChar.toString)
 
     val entityReplacedText = decodedText.replace(HTML_APOSTROPHE_ENTITY, "'")
     entityReplacedText.replaceAll("[^\u0020-\u007E]", "")
@@ -140,20 +145,25 @@ object CleanerHelper {
     if (!firstWord.contains(".") || firstWord.contains("..")) return text
 
     val bulletParts = firstWord.split("\\.")
-    val cleanedBulletParts = if (bulletParts.last.isEmpty) bulletParts.dropRight(1) else bulletParts
+    val cleanedBulletParts =
+      if (bulletParts.last.isEmpty) bulletParts.dropRight(1) else bulletParts
 
     if (cleanedBulletParts.head.length > 2) text else remainingText.trim
 
   }
 
   def replaceUnicodeCharacters(text: String): String = {
-    val decodedText = HEXADECIMAL_ESCAPE_SEQUENCE.replaceAllIn(text, m => {
-      val hexValue = m.group(1)
-      val byteValue = Integer.parseInt(hexValue, 16).toByte
-      new String(Array(byteValue), Charset.forName("ISO-8859-1"))
-    })
+    val decodedText = HEXADECIMAL_ESCAPE_SEQUENCE.replaceAllIn(
+      text,
+      m => {
+        val hexValue = m.group(1)
+        val byteValue = Integer.parseInt(hexValue, 16).toByte
+        new String(Array(byteValue), Charset.forName("ISO-8859-1"))
+      })
 
-    val fullyDecodedText = new String(decodedText.getBytes(Charset.forName("ISO-8859-1")), Charset.forName("Windows-1252"))
+    val fullyDecodedText = new String(
+      decodedText.getBytes(Charset.forName("ISO-8859-1")),
+      Charset.forName("Windows-1252"))
 
     fullyDecodedText
       .replace("\u2018", "‘")
@@ -167,24 +177,26 @@ object CleanerHelper {
       .replace("â\u0080¦", "…")
   }
 
-  /**
-   * Removes punctuation from a given string.
-   *
-   * @params The input string.
-   * @return The string with punctuation removed.
-   */
+  /** Removes punctuation from a given string.
+    *
+    * @params
+    *   The input string.
+    * @return
+    *   The string with punctuation removed.
+    */
   def removePunctuation(text: String): String = {
     // \p{P} matches any kind of punctuation character in Unicode
     val punctuationRegex = """\p{P}""".r
     punctuationRegex.replaceAllIn(text, "")
   }
 
-  /**
-   * Cleans a prefix from a string based on a pattern.
-   *
-   * @param text The text to clean.
-   * @return The cleaned string.
-   */
+  /** Cleans a prefix from a string based on a pattern.
+    *
+    * @param text
+    *   The text to clean.
+    * @return
+    *   The cleaned string.
+    */
   def cleanPrefix(text: String, pattern: String, ignoreCase: Boolean, strip: Boolean): String = {
     val regexStr =
       if (ignoreCase) s"(?i)^$pattern[\\p{Punct}\\s]*"
@@ -196,25 +208,27 @@ object CleanerHelper {
     if (strip) cleanedText.replaceAll("^\\s+", "") else cleanedText
   }
 
-  /**
-   * Cleans a postfix from a string based on a pattern.
-   *
-   * @param text The text to clean.
-   * @return The cleaned string.
-   */
+  /** Cleans a postfix from a string based on a pattern.
+    *
+    * @param text
+    *   The text to clean.
+    * @return
+    *   The cleaned string.
+    */
   def cleanPostfix(text: String, pattern: String, ignoreCase: Boolean, strip: Boolean): String = {
     val regex = if (ignoreCase) s"(?i)$pattern$$".r else s"$pattern$$".r
     val cleanedText = regex.replaceAllIn(text, "")
     if (strip) cleanedText.trim else cleanedText
   }
 
-  /**
-   * Converts a string representation of a byte string (e.g., containing escape sequences)
-   * to an Annotation structure using the specified encoding.
-   *
-   * @param text The string representation of the byte string.
-   * @return The String containing the decoded result
-   */
+  /** Converts a string representation of a byte string (e.g., containing escape sequences) to an
+    * Annotation structure using the specified encoding.
+    *
+    * @param text
+    *   The string representation of the byte string.
+    * @return
+    *   The String containing the decoded result
+    */
   def bytesStringToString(text: String, encoding: String): String = {
     val textBytes = parseEscapedBytes(text)
     val formattedEncoding = formatEncodingStr(encoding)

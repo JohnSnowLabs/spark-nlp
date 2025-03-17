@@ -31,8 +31,8 @@ import org.apache.spark.ml.util.Identifiable
 class Cleaner(override val uid: String) extends MarianTransformer {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-   * type
-   */
+    * type
+    */
   def this() = this(Identifiable.randomUID("CLEANER"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
@@ -43,31 +43,28 @@ class Cleaner(override val uid: String) extends MarianTransformer {
   val encoding = new Param[String](
     this,
     "encoding",
-    "The encoding to be used for decoding the byte string (default is utf-8)"
-  )
+    "The encoding to be used for decoding the byte string (default is utf-8)")
 
   def setEncoding(value: String): this.type = set(this.encoding, value)
 
   val cleanPrefixPattern = new Param[String](
     this,
     "cleanPrefixPattern",
-    "The pattern for the prefix. Can be a simple string or a regex pattern."
-  )
+    "The pattern for the prefix. Can be a simple string or a regex pattern.")
 
   def setCleanPrefixPattern(value: String): this.type = set(this.cleanPrefixPattern, value)
 
   val cleanPostfixPattern = new Param[String](
     this,
     "cleanPostfixPattern",
-    "The pattern for the postfix. Can be a simple string or a regex pattern."
-  )
+    "The pattern for the postfix. Can be a simple string or a regex pattern.")
 
   def setCleanPostfixPattern(value: String): this.type = set(this.cleanPrefixPattern, value)
 
   /** cleanerMode can take the following values:
-   * - `bytes_string_to_string`: Converts a string representation of a byte string (e.g., containing escape sequences) to an Annotation structure using the specified encoding.
-   *
-   * */
+    *   - `bytes_string_to_string`: Converts a string representation of a byte string (e.g.,
+    *     containing escape sequences) to an Annotation structure using the specified encoding.
+    */
   val cleanerMode: Param[String] = new Param[String](
     this,
     "cleanerMode",
@@ -91,59 +88,38 @@ class Cleaner(override val uid: String) extends MarianTransformer {
     set(this.cleanerMode, value)
   }
 
-  val extraWhitespace = new Param[Boolean](
-    this,
-    "extraWhitespace",
-    "Whether to remove extra whitespace."
-  )
+  val extraWhitespace =
+    new Param[Boolean](this, "extraWhitespace", "Whether to remove extra whitespace.")
 
   def setExtraWhitespace(value: Boolean): this.type = set(this.extraWhitespace, value)
 
-  val dashes = new Param[Boolean](
-    this,
-    "dashes",
-    "Whether to handle dashes in text."
-  )
+  val dashes = new Param[Boolean](this, "dashes", "Whether to handle dashes in text.")
 
   def setDashes(value: Boolean): this.type = set(this.dashes, value)
 
-  val bullets = new Param[Boolean](
-    this,
-    "bullets",
-    "Whether to handle bullets in text."
-  )
+  val bullets = new Param[Boolean](this, "bullets", "Whether to handle bullets in text.")
 
   def setBullets(value: Boolean): this.type = set(this.bullets, value)
 
   val trailingPunctuation = new Param[Boolean](
     this,
     "trailingPunctuation",
-    "Whether to remove trailing punctuation from text."
-  )
+    "Whether to remove trailing punctuation from text.")
 
   def setTrailingPunctuation(value: Boolean): this.type = set(this.trailingPunctuation, value)
 
-  val lowercase = new Param[Boolean](
-    this,
-    "lowercase",
-    "Whether to convert text to lowercase."
-  )
+  val lowercase = new Param[Boolean](this, "lowercase", "Whether to convert text to lowercase.")
 
   def setLowercase(value: Boolean): this.type = set(this.lowercase, value)
 
-  val ignoreCase = new Param[Boolean](
-    this,
-    "ignoreCase",
-    "If true, ignores case in the pattern."
-  )
+  val ignoreCase = new Param[Boolean](this, "ignoreCase", "If true, ignores case in the pattern.")
 
   def setIgnoreCase(value: Boolean): this.type = set(this.ignoreCase, value)
 
   val strip = new Param[Boolean](
     this,
     "strip",
-    "If true, removes leading or trailing whitespace from the cleaned string."
-  )
+    "If true, removes leading or trailing whitespace from the cleaned string.")
 
   def setStrip(value: Boolean): this.type = set(this.strip, value)
 
@@ -156,8 +132,7 @@ class Cleaner(override val uid: String) extends MarianTransformer {
     lowercase -> false,
     ignoreCase -> false,
     strip -> true,
-    cleanerMode -> "translate"
-  )
+    cleanerMode -> "translate")
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     require($(cleanerMode) != "undefined", "Extractor mode must be set.")
@@ -169,13 +144,16 @@ class Cleaner(override val uid: String) extends MarianTransformer {
     batchedAnnotations.map { annotations =>
       $(cleanerMode) match {
         case "clean" => annotations.map(buildAnnotation(clean)).toSeq
-        case "bytes_string_to_string" => annotations.map(buildAnnotation(bytesStringToString)).toSeq
+        case "bytes_string_to_string" =>
+          annotations.map(buildAnnotation(bytesStringToString)).toSeq
         case "clean_non_ascii_chars" => annotations.map(buildAnnotation(cleanNonAsciiChars)).toSeq
-        case "clean_ordered_bullets" => annotations.map(buildAnnotation(cleanOrderedBullets)).toSeq
+        case "clean_ordered_bullets" =>
+          annotations.map(buildAnnotation(cleanOrderedBullets)).toSeq
         case "clean_postfix" => annotations.map(buildAnnotation(cleanPostfix)).toSeq
         case "clean_prefix" => annotations.map(buildAnnotation(cleanPrefix)).toSeq
         case "remove_punctuation" => annotations.map(buildAnnotation(removePunctuation)).toSeq
-        case "replace_unicode_characters" => annotations.map(buildAnnotation(replaceUnicodeCharacters)).toSeq
+        case "replace_unicode_characters" =>
+          annotations.map(buildAnnotation(replaceUnicodeCharacters)).toSeq
       }
     }
   }
@@ -187,17 +165,17 @@ class Cleaner(override val uid: String) extends MarianTransformer {
       begin = 0,
       end = cleanText.length,
       result = cleanText,
-      metadata = Map()
-    )
+      metadata = Map())
   }
 
-  /**
-   * Converts a string representation of a byte string (e.g., containing escape sequences)
-   * to an Annotation structure using the specified encoding.
-   *
-   * @param text The string representation of the byte string.
-   * @return The String containing the decoded result
-   */
+  /** Converts a string representation of a byte string (e.g., containing escape sequences) to an
+    * Annotation structure using the specified encoding.
+    *
+    * @param text
+    *   The string representation of the byte string.
+    * @return
+    *   The String containing the decoded result
+    */
   private def bytesStringToString(text: String): String = {
     CleanerHelper.bytesStringToString(text, $(encoding))
   }
@@ -205,7 +183,8 @@ class Cleaner(override val uid: String) extends MarianTransformer {
   private def clean(text: String): String = {
 
     var cleanedText = if ($(lowercase)) text.toLowerCase else text
-    cleanedText = if ($(trailingPunctuation)) cleanTrailingPunctuation(cleanedText) else cleanedText
+    cleanedText =
+      if ($(trailingPunctuation)) cleanTrailingPunctuation(cleanedText) else cleanedText
     cleanedText = if ($(dashes)) cleanDashes(cleanedText) else cleanedText
     cleanedText = if ($(extraWhitespace)) cleanExtraWhitespace(cleanedText) else cleanedText
     cleanedText = if ($(bullets)) cleanBullets(cleanedText) else cleanedText
@@ -213,22 +192,24 @@ class Cleaner(override val uid: String) extends MarianTransformer {
     cleanedText.trim
   }
 
-  /**
-   * Cleans a prefix from a string based on a pattern.
-   *
-   * @param text The text to clean.
-   * @return The cleaned string.
-   */
+  /** Cleans a prefix from a string based on a pattern.
+    *
+    * @param text
+    *   The text to clean.
+    * @return
+    *   The cleaned string.
+    */
   private def cleanPrefix(text: String): String = {
     CleanerHelper.cleanPrefix(text, $(cleanPrefixPattern), $(ignoreCase), $(strip))
   }
 
-  /**
-   * Cleans a postfix from a string based on a pattern.
-   *
-   * @param text The text to clean.
-   * @return The cleaned string.
-   */
+  /** Cleans a postfix from a string based on a pattern.
+    *
+    * @param text
+    *   The text to clean.
+    * @return
+    *   The cleaned string.
+    */
   private def cleanPostfix(text: String): String = {
     CleanerHelper.cleanPostfix(text, $(cleanPrefixPattern), $(ignoreCase), $(strip))
   }
@@ -236,6 +217,6 @@ class Cleaner(override val uid: String) extends MarianTransformer {
 }
 
 object Cleaner
-  extends ReadablePretrainedMarianMTModel
+    extends ReadablePretrainedMarianMTModel
     with ReadMarianMTDLModel
     with ReadSentencePieceModel

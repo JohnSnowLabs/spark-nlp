@@ -496,9 +496,7 @@ private[johnsnowlabs] class DistilBertClassification(
     val segmentTensors = OnnxTensor.createTensor(ortEnv, tokenTypeIds)
 
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val output = ortSession.run(inputs)

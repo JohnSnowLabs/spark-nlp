@@ -490,9 +490,7 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     val maskTensors = OnnxTensor.createTensor(ortEnv, attentionMask)
 
     val inputs =
-      Map(
-        "input_ids" -> tokenTensors,
-        "attention_mask" -> maskTensors).asJava
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
     try {
       val output = ortSession.run(inputs)

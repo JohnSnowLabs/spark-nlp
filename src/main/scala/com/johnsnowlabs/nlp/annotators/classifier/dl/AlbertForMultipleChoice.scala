@@ -37,82 +37,82 @@ import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** AlbertForMultipleChoice can load ALBERT Models with a multiple choice classification head on top
- * (a linear layer on top of the pooled output and a softmax) e.g. for RocStories/SWAG tasks.
- *
- * Pretrained models can be loaded with `pretrained` of the companion object:
- * {{{
- * val spanClassifier = AlbertForMultipleChoice.pretrained()
- *   .setInputCols(Array("document_question", "document_context"))
- *   .setOutputCol("answer")
- * }}}
- * The default model is `"albert_base_uncased_multiple_choice"`, if no name is provided.
- *
- * For available pretrained models please see the
- * [[https://sparknlp.org/models?task=Multiple+Choice Models Hub]].
- *
- * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
- * see which models are compatible and how to import them see
- * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
- * examples, see
- * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForMultipleChoiceTestSpec.scala AlbertForMultipleChoiceTestSpec]].
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base._
- * import com.johnsnowlabs.nlp.annotator._
- * import org.apache.spark.ml.Pipeline
- *
- * val document = new MultiDocumentAssembler()
- *   .setInputCols("question", "context")
- *   .setOutputCols("document_question", "document_context")
- *
- * val questionAnswering = AlbertForMultipleChoice.pretrained()
- *   .setInputCols(Array("document_question", "document_context"))
- *   .setOutputCol("answer")
- *   .setCaseSensitive(false)
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   document,
- *   questionAnswering
- * ))
- *
- * val data = Seq("The Eiffel Tower is located in which country?", "Germany, France, Italy").toDF("question", "context")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.select("answer.result").show(false)
- * +---------------------+
- * |result               |
- * +---------------------+
- * |[France]              |
- * ++--------------------+
- * }}}
- *
- * @see
- *   [[AlbertForQuestionAnswering]] for Question Answering tasks
- * @see
- *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
- *   based classifiers
- * @param uid
- *   required uid for storing annotator to disk
- * @groupname anno Annotator types
- * @groupdesc anno
- *   Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param
- *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
- *   parameter values through setters and getters, respectively.
- */
+/** AlbertForMultipleChoice can load ALBERT Models with a multiple choice classification head on
+  * top (a linear layer on top of the pooled output and a softmax) e.g. for RocStories/SWAG tasks.
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
+  * {{{
+  * val spanClassifier = AlbertForMultipleChoice.pretrained()
+  *   .setInputCols(Array("document_question", "document_context"))
+  *   .setOutputCol("answer")
+  * }}}
+  * The default model is `"albert_base_uncased_multiple_choice"`, if no name is provided.
+  *
+  * For available pretrained models please see the
+  * [[https://sparknlp.org/models?task=Multiple+Choice Models Hub]].
+  *
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
+  * examples, see
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForMultipleChoiceTestSpec.scala AlbertForMultipleChoiceTestSpec]].
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.base._
+  * import com.johnsnowlabs.nlp.annotator._
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val document = new MultiDocumentAssembler()
+  *   .setInputCols("question", "context")
+  *   .setOutputCols("document_question", "document_context")
+  *
+  * val questionAnswering = AlbertForMultipleChoice.pretrained()
+  *   .setInputCols(Array("document_question", "document_context"))
+  *   .setOutputCol("answer")
+  *   .setCaseSensitive(false)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   document,
+  *   questionAnswering
+  * ))
+  *
+  * val data = Seq("The Eiffel Tower is located in which country?", "Germany, France, Italy").toDF("question", "context")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.select("answer.result").show(false)
+  * +---------------------+
+  * |result               |
+  * +---------------------+
+  * |[France]              |
+  * ++--------------------+
+  * }}}
+  *
+  * @see
+  *   [[AlbertForQuestionAnswering]] for Question Answering tasks
+  * @see
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based classifiers
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
 
 class AlbertForMultipleChoice(override val uid: String)
     extends AnnotatorModel[AlbertForMultipleChoice]
@@ -121,21 +121,22 @@ class AlbertForMultipleChoice(override val uid: String)
     with WriteOnnxModel
     with WriteOpenvinoModel
     with WriteSentencePieceModel
-  with HasCaseSensitiveProperties
-  with HasEngine {
+    with HasCaseSensitiveProperties
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-   * type
-   */
+    * type
+    */
   def this() = this(Identifiable.randomUID("AlbertForMultipleChoice"))
 
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT)
+  override val inputAnnotatorTypes: Array[AnnotatorType] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CHUNK
 
   /** Max sentence length to process (Default: `128`)
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val maxSentenceLength =
     new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
@@ -161,11 +162,11 @@ class AlbertForMultipleChoice(override val uid: String)
 
   /** @group setParam */
   def setModelIfNotSet(
-                        spark: SparkSession,
-                        tensorflowWrapper: Option[TensorflowWrapper],
-                        onnxWrapper: Option[OnnxWrapper],
-                        openvinoWrapper: Option[OpenvinoWrapper],
-                        spp: SentencePieceWrapper): AlbertForMultipleChoice = {
+      spark: SparkSession,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper],
+      openvinoWrapper: Option[OpenvinoWrapper],
+      spp: SentencePieceWrapper): AlbertForMultipleChoice = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -174,10 +175,7 @@ class AlbertForMultipleChoice(override val uid: String)
             onnxWrapper,
             openvinoWrapper,
             spp,
-            tags = Map.empty[String, Int],
-            )
-        )
-      )
+            tags = Map.empty[String, Int])))
     }
 
     this
@@ -187,31 +185,30 @@ class AlbertForMultipleChoice(override val uid: String)
   def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `false`).
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
 
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 128,
     caseSensitive -> false,
-    choicesDelimiter -> ","
-  )
+    choicesDelimiter -> ",")
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
-   * type
-   *
-   * @param batchedAnnotations
-   * Annotations in batches that correspond to inputAnnotationCols generated by previous
-   * annotators if any
-   * @return
-   * any number of annotations processed for every batch of input annotations. Not necessary
-   * one to one relationship
-   *
-   * IMPORTANT: !MUST! return sequences of equal lengths !! IMPORTANT: !MUST! return sentences
-   * that belong to the same original row !! (challenging)
-   */
+    * type
+    *
+    * @param batchedAnnotations
+    *   Annotations in batches that correspond to inputAnnotationCols generated by previous
+    *   annotators if any
+    * @return
+    *   any number of annotations processed for every batch of input annotations. Not necessary
+    *   one to one relationship
+    *
+    * IMPORTANT: !MUST! return sequences of equal lengths !! IMPORTANT: !MUST! return sentences
+    * that belong to the same original row !! (challenging)
+    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map(annotations => {
       if (annotations.nonEmpty) {
@@ -261,7 +258,7 @@ class AlbertForMultipleChoice(override val uid: String)
 }
 
 trait ReadablePretrainedAlbertForMultipleChoiceModel
-  extends ParamsAndFeaturesReadable[AlbertForMultipleChoice]
+    extends ParamsAndFeaturesReadable[AlbertForMultipleChoice]
     with HasPretrained[AlbertForMultipleChoice] {
   override val defaultModelName: Some[String] = Some("albert_base_uncased_multiple_choice")
 
@@ -273,7 +270,10 @@ trait ReadablePretrainedAlbertForMultipleChoiceModel
   override def pretrained(name: String, lang: String): AlbertForMultipleChoice =
     super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): AlbertForMultipleChoice =
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): AlbertForMultipleChoice =
     super.pretrained(name, lang, remoteLoc)
 }
 
@@ -348,9 +348,9 @@ trait ReadAlbertForMultipleChoiceModel
   }
 }
 
-/** This is the companion object of [[AlbertForMultipleChoice]]. Please refer to that class for the
- * documentation.
- */
+/** This is the companion object of [[AlbertForMultipleChoice]]. Please refer to that class for
+  * the documentation.
+  */
 object AlbertForMultipleChoice
-  extends ReadablePretrainedAlbertForMultipleChoiceModel
+    extends ReadablePretrainedAlbertForMultipleChoiceModel
     with ReadAlbertForMultipleChoiceModel
