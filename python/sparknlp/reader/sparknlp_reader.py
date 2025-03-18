@@ -272,6 +272,9 @@ class SparkNLPReader(ExtendedJavaWrapper):
         if not isinstance(pdfPath, str):
             raise TypeError("docPath must be a string")
         jdf = self._java_obj.pdf(pdfPath)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
+
     def xls(self, docPath):
         """Reads excel document files and returns a Spark DataFrame.
 
