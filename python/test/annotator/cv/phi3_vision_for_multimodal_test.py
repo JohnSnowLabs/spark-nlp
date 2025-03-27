@@ -34,7 +34,7 @@ class Phi3VisionTestSetup(unittest.TestCase):
 
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
-        imageClassifier = Phi3Vision.loadSavedModel("/home/prabod/Projects/spark-nlp/examples/python/transformers/openvino/model/openvino/INT4", self.spark) \
+        imageClassifier = Phi3Vision.pretrained() \
             .setInputCols("image_assembler") \
             .setOutputCol("answer")
 
