@@ -23,8 +23,8 @@ Pretrained BartTransformer, adapted from Hugging Face and curated to provide sca
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_base_aeslc_705525_aktsvigun_pipeline_en_5.5.1_3.0_1743207906869.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_base_aeslc_705525_aktsvigun_pipeline_en_5.5.1_3.0_1743207906869.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_base_aeslc_705525_aktsvigun_pipeline_en_5.5.1_3.0_1743223084709.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_base_aeslc_705525_aktsvigun_pipeline_en_5.5.1_3.0_1743223084709.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -61,7 +61,7 @@ val annotations = pipeline.transform(df)
 
 ## References
 
-https://huggingface.co/Aktsvigun/bart-base-aeslc-705525
+https://huggingface.co/Aktsvigun/bart-base_aeslc_705525
 
 ## Included Models
 
