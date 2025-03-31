@@ -7,6 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 import ImageResizeUtils.resizeBufferedImage
 
 private[johnsnowlabs] object SmolVLMUtils {
+  val MAX_IMAGE_SIZE = 4096
 
   def resizeImage(image: BufferedImage, width: Int, height: Int): BufferedImage = {
     val resizedImage = new BufferedImage(width, height, image.getType)
@@ -124,7 +125,7 @@ private[johnsnowlabs] object SmolVLMUtils {
   def getResizeOutputImageSize(
       image: BufferedImage,
       resolutionMaxSide: Int,
-      maxImageSize: Int): ImageSize = {
+      maxImageSize: Int = MAX_IMAGE_SIZE): ImageSize = {
     val height = image.getHeight
     val width = image.getWidth
 
@@ -171,4 +172,168 @@ private[johnsnowlabs] object SmolVLMUtils {
 
     mask
   }
+
+  def resizeWithLongestEdge(
+      image: BufferedImage,
+      longestEdge: Int,
+      resample: Int = 2): BufferedImage = {
+    val outputSize = getResizeOutputImageSize(image, longestEdge)
+    resizeBufferedImage(outputSize.width, outputSize.height, resample)(image)
+  }
+
+  def resizeForVisionEncoder(
+      image: BufferedImage,
+      visionEncoderMaxSize: Int,
+      resample: Int = 2): BufferedImage = {
+    val height = image.getHeight
+    val width = image.getWidth
+    val aspectRatio = width.toDouble / height
+
+    val (newHeight, newWidth) = if (width >= height) {
+      val newWidth = math.ceil(width.toDouble / visionEncoderMaxSize).toInt * visionEncoderMaxSize
+      val newHeight = (newWidth / aspectRatio).toInt
+      val finalHeight =
+        math.ceil(newHeight.toDouble / visionEncoderMaxSize).toInt * visionEncoderMaxSize
+      (finalHeight, newWidth)
+    } else {
+      val newHeight =
+        math.ceil(height.toDouble / visionEncoderMaxSize).toInt * visionEncoderMaxSize
+      val newWidth = (newHeight * aspectRatio).toInt
+      val finalWidth =
+        math.ceil(newWidth.toDouble / visionEncoderMaxSize).toInt * visionEncoderMaxSize
+      (newHeight, finalWidth)
+    }
+
+    // Use our existing resize method with the calculated dimensions
+    resizeBufferedImage(newWidth, newHeight, resample)(image)
+  }
+
+  case class BatchFeature(
+      paddedImages: Seq[Seq[Array[Array[Array[Float]]]]],
+      pixelMasks: Option[Seq[Seq[Array[Array[Int]]]]] = None)
+
+  private def getMaxHeightWidth(imagesList: Seq[Seq[Array[Array[Array[Float]]]]]): ImageSize = {
+    var maxHeight = Int.MinValue
+    var maxWidth = Int.MinValue
+
+    for (images <- imagesList) {
+      for (image <- images) {
+        val height = image.length
+        val width = image(0).length
+        maxHeight = math.max(height, maxHeight)
+        maxWidth = math.max(width, maxWidth)
+      }
+    }
+
+    ImageSize(maxHeight, maxWidth)
+  }
+
+  private def makePixelMask(image: Array[Array[Array[Float]]], outputSize: ImageSize): Array[Array[Int]] = {
+    val inputHeight = image.length
+    val inputWidth = image(0).length
+
+    // Create a 2D array filled with zeros
+    val mask = Array.ofDim[Int](outputSize.height, outputSize.width)
+
+    // Fill the valid region with ones
+    for (y <- 0 until math.min(inputHeight, outputSize.height)) {
+      for (x <- 0 until math.min(inputWidth, outputSize.width)) {
+        mask(y)(x) = 1
+      }
+    }
+
+    mask
+  }
+
+  private def padImage(
+      image: Array[Array[Array[Float]]],
+      outputSize: ImageSize,
+      constantValue: Float = 0f
+  ): Array[Array[Array[Float]]] = {
+    val inputHeight = image.length
+    val inputWidth = image(0).length
+    val outputHeight = outputSize.height
+    val outputWidth = outputSize.width
+    val numChannels = image(0)(0)(0).length
+
+    // Create a new array with the output size
+    val paddedImage = Array.ofDim[Float](outputHeight, outputWidth, numChannels)
+
+    // Fill with constant value
+    for (y <- 0 until outputHeight) {
+      for (x <- 0 until outputWidth) {
+        for (c <- 0 until numChannels) {
+          paddedImage(y)(x)(c) = constantValue
+        }
+      }
+    }
+
+    // Copy the original image
+    for (y <- 0 until math.min(inputHeight, outputHeight)) {
+      for (x <- 0 until math.min(inputWidth, outputWidth)) {
+        for (c <- 0 until numChannels) {
+          paddedImage(y)(x)(c) = image(y)(x)(c)
+        }
+      }
+    }
+
+    paddedImage
+  }
+
+  def pad(
+      images: Seq[Seq[Array[Array[Array[Float]]]]],
+      constantValue: Float = 0f,
+      returnPixelMask: Boolean = true): BatchFeature = {
+    // Get the maximum dimensions across all images
+    val padSize = getMaxHeightWidth(images)
+
+    // Get batch dimensions
+    val batchSize = images.size
+    val maxNumImages = images.map(_.size).max
+    val numChannels = images(0)(0)(0)(0).length
+
+    // Create empty padded images and masks
+    val paddedImages = Array.ofDim[Array[Array[Array[Float]]]](batchSize, maxNumImages)
+    val pixelMasks = if (returnPixelMask) Some(Array.ofDim[Array[Array[Int]]](batchSize, maxNumImages)) else None
+
+    // Process each batch and image
+    for (batchIdx <- 0 until batchSize) {
+      for (sampleIdx <- 0 until maxNumImages) {
+        if (sampleIdx < images(batchIdx).size) {
+          // Pad the actual image
+          paddedImages(batchIdx)(sampleIdx) = padImage(
+            images(batchIdx)(sampleIdx),
+            padSize,
+            constantValue
+          )
+
+          // Create pixel mask if requested
+          if (returnPixelMask) {
+            pixelMasks.get(batchIdx)(sampleIdx) = makePixelMask(
+              images(batchIdx)(sampleIdx),
+              padSize
+            )
+          }
+        } else {
+          // Create empty image for padding
+          paddedImages(batchIdx)(sampleIdx) = Array.ofDim[Float](
+            padSize.height,
+            padSize.width,
+            numChannels
+          )
+
+          // Create empty mask if requested
+          if (returnPixelMask) {
+            pixelMasks.get(batchIdx)(sampleIdx) = Array.ofDim[Int](padSize.height, padSize.width)
+          }
+        }
+      }
+    }
+
+    BatchFeature(
+      paddedImages = paddedImages.map(_.toSeq).toSeq,
+      pixelMasks = pixelMasks.map(_.map(_.toSeq).toSeq)
+    )
+  }
+
 }
