@@ -105,8 +105,8 @@ class PartitionHtmlTesSpec(unittest.TestCase):
 class PartitionUrlTesSpec(unittest.TestCase):
 
     def runTest(self):
-        url_df = Partition().partition("https://www.wikipedia.org")
-        urls_df = Partition().partition(["https://www.wikipedia.org", "https://example.com/"])
+        url_df = Partition().partition("https://www.wikipedia.org", headers={"User-Agent": "Mozilla/5.0"})
+        urls_df = Partition().partition_urls(["https://www.wikipedia.org", "https://example.com/"])
 
         self.assertTrue(url_df.select("html").count() > 0)
         self.assertTrue(urls_df.select("html").count() > 0)

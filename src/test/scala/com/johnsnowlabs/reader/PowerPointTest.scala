@@ -17,7 +17,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PowerPointTest extends AnyFlatSpec {
@@ -58,6 +58,19 @@ class PowerPointTest extends AnyFlatSpec {
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(pptDf.columns.contains("content"))
+  }
+
+  it should "reax pptx file with tables including HTML form" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader(inferTableStructure = true)
+    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
+    val htmlDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === "HTML")
+    pptDf.select("ppt").show(false)
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(!pptDf.columns.contains("content"))
+    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
   }
 
 }
