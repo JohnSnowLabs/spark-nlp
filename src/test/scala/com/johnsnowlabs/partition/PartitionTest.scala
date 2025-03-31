@@ -122,7 +122,8 @@ class PartitionTest extends AnyFlatSpec {
   }
 
   it should "work with a set of URLS" in {
-    val htmlDf = Partition().partition(Array("https://www.wikipedia.org", "https://example.com/"))
+    val htmlDf =
+      Partition().partition_urls(Array("https://www.wikipedia.org", "https://example.com/"))
     htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)

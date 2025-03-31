@@ -18,6 +18,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.PptParser
+import com.johnsnowlabs.reader.util.PptParser.{RichHSLFSlide, RichXSLFSlide}
 import org.apache.poi.hslf.usermodel.HSLFSlideShow
 import org.apache.poi.xslf.usermodel.XMLSlideShow
 import org.apache.spark.sql.DataFrame
@@ -26,7 +27,8 @@ import org.apache.spark.sql.functions.{col, udf}
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 
-class PowerPointReader(storeContent: Boolean = false) extends Serializable {
+class PowerPointReader(storeContent: Boolean = false, inferTableStructure: Boolean = false)
+    extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -86,7 +88,7 @@ class PowerPointReader(storeContent: Boolean = false) extends Serializable {
     val slides = ppt.getSlides
 
     val elements = slides.asScala.flatMap { slide =>
-      PptParser.extractHSLFSlideContent(slide)
+      slide.extractHSLFSlideContent
     }
     ppt.close()
     elements
@@ -97,7 +99,7 @@ class PowerPointReader(storeContent: Boolean = false) extends Serializable {
     val slides = pptx.getSlides
 
     val elements = slides.asScala.flatMap { slide =>
-      PptParser.extractXSLFSlideContent(slide)
+      slide.extractXSLFSlideContent(inferTableStructure)
     }
     pptx.close()
     elements

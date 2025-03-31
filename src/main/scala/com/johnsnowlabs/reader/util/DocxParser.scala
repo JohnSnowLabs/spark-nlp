@@ -15,7 +15,13 @@
  */
 package com.johnsnowlabs.reader.util
 
-import org.apache.poi.xwpf.usermodel.{ParagraphAlignment, XWPFDocument, XWPFParagraph, XWPFRun}
+import org.apache.poi.xwpf.usermodel.{
+  ParagraphAlignment,
+  XWPFDocument,
+  XWPFParagraph,
+  XWPFRun,
+  XWPFTable
+}
 
 import scala.collection.JavaConverters._
 
@@ -101,36 +107,58 @@ object DocxParser {
 
   }
 
-  def extractHeaders(document: XWPFDocument): Seq[String] = {
-    val headerFooterPolicy = Option(document.getHeaderFooterPolicy)
-    headerFooterPolicy.toSeq.flatMap { policy =>
-      Seq(
-        Option(policy.getDefaultHeader),
-        Option(policy.getFirstPageHeader),
-        Option(policy.getEvenPageHeader)).flatten
-        .flatMap { header =>
-          header.getParagraphs.asScala.map { paragraph =>
-            paragraph.getText.trim
+  implicit class RichXWPFDocument(document: XWPFDocument) {
+
+    def extractHeaders: Seq[String] = {
+      val headerFooterPolicy = Option(document.getHeaderFooterPolicy)
+      headerFooterPolicy.toSeq.flatMap { policy =>
+        Seq(
+          Option(policy.getDefaultHeader),
+          Option(policy.getFirstPageHeader),
+          Option(policy.getEvenPageHeader)).flatten
+          .flatMap { header =>
+            header.getParagraphs.asScala.map { paragraph =>
+              paragraph.getText.trim
+            }
           }
-        }
-        .filter(_.nonEmpty)
+          .filter(_.nonEmpty)
+      }
+    }
+
+    def extractFooters: Seq[String] = {
+      val headerFooterPolicy = Option(document.getHeaderFooterPolicy)
+      headerFooterPolicy.toSeq.flatMap { policy =>
+        Seq(
+          Option(policy.getDefaultFooter),
+          Option(policy.getFirstPageFooter),
+          Option(policy.getEvenPageFooter)).flatten
+          .flatMap { footer =>
+            footer.getParagraphs.asScala.map { paragraph =>
+              paragraph.getText.trim
+            }
+          }
+          .filter(_.nonEmpty)
+      }
     }
   }
 
-  def extractFooters(document: XWPFDocument): Seq[String] = {
-    val headerFooterPolicy = Option(document.getHeaderFooterPolicy)
-    headerFooterPolicy.toSeq.flatMap { policy =>
-      Seq(
-        Option(policy.getDefaultFooter),
-        Option(policy.getFirstPageFooter),
-        Option(policy.getEvenPageFooter)).flatten
-        .flatMap { footer =>
-          footer.getParagraphs.asScala.map { paragraph =>
-            paragraph.getText.trim
-          }
+  implicit class RichXWPFTable(table: XWPFTable) {
+
+    def processAsHtml: String = {
+      val htmlRows = table.getRows.asScala.zipWithIndex
+        .map { case (row, rowIndex) =>
+          val cellsHtml = row.getTableCells.asScala
+            .map { cell =>
+              val cellText = cell.getText
+              if (rowIndex == 0) s"<th>$cellText</th>" else s"<td>$cellText</td>"
+            }
+            .mkString("")
+          s"<tr>$cellsHtml</tr>"
         }
-        .filter(_.nonEmpty)
+        .mkString("")
+      s"<table>$htmlRows</table>"
     }
+
   }
 
 }

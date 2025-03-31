@@ -18,10 +18,25 @@ class Partition(ExtendedJavaWrapper):
 
     def  __init__(self, **kwargs):
         self.spark = sparknlp.start()
-        params = dict(kwargs)
+        params = {}
+        for key, value in kwargs.items():
+            try:
+                params[key] = str(value)
+            except Exception as e:
+                raise ValueError(f"Invalid value for key '{key}': Cannot cast {type(value)} to string. Original error: {e}")
+
         super(Partition, self).__init__("com.johnsnowlabs.partition.Partition", params)
 
-    def partition(self, path):
-        jdf = self._java_obj.partition(path)
+    def partition(self, path, headers=None):
+        if headers is None:
+            headers = {}
+        jdf = self._java_obj.partition(path, headers)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
+
+    def partition_urls(self, path, headers=None):
+        if headers is None:
+            headers = {}
+        jdf = self._java_obj.partition_urls_java(path, headers)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe

@@ -1,8 +1,10 @@
 package com.johnsnowlabs.reader.util
 
-import org.apache.poi.ss.usermodel.{Cell, CellType, DateUtil, HorizontalAlignment, Row}
+import com.johnsnowlabs.reader.HTMLElement
+import org.apache.poi.ss.usermodel.{Cell, CellType, DateUtil, HorizontalAlignment, Row, Sheet}
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
 object XlsxParser {
 
@@ -44,6 +46,35 @@ object XlsxParser {
       }
     }
 
+  }
+
+  implicit class RichSheet(sheet: Sheet) {
+
+    def buildHtmlIfNeeded(elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+
+      val rowsHtml = sheet
+        .iterator()
+        .asScala
+        .flatMap { row =>
+          val cellsHtml = row
+            .cellIterator()
+            .asScala
+            .flatMap { cell =>
+              val cellValue = cell.getCellValue.trim
+              if (cellValue.nonEmpty) Some(s"<td>$cellValue</td>") else None
+            }
+            .mkString("")
+          if (cellsHtml.nonEmpty) Some(s"<tr>$cellsHtml</tr>") else None
+        }
+        .mkString("")
+
+      val sheetHtml = if (rowsHtml.nonEmpty) s"<table>$rowsHtml</table>" else ""
+      if (sheetHtml.nonEmpty) {
+        val htmlElement =
+          HTMLElement("HTML", sheetHtml, mutable.Map("SheetName" -> sheet.getSheetName))
+        elementsBuffer += htmlElement
+      }
+    }
   }
 
 }

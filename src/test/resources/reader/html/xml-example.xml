@@ -1,0 +1,7 @@
+<user>
+    <id>101</id>
+    <name>Jane Doe</name>
+    <email>jane.doe@example.com</email>
+    <verified>true</verified>
+    <age>29</age>
+</user>

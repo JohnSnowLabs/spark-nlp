@@ -21,7 +21,9 @@ import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
 
-class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashMap()) {
+class SparkNLPReader(
+    params: java.util.Map[String, String] = new java.util.HashMap(),
+    headers: java.util.Map[String, String] = new java.util.HashMap()) {
 
   /** Instantiates class to read HTML files.
     *
@@ -70,17 +72,29 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def html(htmlPath: String): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader = new HTMLReader(
+      getTitleFontSize,
+      getStoreContent,
+      getTimeout,
+      headers = headers.asScala.toMap)
     htmlReader.read(htmlPath)
   }
 
   def html(urls: Array[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader = new HTMLReader(
+      getTitleFontSize,
+      getStoreContent,
+      getTimeout,
+      headers = headers.asScala.toMap)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader = new HTMLReader(
+      getTitleFontSize,
+      getStoreContent,
+      getTimeout,
+      headers = headers.asScala.toMap)
     htmlReader.read(urls.asScala.toArray)
   }
 
@@ -103,6 +117,17 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
         case _: IllegalArgumentException => false
       }
     storeContent
+  }
+
+  private def getTimeout: Int = {
+    val timeout =
+      try {
+        params.asScala.getOrElse("timeout", "30").toInt
+      } catch {
+        case _: IllegalArgumentException => 30
+      }
+
+    timeout
   }
 
   /** Instantiates class to read email files.
@@ -207,7 +232,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def doc(docPath: String): DataFrame = {
-    val wordReader = new WordReader(getStoreContent)
+    val wordReader = new WordReader(getStoreContent, getIncludePageBreaks)
     wordReader.doc(docPath)
   }
 
@@ -321,7 +346,8 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def xls(docPath: String): DataFrame = {
-    val excelReader = new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent)
+    val excelReader =
+      new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent, getIncludePageBreaks)
     excelReader.xls(docPath)
   }
 
@@ -435,4 +461,13 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     titleLengthSize
   }
 
+  private def getIncludePageBreaks: Boolean = {
+    val includePageBreaks =
+      try {
+        params.asScala.getOrElse("includePageBreaks", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    includePageBreaks
+  }
 }
