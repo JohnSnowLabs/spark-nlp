@@ -23,9 +23,10 @@ import scala.collection.JavaConverters._
 
 class Partition(params: java.util.Map[String, String] = new java.util.HashMap()) {
 
-  private val sparkNLPReader = new SparkNLPReader(params)
-
-  def partition(path: String): DataFrame = {
+  def partition(
+      path: String,
+      headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
+    val sparkNLPReader = new SparkNLPReader(params, headers)
     if (isUrl(path)) {
       return sparkNLPReader.html(path)
     }
@@ -33,14 +34,16 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     val contentTypeOpt = Option(params.get("content_type"))
 
     val reader = contentTypeOpt match {
-      case Some(contentType) => getReaderByContentType(contentType)
-      case None => getReaderByExtension(path)
+      case Some(contentType) => getReaderByContentType(contentType, sparkNLPReader)
+      case None => getReaderByExtension(path, sparkNLPReader)
     }
 
     reader(path)
   }
 
-  private def getReaderByContentType(contentType: String): String => DataFrame = {
+  private def getReaderByContentType(
+      contentType: String,
+      sparkNLPReader: SparkNLPReader): String => DataFrame = {
     contentType match {
       case "text/plain" => sparkNLPReader.txt
       case "text/html" => sparkNLPReader.html
@@ -59,8 +62,9 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     }
   }
 
-  /** Selects the reader based on file extension */
-  private def getReaderByExtension(path: String): String => DataFrame = {
+  private def getReaderByExtension(
+      path: String,
+      sparkNLPReader: SparkNLPReader): String => DataFrame = {
     val extension = getFileExtension(path)
     extension match {
       case "txt" => sparkNLPReader.txt
@@ -74,13 +78,16 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     }
   }
 
-  def partition(urls: Array[String]): DataFrame = {
+  def partition_urls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
     if (urls.isEmpty) throw new IllegalArgumentException("URL array is empty")
+    val sparkNLPReader = new SparkNLPReader(params, headers.asJava)
     sparkNLPReader.html(urls)
   }
 
-  def partition(urls: java.util.List[String]): DataFrame = {
-    partition(urls.asScala.toArray)
+  def partition_urls_java(
+      urls: java.util.List[String],
+      headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
+    partition_urls(urls.asScala.toArray, headers.asScala.toMap)
   }
 
   private def getFileExtension(path: String): String = {

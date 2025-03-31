@@ -68,4 +68,14 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(htmlDF.columns.contains("content"))
   }
 
+  it should "work with headers" taggedAs FastTest in {
+    val HTMLReader =
+      new HTMLReader(headers = Map("User-Agent" -> "Mozilla/5.0", "Accept-Language" -> "es-ES"))
+    val htmlDF = HTMLReader.read("https://www.google.com")
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
+  }
+
 }
