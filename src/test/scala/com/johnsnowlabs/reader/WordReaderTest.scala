@@ -37,7 +37,7 @@ class WordReaderTest extends AnyFlatSpec {
   }
 
   "WordReader" should "read a docx file with page breaks" taggedAs FastTest in {
-    val wordReader = new WordReader()
+    val wordReader = new WordReader(includePageBreaks = true)
     val wordDf = wordReader.doc(s"$docDirectory/page-breaks.docx")
     wordDf.select("doc").show(false)
 
@@ -53,10 +53,14 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a docx file with tables" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/fake_table.docx")
+    val htmlDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === "HTML")
     wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
+    assert(htmlDf.count() == 0, "Expected no row with HTML element type")
   }
 
   "WordReader" should "read a docx file with images on it" taggedAs FastTest in {
@@ -75,6 +79,19 @@ class WordReaderTest extends AnyFlatSpec {
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(wordDf.columns.contains("content"))
+  }
+
+  it should "read docx file with tables including HTML form" taggedAs FastTest in {
+    val wordReader = new WordReader(inferTableStructure = true)
+    val wordDf = wordReader.doc(s"$docDirectory/fake_table.docx")
+    val htmlDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === "HTML")
+    wordDf.select("doc").show(false)
+
+    assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(!wordDf.columns.contains("content"))
+    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
   }
 
 }

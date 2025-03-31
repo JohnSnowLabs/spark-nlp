@@ -28,4 +28,5 @@ object ElementType {
   val LIST_ITEM = "ListItem"
   val HEADER = "Header"
   val FOOTER = "Footer"
+  val HTML = "HTML"
 }

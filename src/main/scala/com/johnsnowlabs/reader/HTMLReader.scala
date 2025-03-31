@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{col, lit, udf}
+import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element, Node, TextNode}
 
@@ -26,7 +26,12 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends Serializable {
+class HTMLReader(
+    titleFontSize: Int = 16,
+    storeContent: Boolean = false,
+    timeout: Int = 0,
+    headers: Map[String, String] = Map.empty)
+    extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -70,7 +75,11 @@ class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends
   })
 
   private val parseURLUDF = udf((url: String) => {
-    val document = Jsoup.connect(url).get()
+    val connection = Jsoup
+      .connect(url)
+      .headers(headers.asJava)
+      .timeout(timeout * 1000)
+    val document = connection.get()
     startTraversalFromBody(document)
   })
 
