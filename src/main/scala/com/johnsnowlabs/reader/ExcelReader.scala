@@ -17,10 +17,10 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.reader.util.XlsxParser.{RichCell, RichRow}
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import com.johnsnowlabs.reader.util.XlsxParser.{RichCell, RichRow, RichSheet}
+import org.apache.poi.hssf.usermodel.{HSSFSheet, HSSFWorkbook}
 import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.apache.poi.xssf.usermodel.{XSSFSheet, XSSFWorkbook}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
@@ -31,7 +31,9 @@ import scala.collection.mutable
 class ExcelReader(
     titleFontSize: Int = 9,
     cellSeparator: String = "\t",
-    storeContent: Boolean = false)
+    storeContent: Boolean = false,
+    includePageBreaks: Boolean = false,
+    inferTableStructure: Boolean = false)
     extends Serializable {
 
   private val spark = ResourceHelper.spark
@@ -82,47 +84,116 @@ class ExcelReader(
     val elementsBuffer = mutable.ArrayBuffer[HTMLElement]()
 
     for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
-      val sheet = workbook.getSheetAt(sheetIndex)
-      val sheetName = sheet.getSheetName
+      if (includePageBreaks)
+        buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer)
+      else
+        buildSheetContent(workbook, sheetIndex, elementsBuffer)
+    }
 
-      val rowIterator = sheet.iterator()
-      while (rowIterator.hasNext) {
-        val row = rowIterator.next()
-        val rowIndex = row.getRowNum
+    workbook.close()
+    elementsBuffer
+  }
 
-        val elementType =
-          if (row.isTitle(titleFontSize)) ElementType.TITLE else ElementType.NARRATIVE_TEXT
+  private def buildSheetContent(
+      workbook: Workbook,
+      sheetIndex: Int,
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+    val sheet = workbook.getSheetAt(sheetIndex)
+    val sheetName = sheet.getSheetName
 
-        val cellValuesWithMetadata = row
+    val rowIterator = sheet.iterator()
+    while (rowIterator.hasNext) {
+      val row = rowIterator.next()
+      val rowIndex = row.getRowNum
+
+      val elementType =
+        if (row.isTitle(titleFontSize)) ElementType.TITLE else ElementType.NARRATIVE_TEXT
+
+      val cellValuesWithMetadata = row
+        .cellIterator()
+        .asScala
+        .map { cell =>
+          val cellIndex = cell.getColumnIndex
+          val cellValue = cell.getCellValue.trim
+
+          val cellMetadata = mutable.Map(
+            "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})",
+            "SheetName" -> sheetName)
+          (cellValue, cellMetadata)
+        }
+        .toSeq
+
+      val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
+      val rowMetadata = cellValuesWithMetadata.flatMap(_._2).toMap
+
+      if (content.nonEmpty) {
+        val element = HTMLElement(
+          elementType = elementType,
+          content = content,
+          metadata = mutable.Map(rowMetadata.toSeq: _*))
+        elementsBuffer += element
+      }
+    }
+    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer)
+  }
+
+  private def buildSheetContentWithPageBreaks(
+      workbook: Workbook,
+      sheetIndex: Int,
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+    val sheet = workbook.getSheetAt(sheetIndex)
+    val sheetName = sheet.getSheetName
+
+    val colBreaks: Seq[Int] = sheet match {
+      case xssf: XSSFSheet =>
+        if (xssf.getCTWorksheet.isSetColBreaks)
+          xssf.getCTWorksheet.getColBreaks.getBrkList.asScala.map(_.getId.toInt).sorted
+        else Seq.empty[Int]
+      case hssf: HSSFSheet =>
+        Option(hssf.getColumnBreaks).map(_.toSeq).getOrElse(Seq.empty[Int])
+      case _ => Seq.empty[Int]
+    }
+
+    val rowIterator = sheet.iterator()
+    while (rowIterator.hasNext) {
+      val row = rowIterator.next()
+      val rowIndex = row.getRowNum
+
+      val elementType =
+        if (row.isTitle(titleFontSize)) ElementType.TITLE else ElementType.NARRATIVE_TEXT
+
+      val cellsByPage: Map[Int, Seq[org.apache.poi.ss.usermodel.Cell]] =
+        row
           .cellIterator()
           .asScala
-          .map { cell =>
-            val cellIndex = cell.getColumnIndex
-            val cellValue = cell.getCellValue.trim
-
-            val cellMetadata = mutable.Map(
-              "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})",
-              "SheetName" -> sheetName)
-            (cellValue, cellMetadata)
-          }
           .toSeq
+          .groupBy(cell => getPageNumberForCell(cell.getColumnIndex, colBreaks))
 
+      for ((page, cells) <- cellsByPage) {
+        val cellValuesWithMetadata = cells.map { cell =>
+          val cellIndex = cell.getColumnIndex
+          val cellValue = cell.getCellValue.trim
+          val cellMetadata =
+            mutable.Map("location" -> s"($rowIndex, $cellIndex)", "SheetName" -> sheetName)
+          (cellValue, cellMetadata)
+        }
         val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
-        val rowMetadata = cellValuesWithMetadata.flatMap(_._2).toMap
 
         if (content.nonEmpty) {
-          val element = HTMLElement(
-            elementType = elementType,
-            content = content,
-            metadata = mutable.Map(rowMetadata.toSeq: _*))
+          val rowMetadata = cellValuesWithMetadata.flatMap(_._2).toMap
+          val elementMetadata = mutable.Map(rowMetadata.toSeq: _*)
+          elementMetadata += ("pageBreak" -> page.toString)
+          val element =
+            HTMLElement(elementType = elementType, content = content, metadata = elementMetadata)
           elementsBuffer += element
         }
       }
     }
+    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer)
+  }
 
-    workbook.close()
-
-    elementsBuffer
+  private def getPageNumberForCell(cellIndex: Int, breaks: Seq[Int]): Int = {
+    breaks.count(break => cellIndex > break) + 1
   }
 
 }
