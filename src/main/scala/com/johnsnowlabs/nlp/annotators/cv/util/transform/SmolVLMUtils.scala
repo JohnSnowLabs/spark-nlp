@@ -140,21 +140,21 @@ private[johnsnowlabs] object SmolVLMUtils {
       maxLen = Some(maxImageSize))
   }
 
-  def getMaxHeightWidth(imagesList: Seq[Seq[BufferedImage]]): ImageSize = {
-    var maxHeight = Int.MinValue
-    var maxWidth = Int.MinValue
-
-    for (images <- imagesList) {
-      for (image <- images) {
-        val height = image.getHeight
-        val width = image.getWidth
-        maxHeight = math.max(height, maxHeight)
-        maxWidth = math.max(width, maxWidth)
-      }
-    }
-
-    ImageSize(maxHeight, maxWidth)
-  }
+//  def getMaxHeightWidth(imagesList: Seq[Seq[BufferedImage]]): ImageSize = {
+//    var maxHeight = Int.MinValue
+//    var maxWidth = Int.MinValue
+//
+//    for (images <- imagesList) {
+//      for (image <- images) {
+//        val height = image.getHeight
+//        val width = image.getWidth
+//        maxHeight = math.max(height, maxHeight)
+//        maxWidth = math.max(width, maxWidth)
+//      }
+//    }
+//
+//    ImageSize(maxHeight, maxWidth)
+//  }
 
   def makePixelMask(image: BufferedImage, outputSize: ImageSize): Array[Array[Int]] = {
     val inputHeight = image.getHeight
@@ -228,7 +228,9 @@ private[johnsnowlabs] object SmolVLMUtils {
     ImageSize(maxHeight, maxWidth)
   }
 
-  private def makePixelMask(image: Array[Array[Array[Float]]], outputSize: ImageSize): Array[Array[Int]] = {
+  private def makePixelMask(
+      image: Array[Array[Array[Float]]],
+      outputSize: ImageSize): Array[Array[Int]] = {
     val inputHeight = image.length
     val inputWidth = image(0).length
 
@@ -248,13 +250,12 @@ private[johnsnowlabs] object SmolVLMUtils {
   private def padImage(
       image: Array[Array[Array[Float]]],
       outputSize: ImageSize,
-      constantValue: Float = 0f
-  ): Array[Array[Array[Float]]] = {
+      constantValue: Float = 0f): Array[Array[Array[Float]]] = {
     val inputHeight = image.length
     val inputWidth = image(0).length
     val outputHeight = outputSize.height
     val outputWidth = outputSize.width
-    val numChannels = image(0)(0)(0).length
+    val numChannels = image(0)(0).length
 
     // Create a new array with the output size
     val paddedImage = Array.ofDim[Float](outputHeight, outputWidth, numChannels)
@@ -294,33 +295,26 @@ private[johnsnowlabs] object SmolVLMUtils {
 
     // Create empty padded images and masks
     val paddedImages = Array.ofDim[Array[Array[Array[Float]]]](batchSize, maxNumImages)
-    val pixelMasks = if (returnPixelMask) Some(Array.ofDim[Array[Array[Int]]](batchSize, maxNumImages)) else None
+    val pixelMasks =
+      if (returnPixelMask) Some(Array.ofDim[Array[Array[Int]]](batchSize, maxNumImages)) else None
 
     // Process each batch and image
     for (batchIdx <- 0 until batchSize) {
       for (sampleIdx <- 0 until maxNumImages) {
         if (sampleIdx < images(batchIdx).size) {
           // Pad the actual image
-          paddedImages(batchIdx)(sampleIdx) = padImage(
-            images(batchIdx)(sampleIdx),
-            padSize,
-            constantValue
-          )
+          paddedImages(batchIdx)(sampleIdx) =
+            padImage(images(batchIdx)(sampleIdx), padSize, constantValue)
 
           // Create pixel mask if requested
           if (returnPixelMask) {
-            pixelMasks.get(batchIdx)(sampleIdx) = makePixelMask(
-              images(batchIdx)(sampleIdx),
-              padSize
-            )
+            pixelMasks.get(batchIdx)(sampleIdx) =
+              makePixelMask(images(batchIdx)(sampleIdx), padSize)
           }
         } else {
           // Create empty image for padding
-          paddedImages(batchIdx)(sampleIdx) = Array.ofDim[Float](
-            padSize.height,
-            padSize.width,
-            numChannels
-          )
+          paddedImages(batchIdx)(sampleIdx) =
+            Array.ofDim[Float](padSize.height, padSize.width, numChannels)
 
           // Create empty mask if requested
           if (returnPixelMask) {
@@ -332,8 +326,76 @@ private[johnsnowlabs] object SmolVLMUtils {
 
     BatchFeature(
       paddedImages = paddedImages.map(_.toSeq).toSeq,
-      pixelMasks = pixelMasks.map(_.map(_.toSeq).toSeq)
-    )
+      pixelMasks = pixelMasks.map(_.map(_.toSeq).toSeq))
+  }
+
+  private def promptSplitImage(
+      imageSeqLen: Int,
+      imageRows: Int,
+      imageCols: Int,
+      fakeTokenAroundImage: String,
+      imageToken: String,
+      globalImageToken: String): String = {
+    val textSplitImages = new StringBuilder()
+
+    for (nH <- 0 until imageRows) {
+      for (nW <- 0 until imageCols) {
+        textSplitImages.append(fakeTokenAroundImage)
+        textSplitImages.append(s"<row_${nH + 1}_col_${nW + 1}>")
+//        textSplitImages.append(imageToken * imageSeqLen)
+        // repeat imageToken for imageSeqLen times
+        for (_ <- 0 until imageSeqLen) {
+          textSplitImages.append(imageToken)
+        }
+      }
+      textSplitImages.append("\n")
+    }
+
+    textSplitImages.append("\n")
+    textSplitImages.append(fakeTokenAroundImage)
+    textSplitImages.append(globalImageToken)
+    // repeat imageToken for imageSeqLen times
+    for (_ <- 0 until imageSeqLen) {
+      textSplitImages.append(imageToken)
+    }
+    textSplitImages.append(fakeTokenAroundImage)
+
+    textSplitImages.toString
+  }
+
+  private def promptSingleImage(
+      imageSeqLen: Int,
+      fakeTokenAroundImage: String,
+      imageToken: String,
+      globalImageToken: String): String = {
+    fakeTokenAroundImage +
+      globalImageToken +
+      (imageToken * imageSeqLen) +
+      fakeTokenAroundImage
+  }
+
+  def getImagePromptString(
+      imageRows: Int,
+      imageCols: Int,
+      imageSeqLen: Int,
+      fakeTokenAroundImage: String,
+      imageToken: String,
+      globalImageToken: String): String = {
+    if (imageRows == 0 && imageCols == 0) {
+      promptSingleImage(
+        imageSeqLen = imageSeqLen,
+        fakeTokenAroundImage = fakeTokenAroundImage,
+        imageToken = imageToken,
+        globalImageToken = globalImageToken)
+    } else {
+      promptSplitImage(
+        imageSeqLen = imageSeqLen,
+        imageRows = imageRows,
+        imageCols = imageCols,
+        fakeTokenAroundImage = fakeTokenAroundImage,
+        imageToken = imageToken,
+        globalImageToken = globalImageToken)
+    }
   }
 
 }
