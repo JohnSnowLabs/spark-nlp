@@ -18,6 +18,9 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+
+import scala.collection.mutable
 
 class TextReaderTest extends AnyFlatSpec {
 
@@ -39,6 +42,99 @@ class TextReaderTest extends AnyFlatSpec {
 
     assert(!textDf.select(col("txt").getItem(0)).isEmpty)
     assert(textDf.columns.contains("content"))
+  }
+
+  it should "group broken paragraphs" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+
+    val textReader = new TextReader(groupBrokenParagraphs = true)
+    val content =
+      """
+        |The big brown fox
+        |was walking down the lane.
+        |
+        |At the end of the lane,
+        |the fox met a bear.
+        |""".stripMargin
+    val textDf = textReader.txtContent(content)
+    textDf.show(truncate = false)
+
+    val elements: Seq[HTMLElement] = textDf
+      .select("txt")
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    val expectedElements = Seq(
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "The big brown fox was walking down the lane.",
+        mutable.Map("paragraph" -> "0")),
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "At the end of the lane, the fox met a bear.",
+        mutable.Map("paragraph" -> "0")))
+
+    assert(elements == expectedElements)
+  }
+
+  it should "group broken paragraphs reading from file" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+    val textReader = new TextReader(groupBrokenParagraphs = true)
+    val textDf = textReader.txt(s"$txtDirectory/test-paragraph.txt")
+    textDf.show(truncate = false)
+
+    val elements: Seq[HTMLElement] = textDf
+      .select("txt")
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    val expectedElements = Seq(
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "The big brown fox was walking down the lane.",
+        mutable.Map("paragraph" -> "0")),
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "At the end of the lane, the fox met a bear.",
+        mutable.Map("paragraph" -> "0")))
+
+    assert(elements == expectedElements)
+  }
+
+  it should "paragraph split with custom regex" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+    val textReader =
+      new TextReader(groupBrokenParagraphs = true, paragraphSplit = """(\s*\n\s*){3}""")
+    val content = """The big red fox
+
+is walking down the lane.
+
+
+At the end of the lane
+
+the fox met a friendly bear."""
+    val textDf = textReader.txtContent(content)
+    textDf.show(truncate = false)
+
+    val elements: Seq[HTMLElement] = textDf
+      .select("txt")
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    val expectedElements = Seq(
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "The big red fox is walking down the lane.",
+        mutable.Map("paragraph" -> "0")),
+      HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        "At the end of the lane the fox met a friendly bear.",
+        mutable.Map("paragraph" -> "0")))
+
+    assert(elements == expectedElements)
   }
 
 }

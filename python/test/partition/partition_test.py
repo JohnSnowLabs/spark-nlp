@@ -124,3 +124,21 @@ class PartitionPdfTesSpec(unittest.TestCase):
 
         self.assertTrue(pdf_df.select("text").count() > 0)
         self.assertTrue(pdf_file_df.select("text").count() > 0)
+
+@pytest.mark.fast
+class PartitionTextInMemoryTesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.raw_text = (
+            "The big brown fox\n"
+            "was walking down the lane.\n"
+            "\n"
+            "At the end of the lane,\n"
+            "the fox met a bear."
+        )
+
+    def runTest(self):
+        text_df = Partition(groupBrokenParagraphs=True).partition_text(text = self.raw_text )
+        text_df.show(truncate=False)
+
+        self.assertTrue(text_df.select("txt").count() > 0)
