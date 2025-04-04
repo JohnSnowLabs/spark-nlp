@@ -15,13 +15,23 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.udf
 
 import scala.collection.mutable
 
-class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) extends Serializable {
+class TextReader(
+    titleLengthSize: Int = 50,
+    storeContent: Boolean = false,
+    groupBrokenParagraphs: Boolean = false,
+    paragraphSplit: String = DOUBLE_PARAGRAPH_PATTERN,
+    shortLineWordThreshold: Int = 5,
+    maxLineCount: Int = 2000,
+    threshold: Double = 0.1)
+    extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -45,6 +55,13 @@ class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) exten
     }
   }
 
+  def txtContent(content: String): DataFrame = {
+    val df = spark.createDataFrame(Seq(("in-memory", content))).toDF("source", "content")
+    val textDf = df.withColumn("txt", parseTxtUDF($"content"))
+    if (storeContent) textDf.select("txt", "content")
+    else textDf.select("txt")
+  }
+
   private val parseTxtUDF = udf((text: String) => parseTxt(text))
 
   /** Parses the given text into a sequence of HTMLElements.
@@ -58,21 +75,33 @@ class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) exten
     *   - Omit any element with empty content.
     */
   private def parseTxt(text: String): Seq[HTMLElement] = {
-    val blocks = text.split("\\n\\n+").map(_.trim).filter(_.nonEmpty)
+    val processedText = if (groupBrokenParagraphs) {
+      TextParser.autoParagraphGrouper(
+        text,
+        paragraphSplit,
+        maxLineCount,
+        threshold,
+        shortLineWordThreshold)
+    } else {
+      text
+    }
+
+    // Split the processed text into blocks using two or more newlines.
+    val blocks = processedText.split("\\n\\n+").map(_.trim).filter(_.nonEmpty)
     val elements = mutable.ArrayBuffer[HTMLElement]()
     var i = 0
     while (i < blocks.length) {
       val currentBlock = blocks(i)
       if (isTitleCandidate(currentBlock)) {
         elements += HTMLElement(
-          "Title",
+          ElementType.TITLE,
           currentBlock,
           mutable.Map("paragraph" -> (i / 2).toString))
         if (i + 1 < blocks.length && !isTitleCandidate(blocks(i + 1))) {
           val narrative = blocks(i + 1)
           if (narrative.nonEmpty) {
             elements += HTMLElement(
-              "NarrativeText",
+              ElementType.NARRATIVE_TEXT,
               narrative,
               mutable.Map("paragraph" -> (i / 2).toString))
           }
@@ -82,7 +111,7 @@ class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) exten
         }
       } else {
         elements += HTMLElement(
-          "NarrativeText",
+          ElementType.NARRATIVE_TEXT,
           currentBlock,
           mutable.Map("paragraph" -> (i / 2).toString))
         i += 1

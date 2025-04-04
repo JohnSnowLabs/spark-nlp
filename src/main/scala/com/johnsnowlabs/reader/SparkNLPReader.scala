@@ -15,6 +15,8 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import org.apache.spark.ml.Pipeline
@@ -491,8 +493,27 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
   def txt(filePath: String): DataFrame = {
-    val textReader = new TextReader(getTitleLengthSize, getStoreContent)
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
     textReader.txt(filePath)
+  }
+
+  def txtContent(content: String): DataFrame = {
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
+    textReader.txtContent(content)
   }
 
   private def getTitleLengthSize: Int = {
@@ -515,4 +536,58 @@ class SparkNLPReader(
       }
     includePageBreaks
   }
+
+  private def getGroupBrokenParagraphs: Boolean = {
+    val groupBrokenParagraphs =
+      try {
+        params.asScala.getOrElse("groupBrokenParagraphs", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    groupBrokenParagraphs
+  }
+
+  private def getParagraphSplit: String = {
+    val paragraphSplit =
+      try {
+        params.asScala.getOrElse("paragraphSplit", DOUBLE_PARAGRAPH_PATTERN)
+      } catch {
+        case _: IllegalArgumentException => DOUBLE_PARAGRAPH_PATTERN
+      }
+    paragraphSplit
+  }
+
+  private def getShortLineWordThreshold: Int = {
+    val shortLineWordThreshold =
+      try {
+        params.asScala.getOrElse("shortLineWordThreshold", "5").toInt
+      } catch {
+        case _: IllegalArgumentException => 5
+      }
+
+    shortLineWordThreshold
+  }
+
+  private def getMaxLineCount: Int = {
+    val maxLineCount =
+      try {
+        params.asScala.getOrElse("maxLineCount", "2000").toInt
+      } catch {
+        case _: IllegalArgumentException => 2000
+      }
+
+    maxLineCount
+  }
+
+  private def getThreshold: Double = {
+    val threshold =
+      try {
+        params.asScala.getOrElse("threshold", "0.1").toDouble
+      } catch {
+        case _: IllegalArgumentException => 0.1
+      }
+
+    threshold
+  }
+
 }

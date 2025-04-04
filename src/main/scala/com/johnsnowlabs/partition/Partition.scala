@@ -78,16 +78,21 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     }
   }
 
-  def partition_urls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
+  def partitionUrls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
     if (urls.isEmpty) throw new IllegalArgumentException("URL array is empty")
     val sparkNLPReader = new SparkNLPReader(params, headers.asJava)
     sparkNLPReader.html(urls)
   }
 
-  def partition_urls_java(
+  def partitionUrlsJava(
       urls: java.util.List[String],
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
-    partition_urls(urls.asScala.toArray, headers.asScala.toMap)
+    partitionUrls(urls.asScala.toArray, headers.asScala.toMap)
+  }
+
+  def partitionText(text: String): DataFrame = {
+    val sparkNLPReader = new SparkNLPReader(params)
+    sparkNLPReader.txtContent(text)
   }
 
   private def getFileExtension(path: String): String = {
