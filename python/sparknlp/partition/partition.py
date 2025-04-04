@@ -37,6 +37,11 @@ class Partition(ExtendedJavaWrapper):
     def partition_urls(self, path, headers=None):
         if headers is None:
             headers = {}
-        jdf = self._java_obj.partition_urls_java(path, headers)
+        jdf = self._java_obj.partitionUrlsJava(path, headers)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
+
+    def partition_text(self, text):
+        jdf = self._java_obj.partitionText(text)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
