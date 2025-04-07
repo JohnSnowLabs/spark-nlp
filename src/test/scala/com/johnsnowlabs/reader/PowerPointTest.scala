@@ -27,10 +27,14 @@ class PowerPointTest extends AnyFlatSpec {
   "PowerPointReader" should "read a power point file" taggedAs FastTest in {
     val powerPointReader = new PowerPointReader()
     val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point.pptx")
+    val narrativeTextDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === ElementType.NARRATIVE_TEXT)
     pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
+    assert(narrativeTextDf.count() == 2)
   }
 
   "PowerPointReader" should "read a power point directory" taggedAs FastTest in {
@@ -65,12 +69,25 @@ class PowerPointTest extends AnyFlatSpec {
     val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
     val htmlDf = pptDf
       .withColumn("ppt_exploded", explode(col("ppt")))
-      .filter(col("ppt_exploded.elementType") === "HTML")
+      .filter(col("ppt_exploded.elementType") === ElementType.HTML)
     pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
     assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
+  }
+
+  it should "read speaker notes in a power point file" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader(includeSlideNotes = true)
+    val pptDf = powerPointReader.ppt(s"$docDirectory/speaker-notes.pptx")
+    pptDf.select("ppt").show(false)
+    val narrativeTextDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === ElementType.NARRATIVE_TEXT)
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(!pptDf.columns.contains("content"))
+    assert(narrativeTextDf.count() == 3)
   }
 
 }
