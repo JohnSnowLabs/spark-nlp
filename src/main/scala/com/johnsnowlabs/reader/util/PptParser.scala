@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader.util
 
 import com.johnsnowlabs.reader.{ElementType, HTMLElement}
 import org.apache.poi.hslf.usermodel.{HSLFSlide, HSLFTable, HSLFTextShape}
-import org.apache.poi.xslf.usermodel.{XSLFSlide, XSLFTable, XSLFTextShape}
+import org.apache.poi.xslf.usermodel.{XSLFNotes, XSLFSlide, XSLFTable, XSLFTextShape}
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -82,7 +82,9 @@ object PptParser {
 
   implicit class RichXSLFSlide(slide: XSLFSlide) {
 
-    def extractXSLFSlideContent(inferTableStructure: Boolean): Seq[HTMLElement] = {
+    def extractXSLFSlideContent(
+        inferTableStructure: Boolean,
+        includeSlideNotes: Boolean): Seq[HTMLElement] = {
       val title = Option(slide.getTitle).getOrElse("")
       val titleElement = if (title.nonEmpty) {
         Seq(
@@ -130,7 +132,9 @@ object PptParser {
         case _ => Seq()
       }
 
-      titleElement ++ content
+      val speakerNotes = if (includeSlideNotes) extractSpeakerNotes(slide.getNotes) else Seq()
+
+      speakerNotes ++ titleElement ++ content
     }
 
   }
@@ -148,6 +152,16 @@ object PptParser {
       }
       .mkString("")
     s"<table>$rowsHtml</table>"
+  }
+
+  private def extractSpeakerNotes(notes: XSLFNotes): Seq[HTMLElement] = {
+    notes.getShapes.asScala.collect {
+      case shape: XSLFTextShape if shape.getText != null && shape.getText.trim.nonEmpty =>
+        HTMLElement(
+          elementType = ElementType.NARRATIVE_TEXT,
+          content = shape.getText.trim,
+          metadata = mutable.Map())
+    }
   }
 
 }
