@@ -92,4 +92,22 @@ class ExcelReaderTest extends AnyFlatSpec {
     assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
   }
 
+  it should "return all info in one row" taggedAs FastTest in {
+    val excelReaderSubtable = new ExcelReader(findSubtable = true)
+    val excelSubtableDf = excelReaderSubtable.xls(s"$docDirectory/xlsx-subtable-cases.xlsx")
+    val explodedSubtableExcelDf =
+      excelSubtableDf.withColumn("xls_exploded", explode(col("xls"))).select("xls_exploded")
+
+    val excelReader = new ExcelReader(findSubtable = false)
+    val excelDf = excelReader.xls(s"$docDirectory/xlsx-subtable-cases.xlsx")
+    val explodedExcelDf =
+      excelDf.withColumn("xls_exploded", explode(col("xls"))).select("xls_exploded")
+
+    explodedSubtableExcelDf.select("xls_exploded").show(false)
+    explodedExcelDf.select("xls_exploded").show(false)
+
+    assert(explodedSubtableExcelDf.count() == 1, "Expected only one row with all info")
+    assert(explodedExcelDf.count() > 1, "Expected more than one row with all info")
+  }
+
 }
