@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English one_cdk10_m0_5_e5_b16_base_pipeline pipeline MPNetEmbeddings from swardiantara
+title: English one_cdk10_m0_5_e5_b16_base_pipeline pipeline E5Embeddings from swardiantara
 author: John Snow Labs
 name: one_cdk10_m0_5_e5_b16_base_pipeline
 date: 2025-04-07
@@ -18,13 +18,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained MPNetEmbeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`one_cdk10_m0_5_e5_b16_base_pipeline` is a English model originally trained by swardiantara.
+Pretrained E5Embeddings, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`one_cdk10_m0_5_e5_b16_base_pipeline` is a English model originally trained by swardiantara.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/one_cdk10_m0_5_e5_b16_base_pipeline_en_5.5.1_3.0_1744052142829.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/one_cdk10_m0_5_e5_b16_base_pipeline_en_5.5.1_3.0_1744052142829.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/one_cdk10_m0_5_e5_b16_base_pipeline_en_5.5.1_3.0_1744060046046.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/one_cdk10_m0_5_e5_b16_base_pipeline_en_5.5.1_3.0_1744060046046.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -66,4 +66,4 @@ https://huggingface.co/swardiantara/one-cdk10-m0.5-e5-b16-base
 ## Included Models
 
 - DocumentAssembler
-- MPNetEmbeddings
+- E5Embeddings
