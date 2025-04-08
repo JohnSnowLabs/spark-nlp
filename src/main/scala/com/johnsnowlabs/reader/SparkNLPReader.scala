@@ -349,12 +349,28 @@ class SparkNLPReader(
 
   def xls(docPath: String): DataFrame = {
     val excelReader =
-      new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent, getIncludePageBreaks)
+      new ExcelReader(
+        getTitleFontSize,
+        getCellSeparator,
+        getStoreContent,
+        getIncludePageBreaks,
+        getFindSubtable
+      )
     excelReader.xls(docPath)
   }
 
   private def getCellSeparator: String = {
     params.asScala.getOrElse("cellSeparator", "\t")
+  }
+
+  private def getFindSubtable: Boolean = {
+    val findSubtable =
+      try {
+        params.asScala.getOrElse("findSubtable", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    findSubtable
   }
 
   /** Instantiates class to read PowerPoint files.
