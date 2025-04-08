@@ -34,7 +34,7 @@ class ExcelReader(
     storeContent: Boolean = false,
     includePageBreaks: Boolean = false,
     inferTableStructure: Boolean = false,
-    findSubtable: Boolean = false)
+    appendCells: Boolean = false)
     extends Serializable {
 
   private val spark = ResourceHelper.spark
@@ -133,7 +133,7 @@ class ExcelReader(
       val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
 
       if (content.nonEmpty) {
-        if (findSubtable) {
+        if (appendCells) {
           if (allContents.nonEmpty) allContents.append("\n")
           allContents.append(content)
         } else {
@@ -150,7 +150,7 @@ class ExcelReader(
       }
     }
 
-    if (findSubtable && allContents.nonEmpty) {
+    if (appendCells && allContents.nonEmpty) {
       elementsBuffer += HTMLElement(
         elementType = ElementType.NARRATIVE_TEXT,
         content = allContents.toString(),
