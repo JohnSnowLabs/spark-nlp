@@ -33,7 +33,8 @@ class ExcelReader(
     cellSeparator: String = "\t",
     storeContent: Boolean = false,
     includePageBreaks: Boolean = false,
-    inferTableStructure: Boolean = false)
+    inferTableStructure: Boolean = false,
+    findSubtable: Boolean = false)
     extends Serializable {
 
   private val spark = ResourceHelper.spark
@@ -98,10 +99,15 @@ class ExcelReader(
       workbook: Workbook,
       sheetIndex: Int,
       elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+
     val sheet = workbook.getSheetAt(sheetIndex)
     val sheetName = sheet.getSheetName
 
     val rowIterator = sheet.iterator()
+
+    val allContents = new StringBuilder
+    val allMetadata = mutable.Map[String, String]("SheetName" -> sheetName)
+
     while (rowIterator.hasNext) {
       val row = rowIterator.next()
       val rowIndex = row.getRowNum
@@ -117,23 +123,40 @@ class ExcelReader(
           val cellValue = cell.getCellValue.trim
 
           val cellMetadata = mutable.Map(
-            "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})",
-            "SheetName" -> sheetName)
+            "SheetName" -> sheetName,
+            "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})")
+
           (cellValue, cellMetadata)
         }
         .toSeq
 
       val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
-      val rowMetadata = cellValuesWithMetadata.flatMap(_._2).toMap
 
       if (content.nonEmpty) {
-        val element = HTMLElement(
-          elementType = elementType,
-          content = content,
-          metadata = mutable.Map(rowMetadata.toSeq: _*))
-        elementsBuffer += element
+        if (findSubtable) {
+          if (allContents.nonEmpty) allContents.append("\n")
+          allContents.append(content)
+        } else {
+          val rowMetadata = cellValuesWithMetadata
+            .flatMap(_._2)
+            .toMap
+
+          val element = HTMLElement(
+            elementType = elementType,
+            content = content,
+            metadata = mutable.Map(rowMetadata.toSeq: _*))
+          elementsBuffer += element
+        }
       }
     }
+
+    if (findSubtable && allContents.nonEmpty) {
+      elementsBuffer += HTMLElement(
+        elementType = ElementType.NARRATIVE_TEXT,
+        content = allContents.toString(),
+        metadata = allMetadata)
+    }
+
     if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer)
   }
 
