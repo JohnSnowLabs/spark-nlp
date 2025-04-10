@@ -32,7 +32,7 @@ class SmolVLMTokenizer(
     addPrefixSpaceToSentence: Boolean = false,
     alwaysAddPrefix: Boolean = false,
     splitPatternRegex: Regex =
-      raw"""(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+""".r)
+      raw"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""".r)
     extends BpeTokenizer(
       merges,
       vocab,
@@ -83,8 +83,7 @@ class SmolVLMTokenizer(
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
-      .findAllMatchIn(if (prefixForPieceId.isDefined || text.startsWith(" ")) text
-      else text) // Prepend space to the beginning of text
+      .findAllMatchIn(text) // Remove conditional space prepending
       .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
       .toArray
   }

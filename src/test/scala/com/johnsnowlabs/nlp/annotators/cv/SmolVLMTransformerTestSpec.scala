@@ -46,7 +46,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -58,14 +58,14 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+  it should "work with light pipeline full annotate" taggedAs FastTest in {
     val lightPipeline = new LightPipeline(model)
-    val imagePath = "src/test/resources/images/bluetick.jpg"
+    val imagePath = "src/test/resources/images/image1.jpg"
     val resultFullAnnotate =
       lightPipeline.fullAnnotateImage(
         imagePath,
         "<|im_start|>User:<image>Can you describe the image?<end_of_utterance>\nAssistant:")
-
+    println(s"resultFullAnnotate: $resultFullAnnotate")
     val answerAnnotation = resultFullAnnotate("answer").head.asInstanceOf[Annotation]
 
     println(s"imageName.result: ${answerAnnotation.result}")
@@ -160,12 +160,10 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = SmolVLMTransformer
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/SmolVLM/models/int8/smolvlm-instruct/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
-      .setMaxOutputLength(50)
+      .setMaxOutputLength(300)
 
     val newPipeline: Pipeline =
       new Pipeline().setStages(Array(imageAssembler, loadModel))

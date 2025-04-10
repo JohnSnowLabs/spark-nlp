@@ -29,7 +29,7 @@ private[johnsnowlabs] object SmolVLMUtils {
 
   case class SplitImageResult(frames: Seq[BufferedImage], numSplitsH: Int, numSplitsW: Int)
 
-  def splitImage(image: BufferedImage, maxImageSize: Int, resample: Int = 2): SplitImageResult = {
+  def splitImage(image: BufferedImage, maxImageSize: Int, resample: Int = 1): SplitImageResult = {
     val height = image.getHeight
     val width = image.getWidth
     val maxHeight = maxImageSize
@@ -176,15 +176,17 @@ private[johnsnowlabs] object SmolVLMUtils {
   def resizeWithLongestEdge(
       image: BufferedImage,
       longestEdge: Int,
-      resample: Int = 2): BufferedImage = {
+      resample: Int = 1): BufferedImage = {
     val outputSize = getResizeOutputImageSize(image, longestEdge)
+    // set the output size to be 1536x1152
+//    val outputSize = ImageSize(1152, 1536)
     resizeBufferedImage(outputSize.width, outputSize.height, resample)(image)
   }
 
   def resizeForVisionEncoder(
       image: BufferedImage,
       visionEncoderMaxSize: Int,
-      resample: Int = 2): BufferedImage = {
+      resample: Int = 1): BufferedImage = {
     val height = image.getHeight
     val width = image.getWidth
     val aspectRatio = width.toDouble / height
@@ -218,8 +220,9 @@ private[johnsnowlabs] object SmolVLMUtils {
 
     for (images <- imagesList) {
       for (image <- images) {
-        val height = image.length
-        val width = image(0).length
+        // image shape is now (channels, height, width)
+        val height = image(0).length // height is the second dimension
+        val width = image(0)(0).length // width is the third dimension
         maxHeight = math.max(height, maxHeight)
         maxWidth = math.max(width, maxWidth)
       }
@@ -231,8 +234,9 @@ private[johnsnowlabs] object SmolVLMUtils {
   private def makePixelMask(
       image: Array[Array[Array[Float]]],
       outputSize: ImageSize): Array[Array[Int]] = {
-    val inputHeight = image.length
-    val inputWidth = image(0).length
+    // image shape is now (channels, height, width)
+    val inputHeight = image(0).length // height is the second dimension
+    val inputWidth = image(0)(0).length // width is the third dimension
 
     // Create a 2D array filled with zeros
     val mask = Array.ofDim[Int](outputSize.height, outputSize.width)
@@ -251,29 +255,30 @@ private[johnsnowlabs] object SmolVLMUtils {
       image: Array[Array[Array[Float]]],
       outputSize: ImageSize,
       constantValue: Float = 0f): Array[Array[Array[Float]]] = {
-    val inputHeight = image.length
-    val inputWidth = image(0).length
+    // image shape is now (channels, height, width)
+    val inputHeight = image(0).length // height is the second dimension
+    val inputWidth = image(0)(0).length // width is the third dimension
     val outputHeight = outputSize.height
     val outputWidth = outputSize.width
-    val numChannels = image(0)(0).length
+    val numChannels = image.length // channels is the first dimension
 
-    // Create a new array with the output size
-    val paddedImage = Array.ofDim[Float](outputHeight, outputWidth, numChannels)
+    // Create a new array with the output size (channels, height, width)
+    val paddedImage = Array.ofDim[Float](numChannels, outputHeight, outputWidth)
 
     // Fill with constant value
-    for (y <- 0 until outputHeight) {
-      for (x <- 0 until outputWidth) {
-        for (c <- 0 until numChannels) {
-          paddedImage(y)(x)(c) = constantValue
+    for (c <- 0 until numChannels) {
+      for (y <- 0 until outputHeight) {
+        for (x <- 0 until outputWidth) {
+          paddedImage(c)(y)(x) = constantValue
         }
       }
     }
 
     // Copy the original image
-    for (y <- 0 until math.min(inputHeight, outputHeight)) {
-      for (x <- 0 until math.min(inputWidth, outputWidth)) {
-        for (c <- 0 until numChannels) {
-          paddedImage(y)(x)(c) = image(y)(x)(c)
+    for (c <- 0 until numChannels) {
+      for (y <- 0 until math.min(inputHeight, outputHeight)) {
+        for (x <- 0 until math.min(inputWidth, outputWidth)) {
+          paddedImage(c)(y)(x) = image(c)(y)(x)
         }
       }
     }
@@ -291,7 +296,7 @@ private[johnsnowlabs] object SmolVLMUtils {
     // Get batch dimensions
     val batchSize = images.size
     val maxNumImages = images.map(_.size).max
-    val numChannels = images(0)(0)(0)(0).length
+    val numChannels = images(0)(0).length // channels is the first dimension
 
     // Create empty padded images and masks
     val paddedImages = Array.ofDim[Array[Array[Array[Float]]]](batchSize, maxNumImages)
@@ -314,7 +319,7 @@ private[johnsnowlabs] object SmolVLMUtils {
         } else {
           // Create empty image for padding
           paddedImages(batchIdx)(sampleIdx) =
-            Array.ofDim[Float](padSize.height, padSize.width, numChannels)
+            Array.ofDim[Float](numChannels, padSize.height, padSize.width)
 
           // Create empty mask if requested
           if (returnPixelMask) {
@@ -340,24 +345,26 @@ private[johnsnowlabs] object SmolVLMUtils {
 
     for (nH <- 0 until imageRows) {
       for (nW <- 0 until imageCols) {
-        textSplitImages.append(fakeTokenAroundImage)
+//        textSplitImages.append("\n")
+        textSplitImages.append(s"${fakeTokenAroundImage}")
         textSplitImages.append(s"<row_${nH + 1}_col_${nW + 1}>")
-//        textSplitImages.append(imageToken * imageSeqLen)
-        // repeat imageToken for imageSeqLen times
-        for (_ <- 0 until imageSeqLen) {
-          textSplitImages.append(imageToken)
-        }
+        textSplitImages.append(imageToken)
+//         repeat imageToken for imageSeqLen times
+//        for (_ <- 0 until imageSeqLen) {
+//          textSplitImages.append(imageToken)
+//        }
       }
       textSplitImages.append("\n")
     }
 
-    textSplitImages.append("\n")
+    textSplitImages.append("\n\n")
     textSplitImages.append(fakeTokenAroundImage)
     textSplitImages.append(globalImageToken)
     // repeat imageToken for imageSeqLen times
-    for (_ <- 0 until imageSeqLen) {
-      textSplitImages.append(imageToken)
-    }
+//    for (_ <- 0 until imageSeqLen) {
+//      textSplitImages.append(imageToken)
+//    }
+    textSplitImages.append(imageToken)
     textSplitImages.append(fakeTokenAroundImage)
 
     textSplitImages.toString

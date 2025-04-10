@@ -189,6 +189,9 @@ private[nlp] abstract class BpeTokenizer(
   }
 
   /** Split the the individual sub texts on special tokens, e.g. masking etc. */
+  /*
+   * Method removed as splitting logic is now handled directly within the tokenize method
+   * using regex to preserve delimiters.
   protected def splitOnSpecialToken(
       specialToken: SpecialToken,
       text: String): ListBuffer[String] = {
@@ -197,7 +200,7 @@ private[nlp] abstract class BpeTokenizer(
       else c.isControl
     }
     val isPunctuation =
-      (c: Char) => raw"""[^[:alnum:]]""".r.findFirstIn(c.toString).isDefined
+      (c: Char) => raw\"\"\"[^[:alnum:]]\"\"\".r.findFirstIn(c.toString).isDefined
     val isWordBorder =
       (c: Char) => isControl(c) || isPunctuation(c) || c.isWhitespace
 
@@ -243,6 +246,7 @@ private[nlp] abstract class BpeTokenizer(
     }
     result
   }
+   */
 
   /** Needs to be implemented */
   protected def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken]
@@ -253,43 +257,80 @@ private[nlp] abstract class BpeTokenizer(
 
   /** Tokenize considering special tokens and split algorithm */
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
-    var text = sentence.content
-    if (text.trim.isEmpty) Array[IndexedToken]()
-    else {
-      val splitTexts: ListBuffer[String] = ListBuffer()
-      var textList: ListBuffer[String] = ListBuffer(text)
+    var originalText = sentence.content
+    if (originalText.trim.isEmpty) return Array.empty[IndexedToken]
 
-      for (transformations <- specialTokens.allTokens) {
-        splitTexts.clear()
-        for (subText <- textList) {
-          if (!specialTokens.contains(subText))
-            splitTexts ++= splitOnSpecialToken(transformations, subText)
-          else
-            splitTexts += subText
-        }
-        textList = splitTexts.clone()
-      }
-
-      if (padWithSequenceTokens) {
-        text = sentencePadding._1 + text + sentencePadding._2
-        splitTexts.prepend(sentencePadding._1)
-        splitTexts.append(sentencePadding._2)
-      }
-
-      var currentIndex = 0
-      val result = mutable.ArrayBuffer[IndexedToken]()
-      for (subText <- splitTexts) {
-        val subTextIndex = sentence.start + text.indexOf(subText, currentIndex)
-        if (!specialTokens.contains(subText)) {
-          val splitSubText: Array[IndexedToken] = tokenizeSubText(subText, subTextIndex)
-          result.append(splitSubText: _*)
-        } else // subtext is just the special token
-          result.append(
-            IndexedToken(subText, begin = subTextIndex, end = subTextIndex + subText.length - 1))
-        currentIndex = subTextIndex + subText.length
-      }
-      result.toArray
+    if (padWithSequenceTokens) {
+      originalText = sentencePadding._1 + originalText + sentencePadding._2
     }
+
+    var textList: ListBuffer[String] = ListBuffer(originalText)
+
+    for (specialToken <- specialTokens.allTokens) {
+      val currentTokenContent = specialToken.content
+      if (currentTokenContent.nonEmpty) { // Avoid issues with empty special tokens
+        val regex = java.util.regex.Pattern.quote(currentTokenContent).r
+        val newList = ListBuffer[String]()
+        for (segment <- textList) {
+          if (specialTokens.contains(segment)) {
+            // Already identified as a special token in a previous iteration
+            newList += segment
+          } else {
+            // Split this segment by the current special token, preserving the token
+            var lastIndex = 0
+            regex.findAllMatchIn(segment).foreach { m =>
+              if (m.start > lastIndex) {
+                newList += segment.substring(lastIndex, m.start)
+              }
+              newList += m.matched // Add the special token itself
+              lastIndex = m.end
+            }
+            if (lastIndex < segment.length) {
+              newList += segment.substring(lastIndex)
+            }
+          }
+        }
+        textList = newList.filter(_.nonEmpty) // Update list and remove potential empty strings
+      }
+    }
+
+    // Adjust index calculations to account for potential padding
+    val textWithPadding = originalText // Use the potentially padded text for indexing
+    val indexOffsetAdjustment =
+      if (padWithSequenceTokens) sentence.start - sentencePadding._1.length else sentence.start
+
+    var currentIndex = 0
+    val result = mutable.ArrayBuffer[IndexedToken]()
+    for (subText <- textList) {
+      // Find the start index based on the text *with* padding if applied
+      val subTextIndexInPadded = textWithPadding.indexOf(subText, currentIndex)
+      if (subTextIndexInPadded == -1) {
+        // This case should ideally not happen if splitting logic is correct, but handle defensively
+        // Log warning or error? For now, skip.
+        println(
+          s"Warning: Could not find segment '$subText' starting from index $currentIndex in text '$textWithPadding'")
+        // Attempt to recover by searching from the beginning, though this might be wrong
+        currentIndex = textWithPadding.indexOf(subText, 0) + subText.length
+      } else {
+        currentIndex = subTextIndexInPadded
+
+        // Calculate original index relative to the *unpadded* sentence start
+        val originalStartIndex = currentIndex + indexOffsetAdjustment
+        val originalEndIndex = originalStartIndex + subText.length - 1
+
+        if (!specialTokens.contains(subText)) {
+          // Pass the original start index as the offset for sub-tokenization
+          val splitSubText: Array[IndexedToken] = tokenizeSubText(subText, originalStartIndex)
+          result.append(splitSubText: _*)
+        } else {
+          // It's a special token, create IndexedToken directly using original indices
+          result.append(IndexedToken(subText, begin = originalStartIndex, end = originalEndIndex))
+        }
+        // Move currentIndex forward in the padded text
+        currentIndex += subText.length
+      }
+    }
+    result.toArray
   }
 
   protected def preProcessTokenForBpe(token: String): String = token

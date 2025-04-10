@@ -40,17 +40,16 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam, BooleanParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** SmolVLMTransformer can load LLAMA 3.2 Vision models for visual question answering. The model
-  * consists of a vision encoder, a text encoder as well as a text decoder. The vision encoder
-  * will encode the input image, the text encoder will encode the input question together with the
-  * encoding of the image, and the text decoder will output the answer to the question.
+/** SmolVLMTransformer can load SmolVLM models for visual question answering. The model consists
+  * of a vision encoder, a text encoder as well as a text decoder. The vision encoder will encode
+  * the input image, the text encoder will encode the input question together with the encoding of
+  * the image, and the text decoder will output the answer to the question.
   *
-  * The Llama 3.2-Vision collection of multimodal large language models (LLMs) is a collection of
-  * pretrained and instruction-tuned image reasoning generative models in 11B and 90B sizes (text
-  * + images in / text out). The Llama 3.2-Vision instruction-tuned models are optimized for
-  * visual recognition, image reasoning, captioning, and answering general questions about an
-  * image. The models outperform many of the available open source and closed multimodal models on
-  * common industry benchmarks.
+  * SmolVLM is a compact open multimodal model that accepts arbitrary sequences of image and text
+  * inputs to produce text outputs. Designed for efficiency, SmolVLM can answer questions about
+  * images, describe visual content, create stories grounded on multiple images, or function as a
+  * pure language model without visual inputs. Its lightweight architecture makes it suitable for
+  * on-device applications while maintaining strong performance on multimodal tasks.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -58,7 +57,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"llama_3_2_11b_vision_instruct_int4"`, if no name is provided.
+  * The default model is `"smolvlm_instruct"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -423,7 +422,7 @@ trait ReadablePretrainedSmolVLMTransformer
     extends ParamsAndFeaturesReadable[SmolVLMTransformer]
     with HasPretrained[SmolVLMTransformer] {
 
-  override val defaultModelName: Some[String] = Some("llama_3_2_11b_vision_instruct_int4")
+  override val defaultModelName: Some[String] = Some("smolvlm_instruct")
 
   /** Java compliant-overrides */
   override def pretrained(): SmolVLMTransformer = super.pretrained()
@@ -544,11 +543,12 @@ trait ReadSmolVLMTransformerDLModel extends ReadOpenvinoModel {
     val doImageSplitting = (parsedPreprocessorConfig \ "do_image_splitting").extract[Boolean]
     val maxImageSize = (parsedPreprocessorConfig \ "max_image_size").extract[Map[String, Int]]
 
-    val generationConfig: JValue =
-      parse(loadJsonStringAsset(localModelPath, "generation_config.json"))
-    val bosTokenId = (generationConfig \ "bos_token_id").extract[Int]
-    val eosTokenId = (generationConfig \ "eos_token_id").extract[Int]
-    val padTokenId = (generationConfig \ "pad_token_id").extract[Int]
+    val tokenizerConfig: JValue =
+      parse(loadJsonStringAsset(localModelPath, "tokenizer_config.json"))
+    val bosToken = (tokenizerConfig \ "bos_token").extract[String]
+    val eosToken = (tokenizerConfig \ "eos_token").extract[String]
+    val padToken = (tokenizerConfig \ "pad_token").extract[String]
+    val unk_token = (tokenizerConfig \ "unk_token").extract[String]
 
     val tokenizerPath = s"$localModelPath/assets/tokenizer.json"
     val tokenizerExists = new java.io.File(tokenizerPath).exists()
@@ -590,6 +590,11 @@ trait ReadSmolVLMTransformerDLModel extends ReadOpenvinoModel {
       (vocabs, addedTokens, bytePairs)
     }
 
+    val bosTokenId = vocabs(bosToken)
+    val eosTokenId = vocabs(eosToken)
+    val padTokenId = vocabs(padToken)
+    val unkTokenId = vocabs(unk_token)
+
     val annotatorModel = new SmolVLMTransformer()
       .setGenerationConfig(
         GenerationConfig(
@@ -624,6 +629,7 @@ trait ReadSmolVLMTransformerDLModel extends ReadOpenvinoModel {
         doImageSplitting = doImageSplitting,
         imageTokenId = imageToken,
         imageSeqLen = imageSeqLen,
+        unkTokenId = unkTokenId,
         patchSize = patchSize))
 
     val modelEngine =

@@ -87,6 +87,7 @@ case class SmolVLMConfig(
     fakeImageToken: String = "<fake_token_around_image>",
     imageSeqLen: Int = 81,
     paddingConstant: Double = 0.0,
+    unkTokenId: Int = 0,
     patchSize: Int = 14,
     returnPixelMask: Boolean = true)
 
@@ -144,7 +145,7 @@ private[johnsnowlabs] class SmolVLM(
     vocabulary,
     startTokenString = reversedVocabulary(bosTokenId),
     endTokenString = reversedVocabulary(eosTokenId),
-    unkTokenString = reversedVocabulary(eosTokenId),
+    unkTokenString = reversedVocabulary(config.unkTokenId),
     maskTokenString = reversedVocabulary(eosTokenId),
     padTokenString = reversedVocabulary(paddingTokenId),
     additionalStrings = addedTokens.keys.toArray)
@@ -156,7 +157,7 @@ private[johnsnowlabs] class SmolVLM(
       vocab = vocabulary,
       specialTokens = Some(specialTokens),
       addPrefixSpaceToSentence = false,
-      alwaysAddPrefix = true,
+      alwaysAddPrefix = false,
       prependString = "")
     .asInstanceOf[SmolVLMTokenizer]
 
@@ -187,15 +188,37 @@ private[johnsnowlabs] class SmolVLM(
     }
 
     // Process each sentence through the tokenizer pipeline
-    val tokens = SentenceSplit
-      .unpack(sentences)
+    val promptChunks = sentences
       .map(s => {
-        val sentWithTask = s
-        // Add BOS token and encode the sentence
-        Array(bosTokenId) ++ bpeTokenizer
-          .tokenize(sentWithTask)
-          .map(bpeTokenizer.encode)
-          .flatMap(_.map(_.pieceId))
+        val sentWithTask = s.result
+        var offsetLength = 0
+        pattern
+          .split(sentWithTask)
+          .zipWithIndex
+          .map(s => {
+            val sentenceWithTask = Sentence(
+              content = s._1,
+              start = offsetLength,
+              end = offsetLength + s._1.length,
+              index = s._2)
+            offsetLength += s._1.length
+            bpeTokenizer
+              .tokenize(sentenceWithTask)
+              .map(bpeTokenizer.encode)
+              .flatMap(_.map(_.pieceId))
+          })
+      })
+
+    // inject the image padding tokens of length imgTokenLen between the prompt chunks and reduce the Seq[Array[Array[Int]]] to Seq[Array[Int]]
+    val tokens = promptChunks
+      .zip(List(config.imageSeqLen))
+      .map(s => {
+        val (promptChunk, imgTokenLen) = s
+        val imgPaddingTokens = Array.fill(imgTokenLen)(config.imageTokenId)
+        val combinedChunks = promptChunk
+          .map(_.toArray)
+          .reduce(_ ++ imgPaddingTokens ++ _)
+        Array(bosTokenId) ++ combinedChunks
       })
     tokens
   }
@@ -209,8 +232,7 @@ private[johnsnowlabs] class SmolVLM(
     *   Tuple of processed image features and optional row/column info
     */
   private def preprocessImage(
-      image: BufferedImage,
-      returnRowColInfo: Boolean = false): (SmolVLMUtils.BatchFeature, Option[(Int, Int)]) = {
+      image: BufferedImage): (SmolVLMUtils.BatchFeature, Option[(Int, Int)]) = {
     var processedImage = image
     var outputSplitResult: Option[SmolVLMUtils.SplitImageResult] = None
 
@@ -236,7 +258,6 @@ private[johnsnowlabs] class SmolVLM(
         config.maxImageSize("longest_edge"),
         config.resample)
 
-      processedImage = splitResult.frames.head // Use the first frame
       outputSplitResult = Some(splitResult)
     } else {
       // Square the images to maxImageSize if not splitting
@@ -259,9 +280,17 @@ private[johnsnowlabs] class SmolVLM(
             doRescale = config.doRescale,
             rescaleFactor = config.rescaleFactor))
 
+    // print image size
+    val shape = Array(
+      normalizedImages.length,
+      normalizedImages.head.length,
+      normalizedImages.head.head.length,
+      normalizedImages.head.head.head.length)
     // Step 4: Pad images if configured
     var paddedImages: SmolVLMUtils.BatchFeature = null
+
     if (config.doPad) {
+
       paddedImages = SmolVLMUtils.pad(
         images = Seq(normalizedImages.toSeq),
         constantValue = config.paddingConstant.toFloat,
@@ -298,7 +327,7 @@ private[johnsnowlabs] class SmolVLM(
         w = annot.width,
         h = annot.height,
         nChannels = annot.nChannels)
-      preprocessImage(bufferedImage, returnRowColInfo = true)
+      preprocessImage(bufferedImage)
     }
 
     // Step 2: Extract pixel values and masks
@@ -354,7 +383,7 @@ private[johnsnowlabs] class SmolVLM(
     // Step 6: Encode final prompt strings
     val promptStringAnnotations = promptStrings.map(s => Annotation(s))
     val encodedText = encodeText(promptStringAnnotations).toArray
-    println("encodedText: " + encodedText.map(_.mkString(",")).mkString("\n"))
+
     // Step 7: Return all processed data
     Map(
       "pixel_values" -> pixelValues.toArray,
@@ -657,13 +686,12 @@ private[johnsnowlabs] class SmolVLM(
     val patchAttentionMask = new org.intel.openvino.Tensor(
       Array(realPixelValues.length / (numChannels * height * width), numPatchesH, numPatchesW),
       Array.fill(
-        realPixelValues.length / (numChannels * height * width) * numPatchesH * numPatchesW)(
-        1.0f))
+        realPixelValues.length / (numChannels * height * width) * numPatchesH * numPatchesW)(1L))
 
     // Step 8: Create tensor for real pixel values
     val pixelValuesTensor = new org.intel.openvino.Tensor(
       Array(realPixelValues.length / (numChannels * height * width), numChannels, height, width),
-      realPixelValues)
+      pixelValues.data())
 
     // Step 9: Get initial image embeddings
     inferRequestImageEmbed.set_tensor("pixel_values", pixelValuesTensor)
@@ -871,8 +899,8 @@ private[johnsnowlabs] class SmolVLM(
     // Step 11: Run language model head inference
     inferRequestLmHeadModel.set_input_tensor(result)
     inferRequestLmHeadModel.infer()
-    val logitRaw = inferRequestLmHeadModel.get_output_tensor().data()
-
+    val logit = inferRequestLmHeadModel.get_output_tensor()
+    val logitRaw: Array[Float] = logit.data()
     // Step 12: Process logits to get output scores
     val sequenceLength = inputIdsLong.length / batchSize
     val decoderOutputs = (0 until batchSize).map(i => {
