@@ -15,7 +15,6 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper
 import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.Pipeline
@@ -74,20 +73,14 @@ class SparkNLPReader(
     */
 
   def html(htmlPath: String): DataFrame = {
-    val htmlReader = new HTMLReader(
-      getTitleFontSize,
-      getStoreContent,
-      getTimeout,
-      headers = headers.asScala.toMap)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
     htmlReader.read(htmlPath)
   }
 
   def html(urls: Array[String]): DataFrame = {
-    val htmlReader = new HTMLReader(
-      getTitleFontSize,
-      getStoreContent,
-      getTimeout,
-      headers = headers.asScala.toMap)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
     htmlReader.read(urls)
   }
 
@@ -99,6 +92,10 @@ class SparkNLPReader(
       headers = headers.asScala.toMap)
     htmlReader.read(urls.asScala.toArray)
   }
+
+  private lazy val htmlHeaders: Map[String, String] =
+    if (headers == null) Map.empty
+    else headers.asScala.toMap.map { case (k, v) => k -> v }
 
   private def getTitleFontSize: Int = {
     val titleFontSize =
