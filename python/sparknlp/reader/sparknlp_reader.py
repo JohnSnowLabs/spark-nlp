@@ -389,3 +389,9 @@ class SparkNLPReader(ExtendedJavaWrapper):
             raise TypeError("docPath must be a string")
         jdf = self._java_obj.txt(docPath)
         return self.getDataFrame(self.spark, jdf)
+
+    def xml(self, docPath):
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.xml(docPath)
+        return self.getDataFrame(self.spark, jdf)

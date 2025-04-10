@@ -23,7 +23,7 @@ class HTMLReaderTest extends AnyFlatSpec {
 
   val htmlFilesDirectory = "./src/test/resources/reader/html/"
 
-  it should "read html as dataframe" taggedAs FastTest in {
+  "HTMLReader" should "read html as dataframe" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(htmlFilesDirectory)
     htmlDF.show()

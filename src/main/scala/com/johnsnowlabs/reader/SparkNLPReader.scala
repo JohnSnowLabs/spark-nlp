@@ -485,6 +485,19 @@ class SparkNLPReader(
     threshold
   }
 
+  def xml(xmlPath: String): DataFrame = {
+    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    xmlReader.read(xmlPath)
+  }
+
+  private def getXmlKeepTags: Boolean = {
+    getDefaultBoolean(Seq("xmlKeepTags", "xml_keep_tags"), default = false)
+  }
+
+  private def getOnlyLeafNodes: Boolean = {
+    getDefaultBoolean(Seq("onlyLeafNodes", "only_leaf_nodes"), default = true)
+  }
+
   private def getDefaultBoolean(options: Seq[String], default: Boolean): Boolean = {
     options
       .flatMap(key => Option(params.get(key)))
