@@ -37,7 +37,7 @@ class SmolVLMTransformer(AnnotatorModel,
     ...     .setInputCols(["image_assembler"]) \
     ...     .setOutputCol("answer")
 
-    The default model is `"smolvlm_instruct"`, if no name is provided.
+    The default model is `"smolvlm_instruct_int4"`, if no name is provided.
     For available pretrained models, refer to the `Models Hub
     <https://sparknlp.org/models?task=Question+Answering>`__.
 
@@ -417,13 +417,13 @@ class SmolVLMTransformer(AnnotatorModel,
         return SmolVLMTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="smolvlm_instruct", lang="en", remote_loc=None):
+    def pretrained(name="smolvlm_instruct_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "smolvlm_instruct"
+            "smolvlm_instruct_int4"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

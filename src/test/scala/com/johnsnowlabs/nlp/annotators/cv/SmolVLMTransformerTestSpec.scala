@@ -58,7 +58,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs FastTest in {
+  it should "work with light pipeline full annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultFullAnnotate =
