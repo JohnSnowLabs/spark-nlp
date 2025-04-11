@@ -57,7 +57,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image_assembler")
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"smolvlm_instruct"`, if no name is provided.
+  * The default model is `"smolvlm_instruct_int4"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://sparknlp.org/models?task=Question+Answering Models Hub]].
@@ -412,6 +412,16 @@ class SmolVLMTransformer(override val uid: String)
           spark,
           Seq((wrappers.get.lmHeadModel, "lm_head.xml")),
           SmolVLMTransformer.suffix)
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.imageEmbedModel, "image_embed.xml")),
+          SmolVLMTransformer.suffix)
+        writeOpenvinoModels(
+          path,
+          spark,
+          Seq((wrappers.get.imageConnectorModel, "image_connector.xml")),
+          SmolVLMTransformer.suffix)
       case _ => throw new Exception(notSupportedEngineError)
     }
   }
@@ -422,7 +432,7 @@ trait ReadablePretrainedSmolVLMTransformer
     extends ParamsAndFeaturesReadable[SmolVLMTransformer]
     with HasPretrained[SmolVLMTransformer] {
 
-  override val defaultModelName: Some[String] = Some("smolvlm_instruct")
+  override val defaultModelName: Some[String] = Some("smolvlm_instruct_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): SmolVLMTransformer = super.pretrained()
