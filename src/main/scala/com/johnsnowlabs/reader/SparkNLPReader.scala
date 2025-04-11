@@ -98,35 +98,15 @@ class SparkNLPReader(
     else headers.asScala.toMap.map { case (k, v) => k -> v }
 
   private def getTitleFontSize: Int = {
-    val titleFontSize =
-      try {
-        params.asScala.getOrElse("titleFontSize", "16").toInt
-      } catch {
-        case _: IllegalArgumentException => 16
-      }
-
-    titleFontSize
+    getDefaultInt(Seq("titleFontSize", "title_font_size"), default = 16)
   }
 
   private def getStoreContent: Boolean = {
-    val storeContent =
-      try {
-        params.asScala.getOrElse("storeContent", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    storeContent
+    getDefaultBoolean(Seq("storeContent", "store_content"), default = false)
   }
 
   private def getTimeout: Int = {
-    val timeout =
-      try {
-        params.asScala.getOrElse("timeout", "30").toInt
-      } catch {
-        case _: IllegalArgumentException => 30
-      }
-
-    timeout
+    getDefaultInt(Seq("timeout"), default = 30)
   }
 
   /** Instantiates class to read email files.
@@ -178,13 +158,7 @@ class SparkNLPReader(
   }
 
   private def getAddAttachmentContent: Boolean = {
-    val addAttachmentContent =
-      try {
-        params.asScala.getOrElse("addAttachmentContent", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    addAttachmentContent
+    getDefaultBoolean(Seq("addAttachmentContent", "add_attachment_content"), default = false)
   }
 
   /** Instantiates class to read Word files.
@@ -292,13 +266,7 @@ class SparkNLPReader(
   }
 
   private def getStoreSplittedPdf: Boolean = {
-    val splitPage =
-      try {
-        params.asScala.getOrElse("storeSplittedPdf", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    splitPage
+    getDefaultBoolean(Seq("storeSplittedPdf", "store_splitted_pdf"), default = false)
   }
 
   /** Instantiates class to read Excel files.
@@ -361,23 +329,11 @@ class SparkNLPReader(
   }
 
   private def getInferTableStructure: Boolean = {
-    val inferTableStructure =
-      try {
-        params.asScala.getOrElse("inferTableStructure", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    inferTableStructure
+    getDefaultBoolean(Seq("inferTableStructure", "infer_table_structure"), default = false)
   }
 
   private def getAppendCells: Boolean = {
-    val appendCells =
-      try {
-        params.asScala.getOrElse("appendCells", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    appendCells
+    getDefaultBoolean(Seq("appendCells", "append_cells"), default = false)
   }
 
   /** Instantiates class to read PowerPoint files.
@@ -495,66 +451,27 @@ class SparkNLPReader(
   }
 
   private def getTitleLengthSize: Int = {
-    val titleLengthSize =
-      try {
-        params.asScala.getOrElse("titleLengthSize", "50").toInt
-      } catch {
-        case _: IllegalArgumentException => 50
-      }
-
-    titleLengthSize
+    getDefaultInt(Seq("titleLengthSize", "title_length_size"), default = 50)
   }
 
   private def getIncludePageBreaks: Boolean = {
-    val includePageBreaks =
-      try {
-        params.asScala.getOrElse("includePageBreaks", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    includePageBreaks
+    getDefaultBoolean(Seq("includePageBreaks", "include_page_breaks"), default = false)
   }
 
   private def getGroupBrokenParagraphs: Boolean = {
-    val groupBrokenParagraphs =
-      try {
-        params.asScala.getOrElse("groupBrokenParagraphs", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    groupBrokenParagraphs
+    getDefaultBoolean(Seq("groupBrokenParagraphs", "group_broken_paragraphs"), default = false)
   }
 
   private def getParagraphSplit: String = {
-    val paragraphSplit =
-      try {
-        params.asScala.getOrElse("paragraphSplit", DOUBLE_PARAGRAPH_PATTERN)
-      } catch {
-        case _: IllegalArgumentException => DOUBLE_PARAGRAPH_PATTERN
-      }
-    paragraphSplit
+    getDefaultString(Seq("paragraphSplit", "paragraph_split"), default = DOUBLE_PARAGRAPH_PATTERN)
   }
 
   private def getShortLineWordThreshold: Int = {
-    val shortLineWordThreshold =
-      try {
-        params.asScala.getOrElse("shortLineWordThreshold", "5").toInt
-      } catch {
-        case _: IllegalArgumentException => 5
-      }
-
-    shortLineWordThreshold
+    getDefaultInt(Seq("shortLineWordThreshold", "short_line_word_threshold"), default = 5)
   }
 
   private def getMaxLineCount: Int = {
-    val maxLineCount =
-      try {
-        params.asScala.getOrElse("maxLineCount", "2000").toInt
-      } catch {
-        case _: IllegalArgumentException => 2000
-      }
-
-    maxLineCount
+    getDefaultInt(Seq("maxLineCount", "max_line_count"), default = 2000)
   }
 
   private def getThreshold: Double = {
@@ -566,6 +483,31 @@ class SparkNLPReader(
       }
 
     threshold
+  }
+
+  private def getDefaultBoolean(options: Seq[String], default: Boolean): Boolean = {
+    options
+      .flatMap(key => Option(params.get(key)))
+      .map(_.trim.toLowerCase)
+      .flatMap(value => scala.util.Try(value.toBoolean).toOption)
+      .headOption
+      .getOrElse(default)
+  }
+
+  private def getDefaultInt(options: Seq[String], default: Int): Int = {
+    options
+      .flatMap(key => Option(params.get(key)))
+      .flatMap(value => scala.util.Try(value.toInt).toOption)
+      .headOption
+      .getOrElse(default)
+  }
+
+  private def getDefaultString(options: Seq[String], default: String): String = {
+    options
+      .flatMap(key => Option(params.get(key)))
+      .flatMap(value => scala.util.Try(value).toOption)
+      .headOption
+      .getOrElse(default)
   }
 
 }
