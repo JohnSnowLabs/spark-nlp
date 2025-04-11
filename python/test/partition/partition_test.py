@@ -138,7 +138,7 @@ class PartitionTextInMemoryTesSpec(unittest.TestCase):
         )
 
     def runTest(self):
-        text_df = Partition(groupBrokenParagraphs=True).partition_text(text = self.raw_text )
+        text_df = Partition(group_broken_paragraphs=True).partition_text(text = self.raw_text )
         text_df.show(truncate=False)
 
         self.assertTrue(text_df.select("txt").count() > 0)
