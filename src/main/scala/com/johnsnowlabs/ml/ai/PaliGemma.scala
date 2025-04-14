@@ -459,7 +459,7 @@ private[johnsnowlabs] class PaliGemma(
       if (encoderInputIds.head.length == decoderInputIds.head.length) {
         val pixelValuesTensor: org.intel.openvino.Tensor =
           new org.intel.openvino.Tensor(
-            Array(batchSize, 3, 224, 224),
+            Array(batchSize, 3, preprocessor.size, preprocessor.size),
             pixelValues.flatten.flatten.flatten.map(_.toFloat))
 
         // Get image embeddings
