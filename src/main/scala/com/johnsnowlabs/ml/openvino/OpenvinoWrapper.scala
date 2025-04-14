@@ -254,4 +254,9 @@ object OpenvinoWrapper {
       wte: OpenvinoWrapper,
       reshape: OpenvinoWrapper,
       languageModel: OpenvinoWrapper)
+  case class PaliGemmaWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEncoder: OpenvinoWrapper,
+      textEmbeddings: OpenvinoWrapper,
+      modelMerger: OpenvinoWrapper)
 }
