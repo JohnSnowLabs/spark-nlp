@@ -35,7 +35,7 @@ class PaliGemmaForMultiModalTestSetup(unittest.TestCase):
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
         imageClassifier = PaliGemmaForMultiModal\
-            .loadSavedModel("/mnt/research/Projects/ModelZoo/PaliGemma/models/int4/paligemma-3b-mix-224/",self.spark)\
+            .pretrained()\
             .setInputCols("image_assembler") \
             .setOutputCol("answer")
 

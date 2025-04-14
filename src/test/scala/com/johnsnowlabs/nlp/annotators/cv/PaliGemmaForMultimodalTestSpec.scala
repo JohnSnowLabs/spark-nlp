@@ -29,7 +29,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getPaliGemmaForMultiModalPipelineModel
 
-  "PaliGemmaForMultiModal" should "answer a question for a given image" taggedAs FastTest in {
+  "PaliGemmaForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -46,7 +46,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"
     val resultAnnotate =
@@ -55,7 +55,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs FastTest in {
+  it should "work with light pipeline full annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/bluetick.jpg"
     val resultFullAnnotate =
@@ -67,7 +67,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -105,7 +105,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -155,9 +155,7 @@ class PaliGemmaForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = PaliGemmaForMultiModal
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/PaliGemma/models/int4/paligemma-3b-mix-224/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)
