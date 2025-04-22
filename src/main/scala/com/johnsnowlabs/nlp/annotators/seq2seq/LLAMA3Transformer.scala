@@ -359,7 +359,7 @@ class LLAMA3Transformer(override val uid: String)
 trait ReadablePretrainedLLAMA3TransformerModel
     extends ParamsAndFeaturesReadable[LLAMA3Transformer]
     with HasPretrained[LLAMA3Transformer] {
-  override val defaultModelName: Some[String] = Some("llama3")
+  override val defaultModelName: Some[String] = Some("llama_3_7b_instruct_hf_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): LLAMA3Transformer = super.pretrained()
