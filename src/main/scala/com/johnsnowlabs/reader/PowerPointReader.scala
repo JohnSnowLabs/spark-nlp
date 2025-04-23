@@ -35,6 +35,16 @@ class PowerPointReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "ppt"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def ppt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
@@ -44,9 +54,9 @@ class PowerPointReader(
       }
       val powerPointDf = byteArrayRDD
         .toDF("path", "content")
-        .withColumn("ppt", parsePowerPointUDF(col("content")))
-      if (storeContent) powerPointDf.select("path", "ppt", "content")
-      else powerPointDf.select("path", "ppt")
+        .withColumn(outputColumn, parsePowerPointUDF(col("content")))
+      if (storeContent) powerPointDf.select("path", outputColumn, "content")
+      else powerPointDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

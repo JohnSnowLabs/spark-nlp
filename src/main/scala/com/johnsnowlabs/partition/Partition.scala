@@ -20,25 +20,42 @@ import org.apache.spark.sql.DataFrame
 
 import java.net.URL
 import scala.collection.JavaConverters._
+import scala.util.Try
 
+//TODO: Add notebook examples for this pipeline uses cases
 class Partition(params: java.util.Map[String, String] = new java.util.HashMap()) {
+
+  private var outputColumn = "partition"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Result column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   def partition(
       path: String,
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params, headers)
+    sparkNLPReader.setOutputColumn(outputColumn)
     if (isUrl(path)) {
       return sparkNLPReader.html(path)
     }
 
-    val contentTypeOpt = Option(params.get("content_type"))
-
-    val reader = contentTypeOpt match {
+    val reader = getContentType match {
       case Some(contentType) => getReaderByContentType(contentType, sparkNLPReader)
       case None => getReaderByExtension(path, sparkNLPReader)
     }
 
-    reader(path)
+    val partitionResult = reader(path)
+    if (hasChunkerStrategy) {
+      val chunker = new BaseChunker(params.asScala.toMap)
+      partitionResult.withColumn(
+        "chunks",
+        chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
+    } else partitionResult
   }
 
   private def getReaderByContentType(
@@ -108,6 +125,20 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     } catch {
       case _: Exception => false
     }
+  }
+
+  private def getContentType: Option[String] = {
+    Seq("content_type", "ContentType")
+      .flatMap(key => Option(params.get(key)))
+      .flatMap(value => Try(value).toOption)
+      .headOption
+  }
+
+  import scala.jdk.CollectionConverters._
+
+  private def hasChunkerStrategy: Boolean = {
+    Seq("chunking_strategy", "chunkingStrategy")
+      .exists(params.asScala.contains)
   }
 
 }

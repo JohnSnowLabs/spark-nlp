@@ -19,7 +19,7 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGR
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions.{col, udf}
 
 import scala.collection.mutable
 
@@ -36,20 +36,31 @@ class TextReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "txt"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   /** Parses TXT files and returns a DataFrame.
     *
     * The DataFrame will contain:
     *   - "path": the file path,
     *   - "content": the raw text content,
-    *   - "txt": a Seq[HTMLElement] containing the parsed elements.
+    *   - outputColumn: a Seq[HTMLElement] containing the parsed elements.
     */
   def txt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val textFilesRDD = spark.sparkContext.wholeTextFiles(filePath)
       val textDf = textFilesRDD
         .toDF("path", "content")
-        .withColumn("txt", parseTxtUDF($"content"))
-      if (storeContent) textDf.select("path", "txt", "content") else textDf.select("path", "txt")
+        .withColumn(outputColumn, parseTxtUDF($"content"))
+      if (storeContent) textDf.select("path", outputColumn, "content")
+      else textDf.select("path", outputColumn)
     } else {
       throw new IllegalArgumentException(s"Invalid filePath: $filePath")
     }
@@ -57,9 +68,9 @@ class TextReader(
 
   def txtContent(content: String): DataFrame = {
     val df = spark.createDataFrame(Seq(("in-memory", content))).toDF("source", "content")
-    val textDf = df.withColumn("txt", parseTxtUDF($"content"))
-    if (storeContent) textDf.select("txt", "content")
-    else textDf.select("txt")
+    val textDf = df.withColumn(outputColumn, parseTxtUDF($"content"))
+    if (storeContent) textDf.select(outputColumn, "content")
+    else textDf.select(col(outputColumn))
   }
 
   private val parseTxtUDF = udf((text: String) => parseTxt(text))
@@ -74,7 +85,7 @@ class TextReader(
     *   - Otherwise, treat blocks as narrative text.
     *   - Omit any element with empty content.
     */
-  private def parseTxt(text: String): Seq[HTMLElement] = {
+  def parseTxt(text: String): Seq[HTMLElement] = {
     val processedText = if (groupBrokenParagraphs) {
       TextParser.autoParagraphGrouper(
         text,

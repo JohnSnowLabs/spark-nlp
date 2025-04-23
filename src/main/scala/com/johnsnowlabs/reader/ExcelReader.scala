@@ -40,6 +40,16 @@ class ExcelReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "xls"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def xls(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
@@ -49,9 +59,9 @@ class ExcelReader(
       }
       val excelDf = byteArrayRDD
         .toDF("path", "content")
-        .withColumn("xls", parseExcelUDF(col("content")))
-      if (storeContent) excelDf.select("path", "xls", "content")
-      else excelDf.select("path", "xls")
+        .withColumn(outputColumn, parseExcelUDF(col("content")))
+      if (storeContent) excelDf.select("path", outputColumn, "content")
+      else excelDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

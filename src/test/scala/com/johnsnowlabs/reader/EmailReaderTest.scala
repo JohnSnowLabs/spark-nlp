@@ -31,10 +31,10 @@ class EmailReaderTest extends AnyFlatSpec {
     val emailReader = new EmailReader()
     val emailDf = emailReader.read(emailDirectory)
     emailDf.select("email").show(truncate = false)
-//    emailDf.printSchema()
+    emailDf.printSchema()
 
-//    assert(!emailDf.select(col("email").getItem(0)).isEmpty)
-//    assert(!emailDf.columns.contains("content"))
+    assert(!emailDf.select(col("email").getItem(0)).isEmpty)
+    assert(!emailDf.columns.contains("content"))
   }
 
   it should "read email file with attachments" taggedAs FastTest in {

@@ -28,6 +28,7 @@ import com.johnsnowlabs.nlp.annotators.seq2seq.{
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
+//TODO: Add documentation at the beginning as other transformers e.g. Chunker
 class Cleaner(override val uid: String) extends MarianTransformer {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator

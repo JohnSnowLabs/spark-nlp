@@ -22,6 +22,7 @@ import org.apache.spark.ml.util.Identifiable
 
 import scala.util.matching.Regex
 
+//TODO: Add documentation at the beginning as other transformers e.g. Extractor
 class Extractor(override val uid: String)
     extends AnnotatorModel[Extractor]
     with HasSimpleAnnotate[Extractor] {

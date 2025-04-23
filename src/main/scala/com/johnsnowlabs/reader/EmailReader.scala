@@ -32,6 +32,16 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "email"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def read(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
@@ -41,9 +51,9 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
       }
       val emailDf = byteArrayRDD
         .toDF("path", "content")
-        .withColumn("email", parseEmailUDF(col("content")))
-      if (storeContent) emailDf.select("path", "email", "content")
-      else emailDf.select("path", "email")
+        .withColumn(outputColumn, parseEmailUDF(col("content")))
+      if (storeContent) emailDf.select("path", outputColumn, "content")
+      else emailDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 

@@ -18,14 +18,24 @@ class XMLReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "xml"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def read(inputSource: String): DataFrame = {
     if (validFile(inputSource)) {
       val xmlDf = spark.sparkContext
         .wholeTextFiles(inputSource)
         .toDF("path", "content")
-        .withColumn("xml", parseHtmlUDF(col("content")))
-      if (storeContent) xmlDf.select("path", "content", "xml")
-      else xmlDf.select("path", "xml")
+        .withColumn(outputColumn, parseHtmlUDF(col("content")))
+      if (storeContent) xmlDf.select("path", "content", outputColumn)
+      else xmlDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
   }
 

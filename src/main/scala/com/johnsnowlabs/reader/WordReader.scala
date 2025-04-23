@@ -40,6 +40,16 @@ class WordReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  private var outputColumn = "doc"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def doc(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
@@ -49,8 +59,9 @@ class WordReader(
       }
       val wordDf = byteArrayRDD
         .toDF("path", "content")
-        .withColumn("doc", parseWordUDF(col("content")))
-      if (storeContent) wordDf.select("path", "doc", "content") else wordDf.select("path", "doc")
+        .withColumn(outputColumn, parseWordUDF(col("content")))
+      if (storeContent) wordDf.select("path", outputColumn, "content")
+      else wordDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
