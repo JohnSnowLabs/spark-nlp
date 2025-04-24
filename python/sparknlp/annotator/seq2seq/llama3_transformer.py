@@ -38,7 +38,7 @@ class LLAMA3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         ...     .setOutputCol("generation")
     
     
-        The default model is ``"llama_3_7b_chat_hf_int4"``, if no name is provided. For available
+        The default model is ``"llama_3_7b_instruct_hf_int4"``, if no name is provided. For available
         pretrained models please see the `Models Hub
         <https://sparknlp.org/models?q=llama3>`__.
     
@@ -108,7 +108,7 @@ class LLAMA3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         >>> documentAssembler = DocumentAssembler() \\
         ...     .setInputCol("text") \\
         ...     .setOutputCol("documents")
-        >>> llama3 = LLAMA3Transformer.pretrained("llama_3_7b_chat_hf_int4") \\
+        >>> llama3 = LLAMA3Transformer.pretrained("llama_3_7b_instruct_hf_int4") \\
         ...     .setInputCols(["documents"]) \\
         ...     .setMaxOutputLength(60) \\
         ...     .setOutputCol("generation")
@@ -359,13 +359,13 @@ class LLAMA3Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return LLAMA3Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llama_3_7b_chat_hf_int4", lang="en", remote_loc=None):
+    def pretrained(name="llama_3_7b_instruct_hf_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "llama_3_7b_chat_hf_int4"
+            Name of the pretrained model, by default "llama_3_7b_instruct_hf_int4"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
