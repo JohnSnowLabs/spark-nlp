@@ -15,6 +15,8 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
@@ -68,17 +70,17 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def html(htmlPath: String): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(htmlPath)
   }
 
   def html(urls: Array[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize)
+    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
     htmlReader.read(urls.asScala.toArray)
   }
 
@@ -93,10 +95,20 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     titleFontSize
   }
 
+  private def getStoreContent: Boolean = {
+    val storeContent =
+      try {
+        params.asScala.getOrElse("storeContent", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    storeContent
+  }
+
   /** Instantiates class to read email files.
     *
     * emailPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
-    * "path/html/emails"
+    * "path/email/files"
     *
     * ==Example==
     * {{{
@@ -137,7 +149,7 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def email(emailPath: String): DataFrame = {
-    val emailReader = new EmailReader(getAddAttachmentContent)
+    val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
     emailReader.read(emailPath)
   }
 
@@ -151,9 +163,276 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     addAttachmentContent
   }
 
+  /** Instantiates class to read Word files.
+    *
+    * docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+    * "path/word/files"
+    *
+    * ==Example==
+    * {{{
+    * val docsPath = "home/user/word-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val docsDf = sparkNLPReader.email(docsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val docsDf = SparkNLP.read.doc(docsPath)
+    * }}}
+    *
+    * {{{
+    * docsDf.select("doc").show(false)
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Table, Header Col 1, {}}, {Table, Header Col 2, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |
+    * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * docsDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- doc: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+
   def doc(docPath: String): DataFrame = {
-    val wordReader = new WordReader()
+    val wordReader = new WordReader(getStoreContent)
     wordReader.doc(docPath)
+  }
+
+  /** Instantiates class to read PDF files.
+    *
+    * pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
+    * "path/pdfs/"
+    *
+    * ==Example==
+    * {{{
+    * val pdfsPath = "home/user/pdfs-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val pdfDf = sparkNLPReader.pdf(pdfsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val pdfDf = SparkNLP.read.pdf(pdfsPath)
+    * }}}
+    *
+    * {{{
+    * pdfDf.show(false)
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    * |                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    * |file:/content/pdf...|2025-01-15 20:48:...| 25803|This is a Title \...|             842|            596|[25 50 44 46 2D 3...|     NULL|      0|
+    * |file:/content/pdf...|2025-01-15 20:48:...|  9487|This is a page.\n...|             841|            595|[25 50 44 46 2D 3...|     NULL|      0|
+    * +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+    *
+    * pdf_df.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- modificationTime: timestamp (nullable = true)
+    *  |-- length: long (nullable = true)
+    *  |-- text: string (nullable = true)
+    *  |-- height_dimension: integer (nullable = true)
+    *  |-- width_dimension: integer (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- exception: string (nullable = true)
+    *  |-- pagenum: integer (nullable = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+  def pdf(pdfPath: String): DataFrame = {
+    val spark = ResourceHelper.spark
+    spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(getStoreSplittedPdf)
+    val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(binaryPdfDF)
+
+    pipelineModel.transform(binaryPdfDF)
+  }
+
+  private def getStoreSplittedPdf: Boolean = {
+    val splitPage =
+      try {
+        params.asScala.getOrElse("storeSplittedPdf", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    splitPage
+  }
+
+  /** Instantiates class to read Excel files.
+    *
+    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * "path/excel/files"
+    *
+    * ==Example==
+    * {{{
+    * val docsPath = "home/user/excel-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val xlsDf = sparkNLPReader.xls(docsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val xlsDf = SparkNLP.read.xls(docsPath)
+    * }}}
+    *
+    * {{{
+    * xlsDf.select("xls").show(false)
+    * +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |xls                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+    * +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, Financial performance, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Quarterly revenue\tNine quarters to 30 June 2023\t\t\t1.0, {SheetName -> Index}}, {NarrativeText, Group financial performance\tFY 22\tFY 23\t\t2.0, {SheetName -> Index}}, {NarrativeText, Segmental results\tFY 22\tFY 23\t\t3.0, {SheetName -> Index}}, {NarrativeText, Segmental analysis\tFY 22\tFY 23\t\t4.0, {SheetName -> Index}}, {NarrativeText, Cash flow\tFY 22\tFY 23\t\t5.0, {SheetName -> Index}}, {Title, Operational metrics, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Mobile customers\tNine quarters to 30 June 2023\t\t\t6.0, {SheetName -> Index}}, {NarrativeText, Fixed broadband customers\tNine quarters to 30 June 2023\t\t\t7.0, {SheetName -> Index}}, {NarrativeText, Marketable homes passed\tNine quarters to 30 June 2023\t\t\t8.0, {SheetName -> Index}}, {NarrativeText, TV customers\tNine quarters to 30 June 2023\t\t\t9.0, {SheetName -> Index}}, {NarrativeText, Converged customers\tNine quarters to 30 June 2023\t\t\t10.0, {SheetName -> Index}}, {NarrativeText, Mobile churn\tNine quarters to 30 June 2023\t\t\t11.0, {SheetName -> Index}}, {NarrativeText, Mobile data usage\tNine quarters to 30 June 2023\t\t\t12.0, {SheetName -> Index}}, {NarrativeText, Mobile ARPU\tNine quarters to 30 June 2023\t\t\t13.0, {SheetName -> Index}}, {Title, Other, {SheetName -> Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -> Index}}, {NarrativeText, Average foreign exchange rates\tNine quarters to 30 June 2023\t\t\t14.0, {SheetName -> Index}}, {NarrativeText, Guidance rates\tFY 23/24\t\t\t14.0, {SheetName -> Index}}]|
+    * +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * xlsDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- xls: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+
+  def xls(docPath: String): DataFrame = {
+    val excelReader = new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent)
+    excelReader.xls(docPath)
+  }
+
+  private def getCellSeparator: String = {
+    params.asScala.getOrElse("cellSeparator", "\t")
+  }
+
+  /** Instantiates class to read PowerPoint files.
+    *
+    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * "path/power-point/files"
+    *
+    * ==Example==
+    * {{{
+    * val docsPath = "home/user/power-point-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val pptDf = sparkNLPReader.ppt(docsPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val pptDf = SparkNLP.read.ppt(docsPath)
+    * }}}
+    *
+    * {{{
+    * xlsDf.select("ppt").show(false)
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |ppt                                                                                                                                                                                                                                                                                                                      |
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * pptDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- ppt: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+
+  def ppt(docPath: String): DataFrame = {
+    val powerPointReader = new PowerPointReader(getStoreContent)
+    powerPointReader.ppt(docPath)
+  }
+
+  /** Instantiates class to read txt files.
+    *
+    * filePath: this is a path to a directory of TXT files or a path to an TXT file E.g.
+    * "path/txt/files"
+    *
+    * ==Example==
+    * {{{
+    * val filePath = "home/user/txt/files"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val txtDf = sparkNLPReader.txt(filePath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val txtDf = SparkNLP.read.txt(filePath)
+    * }}}
+    *
+    * {{{
+    * txtDf.select("txt").show(false)
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, BIG DATA ANALYTICS, {paragraph -> 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -> 0}}, {Title, MACHINE LEARNING, {paragraph -> 1}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -> 1}}]|
+    * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * emailDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- content: binary (nullable = true)
+    *  |-- txt: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param params
+    *   Parameter with custom configuration
+    */
+  def txt(filePath: String): DataFrame = {
+    val textReader = new TextReader(getTitleLengthSize, getStoreContent)
+    textReader.txt(filePath)
+  }
+
+  private def getTitleLengthSize: Int = {
+    val titleLengthSize =
+      try {
+        params.asScala.getOrElse("titleLengthSize", "50").toInt
+      } catch {
+        case _: IllegalArgumentException => 50
+      }
+
+    titleLengthSize
   }
 
 }

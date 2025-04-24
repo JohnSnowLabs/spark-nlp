@@ -15,6 +15,8 @@
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
+from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import regexp_replace, col
 
 from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
@@ -112,3 +114,59 @@ class ImageAssembler(AnnotatorTransformer):
             Name of an optional input text column
         """
         return self._set(inputCol=value)
+
+    @classmethod
+    def loadImagesAsBytes(cls, spark: SparkSession, path: str):
+        """
+        Loads images from a given path and returns them as raw bytes, instead of the default
+        OpenCV-compatible format. Supported image types include JPEG, PNG, GIF, and BMP.
+
+        Multimodal inference with llama.cpp requires raw bytes as input.
+
+        Parameters
+        ----------
+        spark : SparkSession
+            The active SparkSession.
+        path : str
+            The path to the images. Supported image types are JPEG, PNG, GIF, and BMP.
+
+        Returns
+        -------
+        DataFrame
+            A DataFrame containing the images as raw bytes along with their metadata.
+        """
+
+        # Replace the path separator in the `origin` field and `path` column, so that they match
+        def replace_path(column_name: str):
+            return regexp_replace(col(column_name), ":///", ":/")
+
+        # Load the images as metadata with the default Spark image format
+        data = (
+            spark.read.format("image")
+            .option("dropInvalid", True)
+            .load(path)
+            .withColumn(
+                "image", col("image").withField("origin", replace_path("image.origin"))
+            )
+        )
+
+        # Load the images as raw binary files
+        image_bytes = (
+            spark.read.format("binaryFile")
+            .option("pathGlobFilter", "*.{jpeg,jpg,png,gif,bmp,JPEG,JPG,PNG,GIF,BMP}")
+            .option("dropInvalid", True)
+            .load(path)
+            .withColumn("path", replace_path("path"))
+        )
+
+        # Join the two datasets on the file path
+        df_joined = data.join(
+            image_bytes, data["image.origin"] == image_bytes["path"], "inner"
+        )
+
+        # Replace the `data` field of the `image` column with raw bytes
+        df_image_replaced = df_joined.withColumn(
+            "image", df_joined["image"].withField("data", df_joined["content"])
+        )
+
+        return df_image_replaced

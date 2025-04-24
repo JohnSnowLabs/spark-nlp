@@ -65,7 +65,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"llama_3_7b_chat_hf_int8"`, if no name is provided. For available
+  * The default model is `"llama_3_7b_chat_hf_int4"`, if no name is provided. For available
   * pretrained models please see the [[https://sparknlp.org/models?q=llama3 Models Hub]].
   *
   * For extended examples of usage, see
@@ -101,7 +101,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val llama3 = LLAMA3Transformer.pretrained("llama_3_7b_chat_hf_int8")
+  * val llama3 = LLAMA3Transformer.pretrained("llama_3_7b_chat_hf_int4")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(15)
   *   .setMaxOutputLength(60)

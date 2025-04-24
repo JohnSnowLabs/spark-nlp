@@ -67,6 +67,15 @@ class _AlbertForZeroShotClassificationLoader(ExtendedJavaWrapper):
         )
 
 
+class _AlbertMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _BertLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_BertLoader, self).__init__(
@@ -119,6 +128,15 @@ class _BertMultipleChoiceLoader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForMultipleChoice.loadSavedModel",
             path,
             jspark,
+        )
+
+class _CoHereLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_CoHereLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.CoHereTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
         )
 
 class _DeBERTaLoader(ExtendedJavaWrapper):
@@ -211,6 +229,15 @@ class _DistilBertQuestionAnsweringLoader(ExtendedJavaWrapper):
         )
 
 
+class _DistilBertMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForMultipleChoice.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _ElmoLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_ElmoLoader, self).__init__(
@@ -245,6 +272,14 @@ class _GPT2Loader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _JanusForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_JanusForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.JanusForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _LLAMA2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
@@ -299,6 +334,14 @@ class _LongformerQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _LLAVAForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_LLAVAForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.LLAVAForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _M2M100Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
@@ -318,6 +361,14 @@ class _MistralLoader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _MLLamaForMultimodalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_MLLamaForMultimodalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.MLLamaForMultimodal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
 
 class _NLLBLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark,  use_openvino=False):
@@ -345,6 +396,10 @@ class _MPNetLoader(ExtendedJavaWrapper):
         )
 
 
+class _OLMoLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_OLMoLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.OLMoTransformer.loadSavedModel", path, jspark)
 class _Phi2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_Phi2Loader, self).__init__(
@@ -361,6 +416,15 @@ class _Phi3Loader(ExtendedJavaWrapper):
             path,
             jspark,
             use_openvino,
+        )
+
+class _Phi3VisionLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Phi3VisionLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Phi3Vision.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
         )
 
 class _RoBertaLoader(ExtendedJavaWrapper):
@@ -404,6 +468,15 @@ class _RoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_RoBertaQuestionAnsweringLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
+class _RoBertaMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForMultipleChoice.loadSavedModel",
             path,
             jspark,
         )
@@ -499,6 +572,15 @@ class _XlmRoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlmRoBertaQuestionAnsweringLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
+class _XlmRoBertaMultipleChoiceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaMultipleChoiceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForMultipleChoice.loadSavedModel",
             path,
             jspark,
         )
@@ -992,8 +1074,8 @@ class _AutoGGUFLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_AutoGGUFLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
-        
-        
+
+
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MxbaiEmbeddingsLoader, self).__init__(
@@ -1020,4 +1102,20 @@ class _BLIPForQuestionAnswering(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.cv.BLIPForQuestionAnswering.loadSavedModel",
             path,
             jspark,
+        )
+
+
+class _AutoGGUFVisionLoader(ExtendedJavaWrapper):
+    def __init__(self, modelPath, mmprojPath, jspark):
+        super(_AutoGGUFVisionLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel.loadSavedModel", modelPath, mmprojPath, jspark)
+        
+               
+class _Qwen2VLTransformerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Qwen2VLTransformerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Qwen2VLTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
         )
