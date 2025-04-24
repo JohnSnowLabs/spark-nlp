@@ -429,7 +429,7 @@ private[johnsnowlabs] class VisionEncoderDecoder(
       case Openvino.name =>
         getDecoderOutputsOv(decoderInputIds, ovInferRequest.get)
 
-      case Openvino.name =>
+      case ONNX.name =>
         getModelOutput(decoderInputIds, decoderEncoderStateTensors, session, ovInferRequest)
       case TensorFlow.name =>
         getModelOutput(decoderInputIds, decoderEncoderStateTensors, session, ovInferRequest)
