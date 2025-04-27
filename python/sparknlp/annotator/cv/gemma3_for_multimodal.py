@@ -85,7 +85,7 @@ class Gemma3ForMultiModal(AnnotatorModel,
     >>> from pyspark.sql.functions import lit
     >>> 
     >>> imageDF = spark.read.format("image").load(images_path)
-    >>> testDF = imageDF.withColumn("text", lit("USER: \n <|image|> \nDescribe this image in detail. \nASSISTANT:\n"))
+    >>> testDF = imageDF.withColumn("text", lit("<bos><start_of_turn>user\nYou are a helpful assistant.\n\n<start_of_image>Describe this image in detail.<end_of_turn>\n<start_of_turn>model\n"))
     >>> 
     >>> imageAssembler = ImageAssembler() \
     ...     .setInputCol("image") \

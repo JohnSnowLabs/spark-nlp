@@ -161,9 +161,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = Gemma3ForMultiModal
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/Gemma3/models/int4/google/gemma-3-4b-it/",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)

@@ -74,7 +74,7 @@ import org.apache.spark.sql.SparkSession
   *   .option("dropInvalid", value = true)
   *   .load(imageFolder)
   *
-  * val testDF = imageDF.withColumn("text", lit("USER: \n <|image|> \nDescribe this image in detail. \nASSISTANT:\n"))
+  * val testDF = imageDF.withColumn("text", lit("<bos><start_of_turn>user\nYou are a helpful assistant.\n\n<start_of_image>Describe this image in detail.<end_of_turn>\n<start_of_turn>model\n"))
   *
   * val imageAssembler = new ImageAssembler()
   *   .setInputCol("image")
