@@ -1,15 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Loading datasets for training &#8212; Spark NLP 5.5.3 documentation</title>
+    <title>Loading datasets for training &#8212; Spark NLP 6.0.0 documentation</title>
   
   
   
@@ -19,33 +18,31 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css?v=e1fb877f" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
-    <script src="../static/jquery.js"></script>
-    <script src="../static/underscore.js"></script>
-    <script src="../static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../static/doctools.js"></script>
-    <script src="../static/sphinx_highlight.js"></script>
-    <script src="../static/toggleprompt.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script src="../static/doctools.js?v=888ff710"></script>
+    <script src="../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../static/toggleprompt.js?v=670350bf"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/training';</script>
-    <link rel="shortcut icon" href="../static/fav.ico"/>
+    <link rel="icon" href="../static/fav.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Light Pipelines" href="light_pipelines.html" />
@@ -60,6 +57,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -100,9 +106,11 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -110,25 +118,26 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
+        <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -174,23 +183,27 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -201,18 +214,21 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -232,7 +248,8 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
+          <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -278,12 +295,13 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -293,7 +311,8 @@ document.write(`
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
@@ -333,8 +352,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -344,7 +363,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Loading datasets for training</li>
+    <li class="breadcrumb-item active" aria-current="page">Loading...</li>
   </ul>
 </nav>
 </div>
@@ -367,24 +386,24 @@ document.write(`
 <section id="pos-dataset">
 <h2>POS Dataset<a class="headerlink" href="#pos-dataset" title="Permalink to this heading">#</a></h2>
 <p>In order to train a Part of Speech Tagger annotator
-(<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach" title="sparknlp.annotator.pos.perceptron.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>), we need to
-get corpus data as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/pos/index.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> reads a plain text file
+(<a class="reference internal" href="../_api/sparknlp.annotator.pos.perceptron.html#sparknlp.annotator.pos.perceptron.PerceptronApproach" title="sparknlp.annotator.pos.perceptron.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>), we need to
+get corpus data as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.pos.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> reads a plain text file
 and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">|</span><span class="n">DT</span> <span class="n">few</span><span class="o">|</span><span class="n">JJ</span> <span class="n">months</span><span class="o">|</span><span class="n">NNS</span> <span class="n">ago</span><span class="o">|</span><span class="n">RB</span> <span class="n">you</span><span class="o">|</span><span class="n">PRP</span> <span class="n">received</span><span class="o">|</span><span class="n">VBD</span> <span class="n">a</span><span class="o">|</span><span class="n">DT</span> <span class="n">letter</span><span class="o">|</span><span class="n">NN</span>
 </pre></div>
 </div>
 <p><strong>Example</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">POS</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">POS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">train_pos</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;./src/main/resources/anc-pos-corpus&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="conll-dataset">
 <h2>CoNLL Dataset<a class="headerlink" href="#conll-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach" title="sparknlp.annotator.ner.ner_dl.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a> annotator, we need to get
+<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.ner.ner_dl.html#sparknlp.annotator.ner.ner_dl.NerDLApproach" title="sparknlp.annotator.ner.ner_dl.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a> annotator, we need to get
 <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> format data
-as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.conll.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
@@ -400,16 +419,16 @@ as a Spark dataframe. <a class="reference internal" href="../reference/autosumma
 </pre></div>
 </div>
 <p><strong>Example</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLL</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoNLL</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">training_conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;./src/main/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="conllu-dataset">
 <h2>CoNLLU Dataset<a class="headerlink" href="#conllu-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach" title="sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a> annotator, we need to get
+<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach" title="sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a> annotator, we need to get
 <a class="reference external" href="https://universaldependencies.org/format.html">CoNLL-U</a> format data
-as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/conllu/index.html#sparknlp.training.conllu.CoNLLU" title="sparknlp.training.conllu.CoNLLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLLU</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.conllu.html#sparknlp.training.conllu.CoNLLU" title="sparknlp.training.conllu.CoNLLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLLU</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
@@ -425,7 +444,7 @@ as a Spark dataframe. <a class="reference internal" href="../reference/autosumma
 </pre></div>
 </div>
 <p><strong>Example</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLLU</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoNLLU</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">conlluFile</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/conllu/en.test.conllu&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">conllDataSet</span> <span class="o">=</span> <span class="n">CoNLLU</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conlluFile</span><span class="p">)</span>
 </pre></div>
@@ -433,8 +452,8 @@ as a Spark dataframe. <a class="reference internal" href="../reference/autosumma
 </section>
 <section id="spell-checkers-dataset">
 <h2>Spell Checkers Dataset<a class="headerlink" href="#spell-checkers-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach" title="sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a> or
-<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
+<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.spell_check.norvig_sweeting.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach" title="sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a> or
+<a class="reference internal" href="../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
 dataframe. We can read any plain text file and transform it to a Spark dataset.</p>
 <p><strong>Example</strong></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;./sherlockholmes.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
@@ -445,7 +464,7 @@ dataframe. We can read any plain text file and transform it to a Spark dataset.<
 <h2>PubTator Dataset<a class="headerlink" href="#pubtator-dataset" title="Permalink to this heading">#</a></h2>
 <p>The PubTator format includes medical papers’ titles, abstracts, and tagged chunks
 (see PubTator Docs and MedMentions Docs for more information).
-We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../reference/autosummary/sparknlp/training/pub_tator/index.html#sparknlp.training.pub_tator.PubTator" title="sparknlp.training.pub_tator.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PubTator</span></code></a>.</p>
+We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../_api/sparknlp.training.pub_tator.html#sparknlp.training.pub_tator.PubTator" title="sparknlp.training.pub_tator.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PubTator</span></code></a>.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">25763772</span>    <span class="mi">0</span>       <span class="mi">5</span>       <span class="n">DCTN4</span>   <span class="n">T116</span><span class="p">,</span><span class="n">T123</span>       <span class="n">C4308010</span>
 <span class="mi">25763772</span>    <span class="mi">23</span>      <span class="mi">63</span>      <span class="n">chronic</span> <span class="n">Pseudomonas</span> <span class="n">aeruginosa</span> <span class="n">infection</span>        <span class="n">T047</span>    <span class="n">C0854135</span>
@@ -455,7 +474,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
 </pre></div>
 </div>
 <p><strong>Example</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">PubTator</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">PubTator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trainingPubTatorDF</span> <span class="o">=</span> <span class="n">PubTator</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;./src/test/resources/corpus_pubtator.txt&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -467,11 +486,10 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="pretrained_pipelines.html"
@@ -491,10 +509,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -504,6 +519,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
+
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
@@ -518,6 +534,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
     <a href="../_sources/user_guide/training.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
@@ -538,8 +555,8 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -547,6 +564,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2023, John Snow Labs.
@@ -556,8 +574,9 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>
@@ -565,10 +584,12 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
 </p></div>
       
     </div>

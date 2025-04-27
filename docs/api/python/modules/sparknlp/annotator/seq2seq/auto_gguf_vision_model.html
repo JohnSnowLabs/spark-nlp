@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.seq2seq.auto_gguf_vision_model &#8212; Spark NLP 6.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/auto_gguf_vision_model';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.seq2seq.auto_gguf_vision_model</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2025 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the AutoGGUFVisionModel.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="AutoGGUFVisionModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_vision_model.html#sparknlp.annotator.seq2seq.auto_gguf_vision_model.AutoGGUFVisionModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AutoGGUFVisionModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasLlamaCppProperties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multimodal annotator that uses the llama.cpp library to generate text completions with large</span>
+<span class="sd">    language models. It supports ingesting images for captioning.</span>
+
+<span class="sd">    At the moment only CLIP based models are supported.</span>
+
+<span class="sd">    For settable parameters, and their explanations, see HasLlamaCppInferenceProperties,</span>
+<span class="sd">    HasLlamaCppModelProperties and refer to the llama.cpp documentation of</span>
+<span class="sd">    `server.cpp &lt;https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server&gt;`__</span>
+<span class="sd">    for more information.</span>
+
+<span class="sd">    If the parameters are not set, the annotator will default to use the parameters provided by</span>
+<span class="sd">    the model.</span>
+
+<span class="sd">    This annotator expects a column of annotator type AnnotationImage for the image and</span>
+<span class="sd">    Annotation for the caption. Note that the image bytes in the image annotation need to be</span>
+<span class="sd">    raw image bytes without preprocessing. We provide the helper function</span>
+<span class="sd">    ImageAssembler.loadImagesAsBytes to load the image bytes from a directory.</span>
+
+<span class="sd">    Pretrained models can be loaded with ``pretrained`` of the companion object:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        autoGGUFVisionModel = AutoGGUFVisionModel.pretrained() \\</span>
+<span class="sd">            .setInputCols([&quot;image&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">            .setOutputCol(&quot;completions&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;llava_v1.5_7b_Q4_0_gguf&quot;``, if no name is provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
+
+<span class="sd">    For extended examples of usage, see the</span>
+<span class="sd">    `AutoGGUFVisionModelTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala&gt;`__</span>
+<span class="sd">    and the</span>
+<span class="sd">    `example notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``IMAGE, DOCUMENT``    ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nThreads</span>
+<span class="sd">        Set the number of threads to use during generation</span>
+<span class="sd">    nThreadsDraft</span>
+<span class="sd">        Set the number of threads to use during draft generation</span>
+<span class="sd">    nThreadsBatch</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nThreadsBatchDraft</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nCtx</span>
+<span class="sd">        Set the size of the prompt context</span>
+<span class="sd">    nBatch</span>
+<span class="sd">        Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nUbatch</span>
+<span class="sd">        Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nDraft</span>
+<span class="sd">        Set the number of tokens to draft for speculative decoding</span>
+<span class="sd">    nChunks</span>
+<span class="sd">        Set the maximal number of chunks to process</span>
+<span class="sd">    nSequences</span>
+<span class="sd">        Set the number of sequences to decode</span>
+<span class="sd">    pSplit</span>
+<span class="sd">        Set the speculative decoding split probability</span>
+<span class="sd">    nGpuLayers</span>
+<span class="sd">        Set the number of layers to store in VRAM (-1 - use default)</span>
+<span class="sd">    nGpuLayersDraft</span>
+<span class="sd">        Set the number of layers to store in VRAM for the draft model (-1 - use default)</span>
+<span class="sd">    gpuSplitMode</span>
+<span class="sd">        Set how to split the model across GPUs</span>
+<span class="sd">    mainGpu</span>
+<span class="sd">        Set the main GPU that is used for scratch and small tensors.</span>
+<span class="sd">    tensorSplit</span>
+<span class="sd">        Set how split tensors should be distributed across GPUs</span>
+<span class="sd">    grpAttnN</span>
+<span class="sd">        Set the group-attention factor</span>
+<span class="sd">    grpAttnW</span>
+<span class="sd">        Set the group-attention width</span>
+<span class="sd">    ropeFreqBase</span>
+<span class="sd">        Set the RoPE base frequency, used by NTK-aware scaling</span>
+<span class="sd">    ropeFreqScale</span>
+<span class="sd">        Set the RoPE frequency scaling factor, expands context by a factor of 1/N</span>
+<span class="sd">    yarnExtFactor</span>
+<span class="sd">        Set the YaRN extrapolation mix factor</span>
+<span class="sd">    yarnAttnFactor</span>
+<span class="sd">        Set the YaRN scale sqrt(t) or attention magnitude</span>
+<span class="sd">    yarnBetaFast</span>
+<span class="sd">        Set the YaRN low correction dim or beta</span>
+<span class="sd">    yarnBetaSlow</span>
+<span class="sd">        Set the YaRN high correction dim or alpha</span>
+<span class="sd">    yarnOrigCtx</span>
+<span class="sd">        Set the YaRN original context size of model</span>
+<span class="sd">    defragmentationThreshold</span>
+<span class="sd">        Set the KV cache defragmentation threshold</span>
+<span class="sd">    numaStrategy</span>
+<span class="sd">        Set optimization strategies that help on some NUMA systems (if available)</span>
+<span class="sd">    ropeScalingType</span>
+<span class="sd">        Set the RoPE frequency scaling method, defaults to linear unless specified by the model</span>
+<span class="sd">    poolingType</span>
+<span class="sd">        Set the pooling type for embeddings, use model default if unspecified</span>
+<span class="sd">    modelDraft</span>
+<span class="sd">        Set the draft model for speculative decoding</span>
+<span class="sd">    modelAlias</span>
+<span class="sd">        Set a model alias</span>
+<span class="sd">    lookupCacheStaticFilePath</span>
+<span class="sd">        Set path to static lookup cache to use for lookup decoding (not updated by generation)</span>
+<span class="sd">    lookupCacheDynamicFilePath</span>
+<span class="sd">        Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</span>
+<span class="sd">    embedding</span>
+<span class="sd">        Whether to load model with embedding support</span>
+<span class="sd">    flashAttention</span>
+<span class="sd">        Whether to enable Flash Attention</span>
+<span class="sd">    inputPrefixBos</span>
+<span class="sd">        Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string</span>
+<span class="sd">    useMmap</span>
+<span class="sd">        Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</span>
+<span class="sd">    useMlock</span>
+<span class="sd">        Whether to force the system to keep model in RAM rather than swapping or compressing</span>
+<span class="sd">    noKvOffload</span>
+<span class="sd">        Whether to disable KV offload</span>
+<span class="sd">    systemPrompt</span>
+<span class="sd">        Set a system prompt to use</span>
+<span class="sd">    chatTemplate</span>
+<span class="sd">        The chat template to use</span>
+<span class="sd">    inputPrefix</span>
+<span class="sd">        Set the prompt to start generation with</span>
+<span class="sd">    inputSuffix</span>
+<span class="sd">        Set a suffix for infilling</span>
+<span class="sd">    cachePrompt</span>
+<span class="sd">        Whether to remember the prompt to avoid reprocessing it</span>
+<span class="sd">    nPredict</span>
+<span class="sd">        Set the number of tokens to predict</span>
+<span class="sd">    topK</span>
+<span class="sd">        Set top-k sampling</span>
+<span class="sd">    topP</span>
+<span class="sd">        Set top-p sampling</span>
+<span class="sd">    minP</span>
+<span class="sd">        Set min-p sampling</span>
+<span class="sd">    tfsZ</span>
+<span class="sd">        Set tail free sampling, parameter z</span>
+<span class="sd">    typicalP</span>
+<span class="sd">        Set locally typical sampling, parameter p</span>
+<span class="sd">    temperature</span>
+<span class="sd">        Set the temperature</span>
+<span class="sd">    dynatempRange</span>
+<span class="sd">        Set the dynamic temperature range</span>
+<span class="sd">    dynatempExponent</span>
+<span class="sd">        Set the dynamic temperature exponent</span>
+<span class="sd">    repeatLastN</span>
+<span class="sd">        Set the last n tokens to consider for penalties</span>
+<span class="sd">    repeatPenalty</span>
+<span class="sd">        Set the penalty of repeated sequences of tokens</span>
+<span class="sd">    frequencyPenalty</span>
+<span class="sd">        Set the repetition alpha frequency penalty</span>
+<span class="sd">    presencePenalty</span>
+<span class="sd">        Set the repetition alpha presence penalty</span>
+<span class="sd">    miroStat</span>
+<span class="sd">        Set MiroStat sampling strategies.</span>
+<span class="sd">    mirostatTau</span>
+<span class="sd">        Set the MiroStat target entropy, parameter tau</span>
+<span class="sd">    mirostatEta</span>
+<span class="sd">        Set the MiroStat learning rate, parameter eta</span>
+<span class="sd">    penalizeNl</span>
+<span class="sd">        Whether to penalize newline tokens</span>
+<span class="sd">    nKeep</span>
+<span class="sd">        Set the number of tokens to keep from the initial prompt</span>
+<span class="sd">    seed</span>
+<span class="sd">        Set the RNG seed</span>
+<span class="sd">    nProbs</span>
+<span class="sd">        Set the amount top tokens probabilities to output if greater than 0.</span>
+<span class="sd">    minKeep</span>
+<span class="sd">        Set the amount of tokens the samplers should return at least (0 = disabled)</span>
+<span class="sd">    grammar</span>
+<span class="sd">        Set BNF-like grammar to constrain generations</span>
+<span class="sd">    penaltyPrompt</span>
+<span class="sd">        Override which part of the prompt is penalized for repetition.</span>
+<span class="sd">    ignoreEos</span>
+<span class="sd">        Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)</span>
+<span class="sd">    disableTokenIds</span>
+<span class="sd">        Set the token ids to disable in the completion</span>
+<span class="sd">    stopStrings</span>
+<span class="sd">        Set strings upon seeing which token generation is stopped</span>
+<span class="sd">    samplers</span>
+<span class="sd">        Set which samplers to use for token generation in the given order</span>
+<span class="sd">    useChatTemplate</span>
+<span class="sd">        Set whether or not generate should apply a chat template</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set</span>
+<span class="sd">    the number of GPU layers with the `setNGpuLayers` method.</span>
+
+<span class="sd">    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`</span>
+<span class="sd">    according to your hardware to avoid out-of-memory errors.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.sql.functions import lit</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;caption&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;caption_document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; imageAssembler = ImageAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;image&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;image_assembler&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; imagesPath = &quot;src/test/resources/image/&quot;</span>
+<span class="sd">    &gt;&gt;&gt; data = ImageAssembler \\</span>
+<span class="sd">    ...     .loadImagesAsBytes(spark, imagesPath) \\</span>
+<span class="sd">    ...     .withColumn(&quot;caption&quot;, lit(&quot;Caption this image.&quot;)) # Add a caption to each image.</span>
+<span class="sd">    &gt;&gt;&gt; nPredict = 40</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoGGUFVisionModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;completions&quot;) \\</span>
+<span class="sd">    ...     .setBatchSize(4) \\</span>
+<span class="sd">    ...     .setNGpuLayers(99) \\</span>
+<span class="sd">    ...     .setNCtx(4096) \\</span>
+<span class="sd">    ...     .setMinKeep(0) \\</span>
+<span class="sd">    ...     .setMinP(0.05) \\</span>
+<span class="sd">    ...     .setNPredict(nPredict) \\</span>
+<span class="sd">    ...     .setNProbs(0) \\</span>
+<span class="sd">    ...     .setPenalizeNl(False) \\</span>
+<span class="sd">    ...     .setRepeatLastN(256) \\</span>
+<span class="sd">    ...     .setRepeatPenalty(1.18) \\</span>
+<span class="sd">    ...     .setStopStrings([&quot;&lt;/s&gt;&quot;, &quot;Llama:&quot;, &quot;User:&quot;]) \\</span>
+<span class="sd">    ...     .setTemperature(0.05) \\</span>
+<span class="sd">    ...     .setTfsZ(1) \\</span>
+<span class="sd">    ...     .setTypicalP(1) \\</span>
+<span class="sd">    ...     .setTopK(40) \\</span>
+<span class="sd">    ...     .setTopP(0.95)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model])</span>
+<span class="sd">    &gt;&gt;&gt; pipeline.fit(data).transform(data) \\</span>
+<span class="sd">    ...     .selectExpr(&quot;reverse(split(image.origin, &#39;/&#39;))[0] as image_name&quot;, &quot;completions.result&quot;) \\</span>
+<span class="sd">    ...     .show(truncate = False)</span>
+<span class="sd">    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |image_name       |result                                                                                                                                                                                        |</span>
+<span class="sd">    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |palace.JPEG      |[ The image depicts a large, ornate room with high ceilings and beautifully decorated walls. There are several chairs placed throughout the space, some of which have cushions]               |</span>
+<span class="sd">    |egyptian_cat.jpeg|[ The image features two cats lying on a pink surface, possibly a bed or sofa. One cat is positioned towards the left side of the scene and appears to be sleeping while holding]             |</span>
+<span class="sd">    |hippopotamus.JPEG|[ A large brown hippo is swimming in a body of water, possibly an aquarium. The hippo appears to be enjoying its time in the water and seems relaxed as it floats]                            |</span>
+<span class="sd">    |hen.JPEG         |[ The image features a large chicken standing next to several baby chickens. In total, there are five birds in the scene: one adult and four young ones. They appear to be gathered together] |</span>
+<span class="sd">    |ostrich.JPEG     |[ The image features a large, long-necked bird standing in the grass. It appears to be an ostrich or similar species with its head held high and looking around. In addition to]              |</span>
+<span class="sd">    |junco.JPEG       |[ A small bird with a black head and white chest is standing on the snow. It appears to be looking at something, possibly food or another animal in its vicinity. The scene takes place out]  |</span>
+<span class="sd">    |bluetick.jpg     |[ A dog with a red collar is sitting on the floor, looking at something. The dog appears to be staring into the distance or focusing its attention on an object in front of it.]              |</span>
+<span class="sd">    |chihuahua.jpg    |[ A small brown dog wearing a sweater is sitting on the floor. The dog appears to be looking at something, possibly its owner or another animal in the room. It seems comfortable and relaxed]|</span>
+<span class="sd">    |tractor.JPEG     |[ A man is sitting in the driver&#39;s seat of a green tractor, which has yellow wheels and tires. The tractor appears to be parked on top of an empty field with]                                |</span>
+<span class="sd">    |ox.JPEG          |[ A large bull with horns is standing in a grassy field.]                                                                                                                                     |</span>
+<span class="sd">    +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFVisionModel&quot;</span>
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoGGUFVisionModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">useChatTemplate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">nCtx</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+            <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">nPredict</span><span class="o">=</span><span class="mi">100</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AutoGGUFVisionModel.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_vision_model.html#sparknlp.annotator.seq2seq.auto_gguf_vision_model.AutoGGUFVisionModel.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">modelPath</span><span class="p">,</span> <span class="n">mmprojPath</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved modelPath.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        modelPath : str</span>
+<span class="sd">            Path to the modelPath file</span>
+<span class="sd">        mmprojPath : str</span>
+<span class="sd">            Path to the mmprojPath file</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFVisionModel</span>
+<span class="sd">            The restored modelPath</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_AutoGGUFVisionLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AutoGGUFVisionLoader</span><span class="p">(</span><span class="n">modelPath</span><span class="p">,</span> <span class="n">mmprojPath</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">AutoGGUFVisionModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFVisionModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_vision_model.html#sparknlp.annotator.seq2seq.auto_gguf_vision_model.AutoGGUFVisionModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;llava_v1.5_7b_Q4_0_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;llava_v1.5_7b_Q4_0_gguf&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFVisionModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AutoGGUFVisionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
