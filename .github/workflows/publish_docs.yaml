@@ -53,7 +53,9 @@ jobs:
       - name: Build Python APIs
         run: |
           cd ./python/docs
-          make html
+          # Run with verbose output to debug any issues
+          SPHINX_APIDOC_OPTIONS=members,undoc-members,show-inheritance sphinx-apidoc -e -f -o ./_api ../sparknlp ../sparknlp/tests
+          make html SPHINXOPTS="-v"
 
       - name: Commit changes
         id: commit
