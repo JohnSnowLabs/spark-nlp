@@ -18,7 +18,7 @@ env:
 jobs:
   build:
     if: "contains(toJSON(github.event.commits.*.message), '[run doc]')"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -36,6 +36,9 @@ jobs:
 
       - name: Install SBT
         run: |
+          echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | sudo tee /etc/apt/sources.list.d/sbt.list
+          echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+          curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x99E82A75642AC823" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sbt.gpg > /dev/null
           sudo apt-get update
           sudo apt-get install -y sbt
 
