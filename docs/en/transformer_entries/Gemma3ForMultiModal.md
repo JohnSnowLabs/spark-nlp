@@ -105,15 +105,15 @@ result.select("image_assembler.origin", "answer.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Gemma3ForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=/api/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal)
+[Gemma3ForMultiModal](/api/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Gemma3ForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=/api/python/reference/autosummary/sparknlp/annotator/cv/gemma3_for_multimodal/index.html#sparknlp.annotator.cv.gemma3_for_multimodal.Gemma3ForMultiModal)
+[Gemma3ForMultiModal](/api/python/reference/autosummary/sparknlp/annotator/cv/gemma3_for_multimodal/index.html#sparknlp.annotator.cv.gemma3_for_multimodal.Gemma3ForMultiModal)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[Gemma3ForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal.scala)
+[Gemma3ForMultiModal](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
