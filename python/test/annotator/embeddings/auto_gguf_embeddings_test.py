@@ -47,6 +47,7 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
             .setOutputCol("embeddings")
             .setBatchSize(4)
             .setNGpuLayers(99)
+            .setNCtx(4096)
         )
 
         pipeline = Pipeline().setStages([self.document_assembler, model])
@@ -57,7 +58,7 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
             embds = row["embeddings"][0]
             assert embds is not None
             assert (
-                sum(embds) > 0
+                    sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
@@ -83,10 +84,7 @@ class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
 
     def runTest(self):
         model = (
-            # AutoGGUFEmbeddings.pretrained()
-            AutoGGUFEmbeddings.loadSavedModel(
-                "models/nomic-embed-text-v1.5.Q8_0.gguf", SparkContextForTest.spark
-            )
+            AutoGGUFEmbeddings.pretrained()
             .setInputCols("document")
             .setOutputCol("embeddings")
             .setBatchSize(4)
@@ -102,5 +100,70 @@ class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
             embds = row["embeddings"][0]
             assert embds is not None
             assert (
-                sum(embds) > 0
+                    sum(embds) > 0
+            ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
+
+
+@pytest.mark.slow
+class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+        self.long_data_copies = 16
+        self.long_text = "All work and no play makes Jack a dull boy" * 100
+        self.long_data = self.spark.createDataFrame(
+            [self.long_text] * self.long_data_copies, schema="string"
+        ).toDF("text").repartition(4)
+
+    def runTest(self):
+        model = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+            .setBatchSize(4)
+        )
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        results = pipeline.fit(self.long_data).transform(self.long_data)
+        collected = results.select("embeddings").collect()
+
+        assert len(collected) == self.long_data_copies
+        for row in collected:
+            metadata = row[0][0]["metadata"]
+            assert "llamacpp_exception" in metadata, "llamacpp_exception should be present"
+
+
+@pytest.mark.slow
+class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+        self.long_data_copies = 16
+        self.long_text = "All work and no play makes Jack a dull boy" * 100
+        self.long_data = self.spark.createDataFrame(
+            [self.long_text] * self.long_data_copies, schema="string"
+        ).toDF("text").repartition(4)
+
+    def runTest(self):
+        model = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+            .setBatchSize(4)
+            .setNUbatch(2048)
+            .setNBatch(2048)
+        )
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        results = pipeline.fit(self.long_data).transform(self.long_data)
+        collected = results.select("embeddings").collect()
+
+        assert len(collected) == self.long_data_copies, "Should return the same number of rows"
+        for row in collected:
+            embds = row[0][0]["embeddings"]
+            assert embds is not None
+            assert (
+                    sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"

@@ -67,20 +67,18 @@ private[johnsnowlabs] object ImageIOUtils {
   def readImage(file: File): Option[BufferedImage] = {
     Try(ImageIO.read(file)) match {
       case Success(bufferedImage) => Some(bufferedImage)
-      case Failure(_) => {
+      case Failure(_) =>
         logger.warn(s"Error in ImageIOUtils.readImage while reading file: ${file.getPath}")
         None
-      }
     }
   }
 
   def readImage(inputStream: InputStream): Option[BufferedImage] = {
     Try(ImageIO.read(inputStream)) match {
       case Success(bufferedImage) => Some(bufferedImage)
-      case Failure(_) => {
+      case Failure(_) =>
         logger.warn(s"Error in ImageIOUtils.readImage while reading inputStream")
         None
-      }
     }
   }
 
@@ -202,5 +200,24 @@ private[johnsnowlabs] object ImageIOUtils {
     } else None
 
   }
+
+  def arrayToBufferedImage(pixelArray: Array[Array[Array[Int]]]): BufferedImage = {
+    val height = pixelArray.length
+    val width = pixelArray.head.length
+    val image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+
+    for (y <- pixelArray.indices; x <- pixelArray(y).indices) {
+      val rgb = pixelArray(y)(x) match {
+        case Array(r, g, b) => new Color(r, g, b).getRGB
+        case _ =>
+          throw new IllegalArgumentException(
+            "Each pixel must have exactly 3 color channels (RGB)")
+      }
+      image.setRGB(x, y, rgb)
+    }
+    image
+  }
+  def encodeImageBase64(image: Array[Byte]): String =
+    java.util.Base64.getEncoder.encodeToString(image)
 
 }

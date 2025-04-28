@@ -697,7 +697,15 @@ object PythonResourceDownloader {
     "NLLBTransformer" -> NLLBTransformer,
     "Phi3Transformer" -> Phi3Transformer,
     "QwenTransformer" -> QwenTransformer,
-    "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings)
+    "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings,
+    "AutoGGUFVisionModel" -> AutoGGUFVisionModel,
+    "MLLamaForMultimodal" -> MLLamaForMultimodal,
+    "Qwen2VLTransformer" -> Qwen2VLTransformer,
+    "CoHereTransformer" -> CoHereTransformer,
+    "LLAVAForMultiModal" -> LLAVAForMultiModal,
+    "Phi3Vision" -> Phi3Vision,
+    "OLMoTransformer" -> OLMoTransformer,
+    "JanusForMultiModal" -> JanusForMultiModal)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

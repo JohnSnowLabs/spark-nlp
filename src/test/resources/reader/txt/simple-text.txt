@@ -1,0 +1,9 @@
+BIG DATA ANALYTICS
+
+Apache Spark is a fast and general-purpose cluster computing system.
+It provides high-level APIs in Java, Scala, Python, and R.
+
+MACHINE LEARNING
+
+Spark's MLlib provides scalable machine learning algorithms.
+It includes tools for classification, regression, clustering, and more.

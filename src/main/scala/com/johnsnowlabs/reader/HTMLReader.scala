@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.functions.{col, lit, udf}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element, Node, TextNode}
 
@@ -26,7 +26,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class HTMLReader(titleFontSize: Int = 16) extends Serializable {
+class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -35,16 +35,19 @@ class HTMLReader(titleFontSize: Int = 16) extends Serializable {
 
     ResourceHelper match {
       case _ if validFile(inputSource) && !inputSource.startsWith("http") =>
-        spark.sparkContext
+        val htmlDf = spark.sparkContext
           .wholeTextFiles(inputSource)
           .toDF("path", "content")
           .withColumn("html", parseHtmlUDF(col("content")))
-
+        if (storeContent) htmlDf.select("path", "content", "html")
+        else htmlDf.select("path", "html")
       case _ if isValidURL(inputSource) =>
-        spark
+        val htmlDf = spark
           .createDataset(Seq(inputSource))
           .toDF("url")
           .withColumn("html", parseURLUDF(col("url")))
+        if (storeContent) htmlDf.select("url", "content", "html")
+        else htmlDf.select("url", "html")
       case _ =>
         throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
     }

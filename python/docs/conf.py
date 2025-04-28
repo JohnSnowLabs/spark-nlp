@@ -23,7 +23,7 @@ copyright = "2023, John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "5.5.3"
+release = "6.0.0"
 pyspark_version = "3.2.3"
 
 # -- General configuration ---------------------------------------------------

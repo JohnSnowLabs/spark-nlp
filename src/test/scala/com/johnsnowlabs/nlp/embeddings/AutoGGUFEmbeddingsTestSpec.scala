@@ -7,6 +7,9 @@ import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.io.Source
+import scala.util.Using
+
 class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
@@ -23,6 +26,13 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     "The sun is " //
   ).toDF("text").repartition(1)
 
+  lazy val longDataCopies = 16
+  lazy val longData = {
+    val text = "All work and no play makes Jack a dull boy" * 100
+    Seq.fill(longDataCopies)(text).toDF("text").repartition(4)
+  }
+
+  println(ResourceHelper.spark.version)
   // nomic-embed-text-v1.5.Q8_0.gguf
   def model(poolingType: String): AutoGGUFEmbeddings = AutoGGUFEmbeddings
     .pretrained()
@@ -30,7 +40,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     .setOutputCol("embeddings")
     .setBatchSize(4)
     .setPoolingType(poolingType)
-
+    .setNCtx(8192)
   def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")) =
     new Pipeline().setStages(Array(documentAssembler, embedModel))
 
@@ -83,4 +93,35 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
       .select("embeddings.embeddings")
       .show(truncate = false)
   }
+
+  it should "return error messages when embeddings can't be created" taggedAs SlowTest in {
+    val result = pipeline().fit(longData).transform(longData)
+    val collected = Annotation.collect(result, "embeddings")
+    assert(collected.length == longDataCopies)
+
+    collected.foreach { annotations =>
+      assert(
+        annotations.head.metadata.contains("llamacpp_exception"),
+        "llamacpp_exception should be present")
+    }
+
+  }
+
+  it should "embed long text" taggedAs SlowTest in {
+    val result = pipeline(
+      model("MEAN")
+        .setNUbatch(2048)
+        .setNBatch(2048)).fit(longData).transform(longData)
+    val collected = Annotation.collect(result, "embeddings")
+    assert(collected.length == longDataCopies, "Should return the same number of rows")
+
+    collected.foreach { annotations =>
+      val embeddings = annotations.head.embeddings
+      assert(embeddings != null, "embeddings should not be null")
+      assert(
+        embeddings.sum > 0.0,
+        "embeddings should not be zero. Was there an error on llama.cpp side?")
+    }
+  }
+
 }
