@@ -1,0 +1,1324 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.annotator.sentence.sentence_detector_dl module &#8212; Spark NLP 6.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script src="../static/doctools.js?v=888ff710"></script>
+    <script src="../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_api/sparknlp.annotator.sentence.sentence_detector_dl';</script>
+    <link rel="icon" href="../static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.annotator.html">sparknlp.annotator package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.audio.html">sparknlp.annotator.audio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.hubert_for_ctc.html">sparknlp.annotator.audio.hubert_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.wav2vec2_for_ctc.html">sparknlp.annotator.audio.wav2vec2_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.whisper_for_ctc.html">sparknlp.annotator.audio.whisper_for_ctc module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.classifier_dl.html">sparknlp.annotator.classifier_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.albert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_question_answering.html">sparknlp.annotator.classifier_dl.albert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.albert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_token_classification.html">sparknlp.annotator.classifier_dl.albert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.bert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_question_answering.html">sparknlp.annotator.classifier_dl.bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_token_classification.html">sparknlp.annotator.classifier_dl.bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_question_answering.html">sparknlp.annotator.classifier_dl.camembert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.camembert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_token_classification.html">sparknlp.annotator.classifier_dl.camembert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_token_classification.html">sparknlp.annotator.classifier_dl.deberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_question_answering.html">sparknlp.annotator.classifier_dl.distil_bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_question_answering.html">sparknlp.annotator.classifier_dl.longformer_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_sequence_classification.html">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_token_classification.html">sparknlp.annotator.classifier_dl.longformer_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_question_answering.html">sparknlp.annotator.classifier_dl.mpnet_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_token_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.multi_classifier_dl.html">sparknlp.annotator.classifier_dl.multi_classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.sentiment_dl.html">sparknlp.annotator.classifier_dl.sentiment_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.tapas_for_question_answering.html">sparknlp.annotator.classifier_dl.tapas_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_token_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_token_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cleaners.html">sparknlp.annotator.cleaners package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.cleaner.html">sparknlp.annotator.cleaners.cleaner module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.extractor.html">sparknlp.annotator.cleaners.extractor module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.coref.html">sparknlp.annotator.coref package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.coref.spanbert_coref.html">sparknlp.annotator.coref.spanbert_coref module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cv.html">sparknlp.annotator.cv package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.dependency.html">sparknlp.annotator.dependency package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.dependency_parser.html">sparknlp.annotator.dependency.dependency_parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.typed_dependency_parser.html">sparknlp.annotator.dependency.typed_dependency_parser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.embeddings.html">sparknlp.annotator.embeddings package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.albert_embeddings.html">sparknlp.annotator.embeddings.albert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.auto_gguf_embeddings.html">sparknlp.annotator.embeddings.auto_gguf_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_sentence_embeddings.html">sparknlp.annotator.embeddings.bert_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bge_embeddings.html">sparknlp.annotator.embeddings.bge_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.camembert_embeddings.html">sparknlp.annotator.embeddings.camembert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.chunk_embeddings.html">sparknlp.annotator.embeddings.chunk_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.deberta_embeddings.html">sparknlp.annotator.embeddings.deberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mxbai_embeddings.html">sparknlp.annotator.embeddings.mxbai_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.nomic_embeddings.html">sparknlp.annotator.embeddings.nomic_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_embeddings.html">sparknlp.annotator.embeddings.roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.sentence_embeddings.html">sparknlp.annotator.embeddings.sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.snowflake_embeddings.html">sparknlp.annotator.embeddings.snowflake_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.uae_embeddings.html">sparknlp.annotator.embeddings.uae_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.universal_sentence_encoder.html">sparknlp.annotator.embeddings.universal_sentence_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word2vec.html">sparknlp.annotator.embeddings.word2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word_embeddings.html">sparknlp.annotator.embeddings.word_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlnet_embeddings.html">sparknlp.annotator.embeddings.xlnet_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.er.html">sparknlp.annotator.er package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.er.entity_ruler.html">sparknlp.annotator.er.entity_ruler module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.html">sparknlp.annotator.keyword_extraction package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html">sparknlp.annotator.keyword_extraction.yake_keyword_extraction module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ld_dl.html">sparknlp.annotator.ld_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ld_dl.language_detector_dl.html">sparknlp.annotator.ld_dl.language_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.matcher.html">sparknlp.annotator.matcher package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.big_text_matcher.html">sparknlp.annotator.matcher.big_text_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.date_matcher.html">sparknlp.annotator.matcher.date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html">sparknlp.annotator.matcher.multi_date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html">sparknlp.annotator.matcher.regex_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ner.html">sparknlp.annotator.ner package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html">sparknlp.annotator.ner.ner_approach module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_converter.html">sparknlp.annotator.ner.ner_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_crf.html">sparknlp.annotator.ner.ner_crf module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_dl.html">sparknlp.annotator.ner.ner_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_overwriter.html">sparknlp.annotator.ner.ner_overwriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.zero_shot_ner_model.html">sparknlp.annotator.ner.zero_shot_ner_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.openai.html">sparknlp.annotator.openai package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_completion.html">sparknlp.annotator.openai.openai_completion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_embeddings.html">sparknlp.annotator.openai.openai_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.param.html">sparknlp.annotator.param package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.classifier_encoder.html">sparknlp.annotator.param.classifier_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.evaluation_dl_params.html">sparknlp.annotator.param.evaluation_dl_params module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.pos.html">sparknlp.annotator.pos package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.pos.perceptron.html">sparknlp.annotator.pos.perceptron module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="sparknlp.annotator.sentence.html">sparknlp.annotator.sentence package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector.html">sparknlp.annotator.sentence.sentence_detector module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">sparknlp.annotator.sentence.sentence_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentiment.html">sparknlp.annotator.sentiment package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.sentiment_detector.html">sparknlp.annotator.sentiment.sentiment_detector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.vivekn_sentiment.html">sparknlp.annotator.sentiment.vivekn_sentiment module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.seq2seq.html">sparknlp.annotator.seq2seq package</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_model.html">sparknlp.annotator.seq2seq.auto_gguf_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_vision_model.html">sparknlp.annotator.seq2seq.auto_gguf_vision_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.bart_transformer.html">sparknlp.annotator.seq2seq.bart_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cohere_transformer.html">sparknlp.annotator.seq2seq.cohere_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html">sparknlp.annotator.seq2seq.cpm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama2_transformer.html">sparknlp.annotator.seq2seq.llama2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama3_transformer.html">sparknlp.annotator.seq2seq.llama3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.m2m100_transformer.html">sparknlp.annotator.seq2seq.m2m100_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.marian_transformer.html">sparknlp.annotator.seq2seq.marian_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.mistral_transformer.html">sparknlp.annotator.seq2seq.mistral_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.nllb_transformer.html">sparknlp.annotator.seq2seq.nllb_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.olmo_transformer.html">sparknlp.annotator.seq2seq.olmo_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi2_transformer.html">sparknlp.annotator.seq2seq.phi2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi3_transformer.html">sparknlp.annotator.seq2seq.phi3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.spell_check.html">sparknlp.annotator.spell_check package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.context_spell_checker.html">sparknlp.annotator.spell_check.context_spell_checker module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.norvig_sweeting.html">sparknlp.annotator.spell_check.norvig_sweeting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.symmetric_delete.html">sparknlp.annotator.spell_check.symmetric_delete module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.token.html">sparknlp.annotator.token package</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.chunk_tokenizer.html">sparknlp.annotator.token.chunk_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.recursive_tokenizer.html">sparknlp.annotator.token.recursive_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.regex_tokenizer.html">sparknlp.annotator.token.regex_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.tokenizer.html">sparknlp.annotator.token.tokenizer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ws.html">sparknlp.annotator.ws package</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ws.word_segmenter.html">sparknlp.annotator.ws.word_segmenter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunk2_doc.html">sparknlp.annotator.chunk2_doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunker.html">sparknlp.annotator.chunker module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter.html">sparknlp.annotator.document_token_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter_test.html">sparknlp.annotator.document_token_splitter_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.graph_extraction.html">sparknlp.annotator.graph_extraction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.lemmatizer.html">sparknlp.annotator.lemmatizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.n_gram_generator.html">sparknlp.annotator.n_gram_generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.normalizer.html">sparknlp.annotator.normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stemmer.html">sparknlp.annotator.stemmer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stop_words_cleaner.html">sparknlp.annotator.stop_words_cleaner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.tf_ner_dl_graph_builder.html">sparknlp.annotator.tf_ner_dl_graph_builder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.token2_chunk.html">sparknlp.annotator.token2_chunk module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.base.html">sparknlp.base package</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.audio_assembler.html">sparknlp.base.audio_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.doc2_chunk.html">sparknlp.base.doc2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.document_assembler.html">sparknlp.base.document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.embeddings_finisher.html">sparknlp.base.embeddings_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.finisher.html">sparknlp.base.finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.graph_finisher.html">sparknlp.base.graph_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_fit.html">sparknlp.base.has_recursive_fit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_transform.html">sparknlp.base.has_recursive_transform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.image_assembler.html">sparknlp.base.image_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.light_pipeline.html">sparknlp.base.light_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.multi_document_assembler.html">sparknlp.base.multi_document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.prompt_assembler.html">sparknlp.base.prompt_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.recursive_pipeline.html">sparknlp.base.recursive_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.table_assembler.html">sparknlp.base.table_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.token_assembler.html">sparknlp.base.token_assembler module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.common.html">sparknlp.common package</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_approach.html">sparknlp.common.annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.read_as.html">sparknlp.common.read_as module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.recursive_annotator_approach.html">sparknlp.common.recursive_annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.storage.html">sparknlp.common.storage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.utils.html">sparknlp.common.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.internal.html">sparknlp.internal package</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-26"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_java_ml.html">sparknlp.internal.annotator_java_ml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_transformer.html">sparknlp.internal.annotator_transformer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.extended_java_wrapper.html">sparknlp.internal.extended_java_wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.params_getters_setters.html">sparknlp.internal.params_getters_setters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.recursive.html">sparknlp.internal.recursive module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.logging.html">sparknlp.logging package</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-27"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pub_tator.html">sparknlp.training.pub_tator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.spacy_to_annotation.html">sparknlp.training.spacy_to_annotation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.tfgraphs.html">sparknlp.training.tfgraphs module</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation.html">sparknlp.annotation module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_audio.html">sparknlp.annotation_audio module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_image.html">sparknlp.annotation_image module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.functions.html">sparknlp.functions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.upload_to_hub.html">sparknlp.upload_to_hub module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.util.html">sparknlp.util module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.annotator.sentence.sentence_detector_dl">
+<span id="sparknlp-annotator-sentence-sentence-detector-dl-module"></span><h1>sparknlp.annotator.sentence.sentence_detector_dl module<a class="headerlink" href="#module-sparknlp.annotator.sentence.sentence_detector_dl" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for SentenceDetectorDl.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentenceDetectorDLApproach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
+<p>Trains an annotator that detects sentence boundaries using a deep
+learning approach.</p>
+<p>Currently, only the CNN model is supported for training, but in the future
+the architecture of the model can be set with <a class="reference internal" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel" title="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setModel()</span></code></a>.</p>
+<p>For pretrained models see <a class="reference internal" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel" title="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetectorDLModel</span></code></a>.</p>
+<p>Each extracted sentence can be returned in an Array or exploded to separate
+rows, if <code class="docutils literal notranslate"><span class="pre">explodeSentences</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>modelArchitecture</strong></dt><dd><p>Model architecture (CNN)</p>
+</dd>
+<dt><strong>impossiblePenultimates</strong></dt><dd><p>Impossible penultimates - list of strings which a sentence can’t end
+with</p>
+</dd>
+<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the
+model on each</p>
+</dd>
+<dt><strong>epochsNumber</strong></dt><dd><p>Number of epochs for the optimization process</p>
+</dd>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no
+logs are generated</p>
+</dd>
+<dt><strong>explodeSentences</strong></dt><dd><p>Whether to explode each sentence into a different row, for better
+parallelization. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>The default model <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is based on the paper <a class="reference external" href="https://konvens.org/proceedings/2019/papers/KONVENS2019_paper_41.pdf">Deep-EOS: General-Purpose
+Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter,
+Sajawel Ahmed)</a>
+using a CNN architecture. We also modified the original implementation a
+little bit to cover broken sentences and some impossible end of line chars.</p>
+<p class="rubric">Examples</p>
+<p>The training process needs data, where each data point is a sentence.
+In this example the <code class="docutils literal notranslate"><span class="pre">train.txt</span></code> file has the form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>...
+Slightly more moderate language would make our present situation – namely the lack of progress – a little easier.
+His political successors now have great responsibilities to history and to the heritage of values bequeathed to them by Nelson Mandela.
+...
+</pre></div>
+</div>
+<p>where each line is one sentence.</p>
+<p>Training can then be started like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;train.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.epochsNumber">
+<span class="sig-name descname"><span class="pre">epochsNumber</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='epochsNumber',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">epochs</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">optimization</span> <span class="pre">process')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.epochsNumber" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.explodeSentences">
+<span class="sig-name descname"><span class="pre">explodeSentences</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='explodeSentences',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">explode</span> <span class="pre">each</span> <span class="pre">sentence</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">different</span> <span class="pre">row,</span> <span class="pre">for</span> <span class="pre">better</span> <span class="pre">parallelization.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">false.')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.explodeSentences" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.impossiblePenultimates">
+<span class="sig-name descname"><span class="pre">impossiblePenultimates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='impossiblePenultimates',</span> <span class="pre">doc=&quot;Impossible</span> <span class="pre">penultimates</span> <span class="pre">-</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">strings</span> <span class="pre">which</span> <span class="pre">a</span> <span class="pre">sentence</span> <span class="pre">can't</span> <span class="pre">end</span> <span class="pre">with&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.impossiblePenultimates" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.inputAnnotatorTypes">
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.modelArchitecture">
+<span class="sig-name descname"><span class="pre">modelArchitecture</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='modelArchitecture',</span> <span class="pre">doc='Model</span> <span class="pre">architecture</span> <span class="pre">(CNN)')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.modelArchitecture" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SentenceDetectorDLApproach'</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputLogsPath">
+<span class="sig-name descname"><span class="pre">outputLogsPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputLogsPath',</span> <span class="pre">doc='Path</span> <span class="pre">to</span> <span class="pre">folder</span> <span class="pre">where</span> <span class="pre">logs</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">saved.</span> <span class="pre">If</span> <span class="pre">no</span> <span class="pre">path</span> <span class="pre">is</span> <span class="pre">specified,</span> <span class="pre">no</span> <span class="pre">logs</span> <span class="pre">are</span> <span class="pre">generated')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputLogsPath" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setEpochsNumber">
+<span class="sig-name descname"><span class="pre">setEpochsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setEpochsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setEpochsNumber" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs_number</strong><span class="classifier">int</span></dt><dd><p>Number of epochs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setExplodeSentences">
+<span class="sig-name descname"><span class="pre">setExplodeSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setExplodeSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setExplodeSentences" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode each sentence into a different row, for
+better parallelization, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to explode each sentence into a different row</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setImpossiblePenultimates">
+<span class="sig-name descname"><span class="pre">setImpossiblePenultimates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">impossible_penultimates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setImpossiblePenultimates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setImpossiblePenultimates" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets impossible penultimates - list of strings which a sentence can’t
+end with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>impossible_penultimates</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings which a sentence can’t end with</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel">
+<span class="sig-name descname"><span class="pre">setModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_architecture</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the Model architecture. Currently only <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model_architecture</strong><span class="classifier">str</span></dt><dd><p>Model architecture</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setOutputLogsPath">
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_logs_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets folder path to save training logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_logs_path</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setValidationSplit">
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_split</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the proportion of training dataset to be validated against the
+model on each Epoch, by default it is 0.0 and off. The value should be
+between 0.0 and 1.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>validation_split</strong><span class="classifier">float</span></dt><dd><p>Proportion of training dataset to be validated</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.validationSplit">
+<span class="sig-name descname"><span class="pre">validationSplit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='validationSplit',</span> <span class="pre">doc='Choose</span> <span class="pre">the</span> <span class="pre">proportion</span> <span class="pre">of</span> <span class="pre">training</span> <span class="pre">dataset</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">validated</span> <span class="pre">against</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">on</span> <span class="pre">each</span> <span class="pre">Epoch.</span> <span class="pre">The</span> <span class="pre">value</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">1.0</span> <span class="pre">and</span> <span class="pre">by</span> <span class="pre">default</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">off.')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.validationSplit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentenceDetectorDLModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
+<p>Annotator that detects sentence boundaries using a deep learning approach.</p>
+<p>Instantiated Model of the <a class="reference internal" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach" title="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach</span></code></a>.
+Detects sentence boundaries using a deep learning approach.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained" title="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDL</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentencesDL&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;sentence_detector_dl&quot;</span></code>, if no name is provided. For
+available pretrained models please see the <a class="reference external" href="https://sparknlp.org/models?task=Sentence+Detection">Models Hub</a>.</p>
+<p>Each extracted sentence can be returned in an Array or exploded to separate
+rows, if <code class="docutils literal notranslate"><span class="pre">explodeSentences</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>modelArchitecture</strong></dt><dd><p>Model architecture (CNN)</p>
+</dd>
+<dt><strong>explodeSentences</strong></dt><dd><p>whether to explode each sentence into a different row, for better
+parallelization. Defaults to false.</p>
+</dd>
+<dt><strong>customBounds</strong></dt><dd><p>characters used to explicitly mark sentence bounds, by default []</p>
+</dd>
+<dt><strong>useCustomBoundsOnly</strong></dt><dd><p>Only utilize custom bounds in sentence detection, by default False</p>
+</dd>
+<dt><strong>splitLength</strong></dt><dd><p>length at which sentences will be forcibly split</p>
+</dd>
+<dt><strong>minLength</strong></dt><dd><p>Set the minimum allowed length for each sentence, by default 0</p>
+</dd>
+<dt><strong>maxLength</strong></dt><dd><p>Set the maximum allowed length for each sentence, by default 99999</p>
+</dd>
+<dt><strong>impossiblePenultimates</strong></dt><dd><p>Impossible penultimates - list of strings which a sentence can’t end
+with</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>In this example, the normal <cite>SentenceDetector</cite> is compared to the
+<cite>SentenceDetectorDLModel</cite>. In a pipeline, <cite>SentenceDetectorDLModel</cite> can be
+used as a replacement for the <cite>SentenceDetector</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDL</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentencesDL&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentenceDL</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;&quot;John loves Mary.Mary loves Peter</span>
+<span class="gp">... </span><span class="s2">    Peter loves Helen .Helen loves John;</span>
+<span class="gp">... </span><span class="s2">    Total: four people involved.&quot;&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(sentences.result) as sentences&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------------+</span>
+<span class="go">|sentences                                                 |</span>
+<span class="go">+----------------------------------------------------------+</span>
+<span class="go">|John loves Mary.Mary loves Peter\n     Peter loves Helen .|</span>
+<span class="go">|Helen loves John;                                         |</span>
+<span class="go">|Total: four people involved.                              |</span>
+<span class="go">+----------------------------------------------------------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(sentencesDL.result) as sentencesDL&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------+</span>
+<span class="go">|sentencesDL                 |</span>
+<span class="go">+----------------------------+</span>
+<span class="go">|John loves Mary.            |</span>
+<span class="go">|Mary loves Peter            |</span>
+<span class="go">|Peter loves Helen .         |</span>
+<span class="go">|Helen loves John;           |</span>
+<span class="go">|Total: four people involved.|</span>
+<span class="go">+----------------------------+</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.customBounds">
+<span class="sig-name descname"><span class="pre">customBounds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='customBounds',</span> <span class="pre">doc='characters</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">explicitly</span> <span class="pre">mark</span> <span class="pre">sentence</span> <span class="pre">bounds')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.customBounds" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.explodeSentences">
+<span class="sig-name descname"><span class="pre">explodeSentences</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='explodeSentences',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">explode</span> <span class="pre">each</span> <span class="pre">sentence</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">different</span> <span class="pre">row,</span> <span class="pre">for</span> <span class="pre">better</span> <span class="pre">parallelization.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">false.')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.explodeSentences" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.impossiblePenultimates">
+<span class="sig-name descname"><span class="pre">impossiblePenultimates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='impossiblePenultimates',</span> <span class="pre">doc=&quot;Impossible</span> <span class="pre">penultimates</span> <span class="pre">-</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">strings</span> <span class="pre">which</span> <span class="pre">a</span> <span class="pre">sentence</span> <span class="pre">can't</span> <span class="pre">end</span> <span class="pre">with&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.impossiblePenultimates" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.inputAnnotatorTypes">
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.maxLength">
+<span class="sig-name descname"><span class="pre">maxLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxLength',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">maximum</span> <span class="pre">allowed</span> <span class="pre">length</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">sentence')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.maxLength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.minLength">
+<span class="sig-name descname"><span class="pre">minLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minLength',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">minimum</span> <span class="pre">allowed</span> <span class="pre">length</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">sentence.')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.minLength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.modelArchitecture">
+<span class="sig-name descname"><span class="pre">modelArchitecture</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='modelArchitecture',</span> <span class="pre">doc='Model</span> <span class="pre">architecture</span> <span class="pre">(CNN)')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.modelArchitecture" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SentenceDetectorDLModel'</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence_detector_dl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “sentence_detector_dl”</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>SentenceDetectorDLModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setCustomBounds">
+<span class="sig-name descname"><span class="pre">setCustomBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setCustomBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setCustomBounds" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets characters used to explicitly mark sentence bounds, by default
+[].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Characters used to explicitly mark sentence bounds</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setExplodeSentences">
+<span class="sig-name descname"><span class="pre">setExplodeSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setExplodeSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setExplodeSentences" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode each sentence into a different row, for
+better parallelization, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to explode each sentence into a different row</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setImpossiblePenultimates">
+<span class="sig-name descname"><span class="pre">setImpossiblePenultimates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">impossible_penultimates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setImpossiblePenultimates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setImpossiblePenultimates" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets impossible penultimates - list of strings which a sentence can’t
+end with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>impossible_penultimates</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings which a sentence can’t end with</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMaxLength">
+<span class="sig-name descname"><span class="pre">setMaxLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setMaxLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMaxLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximum allowed length for each sentence, by default
+99999</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum allowed length for each sentence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMinLength">
+<span class="sig-name descname"><span class="pre">setMinLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setMinLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMinLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets minimum allowed length for each sentence, by default 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum allowed length for each sentence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setModel">
+<span class="sig-name descname"><span class="pre">setModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelArchitecture</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the Model architecture. Currently only <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model_architecture</strong><span class="classifier">str</span></dt><dd><p>Model architecture</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setSplitLength">
+<span class="sig-name descname"><span class="pre">setSplitLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setSplitLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setSplitLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets length at which sentences will be forcibly split.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Length at which sentences will be forcibly split.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly">
+<span class="sig-name descname"><span class="pre">setUseCustomBoundsOnly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentence/sentence_detector_dl.html#SentenceDetectorDLModel.setUseCustomBoundsOnly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to only utilize custom bounds in sentence detection, by
+default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to only utilize custom bounds</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.splitLength">
+<span class="sig-name descname"><span class="pre">splitLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='splitLength',</span> <span class="pre">doc='length</span> <span class="pre">at</span> <span class="pre">which</span> <span class="pre">sentences</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">forcibly</span> <span class="pre">split.')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.splitLength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.useCustomBoundsOnly">
+<span class="sig-name descname"><span class="pre">useCustomBoundsOnly</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='useCustomBoundsOnly',</span> <span class="pre">doc='Only</span> <span class="pre">utilize</span> <span class="pre">custom</span> <span class="pre">bounds</span> <span class="pre">in</span> <span class="pre">sentence</span> <span class="pre">detection')</span></em><a class="headerlink" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.useCustomBoundsOnly" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.epochsNumber"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.epochsNumber</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.explodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.explodeSentences</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.impossiblePenultimates"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.impossiblePenultimates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.inputAnnotatorTypes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.modelArchitecture"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.modelArchitecture</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.name"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputLogsPath"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.outputLogsPath</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setEpochsNumber"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setEpochsNumber()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setExplodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setExplodeSentences()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setImpossiblePenultimates"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setImpossiblePenultimates()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setModel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setOutputLogsPath"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setOutputLogsPath()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setValidationSplit"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.setValidationSplit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.validationSplit"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLApproach.validationSplit</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.customBounds"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.customBounds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.explodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.explodeSentences</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.impossiblePenultimates"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.impossiblePenultimates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.inputAnnotatorTypes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.maxLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.maxLength</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.minLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.minLength</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.modelArchitecture"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.modelArchitecture</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.name"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.pretrained()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setCustomBounds"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setCustomBounds()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setExplodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setExplodeSentences()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setImpossiblePenultimates"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setImpossiblePenultimates()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMaxLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setMaxLength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMinLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setMinLength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setModel"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setModel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setSplitLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setSplitLength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setUseCustomBoundsOnly()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.splitLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.splitLength</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.useCustomBoundsOnly"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.useCustomBoundsOnly</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_api/sparknlp.annotator.sentence.sentence_detector_dl.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

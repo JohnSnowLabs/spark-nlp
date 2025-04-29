@@ -28,7 +28,7 @@ import java.io.{ByteArrayInputStream, IOException}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class WordReader extends Serializable {
+class WordReader(storeContent: Boolean = false) extends Serializable {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
@@ -40,9 +40,10 @@ class WordReader extends Serializable {
         val byteArray = portableDataStream.toArray()
         (path, byteArray)
       }
-      byteArrayRDD
+      val wordDf = byteArrayRDD
         .toDF("path", "content")
         .withColumn("doc", parseWordUDF(col("content")))
+      if (storeContent) wordDf.select("path", "doc", "content") else wordDf.select("path", "doc")
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
@@ -102,10 +103,10 @@ class WordReader extends Serializable {
 
     val elements = document.getBodyElements.asScala.flatMap {
       case paragraph: XWPFParagraph =>
-        processParagraph(paragraph, document, "paragraph")
+        processParagraph(paragraph, "paragraph")
 
       case table: XWPFTable =>
-        processTable(table, document)
+        processTable(table)
 
       case _ => None
     }
@@ -115,8 +116,8 @@ class WordReader extends Serializable {
 
   private def processParagraph(
       paragraph: XWPFParagraph,
-      document: XWPFDocument,
-      source: String): Option[HTMLElement] = {
+      source: String,
+      tableLocation: mutable.Map[String, String] = mutable.Map()): Option[HTMLElement] = {
     val text = paragraph.getText.trim
     if (text.isEmpty) None
     else {
@@ -129,7 +130,11 @@ class WordReader extends Serializable {
 
       if (paragraph.isSectionBreak) {
         pageBreak += 1
-        metadata += "pageBreak" -> pageBreak.toString
+        metadata += ("pageBreak" -> pageBreak.toString)
+      }
+
+      if (tableLocation.nonEmpty) {
+        metadata ++= tableLocation
       }
 
       val elementType = paragraph match {
@@ -141,11 +146,12 @@ class WordReader extends Serializable {
     }
   }
 
-  private def processTable(table: XWPFTable, document: XWPFDocument): Seq[HTMLElement] = {
-    table.getRows.asScala.flatMap { row =>
-      row.getTableCells.asScala.flatMap { cell =>
+  private def processTable(table: XWPFTable): Seq[HTMLElement] = {
+    table.getRows.asScala.zipWithIndex.flatMap { case (row, rowIndex) =>
+      row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
+        val tableLocation = mutable.Map("tableLocation" -> s"($rowIndex, $cellIndex)")
         cell.getParagraphs.asScala.flatMap { paragraph =>
-          processParagraph(paragraph, document, "table")
+          processParagraph(paragraph, "table", tableLocation)
         }
       }
     }

@@ -98,7 +98,11 @@ trait ReadOnnxModel {
     val fsPath = new Path(path, localModelFile).toString
 
     val onnxDataFile: Option[String] = if (modelName.isDefined && dataFilePostfix.isDefined) {
-      Some(fsPath.replaceAll(modelName.get, s"${suffix}_${modelName.get}${dataFilePostfix.get}"))
+      var modelNameWithoutSuffix = modelName.get.replace(".onnx", "")
+      Some(
+        fsPath.replaceAll(
+          modelName.get,
+          s"${suffix}_${modelNameWithoutSuffix}${dataFilePostfix.get}"))
     } else None
 
     if (onnxDataFile.isDefined) {
@@ -117,7 +121,8 @@ trait ReadOnnxModel {
         zipped = zipped,
         useBundle = useBundle,
         modelName = if (modelName.isDefined) modelName.get else onnxFile,
-        onnxFileSuffix = Some(suffix))
+        onnxFileSuffix = Some(suffix),
+        dataFileSuffix = dataFilePostfix)
 
     onnxWrapper
 

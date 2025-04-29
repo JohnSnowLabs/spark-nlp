@@ -142,6 +142,16 @@ class AutoGGUFEmbeddings(override val uid: String)
     nCtx -> 4096,
     nBatch -> 512)
 
+  /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
+    *
+    * @group setParam
+    * @param nParallel
+    *   The number of parallel processes for decoding
+    */
+  def setNParallel(nParallel: Int): this.type = {
+    setBatchSize(nParallel)
+  }
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet.saveToFile(path)
@@ -175,7 +185,9 @@ class AutoGGUFEmbeddings(override val uid: String)
         } catch {
           case e: Exception =>
             logger.error("Error in llama.cpp embeddings", e)
-            (Array.empty[Array[Float]], Map("llamacpp_exception" -> e.getMessage))
+            (
+              Array.fill[Array[Float]](annotationsText.length)(Array.empty),
+              Map("llamacpp_exception" -> e.getMessage))
         }
 
       // Choose empty text for result annotations
@@ -196,7 +208,7 @@ class AutoGGUFEmbeddings(override val uid: String)
 trait ReadablePretrainedAutoGGUFEmbeddings
     extends ParamsAndFeaturesReadable[AutoGGUFEmbeddings]
     with HasPretrained[AutoGGUFEmbeddings] {
-  override val defaultModelName: Some[String] = Some("nomic-embed-text-v1.5.Q8_0.gguf")
+  override val defaultModelName: Some[String] = Some("Nomic_Embed_Text_v1.5.Q8_0.gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

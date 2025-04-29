@@ -153,6 +153,16 @@ class AutoGGUFModel(override val uid: String)
     embedding -> false,
     nPredict -> 100)
 
+  /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
+    *
+    * @group setParam
+    * @param nParallel
+    *   The number of parallel processes for decoding
+    */
+  def setNParallel(nParallel: Int): this.type = {
+    setBatchSize(nParallel)
+  }
+
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     getModelIfNotSet.saveToFile(path)
@@ -184,7 +194,9 @@ class AutoGGUFModel(override val uid: String)
           } catch {
             case e: Exception =>
               logger.error("Error in llama.cpp embeddings", e)
-              (Array.empty[Array[Float]], Map("llamacpp_exception" -> e.getMessage))
+              (
+                Array.fill[Array[Float]](annotationsText.length)(Array.empty),
+                Map("llamacpp_exception" -> e.getMessage))
           }
         // Choose empty text for result annotations
         annotations.zip(embeddings).map { case (annotation, embedding) =>
@@ -204,7 +216,7 @@ class AutoGGUFModel(override val uid: String)
           } catch {
             case e: Exception =>
               logger.error("Error in llama.cpp batch completion", e)
-              (Array[String](), Map("llamacpp_exception" -> e.getMessage))
+              (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
           }
         annotations.zip(completedTexts).map { case (annotation, text) =>
           Seq(

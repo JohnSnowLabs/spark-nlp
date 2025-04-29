@@ -1,3 +1,43 @@
+=======
+6.0.0
+=======
+----------------
+New Features & Enhancements
+----------------
+* Introducing new large language models:
+  * OLMo model support (SPARKNLP-1006)
+  * Phi 3.5 Vision model support (SPARKNLP-1060)
+  * LLAVA model support (SPARKNLP-1033)
+  * CoHere model support (SPARKNLP-1032)
+  * Qwen2-VL model support (SPARKNLP-1077)
+  * Llama 3.2 Vision models (SPARKNLP-1078)
+  * Deepseek Janus model support (SPARKNLP-1088)
+  * Added LLAVA v1.5 7b quantized model
+  * Added StarCoder2 3b int8 model
+
+* New MultipleChoice Transformers:
+  * AlbertForMultipleChoice (SPARKNLP-1105)
+  * DistilBertForMultipleChoice (SPARKNLP-1106)
+  * RoBertaForMultipleChoice (SPARKNLP-1107)
+  * XlmRoBertaForMultipleChoice (SPARKNLP-1108)
+
+* New file format support:
+  * Excel files reader (SPARKNLP-1102)
+  * PowerPoint files reader (SPARKNLP-1103)
+  * PDF reader (SPARKNLP-1098)
+  * Text reader (SPARKNLP-1113)
+
+* Other improvements:
+  * AutoGGUFVisionModel for vision model support (SPARKNLP-1079)
+  * Added Extractor to SparkNLP (SPARKNLP-1109)
+  * Updated Python and Scala model names
+  * Improved error handling for AutoGGUF models
+
+----------------
+Bug Fixes
+----------------
+* Fixed typo in MXBAI notebook
+
 ========
 5.5.3
 ========

@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.annotator.similarity.document_similarity_ranker module &#8212; Spark NLP 6.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script src="../static/doctools.js?v=888ff710"></script>
+    <script src="../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_api/sparknlp.annotator.similarity.document_similarity_ranker';</script>
+    <link rel="icon" href="../static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.annotator.html">sparknlp.annotator package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.audio.html">sparknlp.annotator.audio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.hubert_for_ctc.html">sparknlp.annotator.audio.hubert_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.wav2vec2_for_ctc.html">sparknlp.annotator.audio.wav2vec2_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.whisper_for_ctc.html">sparknlp.annotator.audio.whisper_for_ctc module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.classifier_dl.html">sparknlp.annotator.classifier_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.albert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_question_answering.html">sparknlp.annotator.classifier_dl.albert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.albert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_token_classification.html">sparknlp.annotator.classifier_dl.albert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.bert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_question_answering.html">sparknlp.annotator.classifier_dl.bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_token_classification.html">sparknlp.annotator.classifier_dl.bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_question_answering.html">sparknlp.annotator.classifier_dl.camembert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.camembert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_token_classification.html">sparknlp.annotator.classifier_dl.camembert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_token_classification.html">sparknlp.annotator.classifier_dl.deberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_question_answering.html">sparknlp.annotator.classifier_dl.distil_bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_question_answering.html">sparknlp.annotator.classifier_dl.longformer_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_sequence_classification.html">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_token_classification.html">sparknlp.annotator.classifier_dl.longformer_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_question_answering.html">sparknlp.annotator.classifier_dl.mpnet_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_token_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.multi_classifier_dl.html">sparknlp.annotator.classifier_dl.multi_classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.sentiment_dl.html">sparknlp.annotator.classifier_dl.sentiment_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.tapas_for_question_answering.html">sparknlp.annotator.classifier_dl.tapas_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_token_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_token_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cleaners.html">sparknlp.annotator.cleaners package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.cleaner.html">sparknlp.annotator.cleaners.cleaner module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.extractor.html">sparknlp.annotator.cleaners.extractor module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.coref.html">sparknlp.annotator.coref package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.coref.spanbert_coref.html">sparknlp.annotator.coref.spanbert_coref module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cv.html">sparknlp.annotator.cv package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.dependency.html">sparknlp.annotator.dependency package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.dependency_parser.html">sparknlp.annotator.dependency.dependency_parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.typed_dependency_parser.html">sparknlp.annotator.dependency.typed_dependency_parser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.embeddings.html">sparknlp.annotator.embeddings package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.albert_embeddings.html">sparknlp.annotator.embeddings.albert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.auto_gguf_embeddings.html">sparknlp.annotator.embeddings.auto_gguf_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_sentence_embeddings.html">sparknlp.annotator.embeddings.bert_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bge_embeddings.html">sparknlp.annotator.embeddings.bge_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.camembert_embeddings.html">sparknlp.annotator.embeddings.camembert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.chunk_embeddings.html">sparknlp.annotator.embeddings.chunk_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.deberta_embeddings.html">sparknlp.annotator.embeddings.deberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mxbai_embeddings.html">sparknlp.annotator.embeddings.mxbai_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.nomic_embeddings.html">sparknlp.annotator.embeddings.nomic_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_embeddings.html">sparknlp.annotator.embeddings.roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.sentence_embeddings.html">sparknlp.annotator.embeddings.sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.snowflake_embeddings.html">sparknlp.annotator.embeddings.snowflake_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.uae_embeddings.html">sparknlp.annotator.embeddings.uae_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.universal_sentence_encoder.html">sparknlp.annotator.embeddings.universal_sentence_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word2vec.html">sparknlp.annotator.embeddings.word2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word_embeddings.html">sparknlp.annotator.embeddings.word_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlnet_embeddings.html">sparknlp.annotator.embeddings.xlnet_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.er.html">sparknlp.annotator.er package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.er.entity_ruler.html">sparknlp.annotator.er.entity_ruler module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.html">sparknlp.annotator.keyword_extraction package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html">sparknlp.annotator.keyword_extraction.yake_keyword_extraction module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ld_dl.html">sparknlp.annotator.ld_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ld_dl.language_detector_dl.html">sparknlp.annotator.ld_dl.language_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.matcher.html">sparknlp.annotator.matcher package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.big_text_matcher.html">sparknlp.annotator.matcher.big_text_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.date_matcher.html">sparknlp.annotator.matcher.date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html">sparknlp.annotator.matcher.multi_date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html">sparknlp.annotator.matcher.regex_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ner.html">sparknlp.annotator.ner package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html">sparknlp.annotator.ner.ner_approach module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_converter.html">sparknlp.annotator.ner.ner_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_crf.html">sparknlp.annotator.ner.ner_crf module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_dl.html">sparknlp.annotator.ner.ner_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_overwriter.html">sparknlp.annotator.ner.ner_overwriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.zero_shot_ner_model.html">sparknlp.annotator.ner.zero_shot_ner_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.openai.html">sparknlp.annotator.openai package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_completion.html">sparknlp.annotator.openai.openai_completion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_embeddings.html">sparknlp.annotator.openai.openai_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.param.html">sparknlp.annotator.param package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.classifier_encoder.html">sparknlp.annotator.param.classifier_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.evaluation_dl_params.html">sparknlp.annotator.param.evaluation_dl_params module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.pos.html">sparknlp.annotator.pos package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.pos.perceptron.html">sparknlp.annotator.pos.perceptron module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentence.html">sparknlp.annotator.sentence package</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector.html">sparknlp.annotator.sentence.sentence_detector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html">sparknlp.annotator.sentence.sentence_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentiment.html">sparknlp.annotator.sentiment package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.sentiment_detector.html">sparknlp.annotator.sentiment.sentiment_detector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.vivekn_sentiment.html">sparknlp.annotator.sentiment.vivekn_sentiment module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.seq2seq.html">sparknlp.annotator.seq2seq package</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_model.html">sparknlp.annotator.seq2seq.auto_gguf_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_vision_model.html">sparknlp.annotator.seq2seq.auto_gguf_vision_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.bart_transformer.html">sparknlp.annotator.seq2seq.bart_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cohere_transformer.html">sparknlp.annotator.seq2seq.cohere_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html">sparknlp.annotator.seq2seq.cpm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama2_transformer.html">sparknlp.annotator.seq2seq.llama2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama3_transformer.html">sparknlp.annotator.seq2seq.llama3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.m2m100_transformer.html">sparknlp.annotator.seq2seq.m2m100_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.marian_transformer.html">sparknlp.annotator.seq2seq.marian_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.mistral_transformer.html">sparknlp.annotator.seq2seq.mistral_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.nllb_transformer.html">sparknlp.annotator.seq2seq.nllb_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.olmo_transformer.html">sparknlp.annotator.seq2seq.olmo_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi2_transformer.html">sparknlp.annotator.seq2seq.phi2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi3_transformer.html">sparknlp.annotator.seq2seq.phi3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.spell_check.html">sparknlp.annotator.spell_check package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.context_spell_checker.html">sparknlp.annotator.spell_check.context_spell_checker module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.norvig_sweeting.html">sparknlp.annotator.spell_check.norvig_sweeting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.symmetric_delete.html">sparknlp.annotator.spell_check.symmetric_delete module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.token.html">sparknlp.annotator.token package</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.chunk_tokenizer.html">sparknlp.annotator.token.chunk_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.recursive_tokenizer.html">sparknlp.annotator.token.recursive_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.regex_tokenizer.html">sparknlp.annotator.token.regex_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.tokenizer.html">sparknlp.annotator.token.tokenizer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ws.html">sparknlp.annotator.ws package</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ws.word_segmenter.html">sparknlp.annotator.ws.word_segmenter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunk2_doc.html">sparknlp.annotator.chunk2_doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunker.html">sparknlp.annotator.chunker module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter.html">sparknlp.annotator.document_token_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter_test.html">sparknlp.annotator.document_token_splitter_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.graph_extraction.html">sparknlp.annotator.graph_extraction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.lemmatizer.html">sparknlp.annotator.lemmatizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.n_gram_generator.html">sparknlp.annotator.n_gram_generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.normalizer.html">sparknlp.annotator.normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stemmer.html">sparknlp.annotator.stemmer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stop_words_cleaner.html">sparknlp.annotator.stop_words_cleaner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.tf_ner_dl_graph_builder.html">sparknlp.annotator.tf_ner_dl_graph_builder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.token2_chunk.html">sparknlp.annotator.token2_chunk module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.base.html">sparknlp.base package</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.audio_assembler.html">sparknlp.base.audio_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.doc2_chunk.html">sparknlp.base.doc2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.document_assembler.html">sparknlp.base.document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.embeddings_finisher.html">sparknlp.base.embeddings_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.finisher.html">sparknlp.base.finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.graph_finisher.html">sparknlp.base.graph_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_fit.html">sparknlp.base.has_recursive_fit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_transform.html">sparknlp.base.has_recursive_transform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.image_assembler.html">sparknlp.base.image_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.light_pipeline.html">sparknlp.base.light_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.multi_document_assembler.html">sparknlp.base.multi_document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.prompt_assembler.html">sparknlp.base.prompt_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.recursive_pipeline.html">sparknlp.base.recursive_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.table_assembler.html">sparknlp.base.table_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.token_assembler.html">sparknlp.base.token_assembler module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.common.html">sparknlp.common package</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_approach.html">sparknlp.common.annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.read_as.html">sparknlp.common.read_as module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.recursive_annotator_approach.html">sparknlp.common.recursive_annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.storage.html">sparknlp.common.storage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.utils.html">sparknlp.common.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.internal.html">sparknlp.internal package</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-26"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_java_ml.html">sparknlp.internal.annotator_java_ml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_transformer.html">sparknlp.internal.annotator_transformer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.extended_java_wrapper.html">sparknlp.internal.extended_java_wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.params_getters_setters.html">sparknlp.internal.params_getters_setters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.recursive.html">sparknlp.internal.recursive module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.logging.html">sparknlp.logging package</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-27"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pub_tator.html">sparknlp.training.pub_tator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.spacy_to_annotation.html">sparknlp.training.spacy_to_annotation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.tfgraphs.html">sparknlp.training.tfgraphs module</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation.html">sparknlp.annotation module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_audio.html">sparknlp.annotation_audio module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_image.html">sparknlp.annotation_image module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.functions.html">sparknlp.functions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.upload_to_hub.html">sparknlp.upload_to_hub module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.util.html">sparknlp.util module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.annotator.similarity.document_similarity_ranker">
+<span id="sparknlp-annotator-similarity-document-similarity-ranker-module"></span><h1>sparknlp.annotator.similarity.document_similarity_ranker module<a class="headerlink" href="#module-sparknlp.annotator.similarity.document_similarity_ranker" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for DocumentSimilarityRanker.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEnableCachingProperties" title="sparknlp.common.properties.HasEnableCachingProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEnableCachingProperties</span></code></a></p>
+<p>Annotator that uses LSH techniques present in Spark ML lib to execute
+approximate nearest neighbors search on top of sentence embeddings.</p>
+<p>It aims to capture the semantic meaning of a document in a dense,
+continuous vector space and return it to the ranker search.</p>
+<p>For instantiated/pretrained models, see DocumentSimilarityRankerModel.</p>
+<p>For extended examples of usage, see the jupyter notebook
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/doc-sim-ranker/test_doc_sim_ranker.ipynb">Document Similarity Ranker for Spark NLP</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SENTENCE_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOC_SIMILARITY_RANKINGS</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>enableCaching</strong></dt><dd><p>Whether to enable caching DataFrames or RDDs during the training</p>
+</dd>
+<dt><strong>similarityMethod</strong></dt><dd><p>The similarity method used to calculate the neighbours.
+(Default: ‘brp’,Bucketed Random Projection for Euclidean Distance)</p>
+</dd>
+<dt><strong>numberOfNeighbours</strong></dt><dd><p>The number of neighbours the model will return (Default:<cite>10</cite>)</p>
+</dd>
+<dt><strong>bucketLength</strong></dt><dd><p>Controls the average size of hash buckets. A larger bucket
+length (i.e., fewer buckets) increases the probability of features
+being hashed to the same bucket (increasing the numbers of true and false positives)</p>
+</dd>
+<dt><strong>numHashTables</strong></dt><dd><p>Number of hash tables, where increasing number of hash tables lowers the
+false negative rate, and decreasing it improves the running performance.</p>
+</dd>
+<dt><strong>visibleDistances</strong></dt><dd><p>“Whether to set visibleDistances in ranking output (Default: <cite>false</cite>).</p>
+</dd>
+<dt><strong>identityRanking</strong></dt><dd><p>Whether to include identity in ranking result set. Useful for debug. (Default: <cite>false</cite>).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator.similarity.document_similarity_ranker</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">E5Embeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_similarity_ranker</span> <span class="o">=</span> <span class="n">DocumentSimilarityRankerApproach</span><span class="p">()</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;doc_similarity_rankings&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setSimilarityMethod</span><span class="p">(</span><span class="s2">&quot;brp&quot;</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setNumberOfNeighbours</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setBucketLength</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setNumHashTables</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setVisibleDistances</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>     <span class="o">...</span>             <span class="o">.</span><span class="n">setIdentityRanking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_similarity_ranker_finisher</span> <span class="o">=</span> <span class="n">DocumentSimilarityRankerFinisher</span><span class="p">()</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;doc_similarity_rankings&quot;</span><span class="p">)</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="s2">&quot;finished_doc_similarity_rankings_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;finished_doc_similarity_rankings_neighbors&quot;</span><span class="p">)</span>     <span class="o">...</span>         <span class="o">.</span><span class="n">setExtractNearestNeighbor</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>            <span class="n">document_assembler</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">sentence_embeddings</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">document_similarity_ranker</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">document_similarity_ranker_finisher</span>
+<span class="gp">... </span>        <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">docSimRankerPipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">docSimRankerPipeline</span>
+<span class="gp">... </span>        <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>               <span class="s2">&quot;finished_doc_similarity_rankings_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="s2">&quot;finished_doc_similarity_rankings_neighbors&quot;</span>
+<span class="gp">... </span>        <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+<span class="go">|finished_doc_similarity_rankings_id|finished_doc_similarity_rankings_neighbors|</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+<span class="go">|1510101612                         |[(1634839239,0.12448559591306324)]        |</span>
+<span class="go">|1634839239                         |[(1510101612,0.12448559591306324)]        |</span>
+<span class="go">|-612640902                         |[(1274183715,0.1220122862046063)]         |</span>
+<span class="go">|1274183715                         |[(-612640902,0.1220122862046063)]         |</span>
+<span class="go">|-1320876223                        |[(1293373212,0.17848855164122393)]        |</span>
+<span class="go">|1293373212                         |[(-1320876223,0.17848855164122393)]       |</span>
+<span class="go">|-1548374770                        |[(-1719102856,0.23297156732534166)]       |</span>
+<span class="go">|-1719102856                        |[(-1548374770,0.23297156732534166)]       |</span>
+<span class="go">+-----------------------------------+------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.aggregationMethod">
+<span class="sig-name descname"><span class="pre">aggregationMethod</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='aggregationMethod',</span> <span class="pre">doc='Specifies</span> <span class="pre">the</span> <span class="pre">method</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">aggregate</span> <span class="pre">multiple</span> <span class="pre">sentence</span> <span class="pre">embeddings</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">vector</span> <span class="pre">representation.')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.aggregationMethod" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever">
+<span class="sig-name descname"><span class="pre">asRetriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.asRetriever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Sets the query to use the document similarity ranker as a retriever in a RAG fashion.</dt><dd><p>(Default: <cite>“”</cite>, empty if this annotator is not used as retriever)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>the query to use to select nearest neighbors in the retrieval process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetrieverQuery">
+<span class="sig-name descname"><span class="pre">asRetrieverQuery</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='asRetrieverQuery',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">as</span> <span class="pre">retriever</span> <span class="pre">RAG</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">query</span> <span class="pre">string.(Default:</span> <span class="pre">`empty`)')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetrieverQuery" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.bucketLength">
+<span class="sig-name descname"><span class="pre">bucketLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='bucketLength',</span> <span class="pre">doc='The</span> <span class="pre">bucket</span> <span class="pre">length</span> <span class="pre">that</span> <span class="pre">controls</span> <span class="pre">the</span> <span class="pre">average</span> <span class="pre">size</span> <span class="pre">of</span> <span class="pre">hash</span> <span class="pre">buckets.</span> <span class="pre">A</span> <span class="pre">larger</span> <span class="pre">bucket</span> <span class="pre">length</span> <span class="pre">(i.e.,</span> <span class="pre">fewer</span> <span class="pre">buckets)</span> <span class="pre">increases</span> <span class="pre">the</span> <span class="pre">probability</span> <span class="pre">of</span> <span class="pre">features</span> <span class="pre">being</span> <span class="pre">hashed</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">bucket</span> <span class="pre">(increasing</span> <span class="pre">the</span> <span class="pre">numbers</span> <span class="pre">of</span> <span class="pre">true</span> <span class="pre">and</span> <span class="pre">false</span> <span class="pre">positives).')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.bucketLength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.identityRanking">
+<span class="sig-name descname"><span class="pre">identityRanking</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='identityRanking',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">include</span> <span class="pre">identity</span> <span class="pre">in</span> <span class="pre">ranking</span> <span class="pre">result</span> <span class="pre">set.</span> <span class="pre">Useful</span> <span class="pre">for</span> <span class="pre">debug.</span> <span class="pre">(Default:</span> <span class="pre">`false`).')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.identityRanking" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.inputAnnotatorTypes">
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['sentence_embeddings']</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numHashTables">
+<span class="sig-name descname"><span class="pre">numHashTables</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numHashTables',</span> <span class="pre">doc='number</span> <span class="pre">of</span> <span class="pre">hash</span> <span class="pre">tables,</span> <span class="pre">where</span> <span class="pre">increasing</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">hash</span> <span class="pre">tables</span> <span class="pre">lowers</span> <span class="pre">the</span> <span class="pre">false</span> <span class="pre">negative</span> <span class="pre">rate,and</span> <span class="pre">decreasing</span> <span class="pre">it</span> <span class="pre">improves</span> <span class="pre">the</span> <span class="pre">running</span> <span class="pre">performance.')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numHashTables" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numberOfNeighbours">
+<span class="sig-name descname"><span class="pre">numberOfNeighbours</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numberOfNeighbours',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">neighbours</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">will</span> <span class="pre">return</span> <span class="pre">(Default:`10`)')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numberOfNeighbours" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'doc_similarity_rankings'</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod">
+<span class="sig-name descname"><span class="pre">setAggregationMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setAggregationMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Set the method used to aggregate multiple sentence embeddings into a single vector</dt><dd><p>representation.</p>
+</dd>
+</dl>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><dl class="simple">
+<dt>Options include</dt><dd><p>‘AVERAGE’ (compute the mean of all embeddings),
+‘FIRST’ (use the first embedding only),
+‘MAX’ (compute the element-wise maximum across embeddings)</p>
+</dd>
+</dl>
+<p>Default (‘AVERAGE’)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setBucketLength">
+<span class="sig-name descname"><span class="pre">setBucketLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setBucketLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setBucketLength" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the bucket length that controls the average size of hash buckets (Default:<cite>”2.0”</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Sets the bucket length that controls the average size of hash buckets.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking">
+<span class="sig-name descname"><span class="pre">setIdentityRanking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setIdentityRanking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the document identity ranking inclusive in the result set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Sets the document identity ranking inclusive in the result set.
+Useful for debugging.
+Default(‘False’).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables">
+<span class="sig-name descname"><span class="pre">setNumHashTables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setNumHashTables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of hash tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Sets the number of hash tables.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumberOfNeighbours">
+<span class="sig-name descname"><span class="pre">setNumberOfNeighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setNumberOfNeighbours"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumberOfNeighbours" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets The number of neighbours the model will return for each document(Default:<cite>”10”</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>the number of neighbours the model will return for each document.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod">
+<span class="sig-name descname"><span class="pre">setSimilarityMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setSimilarityMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Sets the similarity method used to calculate the neighbours.</dt><dd><p>(Default: <cite>“brp”</cite>, Bucketed Random Projection for Euclidean Distance)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>the similarity method to calculate the neighbours.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances">
+<span class="sig-name descname"><span class="pre">setVisibleDistances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerApproach.setVisibleDistances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the document distances visible in the result set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Sets the document distances visible in the result set.
+Default(‘False’)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.similarityMethod">
+<span class="sig-name descname"><span class="pre">similarityMethod</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='similarityMethod',</span> <span class="pre">doc=&quot;The</span> <span class="pre">similarity</span> <span class="pre">method</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">calculate</span> <span class="pre">the</span> <span class="pre">neighbours.</span> <span class="pre">(Default:</span> <span class="pre">'brp',</span> <span class="pre">Bucketed</span> <span class="pre">Random</span> <span class="pre">Projection</span> <span class="pre">for</span> <span class="pre">Euclidean</span> <span class="pre">Distance)&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.similarityMethod" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.visibleDistances">
+<span class="sig-name descname"><span class="pre">visibleDistances</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='visibleDistances',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">visibleDistances</span> <span class="pre">in</span> <span class="pre">ranking</span> <span class="pre">output</span> <span class="pre">(Default:</span> <span class="pre">`false`).')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.visibleDistances" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerFinisher</span></span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sparknlp.internal.annotator_transformer.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a></p>
+<p>Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the
+documentation of the main class.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SENTENCE_EMBEDDINGS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOC_SIMILARITY_RANKINGS</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>extractNearestNeighbor</strong></dt><dd><p>Whether to extract the nearest neighbor document</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.extractNearestNeighbor">
+<span class="sig-name descname"><span class="pre">extractNearestNeighbor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='extractNearestNeighbor',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">extract</span> <span class="pre">the</span> <span class="pre">nearest</span> <span class="pre">neighbor</span> <span class="pre">document')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.extractNearestNeighbor" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getInputCols">
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.getInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getInputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets input columns name of annotations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getOutputCols">
+<span class="sig-name descname"><span class="pre">getOutputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.getOutputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getOutputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets output columns name of annotations.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.inputCols">
+<span class="sig-name descname"><span class="pre">inputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCols',</span> <span class="pre">doc='name</span> <span class="pre">of</span> <span class="pre">input</span> <span class="pre">annotation</span> <span class="pre">cols</span> <span class="pre">containing</span> <span class="pre">document</span> <span class="pre">similarity</span> <span class="pre">ranker</span> <span class="pre">results')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.inputCols" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DocumentSimilarityRankerFinisher'</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.outputCols">
+<span class="sig-name descname"><span class="pre">outputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCols',</span> <span class="pre">doc='output</span> <span class="pre">DocumentSimilarityRankerFinisher</span> <span class="pre">output</span> <span class="pre">cols')</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.outputCols" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setExtractNearestNeighbor">
+<span class="sig-name descname"><span class="pre">setExtractNearestNeighbor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.setExtractNearestNeighbor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setExtractNearestNeighbor" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to extract the nearest neighbor document, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to extract the nearest neighbor document</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.setInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets name of input annotation columns containing embeddings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setOutputCols">
+<span class="sig-name descname"><span class="pre">setOutputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.setOutputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setOutputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets names of finished output columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setParams">
+<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerFinisher.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentSimilarityRankerModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/similarity/document_similarity_ranker.html#DocumentSimilarityRankerModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.inputAnnotatorTypes">
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['sentence_embeddings']</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DocumentSimilarityRankerModel'</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'doc_similarity_rankings'</span></em><a class="headerlink" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.aggregationMethod"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.aggregationMethod</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.asRetriever()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetrieverQuery"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.asRetrieverQuery</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.bucketLength"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.bucketLength</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.identityRanking"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.identityRanking</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.inputAnnotatorTypes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numHashTables"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.numHashTables</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numberOfNeighbours"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.numberOfNeighbours</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setAggregationMethod()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setBucketLength"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setBucketLength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setIdentityRanking()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setNumHashTables()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumberOfNeighbours"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setNumberOfNeighbours()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setSimilarityMethod()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.setVisibleDistances()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.similarityMethod"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.similarityMethod</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.visibleDistances"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach.visibleDistances</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.extractNearestNeighbor"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.extractNearestNeighbor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getInputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.getInputCols()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getOutputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.getOutputCols()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.inputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.inputCols</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.name"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.outputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.outputCols</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setExtractNearestNeighbor"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.setExtractNearestNeighbor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.setInputCols()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setOutputCols"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.setOutputCols()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setParams"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher.setParams()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel.inputAnnotatorTypes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.name"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel.outputAnnotatorType</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_api/sparknlp.annotator.similarity.document_similarity_ranker.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
