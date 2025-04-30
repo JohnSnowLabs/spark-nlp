@@ -235,14 +235,7 @@ trait PdfToTextTrait extends Logging with PdfUtils {
         sort,
         textStripper)
     } else {
-      Range(1, numPages + 1).map( pageNum =>
-        ("",
-          1,
-          1,
-          null,
-          null,
-          pageNum
-        ))
+      Range(1, numPages + 1).map(pageNum => ("", 1, 1, null, null, pageNum))
     }
     pdfDoc.close()
     log.info("Close pdf")
