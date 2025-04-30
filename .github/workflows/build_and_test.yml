@@ -33,7 +33,7 @@ on:
 jobs:
   spark34:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: ubuntu-latest
+    runs-on: macos-13
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -45,6 +45,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '8'
+          cache: 'sbt'
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
