@@ -29,7 +29,6 @@ class PdfToTextTest extends AnyFlatSpec {
   "PdfToText" should "read PDF files" taggedAs FastTest in {
     val pdfToText = new PdfToText().setStoreSplittedPdf(true)
     val dummyDataFrame = spark.read.format("binaryFile").load("src/test/resources/reader/pdf")
-
     val pipelineModel = new Pipeline()
       .setStages(Array(pdfToText))
       .fit(dummyDataFrame)
@@ -40,8 +39,9 @@ class PdfToTextTest extends AnyFlatSpec {
     assert(pdfDf.count() > 0)
   }
 
-  it should "not include content data when setStoreSplittedPdf is false" in {
-    val pdfToText = new PdfToText().setStoreSplittedPdf(false)
+  it should "not include content data when setStoreSplittedPdf is false" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(false)
     val dummyDataFrame = spark.read.format("binaryFile").load("src/test/resources/reader/pdf")
 
     val pipelineModel = new Pipeline()
@@ -52,6 +52,36 @@ class PdfToTextTest extends AnyFlatSpec {
     pdfDf.show()
 
     assert(pdfDf.filter(col("content").isNotNull).count() == 0)
+  }
+
+  it should "identify the correct number of pages" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(true)
+      .setSplitPage(true)
+    val dummyDataFrame = spark.read.format("binaryFile").load("src/test/resources/reader/pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    pdfDf.show()
+
+    assert(pdfDf.filter(col("pagenum") > 0).count() >= 1)
+  }
+
+  it should "work with onlyPageNum" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setOnlyPageNum(true)
+    val dummyDataFrame = spark.read.format("binaryFile").load("src/test/resources/reader/pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    pdfDf.show(truncate = false)
+
+    assert(pdfDf.filter(col("pagenum") === 0).count() == 0)
+    assert(pdfDf.filter(col("text") === "").count() > 0)
   }
 
 }
