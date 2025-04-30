@@ -36,7 +36,7 @@ jobs:
     runs-on: macos-13
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
+#      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
     name: Build and Test on Apache Spark 3.4.x
 
     steps:
@@ -46,6 +46,10 @@ jobs:
           distribution: 'temurin'
           java-version: '8'
           cache: 'sbt'
+      - name: Debug Maven settings.xml (if any)
+        run: |
+            echo "Checking ~/.m2 directory for settings.xml"
+            find ~/.m2 -name settings.xml -exec echo "::group::{}" \; -exec cat {} \; -exec echo "::endgroup::" \; || echo "No settings.xml found"
       - name: Install Python 3.7
         uses: actions/setup-python@v2
         with:

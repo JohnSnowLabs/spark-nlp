@@ -34,7 +34,7 @@ class SparkNLPReaderTest extends AnyFlatSpec {
     params.put("storeSplittedPdf", "true")
     val sparkNLPReader = new SparkNLPReader(params)
     val pdfDf = sparkNLPReader.pdf(pdfPath)
-    pdfDf.show()
+    pdfDf.show(truncate = false) //Added just to test Github actions
 
     assert(pdfDf.count() > 0)
   }
