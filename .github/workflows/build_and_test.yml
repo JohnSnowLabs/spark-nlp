@@ -48,7 +48,7 @@ jobs:
       - name: Install Python 3.7
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7.7
+          python-version: 3.7
           architecture: x64
       - name: Install Python packages (Python 3.7)
         run: |
