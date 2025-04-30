@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, trim, regexp_replace}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PdfToTextTest extends AnyFlatSpec {
@@ -82,6 +82,27 @@ class PdfToTextTest extends AnyFlatSpec {
 
     assert(pdfDf.filter(col("pagenum") === 0).count() == 0)
     assert(pdfDf.filter(col("text") === "").count() > 0)
+  }
+
+  it should "sort a PDF document with scattered text" taggedAs FastTest in {
+    import spark.implicits._
+    val pdfToText = new PdfToText()
+      .setTextStripper("PDFLayoutTextStripper")
+      .setSort(true)
+    val dummyDataFrame =
+      spark.read.format("binaryFile").load("src/test/resources/reader/pdf/unsorted_text.pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    val actualResult =
+      pdfDf.select(trim(regexp_replace(col("text"), "\\s+", " "))).as[String].collect()(0)
+
+    val expectedResult =
+      "A random heading up here. Hello, this is line 1. This is line 2, but it's placed above line 3." +
+        " Line 3 should be below line 2. Finally, this is line 4, far away."
+    assert(actualResult == expectedResult)
   }
 
 }

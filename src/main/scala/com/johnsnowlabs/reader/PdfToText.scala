@@ -73,6 +73,11 @@ class PdfToText(override val uid: String)
   final val onlyPageNum = new BooleanParam(this, "onlyPageNum", "Extract only page numbers.")
   final val storeSplittedPdf =
     new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
+  final val textStripper = new Param[String](
+    this,
+    "textStripper",
+    "Text stripper type used for output layout and formatting")
+  final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
 
   /** @group setParam */
   def setPageNumCol(value: String): this.type = set(pageNumCol, value)
@@ -98,6 +103,12 @@ class PdfToText(override val uid: String)
   /** @group setParam */
   def setStoreSplittedPdf(value: Boolean): this.type = set(storeSplittedPdf, value)
 
+  /** @group setParam */
+  def setTextStripper(value: String): this.type = set(textStripper, value)
+
+  /** @group setParam */
+  def setSort(value: Boolean): this.type = set(sort, value)
+
   setDefault(
     inputCol -> "content",
     outputCol -> "text",
@@ -106,7 +117,9 @@ class PdfToText(override val uid: String)
     partitionNum -> 0,
     onlyPageNum -> false,
     storeSplittedPdf -> false,
-    splitPage -> true)
+    splitPage -> true,
+    sort -> false,
+    textStripper -> TextStripperType.PDF_TEXT_STRIPPER)
 
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte]) => {
@@ -116,7 +129,14 @@ class PdfToText(override val uid: String)
 
   private def doProcess(
       content: Array[Byte]): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
-    val pagesTry = Try(pdfToText(content, $(onlyPageNum), $(splitPage), $(storeSplittedPdf)))
+    val pagesTry = Try(
+      pdfToText(
+        content,
+        $(onlyPageNum),
+        $(splitPage),
+        $(storeSplittedPdf),
+        $(sort),
+        $(textStripper)))
 
     pagesTry match {
       case Failure(_) =>
@@ -174,8 +194,19 @@ trait PdfToTextTrait extends Logging with PdfUtils {
   /*
    * extracts a text layer from a PDF.
    */
-  private def extractText(document: => PDDocument, startPage: Int, endPage: Int): Seq[String] = {
-    val pdfTextStripper = new PDFTextStripper
+  private def extractText(
+      document: => PDDocument,
+      startPage: Int,
+      endPage: Int,
+      sort: Boolean,
+      textStripper: String): Seq[String] = {
+    val pdfTextStripper: PDFTextStripper = textStripper match {
+      case TextStripperType.PDF_LAYOUT_TEXT_STRIPPER =>
+        val stripper = new PDFLayoutTextStripper()
+        stripper.setIsSort(sort)
+        stripper
+      case _ => new PDFTextStripper
+    }
     pdfTextStripper.setStartPage(startPage + 1)
     pdfTextStripper.setEndPage(endPage + 1)
     Seq(pdfTextStripper.getText(document))
@@ -185,16 +216,33 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       content: Array[Byte],
       onlyPageNum: Boolean,
       splitPage: Boolean,
-      storeSplittedPdf: Boolean): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      storeSplittedPdf: Boolean,
+      sort: Boolean,
+      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
     val validPdf = checkAndFixPdf(content)
     val pdfDoc = PDDocument.load(validPdf)
     val numPages = pdfDoc.getNumberOfPages
     log.info(s"Number of pages ${numPages}")
     require(numPages >= 1, "pdf input stream cannot be empty")
     val result = if (!onlyPageNum) {
-      pdfboxMethod(pdfDoc, 0, numPages - 1, content, splitPage, storeSplittedPdf)
+      pdfboxMethod(
+        pdfDoc,
+        0,
+        numPages - 1,
+        content,
+        splitPage,
+        storeSplittedPdf,
+        sort,
+        textStripper)
     } else {
-      Range(1, numPages + 1).map(pageNum => ("", 1, 1, null, null, pageNum))
+      Range(1, numPages + 1).map( pageNum =>
+        ("",
+          1,
+          1,
+          null,
+          null,
+          pageNum
+        ))
     }
     pdfDoc.close()
     log.info("Close pdf")
@@ -207,11 +255,13 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       endPage: Int,
       content: Array[Byte],
       splitPage: Boolean,
-      storeSplittedPdf: Boolean): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      storeSplittedPdf: Boolean,
+      sort: Boolean,
+      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
     lazy val out: ByteArrayOutputStream = new ByteArrayOutputStream()
     if (splitPage)
       Range(startPage, endPage + 1).flatMap(pagenum =>
-        extractText(pdfDoc, pagenum, pagenum)
+        extractText(pdfDoc, pagenum, pagenum, sort, textStripper)
           .map { text =>
             out.reset()
             val outputDocument = new PDDocument()
@@ -231,7 +281,8 @@ trait PdfToTextTrait extends Logging with PdfUtils {
               pagenum)
           })
     else {
-      val text = extractText(pdfDoc, startPage, endPage).mkString(System.lineSeparator())
+      val text = extractText(pdfDoc, startPage, endPage, sort, textStripper).mkString(
+        System.lineSeparator())
       val heightDimension = pdfDoc.getPage(startPage).getMediaBox.getHeight.toInt
       val widthDimension = pdfDoc.getPage(startPage).getMediaBox.getWidth.toInt
       Seq(

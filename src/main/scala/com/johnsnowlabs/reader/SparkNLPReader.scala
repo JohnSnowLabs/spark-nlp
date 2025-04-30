@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
@@ -261,6 +262,8 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
       .setStoreSplittedPdf(getStoreSplittedPdf)
       .setSplitPage(getSplitPage)
       .setOnlyPageNum(getOnlyPageNum)
+      .setTextStripper(getTextStripper)
+      .setSort(getSort)
     val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
     val pipelineModel = new Pipeline()
       .setStages(Array(pdfToText))
@@ -297,6 +300,26 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
         case _: IllegalArgumentException => false
       }
     splitPage
+  }
+
+  private def getTextStripper: String = {
+    val textStripper =
+      try {
+        params.asScala.getOrElse("textStripper", TextStripperType.PDF_TEXT_STRIPPER)
+      } catch {
+        case _: IllegalArgumentException => TextStripperType.PDF_TEXT_STRIPPER
+      }
+    textStripper
+  }
+
+  private def getSort: Boolean = {
+    val sort =
+      try {
+        params.asScala.getOrElse("sort", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    sort
   }
 
   /** Instantiates class to read Excel files.
