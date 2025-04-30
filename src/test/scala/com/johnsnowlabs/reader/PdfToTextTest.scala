@@ -34,7 +34,7 @@ class PdfToTextTest extends AnyFlatSpec {
       .fit(dummyDataFrame)
 
     val pdfDf = pipelineModel.transform(dummyDataFrame)
-    pdfDf.show(truncate = false)
+    pdfDf.show()
 
     assert(pdfDf.count() > 0)
   }
