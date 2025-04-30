@@ -77,6 +77,7 @@ object GGUFWrapper {
       new LlamaModel(modelParameters)
     }
 
+  /** Reads the GGUF model from file during loadSavedModel. */
   def read(sparkSession: SparkSession, modelPath: String): GGUFWrapper = {
     // TODO Better Sanity Check
     val modelFile = new File(modelPath)
@@ -92,6 +93,9 @@ object GGUFWrapper {
     new GGUFWrapper(modelFile.getName, modelFile.getParent)
   }
 
+  /** Reads the GGUF model from the folder passed by the Spark Reader during loading of a
+    * serialized model.
+    */
   def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapper = {
     def findGGUFModelInFolder(folderPath: String): String = {
       val folder = new File(folderPath)

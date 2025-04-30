@@ -22,9 +22,9 @@ import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions.{col, regexp_replace, udf}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 /** Prepares images read by Spark into a format that is processable by Spark NLP. This component
   * is needed to process images.
@@ -213,4 +213,49 @@ private[nlp] case class ImageFields(
 /** This is the companion object of [[ImageAssembler]]. Please refer to that class for the
   * documentation.
   */
-object ImageAssembler extends DefaultParamsReadable[ImageAssembler]
+object ImageAssembler extends DefaultParamsReadable[ImageAssembler] {
+
+  /** Helper function that loads images from a path and returns them as raw bytes, instead of the
+    * default OpenCV compatible format.
+    *
+    * Supported image types are JPEG, PNG, GIF, BMP (limited to images supported by stb_image.h).
+    *
+    * Multimodal inference with llama.cpp requires raw bytes as input.
+    *
+    * @param spark
+    *   The SparkSession
+    * @param path
+    *   The path to the images. Supported image types are JPEG, PNG, GIF, BMP.
+    * @return
+    *   A dataframe with the images as raw bytes, as well as their metadata.
+    */
+  def loadImagesAsBytes(spark: SparkSession, path: String): DataFrame = {
+    // Replace the path separator in the `origin` field and `path` column, so that they match
+    def replacePath(columnName: String) = regexp_replace(col(columnName), ":///", ":/")
+
+    val data: DataFrame =
+      spark.read
+        .format("image")
+        .option("dropInvalid", value = true)
+        .load(path)
+        .withColumn("image", col("image").withField("origin", replacePath("image.origin")))
+
+    val imageBytes: DataFrame =
+      spark.read
+        .format("binaryFile")
+        .option("pathGlobFilter", "*.{jpeg,jpg,png,gif,bmp,JPEG,JPG,PNG,GIF,BMP}")
+        .option("dropInvalid", value = true)
+        .load(path)
+        .withColumn("path", replacePath("path"))
+
+    // Join on path
+    val dfJoined =
+      data.join(imageBytes, data("image.origin") === imageBytes("path"), "inner")
+
+    // Replace image column data with image bytes
+    val dfImageReplaced =
+      dfJoined.withColumn("image", dfJoined("image").withField("data", dfJoined("content")))
+
+    dfImageReplaced
+  }
+}

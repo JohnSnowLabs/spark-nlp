@@ -297,15 +297,16 @@ private[nlp] abstract class BpeTokenizer(
   def encode(indToken: IndexedToken): Array[TokenPiece] = {
     if (!specialTokens.contains(indToken.token))
       bpe(indToken)
-    else
+    else {
       Array(
         TokenPiece(
           indToken.token,
           indToken.token,
           vocab(indToken.token),
-          isWordStart = true,
+          isWordStart = false,
           indToken.begin,
           indToken.end))
+    }
   }
 
   def encode(indTokens: Array[IndexedToken]): Array[TokenPiece] = indTokens.flatMap(encode(_))
@@ -319,7 +320,8 @@ object BpeTokenizer {
       padWithSequenceTokens: Boolean = false,
       addPrefixSpaceToSentence: Boolean = false,
       specialTokens: Option[SpecialTokens] = None,
-      alwaysAddPrefix: Boolean = true): BpeTokenizer = {
+      alwaysAddPrefix: Boolean = true,
+      prependString: String = ""): BpeTokenizer = {
 
     def modelSpecialTokens() = specialTokens match {
       case Some(specialTok) => specialTok
@@ -347,6 +349,13 @@ object BpeTokenizer {
           alwaysAddPrefix = alwaysAddPrefix)
       case "bart" =>
         new BartTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "olmo" =>
+        new OLMoTokenizer(
           merges,
           vocab,
           modelSpecialTokens(),
@@ -382,6 +391,47 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "Janus" =>
+        new JanusTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
+          prependString = prependString)
+      case "mllama" =>
+        new MLLamaTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "qwen2vl" =>
+        new Qwen2VLTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
+      case "llava" =>
+        new LLAVATokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
+      case "phi3v" =>
+        new Phi3VisionTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
+          prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }

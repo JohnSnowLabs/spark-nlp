@@ -218,4 +218,40 @@ object OpenvinoWrapper {
       decoderWithPast: OpenvinoWrapper)
   case class DecoderWrappers(decoder: OpenvinoWrapper)
   case class EncoderDecoderWithoutPastWrappers(encoder: OpenvinoWrapper, decoder: OpenvinoWrapper)
+  case class JanusWrappers(
+      languageModel: OpenvinoWrapper,
+      lmHeadModel: OpenvinoWrapper,
+      visionEmbeddingsModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      mergeModel: OpenvinoWrapper,
+      genHeadModel: OpenvinoWrapper,
+      genEmbeddingsModel: OpenvinoWrapper,
+      genDecoderModel: OpenvinoWrapper)
+  case class MLLamaWrappers(
+      visionEmbeddingsModel: OpenvinoWrapper,
+      languageModel: OpenvinoWrapper,
+      reshapeModel: OpenvinoWrapper)
+//  LANGUAGE_MODEL_NAME = "openvino_language_model.xml"
+//IMAGE_EMBEDDING_NAME = "openvino_vision_embeddings_model.xml"
+//IMAGE_EMBEDDING_MERGER_NAME = "openvino_vision_embeddings_merger_model.xml"
+//TEXT_EMBEDDING_NAME = "openvino_text_embeddings_model.xml"
+  // ROTARY_EMBEDDING_NAME = "openvino_rotary_embeddings_model.xml"
+  // PATCH_RESHAPE_NAME = "openvino_patch_reshape_model.xml"
+  case class Qwen2VLWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEmbedding: OpenvinoWrapper,
+      imageEmbeddingMerger: OpenvinoWrapper,
+      textEmbedding: OpenvinoWrapper,
+      rotaryEmbedding: OpenvinoWrapper,
+      patchReshapeModel: OpenvinoWrapper,
+      multimodalMergeModel: OpenvinoWrapper)
+  case class LLAVAWrappers(
+      languageModel: OpenvinoWrapper,
+      visionEmbeddingsModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      mergeModel: OpenvinoWrapper)
+  case class Phi3VWrappers(
+      wte: OpenvinoWrapper,
+      reshape: OpenvinoWrapper,
+      languageModel: OpenvinoWrapper)
 }
