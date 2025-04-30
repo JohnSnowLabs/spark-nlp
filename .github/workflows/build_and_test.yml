@@ -45,7 +45,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '8'
-          cache: 'sbt'
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
