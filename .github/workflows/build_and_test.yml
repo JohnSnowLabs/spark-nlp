@@ -69,7 +69,7 @@ jobs:
       - name: Test Spark NLP in Python - Apache Spark 3.4.x
         run: |
           cd python
-          python3.7 -m pytest -v -m fast
+          python3.8 -m pytest -v -m fast
   spark35:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-13
