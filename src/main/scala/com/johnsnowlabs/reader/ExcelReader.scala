@@ -17,6 +17,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.XlsxParser.{RichCell, RichRow, RichSheet}
 import org.apache.poi.hssf.usermodel.{HSSFSheet, HSSFWorkbook}
 import org.apache.poi.ss.usermodel.Workbook
@@ -37,27 +38,34 @@ class ExcelReader(
     appendCells: Boolean = false)
     extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "xls"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   def xls(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val excelDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("xls", parseExcelUDF(col("content")))
-      if (storeContent) excelDf.select("path", "xls", "content")
-      else excelDf.select("path", "xls")
+      val excelDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parseExcelUDF(col("content")))
+      if (storeContent) excelDf.select("path", outputColumn, "content")
+      else excelDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
   private val parseExcelUDF = udf((data: Array[Byte]) => {
     parseExcel(data)
   })
+
+  def xlsToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    parseExcel(content)
+  }
 
   // Constants for file type identification
   private val ZipMagicNumberFirstByte: Byte = 0x50.toByte // First byte of ZIP files

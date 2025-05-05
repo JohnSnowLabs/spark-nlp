@@ -33,8 +33,18 @@ class HTMLReader(
     headers: Map[String, String] = Map.empty)
     extends Serializable {
 
-  private val spark = ResourceHelper.spark
+  private lazy val spark = ResourceHelper.spark
   import spark.implicits._
+
+  private var outputColumn = "html"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   def read(inputSource: String): DataFrame = {
 
@@ -43,16 +53,16 @@ class HTMLReader(
         val htmlDf = spark.sparkContext
           .wholeTextFiles(inputSource)
           .toDF("path", "content")
-          .withColumn("html", parseHtmlUDF(col("content")))
-        if (storeContent) htmlDf.select("path", "content", "html")
-        else htmlDf.select("path", "html")
+          .withColumn(outputColumn, parseHtmlUDF(col("content")))
+        if (storeContent) htmlDf.select("path", "content", outputColumn)
+        else htmlDf.select("path", outputColumn)
       case _ if isValidURL(inputSource) =>
         val htmlDf = spark
           .createDataset(Seq(inputSource))
           .toDF("url")
-          .withColumn("html", parseURLUDF(col("url")))
-        if (storeContent) htmlDf.select("url", "content", "html")
-        else htmlDf.select("url", "html")
+          .withColumn(outputColumn, parseURLUDF(col("url")))
+        if (storeContent) htmlDf.select("url", "content", outputColumn)
+        else htmlDf.select("url", outputColumn)
       case _ =>
         throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
     }
@@ -66,7 +76,7 @@ class HTMLReader(
     spark
       .createDataset(validURLs)
       .toDF("url")
-      .withColumn("html", parseURLUDF(col("url")))
+      .withColumn(outputColumn, parseURLUDF(col("url")))
   }
 
   private val parseHtmlUDF = udf((html: String) => {
@@ -86,6 +96,20 @@ class HTMLReader(
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
     val body = document.body()
     extractElements(body)
+  }
+
+  def htmlToHTMLElement(html: String): Array[HTMLElement] = {
+    val document = Jsoup.parse(html)
+    startTraversalFromBody(document)
+  }
+
+  def urlToHTMLElement(url: String): Array[HTMLElement] = {
+    val connection = Jsoup
+      .connect(url)
+      .headers(headers.asJava)
+      .timeout(timeout * 1000)
+    val document = connection.get()
+    startTraversalFromBody(document)
   }
 
   private case class NodeMetadata(tagName: Option[String], hidden: Boolean, var visited: Boolean)
