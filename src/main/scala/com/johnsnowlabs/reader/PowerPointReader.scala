@@ -17,6 +17,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.PptParser.{RichHSLFSlide, RichXSLFSlide}
 import org.apache.poi.hslf.usermodel.HSLFSlideShow
 import org.apache.poi.xslf.usermodel.XMLSlideShow
@@ -32,27 +33,34 @@ class PowerPointReader(
     includeSlideNotes: Boolean = false)
     extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "ppt"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   def ppt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val powerPointDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("ppt", parsePowerPointUDF(col("content")))
-      if (storeContent) powerPointDf.select("path", "ppt", "content")
-      else powerPointDf.select("path", "ppt")
+      val powerPointDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parsePowerPointUDF(col("content")))
+      if (storeContent) powerPointDf.select("path", outputColumn, "content")
+      else powerPointDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
   private val parsePowerPointUDF = udf((data: Array[Byte]) => {
     parsePowerPoint(data)
   })
+
+  def pptToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    parsePowerPoint(content)
+  }
 
   // Constants for file type identification
   private val ZipMagicNumberFirstByte: Byte = 0x50.toByte // First byte of ZIP files

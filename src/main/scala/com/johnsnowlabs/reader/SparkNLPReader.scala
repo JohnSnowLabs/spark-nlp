@@ -18,6 +18,11 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
+import com.johnsnowlabs.reader.util.PartitionOptions.{
+  getDefaultBoolean,
+  getDefaultInt,
+  getDefaultString
+}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
@@ -73,24 +78,47 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
 
+  private var outputColumn = "reader"
+
+  def setOutputColumn(value: String): Unit = {
+    require(value.nonEmpty, "Result column name cannot be empty.")
+    outputColumn = value
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def html(htmlPath: String): DataFrame = {
     val htmlReader =
       new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
+  }
+
+  def htmlToHTMLElement(html: String): Seq[HTMLElement] = {
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
+    htmlReader.htmlToHTMLElement(html)
+  }
+
+  def urlToHTMLElement(url: String): Seq[HTMLElement] = {
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
+    htmlReader.urlToHTMLElement(url)
   }
 
   def html(urls: Array[String]): DataFrame = {
     val htmlReader =
       new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
-    val htmlReader = new HTMLReader(
-      getTitleFontSize,
-      getStoreContent,
-      getTimeout,
-      headers = headers.asScala.toMap)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
   }
 
@@ -99,15 +127,15 @@ class SparkNLPReader(
     else headers.asScala.toMap.map { case (k, v) => k -> v }
 
   private def getTitleFontSize: Int = {
-    getDefaultInt(Seq("titleFontSize", "title_font_size"), default = 16)
+    getDefaultInt(params.asScala.toMap, Seq("titleFontSize", "title_font_size"), default = 16)
   }
 
   private def getStoreContent: Boolean = {
-    getDefaultBoolean(Seq("storeContent", "store_content"), default = false)
+    getDefaultBoolean(params.asScala.toMap, Seq("storeContent", "store_content"), default = false)
   }
 
   private def getTimeout: Int = {
-    getDefaultInt(Seq("timeout"), default = 30)
+    getDefaultInt(params.asScala.toMap, Seq("timeout"), default = 30)
   }
 
   /** Instantiates class to read email files.
@@ -155,11 +183,21 @@ class SparkNLPReader(
 
   def email(emailPath: String): DataFrame = {
     val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
-    emailReader.read(emailPath)
+    setOutputColumn(emailReader.getOutputColumn)
+    emailReader.email(emailPath)
+  }
+
+  def email(content: Array[Byte]): Seq[HTMLElement] = {
+    val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
+    setOutputColumn(emailReader.getOutputColumn)
+    emailReader.emailToHTMLElement(content)
   }
 
   private def getAddAttachmentContent: Boolean = {
-    getDefaultBoolean(Seq("addAttachmentContent", "add_attachment_content"), default = false)
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("addAttachmentContent", "add_attachment_content"),
+      default = false)
   }
 
   /** Instantiates class to read Word files.
@@ -207,7 +245,14 @@ class SparkNLPReader(
 
   def doc(docPath: String): DataFrame = {
     val wordReader = new WordReader(getStoreContent, getIncludePageBreaks)
+    setOutputColumn(wordReader.getOutputColumn)
     wordReader.doc(docPath)
+  }
+
+  def doc(content: Array[Byte]): Seq[HTMLElement] = {
+    val wordReader = new WordReader(getAddAttachmentContent, getStoreContent)
+    setOutputColumn(wordReader.getOutputColumn)
+    wordReader.docToHTMLElement(content)
   }
 
   /** Instantiates class to read PDF files.
@@ -271,7 +316,10 @@ class SparkNLPReader(
   }
 
   private def getStoreSplittedPdf: Boolean = {
-    getDefaultBoolean(Seq("storeSplittedPdf", "store_splitted_pdf"), default = false)
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("storeSplittedPdf", "store_splitted_pdf"),
+      default = false)
   }
 
   private def getSplitPage: Boolean = {
@@ -366,19 +414,36 @@ class SparkNLPReader(
         includePageBreaks = getIncludePageBreaks,
         inferTableStructure = getInferTableStructure,
         appendCells = getAppendCells)
+    setOutputColumn(excelReader.getOutputColumn)
     excelReader.xls(docPath)
   }
 
+  def xls(content: Array[Byte]): Seq[HTMLElement] = {
+    val excelReader =
+      new ExcelReader(
+        titleFontSize = getTitleFontSize,
+        cellSeparator = getCellSeparator,
+        storeContent = getStoreContent,
+        includePageBreaks = getIncludePageBreaks,
+        inferTableStructure = getInferTableStructure,
+        appendCells = getAppendCells)
+    setOutputColumn(excelReader.getOutputColumn)
+    excelReader.xlsToHTMLElement(content)
+  }
+
   private def getCellSeparator: String = {
-    params.asScala.getOrElse("cellSeparator", "\t")
+    getDefaultString(params.asScala.toMap, Seq("cellSeparator", "cell_separator"), default = "\t")
   }
 
   private def getInferTableStructure: Boolean = {
-    getDefaultBoolean(Seq("inferTableStructure", "infer_table_structure"), default = false)
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("inferTableStructure", "infer_table_structure"),
+      default = false)
   }
 
   private def getAppendCells: Boolean = {
-    getDefaultBoolean(Seq("appendCells", "append_cells"), default = false)
+    getDefaultBoolean(params.asScala.toMap, Seq("appendCells", "append_cells"), default = false)
   }
 
   /** Instantiates class to read PowerPoint files.
@@ -426,7 +491,14 @@ class SparkNLPReader(
 
   def ppt(docPath: String): DataFrame = {
     val powerPointReader = new PowerPointReader(getStoreContent)
+    setOutputColumn(powerPointReader.getOutputColumn)
     powerPointReader.ppt(docPath)
+  }
+
+  def ppt(content: Array[Byte]): Seq[HTMLElement] = {
+    val powerPointReader = new PowerPointReader(getStoreContent)
+    setOutputColumn(powerPointReader.getOutputColumn)
+    powerPointReader.pptToHTMLElement(content)
   }
 
   /** Instantiates class to read txt files.
@@ -480,7 +552,21 @@ class SparkNLPReader(
       getShortLineWordThreshold,
       getMaxLineCount,
       getThreshold)
+    setOutputColumn(textReader.getOutputColumn)
     textReader.txt(filePath)
+  }
+
+  def txtToHTMLElement(text: String): Seq[HTMLElement] = {
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
+    setOutputColumn(textReader.getOutputColumn)
+    textReader.txtToHTMLElement(text)
   }
 
   def txtContent(content: String): DataFrame = {
@@ -496,27 +582,39 @@ class SparkNLPReader(
   }
 
   private def getTitleLengthSize: Int = {
-    getDefaultInt(Seq("titleLengthSize", "title_length_size"), default = 50)
+    getDefaultInt(params.asScala.toMap, Seq("titleLengthSize", "title_length_size"), default = 50)
   }
 
   private def getIncludePageBreaks: Boolean = {
-    getDefaultBoolean(Seq("includePageBreaks", "include_page_breaks"), default = false)
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includePageBreaks", "include_page_breaks"),
+      default = false)
   }
 
   private def getGroupBrokenParagraphs: Boolean = {
-    getDefaultBoolean(Seq("groupBrokenParagraphs", "group_broken_paragraphs"), default = false)
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("groupBrokenParagraphs", "group_broken_paragraphs"),
+      default = false)
   }
 
   private def getParagraphSplit: String = {
-    getDefaultString(Seq("paragraphSplit", "paragraph_split"), default = DOUBLE_PARAGRAPH_PATTERN)
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("paragraphSplit", "paragraph_split"),
+      default = DOUBLE_PARAGRAPH_PATTERN)
   }
 
   private def getShortLineWordThreshold: Int = {
-    getDefaultInt(Seq("shortLineWordThreshold", "short_line_word_threshold"), default = 5)
+    getDefaultInt(
+      params.asScala.toMap,
+      Seq("shortLineWordThreshold", "short_line_word_threshold"),
+      default = 5)
   }
 
   private def getMaxLineCount: Int = {
-    getDefaultInt(Seq("maxLineCount", "max_line_count"), default = 2000)
+    getDefaultInt(params.asScala.toMap, Seq("maxLineCount", "max_line_count"), default = 2000)
   }
 
   private def getThreshold: Double = {
@@ -528,31 +626,6 @@ class SparkNLPReader(
       }
 
     threshold
-  }
-
-  private def getDefaultBoolean(options: Seq[String], default: Boolean): Boolean = {
-    options
-      .flatMap(key => Option(params.get(key)))
-      .map(_.trim.toLowerCase)
-      .flatMap(value => scala.util.Try(value.toBoolean).toOption)
-      .headOption
-      .getOrElse(default)
-  }
-
-  private def getDefaultInt(options: Seq[String], default: Int): Int = {
-    options
-      .flatMap(key => Option(params.get(key)))
-      .flatMap(value => scala.util.Try(value.toInt).toOption)
-      .headOption
-      .getOrElse(default)
-  }
-
-  private def getDefaultString(options: Seq[String], default: String): String = {
-    options
-      .flatMap(key => Option(params.get(key)))
-      .flatMap(value => scala.util.Try(value).toOption)
-      .headOption
-      .getOrElse(default)
   }
 
 }
