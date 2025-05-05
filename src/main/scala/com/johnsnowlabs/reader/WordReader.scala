@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.DocParser.RichParagraph
 import com.johnsnowlabs.reader.util.DocxParser.{
   RichXWPFDocument,
@@ -37,26 +38,34 @@ class WordReader(
     inferTableStructure: Boolean = false)
     extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "doc"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   def doc(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val wordDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("doc", parseWordUDF(col("content")))
-      if (storeContent) wordDf.select("path", "doc", "content") else wordDf.select("path", "doc")
+      val wordDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parseWordUDF(col("content")))
+      if (storeContent) wordDf.select("path", outputColumn, "content")
+      else wordDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
   private val parseWordUDF = udf((data: Array[Byte]) => {
     parseDoc(data)
   })
+
+  def docToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    parseDoc(content)
+  }
 
   // Constants for file type identification
   private val ZipMagicNumberFirstByte: Byte =

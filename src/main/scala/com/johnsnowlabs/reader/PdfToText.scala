@@ -16,13 +16,14 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.IAnnotation
+import com.johnsnowlabs.reader.util.HasPdfProperties
 import com.johnsnowlabs.reader.util.pdf._
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.spark.internal.Logging
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.shared.{HasInputCol, HasOutputCol}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, posexplode_outer, udf}
@@ -39,7 +40,8 @@ class PdfToText(override val uid: String)
     with HasInputCol
     with HasOutputCol
     with HasLocalProcess
-    with PdfToTextTrait {
+    with PdfToTextTrait
+    with HasPdfProperties {
 
   def this() = this(Identifiable.randomUID("PDF_TO_TEXT_TRANSFORMER"))
 
@@ -62,17 +64,11 @@ class PdfToText(override val uid: String)
       .add(StructField($(pageNumCol), IntegerType, nullable = false))
   }
 
-  final val pageNumCol = new Param[String](this, "pageNumCol", "Page number output column name.")
   final val splitPage = new BooleanParam(
     this,
     "splitPage",
     "Enable/disable splitting per page to identify page numbers and improve performance.")
-  final val originCol =
-    new Param[String](this, "originCol", "Input column name with original path of file.")
-  final val partitionNum = new IntParam(this, "partitionNum", "Number of partitions.")
   final val onlyPageNum = new BooleanParam(this, "onlyPageNum", "Extract only page numbers.")
-  final val storeSplittedPdf =
-    new BooleanParam(this, "storeSplittedPdf", "Force to store bytes content of splitted pdf.")
   final val textStripper = new Param[String](
     this,
     "textStripper",
@@ -80,13 +76,7 @@ class PdfToText(override val uid: String)
   final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
 
   /** @group setParam */
-  def setPageNumCol(value: String): this.type = set(pageNumCol, value)
-
-  /** @group setParam */
   def setSplitPage(value: Boolean): this.type = set(splitPage, value)
-
-  /** @group getParam */
-  def setOriginCol(value: String): this.type = set(originCol, value)
 
   /** @group setParam */
   def setInputCol(value: String): this.type = set(inputCol, value)
@@ -94,14 +84,8 @@ class PdfToText(override val uid: String)
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputCol, value)
 
-  /** @group getParam */
-  def setPartitionNum(value: Int): this.type = set(partitionNum, value)
-
-  /** @group setParam */
+    /** @group setParam */
   def setOnlyPageNum(value: Boolean): this.type = set(onlyPageNum, value)
-
-  /** @group setParam */
-  def setStoreSplittedPdf(value: Boolean): this.type = set(storeSplittedPdf, value)
 
   /** @group setParam */
   def setTextStripper(value: String): this.type = set(textStripper, value)
