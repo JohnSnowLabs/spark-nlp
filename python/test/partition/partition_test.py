@@ -18,7 +18,7 @@ from sparknlp.partition.partition import Partition
 
 
 @pytest.mark.fast
-class PartitionTextTesSpec(unittest.TestCase):
+class PartitionTextTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.txt_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/txt"
@@ -32,7 +32,7 @@ class PartitionTextTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionWordTesSpec(unittest.TestCase):
+class PartitionWordTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.word_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/doc"
@@ -46,7 +46,7 @@ class PartitionWordTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionExcelTesSpec(unittest.TestCase):
+class PartitionExcelTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.excel_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/xls"
@@ -60,7 +60,7 @@ class PartitionExcelTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionPowerPointTesSpec(unittest.TestCase):
+class PartitionPowerPointTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.ppt_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/ppt"
@@ -74,7 +74,7 @@ class PartitionPowerPointTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionEmailTesSpec(unittest.TestCase):
+class PartitionEmailTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.eml_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/email"
@@ -88,7 +88,7 @@ class PartitionEmailTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionHtmlTesSpec(unittest.TestCase):
+class PartitionHtmlTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.html_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/html"
@@ -102,7 +102,7 @@ class PartitionHtmlTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionUrlTesSpec(unittest.TestCase):
+class PartitionUrlTestSpec(unittest.TestCase):
 
     def runTest(self):
         url_df = Partition().partition("https://www.wikipedia.org", headers={"User-Agent": "Mozilla/5.0"})
@@ -113,7 +113,7 @@ class PartitionUrlTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
-class PartitionPdfTesSpec(unittest.TestCase):
+class PartitionPdfTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.html_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/pdf"
@@ -126,7 +126,7 @@ class PartitionPdfTesSpec(unittest.TestCase):
         self.assertTrue(pdf_file_df.select("text").count() > 0)
 
 @pytest.mark.fast
-class PartitionTextInMemoryTesSpec(unittest.TestCase):
+class PartitionTextInMemoryTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.raw_text = (
