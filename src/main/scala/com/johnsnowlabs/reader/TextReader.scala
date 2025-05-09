@@ -23,6 +23,53 @@ import org.apache.spark.sql.functions.udf
 
 import scala.collection.mutable
 
+/** Class to read and parse text files.
+  *
+  * @param titleLengthSize
+  *   Maximum character length used to determine if a text block qualifies as a title during
+  *   parsing.
+  * @param storeContent
+  *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
+  *   from URLs
+  * @param groupBrokenParagraphs
+  *   Whether to merge fragmented lines into coherent paragraphs using heuristics based on line
+  *   length and structure
+  * @param paragraphSplit
+  *   Regex pattern used to detect paragraph boundaries when grouping broken paragraphs
+  * @param shortLineWordThreshold
+  *   Maximum word count for a line to be considered 'short' during broken paragraph grouping
+  * @param maxLineCount
+  *   Maximum number of lines to evaluate when estimating paragraph layout characteristics
+  * @param threshold
+  *   Threshold ratio of empty lines used to decide between new line-based or broken-paragraph
+  *   grouping
+  * ==Example==
+  * {{{
+  * val filePath = "home/user/txt/files"
+  * val textReader = new TextReader()
+  * val textDf = textReader.txt(filePath)
+  * }}}
+  *
+  * {{{
+  * textDf.select("txt").show(false)
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |[{Title, BIG DATA ANALYTICS, {paragraph -> 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -> 0}}, {Title, MACHINE LEARNING, {paragraph -> 1}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -> 1}}]|
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *
+  * textDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- txt: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  */
 class TextReader(
     titleLengthSize: Int = 50,
     storeContent: Boolean = false,

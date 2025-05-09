@@ -21,8 +21,41 @@ import org.apache.spark.sql.DataFrame
 import java.net.URL
 import scala.collection.JavaConverters._
 
+/** The Partition class provides a streamlined and user-friendly interface for interacting with
+  * Spark NLP readers. It allows you to extract content from various file formats while providing
+  * flexible customization using keyword arguments. File types include Email, Excel, HTML, PPT,
+  * Text, Word documents.
+  *
+  * @param params
+  *   Configurations that control how different types of documents are parsed.
+  * ==Example==
+  * {{{
+  * val txtDirectory = "/content/txtfiles/reader/txt"
+  * val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
+  * textDf.show()
+  *
+  * +--------------------+--------------------+
+  * |                path|                 txt|
+  * +--------------------+--------------------+
+  * |file:/content/txt...|[{Title, BIG DATA...|
+  * +--------------------+--------------------+
+  * }}}
+  *
+  * *
+  */
+
 class Partition(params: java.util.Map[String, String] = new java.util.HashMap()) {
 
+  /** Takes a URL/file/directory path to read and parse it's content.
+    *
+    * @param path
+    *   Path to a file or local directory where all files are stored. Supports URLs and DFS file
+    *   systems like databricks, HDFS and Microsoft Fabric OneLake
+    * @param headers
+    *   If the path is a URL it sets the necessary headers for the request.
+    * @return
+    *   DataFrame with parsed file content.
+    */
   def partition(
       path: String,
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
@@ -77,6 +110,16 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
     }
   }
+
+  /** Parses multiple URL's.
+    *
+    * @param urls
+    *   list of URL's
+    * @param headers
+    *   sets the necessary headers for the URL request.
+    * @return
+    *   DataFrame with parsed file content.
+    */
 
   def partitionUrls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
     if (urls.isEmpty) throw new IllegalArgumentException("URL array is empty")

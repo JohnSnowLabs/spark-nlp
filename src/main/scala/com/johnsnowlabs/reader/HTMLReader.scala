@@ -26,6 +26,56 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
+/** Class to parse and read HTML files.
+  *
+  * @param titleFontSize
+  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
+  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. By default, it is set to false.
+  * @param timeout
+  *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
+  *   from URLs. By default, it is set to 0.
+  * @param headers
+  *   sets the necessary headers for the URL request.
+  *
+  * Two types of input paths are supported for the reader,
+  *
+  * htmlPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+  * "path/html/files"
+  *
+  * url: this is the URL or set of URLs of a website . E.g., "https://www.wikipedia.org"
+  *
+  * ==Example==
+  * {{{
+  * val url = "https://www.wikipedia.org"
+  * val HTMLReader = new HTMLReader()
+  * val htmlDF = HTMLReader.read(url)
+  * }}}
+  *
+  * {{{
+  * htmlDF.show(false)
+  *
+  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |url                 |html                                                                                                                                                                                                                                                                                                                            |
+  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |https://example.com/|[{Title, Example Domain, {pageNumber -> 1}}, {NarrativeText, 0, This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission., {pageNumber -> 1}}, {NarrativeText, 0, More information... More information..., {pageNumber -> 1}}]   |
+  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *
+  * htmlDf.printSchema()
+  * root
+  *  |-- url: string (nullable = true)
+  *  |-- html: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  */
+
 class HTMLReader(
     titleFontSize: Int = 16,
     storeContent: Boolean = false,
