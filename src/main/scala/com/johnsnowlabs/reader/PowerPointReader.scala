@@ -27,6 +27,50 @@ import org.apache.spark.sql.functions.{col, udf}
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 
+/** Class to read and parse PowerPoint files.
+  *
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output
+  * @param inferTableStructure
+  *   Whether to generate an HTML table representation from structured table content. When
+  *   enabled, a full <table> element is added alongside cell-level elements, based on row and
+  *   column layout.
+  * @param includeSlideNotes
+  *   Whether to extract speaker notes from slides. When enabled, notes are included as narrative
+  *   text elements.
+  *
+  * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+  * "path/power-point/files"
+  *
+  * ==Example==
+  * {{{
+  * val docsPath = "home/user/power-point-directory"
+  * val powerPointReader = new PowerPointReader()
+  * val pptDf = powerPointReader.ppt(docsPath)
+  * }}}
+  *
+  * {{{
+  * pptDf.select("ppt").show(false)
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |ppt                                                                                                                                                                                                                                                                                                                      |
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
+  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  *
+  * pptDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- ppt: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  */
+
 class PowerPointReader(
     storeContent: Boolean = false,
     inferTableStructure: Boolean = false,
