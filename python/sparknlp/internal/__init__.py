@@ -281,6 +281,16 @@ class _Gemma3ForMultiModalLoader(ExtendedJavaWrapper):
             use_openvino
         )
 
+class _InternVLForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_InternVLForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.InternVLForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
+
+
 class _JanusForMultiModalLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_JanusForMultiModalLoader, self).__init__(
