@@ -14,6 +14,31 @@
 import sparknlp
 from sparknlp.internal import ExtendedJavaWrapper
 
+"""
+     The Partition class provides a streamlined and user-friendly interface for interacting with
+     Spark NLP readers. It allows you to extract content from various file formats while providing
+     customization using keyword arguments. File types include Email, Excel, HTML, PPT,
+     Text, Word documents.
+    
+    Parameters
+    ----------
+    params : dict, optional   
+        Parameter with custom configuration
+        
+    Examples
+    ----------
+    txt_directory = "/content/txtfiles/reader/txt"
+    partition_df = Partition(content_type = "text/plain").partition(txt_directory)
+    partition_df.show()
+    
+     +--------------------+--------------------+
+     |                path|                 txt|
+     +--------------------+--------------------+
+     |file:/content/txt...|[{Title, BIG DATA...|
+     +--------------------+--------------------+
+
+"""
+
 class Partition(ExtendedJavaWrapper):
 
     def  __init__(self, **kwargs):
@@ -27,6 +52,22 @@ class Partition(ExtendedJavaWrapper):
 
         super(Partition, self).__init__("com.johnsnowlabs.partition.Partition", params)
 
+    """
+        Takes a URL/file/directory path to read and parse it's content.
+        
+        Parameters
+        ----------
+        path : string   
+            Path to a file or local directory where all files are stored. Supports URLs and DFS file systems like databricks, HDFS and Microsoft Fabric OneLake.
+        headers: dict, optional
+            If the path is a URL it sets the necessary headers for the request.
+        
+        Returns
+        -------
+        DataFrame
+            DataFrame with parsed file content.
+    """
+
     def partition(self, path, headers=None):
         if headers is None:
             headers = {}
@@ -34,6 +75,21 @@ class Partition(ExtendedJavaWrapper):
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 
+    """
+        Parses and reads data from multiple URL's.
+        
+        Parameters
+        ----------
+        urls : List[str] 
+            list of URL's
+        headers: dict, optional
+            sets the necessary headers for the URL request.
+        
+        Returns
+        -------
+        DataFrame
+            DataFrame with parsed url content.
+    """
     def partition_urls(self, path, headers=None):
         if headers is None:
             headers = {}
@@ -41,6 +97,19 @@ class Partition(ExtendedJavaWrapper):
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 
+    """
+        Partitions text from a string.
+        
+        Parameters
+        ----------
+        text : string
+            text data in string form 
+            
+        Returns
+        -------
+        DataFrame
+            DataFrame with parsed text content.
+    """
     def partition_text(self, text):
         jdf = self._java_obj.partitionText(text)
         dataframe = self.getDataFrame(self.spark, jdf)
