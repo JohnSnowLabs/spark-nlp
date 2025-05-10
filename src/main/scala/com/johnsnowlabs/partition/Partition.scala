@@ -27,11 +27,12 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
 /** The Partition class provides a streamlined and user-friendly interface for interacting with
   * Spark NLP readers. It allows you to extract content from various file formats while providing
-  * flexible customization using keyword arguments. File types include Email, Excel, HTML, PPT,
+  * customization using keyword arguments. File types include Email, Excel, HTML, PPT,
   * Text, Word documents.
   *
   * @param params
-  *   Configurations that control how different types of documents are parsed.
+  *   Map of parameters with custom configurations
+  *
   * ==Example==
   * {{{
   * val txtDirectory = "/content/txtfiles/reader/txt"
@@ -179,7 +180,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     * @param headers
     *   sets the necessary headers for the URL request.
     * @return
-    *   DataFrame with parsed file content.
+    *   DataFrame with parsed url content.
     */
 
   def partitionUrls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
@@ -193,7 +194,13 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
     partitionUrls(urls.asScala.toArray, headers.asScala.toMap)
   }
-
+  /** Parses and reads data from multiple URL's.
+   *
+   * @param text
+   *   Partitions text from a string.
+   * @return
+   *   DataFrame with parsed text content.
+   */
   def partitionText(text: String): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params)
     sparkNLPReader.txtContent(text)
