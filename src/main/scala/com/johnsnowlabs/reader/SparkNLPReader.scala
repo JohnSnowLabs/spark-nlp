@@ -140,7 +140,7 @@ class SparkNLPReader(
 
   /** Instantiates class to read email files.
     *
-    * emailPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+    * emailPath: this is a path to a directory of email files or a path to an email file E.g.
     * "path/email/files"
     *
     * ==Example==
@@ -202,7 +202,7 @@ class SparkNLPReader(
 
   /** Instantiates class to read Word files.
     *
-    * docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+    * docPath: this is a path to a directory of Word files or a path to an Word file E.g.
     * "path/word/files"
     *
     * ==Example==
@@ -364,7 +364,7 @@ class SparkNLPReader(
 
   /** Instantiates class to read Excel files.
     *
-    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * docPath: this is a path to a directory of Excel files or a path to an Excel file E.g.
     * "path/excel/files"
     *
     * ==Example==
@@ -448,7 +448,7 @@ class SparkNLPReader(
 
   /** Instantiates class to read PowerPoint files.
     *
-    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * docPath: this is a path to a directory of PowerPoint files or a path to an PowerPoint file E.g.
     * "path/power-point/files"
     *
     * ==Example==

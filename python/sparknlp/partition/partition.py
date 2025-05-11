@@ -15,7 +15,7 @@ import sparknlp
 from sparknlp.internal import ExtendedJavaWrapper
 
 """
-     The Partition class provides a streamlined and user-friendly interface for interacting with
+     The Partition class provides a streamlined interface for interacting with
      Spark NLP readers. It allows you to extract content from various file formats while providing
      customization using keyword arguments. File types include Email, Excel, HTML, PPT,
      Text, Word documents.
@@ -58,14 +58,14 @@ class Partition(ExtendedJavaWrapper):
         Parameters
         ----------
         path : string   
-            Path to a file or local directory where all files are stored. Supports URLs and DFS file systems like databricks, HDFS and Microsoft Fabric OneLake.
+            Path to a file or local directory. Supports URLs and DFS file systems like databricks, HDFS and Microsoft Fabric OneLake.
         headers: dict, optional
             If the path is a URL it sets the necessary headers for the request.
         
         Returns
         -------
-        DataFrame
-            DataFrame with parsed file content.
+        pyspark.sql.DataFrame
+            DataFrame with parsed content.
     """
 
     def partition(self, path, headers=None):
@@ -87,8 +87,31 @@ class Partition(ExtendedJavaWrapper):
         
         Returns
         -------
-        DataFrame
+        pyspark.sql.DataFrame
             DataFrame with parsed url content.
+            
+        Examples
+        -------
+        urls_df = Partition().partition_urls(["https://www.wikipedia.org", "https://example.com/"])
+        urls_df.show()
+        +--------------------+--------------------+
+        |                 url|                html|
+        +--------------------+--------------------+
+        |https://www.wikip...|[{Title, Wikipedi...|
+        |https://example.com/|[{Title, Example ...|
+        +--------------------+--------------------+
+        
+        urls_df.printSchema()
+        root
+         |-- url: string (nullable = true)
+         |-- html: array (nullable = true)
+         |    |-- element: struct (containsNull = true)
+         |    |    |-- elementType: string (nullable = true)
+         |    |    |-- content: string (nullable = true)
+         |    |    |-- metadata: map (nullable = true)
+         |    |    |    |-- key: string
+         |    |    |    |-- value: string (valueContainsNull = true)
+
     """
     def partition_urls(self, path, headers=None):
         if headers is None:
@@ -107,8 +130,36 @@ class Partition(ExtendedJavaWrapper):
             
         Returns
         -------
-        DataFrame
+        pyspark.sql.DataFrame
             DataFrame with parsed text content.
+        
+        Examples
+        -------
+        raw_text = (
+            "The big brown fox\n"
+            "was walking down the lane.\n"
+            "\n"
+            "At the end of the lane,\n"
+            "the fox met a bear."
+        )
+        
+        text_df = Partition(group_broken_paragraphs=True).partition_text(text = raw_text)
+        text_df.show(truncate=False)
+        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |txt                                                                                                                                                              |
+        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        |[{NarrativeText, The big brown fox was walking down the lane., {paragraph -> 0}}, {NarrativeText, At the end of the lane, the fox met a bear., {paragraph -> 0}}]|
+        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        
+        text_df.printSchema()
+        root
+         |-- txt: array (nullable = true)
+         |    |-- element: struct (containsNull = true)
+         |    |    |-- elementType: string (nullable = true)
+         |    |    |-- content: string (nullable = true)
+         |    |    |-- metadata: map (nullable = true)
+         |    |    |    |-- key: string
+         |    |    |    |-- value: string (valueContainsNull = true)
     """
     def partition_text(self, text):
         jdf = self._java_obj.partitionText(text)

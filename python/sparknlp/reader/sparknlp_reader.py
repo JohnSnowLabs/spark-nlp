@@ -259,7 +259,7 @@ class SparkNLPReader(ExtendedJavaWrapper):
         Parameters
         ----------
         docPath : str
-            Path to an excel document file.
+            Path to an power point document file.
 
         Returns
         -------
