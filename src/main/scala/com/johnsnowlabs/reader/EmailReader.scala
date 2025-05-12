@@ -69,6 +69,13 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  /** @param filePath
+    *   this is a path to a directory of email files or a path to an email file E.g.
+    *   "path/email/files"
+    *
+    * @return
+    *   Dataframe with parsed email content.
+    */
   def read(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)

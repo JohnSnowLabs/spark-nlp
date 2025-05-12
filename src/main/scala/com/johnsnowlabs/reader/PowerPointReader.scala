@@ -30,14 +30,14 @@ import scala.collection.JavaConverters._
   *
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate 'content'
-  *   column, alongside the structured output
+  *   column, alongside the structured output. The default value is false.
   * @param inferTableStructure
   *   Whether to generate an HTML table representation from structured table content. When
   *   enabled, a full <table> element is added alongside cell-level elements, based on row and
-  *   column layout.
+  *   column layout. The default value is false.
   * @param includeSlideNotes
   *   Whether to extract speaker notes from slides. When enabled, notes are included as narrative
-  *   text elements.
+  *   text elements. The default value is false.
   *
   * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
   * "path/power-point/files"
@@ -78,6 +78,13 @@ class PowerPointReader(
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
+
+  /** @param filePath
+    *   this is a path to a directory of ppt files or a path to an ppt file E.g. "path/ppts/files"
+    *
+    * @return
+    *   Dataframe with parsed power point content.
+    */
 
   def ppt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {

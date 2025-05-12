@@ -33,10 +33,10 @@ import scala.collection.mutable
   * @param titleFontSize
   *   Minimum font size threshold used as part of heuristic rules to detect title elements based
   *   on formatting (e.g., bold, centered, capitalized). By default it is set to 9. By default, it
-  *   is set to false.
+  *   is set to 9.
   * @param cellSeparator
   *   String used to join cell values in a row when assembling textual output. By default, it is
-  *   set to false.
+  *   set to tab seperator.
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate 'content'
   *   column, alongside the structured output. By default, it is set to false.
@@ -89,6 +89,14 @@ class ExcelReader(
 
   private val spark = ResourceHelper.spark
   import spark.implicits._
+
+  /** @param filePath
+    *   this is a path to a directory of excel files or a path to an excel file E.g.
+    *   "path/excel/files"
+    *
+    * @return
+    *   Dataframe with parsed excel content.
+    */
 
   def xls(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {

@@ -27,22 +27,26 @@ import scala.collection.mutable
   *
   * @param titleLengthSize
   *   Maximum character length used to determine if a text block qualifies as a title during
-  *   parsing.
+  *   parsing. The default value is 50.
   * @param storeContent
   *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
-  *   from URLs
+  *   from URLs. By default, it is set to false.
   * @param groupBrokenParagraphs
   *   Whether to merge fragmented lines into coherent paragraphs using heuristics based on line
-  *   length and structure
+  *   length and structure. By default, it is set to false.
   * @param paragraphSplit
-  *   Regex pattern used to detect paragraph boundaries when grouping broken paragraphs
+  *   Regex pattern used to detect paragraph boundaries when grouping broken paragraphs. Default
+  *   value is set to double paragraph pattern.
   * @param shortLineWordThreshold
-  *   Maximum word count for a line to be considered 'short' during broken paragraph grouping
+  *   Maximum word count for a line to be considered 'short' during broken paragraph grouping.
+  *   Default value is 5.
   * @param maxLineCount
-  *   Maximum number of lines to evaluate when estimating paragraph layout characteristics
+  *   Maximum number of lines to evaluate when estimating paragraph layout characteristics.
+  *   Default value is 2000.
   * @param threshold
   *   Threshold ratio of empty lines used to decide between new line-based or broken-paragraph
-  *   grouping
+  *   grouping. Default value is 0.1.
+  *
   * ==Example==
   * {{{
   * val filePath = "home/user/txt/files"

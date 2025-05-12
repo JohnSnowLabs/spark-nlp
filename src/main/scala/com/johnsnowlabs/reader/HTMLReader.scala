@@ -86,6 +86,13 @@ class HTMLReader(
   private val spark = ResourceHelper.spark
   import spark.implicits._
 
+  /** @param inputSource
+    *   this is the link to the URL E.g. www.wikipedia.com
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
+
   def read(inputSource: String): DataFrame = {
 
     ResourceHelper match {
@@ -107,6 +114,13 @@ class HTMLReader(
         throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
     }
   }
+
+  /** @param inputURLs
+    *   this is a list of URLs E.g. [www.wikipedia.com, www.example.com]
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
 
   def read(inputURLs: Array[String]): DataFrame = {
     val spark = ResourceHelper.spark
