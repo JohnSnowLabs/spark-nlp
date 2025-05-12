@@ -23,7 +23,7 @@ import scala.collection.JavaConverters._
 
 object SparkNLP {
 
-  val currentVersion = "5.5.3"
+  val currentVersion = "6.0.0"
   val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSparkSilicon = s"com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:$currentVersion"

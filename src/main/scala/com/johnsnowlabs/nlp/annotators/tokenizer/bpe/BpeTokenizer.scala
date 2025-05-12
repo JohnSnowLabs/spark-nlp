@@ -432,6 +432,14 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
+      case "smolvlm" =>
+        new SmolVLMTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
       case "paligemma" =>
         new PaliGemmaTokenizer(
           merges,

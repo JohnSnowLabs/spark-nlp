@@ -15,7 +15,7 @@ from sparknlp.internal import ExtendedJavaWrapper
 
 
 class SparkNLPReader(ExtendedJavaWrapper):
-    """Instantiates class to read HTML, email, MS Word and Excel files.
+    """Instantiates class to read documents in various formats.
 
     Parameters
     ----------
@@ -24,100 +24,30 @@ class SparkNLPReader(ExtendedJavaWrapper):
     params : dict, optional
         Parameter with custom configuration
 
+    Notes
+    -----
+    This class can read HTML, email, PDF, MS Word, Excel, PowerPoint, and text files.
+
     Examples
     --------
     >>> from sparknlp.reader import SparkNLPReader
-    >>> html_df = SparkNLPReader().html(spark, "https://www.wikipedia.org")
+    >>> reader = SparkNLPReader(spark)
 
-    You can use SparkNLP for one line of code
+    # Reading HTML
+    >>> html_df = reader.html("https://www.wikipedia.org")
+    >>> # Or with shorthand
     >>> import sparknlp
     >>> html_df = sparknlp.read().html("https://www.wikipedia.org")
-    >>> html_df.show(truncate=False)
 
-    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |url                 |html                                                                                                                                                                                                                                                                                                                            |
-    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |https://example.com/|[{Title, Example Domain, {pageNumber -> 1}}, {NarrativeText, 0, This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission., {pageNumber -> 1}}, {NarrativeText, 0, More information... More information..., {pageNumber -> 1}}]   |
-    +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    >>> html_df.printSchema()
-
-    root
-     |-- url: string (nullable = true)
-     |-- html: array (nullable = true)
-     |    |-- element: struct (containsNull = true)
-     |    |    |-- elementType: string (nullable = true)
-     |    |    |-- content: string (nullable = true)
-     |    |    |-- metadata: map (nullable = true)
-     |    |    |    |-- key: string
-     |    |    |    |-- value: string (valueContainsNull = true)
-
-
-
-    Instantiates class to read email files.
-
-    emailPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
-    "path/html/emails"
-
-    Examples
-    --------
-    >>> from sparknlp.reader import SparkNLPReader
-    >>> email_df = SparkNLPReader().email(spark, "home/user/emails-directory")
-
-    You can use SparkNLP for one line of code
-    >>> import sparknlp
-    >>> email_df = sparknlp.read().email("home/user/emails-directory")
-    >>> email_df.show(truncate=False)
-    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |[{Title, Email Text Attachments, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>}}, {NarrativeText, Email  test with two text attachments\r\n\r\nCheers,\r\n\r\n, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, mimeType -> text/plain}}, {NarrativeText, <html>\r\n<head>\r\n<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n<style type="text/css" style="display:none;"> P {margin-top:0;margin-bottom:0;} </style>\r\n</head>\r\n<body dir="ltr">\r\n<span style="font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">Email&nbsp; test with two text attachments</span>\r\n<div class="elementToProof" style="font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">\r\n<br>\r\n</div>\r\n<div class="elementToProof" style="font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">\r\nCheers,</div>\r\n<div class="elementToProof" style="font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, mimeType -> text/html}}, {Attachment, filename.txt, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, contentType -> text/plain; name="filename.txt"}}, {NarrativeText, This is the content of the file.\n, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, mimeType -> text/plain}}, {Attachment, filename2.txt, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, contentType -> text/plain; name="filename2.txt"}}, {NarrativeText, This is an additional content file.\n, {sent_to -> Danilo Burbano <danilo@johnsnowlabs.com>, sent_from -> Danilo Burbano <danilo@johnsnowlabs.com>, mimeType -> text/plain}}]|
-    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    email_df.printSchema()
-    root
-     |-- path: string (nullable = true)
-     |-- content: array (nullable = true)
-     |-- email: array (nullable = true)
-     |    |-- element: struct (containsNull = true)
-     |    |    |-- elementType: string (nullable = true)
-     |    |    |-- content: string (nullable = true)
-     |    |    |-- metadata: map (nullable = true)
-     |    |    |    |-- key: string
-     |    |    |    |-- value: string (valueContainsNull = true)
-
-
-    Instantiates class to read PDF files.
-
-    pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
-    "path/pdfs/"
-
-    Examples
-    --------
-    >>> from sparknlp.reader import SparkNLPReader
-    >>> pdf_df = SparkNLPReader().pdf(spark, "home/user/pdfs-directory")
-
-    You can use SparkNLP for one line of code
-    >>> import sparknlp
+    # Reading PDF
+    >>> pdf_df = reader.pdf("home/user/pdfs-directory")
+    >>> # Or with shorthand
     >>> pdf_df = sparknlp.read().pdf("home/user/pdfs-directory")
-    >>> pdf_df.show(truncate=False)
 
-    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-    |                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
-    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-    |file:/content/pdf...|2025-01-15 20:48:...| 25803|This is a Title \...|             842|            596|[25 50 44 46 2D 3...|     NULL|      0|
-    |file:/content/pdf...|2025-01-15 20:48:...|  9487|This is a page.\n...|             841|            595|[25 50 44 46 2D 3...|     NULL|      0|
-    +--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
-
-    pdf_df.printSchema()
-    root
-     |-- path: string (nullable = true)
-     |-- modificationTime: timestamp (nullable = true)
-     |-- length: long (nullable = true)
-     |-- text: string (nullable = true)
-     |-- height_dimension: integer (nullable = true)
-     |-- width_dimension: integer (nullable = true)
-     |-- content: binary (nullable = true)
-     |-- exception: string (nullable = true)
-     |-- pagenum: integer (nullable = true)
+    # Reading Email
+    >>> email_df = reader.email("home/user/emails-directory")
+    >>> # Or with shorthand
+    >>> email_df = sparknlp.read().email("home/user/emails-directory")
     """
 
     def __init__(self, spark, params=None):

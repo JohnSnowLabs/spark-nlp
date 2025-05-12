@@ -104,7 +104,7 @@ class RoBertaForMultipleChoice(AnnotatorModel,
         return self._set(caseSensitive=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.RobertaForMultipleChoice",
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForMultipleChoice",
                  java_model=None):
         super(RoBertaForMultipleChoice, self).__init__(
             classname=classname,

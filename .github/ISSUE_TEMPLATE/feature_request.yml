@@ -1,7 +1,7 @@
 name: "Feature Request"
 description: Suggest a new Spark NLP feature
 labels: [ "Feature request" ]
-assignees: "maziyarpanahi"
+assignees: "DevinTDHa"
 
 body:
   - type: textarea

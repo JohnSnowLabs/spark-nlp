@@ -231,12 +231,6 @@ object OpenvinoWrapper {
       visionEmbeddingsModel: OpenvinoWrapper,
       languageModel: OpenvinoWrapper,
       reshapeModel: OpenvinoWrapper)
-//  LANGUAGE_MODEL_NAME = "openvino_language_model.xml"
-//IMAGE_EMBEDDING_NAME = "openvino_vision_embeddings_model.xml"
-//IMAGE_EMBEDDING_MERGER_NAME = "openvino_vision_embeddings_merger_model.xml"
-//TEXT_EMBEDDING_NAME = "openvino_text_embeddings_model.xml"
-  // ROTARY_EMBEDDING_NAME = "openvino_rotary_embeddings_model.xml"
-  // PATCH_RESHAPE_NAME = "openvino_patch_reshape_model.xml"
   case class Qwen2VLWrappers(
       languageModel: OpenvinoWrapper,
       imageEmbedding: OpenvinoWrapper,
@@ -254,6 +248,14 @@ object OpenvinoWrapper {
       wte: OpenvinoWrapper,
       reshape: OpenvinoWrapper,
       languageModel: OpenvinoWrapper)
+  case class SmolVLMWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEmbedModel: OpenvinoWrapper,
+      imageEncoderModel: OpenvinoWrapper,
+      imageConnectorModel: OpenvinoWrapper,
+      modelMergerModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      lmHeadModel: OpenvinoWrapper)
   case class PaliGemmaWrappers(
       languageModel: OpenvinoWrapper,
       imageEncoder: OpenvinoWrapper,
