@@ -290,6 +290,10 @@ private[johnsnowlabs] object SmolVLMUtils {
       images: Seq[Seq[Array[Array[Array[Float]]]]],
       constantValue: Float = 0f,
       returnPixelMask: Boolean = true): BatchFeature = {
+    if (images.isEmpty || images.head.isEmpty) {
+      return BatchFeature(Seq(Seq()), if (returnPixelMask) Some(Seq(Seq())) else None)
+    }
+
     // Get the maximum dimensions across all images
     val padSize = getMaxHeightWidth(images)
 
