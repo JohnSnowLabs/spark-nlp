@@ -93,6 +93,14 @@ class WordReader(
 
   def getOutputColumn: String = outputColumn
 
+  /** @param filePath
+    *   this is a path to a directory of word files or a path to a word file E.g.
+    *   "path/word/files"
+    *
+    * @return
+    *   Dataframe with parsed word doc content.
+    */
+
   def doc(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val wordDf = datasetWithBinaryFile(spark, filePath)

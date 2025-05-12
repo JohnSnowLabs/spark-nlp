@@ -448,8 +448,8 @@ class SparkNLPReader(
 
   /** Instantiates class to read PowerPoint files.
     *
-    * docPath: this is a path to a directory of PowerPoint files or a path to an PowerPoint file E.g.
-    * "path/power-point/files"
+    * docPath: this is a path to a directory of PowerPoint files or a path to an PowerPoint file
+    * E.g. "path/power-point/files"
     *
     * ==Example==
     * {{{

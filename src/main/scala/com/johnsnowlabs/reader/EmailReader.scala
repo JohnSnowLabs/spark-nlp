@@ -79,6 +79,14 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
   def getOutputColumn: String = outputColumn
 
   def email(filePath: String): DataFrame = {
+  /** @param filePath
+    *   this is a path to a directory of email files or a path to an email file E.g.
+    *   "path/email/files"
+    *
+    * @return
+    *   Dataframe with parsed email content.
+    */
+  def read(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val emailDf = datasetWithBinaryFile(spark, filePath)
         .withColumn(outputColumn, parseEmailUDF(col("content")))
