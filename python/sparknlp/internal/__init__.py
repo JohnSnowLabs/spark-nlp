@@ -1120,6 +1120,15 @@ class _Qwen2VLTransformerLoader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+class _PaliGemmaForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_PaliGemmaForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.PaliGemmaForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
+
 class _SmolVLMTransformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_SmolVLMTransformerLoader, self).__init__(

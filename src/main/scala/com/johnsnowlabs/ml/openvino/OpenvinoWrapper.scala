@@ -256,4 +256,9 @@ object OpenvinoWrapper {
       modelMergerModel: OpenvinoWrapper,
       textEmbeddingsModel: OpenvinoWrapper,
       lmHeadModel: OpenvinoWrapper)
+  case class PaliGemmaWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEncoder: OpenvinoWrapper,
+      textEmbeddings: OpenvinoWrapper,
+      modelMerger: OpenvinoWrapper)
 }
