@@ -441,9 +441,17 @@ trait ReadInternVLForMultiModalDLModel extends ReadOpenvinoModel {
       if (array.nonEmpty) Some(array) else None
 
     val bosTokenId = (modelConfig \ "llm_config" \ "bos_token_id").extract[Int]
-    val eosTokenIdArray =
-      (generationConfigJson \ "eos_token_id").extract[Array[Int]]
-    val eosTokenId = eosTokenIdArray.head
+    var eosTokenIdArray: Array[Int] = Array()
+    var eosTokenId: Int = 0
+    try {
+      eosTokenIdArray = (generationConfigJson \ "eos_token_id").extract[Array[Int]]
+      eosTokenId = eosTokenIdArray.head
+    } catch {
+      case _: Exception =>
+        eosTokenId = (modelConfig \ "llm_config" \ "eos_token_id").extract[Int]
+        eosTokenIdArray = Array(eosTokenId)
+    }
+
     //    val eosTokenId = (generationConfigJson \ "eos_token_id").extract[Int]
     val padTokenId = (modelConfig \ "llm_config" \ "bos_token_id").extract[Int]
     val vocabSize = (modelConfig \ "llm_config" \ "vocab_size").extract[Int]

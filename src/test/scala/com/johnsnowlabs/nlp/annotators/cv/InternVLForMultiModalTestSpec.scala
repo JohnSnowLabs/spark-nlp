@@ -29,7 +29,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getInternVLForMultiModalPipelineModel
 
-  "InternVLForMultiModal" should "answer a question for a given image" taggedAs FastTest in {
+  "InternVLForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -46,7 +46,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"
     val resultAnnotate =
@@ -58,7 +58,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs FastTest in {
+  it should "work with light pipeline full annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/bluetick.jpg"
     val resultFullAnnotate =
@@ -72,7 +72,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -110,7 +110,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -160,9 +160,7 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = InternVLForMultiModal
-      .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/internVL/models/int4/OpenGVLab/InternVL2-1B",
-        ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("answer")
       .setMaxOutputLength(50)
@@ -206,7 +204,10 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
       .load(imageFolder)
 
     val testDF: DataFrame =
-      imageDF.withColumn("text", lit("<image> \n What's this picture about?\n"))
+      imageDF.withColumn(
+        "text",
+        lit(
+          "<|im_start|><image>\nDescribe this image in detail.<|im_end|><|im_start|>assistant\n"))
 
     testDF
   }

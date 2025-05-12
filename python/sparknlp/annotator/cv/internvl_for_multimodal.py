@@ -258,8 +258,7 @@ class InternVLForMultiModal(AnnotatorModel,
             repetitionPenalty=1.0,
             noRepeatNgramSize=3,
             ignoreTokenIds=[],
-            beamSize=1,
-            maxInputLength=4096
+            beamSize=1
         )
 
     @staticmethod
