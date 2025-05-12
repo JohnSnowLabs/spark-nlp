@@ -1,34 +1,36 @@
 {%- capture title -%}
-Phi3Vision
+Gemma3ForMultiModal
 {%- endcapture -%}
 
 {%- capture description -%}
-Visual Question Answering using Phi3Vision.
+Visual Question Answering using Gemma 3 Vision.
 
-Phi3Vision can load Phi3Vision models for visual question answering.
-The model consists of a vision encoder, a text encoder as well as a text decoder.
-The vision encoder will encode the input image, the text encoder will encode the input question together
-with the encoding of the image, and the text decoder will output the answer to the question.
+Gemma3ForMultiModal can load Gemma 3 Vision models for visual question answering.
+The model consists of a vision encoder, a text encoder, a text decoder and a model merger.
+The vision encoder will encode the input image, the text encoder will encode the input text,
+the model merger will merge the image and text embeddings, and the text decoder will output the answer.
+
+Gemma 3 is a family of lightweight, state-of-the-art open models from Google, built from the same 
+research and technology used to create the Gemini models. It features:
+- Large 128K context window
+- Multilingual support in over 140 languages
+- Multimodal capabilities handling both text and image inputs
+- Optimized for deployment on limited resources (laptops, desktops, cloud)
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 
 ```scala
-val visualQA = Phi3Vision.pretrained()
+val visualQA = Gemma3ForMultiModal.pretrained()
      .setInputCols("image_assembler")
      .setOutputCol("answer")
 ```
-
-The default model is `"phi_3_vision_128k_instruct"`, if no name is provided.
+The default model is `"gemma3_4b_it_int4"`, if no name is provided.
 
 For available pretrained models please see the
 [Models Hub](https://sparknlp.org/models?task=Question+Answering).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
-see which models are compatible and how to import them see
+To see which models are compatible and how to import them see
 [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
-
-For extended examples of usage, see
-[Phi3VisionTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3VisionTest.scala).
 
 {%- endcapture -%}
 
@@ -48,13 +50,13 @@ from pyspark.ml import Pipeline
 from pyspark.sql.functions import lit
 
 image_df = spark.read.format("image").load(path=images_path) # Replace with your image path
-test_df = image_df.withColumn("text", lit("<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n"))
+test_df = image_df.withColumn("text", lit("<bos><start_of_turn>user\nYou are a helpful assistant.\n\n<start_of_image>Describe this image in detail.<end_of_turn>\n<start_of_turn>model\n"))
 
 imageAssembler = ImageAssembler()   
           .setInputCol("image")   
           .setOutputCol("image_assembler")
 
-visualQAClassifier = Phi3Vision.pretrained("phi_3_vision_128k_instruct","en")   
+visualQAClassifier = Gemma3ForMultiModal.pretrained()   
           .setInputCols("image_assembler")   
           .setOutputCol("answer")
 
@@ -82,13 +84,13 @@ val imageDF: DataFrame = spark.read
      .option("dropInvalid", value = true)
      .load(imageFolder)
 
-val testDF: DataFrame = imageDF.withColumn("text", lit("<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n"))
+val testDF: DataFrame = imageDF.withColumn("text", lit("<bos><start_of_turn>user\nYou are a helpful assistant.\n\n<start_of_image>Describe this image in detail.<end_of_turn>\n<start_of_turn>model\n"))
 
 val imageAssembler: ImageAssembler = new ImageAssembler()
      .setInputCol("image")
      .setOutputCol("image_assembler")
 
-val visualQAClassifier = Phi3Vision.pretrained("phi_3_vision_128k_instruct","en")
+val visualQAClassifier = Gemma3ForMultiModal.pretrained()
      .setInputCols("image_assembler")
      .setOutputCol("answer")
 
@@ -103,15 +105,15 @@ result.select("image_assembler.origin", "answer.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Phi3Vision](/api/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision)
+[Gemma3ForMultiModal](/api/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Phi3Vision](/api/python/reference/autosummary/sparknlp/annotator/cv/phi3_vision/index.html#sparknlp.annotator.cv.phi3_vision.Phi3Vision)
+[Gemma3ForMultiModal](/api/python/reference/autosummary/sparknlp/annotator/cv/gemma3_for_multimodal/index.html#sparknlp.annotator.cv.gemma3_for_multimodal.Gemma3ForMultiModal)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[Phi3Vision](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision.scala)
+[Gemma3ForMultiModal](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
@@ -124,4 +126,4 @@ scala_example=scala_example
 api_link=api_link
 python_api_link=python_api_link
 source_link=source_link
-%}
+%} 
