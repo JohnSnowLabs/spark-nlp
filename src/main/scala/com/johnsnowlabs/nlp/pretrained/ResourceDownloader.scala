@@ -706,6 +706,8 @@ object PythonResourceDownloader {
     "Phi3Vision" -> Phi3Vision,
     "OLMoTransformer" -> OLMoTransformer,
     "JanusForMultiModal" -> JanusForMultiModal,
+    "SmolVLMTransformer" -> SmolVLMTransformer,
+    "PaliGemmaForMultiModal" -> PaliGemmaForMultiModal,
     "Gemma3ForMultiModal" -> Gemma3ForMultiModal)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type

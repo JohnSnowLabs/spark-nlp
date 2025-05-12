@@ -55,7 +55,7 @@ python version, consider sticking to lower versions of Spark.
 </div><div class="h3-box" markdown="1">
 
 #### Quick Install
-6.0.0
+
 Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.
 
 ```bash
@@ -111,7 +111,7 @@ you'll have to put the jars in a reachable location for all driver and executor 
 ### Python without explicit Pyspark installation
 
 ### Pip/Conda
-6.0.0
+
 If you installed pyspark through pip/conda, you can install `spark-nlp` through the same channel.
 
 Pip:
@@ -133,7 +133,7 @@ Then you'll have to create a SparkSession either from Spark NLP:
 
 ```python
 import sparknlp
-6.0.0
+
 spark = sparknlp.start()
 ```
 
@@ -144,7 +144,7 @@ import sparknlp
 from sparknlp.pretrained import PretrainedPipeline
 
 # create or get Spark Session
-6.0.0
+
 spark = sparknlp.start()
 
 sparknlp.version()
@@ -252,63 +252,6 @@ If you are interested, there is a simple SBT project for Spark NLP to guide you 
 
 </div><div class="h3-box" markdown="1">
 
-## Installation for M1 Macs
-
-Starting from version 4.0.0, Spark NLP has experimental support for M1 macs. Note that
-at the moment, only the standard variant of the M1 is supported. Other variants (e.g.
-M1 Pro/Max/Ultra, M2) will most likely not work.
-
-Make sure the following prerequisites are met:
-6.0.0
-1. An M1 compiled java version needs to be installed. For example to install the Zulu
-    Java 11 JDK head to [Download Azul JDKs](https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk) and install that java version.
-
-    To check if the installed java environment is running natively on arm64 and not
-    rosetta, you can run the following commands in your shell:
-
-    ```shell
-    johnsnow@m1mac ~ % cat $(which java) | file -6.0.0
-    /dev/stdin: Mach-O 64-bit executable arm64
-    ```
-
-    The environment variable `JAVA_HOME` should also be set to this java version. You
-    can check this by running `echo $JAVA_HOME` in your terminal. If it is not set,
-    you can set it by adding `export JAVA_HOME=$(/usr/libexec/java_home)` to your
-    `~/.zshrc` file.
-2. If you are planning to use Annotators or Pipelines that use the RocksDB library (for
-    example `WordEmbeddings`, `TextMatcher` or `explain_document_dl_en` Pipeline
-    respectively) with `spark-submit`, then a workaround is required to get it working.
-    See [M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0](#m1-rocksdb-workaround-for-spark-submit-with-spark-version--320).
-
-
-### M1 RocksDB workaround for spark-submit with Spark version >= 3.2.0
-
-Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
-dependency. Unfortunately, this is an older version of RocksDB does not include the
-necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
-has to be removed from the Spark distribution.
-
-For example, if you downloaded Spark version 3.2.0 from the official archives, you will
-find the following folders in the directory of Spark:
-
-```bash
-$ ls
-bin  conf  data  examples  jars  kubernetes  LICENSE  licenses
-NOTICE  python  R  README.md  RELEASE  sbin  yarn
-```
-
-To check for the RocksDB jar, you can run
-
-```bash
-$ ls jars | grep rocksdb
-rocksdbjni-6.20.3.jar
-```
-
-to find the jar you have to remove. After removing the jar, the pipelines should work
-as expected.6.0.0
-
-</div><div class="h3-box" markdown="1">
-
 ## Command line
 
 Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, Apache Spark 3.3.x, Apache Spark 3.4.x, and Apache Spark 3.5.x
@@ -358,7 +301,7 @@ The `spark-nlp-aarch64` has been published to
 the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64).
 
 ```sh
-# M1/M2 (Apple Silicon)
+# Apple Silicon
 
 spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:6.0.0
 
@@ -383,9 +326,32 @@ spark-shell \
 
 </div><div class="h3-box" markdown="1">
 
-## Installation for M1 & M2 Chips
+## Installation for Apple Silicon Macs
 
-### Scala and Java for M1
+Starting from version 4.0.0, Spark NLP has experimental support for Apple Silicon Macs.
+Make sure the following prerequisites are met:
+
+1. An Apple Silicon compatible Java version needs to be installed. We recommend [Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) Java 11, which can be easily installed with [SDKMAN!](https://sdkman.io/).
+
+    To check if the installed Java environment is running natively on arm64, you can run the following command:
+
+    ```shell
+    johnsnow@m1mac ~ % realpath $(which java) | file -f -
+    /Users/johnsnow/.sdkman/candidates/java/11.0.27-amzn/bin/java: Mach-O 64-bit executable arm64
+    ```
+
+    Note the executable type `arm64`. If it says anything else (e.g. `universal binary`, `x86_64` or `arm64e`) it might not work.
+
+    The environment variable `JAVA_HOME` should also be set to this java version. You
+    can check this by running `echo $JAVA_HOME` in your terminal. If it is not set,
+    you can set it by adding `export JAVA_HOME=$(/usr/libexec/java_home)` to your
+    `~/.zshrc` file.
+2. If you are planning to use Annotators or Pipelines that use the RocksDB library (for
+    example `WordEmbeddings`, `TextMatcher` or `explain_document_dl_en` Pipeline
+    respectively) with `spark-submit`, then a workaround is required to get it working.
+    See [Apple Silicon RocksDB workaround for spark-submit with Spark version >= 3.2.0](#apple-silicon-rocksdb-workaround-for-spark-submit-with-spark-version--320).
+
+### Scala and Java Installation for Apple Silicon
 
 Adding Spark NLP to your Scala or Java project is easy:
 
@@ -413,7 +379,7 @@ or in case of sbt:
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "6.0.0"
 ```
 
-If everything went well, you can now start Spark NLP with the `m1` flag set to `true`:
+If everything went well, you can now start Spark NLP with the `apple_silicon` flag set to `true`:
 
 ```scala
 import com.johnsnowlabs.nlp.SparkNLP
@@ -423,7 +389,7 @@ val spark = SparkNLP.start(apple_silicon = true)
 
 </div><div class="h3-box" markdown="1">
 
-### Python for M1 & M2
+### Python for Apple Silicon
 
 First, make sure you have a recent Python 3 installation.
 
@@ -435,7 +401,7 @@ Python 3.9.13
 Then we can install the dependency as described in the [Python section](#python).
 It is also recommended to use a virtual environment for this.
 
-If everything went well, you can now start Spark NLP with the `m1` flag set to `True`:
+If everything went well, you can now start Spark NLP with the `apple_silicon` flag set to `True`:
 
 ```python
 import sparknlp
@@ -447,7 +413,7 @@ spark = sparknlp.start(apple_silicon=True)
 
 Starting from Spark version 3.2.0, Spark includes their own version of the RocksDB
 dependency. Unfortunately, this is an older version of RocksDB does not include the
-necessary binaries of M1. To work around this issue, the default packaged RocksDB jar
+necessary binaries for Apple Silicon. To work around this issue, the default packaged RocksDB jar
 has to be removed from the Spark distribution.
 
 For example, if you downloaded Spark version 3.2.0 from the official archives, you will
@@ -484,7 +450,7 @@ to install Spark NLP for your system.
 
 ### Starting Spark NLP
 
-Spark NLP needs to be started with the `aarch64` flag set to `true`:6.0.0
+Spark NLP needs to be started with the `aarch64` flag set to `true`:
 
 For Scala:
 
@@ -569,7 +535,7 @@ Or you can install `spark-nlp` from inside Zeppelin by using Conda:
 ```bash
 python.conda install -c johnsnowlabs spark-nlp
 ```
-6.0.0
+
 Configure Zeppelin properly, use cells with %spark.pyspark or any interpreter name you chose.
 
 Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.python to the python you want to use and
@@ -581,7 +547,7 @@ shown earlier since it includes both scala and python side installation.
 </div><div class="h3-box" markdown="1">
 
 ## Jupyter Notebook
-6.0.0
+
 **Recommended:**
 
 The easiest way to get this done on Linux and macOS is to simply install `spark-nlp` and `pyspark` PyPI packages and
@@ -799,7 +765,7 @@ Spark NLP *6.0.0* has been built on top of Apache Spark 3.4 while fully supports
 
 {:.table-model-big}
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
-|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| --------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | 5.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.3.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.2.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -816,17 +782,17 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 ## Scala and Python Support
 
 {:.table-model-big}
-| Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
-|-----------|------------|------------|------------|------------|------------|------------|------------|
-| 5.3.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
-| 5.2.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
-| 5.1.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
-| 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
-| 4.4.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
-| 4.3.x     | YES        | YES        | YES        | YES        | YES        | NO         | YES        |
-| 4.2.x     | YES        | YES        | YES        | YES        | YES        | NO         | YES        |
-| 4.1.x     | YES        | YES        | YES        | YES        | NO         | NO         | YES        |
-| 4.0.x     | YES        | YES        | YES        | YES        | NO         | NO         | YES        |
+| Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10 | Scala 2.11 | Scala 2.12 |
+| --------- | ---------- | ---------- | ---------- | ---------- | ----------- | ---------- | ---------- |
+| 5.3.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
+| 5.2.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
+| 5.1.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
+| 5.0.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
+| 4.4.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
+| 4.3.x     | YES        | YES        | YES        | YES        | YES         | NO         | YES        |
+| 4.2.x     | YES        | YES        | YES        | YES        | YES         | NO         | YES        |
+| 4.1.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
+| 4.0.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
 
 
 ## Databricks Support
@@ -880,7 +846,7 @@ Spark NLP 6.0.0 has been tested and is compatible with the following runtimes:
 
 - 9.1 ML & GPU
 - 10.1 ML & GPU
-- 10.2 ML & GPU6.0.0
+- 10.2 ML & GPU
 - 10.3 ML & GPU
 - 10.4 ML & GPU
 - 10.5 ML & GPU

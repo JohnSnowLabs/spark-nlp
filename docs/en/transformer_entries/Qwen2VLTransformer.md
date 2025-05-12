@@ -18,6 +18,8 @@ val visualQA = Qwen2VLTransformer.pretrained()
   .setInputCols("image_assembler")
   .setOutputCol("answer")
 ```
+{%- endcapture -%}
+
 {%- capture input_anno -%}
 IMAGE
 {%- endcapture -%}

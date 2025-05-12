@@ -248,6 +248,19 @@ object OpenvinoWrapper {
       wte: OpenvinoWrapper,
       reshape: OpenvinoWrapper,
       languageModel: OpenvinoWrapper)
+  case class SmolVLMWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEmbedModel: OpenvinoWrapper,
+      imageEncoderModel: OpenvinoWrapper,
+      imageConnectorModel: OpenvinoWrapper,
+      modelMergerModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      lmHeadModel: OpenvinoWrapper)
+  case class PaliGemmaWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEncoder: OpenvinoWrapper,
+      textEmbeddings: OpenvinoWrapper,
+      modelMerger: OpenvinoWrapper)
   case class Gemma3Wrappers(
       languageModel: OpenvinoWrapper,
       imageEncoder: OpenvinoWrapper,
