@@ -118,12 +118,6 @@ class SmolVLMTransformer(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
-    configProtoBytes = Param(Params._dummy(),
-                             "configProtoBytes",
-                             "ConfigProto from tensorflow, serialized into byte array. Get with "
-                             "config_proto.SerializeToString()",
-                             TypeConverters.toListInt)
-
     minOutputLength = Param(Params._dummy(), "minOutputLength", "Minimum length of the sequence to be generated",
                             typeConverter=TypeConverters.toInt)
 
