@@ -29,7 +29,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getGemma3ForMultiModalPipelineModel
 
-  "Gemma3ForMultiModal" should "answer a question for a given image" taggedAs FastTest in {
+  "Gemma3ForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -46,7 +46,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs FastTest in {
+  it should "work with light pipeline annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"
     val resultAnnotate =
@@ -59,7 +59,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
         resultAnnotate("answer").head.contains("kitten"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs FastTest in {
+  it should "work with light pipeline full annotate" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/bluetick.jpg"
     val resultFullAnnotate =
@@ -73,7 +73,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -111,7 +111,7 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs FastTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
