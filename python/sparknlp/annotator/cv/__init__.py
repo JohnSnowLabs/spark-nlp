@@ -23,3 +23,4 @@ from sparknlp.annotator.cv.qwen2vl_transformer import *
 from sparknlp.annotator.cv.llava_for_multimodal import *
 from sparknlp.annotator.cv.phi3_vision_for_multimodal import *
 from sparknlp.annotator.cv.smolvlm_transformer import *
+from sparknlp.annotator.cv.paligemma_for_multimodal import *
