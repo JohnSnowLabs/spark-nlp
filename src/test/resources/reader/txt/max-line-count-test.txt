@@ -1,0 +1,8 @@
+Short line 1
+Short line 2
+
+This line has more than five words and should be merged.
+Another long line that should also be merged.
+
+Short line 3
+Short line 4

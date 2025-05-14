@@ -51,6 +51,7 @@ object CleanerHelper {
   private val HTML_APOSTROPHE_ENTITY: String = "&apos;"
   private val HEXADECIMAL_ESCAPE_SEQUENCE: Regex = """\\x([0-9A-Fa-f]{2})""".r
   val DOUBLE_PARAGRAPH_PATTERN = """(?:\s*\n\s*){2,}"""
+  val BLOCK_SPLIT_PATTERN = "\\n\\n+"
 
   /** Parses a string containing escape sequences (e.g., `\x9f`) into a byte array.
     *

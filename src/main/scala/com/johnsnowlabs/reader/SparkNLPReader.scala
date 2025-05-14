@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{BLOCK_SPLIT_PATTERN, DOUBLE_PARAGRAPH_PATTERN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import com.johnsnowlabs.reader.util.PartitionOptions.{
@@ -547,6 +547,7 @@ class SparkNLPReader(
     val textReader = new TextReader(
       getTitleLengthSize,
       getStoreContent,
+      getBlockSplit,
       getGroupBrokenParagraphs,
       getParagraphSplit,
       getShortLineWordThreshold,
@@ -560,6 +561,7 @@ class SparkNLPReader(
     val textReader = new TextReader(
       getTitleLengthSize,
       getStoreContent,
+      getBlockSplit,
       getGroupBrokenParagraphs,
       getParagraphSplit,
       getShortLineWordThreshold,
@@ -573,6 +575,7 @@ class SparkNLPReader(
     val textReader = new TextReader(
       getTitleLengthSize,
       getStoreContent,
+      getBlockSplit,
       getGroupBrokenParagraphs,
       getParagraphSplit,
       getShortLineWordThreshold,
@@ -626,6 +629,13 @@ class SparkNLPReader(
       }
 
     threshold
+  }
+
+  private def getBlockSplit: String = {
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("blockSplit", "block_split"),
+      default = BLOCK_SPLIT_PATTERN)
   }
 
 }
