@@ -64,46 +64,16 @@ class PdfToText(override val uid: String)
       .add(StructField($(pageNumCol), IntegerType, nullable = false))
   }
 
-  final val splitPage = new BooleanParam(
-    this,
-    "splitPage",
-    "Enable/disable splitting per page to identify page numbers and improve performance.")
-  final val onlyPageNum = new BooleanParam(this, "onlyPageNum", "Extract only page numbers.")
-  final val textStripper = new Param[String](
-    this,
-    "textStripper",
-    "Text stripper type used for output layout and formatting")
-  final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
-
-  /** @group setParam */
-  def setSplitPage(value: Boolean): this.type = set(splitPage, value)
-
   /** @group setParam */
   def setInputCol(value: String): this.type = set(inputCol, value)
 
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputCol, value)
 
-    /** @group setParam */
-  def setOnlyPageNum(value: Boolean): this.type = set(onlyPageNum, value)
-
-  /** @group setParam */
-  def setTextStripper(value: String): this.type = set(textStripper, value)
-
-  /** @group setParam */
-  def setSort(value: Boolean): this.type = set(sort, value)
-
   setDefault(
     inputCol -> "content",
-    outputCol -> "text",
-    pageNumCol -> "pagenum",
-    originCol -> "path",
-    partitionNum -> 0,
-    onlyPageNum -> false,
-    storeSplittedPdf -> false,
-    splitPage -> true,
-    sort -> false,
-    textStripper -> TextStripperType.PDF_TEXT_STRIPPER)
+    outputCol -> "text"
+  )
 
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte]) => {
