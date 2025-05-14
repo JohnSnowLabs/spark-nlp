@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   jekyll:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
@@ -41,6 +41,8 @@ jobs:
           && mv _site/backup-benchmarking.json ./
           && mv _site/backup-references.json ./)
           || true
+      - name: Collect Workflow Telemetry
+        uses: catchpoint/workflow-telemetry-action@v2
       - name: Incremental build
         id: incremental-build
         env:
