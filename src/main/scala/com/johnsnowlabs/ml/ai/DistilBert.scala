@@ -146,9 +146,7 @@ private[johnsnowlabs] class DistilBert(
           maskTensors.close()
         }
 
-
       case Openvino.name =>
-
         val batchLength = batch.length
         val shape = Array(batchLength, maxSentenceLength)
         val (tokenTensors, maskTensors) =

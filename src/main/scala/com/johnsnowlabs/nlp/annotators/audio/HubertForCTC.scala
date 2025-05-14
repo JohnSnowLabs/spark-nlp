@@ -19,7 +19,12 @@ package com.johnsnowlabs.nlp.annotators.audio
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{detectEngine, loadJsonStringAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  detectEngine,
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
@@ -145,16 +150,16 @@ class HubertForCTC(override val uid: String) extends Wav2Vec2ForCTC(uid) {
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
 
-    getEngine  match{
+    getEngine match {
 
       case TensorFlow.name =>
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper.get,
-      "_hubert_ctc",
-      HubertForCTC.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_hubert_ctc",
+          HubertForCTC.tfFile,
+          configProtoBytes = getConfigProtoBytes)
 
       case ONNX.name =>
         writeOnnxModel(
@@ -170,7 +175,7 @@ class HubertForCTC(override val uid: String) extends Wav2Vec2ForCTC(uid) {
           getModelIfNotSet.openvinoWrapper.get,
           "openvino_model.xml",
           HubertForCTC.openvinoFile)
-  }
+    }
   }
 }
 
@@ -191,7 +196,10 @@ trait ReadablePretrainedHubertForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadHubertForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel{
+trait ReadHubertForAudioDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[HubertForCTC] =>
 
   override val tfFile: String = "hubert_ctc_tensorflow"
@@ -200,19 +208,13 @@ trait ReadHubertForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel  
 
   def readModel(instance: HubertForCTC, path: String, spark: SparkSession): Unit = {
 
-    instance.getEngine match{
+    instance.getEngine match {
       case TensorFlow.name =>
-    val tf = readTensorflowModel(path, spark, "_hubert_ctc_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None, None)
+        val tf = readTensorflowModel(path, spark, "_hubert_ctc_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, None)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_hubert_ctc_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, "_hubert_ctc_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
@@ -267,7 +269,8 @@ trait ReadHubertForAudioDLModel extends ReadTensorflowModel with ReadOnnxModel  
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None, None)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 

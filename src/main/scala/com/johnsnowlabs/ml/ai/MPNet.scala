@@ -173,20 +173,15 @@ private[johnsnowlabs] class MPNet(
     sentenceEmbeddingsFloatsArray
   }
 
-
-
-  private def getSentenceEmbeddingsFromOv( batch: Seq[Array[Int]],
-                                           maxSentenceLength: Int)= {
+  private def getSentenceEmbeddingsFromOv(batch: Seq[Array[Int]], maxSentenceLength: Int) = {
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors =
       new org.intel.openvino.Tensor(shape, batch.flatMap(x => x.map(xx => xx.toLong)).toArray)
     val attentionMask = batch
-      .map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L))
+      .map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L))
       .toArray
-    val  maskTensor = new org.intel.openvino.Tensor(
-      shape,
-      attentionMask.flatten)
+    val maskTensor = new org.intel.openvino.Tensor(shape, attentionMask.flatten)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -198,7 +193,7 @@ private[johnsnowlabs] class MPNet(
         val lastHiddenState = inferRequest
           .get_tensor("last_hidden_state")
         val shape = lastHiddenState.get_shape().map(_.toLong)
-        val flattenEmbeddings =  lastHiddenState
+        val flattenEmbeddings = lastHiddenState
           .data()
         val embeddings = LinAlg.avgPooling(flattenEmbeddings, attentionMask, shape)
         val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
@@ -217,7 +212,8 @@ private[johnsnowlabs] class MPNet(
 
   private def getSentenceEmbeddingFromOnnx(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < this.paddingTokenId) 0L else 1L)).toArray
+    val attentionMask =
+      batch.map(sentence => sentence.map(x => if (x == this.paddingTokenId) 0L else 1L)).toArray
 
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
     val tokenTensors = OnnxTensor.createTensor(env, inputIds)

@@ -27,7 +27,6 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-
 class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
   "DeBertaEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
@@ -69,7 +68,6 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
   "DeBertaEmbeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
 
-
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq(
@@ -83,11 +81,9 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
         " governments.")
       .toDF("text")
 
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
-
 
     val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
@@ -95,7 +91,7 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     val embeddings = DeBertaEmbeddings
       .pretrained()
-      .setInputCols("document","token")
+      .setInputCols("document", "token")
       .setOutputCol("embeddings")
 
     val pipeline = new Pipeline()
@@ -129,7 +125,8 @@ class DeBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
-      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+      conll
+        .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
         .limit(50)
 
     val embeddings = DeBertaEmbeddings

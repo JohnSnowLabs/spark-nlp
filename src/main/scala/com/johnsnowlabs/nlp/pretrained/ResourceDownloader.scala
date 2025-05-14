@@ -682,6 +682,7 @@ object PythonResourceDownloader {
     "MPNetForSequenceClassification" -> MPNetForSequenceClassification,
     "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering,
     "LLAMA2Transformer" -> LLAMA2Transformer,
+    "LLAMA3Transformer" -> LLAMA3Transformer,
     "M2M100Transformer" -> M2M100Transformer,
     "UAEEmbeddings" -> UAEEmbeddings,
     "AutoGGUFModel" -> AutoGGUFModel,
@@ -691,12 +692,20 @@ object PythonResourceDownloader {
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
     "PromptAssembler" -> PromptAssembler,
-    "CPMTransformer"-> CPMTransformer,
+    "CPMTransformer" -> CPMTransformer,
     "NomicEmbeddings" -> NomicEmbeddings,
     "NLLBTransformer" -> NLLBTransformer,
     "Phi3Transformer" -> Phi3Transformer,
     "QwenTransformer" -> QwenTransformer,
-    "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings)
+    "AutoGGUFEmbeddings" -> AutoGGUFEmbeddings,
+    "AutoGGUFVisionModel" -> AutoGGUFVisionModel,
+    "MLLamaForMultimodal" -> MLLamaForMultimodal,
+    "Qwen2VLTransformer" -> Qwen2VLTransformer,
+    "CoHereTransformer" -> CoHereTransformer,
+    "LLAVAForMultiModal" -> LLAVAForMultiModal,
+    "Phi3Vision" -> Phi3Vision,
+    "OLMoTransformer" -> OLMoTransformer,
+    "JanusForMultiModal" -> JanusForMultiModal)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

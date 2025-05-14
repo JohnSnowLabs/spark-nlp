@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.ImageAssembler</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.ImageAssembler" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.ImageAssembler" />
+          <title>Spark NLP 6.0.0 ScalaDoc  - com.johnsnowlabs.nlp.ImageAssembler</title>
+          <meta name="description" content="Spark NLP 6.0.0 ScalaDoc - com.johnsnowlabs.nlp.ImageAssembler" />
+          <meta name="keywords" content="Spark NLP 6.0.0 ScalaDoc com.johnsnowlabs.nlp.ImageAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -327,6 +327,10 @@
                         <a href="HasBatchedAnnotateImage.html" title="">HasBatchedAnnotateImage</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasBatchedAnnotateTextImage.html" title=""></a>
+                        <a href="HasBatchedAnnotateTextImage.html" title="">HasBatchedAnnotateTextImage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasCandidateLabelsProperties.html" title=""></a>
                         <a href="HasCandidateLabelsProperties.html" title="">HasCandidateLabelsProperties</a>
                       </li><li class="current-entities indented3">
@@ -337,6 +341,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
                         <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasClsTokenProperties.html" title=""></a>
+                        <a href="HasClsTokenProperties.html" title="">HasClsTokenProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
@@ -363,8 +371,12 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasLlamaCppProperties.html" title="Contains settable parameters for the AutoGGUFModel."></a>
-                        <a href="HasLlamaCppProperties.html" title="Contains settable parameters for the AutoGGUFModel.">HasLlamaCppProperties</a>
+                        <a class="trait" href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel."></a>
+                        <a href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel.">HasLlamaCppInferenceProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasLlamaCppModelProperties.html" title="Contains settable model parameters for the AutoGGUFModel."></a>
+                        <a href="HasLlamaCppModelProperties.html" title="Contains settable model parameters for the AutoGGUFModel.">HasLlamaCppModelProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
@@ -764,6 +776,28 @@ documentation.
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler#loadImagesAsBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="loadImagesAsBytes(spark:org.apache.spark.sql.SparkSession,path:String):org.apache.spark.sql.DataFrame"></a><a id="loadImagesAsBytes(SparkSession,String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler$.html#loadImagesAsBytes(spark:org.apache.spark.sql.SparkSession,path:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">loadImagesAsBytes</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Helper function that loads images from a path and returns them as raw bytes, instead of the
+default OpenCV compatible format.</p><div class="fullcomment"><div class="comment cmt"><p>Helper function that loads images from a path and returns them as raw bytes, instead of the
+default OpenCV compatible format.</p><p>Supported image types are JPEG, PNG, GIF, BMP (limited to images supported by stb_image.h).</p><p>Multimodal inference with llama.cpp requires raw bytes as input.
+</p></div><dl class="paramcmts block"><dt class="param">spark</dt><dd class="cmt"><p>
+  The SparkSession</p></dd><dt class="param">path</dt><dd class="cmt"><p>
+  The path to the images. Supported image types are JPEG, PNG, GIF, BMP.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  A dataframe with the images as raw bytes, as well as their metadata.</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">

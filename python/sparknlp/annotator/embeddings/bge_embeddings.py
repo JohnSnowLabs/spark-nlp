@@ -21,7 +21,8 @@ class BGEEmbeddings(AnnotatorModel,
                     HasCaseSensitiveProperties,
                     HasStorageRef,
                     HasBatchedAnnotate,
-                    HasMaxSentenceLengthLimit):
+                    HasMaxSentenceLengthLimit,
+                    HasClsTokenProperties):
     """Sentence embeddings using BGE.
 
    BGE, or BAAI General Embeddings, a model that can map any text to a low-dimensional dense 
@@ -60,6 +61,8 @@ class BGEEmbeddings(AnnotatorModel,
         Max sentence length to process, by default 512
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
+    useCLSToken
+        Whether to use the CLS token for sentence embeddings, by default True
 
     References
     ----------
@@ -148,6 +151,7 @@ class BGEEmbeddings(AnnotatorModel,
             batchSize=8,
             maxSentenceLength=512,
             caseSensitive=False,
+            useCLSToken=True
         )
 
     @staticmethod
@@ -171,13 +175,13 @@ class BGEEmbeddings(AnnotatorModel,
         return BGEEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bge_base", lang="en", remote_loc=None):
+    def pretrained(name="bge_small_en_v1.5", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "bge_base"
+            Name of the pretrained model, by default "bge_small_en_v1.5"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

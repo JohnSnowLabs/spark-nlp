@@ -35,7 +35,6 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
       .limit(50)
 
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -68,7 +67,6 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "CamemBertEmbeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
 
-
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq(
@@ -82,11 +80,9 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
         " governments.")
       .toDF("text")
 
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
-
 
     val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
@@ -94,7 +90,7 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val embeddings = CamemBertEmbeddings
       .pretrained()
-      .setInputCols("document","token")
+      .setInputCols("document", "token")
       .setOutputCol("embeddings")
 
     val pipeline = new Pipeline()
@@ -124,15 +120,14 @@ class CamemBertEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-
-
   "CamemBertEmbeddings" should "benchmark test" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
-      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+      conll
+        .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
         .limit(50)
 
     val embeddings = CamemBertEmbeddings

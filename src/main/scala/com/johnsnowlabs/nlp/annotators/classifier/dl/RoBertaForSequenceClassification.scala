@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -387,7 +391,10 @@ trait ReadablePretrainedRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadRoBertaForSequenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[RoBertaForSequenceClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
@@ -420,7 +427,6 @@ trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadOnnxMod
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
 
     }
-
 
   }
 

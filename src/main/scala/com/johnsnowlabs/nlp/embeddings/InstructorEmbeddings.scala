@@ -16,13 +16,20 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-
 import com.johnsnowlabs.ml.ai.Instructor
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadSentencePieceAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -321,8 +328,6 @@ class InstructorEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
 
-
-
     super.onWrite(path, spark)
     getEngine match {
       case TensorFlow.name =>
@@ -357,7 +362,6 @@ class InstructorEmbeddings(override val uid: String)
       getModelIfNotSet.spp,
       "_instructor",
       InstructorEmbeddings.sppFile)
-
 
   }
 
@@ -395,7 +399,11 @@ trait ReadablePretrainedInstructorModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadInstructorDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[InstructorEmbeddings] =>
 
   override val tfFile: String = "instructor_tensorflow"
@@ -406,33 +414,24 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
   def readModel(instance: InstructorEmbeddings, path: String, spark: SparkSession): Unit = {
     val spp = readSentencePieceModel(path, spark, "_instructor_spp", sppFile)
 
-
     instance.getEngine match {
       case TensorFlow.name =>
-    val tf = readTensorflowModel(
-      path,
-      spark,
-      "_instructor_tf",
-      savedSignatures = instance.getSignatures,
-      initAllTables = false)
-    instance.setModelIfNotSet(spark, Some(tf), None, None, spp)
-
+        val tf = readTensorflowModel(
+          path,
+          spark,
+          "_instructor_tf",
+          savedSignatures = instance.getSignatures,
+          initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tf), None, None, spp)
 
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            "_instructor_onnx",
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, "_instructor_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, spp)
 
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_deberta_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), spp)
-
 
     }
 
@@ -471,7 +470,8 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
           .setModelIfNotSet(spark, Some(tfwrapper), None, None, spModel)
 
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None, spModel)
 
@@ -485,7 +485,6 @@ trait ReadInstructorDLModel extends ReadTensorflowModel with ReadSentencePieceMo
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

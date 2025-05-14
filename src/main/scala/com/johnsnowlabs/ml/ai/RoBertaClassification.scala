@@ -288,9 +288,7 @@ private[johnsnowlabs] class RoBertaClassification(
     batchScores
   }
 
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): Array[Float] = {
+  private def getRawScoresWithOv(batch: Seq[Array[Int]]): Array[Float] = {
 
     val maxSentenceLength = batch.map(_.length).max
     val batchLength = batch.length
@@ -320,12 +318,9 @@ private[johnsnowlabs] class RoBertaClassification(
 
   }
 
-
-
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
-
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
 
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
@@ -353,9 +348,6 @@ private[johnsnowlabs] class RoBertaClassification(
 
     }
   }
-
-
-
 
   def computeZeroShotLogitsWithONNX(
       batch: Seq[Array[Int]],
@@ -486,6 +478,89 @@ private[johnsnowlabs] class RoBertaClassification(
     (startScores, endScores)
   }
 
+  override def tagSpanMultipleChoice(batch: Seq[Array[Int]]): Array[Float] = {
+    val logits = detectedEngine match {
+      case ONNX.name => computeLogitsMultipleChoiceWithOnnx(batch)
+      case Openvino.name => computeLogitsMultipleChoiceWithOv(batch)
+    }
+
+    calculateSoftmax(logits)
+  }
+
+  private def computeLogitsMultipleChoiceWithOnnx(batch: Seq[Array[Int]]): Array[Float] = {
+    val sequenceLength = batch.head.length
+    val inputIds = Array(batch.map(x => x.map(_.toLong)).toArray)
+    val attentionMask = Array(
+      batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+
+    val (ortSession, ortEnv) = onnxWrapper.get.getSession(onnxSessionOptions)
+    val tokenTensors = OnnxTensor.createTensor(ortEnv, inputIds)
+    val maskTensors = OnnxTensor.createTensor(ortEnv, attentionMask)
+
+    val inputs =
+      Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
+
+    try {
+      val output = ortSession.run(inputs)
+      try {
+
+        val logits = output
+          .get("logits")
+          .get()
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+
+        tokenTensors.close()
+        maskTensors.close()
+
+        logits
+      } finally if (output != null) output.close()
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        println("Exception in computeLogitsMultipleChoiceWithOnnx: ", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
+
+  private def computeLogitsMultipleChoiceWithOv(batch: Seq[Array[Int]]): Array[Float] = {
+    val (numChoices, sequenceLength) = (batch.length, batch.head.length)
+    // batch_size, num_choices, sequence_length
+    val shape = Some(Array(1, numChoices, sequenceLength))
+    val (tokenTensors, maskTensors, _) =
+      PrepareEmbeddings.prepareOvLongBatchTensorsWithSegment(
+        batch,
+        sequenceLength,
+        numChoices,
+        sentencePadTokenId,
+        shape)
+
+    val compiledModel = openvinoWrapper.get.getCompiledModel()
+    val inferRequest = compiledModel.create_infer_request()
+    inferRequest.set_tensor("input_ids", tokenTensors)
+    inferRequest.set_tensor("attention_mask", maskTensors)
+
+    inferRequest.infer()
+
+    try {
+      try {
+        val logits = inferRequest
+          .get_output_tensor()
+          .data()
+
+        logits
+      }
+    } catch {
+      case e: Exception =>
+        // Log the exception as a warning
+        logger.warn("Exception in computeLogitsMultipleChoiceWithOv", e)
+        // Rethrow the exception to propagate it further
+        throw e
+    }
+  }
+
   private def computeLogitsWithTF(
       batch: Seq[Array[Int]],
       maxSentenceLength: Int): (Array[Float], Array[Float]) = {
@@ -541,10 +616,7 @@ private[johnsnowlabs] class RoBertaClassification(
     (startLogits, endLogits)
   }
 
-
-  private def computeLogitsWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
 
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
@@ -559,7 +631,7 @@ private[johnsnowlabs] class RoBertaClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

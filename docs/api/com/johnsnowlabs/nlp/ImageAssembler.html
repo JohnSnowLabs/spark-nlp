@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.1 ScalaDoc  - com.johnsnowlabs.nlp.ImageAssembler</title>
-          <meta name="description" content="Spark NLP 5.5.1 ScalaDoc - com.johnsnowlabs.nlp.ImageAssembler" />
-          <meta name="keywords" content="Spark NLP 5.5.1 ScalaDoc com.johnsnowlabs.nlp.ImageAssembler" />
+          <title>Spark NLP 6.0.0 ScalaDoc  - com.johnsnowlabs.nlp.ImageAssembler</title>
+          <meta name="description" content="Spark NLP 6.0.0 ScalaDoc - com.johnsnowlabs.nlp.ImageAssembler" />
+          <meta name="keywords" content="Spark NLP 6.0.0 ScalaDoc com.johnsnowlabs.nlp.ImageAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -327,6 +327,10 @@
                         <a href="HasBatchedAnnotateImage.html" title="">HasBatchedAnnotateImage</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasBatchedAnnotateTextImage.html" title=""></a>
+                        <a href="HasBatchedAnnotateTextImage.html" title="">HasBatchedAnnotateTextImage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasCandidateLabelsProperties.html" title=""></a>
                         <a href="HasCandidateLabelsProperties.html" title="">HasCandidateLabelsProperties</a>
                       </li><li class="current-entities indented3">
@@ -337,6 +341,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasClassifierActivationProperties.html" title=""></a>
                         <a href="HasClassifierActivationProperties.html" title="">HasClassifierActivationProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasClsTokenProperties.html" title=""></a>
+                        <a href="HasClsTokenProperties.html" title="">HasClsTokenProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasEnableCachingProperties.html" title=""></a>
@@ -363,8 +371,12 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="HasLlamaCppProperties.html" title="Contains settable parameters for the AutoGGUFModel."></a>
-                        <a href="HasLlamaCppProperties.html" title="Contains settable parameters for the AutoGGUFModel.">HasLlamaCppProperties</a>
+                        <a class="trait" href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel."></a>
+                        <a href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel.">HasLlamaCppInferenceProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasLlamaCppModelProperties.html" title="Contains settable model parameters for the AutoGGUFModel."></a>
+                        <a href="HasLlamaCppModelProperties.html" title="Contains settable model parameters for the AutoGGUFModel.">HasLlamaCppModelProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasMultipleInputAnnotationCols.html" title="Trait used to create annotators with input columns of variable length."></a>
@@ -1029,6 +1041,23 @@ root
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler#getTextCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getTextCol:String"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler.html#getTextCol:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTextCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Input text column for processing
+</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1629,6 +1658,23 @@ root
       </span>
       
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler#setTextCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setTextCol(value:String):ImageAssembler.this.type"></a><a id="setTextCol(String):ImageAssembler.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler.html#setTextCol(value:String):ImageAssembler.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTextCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Input text column for processing
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -1645,6 +1691,23 @@ root
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.ImageAssembler#textCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="textCol:org.apache.spark.ml.param.Param[String]"></a><a id="textCol:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/ImageAssembler.html#textCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">textCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Input text column for processing
+</p>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">

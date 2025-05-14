@@ -246,10 +246,7 @@ private[johnsnowlabs] class DeBertaClassification(
     }
   }
 
-
-  private def getRawScoresWithOv(
-                                  batch: Seq[Array[Int]]
-                                ): Array[Float] = {
+  private def getRawScoresWithOv(batch: Seq[Array[Int]]): Array[Float] = {
 
     val maxSentenceLength = batch.map(_.length).max
     val batchLength = batch.length
@@ -278,7 +275,6 @@ private[johnsnowlabs] class DeBertaClassification(
     }
 
   }
-
 
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]] = {
 
@@ -335,22 +331,19 @@ private[johnsnowlabs] class DeBertaClassification(
       .toArray
   }
 
-
   def computeZeroShotLogitsWithOv(
-                                   batch: Seq[Array[Int]],
-                                   maxSentenceLength: Int): Array[Float] = {
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int): Array[Float] = {
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
       PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
     inferRequest.set_tensor("attention_mask", maskTensors)
 
     inferRequest.infer()
-
 
     try {
       try {
@@ -367,7 +360,6 @@ private[johnsnowlabs] class DeBertaClassification(
     }
 
   }
-
 
   def computeZeroShotLogitsWithONNX(
       batch: Seq[Array[Int]],
@@ -542,10 +534,7 @@ private[johnsnowlabs] class DeBertaClassification(
     (startLogits, endLogits)
   }
 
-
-  private def computeLogitsWithOv(
-                                   batch: Seq[Array[Int]]
-                                   ): (Array[Float], Array[Float]) = {
+  private def computeLogitsWithOv(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
 
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
@@ -560,7 +549,7 @@ private[johnsnowlabs] class DeBertaClassification(
 
     try {
       try {
-        val startLogits =  inferRequest
+        val startLogits = inferRequest
           .get_tensor("start_logits")
           .data()
         val endLogits = inferRequest

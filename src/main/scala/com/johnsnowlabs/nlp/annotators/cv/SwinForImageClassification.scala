@@ -19,7 +19,11 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadJsonStringAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadJsonStringAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
@@ -248,7 +252,6 @@ class SwinForImageClassification(override val uid: String)
 
 }
 
-
 trait ReadablePretrainedSwinForImageModel
     extends ParamsAndFeaturesReadable[SwinForImageClassification]
     with HasPretrained[SwinForImageClassification] {
@@ -270,7 +273,7 @@ trait ReadablePretrainedSwinForImageModel
 }
 
 trait ReadSwinForImageDLModel
-  extends ReadTensorflowModel
+    extends ReadTensorflowModel
     with ReadOnnxModel
     with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[SwinForImageClassification] =>
@@ -279,10 +282,7 @@ trait ReadSwinForImageDLModel
   override val onnxFile: String = "image_classification_swin_onnx"
   override val openvinoFile: String = "image_classification_swin_openvino"
 
-  def readModel(
-      instance: SwinForImageClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: SwinForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
@@ -300,23 +300,17 @@ trait ReadSwinForImageDLModel
         val tfWrapper =
           readTensorflowModel(path, spark, tfFile, initAllTables = false)
 
-        instance.setModelIfNotSet(spark, Some(tfWrapper), None,None, preprocessor)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None, None, preprocessor)
       case ONNX.name =>
         val onnxWrapper =
-          readOnnxModel(
-            path,
-            spark,
-            onnxFile,
-            zipped = true,
-            useBundle = false,
-            None)
+          readOnnxModel(path, spark, onnxFile, zipped = true, useBundle = false, None)
 
-        instance.setModelIfNotSet(spark, None, Some(onnxWrapper),None, preprocessor)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None, preprocessor)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "swin_for_image_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "swin_for_image_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper), preprocessor)
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -365,17 +359,19 @@ trait ReadSwinForImageDLModel
           case Some(s) => s
           case None => throw new Exception("Cannot load signature definitions from model!")
         }
+
         /** the order of setSignatures is important if we use getSignatures inside
-         * setModelIfNotSet
-         */
+          * setModelIfNotSet
+          */
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(wrapper), None, None, preprocessorConfig)
       case ONNX.name =>
-        val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+        val onnxWrapper =
+          OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
 
         annotatorModel
-          .setModelIfNotSet(spark, None, Some(onnxWrapper),None, preprocessorConfig)
+          .setModelIfNotSet(spark, None, Some(onnxWrapper), None, preprocessorConfig)
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =
@@ -388,7 +384,6 @@ trait ReadSwinForImageDLModel
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), preprocessorConfig)
 
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -396,7 +391,6 @@ trait ReadSwinForImageDLModel
     annotatorModel
   }
 }
-
 
 /** This is the companion object of [[SwinForImageClassification]]. Please refer to that class for
   * the documentation.

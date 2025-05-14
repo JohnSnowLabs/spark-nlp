@@ -128,11 +128,13 @@ private[johnsnowlabs] class CamemBert(
         }
 
       case Openvino.name =>
-
-
         val batchLength = batch.length
         val (tokenTensors, maskTensors) =
-          PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength, SentencePadTokenId)
+          PrepareEmbeddings.prepareOvLongBatchTensors(
+            batch,
+            maxSentenceLength,
+            batchLength,
+            SentencePadTokenId)
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
@@ -153,7 +155,6 @@ private[johnsnowlabs] class CamemBert(
             // Rethrow the exception to propagate it further
             throw e
         }
-
 
       case _ =>
         val tensors = new TensorResources()

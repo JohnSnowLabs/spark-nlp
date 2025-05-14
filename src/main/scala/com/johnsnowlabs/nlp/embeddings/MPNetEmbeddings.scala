@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.MPNet
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -409,7 +413,7 @@ trait ReadablePretrainedMPNetModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel  with ReadOpenvinoModel{
+trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[MPNetEmbeddings] =>
 
   override val tfFile: String = "mpnet_tensorflow"
@@ -430,7 +434,6 @@ trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel  with Read
       case Openvino.name =>
         val openvinoWrapper = readOpenvinoModel(path, spark, "_mpnet_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -484,7 +487,6 @@ trait ReadMPNetDLModel extends ReadTensorflowModel with ReadOnnxModel  with Read
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)

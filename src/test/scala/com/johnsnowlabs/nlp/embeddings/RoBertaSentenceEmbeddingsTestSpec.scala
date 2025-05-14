@@ -89,7 +89,7 @@ class RoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline2 = new Pipeline().setStages(Array(document, sentence, loadedEmbeddings))
 
     val model2 = pipeline2.fit(testData)
-    model2.transform(testData).select("id", "sentence_embeddings").show(truncate=false)
+    model2.transform(testData).select("id", "sentence_embeddings").show(truncate = false)
   }
 
   "RoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {

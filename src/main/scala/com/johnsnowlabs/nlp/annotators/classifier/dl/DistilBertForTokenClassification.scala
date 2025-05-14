@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -345,7 +349,10 @@ trait ReadablePretrainedDistilBertForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel {
+trait ReadDistilBertForTokenDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
@@ -374,7 +381,8 @@ trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxMod
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_token_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "distilbert_token_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
 
       case _ =>
@@ -430,7 +438,7 @@ trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel with ReadOnnxMod
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-        
+
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

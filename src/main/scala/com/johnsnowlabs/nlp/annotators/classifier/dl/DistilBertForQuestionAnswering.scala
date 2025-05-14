@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.{DistilBertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -211,8 +215,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
-      openvinoWrapper  : Option[OpenvinoWrapper],
-                      ): DistilBertForQuestionAnswering = {
+      openvinoWrapper: Option[OpenvinoWrapper]): DistilBertForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -323,7 +326,10 @@ trait ReadablePretrainedDistilBertForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadDistilBertForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DistilBertForQuestionAnswering] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
@@ -352,7 +358,8 @@ trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel with
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "distilbert_qa_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
 
       case _ =>
@@ -396,7 +403,6 @@ trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel with
           OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), None)
-
 
       case Openvino.name =>
         val ovWrapper: OpenvinoWrapper =

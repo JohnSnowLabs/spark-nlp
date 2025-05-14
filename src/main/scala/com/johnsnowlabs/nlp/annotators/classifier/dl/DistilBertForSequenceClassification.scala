@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -253,8 +257,7 @@ class DistilBertForSequenceClassification(override val uid: String)
       spark: SparkSession,
       tensorflowWrapper: Option[TensorflowWrapper],
       onnxWrapper: Option[OnnxWrapper],
-      openvinoWrapper  : Option[OpenvinoWrapper]
-                      ): DistilBertForSequenceClassification = {
+      openvinoWrapper: Option[OpenvinoWrapper]): DistilBertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -376,7 +379,10 @@ trait ReadablePretrainedDistilBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadDistilBertForSequenceDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[DistilBertForSequenceClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
@@ -405,7 +411,8 @@ trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel with ReadOnnx
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), None)
 
       case Openvino.name =>
-        val openvinoWrapper = readOpenvinoModel(path, spark, "distilbert_sequence_classification_openvino")
+        val openvinoWrapper =
+          readOpenvinoModel(path, spark, "distilbert_sequence_classification_openvino")
         instance.setModelIfNotSet(spark, None, None, Some(openvinoWrapper))
 
       case _ =>

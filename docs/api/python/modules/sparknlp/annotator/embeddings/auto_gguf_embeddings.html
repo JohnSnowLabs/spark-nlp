@@ -1,0 +1,976 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.embeddings.auto_gguf_embeddings &#8212; Spark NLP 6.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/embeddings/auto_gguf_embeddings';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.embeddings.auto_gguf_embeddings</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2023 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the AutoGGUFEmbeddings.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AutoGGUFEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Annotator that uses the llama.cpp library to generate text embeddings with large language</span>
+<span class="sd">    models</span>
+
+<span class="sd">    The type of embedding pooling can be set with the `setPoolingType` method. The default is</span>
+<span class="sd">    `&quot;MEAN&quot;`. The available options are `&quot;NONE&quot;`, `&quot;MEAN&quot;`, `&quot;CLS&quot;`, and `&quot;LAST&quot;`.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; auto_gguf_model = AutoGGUFEmbeddings.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;Nomic_Embed_Text_v1.5.Q8_0.gguf&quot;``, if no name is provided.</span>
+
+<span class="sd">    For extended examples of usage, see the</span>
+<span class="sd">    `AutoGGUFEmbeddingsTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddingsTest.scala&gt;`__</span>
+<span class="sd">    and the</span>
+<span class="sd">    `example notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFEmbeddings.ipynb&gt;`__.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nThreads</span>
+<span class="sd">        Set the number of threads to use during generation</span>
+<span class="sd">    nThreadsBatch</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nCtx</span>
+<span class="sd">        Set the size of the prompt context</span>
+<span class="sd">    nBatch</span>
+<span class="sd">        Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nUbatch</span>
+<span class="sd">        Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nChunks</span>
+<span class="sd">        Set the maximal number of chunks to process</span>
+<span class="sd">    nSequences</span>
+<span class="sd">        Set the number of sequences to decode</span>
+<span class="sd">    nGpuLayers</span>
+<span class="sd">        Set the number of layers to store in VRAM (-1 - use default)</span>
+<span class="sd">    gpuSplitMode</span>
+<span class="sd">        Set how to split the model across GPUs</span>
+<span class="sd">    mainGpu</span>
+<span class="sd">        Set the main GPU that is used for scratch and small tensors.</span>
+<span class="sd">    tensorSplit</span>
+<span class="sd">        Set how split tensors should be distributed across GPUs</span>
+<span class="sd">    grpAttnN</span>
+<span class="sd">        Set the group-attention factor</span>
+<span class="sd">    grpAttnW</span>
+<span class="sd">        Set the group-attention width</span>
+<span class="sd">    ropeFreqBase</span>
+<span class="sd">        Set the RoPE base frequency, used by NTK-aware scaling</span>
+<span class="sd">    ropeFreqScale</span>
+<span class="sd">        Set the RoPE frequency scaling factor, expands context by a factor of 1/N</span>
+<span class="sd">    yarnExtFactor</span>
+<span class="sd">        Set the YaRN extrapolation mix factor</span>
+<span class="sd">    yarnAttnFactor</span>
+<span class="sd">        Set the YaRN scale sqrt(t) or attention magnitude</span>
+<span class="sd">    yarnBetaFast</span>
+<span class="sd">        Set the YaRN low correction dim or beta</span>
+<span class="sd">    yarnBetaSlow</span>
+<span class="sd">        Set the YaRN high correction dim or alpha</span>
+<span class="sd">    yarnOrigCtx</span>
+<span class="sd">        Set the YaRN original context size of model</span>
+<span class="sd">    defragmentationThreshold</span>
+<span class="sd">        Set the KV cache defragmentation threshold</span>
+<span class="sd">    numaStrategy</span>
+<span class="sd">        Set optimization strategies that help on some NUMA systems (if available)</span>
+<span class="sd">    ropeScalingType</span>
+<span class="sd">        Set the RoPE frequency scaling method, defaults to linear unless specified by the model</span>
+<span class="sd">    poolingType</span>
+<span class="sd">        Set the pooling type for embeddings, use model default if unspecified</span>
+<span class="sd">    flashAttention</span>
+<span class="sd">        Whether to enable Flash Attention</span>
+<span class="sd">    useMmap</span>
+<span class="sd">        Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</span>
+<span class="sd">    useMlock</span>
+<span class="sd">        Whether to force the system to keep model in RAM rather than swapping or compressing</span>
+<span class="sd">    noKvOffload</span>
+<span class="sd">        Whether to disable KV offload</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set</span>
+<span class="sd">    the number of GPU layers with the `setNGpuLayers` method.</span>
+
+<span class="sd">    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`</span>
+<span class="sd">    according to your hardware to avoid out-of-memory errors.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; document = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;) \\</span>
+<span class="sd">    ...     .setBatchSize(4) \\</span>
+<span class="sd">    ...     .setNGpuLayers(99) \\</span>
+<span class="sd">    ...     .setPoolingType(&quot;MEAN&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([document, autoGGUFEmbeddings])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;embeddings.embeddings&quot;).show(truncate = False)</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |                                                                      embeddings|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |[[-0.034486726, 0.07770534, -0.15982522, -0.017873349, 0.013914132, 0.0365736...|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFEmbeddings&quot;</span>
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+
+    <span class="c1"># -------- MODEl PARAMETERS --------</span>
+    <span class="n">nThreads</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nThreads&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the number of threads to use during generation&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nThreadsBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nThreadsBatch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the number of threads to use during batch and prompt processing&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nCtx</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nCtx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the size of the prompt context&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nBatch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nUbatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nUbatch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nChunks</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nChunks&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the maximal number of chunks to process&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nSequences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nSequences&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the number of sequences to decode&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nGpuLayers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;nGpuLayers&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Set how to split the model across GPUs</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - NONE: No GPU split</span>
+    <span class="c1">#   - LAYER: Split the model across GPUs by layer</span>
+    <span class="c1">#   - ROW: Split the model across GPUs by rows</span>
+    <span class="n">gpuSplitMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;gpuSplitMode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set how to split the model across GPUs&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mainGpu</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;mainGpu&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the main GPU that is used for scratch and small tensors.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">tensorSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;tensorSplit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set how split tensors should be distributed across GPUs&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">grpAttnN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;grpAttnN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the group-attention factor&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">grpAttnW</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;grpAttnW&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the group-attention width&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ropeFreqBase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;ropeFreqBase&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ropeFreqScale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;ropeFreqScale&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the RoPE frequency scaling factor, expands context by a factor of 1/N&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">yarnExtFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;yarnExtFactor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the YaRN extrapolation mix factor&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">yarnAttnFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;yarnAttnFactor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the YaRN scale sqrt(t) or attention magnitude&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">yarnBetaFast</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;yarnBetaFast&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the YaRN low correction dim or beta&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">yarnBetaSlow</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;yarnBetaSlow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the YaRN high correction dim or alpha&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">yarnOrigCtx</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;yarnOrigCtx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the YaRN original context size of model&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">defragmentationThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;defragmentationThreshold&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the KV cache defragmentation threshold&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Set optimization strategies that help on some NUMA systems (if available)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Available Strategies:</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - DISABLED: No NUMA optimizations</span>
+    <span class="c1">#   - DISTRIBUTE: Spread execution evenly over all</span>
+    <span class="c1">#   - ISOLATE: Only spawn threads on CPUs on the node that execution started on</span>
+    <span class="c1">#   - NUMA_CTL: Use the CPU map provided by numactl</span>
+    <span class="c1">#   - MIRROR: Mirrors the model across NUMA nodes</span>
+    <span class="n">numaStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;numaStrategy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Set the RoPE frequency scaling method, defaults to linear unless specified by the model.</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - UNSPECIFIED: Don&#39;t use any scaling</span>
+    <span class="c1">#   - LINEAR: Linear scaling</span>
+    <span class="c1">#   - YARN: YaRN RoPE scaling</span>
+    <span class="n">ropeScalingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;ropeScalingType&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Set the pooling type for embeddings, use model default if unspecified</span>
+    <span class="c1">#</span>
+    <span class="c1">#   - 0 UNSPECIFIED: Don&#39;t use any pooling</span>
+    <span class="c1">#   - 1 MEAN: Mean Pooling</span>
+    <span class="c1">#   - 2 CLS: CLS Pooling</span>
+    <span class="n">poolingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;poolingType&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the pooling type for embeddings, use model default if unspecified&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">embedding</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;embedding&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to load model with embedding support&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">flashAttention</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;flashAttention&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to enable Flash Attention&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">useMmap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;useMmap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">useMlock</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;useMlock&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to force the system to keep model in RAM rather than swapping or compressing&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">noKvOffload</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;noKvOffload&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to disable KV offload&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># -------- MODEL SETTERS --------</span>
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNThreads"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNThreads">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during generation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreads</span><span class="o">=</span><span class="n">nThreads</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNThreadsBatch"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNThreadsBatch">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNThreadsBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsBatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsBatch</span><span class="o">=</span><span class="n">nThreadsBatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNCtx"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNCtx">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNCtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nCtx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the size of the prompt context&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nCtx</span><span class="o">=</span><span class="n">nCtx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNBatch"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNBatch">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nBatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nBatch</span><span class="o">=</span><span class="n">nBatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNUbatch"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNUbatch">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNUbatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nUbatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nUbatch</span><span class="o">=</span><span class="n">nUbatch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNChunks"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNChunks">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNChunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nChunks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximal number of chunks to process&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nChunks</span><span class="o">=</span><span class="n">nChunks</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNSequences"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNSequences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nSequences</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of sequences to decode&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nSequences</span><span class="o">=</span><span class="n">nSequences</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNGpuLayers"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNGpuLayers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNGpuLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nGpuLayers</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nGpuLayers</span><span class="o">=</span><span class="n">nGpuLayers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setGpuSplitMode"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setGpuSplitMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGpuSplitMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gpuSplitMode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set how to split the model across GPUs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">gpuSplitMode</span><span class="o">=</span><span class="n">gpuSplitMode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setMainGpu"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setMainGpu">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMainGpu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mainGpu</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the main GPU that is used for scratch and small tensors.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mainGpu</span><span class="o">=</span><span class="n">mainGpu</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setTensorSplit"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setTensorSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTensorSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensorSplit</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set how split tensors should be distributed across GPUs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tensorSplit</span><span class="o">=</span><span class="n">tensorSplit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setGrpAttnN"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setGrpAttnN">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGrpAttnN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnN</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention factor&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnN</span><span class="o">=</span><span class="n">grpAttnN</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setGrpAttnW"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setGrpAttnW">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGrpAttnW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnW</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention width&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnW</span><span class="o">=</span><span class="n">grpAttnW</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setRopeFreqBase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setRopeFreqBase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRopeFreqBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeFreqBase</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeFreqBase</span><span class="o">=</span><span class="n">ropeFreqBase</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setRopeFreqScale"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setRopeFreqScale">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRopeFreqScale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeFreqScale</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling factor, expands context by a factor of 1/N&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeFreqScale</span><span class="o">=</span><span class="n">ropeFreqScale</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setYarnExtFactor"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setYarnExtFactor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setYarnExtFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnExtFactor</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN extrapolation mix factor&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnExtFactor</span><span class="o">=</span><span class="n">yarnExtFactor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setYarnAttnFactor"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setYarnAttnFactor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setYarnAttnFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnAttnFactor</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN scale sqrt(t) or attention magnitude&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnAttnFactor</span><span class="o">=</span><span class="n">yarnAttnFactor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setYarnBetaFast"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setYarnBetaFast">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setYarnBetaFast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnBetaFast</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN low correction dim or beta&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnBetaFast</span><span class="o">=</span><span class="n">yarnBetaFast</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setYarnBetaSlow"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setYarnBetaSlow">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setYarnBetaSlow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnBetaSlow</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN high correction dim or alpha&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnBetaSlow</span><span class="o">=</span><span class="n">yarnBetaSlow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setYarnOrigCtx"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setYarnOrigCtx">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setYarnOrigCtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yarnOrigCtx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the YaRN original context size of model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">yarnOrigCtx</span><span class="o">=</span><span class="n">yarnOrigCtx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setDefragmentationThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setDefragmentationThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDefragmentationThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defragmentationThreshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the KV cache defragmentation threshold&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defragmentationThreshold</span><span class="o">=</span><span class="n">defragmentationThreshold</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNumaStrategy"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNumaStrategy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumaStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numaStrategy</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;&quot;&quot;</span>
+        <span class="n">numaUpper</span> <span class="o">=</span> <span class="n">numaStrategy</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">numaStrategies</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DISABLED&quot;</span><span class="p">,</span> <span class="s2">&quot;DISTRIBUTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ISOLATE&quot;</span><span class="p">,</span> <span class="s2">&quot;NUMA_CTL&quot;</span><span class="p">,</span> <span class="s2">&quot;MIRROR&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">numaUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numaStrategies</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid NUMA strategy: </span><span class="si">{</span><span class="n">numaUpper</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">numaStrategies</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numaStrategy</span><span class="o">=</span><span class="n">numaStrategy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setRopeScalingType"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setRopeScalingType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRopeScalingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeScalingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeScalingType</span><span class="o">=</span><span class="n">ropeScalingType</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setPoolingType"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setPoolingType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPoolingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pooling type for embeddings, use model default if unspecified&quot;&quot;&quot;</span>
+        <span class="n">poolingTypeUpper</span> <span class="o">=</span> <span class="n">poolingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">poolingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEAN&quot;</span><span class="p">,</span> <span class="s2">&quot;CLS&quot;</span><span class="p">,</span> <span class="s2">&quot;LAST&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">poolingTypeUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poolingTypes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid pooling type: </span><span class="si">{</span><span class="n">poolingType</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">poolingTypes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">poolingType</span><span class="o">=</span><span class="n">poolingType</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setFlashAttention"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setFlashAttention">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFlashAttention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flashAttention</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to enable Flash Attention&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">flashAttention</span><span class="o">=</span><span class="n">flashAttention</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setUseMmap"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setUseMmap">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseMmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useMmap</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useMmap</span><span class="o">=</span><span class="n">useMmap</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setUseMlock"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setUseMlock">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseMlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useMlock</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to force the system to keep model in RAM rather than swapping or compressing&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useMlock</span><span class="o">=</span><span class="n">useMlock</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNoKvOffload"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNoKvOffload">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoKvOffload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noKvOffload</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to disable KV offload&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noKvOffload</span><span class="o">=</span><span class="n">noKvOffload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.setNParallel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.setNParallel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNParallel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nParallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="n">nParallel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.getMetadata"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.getMetadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the metadata of the model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getMetadata&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.AutoGGUFEmbeddings&quot;</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoGGUFEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">nCtx</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+            <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">poolingType</span><span class="o">=</span><span class="s2">&quot;MEAN&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_AutoGGUFEmbeddingsLoader</span>
+
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AutoGGUFEmbeddingsLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">AutoGGUFEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFEmbeddings.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.auto_gguf_embeddings.html#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nomic_Embed_Text_v1.5.Q8_0.gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;Nomic_Embed_Text_v1.5.Q8_0.gguf&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
+
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span>
+            <span class="n">AutoGGUFEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

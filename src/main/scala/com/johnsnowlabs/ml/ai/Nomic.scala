@@ -74,7 +74,7 @@ private[johnsnowlabs] class Nomic(
       maxSentenceLength: Int): Array[Array[Float]] = {
 
     val inputIds = batch.map(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
 
     val (session: OrtSession, env: OrtEnvironment) =
       onnxWrapper.get.getSession(onnxSessionOptions)
@@ -114,7 +114,7 @@ private[johnsnowlabs] class Nomic(
       maxSentenceLength: Int): Array[Array[Float]] = {
     val batchLength = batch.length
     val inputIds = batch.flatMap(x => x.map(x => x.toLong)).toArray
-    val attentionMask = batch.map(sentence => sentence.map(x => if (x < 0L) 0L else 1L)).toArray
+    val attentionMask = batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray
 
     val shape = Array(batchLength, maxSentenceLength)
     val tokenTensors = new org.intel.openvino.Tensor(shape, inputIds)

@@ -174,7 +174,7 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val embeddings = DistilBertEmbeddings
-      .pretrained() 
+      .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(false)

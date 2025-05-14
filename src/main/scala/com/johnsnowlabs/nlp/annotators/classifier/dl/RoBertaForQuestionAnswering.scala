@@ -20,7 +20,11 @@ import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, RoBertaClassification}
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.openvino.{OpenvinoWrapper, ReadOpenvinoModel, WriteOpenvinoModel}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
 import com.johnsnowlabs.ml.util.{ONNX, Openvino, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -335,7 +339,10 @@ trait ReadablePretrainedRoBertaForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadOnnxModel with ReadOpenvinoModel{
+trait ReadRoBertaForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadOnnxModel
+    with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[RoBertaForQuestionAnswering] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
@@ -426,7 +433,6 @@ trait ReadRoBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with Re
             detectedEngine = detectedEngine)
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper))
-
 
       case _ =>
         throw new Exception(notSupportedEngineError)
