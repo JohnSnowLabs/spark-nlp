@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{BLOCK_SPLIT_PATTERN, DOUBLE_PARAGRAPH_PATTERN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
@@ -26,6 +26,7 @@ import scala.collection.mutable
 class TextReader(
     titleLengthSize: Int = 50,
     storeContent: Boolean = false,
+    blockSplit: String = BLOCK_SPLIT_PATTERN,
     groupBrokenParagraphs: Boolean = false,
     paragraphSplit: String = DOUBLE_PARAGRAPH_PATTERN,
     shortLineWordThreshold: Int = 5,
@@ -103,7 +104,7 @@ class TextReader(
     }
 
     // Split the processed text into blocks using two or more newlines.
-    val blocks = processedText.split("\\n\\n+").map(_.trim).filter(_.nonEmpty)
+    val blocks = processedText.split(blockSplit).map(_.trim).filter(_.nonEmpty)
     val elements = mutable.ArrayBuffer[HTMLElement]()
     var i = 0
     while (i < blocks.length) {
