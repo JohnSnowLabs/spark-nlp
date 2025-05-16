@@ -17,7 +17,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ExcelReaderTest extends AnyFlatSpec {
@@ -58,6 +58,56 @@ class ExcelReaderTest extends AnyFlatSpec {
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(excelDf.columns.contains("content"))
+  }
+
+  it should "work for break pages" taggedAs FastTest in {
+    val excelReader = new ExcelReader(includePageBreaks = true)
+    val excelDf = excelReader.xls(s"$docDirectory/page-break-example.xlsx")
+    excelDf.select("xls").show(false)
+
+    val explodedDf = excelDf.withColumn("xls_exploded", explode(col("xls")))
+    val page1Df = explodedDf.filter(
+      col("xls_exploded.elementType") === "Title" &&
+        col("xls_exploded.content") === "Assets" &&
+        col("xls_exploded.metadata")("pageBreak") === "1")
+    val page2Df = explodedDf.filter(
+      col("xls_exploded.elementType") === "Title" &&
+        col("xls_exploded.content") === "Debts" &&
+        col("xls_exploded.metadata")("pageBreak") === "2")
+
+    assert(page1Df.count() > 0, "Expected at least one row with Title/Assets and pageBreak = 1")
+    assert(page2Df.count() > 0, "Expected at least one row with Title/Debts and pageBreak = 2")
+  }
+
+  it should "provide HTML version of the table" taggedAs FastTest in {
+    val excelReader = new ExcelReader(inferTableStructure = true)
+    val excelDf = excelReader.xls(s"$docDirectory/page-break-example.xlsx")
+    val htmlDf = excelDf
+      .withColumn("xls_exploded", explode(col("xls")))
+      .filter(col("xls_exploded.elementType") === "HTML")
+    excelDf.select("xls").show(false)
+
+    assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(!excelDf.columns.contains("content"))
+    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
+  }
+
+  it should "append all cells data in one row" taggedAs FastTest in {
+    val excelReaderSubtable = new ExcelReader(appendCells = true)
+    val excelSubtableDf = excelReaderSubtable.xls(s"$docDirectory/xlsx-subtable-cases.xlsx")
+    val explodedSubtableExcelDf =
+      excelSubtableDf.withColumn("xls_exploded", explode(col("xls"))).select("xls_exploded")
+
+    val excelReader = new ExcelReader(appendCells = false)
+    val excelDf = excelReader.xls(s"$docDirectory/xlsx-subtable-cases.xlsx")
+    val explodedExcelDf =
+      excelDf.withColumn("xls_exploded", explode(col("xls"))).select("xls_exploded")
+
+    explodedSubtableExcelDf.select("xls_exploded").show(false)
+    explodedExcelDf.select("xls_exploded").show(false)
+
+    assert(explodedSubtableExcelDf.count() == 1, "Expected only one row with all info")
+    assert(explodedExcelDf.count() > 1, "Expected more than one row with all info")
   }
 
 }

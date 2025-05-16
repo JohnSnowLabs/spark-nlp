@@ -1,0 +1,7 @@
+Intro
+Short
+
+This is a longer paragraph that should be merged
+with the next line because it exceeds the threshold.
+
+One more short

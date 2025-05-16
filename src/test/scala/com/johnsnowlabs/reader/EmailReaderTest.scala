@@ -29,8 +29,8 @@ class EmailReaderTest extends AnyFlatSpec {
 
   "EmailReader" should "read a directory of eml files" taggedAs FastTest in {
     val emailReader = new EmailReader()
-    val emailDf = emailReader.read(emailDirectory)
-    emailDf.select("email").show()
+    val emailDf = emailReader.email(emailDirectory)
+    emailDf.select("email").show(truncate = false)
     emailDf.printSchema()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
@@ -40,7 +40,7 @@ class EmailReaderTest extends AnyFlatSpec {
   it should "read email file with attachments" taggedAs FastTest in {
     val emailFile = s"$emailDirectory/test-several-attachments.eml"
     val emailReader = new EmailReader()
-    val emailDf = emailReader.read(emailFile)
+    val emailDf = emailReader.email(emailFile)
     emailDf.select("email").show()
 
     val attachmentCount = emailDf
@@ -67,7 +67,7 @@ class EmailReaderTest extends AnyFlatSpec {
   it should "read email file with two text attachments" taggedAs FastTest in {
     val emailFile = s"$emailDirectory/email-text-attachments.eml"
     val emailReader = new EmailReader()
-    val emailDf = emailReader.read(emailFile)
+    val emailDf = emailReader.email(emailFile)
     emailDf.select("email").show(false)
     emailDf.printSchema()
 
@@ -95,7 +95,7 @@ class EmailReaderTest extends AnyFlatSpec {
   it should "read attachment content when addAttachmentContent = true" taggedAs FastTest in {
     val emailFile = s"$emailDirectory/email-text-attachments.eml"
     val emailReader = new EmailReader(addAttachmentContent = true)
-    val emailDf = emailReader.read(emailFile)
+    val emailDf = emailReader.email(emailFile)
     emailDf.select("email").show(false)
     emailDf.printSchema()
 
@@ -122,7 +122,7 @@ class EmailReaderTest extends AnyFlatSpec {
 
   it should "store content" taggedAs FastTest in {
     val emailReader = new EmailReader(storeContent = true)
-    val emailDf = emailReader.read(emailDirectory)
+    val emailDf = emailReader.email(emailDirectory)
     emailDf.show()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)

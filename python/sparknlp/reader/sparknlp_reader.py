@@ -50,10 +50,10 @@ class SparkNLPReader(ExtendedJavaWrapper):
     >>> email_df = sparknlp.read().email("home/user/emails-directory")
     """
 
-    def __init__(self, spark, params=None):
+    def __init__(self, spark, params=None, headers=None):
         if params is None:
             params = {}
-        super(SparkNLPReader, self).__init__("com.johnsnowlabs.reader.SparkNLPReader", params)
+        super(SparkNLPReader, self).__init__("com.johnsnowlabs.reader.SparkNLPReader", params, headers)
         self.spark = spark
 
     def html(self, htmlPath):
@@ -72,7 +72,7 @@ class SparkNLPReader(ExtendedJavaWrapper):
         Examples
         --------
         >>> from sparknlp.reader import SparkNLPReader
-        >>> html_df = SparkNLPReader(spark).html("https://www.wikipedia.org")
+        >>> html_df = SparkNLPReader().html("https://www.wikipedia.org")
 
         You can also use SparkNLP to simplify the process:
 

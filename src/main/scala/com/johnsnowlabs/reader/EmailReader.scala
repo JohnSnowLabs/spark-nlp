@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import jakarta.mail._
 import jakarta.mail.internet.MimeMessage
 import org.apache.spark.sql.DataFrame
@@ -29,21 +30,23 @@ import scala.collection.mutable.ArrayBuffer
 class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean = false)
     extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+  private var outputColumn = "email"
 
-  def read(filePath: String): DataFrame = {
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
+  def email(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val emailDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("email", parseEmailUDF(col("content")))
-      if (storeContent) emailDf.select("path", "email", "content")
-      else emailDf.select("path", "email")
+      val emailDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parseEmailUDF(col("content")))
+      if (storeContent) emailDf.select("path", outputColumn, "content")
+      else emailDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
@@ -51,6 +54,11 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     val inputStream = new ByteArrayInputStream(data)
     parseEmailFile(inputStream)
   })
+
+  def emailToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    val inputStream = new ByteArrayInputStream(content)
+    parseEmailFile(inputStream)
+  }
 
   private def parseEmailFile(inputStream: InputStream): Array[HTMLElement] = {
     val session = getJavaMailSession

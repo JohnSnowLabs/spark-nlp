@@ -16,7 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode, map_keys}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class HTMLReaderTest extends AnyFlatSpec {
@@ -66,6 +66,40 @@ class HTMLReaderTest extends AnyFlatSpec {
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(htmlDF.columns.contains("content"))
+  }
+
+  it should "work with headers" taggedAs FastTest in {
+    val HTMLReader =
+      new HTMLReader(headers = Map("User-Agent" -> "Mozilla/5.0", "Accept-Language" -> "es-ES"))
+    val htmlDF = HTMLReader.read("https://www.google.com")
+    htmlDF.show()
+
+    assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
+    assert(!htmlDF.columns.contains("content"))
+  }
+
+  it should "output as title for font size >= 14" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(titleFontSize = 14)
+
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
+    titleDF.select("exploded_html").show(truncate = false)
+
+    assert(titleDF.count() == 2)
+  }
+
+  it should "output as title for font size >= 16" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(titleFontSize = 16)
+
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
+    titleDF.select("exploded_html").show(truncate = false)
+
+    assert(titleDF.count() == 1)
   }
 
 }
