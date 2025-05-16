@@ -142,7 +142,8 @@ the fox met a friendly bear."""
 
     val textDf = textReader.txt(s"$txtDirectory/title-length-test.txt")
 
-    val titleDF = textDf.select(explode(col("txt")).as("exploded_txt"))
+    val titleDF = textDf
+      .select(explode(col("txt")).as("exploded_txt"))
       .filter(col("exploded_txt.elementType") === ElementType.TITLE)
     titleDF.select("exploded_txt").show(truncate = false)
 
@@ -154,7 +155,8 @@ the fox met a friendly bear."""
 
     val textDf = textReader.txt(s"$txtDirectory/title-length-test.txt")
 
-    val titleDF = textDf.select(explode(col("txt")).as("exploded_txt"))
+    val titleDF = textDf
+      .select(explode(col("txt")).as("exploded_txt"))
       .filter(col("exploded_txt.elementType") === ElementType.TITLE)
     titleDF.select("exploded_txt").show(truncate = false)
 
@@ -186,7 +188,7 @@ the fox met a friendly bear."""
   it should "trigger line-based splitting when the empty line ratio is below the threshold" taggedAs FastTest in {
     val reader = new TextReader(
       groupBrokenParagraphs = true,
-      threshold = 0.5,              // High threshold → encourages line splitting
+      threshold = 0.5 // High threshold → encourages line splitting
     )
 
     val textDf = reader.txt(s"$txtDirectory/threshold-test.txt")
@@ -199,7 +201,7 @@ the fox met a friendly bear."""
   it should "trigger paragraph grouping when the empty line ratio is above the threshold, merging long lines" taggedAs FastTest in {
     val reader = new TextReader(
       groupBrokenParagraphs = true,
-      threshold = 0.1,             // Low threshold → triggers grouping logic
+      threshold = 0.1 // Low threshold → triggers grouping logic
     )
 
     val textDf = reader.txt(s"$txtDirectory/threshold-test.txt")
