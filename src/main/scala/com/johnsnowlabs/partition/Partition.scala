@@ -40,7 +40,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params, headers)
     sparkNLPReader.setOutputColumn(outputColumn)
-    if (isUrl(path) && getContentType.isDefined) {
+    if (isUrl(path) && (getContentType.isEmpty || getContentType.getOrElse("") == "text/html")) {
       return sparkNLPReader.html(path)
     }
 
@@ -117,7 +117,6 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
           "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
         sparkNLPReader.ppt
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
-//      case "application/pdf" => sparkNLPReader.pdf
     }
 
   }
