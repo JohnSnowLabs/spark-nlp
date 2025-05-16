@@ -57,7 +57,7 @@ jobs:
         working-directory: docs
         run: |
           rm -f .jekyll-metadata
-          FULL_BUILD=1 bundle exec jekyll build --incremental
+          FULL_BUILD=1 bundle exec jekyll build --incremental --profile
       - uses: actions/setup-node@v3
         with:
           node-version: 16
