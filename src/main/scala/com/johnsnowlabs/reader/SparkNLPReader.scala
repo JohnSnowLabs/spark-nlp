@@ -15,7 +15,10 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{BLOCK_SPLIT_PATTERN, DOUBLE_PARAGRAPH_PATTERN}
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
+  BLOCK_SPLIT_PATTERN,
+  DOUBLE_PARAGRAPH_PATTERN
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import com.johnsnowlabs.reader.util.PartitionOptions.{
