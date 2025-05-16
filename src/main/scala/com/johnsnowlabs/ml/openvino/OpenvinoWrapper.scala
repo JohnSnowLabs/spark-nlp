@@ -266,4 +266,9 @@ object OpenvinoWrapper {
       imageEncoder: OpenvinoWrapper,
       textEmbeddings: OpenvinoWrapper,
       modelMerger: OpenvinoWrapper)
+  case class InternVLWrappers(
+      languageModel: OpenvinoWrapper,
+      imageEncoder: OpenvinoWrapper,
+      textEmbeddings: OpenvinoWrapper,
+      modelMerger: OpenvinoWrapper)
 }
