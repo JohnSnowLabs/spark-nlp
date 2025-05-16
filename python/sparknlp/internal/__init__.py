@@ -272,6 +272,15 @@ class _GPT2Loader(ExtendedJavaWrapper):
             jspark,
         )
 
+class _Gemma3ForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Gemma3ForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Gemma3ForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
+
 class _JanusForMultiModalLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_JanusForMultiModalLoader, self).__init__(
@@ -1118,4 +1127,22 @@ class _Qwen2VLTransformerLoader(ExtendedJavaWrapper):
             path,
             jspark,
             use_openvino,
+        )
+
+class _PaliGemmaForMultiModalLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_PaliGemmaForMultiModalLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.PaliGemmaForMultiModal.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
+
+class _SmolVLMTransformerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_SmolVLMTransformerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.SmolVLMTransformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
         )

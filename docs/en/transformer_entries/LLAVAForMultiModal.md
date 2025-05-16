@@ -98,15 +98,15 @@ result.select("image_assembler.origin", "answer.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[LLAVAForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=/api/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal)
+[LLAVAForMultiModal](/api/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LLAVAForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=/api/python/reference/autosummary/sparknlp/annotator/cv/llava_for_multimodal/index.html#sparknlp.annotator.cv.llava_for_multimodal.LLAVAForMultiModal)
+[LLAVAForMultiModal](/api/python/reference/autosummary/sparknlp/annotator/cv/llava_for_multimodal/index.html#sparknlp.annotator.cv.llava_for_multimodal.LLAVAForMultiModal)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[LLAVAForMultiModal](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal.scala)
+[LLAVAForMultiModal](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

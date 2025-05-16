@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   sparknlp.reader.enums
    sparknlp.reader.pdf_to_text
    sparknlp.reader.sparknlp_reader
 

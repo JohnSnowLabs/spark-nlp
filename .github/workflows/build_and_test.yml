@@ -45,13 +45,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '8'
-          cache: 'sbt'
-      - name: Install Python 3.7
+      - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7.7
+          python-version: 3.8
           architecture: x64
-      - name: Install Python packages (Python 3.7)
+      - name: Install Python packages (Python 3.8)
         run: |
           python -m pip install --upgrade pip
           pip install pyspark==3.4.0 numpy pytest
@@ -70,7 +69,7 @@ jobs:
       - name: Test Spark NLP in Python - Apache Spark 3.4.x
         run: |
           cd python
-          python3.7 -m pytest -v -m fast
+          python3.8 -m pytest -v -m fast
   spark35:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: macos-13
@@ -85,7 +84,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
-          cache: 'sbt'
       - name: Install Python 3.10
         uses: actions/setup-python@v2
         with:
@@ -121,13 +119,12 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
-          cache: 'sbt'
-      - name: Install Python 3.7
+      - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7.7
+          python-version: 3.8
           architecture: x64
-      - name: Install Python packages (Python 3.7)
+      - name: Install Python packages (Python 3.8)
         run: |
           python -m pip install --upgrade pip
           pip install pyspark==3.3.1 numpy pytest
@@ -141,5 +138,5 @@ jobs:
       - name: Test Spark NLP in Python - Apache Spark 3.3.x
         run: |
           cd python
-          python3.7 -m pytest -v -m fast
+          python3.8 -m pytest -v -m fast
 
