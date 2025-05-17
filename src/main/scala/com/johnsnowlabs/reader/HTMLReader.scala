@@ -49,19 +49,18 @@ import scala.collection.mutable.ArrayBuffer
   *
   * ==Example==
   * {{{
-  * val url = "https://www.wikipedia.org"
+  * val path = "./html-files/fake-html.html"
   * val HTMLReader = new HTMLReader()
   * val htmlDF = HTMLReader.read(url)
   * }}}
   *
   * {{{
-  * htmlDF.show(false)
-  *
-  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |url                 |html                                                                                                                                                                                                                                                                                                                            |
-  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |https://example.com/|[{Title, Example Domain, {pageNumber -> 1}}, {NarrativeText, 0, This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission., {pageNumber -> 1}}, {NarrativeText, 0, More information... More information..., {pageNumber -> 1}}]   |
-  * +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * htmlDF.show()
+  * +--------------------+--------------------+
+  * |                path|                html|
+  * +--------------------+--------------------+
+  * |file:/content/htm...|[{Title, My First...|
+  * +--------------------+--------------------+
   *
   * htmlDf.printSchema()
   * root
@@ -74,6 +73,7 @@ import scala.collection.mutable.ArrayBuffer
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
   * }}}
+  * For more examples please refer to - examples/python/reader/SparkNLP_HTML_Reader_Demo.ipynb
   */
 
 class HTMLReader(

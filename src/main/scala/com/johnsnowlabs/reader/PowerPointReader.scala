@@ -45,18 +45,18 @@ import scala.collection.JavaConverters._
   *
   * ==Example==
   * {{{
-  * val docsPath = "home/user/power-point-directory"
+  * val path = "./ppt-files/fake-power-point.pptx"
   * val powerPointReader = new PowerPointReader()
-  * val pptDf = powerPointReader.ppt(docsPath)
+  * val pptDf = powerPointReader.ppt(path)
   * }}}
   *
   * {{{
-  * pptDf.select("ppt").show(false)
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |ppt                                                                                                                                                                                                                                                                                                                      |
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * pptDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 ppt|
+  * +--------------------+--------------------+
+  * |file:/content/ppt...|[{Title, Adding a...|
+  * +--------------------+--------------------+
   *
   * pptDf.printSchema()
   * root
@@ -69,6 +69,8 @@ import scala.collection.JavaConverters._
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
   * }}}
+  * For more examples please refer to -
+  * examples/python/reader/SparkNLP_PowerPoint_Reader_Demo.ipynb
   */
 
 class PowerPointReader(

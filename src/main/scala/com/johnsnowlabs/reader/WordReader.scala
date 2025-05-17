@@ -48,18 +48,18 @@ import scala.collection.mutable
   *
   * ==Example==
   * {{{
-  * val docDirectory = "home/user/word-directory"
+  * val docDirectory = "./word-files/fake_table.docx"
   * val wordReader = new WordReader()
   * val wordDf = wordReader.doc(docDirectory)
   * }}}
   *
   * {{{
-  * wordDf.select("doc").show(false)
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[{Table, Header Col 1, {}}, {Table, Header Col 2, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |
-  * +----------------------------------------------------------------------------------------------------------------------------------------------------+
+  * wordDf..show()
+  * +--------------------+--------------------+
+  * |                path|                 doc|
+  * +--------------------+--------------------+
+  * |file:/content/wor...|[{Table, Header C...|
+  * +--------------------+--------------------+
   *
   * wordDf.printSchema()
   * root
@@ -73,6 +73,8 @@ import scala.collection.mutable
   *  |    |    |    |-- value: string (valueContainsNull = true)
   *
   * }}}
+  *
+  * For more examples, please refer to - examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb
   */
 
 class WordReader(

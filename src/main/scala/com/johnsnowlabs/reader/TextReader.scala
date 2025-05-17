@@ -15,7 +15,10 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{BLOCK_SPLIT_PATTERN, DOUBLE_PARAGRAPH_PATTERN}
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
+  BLOCK_SPLIT_PATTERN,
+  DOUBLE_PARAGRAPH_PATTERN
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
@@ -49,18 +52,18 @@ import scala.collection.mutable
   *
   * ==Example==
   * {{{
-  * val filePath = "home/user/txt/files"
+  * val filePath = "./txt-files/simple-text.txt"
   * val textReader = new TextReader()
   * val textDf = textReader.txt(filePath)
   * }}}
   *
   * {{{
-  * textDf.select("txt").show(false)
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-  * |[{Title, BIG DATA ANALYTICS, {paragraph -> 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -> 0}}, {Title, MACHINE LEARNING, {paragraph -> 1}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -> 1}}]|
-  * +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * textDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 txt|
+  * +--------------------+--------------------+
+  * |file:/content/txt...|[{Title, BIG DATA...|
+  * +--------------------+--------------------+
   *
   * textDf.printSchema()
   * root
@@ -73,6 +76,7 @@ import scala.collection.mutable
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
   * }}}
+  * For more examples please refer to - examples/python/reader/SparkNLP_Text_Reader_Demo.ipynb
   */
 class TextReader(
     titleLengthSize: Int = 50,
