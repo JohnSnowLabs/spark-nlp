@@ -28,43 +28,43 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 /** This class is used to read and parse email content.
- *
- * @param addAttachmentContent
- *   Whether to extract and include the textual content of plain-text attachments in the output.
- *   By default, this is set to false.
- * @param storeContent
- *   Whether to include the raw file content in the output DataFrame as a separate 'content'
- *   column, alongside the structured output. By default, this is set to false.
- *
- * ==Example==
- * {{{
- * val emailsPath = "./email-files/test-several-attachments.eml"
- * val emailReader = new EmailReader()
- * val emailDf = emailReader.read(emailsPath)
- * }}}
- *
- * {{{
- * emailDf.show()
- * +--------------------+--------------------+
- * |                path|               email|
- * +--------------------+--------------------+
- * |file:/content/ema...|[{Title, Test Sev...|
- * +--------------------+--------------------+
- *
- * emailDf.printSchema()
- * root
- *  |-- path: string (nullable = true)
- *  |-- email: array (nullable = true)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- elementType: string (nullable = true)
- *  |    |    |-- content: string (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- * }}}
- *
- * For more examples please refer - examples/python/reader/SparkNLP_Email_Reader_Demo.ipynb
- */
+  *
+  * @param addAttachmentContent
+  *   Whether to extract and include the textual content of plain-text attachments in the output.
+  *   By default, this is set to false.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. By default, this is set to false.
+  *
+  * ==Example==
+  * {{{
+  * val emailsPath = "./email-files/test-several-attachments.eml"
+  * val emailReader = new EmailReader()
+  * val emailDf = emailReader.read(emailsPath)
+  * }}}
+  *
+  * {{{
+  * emailDf.show()
+  * +--------------------+--------------------+
+  * |                path|               email|
+  * +--------------------+--------------------+
+  * |file:/content/ema...|[{Title, Test Sev...|
+  * +--------------------+--------------------+
+  *
+  * emailDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- email: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  *
+  * For more examples please refer - examples/python/reader/SparkNLP_Email_Reader_Demo.ipynb
+  */
 class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean = false)
     extends Serializable {
 
@@ -80,11 +80,11 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
   def getOutputColumn: String = outputColumn
 
   /** @param filePath
-   * this is a path to a directory of email files or a path to an email file E.g.
-   * "path/email/files"
-   * @return
-   * Dataframe with parsed email content.
-   */
+    *   this is a path to a directory of email files or a path to an email file E.g.
+    *   "path/email/files"
+    * @return
+    *   Dataframe with parsed email content.
+    */
   def email(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
       val emailDf = datasetWithBinaryFile(spark, filePath)

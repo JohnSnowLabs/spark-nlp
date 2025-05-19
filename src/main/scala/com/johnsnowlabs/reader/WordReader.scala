@@ -32,29 +32,29 @@ import java.io.{ByteArrayInputStream, IOException}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-/** Class to read and parse word files.
+/** Class to read and parse Word files.
   *
   * @param storeContent
-  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
-  *   column, alongside the structured output. By default, it is set to false.
+  *   Whether to include the raw file content in the output DataFrame as a separate `content`
+  *   column, alongside the structured output. Default is `false`.
+  *
   * @param includePageBreaks
   *   Whether to detect and tag content with page break metadata. In Word documents, this includes
   *   manual and section breaks. In Excel files, this includes page breaks based on column
-  *   boundaries. By default, it is set to false.
+  *   boundaries. Default is `false`.
+  *
   * @param inferTableStructure
   *   Whether to generate an HTML table representation from structured table content. When
-  *   enabled, a full <table> element is added alongside cell-level elements, based on row and
-  *   column layout. By default, it is set to false.
+  *   enabled, a full table element is added alongside cell-level elements, based on row and
+  *   column layout. Default is `false`.
   *
   * ==Example==
   * {{{
   * val docDirectory = "./word-files/fake_table.docx"
   * val wordReader = new WordReader()
   * val wordDf = wordReader.doc(docDirectory)
-  * }}}
   *
-  * {{{
-  * wordDf..show()
+  * wordDf.show()
   * +--------------------+--------------------+
   * |                path|                 doc|
   * +--------------------+--------------------+
@@ -71,12 +71,10 @@ import scala.collection.mutable
   *  |    |    |-- metadata: map (nullable = true)
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
-  *
   * }}}
   *
-  * For more examples, please refer to - examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb
+  * For more examples, see: examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb
   */
-
 class WordReader(
     storeContent: Boolean = false,
     includePageBreaks: Boolean = false,
