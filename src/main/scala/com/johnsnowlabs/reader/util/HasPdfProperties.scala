@@ -70,7 +70,6 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
     onlyPageNum -> false,
     splitPage -> true,
     sort -> false,
-    textStripper -> TextStripperType.PDF_TEXT_STRIPPER
-  )
+    textStripper -> TextStripperType.PDF_TEXT_STRIPPER)
 
 }
