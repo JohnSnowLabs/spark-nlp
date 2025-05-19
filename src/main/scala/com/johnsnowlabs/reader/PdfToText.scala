@@ -70,10 +70,7 @@ class PdfToText(override val uid: String)
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputCol, value)
 
-  setDefault(
-    inputCol -> "content",
-    outputCol -> "text"
-  )
+  setDefault(inputCol -> "content", outputCol -> "text")
 
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte]) => {

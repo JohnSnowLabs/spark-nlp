@@ -114,10 +114,19 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
   class Partition(params: java.util.Map[String, String] = new java.util.HashMap()) {
     private var outputColumn = "partition"
 
+
     def setOutputColumn(value: String): this.type = {
       require(value.nonEmpty, "Result column name cannot be empty.")
       outputColumn = value
       this
+
+  def partition(
+      path: String,
+      headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
+    val sparkNLPReader = new SparkNLPReader(params, headers)
+    sparkNLPReader.setOutputColumn(outputColumn)
+    if (isUrl(path) && (getContentType.isEmpty || getContentType.getOrElse("") == "text/html")) {
+      return sparkNLPReader.html(path)
     }
 
     def getOutputColumn: String = outputColumn
@@ -219,6 +228,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
     }
 
+
     private def getReaderByExtension(
         path: String,
         sparkNLPReader: SparkNLPReader): String => DataFrame = {
@@ -233,6 +243,23 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
         case "pdf" => sparkNLPReader.pdf
         case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
       }
+
+  private def getReaderForBytesContent(
+      contentType: String,
+      sparkNLPReader: SparkNLPReader): Array[Byte] => Seq[HTMLElement] = {
+    contentType match {
+      case "message/rfc822" => sparkNLPReader.email
+      case "application/msword" |
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =>
+        sparkNLPReader.doc
+      case "application/vnd.ms-excel" |
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" =>
+        sparkNLPReader.xls
+      case "application/vnd.ms-powerpoint" |
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
+        sparkNLPReader.ppt
+      case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
+
     }
 
     /** Parses multiple URL's.

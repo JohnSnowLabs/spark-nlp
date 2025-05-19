@@ -82,8 +82,9 @@ class HTMLReaderTest extends AnyFlatSpec {
     val HTMLReader = new HTMLReader(titleFontSize = 14)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
-    val titleDF = htmlDF.select(explode(col("html")).as("exploded_html"))
-                    .filter(col("exploded_html.elementType") === ElementType.TITLE)
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
     titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 2)
@@ -93,7 +94,8 @@ class HTMLReaderTest extends AnyFlatSpec {
     val HTMLReader = new HTMLReader(titleFontSize = 16)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
-    val titleDF = htmlDF.select(explode(col("html")).as("exploded_html"))
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
     titleDF.select("exploded_html").show(truncate = false)
 
