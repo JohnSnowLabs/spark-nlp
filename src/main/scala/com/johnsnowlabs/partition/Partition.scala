@@ -107,8 +107,6 @@ import scala.util.Try
  * For more examples, please refer -
  * examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb
  */
-
-
 class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
   extends Serializable {
 
@@ -268,7 +266,6 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
    *   |    |    |    |-- value: string (valueContainsNull = true)
    * }}}
    */
-
   def partitionUrls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
     if (urls.isEmpty) throw new IllegalArgumentException("URL array is empty")
     val sparkNLPReader = new SparkNLPReader(params, headers.asJava)
