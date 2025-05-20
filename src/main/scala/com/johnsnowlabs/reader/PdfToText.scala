@@ -33,6 +33,60 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import java.io.ByteArrayOutputStream
 import scala.util.{Failure, Success, Try}
 
+/** Extract text from PDF document to a single string or to several strings per each page. Input
+  * is a column with binary representation of PDF document. For the output it generates column
+  * with text and page number. Explode each page as separate row if split to page enabled.
+  *
+  * It can be configured with the following properties:
+  *   - pageNumCol: Page number output column name.
+  *   - originCol: Input column name with original path of file.
+  *   - partitionNum: Number of partitions. By default, it is set to 0.
+  *   - storeSplittedPdf: Force to store bytes content of split pdf. By default, it is set to `false`.
+  *   - splitPage: Enable/disable splitting per page to identify page numbers and improve
+  *     performance. By default, it is set to `true`.
+  *   - onlyPageNum: Extract only page numbers. By default, it is set to `false`.
+  *   - textStripper: Text stripper type used for output layout and formatting.
+  *   - sort: Enable/disable sorting content on the page. By default, it is set to `false`.
+  *
+  * ==Example==
+  * {{{
+  *     val pdfToText = new PdfToText()
+  *       .setStoreSplittedPdf(true)
+  *       .setSplitPage(true)
+  *     val filesDf = spark.read.format("binaryFile").load("Documents/files/pdf")
+  *     val pipelineModel = new Pipeline()
+  *       .setStages(Array(pdfToText))
+  *       .fit(filesDf)
+  *
+  *     val pdfDf = pipelineModel.transform(filesDf)
+  *
+  * pdfDf.show()
+  * +--------------------+--------------------+------+--------------------+
+  * |                path|    modificationTime|length|                text|
+  * +--------------------+--------------------+------+--------------------+
+  * |file:/Users/paula...|2025-05-15 11:33:...| 25803|This is a Title \...|
+  * |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
+  * |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
+  * |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
+  * |file:/Users/paula...|2025-05-15 11:33:...|  9487|   This is a page.\n|
+  * |file:/Users/paula...|2025-05-15 11:33:...|  9487|This is another p...|
+  * |file:/Users/paula...|2025-05-15 11:33:...|  9487| Yet another page.\n|
+  * |file:/Users/paula...|2025-05-15 11:56:...|  1563|Hello, this is li...|
+  * +--------------------+--------------------+------+--------------------+
+  *
+  * pdfDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- modificationTime: timestamp (nullable = true)
+  *  |-- length: long (nullable = true)
+  *  |-- text: string (nullable = true)
+  *  |-- height_dimension: integer (nullable = true)
+  *  |-- width_dimension: integer (nullable = true)
+  *  |-- content: binary (nullable = true)
+  *  |-- exception: string (nullable = true)
+  *  |-- pagenum: integer (nullable = true)
+  * }}}
+  */
 class PdfToText(override val uid: String)
     extends Transformer
     with DefaultParamsWritable
@@ -64,10 +118,10 @@ class PdfToText(override val uid: String)
       .add(StructField($(pageNumCol), IntegerType, nullable = false))
   }
 
-  /** @group setParam */
+  /** @param value Name of input annotation col */
   def setInputCol(value: String): this.type = set(inputCol, value)
 
-  /** @group setParam */
+  /** @param value Name of extraction output col */
   def setOutputCol(value: String): this.type = set(outputCol, value)
 
   setDefault(inputCol -> "content", outputCol -> "text")

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, isStringContent}
 import com.johnsnowlabs.reader.util.HasPdfProperties
 import com.johnsnowlabs.reader.{HTMLElement, PdfToText}
-import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, explode, udf}
 import org.apache.spark.sql.types.{ArrayType, StructType}
@@ -28,6 +28,47 @@ import org.apache.spark.sql.{DataFrame, Dataset, Encoders, Row}
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
+
+/** PartitionTransformer can be used for extracting structured content from various document types
+  * using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
+  * arrays, and returns parsed output as a structured Spark DataFrame.
+  *
+  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
+  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.partition.PartitionTransformer
+  * import com. johnsnowlabs. nlp. base. DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  * import spark.implicits._
+  * val urls = Seq("https://www.blizzard.com", "https://www.google.com/").toDS.toDF("text")
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("documents")
+  *
+  * val partition = new PartitionTransformer()
+  *   .setInputCols("document")
+  *   .setOutputCol("partition")
+  *   .setContentType("url")
+  *   .setHeaders(Map("Accept-Language" -> "es-ES"))
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(documentAssembler, partition))
+  *
+  * val pipelineModel = pipeline.fit(testDataSet)
+  * val resultDf = pipelineModel.transform(testDataSet)
+  *
+  * resultDf.show()
+  * +--------------------+--------------------+--------------------+
+  * |                text|            document|           partition|
+  * +--------------------+--------------------+--------------------+
+  * |https://www.blizz...|[{Title, Juegos d...|[{document, 0, 16...|
+  * |https://www.googl...|[{Title, Gmail Im...|[{document, 0, 28...|
+  * +--------------------+--------------------+--------------------+
+  * }}}
+  */
 
 class PartitionTransformer(override val uid: String)
     extends AnnotatorModel[PartitionTransformer]
