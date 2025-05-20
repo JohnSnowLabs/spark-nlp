@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from sparknlp.common import *
-from partition.partition_properties import *
+from sparknlp.partition.partition_properties import *
 
 class PartitionTransformer(
     AnnotatorModel,
