@@ -38,7 +38,7 @@ class HasBatchedAnnotate:
         int
             Current batch size
         """
-        return self.getOrDefault("batchSize")
+        return self.getOrDefault(self.batchSize)
 
 
 class HasCaseSensitiveProperties:
@@ -245,7 +245,7 @@ class HasBatchedAnnotateImage:
         int
             Current batch size
         """
-        return self.getOrDefault("batchSize")
+        return self.getOrDefault(self.batchSize)
 
 
 class HasImageFeatureProperties:
@@ -402,7 +402,7 @@ class HasBatchedAnnotateAudio:
         int
             Current batch size
         """
-        return self.getOrDefault("batchSize")
+        return self.getOrDefault(self.batchSize)
 
 
 class HasAudioFeatureProperties:
@@ -1099,7 +1099,7 @@ class HasLlamaCppProperties:
         return self._set(flashAttention=flashAttention)
 
     def setInputPrefixBos(self, inputPrefixBos: bool):
-        """Whether to add prefix BOS to user inputs, preceding the `--in-prefix` bool"""
+        """Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string"""
         return self._set(inputPrefixBos=inputPrefixBos)
 
     def setUseMmap(self, useMmap: bool):
@@ -1114,7 +1114,7 @@ class HasLlamaCppProperties:
         """Whether to disable KV offload"""
         return self._set(noKvOffload=noKvOffload)
 
-    def setSystemPrompt(self, systemPrompt: bool):
+    def setSystemPrompt(self, systemPrompt: str):
         """Set a system prompt to use"""
         return self._set(systemPrompt=systemPrompt)
 
@@ -1219,7 +1219,7 @@ class HasLlamaCppProperties:
         """Set the amount of tokens the samplers should return at least (0 = disabled)"""
         return self._set(minKeep=minKeep)
 
-    def setGrammar(self, grammar: bool):
+    def setGrammar(self, grammar: str):
         """Set BNF-like grammar to constrain generations"""
         return self._set(grammar=grammar)
 
@@ -1261,7 +1261,7 @@ class HasLlamaCppProperties:
         return self._call_java("setTokenBias", tokenBias)
 
     def setLoraAdapters(self, loraAdapters: Dict[str, float]):
-        """Set token id bias"""
+        """Set LoRA adapters with their scaling factors"""
         return self._call_java("setLoraAdapters", loraAdapters)
 
     def getMetadata(self):
