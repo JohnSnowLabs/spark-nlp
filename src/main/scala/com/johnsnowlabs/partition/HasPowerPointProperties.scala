@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 John Snow Labs
+ * Copyright 2017-2025 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.johnsnowlabs.reader
+package com.johnsnowlabs.partition
 
-object ElementType {
+import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
+import org.apache.spark.ml.param.Param
 
-  val TITLE = "Title"
-  val TEXT = "Text"
-  val UNCATEGORIZED_TEXT = "UncategorizedText"
-  val NARRATIVE_TEXT = "NarrativeText"
-  val FORM = "Form"
-  val LINK = "Link"
-  val TABLE = "Table"
-  val ATTACHMENT = "Attachment"
-  val LIST_ITEM = "ListItem"
-  val HEADER = "Header"
-  val FOOTER = "Footer"
-  val HTML = "HTML"
+trait HasPowerPointProperties extends ParamsAndFeaturesWritable {
+
+  val includeSlideNotes = new Param[Boolean](
+    this,
+    "includeSlideNotes",
+    "Whether to extract speaker notes from slides. When enabled, notes are included as narrative text elements.")
+
+  def setIncludeSlideNotes(value: Boolean): this.type = set(includeSlideNotes, value)
+
+  setDefault(includeSlideNotes -> false)
+
 }
