@@ -12,3 +12,5 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Module to read various types of documents into chunks"""
+from sparknlp.partition.partition import *
+from sparknlp.partition.partition_transformer import *
