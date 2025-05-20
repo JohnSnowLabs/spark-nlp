@@ -14,84 +14,83 @@
 import sparknlp
 from sparknlp.internal import ExtendedJavaWrapper
 
-"""
-    The Partition class is a unified interface for extracting structured content from various document types 
-    using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte arrays, 
+
+class Partition(ExtendedJavaWrapper):
+    """
+    The Partition class is a unified interface for extracting structured content from various document types
+    using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte arrays,
     and returns parsed output as a structured Spark DataFrame.
 
-    Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx), 
+    Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx),
     email files (.eml, .msg), and PDFs.
 
     The class detects the appropriate reader either from the file extension or a provided MIME contentType,
-    and delegates to the relevant method of SparkNLPReader. Custom behavior (like title thresholds, 
+    and delegates to the relevant method of SparkNLPReader. Custom behavior (like title thresholds,
     page breaks, etc.) can be configured through the params map during initialization.
-    
-    By abstracting reader initialization, type detection, and parsing logic, Partition simplifies 
+
+    By abstracting reader initialization, type detection, and parsing logic, Partition simplifies
     document ingestion in scalable NLP pipelines.
-    
+
     Parameters
     ----------
-    params : dict, optional   
+    params : dict, optional
         Parameter with custom configuration
         It includes the following parameters:
-            - content_type (All): Override automatic file type detection.                                                   
-            - store_content (All): Include raw file content in the output DataFrame as a separate 'content' column.         
-            - timeout (HTML): Timeout in seconds for fetching remote HTML content.                                          
-            - title_font_size (HTML, Excel): Minimum font size used to identify titles based on formatting.                 
-            - include_page_breaks (Word, Excel): Whether to tag content with page break metadata.                           
-            - group_broken_paragraphs (Text): Whether to merge broken lines into full paragraphs using heuristics.          
-            - title_length_size (Text): Max character length used to qualify text blocks as titles.                         
-            - paragraph_split (Text): Regex to detect paragraph boundaries when grouping lines.                             
-            - short_line_word_threshold (Text): Max word count for a line to be considered short.                           
-            - threshold (Text): Ratio of empty lines used to switch between newline-based and paragraph grouping.           
-            - max_line_count (Text): Max lines evaluated when analyzing paragraph structure.                                
-            - include_slide_notes (PowerPoint): Whether to include speaker notes from slides as narrative text.             
+            - content_type (All): Override automatic file type detection.
+            - store_content (All): Include raw file content in the output DataFrame as a separate 'content' column.
+            - timeout (HTML): Timeout in seconds for fetching remote HTML content.
+            - title_font_size (HTML, Excel): Minimum font size used to identify titles based on formatting.
+            - include_page_breaks (Word, Excel): Whether to tag content with page break metadata.
+            - group_broken_paragraphs (Text): Whether to merge broken lines into full paragraphs using heuristics.
+            - title_length_size (Text): Max character length used to qualify text blocks as titles.
+            - paragraph_split (Text): Regex to detect paragraph boundaries when grouping lines.
+            - short_line_word_threshold (Text): Max word count for a line to be considered short.
+            - threshold (Text): Ratio of empty lines used to switch between newline-based and paragraph grouping.
+            - max_line_count (Text): Max lines evaluated when analyzing paragraph structure.
+            - include_slide_notes (PowerPoint): Whether to include speaker notes from slides as narrative text.
             - infer_table_structure (Word, Excel, PowerPoint): Generate full HTML table structure from parsed table content.
-            - append_cells (Excel): Append all rows into a single content block instead of individual elements.             
-            - cell_separator (Excel): String used to join cell values in a row for text output.                             
-            - add_attachment_content (Email): Include text content of plain-text attachments in the output.                 
+            - append_cells (Excel): Append all rows into a single content block instead of individual elements.
+            - cell_separator (Excel): String used to join cell values in a row for text output.
+            - add_attachment_content (Email): Include text content of plain-text attachments in the output.
             - headers (HTML): This is used when a URL is provided, allowing you to set the necessary headers for the request`
-        
+
     Example 1 (Reading Text Files)
     ----------
     txt_directory = "/content/txtfiles/reader/txt"
     partition_df = Partition(content_type = "text/plain").partition(txt_directory)
     partition_df.show()
-    
+
      +--------------------+--------------------+
      |                path|                 txt|
      +--------------------+--------------------+
      |file:/content/txt...|[{Title, BIG DATA...|
      +--------------------+--------------------+
-     
+
      Example 2 (Reading Image Files)
      ----------
      partition_df = Partition().partition("./email-files/test-several-attachments.eml")
      partition_df.show()
-     
+
     +--------------------+--------------------+
     |                path|               email|
     +--------------------+--------------------+
     |file:/content/ema...|[{Title, Test Sev...|
     +--------------------+--------------------+
-     
+
      Example 3 (Reading Webpages)
      ----------
      partition_df = Partition().partition("https://www.wikipedia.com", headers = {"Accept-Language": "es-ES"})
      partition_df.show()
-     
+
     +--------------------+--------------------+
     |                 url|                html|
     +--------------------+--------------------+
     |https://www.wikip...|[{Title, Wikipedi...|
     +--------------------+--------------------+
-    
+
     For more examples, please refer - examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb
-     
-"""
 
-class Partition(ExtendedJavaWrapper):
-
+    """
     def  __init__(self, **kwargs):
         self.spark = sparknlp.start()
         params = {}

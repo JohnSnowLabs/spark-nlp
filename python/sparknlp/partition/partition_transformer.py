@@ -14,21 +14,30 @@
 from sparknlp.common import *
 from partition.partition_properties import *
 
-"""
+class PartitionTransformer(
+    AnnotatorModel,
+    HasEmailReaderProperties,
+    HasExcelReaderProperties,
+    HasHTMLReaderProperties,
+    HasPowerPointProperties,
+    HasTextReaderProperties
+):
+    """
+    PartitionTransformer is a class that provides methods for partitioning data into smaller chunks.
     PartitionTransformer can be used for extracting structured content from various document types
     using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
     arrays, and returns parsed output as a structured Spark DataFrame.
-    
+
     Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint(.ppt/.pptx),
     email files (.eml, .msg), and PDFs.
-    
+
     Example
     --------
     dataset = spark.createDataFrame(
             [("https://www.blizzard.com",)],
             ["text"]
     )
-    
+
     documentAssembler = DocumentAssembler()
             .setInputCol("text")
             .setOutputCol("document")
@@ -43,7 +52,7 @@ from partition.partition_properties import *
      pipelineModel = pipeline.fit(dataset)
 
     resultDf = pipelineModel.transform(dataset)
-    
+
     resultDf.show()
     +--------------------+--------------------+--------------------+
     |                text|            document|           partition|
@@ -51,20 +60,6 @@ from partition.partition_properties import *
     |https://www.blizz...|[{Title, Juegos d...|[{document, 0, 16...|
     |https://www.googl...|[{Title, Gmail Im...|[{document, 0, 28...|
     +--------------------+--------------------+--------------------+
-    
-"""
-
-class PartitionTransformer(
-    AnnotatorModel,
-    HasEmailReaderProperties,
-    HasExcelReaderProperties,
-    HasHTMLReaderProperties,
-    HasPowerPointProperties,
-    HasTextReaderProperties
-):
-    """
-    PartitionTransformer is a class that provides methods for partitioning data into smaller chunks.
-    It is designed to work with various file formats and content types.
     """
 
     name = "PartitionTransformer"
