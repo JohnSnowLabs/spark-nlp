@@ -11,5 +11,4 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-from sparknlp.partition.partition import *
-from sparknlp.partition.partition_transformer import *
+"""Module to read various types of documents into chunks"""
