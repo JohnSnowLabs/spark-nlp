@@ -41,7 +41,8 @@ import scala.util.{Failure, Success, Try}
   *   - pageNumCol: Page number output column name.
   *   - originCol: Input column name with original path of file.
   *   - partitionNum: Number of partitions. By default, it is set to 0.
-  *   - storeSplittedPdf: Force to store bytes content of split pdf. By default, it is set to `false`.
+  *   - storeSplittedPdf: Force to store bytes content of split pdf. By default, it is set to
+  *     `false`.
   *   - splitPage: Enable/disable splitting per page to identify page numbers and improve
   *     performance. By default, it is set to `true`.
   *   - onlyPageNum: Extract only page numbers. By default, it is set to `false`.

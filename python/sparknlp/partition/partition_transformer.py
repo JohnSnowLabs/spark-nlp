@@ -12,8 +12,47 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from sparknlp.common import *
-from sparknlp.partition.partition_properties import *
+from partition.partition_properties import *
 
+"""
+    PartitionTransformer can be used for extracting structured content from various document types
+    using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
+    arrays, and returns parsed output as a structured Spark DataFrame.
+    
+    Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint(.ppt/.pptx),
+    email files (.eml, .msg), and PDFs.
+    
+    Example
+    --------
+    dataset = spark.createDataFrame(
+            [("https://www.blizzard.com",)],
+            ["text"]
+    )
+    
+    documentAssembler = DocumentAssembler()
+            .setInputCol("text")
+            .setOutputCol("document")
+
+    partition = PartitionTransformer()
+            .setInputCols(["document"])
+            .setOutputCol("partition")
+            .setContentType("url")
+            .setHeaders({"Accept-Language": "es-ES"})
+
+    pipeline = Pipeline(stages=[documentAssembler, partition])
+     pipelineModel = pipeline.fit(dataset)
+
+    resultDf = pipelineModel.transform(dataset)
+    
+    resultDf.show()
+    +--------------------+--------------------+--------------------+
+    |                text|            document|           partition|
+    +--------------------+--------------------+--------------------+
+    |https://www.blizz...|[{Title, Juegos d...|[{document, 0, 16...|
+    |https://www.googl...|[{Title, Gmail Im...|[{document, 0, 28...|
+    +--------------------+--------------------+--------------------+
+    
+"""
 
 class PartitionTransformer(
     AnnotatorModel,
