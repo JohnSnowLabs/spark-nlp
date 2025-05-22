@@ -10,57 +10,56 @@ from sparknlp.reader.enums import TextStripperType
 class PdfToText(JavaTransformer, HasInputCol, HasOutputCol,
                 JavaMLReadable, JavaMLWritable):
     """
-    Extract text from Pdf document to single string or to several strings per each page.
-    Input is a column with binary representation of PDF document.
-    As output generate column with text and page number.
-    Explode each page as separate row if split to page enabled.
+    Extract text from PDF documents as either a single string or multiple strings per page.
+    Input is a column with binary content of PDF files. Output is a column with extracted text,
+    with options to include page numbers or split pages.
 
-    It can be configured with the following properties:
-       -pageNumCol: Page number output column name.
-       -originCol: Input column name with original path of file.
-       -partitionNum: Number of partitions. By default, it is set to 0.
-       -storeSplittedPdf: Force to store bytes content of split pdf. By default, it is set to
-       -`false`.
-       -splitPage: Enable/disable splitting per page to identify page numbers and improve
-       -performance. By default, it is set to `true`.
-       -onlyPageNum: Extract only page numbers. By default, it is set to `false`.
-       -textStripper: Text stripper type used for output layout and formatting.
-       -sort: Enable/disable sorting content on the page. By default, it is set to `false`.
+    Parameters
+    ----------
+    pageNumCol : str, optional
+        Page number output column name.
+    partitionNum : int, optional
+        Number of partitions (default is 0).
+    storeSplittedPdf : bool, optional
+        Whether to store content of split PDFs (default is False).
+    splitPage : bool, optional
+        Enable/disable splitting per page (default is True).
+    onlyPageNum : bool, optional
+        Whether to extract only page numbers (default is False).
+    textStripper : str or TextStripperType, optional
+        Defines layout and formatting type.
+    sort : bool, optional
+        Enable/disable sorting content per page (default is False).
 
-    Example
+    Examples
     --------
-    pdf_path = "Documents/files/pdf"
-    data_frame = spark.read.format("binaryFile").load(pdf_path)
-    pdf_to_text = PdfToText().setStoreSplittedPdf(True)
-    pipeline = Pipeline(stages=[pdf_to_text])
-    pipeline_model = pipeline.fit(data_frame)
-    pdf_df = pipeline_model.transform(data_frame)
-
-    pdf_df.show()
-    +--------------------+--------------------+------+--------------------+
-    |                path|    modificationTime|length|                text|
-    +--------------------+--------------------+------+--------------------+
-    |file:/Users/paula...|2025-05-15 11:33:...| 25803|This is a Title \...|
-    |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
-    |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
-    |file:/Users/paula...|2025-05-15 11:33:...| 15629|                  \n|
-    |file:/Users/paula...|2025-05-15 11:33:...|  9487|   This is a page.\n|
-    |file:/Users/paula...|2025-05-15 11:33:...|  9487|This is another p...|
-    |file:/Users/paula...|2025-05-15 11:33:...|  9487| Yet another page.\n|
-    |file:/Users/paula...|2025-05-15 11:56:...|  1563|Hello, this is li...|
-    +--------------------+--------------------+------+--------------------+
-
-    pdfDf.printSchema()
+    >>> import sparknlp
+    >>> from sparknlp.reader import *
+    >>> from pyspark.ml import Pipeline
+    >>> pdf_path = "Documents/files/pdf"
+    >>> data_frame = spark.read.format("binaryFile").load(pdf_path)
+    >>> pdf_to_text = PdfToText().setStoreSplittedPdf(True)
+    >>> pipeline = Pipeline(stages=[pdf_to_text])
+    >>> pipeline_model = pipeline.fit(data_frame)
+    >>> pdf_df = pipeline_model.transform(data_frame)
+    >>> pdf_df.show()
+    +--------------------+--------------------+
+    |                path|    modificationTime|
+    +--------------------+--------------------+
+    |file:/Users/paula...|2025-05-15 11:33:...|
+    |file:/Users/paula...|2025-05-15 11:33:...|
+    +--------------------+--------------------+
+    >>> pdf_df.printSchema()
     root
-      |-- path: string (nullable = true)
-      |-- modificationTime: timestamp (nullable = true)
-      |-- length: long (nullable = true)
-      |-- text: string (nullable = true)
-      |-- height_dimension: integer (nullable = true)
-      |-- width_dimension: integer (nullable = true)
-      |-- content: binary (nullable = true)
-      |-- exception: string (nullable = true)
-      |-- pagenum: integer (nullable = true)
+     |-- path: string (nullable = true)
+     |-- modificationTime: timestamp (nullable = true)
+     |-- length: long (nullable = true)
+     |-- text: string (nullable = true)
+     |-- height_dimension: integer (nullable = true)
+     |-- width_dimension: integer (nullable = true)
+     |-- content: binary (nullable = true)
+     |-- exception: string (nullable = true)
+     |-- pagenum: integer (nullable = true)
     """
     pageNumCol = Param(Params._dummy(), "pageNumCol",
                        "Page number output column name.",
