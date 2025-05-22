@@ -24,8 +24,8 @@ Pretrained RoBertaForSequenceClassification model, adapted from Hugging Face and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/twitter_roberta_base_sentiment_latest_en_5.5.1_3.0_1747906199873.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/twitter_roberta_base_sentiment_latest_en_5.5.1_3.0_1747906199873.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/twitter_roberta_base_sentiment_latest_en_5.5.1_3.0_1747907788177.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/twitter_roberta_base_sentiment_latest_en_5.5.1_3.0_1747907788177.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
