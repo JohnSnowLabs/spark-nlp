@@ -23,8 +23,8 @@ Pretrained RoBertaForSequenceClassification, adapted from Hugging Face and curat
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_hate_speech_dynabench_r4_target_pipeline_en_5.5.1_3.0_1747906226717.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_hate_speech_dynabench_r4_target_pipeline_en_5.5.1_3.0_1747906226717.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_hate_speech_dynabench_r4_target_pipeline_en_5.5.1_3.0_1747907835742.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_hate_speech_dynabench_r4_target_pipeline_en_5.5.1_3.0_1747907835742.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
