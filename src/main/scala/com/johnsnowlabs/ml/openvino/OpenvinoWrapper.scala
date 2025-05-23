@@ -41,6 +41,14 @@ class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable
   // Important for serialization on none-kyro serializers
   @transient private var compiledModel: CompiledModel = _
 
+  def deleteCompiledModel(): Unit = {
+    this.synchronized {
+      if (compiledModel != null) {
+        compiledModel = null
+      }
+    }
+  }
+
   def getCompiledModel(
       properties: Map[String, String] = Map.empty[String, String]): CompiledModel =
     this.synchronized {
@@ -271,4 +279,10 @@ object OpenvinoWrapper {
       imageEncoder: OpenvinoWrapper,
       textEmbeddings: OpenvinoWrapper,
       modelMerger: OpenvinoWrapper)
+  case class Florence2Wrappers(
+      encoderModel: OpenvinoWrapper,
+      decoderModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      imageEmbedModel: OpenvinoWrapper,
+      modelMergerModel: OpenvinoWrapper)
 }
