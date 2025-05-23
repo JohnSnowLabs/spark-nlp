@@ -457,6 +457,13 @@ object BpeTokenizer {
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix)
+      case "internvl" =>
+        new InternVLTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
