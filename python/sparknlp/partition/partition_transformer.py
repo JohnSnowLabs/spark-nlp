@@ -23,37 +23,52 @@ class PartitionTransformer(
     HasTextReaderProperties
 ):
     """
-    PartitionTransformer is a class that provides methods for partitioning data into smaller chunks.
-    PartitionTransformer can be used for extracting structured content from various document types
-    using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
-    arrays, and returns parsed output as a structured Spark DataFrame.
+    PartitionTransformer is a Spark NLP component for extracting structured content from
+    various document types and partitioning it into structured chunks using Spark DataFrames.
 
-    Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint(.ppt/.pptx),
-    email files (.eml, .msg), and PDFs.
+    It supports reading from files, URLs, in-memory strings, or byte arrays, and works
+    within a Spark NLP pipeline.
 
-    Example
+    Supported formats include:
+    - Plain text
+    - HTML
+    - Word (.doc/.docx)
+    - Excel (.xls/.xlsx)
+    - PowerPoint (.ppt/.pptx)
+    - Email files (.eml, .msg)
+    - PDFs
+
+    Parameters
+    ----------
+    inputCols : list of str
+        Names of input columns (typically from DocumentAssembler).
+    outputCol : str
+        Name of the column to store the output.
+    contentType : str
+        The type of content: e.g., "text", "url", "file", etc.
+    headers : dict, optional
+        Headers to be used if content type is a URL.
+
+    Examples
     --------
-    dataset = spark.createDataFrame(
-            [("https://www.blizzard.com",)],
-            ["text"]
-    )
+    >>> dataset = spark.createDataFrame([
+    ...     ("https://www.blizzard.com",),
+    ... ], ["text"])
 
-    documentAssembler = DocumentAssembler()
-            .setInputCol("text")
-            .setOutputCol("document")
+    >>> documentAssembler = DocumentAssembler() \
+    ...     .setInputCol("text") \
+    ...     .setOutputCol("document")
 
-    partition = PartitionTransformer()
-            .setInputCols(["document"])
-            .setOutputCol("partition")
-            .setContentType("url")
-            .setHeaders({"Accept-Language": "es-ES"})
+    >>> partition = PartitionTransformer() \
+    ...     .setInputCols(["document"]) \
+    ...     .setOutputCol("partition") \
+    ...     .setContentType("url") \
+    ...     .setHeaders({"Accept-Language": "es-ES"})
 
-    pipeline = Pipeline(stages=[documentAssembler, partition])
-     pipelineModel = pipeline.fit(dataset)
-
-    resultDf = pipelineModel.transform(dataset)
-
-    resultDf.show()
+    >>> pipeline = Pipeline(stages=[documentAssembler, partition])
+    >>> pipelineModel = pipeline.fit(dataset)
+    >>> resultDf = pipelineModel.transform(dataset)
+    >>> resultDf.show()
     +--------------------+--------------------+--------------------+
     |                text|            document|           partition|
     +--------------------+--------------------+--------------------+
