@@ -39,8 +39,6 @@ class InternVLForMultiModal(AnnotatorModel,
     batchSize : int, optional
         Batch size. Larger values allow faster processing but require more memory,
         by default 1.
-    configProtoBytes : bytes, optional
-        ConfigProto from TensorFlow, serialized into a byte array.
     maxSentenceLength : int, optional
         Maximum sentence length to process, by default 4096.
 
@@ -80,12 +78,6 @@ class InternVLForMultiModal(AnnotatorModel,
     inputAnnotatorTypes = [AnnotatorType.IMAGE]
 
     outputAnnotatorType = AnnotatorType.DOCUMENT
-
-    configProtoBytes = Param(Params._dummy(),
-                             "configProtoBytes",
-                             "ConfigProto from tensorflow, serialized into byte array. Get with "
-                             "config_proto.SerializeToString()",
-                             TypeConverters.toListInt)
 
     minOutputLength = Param(Params._dummy(), "minOutputLength", "Minimum length of the sequence to be generated",
                             typeConverter=TypeConverters.toInt)
@@ -141,15 +133,6 @@ class InternVLForMultiModal(AnnotatorModel,
             The words to be filtered out
         """
         return self._set(ignoreTokenIds=value)
-
-    def setConfigProtoBytes(self, b):
-        """Sets configProto from tensorflow, serialized into byte array.
-        Parameters
-        ----------
-        b : List[int]
-            ConfigProto from tensorflow, serialized into byte array
-        """
-        return self._set(configProtoBytes=b)
 
     def setMinOutputLength(self, value):
         """Sets minimum length of the sequence to be generated.

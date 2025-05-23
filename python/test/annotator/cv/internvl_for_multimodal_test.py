@@ -36,7 +36,7 @@ class InternVLForMultiModalTestSetup(unittest.TestCase):
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
         imageClassifier = (InternVLForMultiModal \
-            .loadSavedModel("/mnt/research/Projects/ModelZoo/internVL/models/int4/OpenGVLab/InternVL2-1B", self.spark) \
+           .pretrained()
            .setInputCols("image_assembler") \
            .setOutputCol("answer"))
 
