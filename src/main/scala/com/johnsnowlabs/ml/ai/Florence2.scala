@@ -32,6 +32,7 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{
   SpecialTokens
 }
 import org.intel.openvino.InferRequest
+import com.johnsnowlabs.ml.ai.util.Florence2Utils
 
 private[johnsnowlabs] class Florence2(
     val onnxWrappers: Option[DecoderWrappers],
@@ -269,7 +270,15 @@ private[johnsnowlabs] class Florence2(
       beamSize: Int,
       maxInputLength: Int): Seq[Annotation] = {
     this.synchronized {
-      val (encodedText, preprocessedImages) = encode(imageAnnotations, sentences, preprocessor)
+      // Preprocessing: map tasks to prompts
+      val inputTexts = sentences.map(_.result)
+      val prompts = Florence2Utils.constructPrompts(inputTexts)
+      val promptAnnotations = prompts.zip(sentences).map { case (prompt, ann) =>
+        // add task to metadata
+        ann.copy(result = prompt, metadata = ann.metadata ++ Map("task" -> ann.result))
+      }
+      val (encodedText, preprocessedImages) =
+        encode(imageAnnotations, promptAnnotations, preprocessor)
 
       val tagged = tag(
         encodedText,
@@ -288,18 +297,33 @@ private[johnsnowlabs] class Florence2(
         maxInputLength,
         Array(eosTokenId))
       val decoded = decode(tagged)
-      println("Decoded: " + decoded.mkString(", "))
       var sentBegin, nextSentEnd = 0
-      val annotations = decoded.map { content =>
+      val annotations = decoded.zip(promptAnnotations).map { case (content, ann) =>
         nextSentEnd += content.length - 1
-        val annots = new Annotation(
+        // Get the task from the annotation metadata, default to <CAPTION>
+        val task = ann.metadata.getOrElse("task", "<CAPTION>")
+        // Use image size from the first image annotation if available, else (1000, 1000)
+        val imageSize =
+          imageAnnotations.headOption.map(img => (img.width, img.height)).getOrElse((1000, 1000))
+        val postProcessed = Florence2Utils.postProcessGeneration(content, task, imageSize)
+        // If we have an image, try to generate a visualization
+        val imageOpt = imageAnnotations.headOption.map { imgAnn =>
+          com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
+            .byteToBufferedImage(imgAnn.result, imgAnn.width, imgAnn.height, imgAnn.nChannels)
+        }
+        val imageBase64Opt = imageOpt.flatMap { img =>
+          Florence2Utils.postProcessImage(img, task, postProcessed)
+        }
+        val newMetadata =
+          ann.metadata ++
+            Map("florence2_postprocessed" -> postProcessed.toString) ++
+            imageBase64Opt.map(b64 => Map("florence2_image" -> b64)).getOrElse(Map.empty)
+        new Annotation(
           annotatorType = DOCUMENT,
           begin = sentBegin,
           end = nextSentEnd,
           result = content,
-          metadata = Map())
-        sentBegin += nextSentEnd + 1
-        annots
+          metadata = newMetadata)
       }
       // reset requests
       inferRequestDecoderModel.release()

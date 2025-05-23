@@ -19,11 +19,13 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{SlowTest, FastTest}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
+
+import java.io.{File, FileOutputStream}
 
 class Florence2TransformerTestSpec extends AnyFlatSpec {
 
@@ -34,7 +36,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     val testDF = getTestDF
     val result = model.transform(testDF)
 
-    val answerAnnotation = AssertAnnotations.getActualResult(result, "answer")
+    var answerAnnotation = AssertAnnotations.getActualResult(result, "answer")
 
     answerAnnotation.foreach { annotation =>
       annotation.foreach(a => assert(a.result.nonEmpty))
@@ -44,6 +46,19 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
       annotation.foreach(a => println(a.result))
     }
 
+    answerAnnotation.foreach { annotations =>
+      for (annotation <- annotations) {
+        if (annotation.metadata.contains("florence2_image")) {
+          val florence2ImageBase64 = annotation.metadata("florence2_image")
+          val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+          val fos = new FileOutputStream(
+            new File(
+              s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+          fos.write(decodedFlorence2Image)
+          fos.close()
+        }
+      }
+    }
   }
 
   it should "work with light pipeline annotate" taggedAs SlowTest in {
@@ -180,9 +195,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
       .option("dropInvalid", value = true)
       .load(imageFolder)
 
-    val testDF: DataFrame = imageDF.withColumn(
-      "text",
-      lit("<s>Locate the objects with category name in the image.</s>"))
+    val testDF: DataFrame = imageDF.withColumn("text", lit("<CAPTION_TO_PHRASE_GROUNDING>"))
 
     testDF
   }
