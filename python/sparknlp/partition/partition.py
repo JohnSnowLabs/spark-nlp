@@ -17,79 +17,104 @@ from sparknlp.internal import ExtendedJavaWrapper
 
 class Partition(ExtendedJavaWrapper):
     """
-    The Partition class is a unified interface for extracting structured content from various document types
-    using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte arrays,
+    A unified interface for extracting structured content from various document types
+    using Spark NLP readers.
+
+    This class supports reading from files, URLs, in-memory strings, or byte arrays,
     and returns parsed output as a structured Spark DataFrame.
 
-    Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx),
-    email files (.eml, .msg), and PDFs.
-
-    The class detects the appropriate reader either from the file extension or a provided MIME contentType,
-    and delegates to the relevant method of SparkNLPReader. Custom behavior (like title thresholds,
-    page breaks, etc.) can be configured through the params map during initialization.
-
-    By abstracting reader initialization, type detection, and parsing logic, Partition simplifies
-    document ingestion in scalable NLP pipelines.
+    Supported formats include:
+    - Plain text
+    - HTML
+    - Word (.doc/.docx)
+    - Excel (.xls/.xlsx)
+    - PowerPoint (.ppt/.pptx)
+    - Email files (.eml, .msg)
+    - PDFs
 
     Parameters
     ----------
     params : dict, optional
-        Parameter with custom configuration
-        It includes the following parameters:
-            - content_type (All): Override automatic file type detection.
-            - store_content (All): Include raw file content in the output DataFrame as a separate 'content' column.
-            - timeout (HTML): Timeout in seconds for fetching remote HTML content.
-            - title_font_size (HTML, Excel): Minimum font size used to identify titles based on formatting.
-            - include_page_breaks (Word, Excel): Whether to tag content with page break metadata.
-            - group_broken_paragraphs (Text): Whether to merge broken lines into full paragraphs using heuristics.
-            - title_length_size (Text): Max character length used to qualify text blocks as titles.
-            - paragraph_split (Text): Regex to detect paragraph boundaries when grouping lines.
-            - short_line_word_threshold (Text): Max word count for a line to be considered short.
-            - threshold (Text): Ratio of empty lines used to switch between newline-based and paragraph grouping.
-            - max_line_count (Text): Max lines evaluated when analyzing paragraph structure.
-            - include_slide_notes (PowerPoint): Whether to include speaker notes from slides as narrative text.
-            - infer_table_structure (Word, Excel, PowerPoint): Generate full HTML table structure from parsed table content.
-            - append_cells (Excel): Append all rows into a single content block instead of individual elements.
-            - cell_separator (Excel): String used to join cell values in a row for text output.
-            - add_attachment_content (Email): Include text content of plain-text attachments in the output.
-            - headers (HTML): This is used when a URL is provided, allowing you to set the necessary headers for the request`
+        Configuration parameters, including:
 
-    Example 1 (Reading Text Files)
-    ----------
-    txt_directory = "/content/txtfiles/reader/txt"
-    partition_df = Partition(content_type = "text/plain").partition(txt_directory)
-    partition_df.show()
+        - content_type : str
+            Override automatic file type detection.
+        - store_content : bool
+            Include raw file content in the output DataFrame.
+        - timeout : int
+            Timeout for fetching HTML content.
+        - title_font_size : int
+            Font size used to identify titles.
+        - include_page_breaks : bool
+            Tag content with page break metadata.
+        - group_broken_paragraphs : bool
+            Merge broken lines into full paragraphs.
+        - title_length_size : int
+            Max character length to qualify as title.
+        - paragraph_split : str
+            Regex to detect paragraph boundaries.
+        - short_line_word_threshold : int
+            Max words in a line to be considered short.
+        - threshold : float
+            Ratio of empty lines for switching grouping.
+        - max_line_count : int
+            Max lines evaluated in paragraph analysis.
+        - include_slide_notes : bool
+            Include speaker notes in output.
+        - infer_table_structure : bool
+            Generate HTML table structure.
+        - append_cells : bool
+            Merge Excel rows into one block.
+        - cell_separator : str
+            Join cell values in a row.
+        - add_attachment_content : bool
+            Include text of plain-text attachments.
+        - headers : dict
+            Request headers when using URLs.
 
-     +--------------------+--------------------+
-     |                path|                 txt|
-     +--------------------+--------------------+
-     |file:/content/txt...|[{Title, BIG DATA...|
-     +--------------------+--------------------+
+    Examples
+    ---------
 
-     Example 2 (Reading Image Files)
-     ----------
-     partition_df = Partition().partition("./email-files/test-several-attachments.eml")
-     partition_df.show()
+    Reading Text Files
 
+    >>> txt_directory = "/content/txtfiles/reader/txt"
+    >>> partition_df = Partition(content_type="text/plain").partition(txt_directory)
+    >>> partition_df.show()
+    >>> partition_df = Partition().partition("./email-files/test-several-attachments.eml")
+    >>> partition_df.show()
+    >>> partition_df = Partition().partition(
+    ...     "https://www.wikipedia.com",
+    ...     headers={"Accept-Language": "es-ES"}
+    ... )
+    >>> partition_df.show()
+    +--------------------+--------------------+
+    |                path|                 txt|
+    +--------------------+--------------------+
+    |file:/content/txt...|[{Title, BIG DATA...|
+    +--------------------+--------------------+
+
+    Reading Email Files
+
+    >>> partition_df = Partition().partition("./email-files/test-several-attachments.eml")
+    >>> partition_df.show()
     +--------------------+--------------------+
     |                path|               email|
     +--------------------+--------------------+
     |file:/content/ema...|[{Title, Test Sev...|
     +--------------------+--------------------+
 
-     Example 3 (Reading Webpages)
-     ----------
-     partition_df = Partition().partition("https://www.wikipedia.com", headers = {"Accept-Language": "es-ES"})
-     partition_df.show()
+    Reading Webpages
 
+    >>> partition_df = Partition().partition("https://www.wikipedia.com", headers = {"Accept-Language": "es-ES"})
+    >>> partition_df.show()
     +--------------------+--------------------+
     |                 url|                html|
     +--------------------+--------------------+
     |https://www.wikip...|[{Title, Wikipedi...|
     +--------------------+--------------------+
 
-    For more examples, please refer - examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb
-
+    For more examples, refer to:
+    `examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb`
     """
     def  __init__(self, **kwargs):
         self.spark = sparknlp.start()
@@ -102,57 +127,61 @@ class Partition(ExtendedJavaWrapper):
 
         super(Partition, self).__init__("com.johnsnowlabs.partition.Partition", params)
 
-    """
-        Takes a URL/file/directory path to read and parse it's content.
-        
+
+    def partition(self, path, headers=None):
+        """
+        Reads and parses content from a URL, file, or directory path.
+
         Parameters
         ----------
-        path : string   
-            Path to a file or local directory. Supports URLs and DFS file systems like databricks, HDFS and Microsoft Fabric OneLake.
-        headers: dict, optional
-            If the path is a URL it sets the necessary headers for the request.
-        
+        path : str
+            Path to file or directory. URLs and DFS are supported.
+        headers : dict, optional
+            Headers for URL requests.
+
         Returns
         -------
         pyspark.sql.DataFrame
             DataFrame with parsed content.
     """
-
-    def partition(self, path, headers=None):
         if headers is None:
             headers = {}
         jdf = self._java_obj.partition(path, headers)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 
-    """
-        Parses and reads data from multiple URL's.
-        
+
+    def partition_urls(self, path, headers=None):
+        """
+        Reads and parses content from multiple URLs.
+
         Parameters
         ----------
-        urls : List[str] 
-            list of URL's
-        headers: dict, optional
-            sets the necessary headers for the URL request.
-        
+        path : list[str]
+            List of URLs.
+        headers : dict, optional
+            Request headers for URLs.
+
         Returns
         -------
         pyspark.sql.DataFrame
-            DataFrame with parsed url content.
-            
+            DataFrame with parsed URL content.
+
         Examples
-        -------
-        urls_df = Partition().partition_urls(["https://www.wikipedia.org", "https://example.com/"])
-        urls_df.show()
+        --------
+        >>> urls_df = Partition().partition_urls([
+        ...     "https://www.wikipedia.org", "https://example.com/"
+        ... ])
+        >>> urls_df.show()
         +--------------------+--------------------+
         |                 url|                html|
         +--------------------+--------------------+
         |https://www.wikip...|[{Title, Wikipedi...|
         |https://example.com/|[{Title, Example ...|
         +--------------------+--------------------+
-        
-        urls_df.printSchema()
-        root
+
+        >>> urls_df.printSchema()
+         root
          |-- url: string (nullable = true)
          |-- html: array (nullable = true)
          |    |-- element: struct (containsNull = true)
@@ -161,49 +190,45 @@ class Partition(ExtendedJavaWrapper):
          |    |    |-- metadata: map (nullable = true)
          |    |    |    |-- key: string
          |    |    |    |-- value: string (valueContainsNull = true)
-
-    """
-    def partition_urls(self, path, headers=None):
+        """
         if headers is None:
             headers = {}
         jdf = self._java_obj.partitionUrlsJava(path, headers)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 
-    """
-        Partitions text from a string.
-        
+
+    def partition_text(self, text):
+        """
+        Parses content from a raw text string.
+
         Parameters
         ----------
-        text : string
-            text data in string form 
-            
+        text : str
+            Raw text input.
+
         Returns
         -------
         pyspark.sql.DataFrame
-            DataFrame with parsed text content.
-        
+            DataFrame with parsed text.
+
         Examples
-        -------
-        raw_text = (
-            "The big brown fox\n"
-            "was walking down the lane.\n"
-            "\n"
-            "At the end of the lane,\n"
-            "the fox met a bear."
-        )
-        
-        text_df = Partition(group_broken_paragraphs=True).partition_text(text = raw_text)
-        text_df.show()
-        
-        +--------------------------------------+   
-        |txt                                   |   
-        +--------------------------------------+   
-        |[{NarrativeText, The big brown fox was|   
-        +--------------------------------------+   
-        
-        
-        text_df.printSchema()
+        --------
+        >>> raw_text = (
+        ...     "The big brown fox\n"
+        ...     "was walking down the lane.\n"
+        ...     "\n"
+        ...     "At the end of the lane,\n"
+        ...     "the fox met a bear."
+        ... )
+        >>> text_df = Partition(group_broken_paragraphs=True).partition_text(text=raw_text)
+        >>> text_df.show()
+        +--------------------------------------+
+        |txt                                   |
+        +--------------------------------------+
+        |[{NarrativeText, The big brown fox was|
+        +--------------------------------------+
+        >>> text_df.printSchema()
         root
          |-- txt: array (nullable = true)
          |    |-- element: struct (containsNull = true)
@@ -212,8 +237,7 @@ class Partition(ExtendedJavaWrapper):
          |    |    |-- metadata: map (nullable = true)
          |    |    |    |-- key: string
          |    |    |    |-- value: string (valueContainsNull = true)
-    """
-    def partition_text(self, text):
+        """
         jdf = self._java_obj.partitionText(text)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
