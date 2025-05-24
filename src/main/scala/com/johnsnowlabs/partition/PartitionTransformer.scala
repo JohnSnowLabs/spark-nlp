@@ -17,13 +17,17 @@ package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, isStringContent}
+import com.johnsnowlabs.partition.util.PartitionHelper.{
+  datasetWithBinaryFile,
+  datasetWithTxtFile,
+  isStringContent
+}
 import com.johnsnowlabs.reader.util.HasPdfProperties
 import com.johnsnowlabs.reader.{HTMLElement, PdfToText}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, explode, udf}
-import org.apache.spark.sql.types.{ArrayType, StructType}
+import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, Row}
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -113,12 +117,31 @@ class PartitionTransformer(override val uid: String)
       partitionInstance.getOutputColumn
     }
     partitionInstance.setOutputColumn($(inputCols).head)
-
     val partitionDf = if (isStringContent($(contentType))) {
-      val flattenDf = dataset.withColumn("flatten_result", explode(col(s"$inputColum.result")))
       val partitionUDF = udf((text: String) =>
         partitionInstance.partitionStringContent(text, $(this.headers).asJava))
-      flattenDf.withColumn(inputColum, partitionUDF(col("flatten_result"))).drop("flatten_result")
+      val schemaFieldOpt = dataset.schema.find(_.name == inputColum)
+
+      schemaFieldOpt match {
+        case Some(StructField(_, StringType, _, _)) =>
+          val stringContentDF = datasetWithTxtFile(dataset.sparkSession, $(contentPath))
+          stringContentDF
+            .withColumn(inputColum, partitionUDF(col("content")))
+
+        case Some(StructField(_, ArrayType(struct: StructType, _), _, _))
+            if struct == Annotation.dataType =>
+          val flattenDf =
+            dataset.withColumn("flatten_result", explode(col(s"$inputColum.result")))
+          flattenDf
+            .withColumn(inputColum, partitionUDF(col("flatten_result")))
+            .drop("flatten_result")
+            .toDF()
+
+        case _ =>
+          throw new IllegalArgumentException(
+            s"Unsupported column type for '$inputColum'. Must be String or Annotation.")
+      }
+
     } else {
       val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, $(contentPath))
       val partitionUDF =

@@ -29,6 +29,12 @@ object PartitionHelper {
     byteArrayRDD.toDF("path", "content")
   }
 
+  def datasetWithTxtFile(sparkSession: SparkSession, contentPath: String): DataFrame = {
+    import sparkSession.implicits._
+    val textFilesRDD = sparkSession.sparkContext.wholeTextFiles(contentPath)
+    textFilesRDD.toDF("path", "content")
+  }
+
   def isStringContent(contentType: String): Boolean = {
     contentType match {
       case "text/plain" | "text/html" | "url" => true
