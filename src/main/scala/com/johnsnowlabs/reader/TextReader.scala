@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   DOUBLE_PARAGRAPH_PATTERN
 }
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTxtFile
 import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
@@ -57,12 +58,9 @@ class TextReader(
     *   - outputColumn: a Seq[HTMLElement] containing the parsed elements.
     */
   def txt(filePath: String): DataFrame = {
-    import spark.implicits._
     if (ResourceHelper.validFile(filePath)) {
-      val textFilesRDD = spark.sparkContext.wholeTextFiles(filePath)
-      val textDf = textFilesRDD
-        .toDF("path", "content")
-        .withColumn(outputColumn, parseTxtUDF($"content"))
+      val textDf = datasetWithTxtFile(spark, filePath)
+        .withColumn(outputColumn, parseTxtUDF(col("content")))
       if (storeContent) textDf.select("path", outputColumn, "content")
       else textDf.select("path", outputColumn)
     } else {
