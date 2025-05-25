@@ -37,12 +37,10 @@ import scala.collection.mutable
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate `content`
   *   column, alongside the structured output. Default is `false`.
-  *
   * @param includePageBreaks
   *   Whether to detect and tag content with page break metadata. In Word documents, this includes
   *   manual and section breaks. In Excel files, this includes page breaks based on column
   *   boundaries. Default is `false`.
-  *
   * @param inferTableStructure
   *   Whether to generate an HTML table representation from structured table content. When
   *   enabled, a full table element is added alongside cell-level elements, based on row and
@@ -72,8 +70,8 @@ import scala.collection.mutable
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
   * }}}
-  *
-  * For more examples, see: examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb notebook]].
   */
 class WordReader(
     storeContent: Boolean = false,

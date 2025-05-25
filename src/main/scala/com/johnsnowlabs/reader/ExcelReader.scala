@@ -79,7 +79,8 @@ import scala.collection.mutable
   *  |    |    |    |-- key: string
   *  |    |    |    |-- value: string (valueContainsNull = true)
   * }}}
-  * For more examples, please refer to - examples/python/reader/SparkNLP_Excel_Reader_Demo.ipynb
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_Excel_Reader_Demo.ipynb notebook]].
   */
 class ExcelReader(
     titleFontSize: Int = 9,

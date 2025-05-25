@@ -29,7 +29,8 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
-/** PartitionTransformer is a class that provides methods for partitioning data into smaller chunks.
+/** The PartitionTransformer annotator allows you to use the Partition feature more smoothly within existing
+  * Spark NLP workflows, enabling seamless reuse of your pipelines.
   * PartitionTransformer can be used for extracting structured content from various document types
   * using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
   * arrays, and returns parsed output as a structured Spark DataFrame.

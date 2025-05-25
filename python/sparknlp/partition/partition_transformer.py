@@ -23,8 +23,8 @@ class PartitionTransformer(
     HasTextReaderProperties
 ):
     """
-    PartitionTransformer is a Spark NLP component for extracting structured content from
-    various document types and partitioning it into structured chunks using Spark DataFrames.
+    The PartitionTransformer annotator allows you to use the Partition feature more smoothly
+    within existing Spark NLP workflows, enabling seamless reuse of your pipelines.
 
     It supports reading from files, URLs, in-memory strings, or byte arrays, and works
     within a Spark NLP pipeline.
