@@ -1156,3 +1156,12 @@ class _SmolVLMTransformerLoader(ExtendedJavaWrapper):
             jspark,
             use_openvino
         )
+
+class _Florence2TransformerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Florence2TransformerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.Florence2Transformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )

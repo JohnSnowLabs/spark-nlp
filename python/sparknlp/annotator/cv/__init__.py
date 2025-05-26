@@ -26,3 +26,4 @@ from sparknlp.annotator.cv.smolvlm_transformer import *
 from sparknlp.annotator.cv.paligemma_for_multimodal import *
 from sparknlp.annotator.cv.gemma3_for_multimodal import *
 from sparknlp.annotator.cv.internvl_for_multimodal import *
+from sparknlp.annotator.cv.florence2_transformer import *
