@@ -33,6 +33,9 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{
 }
 import org.intel.openvino.InferRequest
 import com.johnsnowlabs.ml.ai.util.Florence2Utils
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
+import org.json4s.JsonDSL._
 
 private[johnsnowlabs] class Florence2(
     val onnxWrappers: Option[DecoderWrappers],
@@ -166,16 +169,6 @@ private[johnsnowlabs] class Florence2(
       effectiveBatch_mult = 1
     }
 
-//    val inferRequestDecoderModel =
-//      openvinoWrapper.get.decoderModel.getCompiledModel().create_infer_request()
-//    val inferRequestEncoderModel =
-//      openvinoWrapper.get.encoderModel.getCompiledModel().create_infer_request()
-//    val inferRequestImageEncoder =
-//      openvinoWrapper.get.imageEmbedModel.getCompiledModel().create_infer_request()
-//    val inferRequestTextEmbeddings =
-//      openvinoWrapper.get.textEmbeddingsModel.getCompiledModel().create_infer_request()
-//    val inferRequestModelMerger =
-//      openvinoWrapper.get.modelMergerModel.getCompiledModel().create_infer_request()
 
 //    use eosTokenId as the starting token for the decoder
     val decoderInputIds =
@@ -306,6 +299,26 @@ private[johnsnowlabs] class Florence2(
         val imageSize =
           imageAnnotations.headOption.map(img => (img.width, img.height)).getOrElse((1000, 1000))
         val postProcessed = Florence2Utils.postProcessGeneration(content, task, imageSize)
+        // Serialize postProcessed to JSON string for raw values using json4s
+        implicit val formats = DefaultFormats
+        val postProcessedRaw = postProcessed match {
+          case Florence2Utils.BBoxesResult(bboxes) =>
+            compact(render(Extraction.decompose(bboxes)))
+          case Florence2Utils.OCRResult(instances) =>
+            compact(render(Extraction.decompose(instances)))
+          case Florence2Utils.PhraseGroundingResult(instances) =>
+            compact(render(Extraction.decompose(instances)))
+          case Florence2Utils.PolygonsResult(instances) =>
+            compact(render(Extraction.decompose(instances)))
+          case Florence2Utils.MixedResult(bboxes, bboxesLabels, polygons, polygonsLabels) =>
+            val obj = ("bboxes" -> bboxes.map(_.bbox)) ~
+              ("bboxesLabels" -> bboxesLabels) ~
+              ("polygons" -> polygons) ~
+              ("polygonsLabels" -> polygonsLabels)
+            compact(render(obj))
+          case Florence2Utils.PureTextResult(text) =>
+            compact(render("text" -> text))
+        }
         // If we have an image, try to generate a visualization
         val imageOpt = imageAnnotations.headOption.map { imgAnn =>
           com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
@@ -316,7 +329,9 @@ private[johnsnowlabs] class Florence2(
         }
         val newMetadata =
           ann.metadata ++
-            Map("florence2_postprocessed" -> postProcessed.toString) ++
+            Map(
+              "florence2_postprocessed" -> postProcessed.toString,
+              "florence2_postprocessed_raw" -> postProcessedRaw) ++
             imageBase64Opt.map(b64 => Map("florence2_image" -> b64)).getOrElse(Map.empty)
         new Annotation(
           annotatorType = DOCUMENT,

@@ -77,7 +77,8 @@ object Florence2Utils {
       text: String,
       task: String,
       imageSize: (Int, Int)): Florence2Result = {
-    val taskType = taskAnswerPostProcessingType.getOrElse(task, "pure_text")
+    val baseTask = getBaseTaskToken(task)
+    val taskType = taskAnswerPostProcessingType.getOrElse(baseTask, "pure_text")
     taskType match {
       case "pure_text" =>
         PureTextResult(text.replace("<s>", "").replace("</s>", ""))
@@ -180,28 +181,39 @@ object Florence2Utils {
 
   // Parse polygons
   def parsePolygons(text: String, imageSize: (Int, Int)): Seq[PolygonInstance] = {
-    val polygonStart = "<poly>"
-    val polygonEnd = "</poly>"
-    val polygonSep = "<sep>"
-    val phrasePattern = new Regex(
-      s"([^<]+(?:<loc_\\d+>|$polygonSep|$polygonStart|$polygonEnd){4,})")
-    val boxPattern = new Regex("<loc_([0-9]+)><loc_([0-9]+)><loc_([0-9]+)><loc_([0-9]+)>")
-    phrasePattern
-      .findAllMatchIn(text.replace("<s>", "").replace("</s>", "").replace("<pad>", ""))
-      .flatMap { m =>
+    val cleanedText = text.replace("<s>", "").replace("</s>", "").replace("<pad>", "").trim
+    if (cleanedText.startsWith("<loc_")) {
+      // Fallback: treat as a single polygon
+      val fallbackLocPattern = new Regex("<loc_([0-9]+)>")
+      val locs = fallbackLocPattern.findAllMatchIn(cleanedText).map(_.group(1).toInt).toSeq
+      if (locs.length >= 4 && locs.length % 2 == 0) {
+        val polygon = dequantizeCoordinates(locs, imageSize)
+        Seq(PolygonInstance(Seq(polygon), "")) // one polygon, empty label
+      } else Seq.empty
+    } else {
+      // Phrase-based logic as before
+      val polygonStart = "<poly>"
+      val polygonEnd = "</poly>"
+      val polygonSep = "<sep>"
+      val phrasePattern = new Regex(
+        s"([^<]+(?:<loc_\\d+>|$polygonSep|$polygonStart|$polygonEnd){4,})")
+      val boxPattern = new Regex("<loc_([0-9]+)><loc_([0-9]+)><loc_([0-9]+)><loc_([0-9]+)>")
+      val matches = phrasePattern.findAllMatchIn(cleanedText).toSeq
+      matches.flatMap { m =>
         val phraseText = m.group(1)
         val phrase = phraseText.takeWhile(_ != '<').trim
-        val polygons = boxPattern
-          .findAllMatchIn(phraseText)
-          .map { b =>
-            val bins = (1 to 4).map(i => b.group(i).toInt)
-            dequantizeBox(bins, imageSize)
-          }
-          .toSeq
-        if (phrase.nonEmpty && polygons.nonEmpty) Some(PolygonInstance(polygons, phrase))
-        else None
+        if (phrase.nonEmpty) {
+          val polygons = boxPattern
+            .findAllMatchIn(phraseText)
+            .map { b =>
+              val bins = (1 to 4).map(i => b.group(i).toInt)
+              dequantizeBox(bins, imageSize)
+            }
+            .toSeq
+          if (polygons.nonEmpty) Some(PolygonInstance(polygons, phrase)) else None
+        } else None
       }
-      .toSeq
+    }
   }
 
   // --- Quantization helpers ---
@@ -451,7 +463,8 @@ object Florence2Utils {
       task: String,
       result: Florence2Result,
       textInput: Option[String] = None): Option[String] = {
-    task match {
+    val baseTask = getBaseTaskToken(task)
+    baseTask match {
       case "<OD>" | "<DENSE_REGION_CAPTION>" | "<REGION_PROPOSAL>" =>
         result match {
           case BBoxesResult(bboxes) if bboxes.nonEmpty =>
@@ -481,8 +494,23 @@ object Florence2Utils {
         }
       case "<OPEN_VOCABULARY_DETECTION>" =>
         result match {
-          case MixedResult(bboxes, bboxesLabels, _, _) if bboxes.nonEmpty =>
-            val img = plotBBox(image, bboxes.map(_.bbox), bboxesLabels)
+          case MixedResult(bboxes, bboxesLabels, polygons, polygonsLabels) =>
+            if (polygons.nonEmpty) {
+              val img = drawPolygons(image, polygons.map(Seq(_)), polygonsLabels, fillMask = true)
+              Some(bufferedImageToBase64PNG(img))
+            } else if (bboxes.nonEmpty) {
+              val img = plotBBox(image, bboxes.map(_.bbox), bboxesLabels)
+              Some(bufferedImageToBase64PNG(img))
+            } else None
+          case PolygonsResult(instances) if instances.nonEmpty =>
+            val img = drawPolygons(
+              image,
+              instances.map(_.polygons),
+              instances.map(_.catName),
+              fillMask = true)
+            Some(bufferedImageToBase64PNG(img))
+          case BBoxesResult(bboxes) if bboxes.nonEmpty =>
+            val img = plotBBox(image, bboxes.map(_.bbox), bboxes.map(_.catName))
             Some(bufferedImageToBase64PNG(img))
           case _ => None
         }
@@ -495,5 +523,9 @@ object Florence2Utils {
         }
       case _ => None
     }
+  }
+
+  def getBaseTaskToken(task: String): String = {
+    taskAnswerPostProcessingType.keys.find(task.startsWith).getOrElse(task)
   }
 }

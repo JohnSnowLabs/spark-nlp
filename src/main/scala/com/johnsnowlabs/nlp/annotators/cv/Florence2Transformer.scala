@@ -39,117 +39,71 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** Florence2 : multilingual translation model
+/** Florence2: Advancing a Unified Representation for a Variety of Vision Tasks
   *
-  * Florence2 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
-  * multilingual translation.
+  * Florence-2 is an advanced vision foundation model from Microsoft that uses a prompt-based
+  * approach to handle a wide range of vision and vision-language tasks. It can interpret simple
+  * text prompts to perform tasks like captioning, object detection, segmentation, OCR, and more.
+  * The model leverages the FLD-5B dataset, containing 5.4 billion annotations across 126 million
+  * images, to master multi-task learning. Its sequence-to-sequence architecture enables it to
+  * excel in both zero-shot and fine-tuned settings.
   *
-  * The model can directly translate between the 9,900 directions of 100 languages.
+  * Pretrained and finetuned models can be loaded with `pretrained` of the companion object: {{ {
+  * val florence2 = Florence2Transformer.pretrained() .setInputCols("image")
+  * .setOutputCol("generation") }} } The default model is `"florence2_base_ft_int4"`, if no name
+  * is provided.
   *
-  * Pretrained models can be loaded with `pretrained` of the companion object:
-  * {{{
-  * val Florence2 = Florence2Transformer.pretrained()
-  *   .setInputCols("document")
-  *   .setOutputCol("generation")
-  * }}}
-  * The default model is `"Florence2_418M"`, if no name is provided. For available pretrained
-  * models please see the [[https://sparknlp.org/models?q=Florence2 Models Hub]].
+  * For available pretrained models please see the
+  * [[https://sparknlp.org/models?task=Vision+Tasks Models Hub]].
   *
-  * For extended examples of usage, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Florence2TestSpec.scala Florence2TestSpec]].
+  * ==Supported Tasks==
   *
-  * '''References:'''
-  *   - [[https://arxiv.org/pdf/2010.11125.pdf Beyond English-Centric Multilingual Machine Translation]]
-  *   - [[https://github.com/pytorch/fairseq/tree/master/examples/m2m_100]]
+  * Florence-2 supports a variety of tasks through prompt engineering. The following prompt tokens
+  * can be used:
   *
-  * '''Paper Abstract:'''
+  *   - <CAPTION>: Image captioning
+  *   - <DETAILED_CAPTION>: Detailed image captioning
+  *   - <MORE_DETAILED_CAPTION>: Paragraph-level captioning
+  *   - <CAPTION_TO_PHRASE_GROUNDING>: Phrase grounding from caption (requires additional text
+  *     input)
+  *   - <OD>: Object detection
+  *   - <DENSE_REGION_CAPTION>: Dense region captioning
+  *   - <REGION_PROPOSAL>: Region proposal
+  *   - <OCR>: Optical Character Recognition (plain text extraction)
+  *   - <OCR_WITH_REGION>: OCR with region information
+  *   - <REFERRING_EXPRESSION_SEGMENTATION>: Segmentation for a referred phrase (requires
+  *     additional text input)
+  *   - <REGION_TO_SEGMENTATION>: Polygon mask for a region (requires additional text input)
+  *   - <OPEN_VOCABULARY_DETECTION>: Open vocabulary detection for a phrase (requires additional
+  *     text input)
+  *   - <REGION_TO_CATEGORY>: Category of a region (requires additional text input)
+  *   - <REGION_TO_DESCRIPTION>: Description of a region (requires additional text input)
+  *   - <REGION_TO_OCR>: OCR for a region (requires additional text input)
   *
-  * ''Existing work in translation demonstrated the potential of massively multilingual machine
-  * translation by training a single model able to translate between any pair of languages.
-  * However, much of this work is English-Centric by training only on data which was translated
-  * from or to English. While this is supported by large sources of training data, it does not
-  * reflect translation needs worldwide. In this work, we create a true Many-to-Many multilingual
-  * translation model that can translate directly between any pair of 100 languages. We build and
-  * open source a training dataset that covers thousands of language directions with supervised
-  * data, created through large-scale mining. Then, we explore how to effectively increase model
-  * capacity through a combination of dense scaling and language-specific sparse parameters to
-  * create high quality models. Our focus on non-English-Centric models brings gains of more than
-  * 10 BLEU when directly translating between non-English directions while performing
-  * competitively to the best single systems of WMT. We open-source our scripts so that others may
-  * reproduce the data, evaluation, and final M2M-100 model.''
+  * ==Example Usage==
   *
-  * '''Languages Covered:'''
+  * {{ { import com.johnsnowlabs.nlp.base.ImageAssembler import
+  * com.johnsnowlabs.nlp.annotators.cv.Florence2Transformer import org.apache.spark.ml.Pipeline
   *
-  * Afrikaans (af), Amharic (am), Arabic (ar), Asturian (ast), Azerbaijani (az), Bashkir (ba),
-  * Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian
-  * (ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English
-  * (en), Spanish (es), Estonian (et), Persian (fa), Fulah (ff), Finnish (fi), French (fr),
-  * Western Frisian (fy), Irish (ga), Gaelic; Scottish Gaelic (gd), Galician (gl), Gujarati (gu),
-  * Hausa (ha), Hebrew (he), Hindi (hi), Croatian (hr), Haitian; Haitian Creole (ht), Hungarian
-  * (hu), Armenian (hy), Indonesian (id), Igbo (ig), Iloko (ilo), Icelandic (is), Italian (it),
-  * Japanese (ja), Javanese (jv), Georgian (ka), Kazakh (kk), Central Khmer (km), Kannada (kn),
-  * Korean (ko), Luxembourgish; Letzeburgesch (lb), Ganda (lg), Lingala (ln), Lao (lo), Lithuanian
-  * (lt), Latvian (lv), Malagasy (mg), Macedonian (mk), Malayalam (ml), Mongolian (mn), Marathi
-  * (mr), Malay (ms), Burmese (my), Nepali (ne), Dutch; Flemish (nl), Norwegian (no), Northern
-  * Sotho (ns), Occitan (post 1500) (oc), Oriya (or), Panjabi; Punjabi (pa), Polish (pl), Pushto;
-  * Pashto (ps), Portuguese (pt), Romanian; Moldavian; Moldovan (ro), Russian (ru), Sindhi (sd),
-  * Sinhala; Sinhalese (si), Slovak (sk), Slovenian (sl), Somali (so), Albanian (sq), Serbian
-  * (sr), Swati (ss), Sundanese (su), Swedish (sv), Swahili (sw), Tamil (ta), Thai (th), Tagalog
-  * (tl), Tswana (tn), Turkish (tr), Ukrainian (uk), Urdu (ur), Uzbek (uz), Vietnamese (vi), Wolof
-  * (wo), Xhosa (xh), Yiddish (yi), Yoruba (yo), Chinese (zh), Zulu (zu)
+  * val imageAssembler = new ImageAssembler() .setInputCol("image")
+  * .setOutputCol("image_assembler")
   *
-  * ==Example==
-  * {{{
-  * import spark.implicits._
-  * import com.johnsnowlabs.nlp.base.DocumentAssembler
-  * import com.johnsnowlabs.nlp.annotators.seq2seq.Florence2Transformer
-  * import org.apache.spark.ml.Pipeline
+  * val florence2 = Florence2Transformer.pretrained("florence2_base_ft_int4")
+  * .setInputCols("image_assembler") .setOutputCol("answer") .setMaxOutputLength(50)
   *
-  * val documentAssembler = new DocumentAssembler()
-  *   .setInputCol("text")
-  *   .setOutputCol("documents")
+  * val pipeline = new Pipeline().setStages(Array(imageAssembler, florence2))
   *
-  * val Florence2 = Florence2Transformer.pretrained("Florence2_418M")
-  *   .setInputCols(Array("documents"))
-  *   .setSrcLang("zh")
-  *   .serTgtLang("en")
-  *   .setMaxOutputLength(100)
-  *   .setDoSample(false)
-  *   .setOutputCol("generation")
+  * val data = Seq("/path/to/image.jpg").toDF("image") val result =
+  * pipeline.fit(data).transform(data) result.select("answer.result").show(truncate = false) }} }
   *
-  * val pipeline = new Pipeline().setStages(Array(documentAssembler, Florence2))
+  * ==References==
   *
-  * val data = Seq(
-  *   "生活就像一盒巧克力。"
-  * ).toDF("text")
-  * val result = pipeline.fit(data).transform(data)
+  *   - Florence-2 technical report: https://arxiv.org/abs/2311.06242
+  *   - Hugging Face model card: https://huggingface.co/microsoft/Florence-2-base-ft
+  *   - Official sample notebook:
+  *     https://huggingface.co/microsoft/Florence-2-large/blob/main/sample_inference.ipynb
   *
-  * results.select("generation.result").show(truncate = false)
-  * +-------------------------------------------------------------------------------------------+
-  * |result                                                                                     |
-  * +-------------------------------------------------------------------------------------------+
-  * |[ Life is like a box of chocolate.]                                                        |
-  * +-------------------------------------------------------------------------------------------+
-  * }}}
-  *
-  * @param uid
-  *   required uid for storing annotator to disk
-  * @groupname anno Annotator types
-  * @groupdesc anno
-  *   Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc param
-  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
-  *   parameter values through setters and getters, respectively.
+  * For more details and advanced usage, see the official documentation and sample notebooks.
   */
 class Florence2Transformer(override val uid: String)
     extends AnnotatorModel[Florence2Transformer]
@@ -365,7 +319,7 @@ class Florence2Transformer(override val uid: String)
         writeOpenvinoModels(
           path,
           spark,
-          Seq((wrappers.get.modelMergerModel, "merge_model.xml")),
+          Seq((wrappers.get.modelMergerModel, "merger_model.xml")),
           PaliGemmaForMultiModal.suffix)
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -376,7 +330,7 @@ class Florence2Transformer(override val uid: String)
 trait ReadablePretrainedFlorence2TransformerModel
     extends ParamsAndFeaturesReadable[Florence2Transformer]
     with HasPretrained[Florence2Transformer] {
-  override val defaultModelName: Some[String] = Some("florence2_")
+  override val defaultModelName: Some[String] = Some("florence2_base_ft_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): Florence2Transformer = super.pretrained()
@@ -408,14 +362,14 @@ trait ReadFlorence2TransformerDLModel extends ReadOpenvinoModel {
         val imageEmbeddingsWrappers =
           readOpenvinoModels(path, spark, Seq("image_embedding.xml"), suffix)
         val modelMergerWrappers =
-          readOpenvinoModels(path, spark, Seq("merge_model.xml"), suffix)
+          readOpenvinoModels(path, spark, Seq("merger_model.xml"), suffix)
         val ovWrapper = {
           Florence2Wrappers(
             encoderModel = encoderWrappers("encoder.xml"),
             decoderModel = decoderWrappers("decoder.xml"),
             textEmbeddingsModel = textEmbeddingsWrappers("text_embedding.xml"),
             imageEmbedModel = imageEmbeddingsWrappers("image_embedding.xml"),
-            modelMergerModel = modelMergerWrappers("merge_model.xml"))
+            modelMergerModel = modelMergerWrappers("merger_model.xml"))
         }
         val preprocessor = Preprocessor(
           do_normalize = true,
@@ -443,7 +397,7 @@ trait ReadFlorence2TransformerDLModel extends ReadOpenvinoModel {
         modelPath,
         isDecoder = false,
         custom =
-          Some(List("encoder", "decoder", "text_embedding", "merge_model", "image_embedding")))
+          Some(List("encoder", "decoder", "text_embedding", "merger_model", "image_embedding")))
     val modelConfig: JValue =
       parse(loadJsonStringAsset(localModelPath, "config.json"))
 
@@ -579,7 +533,7 @@ trait ReadFlorence2TransformerDLModel extends ReadOpenvinoModel {
             zipped = false,
             useBundle = true,
             detectedEngine = detectedEngine,
-            modelName = "merge_model")
+            modelName = "merger_model")
         val openvinoWrapper =
           Florence2Wrappers(
             encoderModel = openvinoEncoderWrapper,

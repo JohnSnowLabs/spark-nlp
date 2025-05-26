@@ -31,7 +31,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
 
   lazy val model = getFlorence2TransformerPipelineModel
 
-  "Florence2Transformer" should "answer a question for a given image" taggedAs FastTest in {
+  "Florence2Transformer" should "answer a question for a given image" taggedAs SlowTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -56,6 +56,11 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
               s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
           fos.write(decodedFlorence2Image)
           fos.close()
+        }
+
+        if (annotation.metadata.contains("florence2_postprocessed_raw")) {
+          val florence2PostprocessedRaw = annotation.metadata("florence2_postprocessed_raw")
+          println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
         }
       }
     }
@@ -167,6 +172,267 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
 
   }
 
+  it should "run OCR task (<OCR>)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/ocr_sample.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<OCR>")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<OCR> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run OCR with region task (<OCR_WITH_REGION>)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/ocr_sample.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<OCR_WITH_REGION>")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<OCR_WITH_REGION> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run image captioning tasks (<CAPTION>, <DETAILED_CAPTION>, <MORE_DETAILED_CAPTION>)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val prompts = Seq("<CAPTION>", "<DETAILED_CAPTION>", "<MORE_DETAILED_CAPTION>")
+    prompts.foreach { prompt =>
+      val result = lightPipeline.fullAnnotateImage(imagePath, prompt)
+      val answer = result("answer").head.asInstanceOf[Annotation]
+      if (answer.metadata.contains("florence2_image")) {
+        val florence2ImageBase64 = answer.metadata("florence2_image")
+        val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+        val fos = new FileOutputStream(
+          new File(
+            s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+        fos.write(decodedFlorence2Image)
+        fos.close()
+      }
+      if (answer.metadata.contains("florence2_postprocessed_raw")) {
+        val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+        println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+      }
+      println(s"$prompt result: ${answer.result}")
+      assert(answer.result.nonEmpty)
+    }
+  }
+
+  it should "run object detection (<OD>) and dense region caption (<DENSE_REGION_CAPTION>)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val prompts = Seq("<OD>", "<DENSE_REGION_CAPTION>")
+    prompts.foreach { prompt =>
+      val result = lightPipeline.fullAnnotateImage(imagePath, prompt)
+      val answer = result("answer").head.asInstanceOf[Annotation]
+      if (answer.metadata.contains("florence2_image")) {
+        val florence2ImageBase64 = answer.metadata("florence2_image")
+        val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+        val fos = new FileOutputStream(
+          new File(
+            s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+        fos.write(decodedFlorence2Image)
+        fos.close()
+      }
+      if (answer.metadata.contains("florence2_postprocessed_raw")) {
+        val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+        println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+      }
+      println(s"$prompt result: ${answer.result}")
+      assert(answer.result.nonEmpty)
+    }
+  }
+
+  it should "run region proposal (<REGION_PROPOSAL>)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_PROPOSAL>")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REGION_PROPOSAL> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run phrase grounding (<CAPTION_TO_PHRASE_GROUNDING> car)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<CAPTION_TO_PHRASE_GROUNDING> car")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<CAPTION_TO_PHRASE_GROUNDING> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run referring expression segmentation (<REFERRING_EXPRESSION_SEGMENTATION> car)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result =
+      lightPipeline.fullAnnotateImage(imagePath, "<REFERRING_EXPRESSION_SEGMENTATION> car")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REFERRING_EXPRESSION_SEGMENTATION> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run region to segmentation (<REGION_TO_SEGMENTATION> region1)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_SEGMENTATION> region1")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REGION_TO_SEGMENTATION> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run open vocabulary detection (<OPEN_VOCABULARY_DETECTION> car)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<OPEN_VOCABULARY_DETECTION> car")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<OPEN_VOCABULARY_DETECTION> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run region to category (<REGION_TO_CATEGORY> region1)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_CATEGORY> region1")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REGION_TO_CATEGORY> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run region to description (<REGION_TO_DESCRIPTION> region1)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/car.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_DESCRIPTION> region1")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REGION_TO_DESCRIPTION> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
+  it should "run region to OCR (<REGION_TO_OCR> region1)" taggedAs SlowTest in {
+    val lightPipeline = new LightPipeline(model)
+    val imagePath = "src/test/resources/images/ocr_sample.jpg"
+    val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_OCR> region1")
+    val answer = result("answer").head.asInstanceOf[Annotation]
+    if (answer.metadata.contains("florence2_image")) {
+      val florence2ImageBase64 = answer.metadata("florence2_image")
+      val decodedFlorence2Image = java.util.Base64.getDecoder.decode(florence2ImageBase64)
+      val fos = new FileOutputStream(
+        new File(s"src/test/resources/images/florence2_image_${System.currentTimeMillis()}.png"))
+      fos.write(decodedFlorence2Image)
+      fos.close()
+    }
+    if (answer.metadata.contains("florence2_postprocessed_raw")) {
+      val florence2PostprocessedRaw = answer.metadata("florence2_postprocessed_raw")
+      println(s"florence2PostprocessedRaw: $florence2PostprocessedRaw")
+    }
+    println(s"<REGION_TO_OCR> result: ${answer.result}")
+    assert(answer.result.nonEmpty)
+  }
+
   private def getFlorence2TransformerPipelineModel = {
     val testDF = getTestDF
 
@@ -176,7 +442,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
 
     val loadModel = Florence2Transformer
       .loadSavedModel(
-        "/mnt/research/Projects/ModelZoo/Florence2/Florence-2-base-ft",
+        "/mnt/research/Projects/ModelZoo/Florence2/models/int4/microsoft/Florence-2-base-ft",
         ResourceHelper.spark)
       .setInputCols("image_assembler")
       .setOutputCol("answer")
@@ -189,13 +455,13 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
   }
 
   private def getTestDF: DataFrame = {
-    val imageFolder = "src/test/resources/images/"
+    val imageFolder = "src/test/resources/handwriting/"
     val imageDF: DataFrame = ResourceHelper.spark.read
       .format("image")
       .option("dropInvalid", value = true)
       .load(imageFolder)
 
-    val testDF: DataFrame = imageDF.withColumn("text", lit("<CAPTION_TO_PHRASE_GROUNDING>"))
+    val testDF: DataFrame = imageDF.withColumn("text", lit("<OCR_WITH_REGION>"))
 
     testDF
   }
