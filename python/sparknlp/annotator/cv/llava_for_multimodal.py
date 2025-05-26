@@ -65,7 +65,7 @@ class LLAVAForMultiModal(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
-    >>> test_df = image_df.withColumn("text", lit("USER: \n <|image|> \n What's this picture about? \n ASSISTANT:\n"))
+    >>> test_df = image_df.withColumn("text", lit("USER: \\n <|image|> \\n What's this picture about? \\n ASSISTANT:\\n"))
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")

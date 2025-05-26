@@ -99,6 +99,7 @@ numpydoc_show_class_members = False  # Or add Method section in doc strings? htt
 autoapi_options = [
     "members",
     "show-module-summary",
+    "undoc-members"
 ]
 autoapi_type = "python"
 autoapi_dirs = ["../sparknlp"]

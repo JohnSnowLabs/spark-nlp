@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains the Partition annotator for reading and processing various document types."""
 import sparknlp
 from sparknlp.internal import ExtendedJavaWrapper
 
@@ -73,7 +74,7 @@ class Partition(ExtendedJavaWrapper):
             Request headers when using URLs.
 
     Examples
-    ---------
+    --------
 
     Reading Text Files
 
@@ -215,10 +216,10 @@ class Partition(ExtendedJavaWrapper):
         Examples
         --------
         >>> raw_text = (
-        ...     "The big brown fox\n"
-        ...     "was walking down the lane.\n"
-        ...     "\n"
-        ...     "At the end of the lane,\n"
+        ...     "The big brown fox\\n"
+        ...     "was walking down the lane.\\n"
+        ...     "\\n"
+        ...     "At the end of the lane,\\n"
         ...     "the fox met a bear."
         ... )
         >>> text_df = Partition(group_broken_paragraphs=True).partition_text(text=raw_text)

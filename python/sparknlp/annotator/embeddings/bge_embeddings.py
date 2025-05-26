@@ -49,23 +49,9 @@ class BGEEmbeddings(AnnotatorModel,
     ``DOCUMENT``            ``SENTENCE_EMBEDDINGS``
     ====================== ======================
 
-    Parameters
-    ----------
-    batchSize
-        Size of every batch , by default 8
-    dimension
-        Number of embedding dimensions, by default 768
-    caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default False
-    maxSentenceLength
-        Max sentence length to process, by default 512
-    configProtoBytes
-        ConfigProto from tensorflow, serialized into byte array.
-    useCLSToken
-        Whether to use the CLS token for sentence embeddings, by default True
-
-    References
-    ----------
+    
+    **References**
+    
     `C-Pack: Packaged Resources To Advance General Chinese Embedding <https://arxiv.org/pdf/2309.07597>`__
     `BGE Github Repository <https://github.com/FlagOpen/FlagEmbedding>`__
 
@@ -83,6 +69,22 @@ class BGEEmbeddings(AnnotatorModel,
     English text embeddings. The English models achieve stateof-the-art performance on the MTEB
     benchmark; meanwhile, our released English data is 2 times larger than the Chinese data. All
     these resources are made publicly available at https://github.com/FlagOpen/FlagEmbedding.*
+
+
+    Parameters
+    ----------
+    batchSize
+        Size of every batch , by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default False
+    maxSentenceLength
+        Max sentence length to process, by default 512
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    useCLSToken
+        Whether to use the CLS token for sentence embeddings, by default True
 
     Examples
     --------
@@ -106,8 +108,8 @@ class BGEEmbeddings(AnnotatorModel,
     ...     embeddingsFinisher
     ... ])
     >>> data = spark.createDataFrame([["query: how much protein should a female eat",
-    ... "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day." + \
-    ... "But, as you can see from this chart, you'll need to increase that if you're expecting or training for a" + \
+    ... "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day." + \\
+    ... "But, as you can see from this chart, you'll need to increase that if you're expecting or training for a" + \\
     ... "marathon. Check out the chart below to see how much protein you should be eating each day.",
     ... ]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)

@@ -83,23 +83,18 @@ class Gemma3ForMultiModal(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> from pyspark.sql.functions import lit
-    >>> 
     >>> imageDF = spark.read.format("image").load(images_path)
-    >>> testDF = imageDF.withColumn("text", lit("<bos><start_of_turn>user\nYou are a helpful assistant.\n\n<start_of_image>Describe this image in detail.<end_of_turn>\n<start_of_turn>model\n"))
-    >>> 
-    >>> imageAssembler = ImageAssembler() \
-    ...     .setInputCol("image") \
+    >>> testDF = imageDF.withColumn("text", lit("<bos><start_of_turn>user\\nYou are a helpful assistant.\\n\\n<start_of_image>Describe this image in detail.<end_of_turn>\\n<start_of_turn>model\\n"))
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-    >>> 
-    >>> visualQA = Gemma3ForMultiModal.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQA = Gemma3ForMultiModal.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
-    >>> 
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,
     ...     visualQA
     ... ])
-    >>> 
     >>> result = pipeline.fit(testDF).transform(testDF)
     >>> result.select("image_assembler.origin", "answer.result").show(truncate=False)
     """

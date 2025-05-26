@@ -21,13 +21,13 @@ class SpacyToAnnotation(ExtendedJavaWrapper):
     """Helper class to load a list of tokens/sentences as JSON to Annotation.
 
     The JSON will be in this format:
-    [
-     {
-        "tokens": ["Hello", "world", "!", "How", "are", "you", "today", "?", "I", "'m", "fine", "thanks", "."],
-        "token_spaces": [true, false, true, true, true, true, false, true, false, true, true, false, false],
-        "sentence_ends": [2, 7, 12]
-     }
-    ]
+        [
+         {
+            "tokens": ["Hello", "world", "!", "How", "are", "you", "today", "?", "I", "'m", "fine", "thanks", "."],
+            "token_spaces": [true, false, true, true, true, true, false, true, false, true, true, false, false],
+            "sentence_ends": [2, 7, 12]
+         }
+        ]
 
     Examples
     --------

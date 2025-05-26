@@ -88,13 +88,13 @@ class DocumentTokenSplitter(AnnotatorModel):
     |                                                                          result|begin|  end|length|tokens|
     +--------------------------------------------------------------------------------+-----+-----+------+------+
     |[ Project Gutenberg's The Adventures of Sherlock Holmes, by Arthur Conan Doyl...|    0| 3018|  3018|   512|
-    |[study of crime, and occupied his\nimmense faculties and extraordinary powers...| 2950| 5707|  2757|   512|
-    |[but as I have changed my clothes I can't imagine how you\ndeduce it. As to M...| 5659| 8483|  2824|   512|
-    |[quarters received. Be in your chamber then at that hour, and do\nnot take it...| 8427|11241|  2814|   512|
-    |[a pity\nto miss it."\n\n"But your client--"\n\n"Never mind him. I may want y...|11188|13970|  2782|   512|
-    |[person who employs me wishes his agent to be unknown to\nyou, and I may conf...|13918|16898|  2980|   512|
-    |[letters back."\n\n"Precisely so. But how--"\n\n"Was there a secret marriage?...|16836|19744|  2908|   512|
-    |[seven hundred in\nnotes," he said.\n\nHolmes scribbled a receipt upon a shee...|19683|22551|  2868|   512|
+    |[study of crime, and occupied his\\nimmense faculties and extraordinary powers...| 2950| 5707|  2757|   512|
+    |[but as I have changed my clothes I can't imagine how you\\ndeduce it. As to M...| 5659| 8483|  2824|   512|
+    |[quarters received. Be in your chamber then at that hour, and do\\nnot take it...| 8427|11241|  2814|   512|
+    |[a pity\\nto miss it."\\n\\n"But your client--"\\n\\n"Never mind him. I may want y...|11188|13970|  2782|   512|
+    |[person who employs me wishes his agent to be unknown to\\nyou, and I may conf...|13918|16898|  2980|   512|
+    |[letters back."\\n\\n"Precisely so. But how--"\\n\\n"Was there a secret marriage?...|16836|19744|  2908|   512|
+    |[seven hundred in\\nnotes," he said.\\n\\nHolmes scribbled a receipt upon a shee...|19683|22551|  2868|   512|
     +--------------------------------------------------------------------------------+-----+-----+------+------+
 
     """
