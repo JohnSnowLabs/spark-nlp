@@ -215,10 +215,10 @@ class Partition(ExtendedJavaWrapper):
         Examples
         --------
         >>> raw_text = (
-        ...     "The big brown fox\n"
-        ...     "was walking down the lane.\n"
-        ...     "\n"
-        ...     "At the end of the lane,\n"
+        ...     "The big brown fox\\n"
+        ...     "was walking down the lane.\\n"
+        ...     "\\n"
+        ...     "At the end of the lane,\\n"
         ...     "the fox met a bear."
         ... )
         >>> text_df = Partition(group_broken_paragraphs=True).partition_text(text=raw_text)
@@ -228,6 +228,7 @@ class Partition(ExtendedJavaWrapper):
         +--------------------------------------+
         |[{NarrativeText, The big brown fox was|
         +--------------------------------------+
+
         >>> text_df.printSchema()
         root
          |-- txt: array (nullable = true)

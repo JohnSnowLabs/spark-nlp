@@ -55,14 +55,14 @@ class PartitionTransformer(
     ...     ("https://www.blizzard.com",),
     ... ], ["text"])
 
-    >>> documentAssembler = DocumentAssembler() \
-    ...     .setInputCol("text") \
+    >>> documentAssembler = DocumentAssembler()
+    ...     .setInputCol("text")
     ...     .setOutputCol("document")
 
-    >>> partition = PartitionTransformer() \
-    ...     .setInputCols(["document"]) \
-    ...     .setOutputCol("partition") \
-    ...     .setContentType("url") \
+    >>> partition = PartitionTransformer()
+    ...     .setInputCols(["document"])
+    ...     .setOutputCol("partition")
+    ...     .setContentType("url")
     ...     .setHeaders({"Accept-Language": "es-ES"})
 
     >>> pipeline = Pipeline(stages=[documentAssembler, partition])
