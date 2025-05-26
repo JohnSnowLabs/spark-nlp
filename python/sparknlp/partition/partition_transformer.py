@@ -14,7 +14,6 @@
 from sparknlp.common import *
 from sparknlp.partition.partition_properties import *
 
-
 class PartitionTransformer(
     AnnotatorModel,
     HasEmailReaderProperties,
@@ -24,8 +23,58 @@ class PartitionTransformer(
     HasTextReaderProperties
 ):
     """
-    PartitionTransformer is a class that provides methods for partitioning data into smaller chunks.
-    It is designed to work with various file formats and content types.
+    The PartitionTransformer annotator allows you to use the Partition feature more smoothly
+    within existing Spark NLP workflows, enabling seamless reuse of your pipelines.
+
+    It supports reading from files, URLs, in-memory strings, or byte arrays, and works
+    within a Spark NLP pipeline.
+
+    Supported formats include:
+    - Plain text
+    - HTML
+    - Word (.doc/.docx)
+    - Excel (.xls/.xlsx)
+    - PowerPoint (.ppt/.pptx)
+    - Email files (.eml, .msg)
+    - PDFs
+
+    Parameters
+    ----------
+    inputCols : list of str
+        Names of input columns (typically from DocumentAssembler).
+    outputCol : str
+        Name of the column to store the output.
+    contentType : str
+        The type of content: e.g., "text", "url", "file", etc.
+    headers : dict, optional
+        Headers to be used if content type is a URL.
+
+    Examples
+    --------
+    >>> dataset = spark.createDataFrame([
+    ...     ("https://www.blizzard.com",),
+    ... ], ["text"])
+
+    >>> documentAssembler = DocumentAssembler() \
+    ...     .setInputCol("text") \
+    ...     .setOutputCol("document")
+
+    >>> partition = PartitionTransformer() \
+    ...     .setInputCols(["document"]) \
+    ...     .setOutputCol("partition") \
+    ...     .setContentType("url") \
+    ...     .setHeaders({"Accept-Language": "es-ES"})
+
+    >>> pipeline = Pipeline(stages=[documentAssembler, partition])
+    >>> pipelineModel = pipeline.fit(dataset)
+    >>> resultDf = pipelineModel.transform(dataset)
+    >>> resultDf.show()
+    +--------------------+--------------------+--------------------+
+    |                text|            document|           partition|
+    +--------------------+--------------------+--------------------+
+    |https://www.blizz...|[{Title, Juegos d...|[{document, 0, 16...|
+    |https://www.googl...|[{Title, Gmail Im...|[{document, 0, 28...|
+    +--------------------+--------------------+--------------------+
     """
 
     name = "PartitionTransformer"
