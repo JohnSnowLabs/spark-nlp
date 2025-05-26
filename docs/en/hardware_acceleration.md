@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-Spark NLP is a production-ready and fully-featured NLP library that runs natively on Apache Spark. It is already faster on a single machine than other popular NLP libraries let alone in a cluster with multiple machines. In addition, we are constantly optimizing our codes to make them even faster while using fewer resources (memory/CPU). For incense, the Spark NLP 4.0 comes with massive optimizations for GPU and modern CPUs for most of our Transformer-based annotators.
+Spark NLP is a production-ready and fully-featured NLP library that runs natively on Apache Spark. It is already faster on a single machine than other popular NLP libraries let alone in a cluster with multiple machines. In addition, we are constantly optimizing our codes to make them even faster while using fewer resources (memory/CPU). For instance, Spark NLP 4.0 comes with massive optimizations for GPU and modern CPUs for most of our Transformer-based annotators.
 
 That said, some downstream tasks such as Language Models (Transformer models like BERT) or text and token classifiers use Deep Learning via the TensorFlow engine. Therefore, there are ways to optimize them even more by using newer hardware, especially those with accelerations.
 
@@ -50,7 +50,7 @@ Since the new Transformer models such as BERT for Word and Sentence embeddings a
 | DeBERTa Large     |        +477%(5.8x)        |
 | Longformer Base   |         +52%(1.5x)        |
 
-Spark NLP 6.0.1 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP {{ site.sparknlp_version }} is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2

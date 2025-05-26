@@ -1,3 +1,6 @@
+# NOTE: This config is intended for local development only. It skips the generation of the model hub cards.
+# Run with bundle install; bundle exec jekyll serve --incremental --trace --config _config_local.yml
+#
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your whole blog, values
@@ -204,6 +207,7 @@ exclude:
   - backup-*.json
   - /_frontend
   - /_scripts
+  - /_posts
 
 defaults:
   ## docs
