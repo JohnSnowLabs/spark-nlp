@@ -17,3 +17,5 @@ Modules
    sparknlp.training
    sparknlp.pretrained
    sparknlp.logging
+   sparknlp.partition
+   sparknlp.reader

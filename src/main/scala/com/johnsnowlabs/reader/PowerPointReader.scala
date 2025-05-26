@@ -27,6 +27,52 @@ import org.apache.spark.sql.functions.{col, udf}
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 
+/** Class to read and parse PowerPoint files.
+  *
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. The default value is false.
+  * @param inferTableStructure
+  *   Whether to generate an HTML table representation from structured table content. When
+  *   enabled, a full <table> element is added alongside cell-level elements, based on row and
+  *   column layout. The default value is false.
+  * @param includeSlideNotes
+  *   Whether to extract speaker notes from slides. When enabled, notes are included as narrative
+  *   text elements. The default value is false.
+  *
+  * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+  * "path/power-point/files"
+  *
+  * ==Example==
+  * {{{
+  * val path = "./ppt-files/fake-power-point.pptx"
+  * val powerPointReader = new PowerPointReader()
+  * val pptDf = powerPointReader.ppt(path)
+  * }}}
+  *
+  * {{{
+  * pptDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 ppt|
+  * +--------------------+--------------------+
+  * |file:/content/ppt...|[{Title, Adding a...|
+  * +--------------------+--------------------+
+  *
+  * pptDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- ppt: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_PowerPoint_Reader_Demo.ipynb notebook]].
+  */
+
 class PowerPointReader(
     storeContent: Boolean = false,
     inferTableStructure: Boolean = false,
@@ -44,6 +90,13 @@ class PowerPointReader(
   }
 
   def getOutputColumn: String = outputColumn
+
+  /** @param filePath
+    *   this is a path to a directory of ppt files or a path to an ppt file E.g. "path/ppts/files"
+    *
+    * @return
+    *   Dataframe with parsed power point content.
+    */
 
   def ppt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {

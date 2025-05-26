@@ -22,6 +22,91 @@ import java.net.URL
 import scala.collection.JavaConverters._
 import scala.util.Try
 
+/** The Partition class is a unified interface for extracting structured content from various
+  * document types using Spark NLP readers. It supports reading from files, URLs, in-memory
+  * strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.
+  *
+  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
+  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  *
+  * The class detects the appropriate reader either from the file extension or a provided MIME
+  * contentType, and delegates to the relevant method of SparkNLPReader. Custom behavior (like
+  * title thresholds, page breaks, etc.) can be configured through the params map during
+  * initialization.
+  *
+  * By abstracting reader initialization, type detection, and parsing logic, Partition simplifies
+  * document ingestion in scalable NLP pipelines.
+  *
+  * @param params
+  *   Map of parameters with custom configurations. It includes the following parameters:
+  *
+  *   - content_type (All): Override automatic file type detection.
+  *   - store_content (All): Include raw file content in the output DataFrame as a separate
+  *     'content' column.
+  *   - timeout (HTML): Timeout in seconds for fetching remote HTML content.
+  *   - title_font_size (HTML, Excel): Minimum font size used to identify titles based on
+  *     formatting.
+  *   - include_page_breaks (Word, Excel): Whether to tag content with page break metadata.
+  *   - group_broken_paragraphs (Text): Whether to merge broken lines into full paragraphs using
+  *     heuristics.
+  *   - title_length_size (Text): Max character length used to qualify text blocks as titles.
+  *   - paragraph_split (Text): Regex to detect paragraph boundaries when grouping lines.
+  *   - short_line_word_threshold (Text): Max word count for a line to be considered short.
+  *   - threshold (Text): Ratio of empty lines used to switch between newline-based and paragraph
+  *     grouping.
+  *   - max_line_count (Text): Max lines evaluated when analyzing paragraph structure.
+  *   - include_slide_notes (PowerPoint): Whether to include speaker notes from slides as
+  *     narrative text.
+  *   - infer_table_structure (Word, Excel, PowerPoint): Generate full HTML table structure from
+  *     parsed table content.
+  *   - append_cells (Excel): Append all rows into a single content block instead of individual
+  *     elements.
+  *   - cell_separator (Excel): String used to join cell values in a row for text output.
+  *   - add_attachment_content (Email): Include text content of plain-text attachments in the
+  *     output.
+  *   - headers (HTML): This is used when a URL is provided, allowing you to set the necessary
+  *     headers for the request.
+  *
+  * ==Example 1 (Reading Text Files)==
+  * {{{
+  * val txtDirectory = "/content/txtfiles/reader/txt"
+  * val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
+  * textDf.show()
+  *
+  * +--------------------+--------------------+
+  * |                path|                 txt|
+  * +--------------------+--------------------+
+  * |file:/content/txt...|[{Title, BIG DATA...|
+  * +--------------------+--------------------+
+  * }}}
+  *
+  * ==Example 2 (Reading Email Files)==
+  * {{{
+  * emailDirectory = "./email-files/test-several-attachments.eml"
+  * partitionDf = Partition(Map("content_type" -> "message/rfc822")).partition(emailDirectory)
+  * partitionDf.show()
+  * +--------------------+--------------------+
+  * |                path|               email|
+  * +--------------------+--------------------+
+  * |file:/content/ema...|[{Title, Test Sev...|
+  * +--------------------+--------------------+
+  * }}}
+  *
+  * ==Example 3 (Reading Webpages)==
+  * {{{
+  *   val htmlDf = Partition().partition("https://www.wikipedia.org")
+  *   htmlDf.show()
+  *
+  * +--------------------+--------------------+
+  * |                 url|                html|
+  * +--------------------+--------------------+
+  * |https://www.wikip...|[{Title, Wikipedi...|
+  * +--------------------+--------------------+
+  *
+  * }}}
+  * For more examples, please refer -
+  * examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb
+  */
 class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     extends Serializable {
 
@@ -35,6 +120,16 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
   def getOutputColumn: String = outputColumn
 
+  /** Takes a URL/file/directory path to read and parse it's content.
+    *
+    * @param path
+    *   Path to a file or local directory where all files are stored. Supports URLs and DFS file
+    *   systems like databricks, HDFS and Microsoft Fabric OneLake.
+    * @param headers
+    *   If the path is a URL it sets the necessary headers for the request.
+    * @return
+    *   DataFrame with parsed file content.
+    */
   def partition(
       path: String,
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
@@ -137,6 +232,40 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     }
   }
 
+  /** Parses multiple URL's.
+    *
+    * @param urls
+    *   list of URL's
+    * @param headers
+    *   sets the necessary headers for the URL request.
+    * @return
+    *   DataFrame with parsed url content.
+    *
+    * ==Example==
+    * {{{
+    * val htmlDf =
+    *      Partition().partitionUrls(Array("https://www.wikipedia.org", "https://example.com/"))
+    * htmlDf.show()
+    *
+    * +--------------------+--------------------+
+    * |                 url|                html|
+    * +--------------------+--------------------+
+    * |https://www.wikip...|[{Title, Wikipedi...|
+    * |https://example.com/|[{Title, Example ...|
+    * +--------------------+--------------------+
+    *
+    * htmlDf.printSchema()
+    * root
+    *   |-- url: string (nullable = true)
+    *   |-- html: array (nullable = true)
+    *   |    |-- element: struct (containsNull = true)
+    *   |    |    |-- elementType: string (nullable = true)
+    *   |    |    |-- content: string (nullable = true)
+    *   |    |    |-- metadata: map (nullable = true)
+    *   |    |    |    |-- key: string
+    *   |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    */
   def partitionUrls(urls: Array[String], headers: Map[String, String] = Map.empty): DataFrame = {
     if (urls.isEmpty) throw new IllegalArgumentException("URL array is empty")
     val sparkNLPReader = new SparkNLPReader(params, headers.asJava)
@@ -149,6 +278,45 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     partitionUrls(urls.asScala.toArray, headers.asScala.toMap)
   }
 
+  /** Parses and reads data from a string.
+    *
+    * @param text
+    *   Text data in the form of a string.
+    * @return
+    *   DataFrame with parsed text content.
+    *
+    * ==Example==
+    * {{{
+    *     val content =
+    *       """
+    *         |The big brown fox
+    *         |was walking down the lane.
+    *         |
+    *         |At the end of the lane,
+    *         |the fox met a bear.
+    *         |""".stripMargin
+    *
+    *     val textDf = Partition(Map("groupBrokenParagraphs" -> "true")).partitionText(content)
+    *     textDf.show()
+    *
+    *  +--------------------------------------+
+    *  |txt                                   |
+    *  +--------------------------------------+
+    *  |[{NarrativeText, The big brown fox was|
+    *  +--------------------------------------+
+    *
+    *     textDf.printSchema()
+    *     root
+    *          |-- txt: array (nullable = true)
+    *          |    |-- element: struct (containsNull = true)
+    *          |    |    |-- elementType: string (nullable = true)
+    *          |    |    |-- content: string (nullable = true)
+    *          |    |    |-- metadata: map (nullable = true)
+    *          |    |    |    |-- key: string
+    *          |    |    |    |-- value: string (valueContainsNull = true)
+    *
+    * }}}
+    */
   def partitionText(text: String): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params)
     sparkNLPReader.txtContent(text)

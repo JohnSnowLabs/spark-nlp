@@ -29,6 +29,59 @@ import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
+/** This class is used to read and parse excel files.
+  *
+  * @param titleFontSize
+  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
+  *   on formatting (e.g., bold, centered, capitalized). By default it is set to 9. By default, it
+  *   is set to 9.
+  * @param cellSeparator
+  *   String used to join cell values in a row when assembling textual output. By default, it is
+  *   set to tab seperator.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. By default, it is set to false.
+  * @param includePageBreaks
+  *   Whether to detect and tag content with page break metadata. In Word documents, this includes
+  *   manual and section breaks. In Excel files, this includes page breaks based on column
+  *   boundaries. By default, it is set to false.
+  * @param inferTableStructure
+  *   Whether to generate an HTML table representation from structured table content. When
+  *   enabled, a full `<table>` element is added alongside cell-level elements, based on row and
+  *   column layout. By default, it is set to false.
+  * @param appendCells
+  *   Whether to append all rows into a single content block instead of creating separate elements
+  *   per row. By default, it is set to false.
+  *
+  * ==Example==
+  * {{{
+  * val path = "./excel-files/PageBreakExample.xlsx"
+  * val excelReader = new ExcelReader()
+  * val excelDf = excelReader.xls(docDirectory)
+  * }}}
+  *
+  * {{{
+  * excelDf.show()
+  * +------------------+---------------------+
+  * |path              |xls                  |
+  * +------------------+---------------------+
+  * |file:/content/exce|[{Title, Date\tFri Ju|
+  * +------------------+---------------------+
+  *
+  * excelDf.printSchema()
+  *   root
+  *  |-- path: string (nullable = true)
+  *  |-- xls: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_Excel_Reader_Demo.ipynb notebook]].
+  */
 class ExcelReader(
     titleFontSize: Int = 9,
     cellSeparator: String = "\t",
@@ -49,6 +102,14 @@ class ExcelReader(
   }
 
   def getOutputColumn: String = outputColumn
+
+  /** @param filePath
+    *   this is a path to a directory of excel files or a path to an excel file E.g.
+    *   "path/excel/files"
+    *
+    * @return
+    *   Dataframe with parsed excel content.
+    */
 
   def xls(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
