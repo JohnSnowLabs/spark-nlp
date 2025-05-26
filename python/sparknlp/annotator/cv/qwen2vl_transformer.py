@@ -68,7 +68,7 @@ class Qwen2VLTransformer(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
-    >>> test_df = image_df.withColumn("text", lit("<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\n<|vision_start|><|image_pad|><|vision_end|>Describe this image.<|im_end|>\n<|im_start|>assistant\n"))
+    >>> test_df = image_df.withColumn("text", lit("<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n<|im_start|>user\\n<|vision_start|><|image_pad|><|vision_end|>Describe this image.<|im_end|>\\n<|im_start|>assistant\\n"))
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")

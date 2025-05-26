@@ -28,8 +28,8 @@ class PaliGemmaForMultiModal(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> visualQAClassifier = PaliGemmaForMultiModal.pretrained() \
-    ...     .setInputCols(["image_assembler"]) \
+    >>> visualQAClassifier = PaliGemmaForMultiModal.pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
     The default model is ``"paligemma_3b_pt_224_int4"``, if no name is
@@ -59,12 +59,12 @@ class PaliGemmaForMultiModal(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
-    >>> test_df = image_df.withColumn("text", lit("USER: \n <image> \nDescribe this image. \nASSISTANT:\n"))
-    >>> imageAssembler = ImageAssembler() \
-    ...     .setInputCol("image") \
+    >>> test_df = image_df.withColumn("text", lit("USER: \\n <image> \\nDescribe this image. \\nASSISTANT:\\n"))
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-    >>> visualQAClassifier = PaliGemmaForMultiModal.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQAClassifier = PaliGemmaForMultiModal.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,

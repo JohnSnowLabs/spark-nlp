@@ -77,7 +77,7 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         Target Language (Default: `fr`)
 
     Languages Covered
-    -----
+    -----------------
     Afrikaans (af), Amharic (am), Arabic (ar), Asturian (ast), Azerbaijani (az), Bashkir (ba),
     Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian
     (ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English

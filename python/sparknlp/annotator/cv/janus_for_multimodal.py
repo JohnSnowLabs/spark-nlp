@@ -36,8 +36,9 @@ class JanusForMultiModal(AnnotatorModel,
     and for image generation, it uses a tokenizer with a downsample rate of 16.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion object:
-    >>> visualQAClassifier = JanusForMultiModal.pretrained() \
-    ...     .setInputCols(["image_assembler"]) \
+
+    >>> visualQAClassifier = JanusForMultiModal.pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
     The default model is `"janus_1_3b_int4"`, if no name is provided.
@@ -73,29 +74,23 @@ class JanusForMultiModal(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> from pyspark.sql.functions import lit
-
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
     >>> test_df = image_df.withColumn(
     ...     "text",
-    ...     lit("User: <image_placeholder>Describe image in details\n\nAssistant:")
+    ...     lit("User: <image_placeholder>Describe image in details\\n\\nAssistant:")
     ... )
-
-    >>> imageAssembler = ImageAssembler() \
-    ...     .setInputCol("image") \
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-
-    >>> visualQAClassifier = JanusForMultiModal.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQAClassifier = JanusForMultiModal.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
-
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,
     ...     visualQAClassifier
     ... ])
-
     >>> result = pipeline.fit(test_df).transform(test_df)
     >>> result.select("image_assembler.origin", "answer.result").show(truncate=False)
-
     +--------------------------------------+----------------------------------------------------------------------+
     |origin                                |result                                                                |
     +--------------------------------------+----------------------------------------------------------------------+

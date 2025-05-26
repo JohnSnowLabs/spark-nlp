@@ -33,8 +33,8 @@ class SmolVLMTransformer(AnnotatorModel,
     while maintaining strong performance on multimodal tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion object:
-    >>> visualQA = SmolVLMTransformer.pretrained() \
-    ...     .setInputCols(["image_assembler"]) \
+    >>> visualQA = SmolVLMTransformer.pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("answer")
 
     The default model is `"smolvlm_instruct_int4"`, if no name is provided.
@@ -82,29 +82,23 @@ class SmolVLMTransformer(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> from pyspark.sql.functions import lit
-
     >>> imageDF = spark.read.format("image").load(path=images_path)
     >>> testDF = imageDF.withColumn(
     ...     "text",
-    ...     lit("<|im_start|>User:<image>Can you describe the image?<end_of_utterance>\nAssistant:")
+    ...     lit("<|im_start|>User:<image>Can you describe the image?<end_of_utterance>\\nAssistant:")
     ... )
-
-    >>> imageAssembler = ImageAssembler() \
-    ...     .setInputCol("image") \
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-
-    >>> visualQAClassifier = SmolVLMTransformer.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQAClassifier = SmolVLMTransformer.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
-
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,
     ...     visualQAClassifier
     ... ])
-
     >>> result = pipeline.fit(testDF).transform(testDF)
     >>> result.select("image_assembler.origin", "answer.result").show(truncate=False)
-
     +--------------------------------------+----------------------------------------------------------------------+
     |origin                                |result                                                                |
     +--------------------------------------+----------------------------------------------------------------------+

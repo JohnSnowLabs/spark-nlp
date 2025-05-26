@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains the PartitionTransformer class for reading various types of documents into chunks."""
 from sparknlp.common import *
 from sparknlp.partition.partition_properties import *
 

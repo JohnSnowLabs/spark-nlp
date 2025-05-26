@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+"""Contains classes for partition properties used in reading various document types."""
 from typing import Dict
 
 from pyspark.ml.param import TypeConverters, Params, Param

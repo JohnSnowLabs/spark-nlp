@@ -65,7 +65,7 @@ class Phi3Vision(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> image_df = SparkSessionForTest.spark.read.format("image").load(path=images_path)
-    >>> test_df = image_df.withColumn("text", lit("<|user|> \n <|image_1|> \nWhat is unusual on this picture? <|end|>\n <|assistant|>\n"))
+    >>> test_df = image_df.withColumn("text", lit("<|user|> \\n <|image_1|> \\nWhat is unusual on this picture? <|end|>\\n <|assistant|>\\n"))
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")

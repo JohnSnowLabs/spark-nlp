@@ -20,8 +20,8 @@ class InternVLForMultiModal(AnnotatorModel,
     - Optimized for deployment with int4 quantization
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion object:
-    >>> visualQA = InternVLForMultiModal.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQA = InternVLForMultiModal.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
 
     The default model is `"internvl2_5_1b_int4"`, if no name is provided.
@@ -49,21 +49,17 @@ class InternVLForMultiModal(AnnotatorModel,
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
     >>> from pyspark.sql.functions import lit
-
     >>> image_df = spark.read.format("image").load(path=images_path)
     >>> test_df = image_df.withColumn(
     ...     "text",
-    ...     lit("<|im_start|><image>\nDescribe this image in detail.<|im_end|><|im_start|>assistant\n")
+    ...     lit("<|im_start|><image>\\nDescribe this image in detail.<|im_end|><|im_start|>assistant\\n")
     ... )
-
-    >>> imageAssembler = ImageAssembler() \
-    ...     .setInputCol("image") \
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-
-    >>> visualQA = InternVLForMultiModal.pretrained() \
-    ...     .setInputCols("image_assembler") \
+    >>> visualQA = InternVLForMultiModal.pretrained() \\
+    ...     .setInputCols("image_assembler") \\
     ...     .setOutputCol("answer")
-
     >>> pipeline = Pipeline().setStages([
     ...     imageAssembler,
     ...     visualQA
