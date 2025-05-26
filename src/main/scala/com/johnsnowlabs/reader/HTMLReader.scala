@@ -17,6 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTxtFile
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
@@ -25,6 +26,57 @@ import org.jsoup.nodes.{Document, Element, Node, TextNode}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+
+/** Class to parse and read HTML files.
+  *
+  * @param titleFontSize
+  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
+  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. By default, it is set to false.
+  * @param timeout
+  *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
+  *   from URLs. By default, it is set to 0.
+  * @param headers
+  *   sets the necessary headers for the URL request.
+  *
+  * Two types of input paths are supported for the reader,
+  *
+  * htmlPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+  * "path/html/files"
+  *
+  * url: this is the URL or set of URLs of a website . E.g., "https://www.wikipedia.org"
+  *
+  * ==Example==
+  * {{{
+  * val path = "./html-files/fake-html.html"
+  * val HTMLReader = new HTMLReader()
+  * val htmlDF = HTMLReader.read(url)
+  * }}}
+  *
+  * {{{
+  * htmlDF.show()
+  * +--------------------+--------------------+
+  * |                path|                html|
+  * +--------------------+--------------------+
+  * |file:/content/htm...|[{Title, My First...|
+  * +--------------------+--------------------+
+  *
+  * htmlDf.printSchema()
+  * root
+  *  |-- url: string (nullable = true)
+  *  |-- html: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_HTML_Reader_Demo.ipynb notebook]].
+  */
 
 class HTMLReader(
     titleFontSize: Int = 16,
@@ -46,13 +98,18 @@ class HTMLReader(
 
   def getOutputColumn: String = outputColumn
 
+  /** @param inputSource
+    *   this is the link to the URL E.g. www.wikipedia.com
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
+
   def read(inputSource: String): DataFrame = {
 
     ResourceHelper match {
       case _ if validFile(inputSource) && !inputSource.startsWith("http") =>
-        val htmlDf = spark.sparkContext
-          .wholeTextFiles(inputSource)
-          .toDF("path", "content")
+        val htmlDf = datasetWithTxtFile(spark, inputSource)
           .withColumn(outputColumn, parseHtmlUDF(col("content")))
         if (storeContent) htmlDf.select("path", "content", outputColumn)
         else htmlDf.select("path", outputColumn)
@@ -67,6 +124,13 @@ class HTMLReader(
         throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
     }
   }
+
+  /** @param inputURLs
+    *   this is a list of URLs E.g. [www.wikipedia.com, www.example.com]
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
 
   def read(inputURLs: Array[String]): DataFrame = {
     val spark = ResourceHelper.spark

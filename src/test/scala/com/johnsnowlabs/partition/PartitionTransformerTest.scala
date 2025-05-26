@@ -26,9 +26,12 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
 
   val wordDirectory = "src/test/resources/reader/doc"
   val emailDirectory = "src/test/resources/reader/email"
+  val htmlDirectory = "src/test/resources/reader/html"
 
   "PartitionTransformer" should "work in a RAG pipeline" taggedAs SlowTest in {
     val partition = new PartitionTransformer()
+      .setInputCols("doc")
+      .setContentType("application/msword")
       .setContentPath(s"$wordDirectory/fake_table.docx")
       .setOutputCol("partition")
 
@@ -142,6 +145,23 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(dummyDataFrame)
+    resultDf.show()
+
+    assert(resultDf.select("partition").count() > 0)
+  }
+
+  it should "partition HTML documents" taggedAs FastTest in {
+    val partition = new PartitionTransformer()
+      .setInputCols("text")
+      .setContentPath(s"$htmlDirectory")
+      .setContentType("text/html")
+      .setOutputCol("partition")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(partition))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
     resultDf.show()
 
     assert(resultDf.select("partition").count() > 0)
