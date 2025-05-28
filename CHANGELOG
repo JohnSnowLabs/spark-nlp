@@ -4,25 +4,6 @@
 ----------------
 New Features & Enhancements
 ----------------
-* Introducing new Vision Language Models:
-  * SmolVLM (SPARKNLP-1115)
-  * PaliGemma + PaliGemma2 (SPARKNLP-1121)
-  * Gemma 3 (SPARKNLP-1124)
-
-* Adding additional parameters options to PDF Reader (SPARKNLP-1158)
-
-----------------
-Bug Fixes
-----------------
-* Fixed typo in Python for RoBertaForMultipleChoice (SPARKNLP-1177)
-* Fixing typos in various jupyter notebooks
-
-=======
-6.0.0
-=======
-----------------
-New Features & Enhancements
-----------------
 * Introducing new large language models:
   * OLMo model support (SPARKNLP-1006)
   * Phi 3.5 Vision model support (SPARKNLP-1060)
