@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=30ef5761"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -365,8 +365,6 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaMLReadable</span><span class="p">,</span> <span class="n">JavaMLWritable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaTransformer</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextStripperType</span>
-
 
 <div class="viewcode-block" id="PdfToText"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PdfToText</span><span class="p">(</span><span class="n">JavaTransformer</span><span class="p">,</span> <span class="n">HasInputCol</span><span class="p">,</span> <span class="n">HasOutputCol</span><span class="p">,</span>
                 <span class="n">JavaMLReadable</span><span class="p">,</span> <span class="n">JavaMLWritable</span><span class="p">):</span>
@@ -388,22 +386,6 @@ document.write(`
                              <span class="s2">&quot;Force to store splitted pdf.&quot;</span><span class="p">,</span>
                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
-    <span class="n">splitPage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;splitPage&quot;</span><span class="p">,</span>
-                      <span class="s2">&quot;Param for enable/disable splitting document per page&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-
-    <span class="n">textStripper</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;textStripper&quot;</span><span class="p">,</span>
-                         <span class="s2">&quot;Text stripper type used for output layout and formatting&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-
-    <span class="n">sort</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;Param for enable/disable sort lines&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-
-    <span class="n">onlyPageNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;onlyPageNum&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;Force to extract only number of pages&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -411,6 +393,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PdfToText</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.reader.PdfToText&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="PdfToText.setInputCol"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -440,36 +423,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`storeSplittedPdf`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">storeSplittedPdf</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PdfToText.setSplitPage"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setSplitPage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the value of :py:attr:`splitPage`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitPage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PdfToText.setOnlyPageNum"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOnlyPageNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the value of :py:attr:`onlyPageNum`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">onlyPageNum</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PdfToText.setTextStripper"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setTextStripper">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextStripper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the value of :py:attr:`textStripper`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">TextStripperType</span><span class="p">):</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">TextStripperType</span><span class="p">]:</span>
-            <span class="n">type_value</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Param textStripper must be a &#39;TextStripperType&#39; enum but got </span><span class="si">{</span><span class="n">type_value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">textStripper</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="PdfToText.setSort"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setSort">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the value of :py:attr:`sort`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">storeSplittedPdf</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

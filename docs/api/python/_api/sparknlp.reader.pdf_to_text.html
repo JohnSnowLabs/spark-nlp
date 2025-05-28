@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.pdf_to_text module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.reader.pdf_to_text module &#8212; Spark NLP 6.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,14 +383,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -595,7 +592,6 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
@@ -682,11 +678,6 @@ Input is a column with binary representation of PDF document.
 As output generate column with text and page number.
 Explode each page as separate row if split to page enabled.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum">
-<span class="sig-name descname"><span class="pre">onlyPageNum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='onlyPageNum',</span> <span class="pre">doc='Force</span> <span class="pre">to</span> <span class="pre">extract</span> <span class="pre">only</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">pages')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.pageNumCol">
 <span class="sig-name descname"><span class="pre">pageNumCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pageNumCol',</span> <span class="pre">doc='Page</span> <span class="pre">number</span> <span class="pre">output</span> <span class="pre">column</span> <span class="pre">name.')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.pageNumCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -700,12 +691,6 @@ Explode each page as separate row if split to page enabled.</p>
 <dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setInputCol">
 <span class="sig-name descname"><span class="pre">setInputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setInputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setInputCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of <code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum">
-<span class="sig-name descname"><span class="pre">setOnlyPageNum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setOnlyPageNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the value of <a class="reference internal" href="#sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum" title="sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum"><code class="xref py py-attr docutils literal notranslate"><span class="pre">onlyPageNum</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -727,47 +712,14 @@ Explode each page as separate row if split to page enabled.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setSort">
-<span class="sig-name descname"><span class="pre">setSort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setSort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setSort" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the value of <a class="reference internal" href="#sparknlp.reader.pdf_to_text.PdfToText.sort" title="sparknlp.reader.pdf_to_text.PdfToText.sort"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sort</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setSplitPage">
-<span class="sig-name descname"><span class="pre">setSplitPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setSplitPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setSplitPage" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the value of <a class="reference internal" href="#sparknlp.reader.pdf_to_text.PdfToText.splitPage" title="sparknlp.reader.pdf_to_text.PdfToText.splitPage"><code class="xref py py-attr docutils literal notranslate"><span class="pre">splitPage</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setStoreSplittedPdf">
 <span class="sig-name descname"><span class="pre">setStoreSplittedPdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setStoreSplittedPdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setStoreSplittedPdf" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the value of <a class="reference internal" href="#sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf" title="sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf"><code class="xref py py-attr docutils literal notranslate"><span class="pre">storeSplittedPdf</span></code></a>.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.setTextStripper">
-<span class="sig-name descname"><span class="pre">setTextStripper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/pdf_to_text.html#PdfToText.setTextStripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.setTextStripper" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the value of <a class="reference internal" href="#sparknlp.reader.pdf_to_text.PdfToText.textStripper" title="sparknlp.reader.pdf_to_text.PdfToText.textStripper"><code class="xref py py-attr docutils literal notranslate"><span class="pre">textStripper</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='sort',</span> <span class="pre">doc='Param</span> <span class="pre">for</span> <span class="pre">enable/disable</span> <span class="pre">sort</span> <span class="pre">lines')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.sort" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.splitPage">
-<span class="sig-name descname"><span class="pre">splitPage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='splitPage',</span> <span class="pre">doc='Param</span> <span class="pre">for</span> <span class="pre">enable/disable</span> <span class="pre">splitting</span> <span class="pre">document</span> <span class="pre">per</span> <span class="pre">page')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.splitPage" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf">
 <span class="sig-name descname"><span class="pre">storeSplittedPdf</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='storeSplittedPdf',</span> <span class="pre">doc='Force</span> <span class="pre">to</span> <span class="pre">store</span> <span class="pre">splitted</span> <span class="pre">pdf.')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.pdf_to_text.PdfToText.textStripper">
-<span class="sig-name descname"><span class="pre">textStripper</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='textStripper',</span> <span class="pre">doc='Text</span> <span class="pre">stripper</span> <span class="pre">type</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">output</span> <span class="pre">layout</span> <span class="pre">and</span> <span class="pre">formatting')</span></em><a class="headerlink" href="#sparknlp.reader.pdf_to_text.PdfToText.textStripper" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -801,22 +753,14 @@ Explode each page as separate row if split to page enabled.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText"><code class="docutils literal notranslate"><span class="pre">PdfToText</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum"><code class="docutils literal notranslate"><span class="pre">PdfToText.onlyPageNum</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.pageNumCol"><code class="docutils literal notranslate"><span class="pre">PdfToText.pageNumCol</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.partitionNum"><code class="docutils literal notranslate"><span class="pre">PdfToText.partitionNum</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setInputCol"><code class="docutils literal notranslate"><span class="pre">PdfToText.setInputCol()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum"><code class="docutils literal notranslate"><span class="pre">PdfToText.setOnlyPageNum()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setOutputCol"><code class="docutils literal notranslate"><span class="pre">PdfToText.setOutputCol()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setPageNumCol"><code class="docutils literal notranslate"><span class="pre">PdfToText.setPageNumCol()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setPartitionNum"><code class="docutils literal notranslate"><span class="pre">PdfToText.setPartitionNum()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setSort"><code class="docutils literal notranslate"><span class="pre">PdfToText.setSort()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setSplitPage"><code class="docutils literal notranslate"><span class="pre">PdfToText.setSplitPage()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setStoreSplittedPdf"><code class="docutils literal notranslate"><span class="pre">PdfToText.setStoreSplittedPdf()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.setTextStripper"><code class="docutils literal notranslate"><span class="pre">PdfToText.setTextStripper()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.sort"><code class="docutils literal notranslate"><span class="pre">PdfToText.sort</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.splitPage"><code class="docutils literal notranslate"><span class="pre">PdfToText.splitPage</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf"><code class="docutils literal notranslate"><span class="pre">PdfToText.storeSplittedPdf</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.pdf_to_text.PdfToText.textStripper"><code class="docutils literal notranslate"><span class="pre">PdfToText.textStripper</span></code></a></li>
 </ul>
 </li>
 </ul>
