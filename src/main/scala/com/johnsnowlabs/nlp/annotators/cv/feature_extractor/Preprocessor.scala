@@ -134,9 +134,6 @@ private[johnsnowlabs] object Preprocessor {
         case sizeMap: Map[String, BigInt] if sizeMap.contains("shortest_edge") =>
           // ConvNext case: Size of the output image after `resize` has been applied
           sizeMap("shortest_edge").toInt
-        case sizeMap: Map[String, BigInt] if sizeMap.contains("longest_edge") =>
-          // ConvNext case: Size of the output image after `resize` has been applied
-          sizeMap("longest_edge").toInt
         case sizeInt: BigInt => sizeInt.toInt
         case sizeMap: Map[String, BigInt] if sizeMap.contains("max_pixels") =>
           val max_pixels = sizeMap("max_pixels")

@@ -152,7 +152,6 @@ trait HasImageFeatureProperties extends ParamsAndFeaturesWritable {
   def getResample: Int = $(resample) match {
     // Match to AffineTransformOp
     case 0 => 1 // NEAREST
-    case 1 => 1 // BOX
     case 2 => 2 // BILINEAR
     case 3 => 3 // BICUBIC
     case otherValue: Int =>

@@ -432,14 +432,6 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
-      case "smolvlm" =>
-        new SmolVLMTokenizer(
-          merges,
-          vocab,
-          modelSpecialTokens(),
-          padWithSequenceTokens,
-          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
-          prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
