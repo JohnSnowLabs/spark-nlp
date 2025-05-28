@@ -169,7 +169,6 @@ private[johnsnowlabs] class Florence2(
       effectiveBatch_mult = 1
     }
 
-
 //    use eosTokenId as the starting token for the decoder
     val decoderInputIds =
       expandedDecoderInputsVals.map { _ => Array(eosTokenId) }

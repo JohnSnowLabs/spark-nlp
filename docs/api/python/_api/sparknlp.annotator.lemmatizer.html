@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.lemmatizer module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.lemmatizer module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,12 +685,12 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Lemmatizer</span></span><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
 <p>Class to find lemmas out of words with the objective of returning a base
 dictionary word.</p>
 <p>Retrieves the significant part of a word. A dictionary of predefined lemmas
-must be provided with <a class="reference internal" href="#sparknlp.annotator.lemmatizer.Lemmatizer.setDictionary" title="sparknlp.annotator.lemmatizer.Lemmatizer.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a>.</p>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.lemmatizer.LemmatizerModel" title="sparknlp.annotator.lemmatizer.LemmatizerModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LemmatizerModel</span></code></a>.</p>
+must be provided with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer.setDictionary" title="sparknlp.annotator.lemmatizer.Lemmatizer.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel" title="sparknlp.annotator.lemmatizer.LemmatizerModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">LemmatizerModel</span></code></a>.</p>
 <p>For available pretrained models please see the <a class="reference external" href="https://sparknlp.org/models?task=Lemmatization">Models Hub</a>.
 For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
 <table class="table">
@@ -755,27 +763,27 @@ For extended examples of usage, see the <a class="reference external" href="http
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer.dictionary">
-<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc=&quot;lemmatizer</span> <span class="pre">external</span> <span class="pre">dictionary.</span> <span class="pre">needs</span> <span class="pre">'keyDelimiter'</span> <span class="pre">and</span> <span class="pre">'valueDelimiter'</span> <span class="pre">in</span> <span class="pre">options</span> <span class="pre">for</span> <span class="pre">parsing</span> <span class="pre">target</span> <span class="pre">text&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.dictionary" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc=&quot;lemmatizer</span> <span class="pre">external</span> <span class="pre">dictionary.</span> <span class="pre">needs</span> <span class="pre">'keyDelimiter'</span> <span class="pre">and</span> <span class="pre">'valueDelimiter'</span> <span class="pre">in</span> <span class="pre">options</span> <span class="pre">for</span> <span class="pre">parsing</span> <span class="pre">target</span> <span class="pre">text&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer.dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.dictionary" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer.formCol">
-<span class="sig-name descname"><span class="pre">formCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='formCol',</span> <span class="pre">doc='Column</span> <span class="pre">that</span> <span class="pre">correspends</span> <span class="pre">to</span> <span class="pre">CoNLLU(formCol=)</span> <span class="pre">output')</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.formCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">formCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='formCol',</span> <span class="pre">doc='Column</span> <span class="pre">that</span> <span class="pre">correspends</span> <span class="pre">to</span> <span class="pre">CoNLLU(formCol=)</span> <span class="pre">output')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer.formCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.formCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer.lemmaCol">
-<span class="sig-name descname"><span class="pre">lemmaCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lemmaCol',</span> <span class="pre">doc='Column</span> <span class="pre">that</span> <span class="pre">correspends</span> <span class="pre">to</span> <span class="pre">CoNLLU(lemmaCol=)</span> <span class="pre">output')</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.lemmaCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">lemmaCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lemmaCol',</span> <span class="pre">doc='Column</span> <span class="pre">that</span> <span class="pre">correspends</span> <span class="pre">to</span> <span class="pre">CoNLLU(lemmaCol=)</span> <span class="pre">output')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer.lemmaCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.lemmaCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.Lemmatizer.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#Lemmatizer.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.Lemmatizer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -851,11 +859,11 @@ delimited by <code class="docutils literal notranslate"><span class="pre">\t</sp
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.LemmatizerModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LemmatizerModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.LemmatizerModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#LemmatizerModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Instantiated Model of the Lemmatizer.</p>
-<p>This is the instantiated model of the <a class="reference internal" href="#sparknlp.annotator.lemmatizer.Lemmatizer" title="sparknlp.annotator.lemmatizer.Lemmatizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a>.
+<p>This is the instantiated model of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer" title="sparknlp.annotator.lemmatizer.Lemmatizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a>.
 For training your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.pretrained" title="sparknlp.annotator.lemmatizer.LemmatizerModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel.pretrained" title="sparknlp.annotator.lemmatizer.LemmatizerModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
@@ -883,7 +891,7 @@ object:</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>The lemmatizer from the example of the <a class="reference internal" href="#sparknlp.annotator.lemmatizer.Lemmatizer" title="sparknlp.annotator.lemmatizer.Lemmatizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a> can be replaced
+<p>The lemmatizer from the example of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer" title="sparknlp.annotator.lemmatizer.Lemmatizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lemmatizer</span></code></a> can be replaced
 with:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
@@ -892,17 +900,17 @@ with:</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.LemmatizerModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#LemmatizerModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.LemmatizerModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LemmatizerModel'</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LemmatizerModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#LemmatizerModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.lemmatizer.LemmatizerModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/lemmatizer.html#LemmatizerModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.lemmatizer.LemmatizerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1015,7 +1023,7 @@ Spark NLPs repositories otherwise.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

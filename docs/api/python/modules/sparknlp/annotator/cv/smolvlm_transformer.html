@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cv.smolvlm_transformer &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.cv.smolvlm_transformer &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -375,7 +380,7 @@ document.write(`
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="SmolVLMTransformer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SmolVLMTransformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SmolVLMTransformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                           <span class="n">HasBatchedAnnotateImage</span><span class="p">,</span>
                           <span class="n">HasImageFeatureProperties</span><span class="p">,</span>
                           <span class="n">HasEngine</span><span class="p">,</span>
@@ -394,8 +399,8 @@ document.write(`
 <span class="sd">    while maintaining strong performance on multimodal tasks.</span>
 
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion object:</span>
-<span class="sd">    &gt;&gt;&gt; visualQA = SmolVLMTransformer.pretrained() \</span>
-<span class="sd">    ...     .setInputCols([&quot;image_assembler&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; visualQA = SmolVLMTransformer.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;image_assembler&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;answer&quot;)</span>
 
 <span class="sd">    The default model is `&quot;smolvlm_instruct_int4&quot;`, if no name is provided.</span>
@@ -443,29 +448,23 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.sql.functions import lit</span>
-
 <span class="sd">    &gt;&gt;&gt; imageDF = spark.read.format(&quot;image&quot;).load(path=images_path)</span>
 <span class="sd">    &gt;&gt;&gt; testDF = imageDF.withColumn(</span>
 <span class="sd">    ...     &quot;text&quot;,</span>
-<span class="sd">    ...     lit(&quot;&lt;|im_start|&gt;User:&lt;image&gt;Can you describe the image?&lt;end_of_utterance&gt;\nAssistant:&quot;)</span>
+<span class="sd">    ...     lit(&quot;&lt;|im_start|&gt;User:&lt;image&gt;Can you describe the image?&lt;end_of_utterance&gt;\\nAssistant:&quot;)</span>
 <span class="sd">    ... )</span>
-
-<span class="sd">    &gt;&gt;&gt; imageAssembler = ImageAssembler() \</span>
-<span class="sd">    ...     .setInputCol(&quot;image&quot;) \</span>
+<span class="sd">    &gt;&gt;&gt; imageAssembler = ImageAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;image&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;image_assembler&quot;)</span>
-
-<span class="sd">    &gt;&gt;&gt; visualQAClassifier = SmolVLMTransformer.pretrained() \</span>
-<span class="sd">    ...     .setInputCols(&quot;image_assembler&quot;) \</span>
+<span class="sd">    &gt;&gt;&gt; visualQAClassifier = SmolVLMTransformer.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols(&quot;image_assembler&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;answer&quot;)</span>
-
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
 <span class="sd">    ...     imageAssembler,</span>
 <span class="sd">    ...     visualQAClassifier</span>
 <span class="sd">    ... ])</span>
-
 <span class="sd">    &gt;&gt;&gt; result = pipeline.fit(testDF).transform(testDF)</span>
 <span class="sd">    &gt;&gt;&gt; result.select(&quot;image_assembler.origin&quot;, &quot;answer.result&quot;).show(truncate=False)</span>
-
 <span class="sd">    +--------------------------------------+----------------------------------------------------------------------+</span>
 <span class="sd">    |origin                                |result                                                                |</span>
 <span class="sd">    +--------------------------------------+----------------------------------------------------------------------+</span>
@@ -473,77 +472,77 @@ document.write(`
 <span class="sd">    +--------------------------------------+----------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SmolVLMTransformer&quot;</span>
+<div class="viewcode-block" id="SmolVLMTransformer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SmolVLMTransformer&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">]</span>
+<div class="viewcode-block" id="SmolVLMTransformer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="SmolVLMTransformer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="SmolVLMTransformer.minOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.minOutputLength">[docs]</a>    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="SmolVLMTransformer.maxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.maxOutputLength">[docs]</a>    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+<div class="viewcode-block" id="SmolVLMTransformer.doSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.doSample">[docs]</a>    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+<div class="viewcode-block" id="SmolVLMTransformer.temperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.temperature">[docs]</a>    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.topK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.topK">[docs]</a>    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.topP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.topP">[docs]</a>    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.repetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.repetitionPenalty">[docs]</a>    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.noRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.noRepeatNgramSize">[docs]</a>    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.ignoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.ignoreTokenIds">[docs]</a>    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
                            
-    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.beamSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.beamSize">[docs]</a>    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;The Number of beams for beam search.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                      
-    <span class="n">stopTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopTokenIds&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.stopTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.stopTokenIds">[docs]</a>    <span class="n">stopTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopTokenIds&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Stop tokens to terminate the generation&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
                        
-    <span class="n">imageToken</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;imageToken&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.imageToken"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.imageToken">[docs]</a>    <span class="n">imageToken</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;imageToken&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Token id for image embeddings&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                      
-    <span class="n">numVisionTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;numVisionTokens&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.numVisionTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.numVisionTokens">[docs]</a>    <span class="n">numVisionTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;numVisionTokens&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Number of vision tokens&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                          
-    <span class="n">maxImageSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxImageSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.maxImageSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.maxImageSize">[docs]</a>    <span class="n">maxImageSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxImageSize&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Maximum image size for the model&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                       
-    <span class="n">patchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;patchSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.patchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.patchSize">[docs]</a>    <span class="n">patchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;patchSize&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Patch size for the model&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                      
-    <span class="n">paddingConstant</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;paddingConstant&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.paddingConstant"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.paddingConstant">[docs]</a>    <span class="n">paddingConstant</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;paddingConstant&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Padding constant for the model&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
                           
-    <span class="n">doImageSplitting</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doImageSplitting&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SmolVLMTransformer.doImageSplitting"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.doImageSplitting">[docs]</a>    <span class="n">doImageSplitting</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doImageSplitting&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Whether to split the image&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setMaxSentenceSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxSentenceSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxSentenceSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setMaxSentenceSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxSentenceSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxSentenceSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Maximum sentence length that the annotator will process, by</span>
 <span class="sd">        default 20.</span>
 <span class="sd">        Parameters</span>
@@ -553,7 +552,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -562,7 +561,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setStopTokenIds"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setStopTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStopTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setStopTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setStopTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStopTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop tokens to terminate the generation.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -571,7 +570,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stopTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -580,7 +579,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setMinOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -589,7 +588,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -598,7 +597,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setDoSample"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -607,7 +606,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setTemperature"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -616,7 +615,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setTopK"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
 <span class="sd">        top-k-filtering.</span>
 <span class="sd">        Parameters</span>
@@ -626,7 +625,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setTopP"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
 <span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
 <span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
@@ -637,7 +636,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -650,7 +649,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
 <span class="sd">        Parameters</span>
@@ -660,7 +659,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.setBeamSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setBeamSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setBeamSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setBeamSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of beam size for beam search, by default `1`.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -669,7 +668,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setImageToken"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setImageToken">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImageToken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setImageToken"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setImageToken">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImageToken</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the token ID for image embeddings.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -678,7 +677,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">imageToken</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setNumVisionTokens"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setNumVisionTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumVisionTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setNumVisionTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setNumVisionTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumVisionTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of vision tokens.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -687,7 +686,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numVisionTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setMaxImageSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxImageSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxImageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setMaxImageSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setMaxImageSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxImageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum image size for the model.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -696,7 +695,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxImageSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setPatchSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setPatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setPatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setPatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the patch size for the model.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -705,7 +704,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">patchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setPaddingConstant"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setPaddingConstant">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPaddingConstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setPaddingConstant"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setPaddingConstant">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPaddingConstant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the padding constant for the model.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -714,7 +713,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">paddingConstant</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="SmolVLMTransformer.setDoImageSplitting"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setDoImageSplitting">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoImageSplitting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SmolVLMTransformer.setDoImageSplitting"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.setDoImageSplitting">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoImageSplitting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to split the image.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -751,8 +750,8 @@ document.write(`
             <span class="n">doImageSplitting</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SmolVLMTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span> <span class="n">use_openvino</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SmolVLMTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span> <span class="n">use_openvino</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -771,8 +770,8 @@ document.write(`
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_SmolVLMTransformerLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">,</span> <span class="n">use_openvino</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">SmolVLMTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmolVLMTransformer.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.smolvlm_transformer.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;smolvlm_instruct_int4&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SmolVLMTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;smolvlm_instruct_int4&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -832,7 +831,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

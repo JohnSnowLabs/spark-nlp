@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.internal.extended_java_wrapper &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.internal.extended_java_wrapper &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -380,24 +380,24 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">distutils.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">LooseVersion</span>
 
 
-<div class="viewcode-block" id="ExtendedJavaWrapper"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExtendedJavaWrapper</span><span class="p">(</span><span class="n">JavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExtendedJavaWrapper</span><span class="p">(</span><span class="n">JavaWrapper</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">java_obj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="o">.</span><span class="n">_active_spark_context</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.sc"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.sc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="o">.</span><span class="n">_active_spark_context</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_java_obj</span><span class="p">(</span><span class="n">java_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.java_obj"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.java_obj">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.apply"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.apply">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.apply"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.apply">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_obj"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_obj">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_class</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_obj"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_obj">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_class</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="n">java_class</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">,</span> <span class="n">java_class</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">,</span> <span class="n">java_class</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        ToDo: Inspired from spark 2.0. Review if spark changes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -406,18 +406,18 @@ document.write(`
             <span class="n">java_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pylist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">java_array</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array_string"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array_string">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array_string"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array_string">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">):</span>
         <span class="n">java_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_array</span><span class="p">(</span><span class="n">pylist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">_gateway</span><span class="o">.</span><span class="n">jvm</span><span class="o">.</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">String</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">java_array</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array_integer"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array_integer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array_integer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array_integer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array_integer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">new_java_array_integer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">):</span>
         <span class="n">java_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_array</span><span class="p">(</span><span class="n">pylist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">_gateway</span><span class="o">.</span><span class="n">jvm</span><span class="o">.</span><span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Integer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">java_array</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.spark_version"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.spark_version">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">spark_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.spark_version"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.spark_version">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">spark_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">version</span></div>
 
-<div class="viewcode-block" id="ExtendedJavaWrapper.getDataFrame"><a class="viewcode-back" href="../../../_api/sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.getDataFrame">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedJavaWrapper.getDataFrame"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.getDataFrame">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark_version</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;3.3.0&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_getActiveSessionOrCreate</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
@@ -463,7 +463,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

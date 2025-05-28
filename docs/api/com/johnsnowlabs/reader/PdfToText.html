@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.1 ScalaDoc  - com.johnsnowlabs.reader.PdfToText</title>
-          <meta name="description" content="Spark NLP 6.0.1 ScalaDoc - com.johnsnowlabs.reader.PdfToText" />
-          <meta name="keywords" content="Spark NLP 6.0.1 ScalaDoc com.johnsnowlabs.reader.PdfToText" />
+          <title>Spark NLP 6.0.2 ScalaDoc  - com.johnsnowlabs.reader.PdfToText</title>
+          <meta name="description" content="Spark NLP 6.0.2 ScalaDoc - com.johnsnowlabs.reader.PdfToText" />
+          <meta name="keywords" content="Spark NLP 6.0.2 ScalaDoc com.johnsnowlabs.reader.PdfToText" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -139,48 +139,48 @@
                         <a href="ElementType$.html" title="">ElementType</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="EmailReader.html" title=""></a>
-                        <a href="EmailReader.html" title="">EmailReader</a>
+                        <a class="class" href="EmailReader.html" title="This class is used to read and parse email content."></a>
+                        <a href="EmailReader.html" title="This class is used to read and parse email content.">EmailReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="ExcelReader.html" title=""></a>
-                        <a href="ExcelReader.html" title="">ExcelReader</a>
+                        <a class="class" href="ExcelReader.html" title="This class is used to read and parse excel files."></a>
+                        <a href="ExcelReader.html" title="This class is used to read and parse excel files.">ExcelReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="HTMLElement.html" title=""></a>
                         <a href="HTMLElement.html" title="">HTMLElement</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="HTMLReader.html" title=""></a>
-                        <a href="HTMLReader.html" title="">HTMLReader</a>
+                        <a class="class" href="HTMLReader.html" title="Class to parse and read HTML files."></a>
+                        <a href="HTMLReader.html" title="Class to parse and read HTML files.">HTMLReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="MimeType$.html" title=""></a>
                         <a href="MimeType$.html" title="">MimeType</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="PdfToText$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">PdfToText</a>
+                        <a class="class" href="" title="Extract text from PDF document to a single string or to several strings per each page."></a>
+                        <a href="" title="Extract text from PDF document to a single string or to several strings per each page.">PdfToText</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="PdfToTextTrait.html" title=""></a>
                         <a href="PdfToTextTrait.html" title="">PdfToTextTrait</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="PowerPointReader.html" title=""></a>
-                        <a href="PowerPointReader.html" title="">PowerPointReader</a>
+                        <a class="class" href="PowerPointReader.html" title="Class to read and parse PowerPoint files."></a>
+                        <a href="PowerPointReader.html" title="Class to read and parse PowerPoint files.">PowerPointReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
                         <a href="SparkNLPReader.html" title="">SparkNLPReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="TextReader.html" title=""></a>
-                        <a href="TextReader.html" title="">TextReader</a>
+                        <a class="class" href="TextReader.html" title="Class to read and parse text files."></a>
+                        <a href="TextReader.html" title="Class to read and parse text files.">TextReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="WordReader.html" title=""></a>
-                        <a href="WordReader.html" title="">WordReader</a>
+                        <a class="class" href="WordReader.html" title="Class to read and parse Word files."></a>
+                        <a href="WordReader.html" title="Class to read and parse Word files.">WordReader</a>
                       </li>
               </ul>
             </div>
@@ -206,16 +206,54 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">PdfToText</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a> with <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span> with <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span> with <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a> with <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a></span>
+        <span class="name">PdfToText</span><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a> with <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span> with <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span> with <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a> with <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a> with <a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Extract text from PDF document to a single string or to several strings per each page. Input
+is a column with binary representation of PDF document. For the output it generates column
+with text and page number. Explode each page as separate row if split to page enabled.</p><p>It can be configured with the following properties:</p><ul><li>pageNumCol: Page number output column name.</li><li>originCol: Input column name with original path of file.</li><li>partitionNum: Number of partitions. By default, it is set to 0.</li><li>storeSplittedPdf: Force to store bytes content of split pdf. By default, it is set to
+    <code>false</code>.</li><li>splitPage: Enable/disable splitting per page to identify page numbers and improve
+    performance. By default, it is set to <code>true</code>.</li><li>onlyPageNum: Extract only page numbers. By default, it is set to <code>false</code>.</li><li>textStripper: Text stripper type used for output layout and formatting.</li><li>sort: Enable/disable sorting content on the page. By default, it is set to <code>false</code>.</li></ul><h4>Example</h4><pre>    <span class="kw">val</span> pdfToText = <span class="kw">new</span> PdfToText()
+      .setStoreSplittedPdf(<span class="kw">true</span>)
+      .setSplitPage(<span class="kw">true</span>)
+    <span class="kw">val</span> filesDf = spark.read.format(<span class="lit">"binaryFile"</span>).load(<span class="lit">"Documents/files/pdf"</span>)
+    <span class="kw">val</span> pipelineModel = <span class="kw">new</span> Pipeline()
+      .setStages(<span class="std">Array</span>(pdfToText))
+      .fit(filesDf)
+
+    <span class="kw">val</span> pdfDf = pipelineModel.transform(filesDf)
+
+pdfDf.show()
++--------------------+--------------------+------+--------------------+
+|                path|    modificationTime|length|                text|
++--------------------+--------------------+------+--------------------+
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...| <span class="num">25803</span>|This is a Title \...|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...| <span class="num">15629</span>|                  \n|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...| <span class="num">15629</span>|                  \n|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...| <span class="num">15629</span>|                  \n|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...|  <span class="num">9487</span>|   This is a page.\n|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...|  <span class="num">9487</span>|This is another p...|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">33</span>:...|  <span class="num">9487</span>| Yet another page.\n|
+|file:/Users/paula...|<span class="num">2025</span>-<span class="num">05</span>-<span class="num">15</span> <span class="num">11</span>:<span class="num">56</span>:...|  <span class="num">1563</span>|Hello, <span class="kw">this</span> is li...|
++--------------------+--------------------+------+--------------------+
+
+pdfDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- modificationTime: timestamp (nullable = <span class="kw">true</span>)
+ |-- length: long (nullable = <span class="kw">true</span>)
+ |-- text: string (nullable = <span class="kw">true</span>)
+ |-- height_dimension: integer (nullable = <span class="kw">true</span>)
+ |-- width_dimension: integer (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- exception: string (nullable = <span class="kw">true</span>)
+ |-- pagenum: integer (nullable = <span class="kw">true</span>)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a>, <a href="util/pdf/PdfUtils.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">PdfUtils</a>, <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a>, <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span>, <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span>, <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a>, <a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a>, <a href="util/pdf/PdfUtils.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">PdfUtils</a>, <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a>, <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span>, <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span>, <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -241,7 +279,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.reader.PdfToText"><span>PdfToText</span></li><li class="in" name="com.johnsnowlabs.reader.PdfToTextTrait"><span>PdfToTextTrait</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.PdfUtils"><span>PdfUtils</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess"><span>HasLocalProcess</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasOutputCol"><span>HasOutputCol</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasInputCol"><span>HasInputCol</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator"><span>HasInputValidator</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.reader.PdfToText"><span>PdfToText</span></li><li class="in" name="com.johnsnowlabs.reader.util.HasPdfProperties"><span>HasPdfProperties</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="com.johnsnowlabs.reader.PdfToTextTrait"><span>PdfToTextTrait</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.PdfUtils"><span>PdfUtils</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess"><span>HasLocalProcess</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasOutputCol"><span>HasOutputCol</span></li><li class="in" name="org.apache.spark.ml.param.shared.HasInputCol"><span>HasInputCol</span></li><li class="in" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator"><span>HasInputValidator</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -351,6 +389,70 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T"></a><a id="$$[T](StructFeature[T]):T"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#$$[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]"></a><a id="$$[K,V](MapFeature[K,V]):Map[K,V]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#$$[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Map[K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.V">V</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]"></a><a id="$$[T](SetFeature[T]):Set[T]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#$$[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Set[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#$$" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]"></a><a id="$$[T](ArrayFeature[T]):Array[T]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#$$[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Array[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$$</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.$$.T">T</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
@@ -615,6 +717,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#features" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]"></a><a id="features:ArrayBuffer[Feature[_,_,_]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">features</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<a href="../nlp/serialization/Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a>[_, _, _]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -637,6 +755,70 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]"></a><a id="get[T](StructFeature[T]):Option[T]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]"></a><a id="get[K,V](MapFeature[K,V]):Option[Map[K,V]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#get[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V]):Option[Map[K,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.V">V</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]"></a><a id="get[T](SetFeature[T]):Option[Set[T]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#get[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T]):Option[Set[T]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]"></a><a id="get[T](ArrayFeature[T]):Option[Array[T]]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#get[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T]):Option[Array[T]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.get.T">T</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="get[T](Param[T]):Option[T]"></a>
       <span class="permalink">
@@ -1177,7 +1359,23 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#onlyPageNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#onWrite" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="onWrite(String,SparkSession):Unit"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#onWrite(path:String,spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onWrite</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#onlyPageNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="onlyPageNum:org.apache.spark.ml.param.BooleanParam"></a><a id="onlyPageNum:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#onlyPageNum:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1192,8 +1390,8 @@
         <span class="name">onlyPageNum</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.reader.PdfToText#originCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#originCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="originCol:org.apache.spark.ml.param.Param[String]"></a><a id="originCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#originCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1208,7 +1406,7 @@
         <span class="name">originCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.shared.HasOutputCol#outputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1241,7 +1439,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#pageNumCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#pageNumCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pageNumCol:org.apache.spark.ml.param.Param[String]"></a><a id="pageNumCol:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#pageNumCol:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1256,7 +1454,7 @@
         <span class="name">pageNumCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
       <span class="permalink">
@@ -1273,7 +1471,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#partitionNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#partitionNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="partitionNum:org.apache.spark.ml.param.IntParam"></a><a id="partitionNum:IntParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#partitionNum:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -1288,7 +1486,7 @@
         <span class="name">partitionNum</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.PdfToTextTrait#pdfToText" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pdfToText(content:Array[Byte],onlyPageNum:Boolean,splitPage:Boolean,storeSplittedPdf:Boolean,sort:Boolean,textStripper:String):Seq[(String,Int,Int,Array[Byte],String,Int)]"></a><a id="pdfToText(Array[Byte],Boolean,Boolean,Boolean,Boolean,String):Seq[(String,Int,Int,Array[Byte],String,Int)]"></a>
       <span class="permalink">
@@ -1332,6 +1530,70 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a><a id="set[T](StructFeature[T],T):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type"></a><a id="set[K,V](MapFeature[K,V],Map[K,V]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#set[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:Map[K,V]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type"></a><a id="set[T](SetFeature[T],Set[T]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#set[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:Set[T]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type"></a><a id="set[T](ArrayFeature[T],Array[T]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#set[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:Array[T]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">set</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>, <span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.set.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type"></a><a id="set(ParamPair[_]):PdfToText.this.type"></a>
       <span class="permalink">
@@ -1380,6 +1642,70 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type"></a><a id="setDefault[T](StructFeature[T],()⇒T):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setDefault[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:()=&gt;T):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/StructFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type"></a><a id="setDefault[K,V](MapFeature[K,V],()⇒Map[K,V]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setDefault[K,V](feature:com.johnsnowlabs.nlp.serialization.MapFeature[K,V],value:()=&gt;Map[K,V]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.K">K</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.V">V</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type"></a><a id="setDefault[T](SetFeature[T],()⇒Set[T]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setDefault[T](feature:com.johnsnowlabs.nlp.serialization.SetFeature[T],value:()=&gt;Set[T]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/SetFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.SetFeature">SetFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasFeatures#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type"></a><a id="setDefault[T](ArrayFeature[T],()⇒Array[T]):PdfToText.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setDefault[T](feature:com.johnsnowlabs.nlp.serialization.ArrayFeature[T],value:()=&gt;Array[T]):HasFeatures.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="feature">feature: <a href="../nlp/serialization/ArrayFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>, <span name="value">value: () ⇒ <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasFeatures.setDefault.T">T</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):PdfToText.this.type"></a>
       <span class="permalink">
@@ -1412,7 +1738,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="org.apache.spark.ml">org.apache.spark.ml</span>] </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setInputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+    </li><li name="com.johnsnowlabs.reader.PdfToText#setInputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCol(value:String):PdfToText.this.type"></a><a id="setInputCol(String):PdfToText.this.type"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setInputCol(value:String):PdfToText.this.type" title="Permalink">
@@ -1427,11 +1753,11 @@
         <span class="name">setInputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setOnlyPageNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setOnlyPageNum(value:Boolean):PdfToText.this.type"></a><a id="setOnlyPageNum(Boolean):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>Name of input annotation col</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setOnlyPageNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setOnlyPageNum(value:Boolean):HasPdfProperties.this.type"></a><a id="setOnlyPageNum(Boolean):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setOnlyPageNum(value:Boolean):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setOnlyPageNum(value:Boolean):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1443,11 +1769,11 @@
         <span class="name">setOnlyPageNum</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setOriginCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="setOriginCol(value:String):PdfToText.this.type"></a><a id="setOriginCol(String):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setOriginCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="setOriginCol(value:String):HasPdfProperties.this.type"></a><a id="setOriginCol(String):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setOriginCol(value:String):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setOriginCol(value:String):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1459,8 +1785,8 @@
         <span class="name">setOriginCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.PdfToText#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):PdfToText.this.type"></a><a id="setOutputCol(String):PdfToText.this.type"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setOutputCol(value:String):PdfToText.this.type" title="Permalink">
@@ -1475,11 +1801,11 @@
         <span class="name">setOutputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setPageNumCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setPageNumCol(value:String):PdfToText.this.type"></a><a id="setPageNumCol(String):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>Name of extraction output col</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setPageNumCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setPageNumCol(value:String):HasPdfProperties.this.type"></a><a id="setPageNumCol(String):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setPageNumCol(value:String):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setPageNumCol(value:String):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1491,11 +1817,11 @@
         <span class="name">setPageNumCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setPartitionNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="setPartitionNum(value:Int):PdfToText.this.type"></a><a id="setPartitionNum(Int):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setPartitionNum" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="setPartitionNum(value:Int):HasPdfProperties.this.type"></a><a id="setPartitionNum(Int):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setPartitionNum(value:Int):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setPartitionNum(value:Int):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1507,11 +1833,11 @@
         <span class="name">setPartitionNum</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setSort" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setSort(value:Boolean):PdfToText.this.type"></a><a id="setSort(Boolean):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setSort" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setSort(value:Boolean):HasPdfProperties.this.type"></a><a id="setSort(Boolean):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setSort(value:Boolean):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setSort(value:Boolean):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1523,11 +1849,11 @@
         <span class="name">setSort</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setSplitPage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setSplitPage(value:Boolean):PdfToText.this.type"></a><a id="setSplitPage(Boolean):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setSplitPage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setSplitPage(value:Boolean):HasPdfProperties.this.type"></a><a id="setSplitPage(Boolean):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setSplitPage(value:Boolean):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setSplitPage(value:Boolean):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1539,11 +1865,11 @@
         <span class="name">setSplitPage</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setStoreSplittedPdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setStoreSplittedPdf(value:Boolean):PdfToText.this.type"></a><a id="setStoreSplittedPdf(Boolean):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setStoreSplittedPdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setStoreSplittedPdf(value:Boolean):HasPdfProperties.this.type"></a><a id="setStoreSplittedPdf(Boolean):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setStoreSplittedPdf(value:Boolean):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setStoreSplittedPdf(value:Boolean):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1555,11 +1881,11 @@
         <span class="name">setStoreSplittedPdf</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#setTextStripper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setTextStripper(value:String):PdfToText.this.type"></a><a id="setTextStripper(String):PdfToText.this.type"></a>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#setTextStripper" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setTextStripper(value:String):HasPdfProperties.this.type"></a><a id="setTextStripper(String):PdfToText.this.type"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setTextStripper(value:String):PdfToText.this.type" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToText.html#setTextStripper(value:String):HasPdfProperties.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1571,8 +1897,8 @@
         <span class="name">setTextStripper</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.PdfToText">PdfToText</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt"></p>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#sort" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#sort" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sort:org.apache.spark.ml.param.BooleanParam"></a><a id="sort:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#sort:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1587,8 +1913,8 @@
         <span class="name">sort</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.reader.PdfToText#splitPage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#splitPage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="splitPage:org.apache.spark.ml.param.BooleanParam"></a><a id="splitPage:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#splitPage:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1603,8 +1929,8 @@
         <span class="name">splitPage</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.reader.PdfToText#storeSplittedPdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#storeSplittedPdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="storeSplittedPdf:org.apache.spark.ml.param.BooleanParam"></a><a id="storeSplittedPdf:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#storeSplittedPdf:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -1619,7 +1945,7 @@
         <span class="name">storeSplittedPdf</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -1636,7 +1962,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.PdfToText#textStripper" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.reader.util.HasPdfProperties#textStripper" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="textStripper:org.apache.spark.ml.param.Param[String]"></a><a id="textStripper:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#textStripper:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1651,7 +1977,7 @@
         <span class="name">textStripper</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.Identifiable#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
@@ -1865,7 +2191,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="org.apache.spark.ml.util.DefaultParamsWritable#write" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable#write" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="write:org.apache.spark.ml.util.MLWriter"></a><a id="write:MLWriter"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html#write:org.apache.spark.ml.util.MLWriter" title="Permalink">
@@ -1880,7 +2206,7 @@
         <span class="name">write</span><span class="result">: <span class="extype" name="org.apache.spark.ml.util.MLWriter">MLWriter</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>DefaultParamsWritable → MLWritable</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> → DefaultParamsWritable → MLWritable</dd></dl></div>
     </li>
               </ol>
             </div>
@@ -1891,7 +2217,13 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.johnsnowlabs.reader.PdfToTextTrait">
+        <div class="parent" name="com.johnsnowlabs.reader.util.HasPdfProperties">
+              <h3>Inherited from <a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">
+              <h3>Inherited from <a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.HasFeatures">
+              <h3>Inherited from <a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.reader.PdfToTextTrait">
               <h3>Inherited from <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">
               <h3>Inherited from <a href="util/pdf/PdfUtils.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">PdfUtils</a></h3>

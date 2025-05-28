@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.sentence.sentence_detector_dl &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.sentence.sentence_detector_dl &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SentenceDetectorDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SentenceDetectorDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains an annotator that detects sentence boundaries using a deep</span>
 <span class="sd">    learning approach.</span>
 
@@ -453,44 +458,44 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; model = pipeline.fit(trainingData)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceDetectorDLApproach&quot;</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceDetectorDLApproach&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">modelArchitecture</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.modelArchitecture"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.modelArchitecture">[docs]</a>    <span class="n">modelArchitecture</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                               <span class="s2">&quot;modelArchitecture&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Model architecture (CNN)&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">impossiblePenultimates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.impossiblePenultimates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.impossiblePenultimates">[docs]</a>    <span class="n">impossiblePenultimates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;impossiblePenultimates&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Impossible penultimates - list of strings which a sentence can&#39;t end with&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.validationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.validationSplit">[docs]</a>    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;validationSplit&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Choose the proportion of training dataset to be validated against the model on each &quot;</span>
                             <span class="s2">&quot;Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.&quot;</span><span class="p">,</span>
-                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">epochsNumber</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.epochsNumber"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.epochsNumber">[docs]</a>    <span class="n">epochsNumber</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;epochsNumber&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Number of epochs for the optimization process&quot;</span><span class="p">,</span>
-                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.outputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.outputLogsPath">[docs]</a>    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;outputLogsPath&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Path to folder where logs will be saved. If no path is specified, no logs are generated&quot;</span><span class="p">,</span>
-                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.explodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.explodeSentences">[docs]</a>    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;explodeSentences&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;whether to explode each sentence into a different row, for better parallelization. Defaults to false.&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_architecture</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_architecture</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the Model architecture. Currently only ``&quot;cnn&quot;`` is available.</span>
 
 <span class="sd">        Parameters</span>
@@ -500,7 +505,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelArchitecture</span><span class="o">=</span><span class="n">model_architecture</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setValidationSplit"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setValidationSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_split</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setValidationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setValidationSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_split</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the proportion of training dataset to be validated against the</span>
 <span class="sd">        model on each Epoch, by default it is 0.0 and off. The value should be</span>
 <span class="sd">        between 0.0 and 1.0.</span>
@@ -512,7 +517,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">validationSplit</span><span class="o">=</span><span class="n">validation_split</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setEpochsNumber"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setEpochsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEpochsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs_number</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setEpochsNumber"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setEpochsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEpochsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs_number</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of epochs to train.</span>
 
 <span class="sd">        Parameters</span>
@@ -522,7 +527,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">epochsNumber</span><span class="o">=</span><span class="n">epochs_number</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setOutputLogsPath"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_logs_path</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setOutputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_logs_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path to save training logs.</span>
 
 <span class="sd">        Parameters</span>
@@ -532,7 +537,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputLogsPath</span><span class="o">=</span><span class="n">output_logs_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setImpossiblePenultimates"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setImpossiblePenultimates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImpossiblePenultimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impossible_penultimates</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setImpossiblePenultimates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setImpossiblePenultimates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImpossiblePenultimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impossible_penultimates</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets impossible penultimates - list of strings which a sentence can&#39;t</span>
 <span class="sd">        end with.</span>
 
@@ -544,7 +549,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">impossiblePenultimates</span><span class="o">=</span><span class="n">impossible_penultimates</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLApproach.setExplodeSentences"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setExplodeSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLApproach.setExplodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach.setExplodeSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode each sentence into a different row, for</span>
 <span class="sd">        better parallelization, by default False.</span>
 
@@ -563,7 +568,7 @@ document.write(`
         <span class="nb">super</span><span class="p">(</span><span class="n">SentenceDetectorDLApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SentenceDetectorDLModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SentenceDetectorDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SentenceDetectorDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that detects sentence boundaries using a deep learning approach.</span>
 
 <span class="sd">    Instantiated Model of the :class:`.SentenceDetectorDLApproach`.</span>
@@ -661,51 +666,51 @@ document.write(`
 <span class="sd">    |Total: four people involved.|</span>
 <span class="sd">    +----------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceDetectorDLModel&quot;</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceDetectorDLModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">modelArchitecture</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelArchitecture&quot;</span><span class="p">,</span> <span class="s2">&quot;Model architecture (CNN)&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.modelArchitecture"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.modelArchitecture">[docs]</a>    <span class="n">modelArchitecture</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelArchitecture&quot;</span><span class="p">,</span> <span class="s2">&quot;Model architecture (CNN)&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.explodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.explodeSentences">[docs]</a>    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;explodeSentences&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;whether to explode each sentence into a different row, for better parallelization. Defaults to false.&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">customBounds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.customBounds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.customBounds">[docs]</a>    <span class="n">customBounds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;customBounds&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;characters used to explicitly mark sentence bounds&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">useCustomBoundsOnly</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.useCustomBoundsOnly"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.useCustomBoundsOnly">[docs]</a>    <span class="n">useCustomBoundsOnly</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                 <span class="s2">&quot;useCustomBoundsOnly&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;Only utilize custom bounds in sentence detection&quot;</span><span class="p">,</span>
-                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">splitLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.splitLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.splitLength">[docs]</a>    <span class="n">splitLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;splitLength&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;length at which sentences will be forcibly split.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.minLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.minLength">[docs]</a>    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;minLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the minimum allowed length for each sentence.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.maxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.maxLength">[docs]</a>    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;maxLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the maximum allowed length for each sentence&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">impossiblePenultimates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.impossiblePenultimates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.impossiblePenultimates">[docs]</a>    <span class="n">impossiblePenultimates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;impossiblePenultimates&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Impossible penultimates - list of strings which a sentence can&#39;t end with&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelArchitecture</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelArchitecture</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the Model architecture. Currently only ``&quot;cnn&quot;`` is available.</span>
 
 <span class="sd">        Parameters</span>
@@ -715,7 +720,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelArchitecture</span><span class="o">=</span><span class="n">modelArchitecture</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setExplodeSentences"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setExplodeSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setExplodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setExplodeSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode each sentence into a different row, for</span>
 <span class="sd">        better parallelization, by default False.</span>
 
@@ -726,7 +731,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setCustomBounds"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setCustomBounds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCustomBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setCustomBounds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setCustomBounds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCustomBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets characters used to explicitly mark sentence bounds, by default</span>
 <span class="sd">        [].</span>
 
@@ -737,7 +742,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customBounds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setUseCustomBoundsOnly"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseCustomBoundsOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setUseCustomBoundsOnly"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseCustomBoundsOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to only utilize custom bounds in sentence detection, by</span>
 <span class="sd">        default False.</span>
 
@@ -748,7 +753,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCustomBoundsOnly</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setSplitLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setSplitLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setSplitLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setSplitLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets length at which sentences will be forcibly split.</span>
 
 <span class="sd">        Parameters</span>
@@ -758,7 +763,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setMinLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setMinLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum allowed length for each sentence, by default 0</span>
 
 <span class="sd">        Parameters</span>
@@ -768,7 +773,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setMaxLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setMaxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each sentence, by default</span>
 <span class="sd">        99999</span>
 
@@ -779,7 +784,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.setImpossiblePenultimates"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setImpossiblePenultimates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImpossiblePenultimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impossible_penultimates</span><span class="p">):</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.setImpossiblePenultimates"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setImpossiblePenultimates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImpossiblePenultimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">impossible_penultimates</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets impossible penultimates - list of strings which a sentence can&#39;t</span>
 <span class="sd">        end with.</span>
 
@@ -805,8 +810,8 @@ document.write(`
             <span class="n">maxLength</span><span class="o">=</span><span class="mi">99999</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SentenceDetectorDLModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sentence_detector_dl&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SentenceDetectorDLModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sentence_detector_dl&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -867,7 +872,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

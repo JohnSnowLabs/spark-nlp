@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.prompt_assembler &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.prompt_assembler &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -381,7 +381,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
-<div class="viewcode-block" id="PromptAssembler"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PromptAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<div class="viewcode-block" id="PromptAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PromptAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Assembles a sequence of messages into a single string using a template. These strings can then</span>
 <span class="sd">    be used as prompts for large language models.</span>
 
@@ -483,37 +483,37 @@ document.write(`
 <span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    |result                                                                                                                                                                                                                                                                                                                      |</span>
 <span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">    |[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI need help with organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n]|</span>
+<span class="sd">    |[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\\n\\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\\n\\nI need help with organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\\n\\n]|</span>
 <span class="sd">    +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="PromptAssembler.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="PromptAssembler.inputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.inputCol">[docs]</a>    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span>
         <span class="s2">&quot;input column name&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+    <span class="p">)</span></div>
+<div class="viewcode-block" id="PromptAssembler.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
         <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">chatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+    <span class="p">)</span></div>
+<div class="viewcode-block" id="PromptAssembler.chatTemplate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate">[docs]</a>    <span class="n">chatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;chatTemplate&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Template used for the chat&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">addAssistant</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+    <span class="p">)</span></div>
+<div class="viewcode-block" id="PromptAssembler.addAssistant"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.addAssistant">[docs]</a>    <span class="n">addAssistant</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;addAssistant&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Whether to add an assistant header to the end of the generated string&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;PromptAssembler&quot;</span>
+    <span class="p">)</span></div>
+<div class="viewcode-block" id="PromptAssembler.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;PromptAssembler&quot;</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -522,12 +522,12 @@ document.write(`
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="n">addAssistant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PromptAssembler.setParams"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler.setParams">[docs]</a>    <span class="nd">@keyword_only</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+<div class="viewcode-block" id="PromptAssembler.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PromptAssembler.setInputCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PromptAssembler.setInputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input column name.</span>
 
 <span class="sd">        Parameters</span>
@@ -537,7 +537,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PromptAssembler.setOutputCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PromptAssembler.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
 
 <span class="sd">        Parameters</span>
@@ -547,7 +547,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PromptAssembler.setChatTemplate"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PromptAssembler.setChatTemplate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the chat template.</span>
 
 <span class="sd">        Parameters</span>
@@ -557,7 +557,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chatTemplate</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PromptAssembler.setAddAssistant"><a class="viewcode-back" href="../../../_api/sparknlp.base.prompt_assembler.html#sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAddAssistant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PromptAssembler.setAddAssistant"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/prompt_assembler/index.html#sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAddAssistant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to add an assistant header to the end of the generated string.</span>
 
 <span class="sd">        Parameters</span>
@@ -607,7 +607,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

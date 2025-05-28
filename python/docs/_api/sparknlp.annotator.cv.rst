@@ -10,7 +10,9 @@ Submodules
    sparknlp.annotator.cv.blip_for_question_answering
    sparknlp.annotator.cv.clip_for_zero_shot_classification
    sparknlp.annotator.cv.convnext_for_image_classification
+   sparknlp.annotator.cv.florence2_transformer
    sparknlp.annotator.cv.gemma3_for_multimodal
+   sparknlp.annotator.cv.internvl_for_multimodal
    sparknlp.annotator.cv.janus_for_multimodal
    sparknlp.annotator.cv.llava_for_multimodal
    sparknlp.annotator.cv.mllama_for_multimodal

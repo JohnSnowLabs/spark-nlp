@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ner.ner_crf module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.ner.ner_crf module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,24 +685,24 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerCrfApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html#sparknlp.annotator.ner.ner_approach.NerApproach" title="sparknlp.annotator.ner.ner_approach.NerApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerApproach</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_approach/index.html#sparknlp.annotator.ner.ner_approach.NerApproach" title="sparknlp.annotator.ner.ner_approach.NerApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerApproach</span></code></a></p>
 <p>Algorithm for training a Named Entity Recognition Model</p>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel" title="sparknlp.annotator.ner.ner_crf.NerCrfModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerCrfModel</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel" title="sparknlp.annotator.ner.ner_crf.NerCrfModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerCrfModel</span></code></a>.</p>
 <p>This Named Entity recognition annotator allows for a generic model to be
 trained by utilizing a CRF machine learning algorithm. The training data
-should be a labeled Spark Dataset, e.g. <a class="reference internal" href="sparknlp.training.conll.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> 2003 IOB with
+should be a labeled Spark Dataset, e.g. <a class="reference internal" href="../reference/autosummary/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> 2003 IOB with
 <cite>Annotation</cite> type columns. The data should have columns of type
 <code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">POS,</span> <span class="pre">WORD_EMBEDDINGS</span></code> and an additional label column of
 annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.</p>
 <p>Excluding the label, this can be done with for example:</p>
 <ul class="simple">
-<li><p>a <a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector" title="sparknlp.annotator.sentence.sentence_detector.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a>,</p></li>
-<li><p>a <a class="reference internal" href="sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer" title="sparknlp.annotator.token.tokenizer.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a>,</p></li>
-<li><p>a <a class="reference internal" href="sparknlp.annotator.pos.perceptron.html#sparknlp.annotator.pos.perceptron.PerceptronModel" title="sparknlp.annotator.pos.perceptron.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> and</p></li>
-<li><p>a <a class="reference internal" href="sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p></li>
+<li><p>a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector" title="sparknlp.annotator.sentence.sentence_detector.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a>,</p></li>
+<li><p>a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer" title="sparknlp.annotator.token.tokenizer.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a>,</p></li>
+<li><p>a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronModel" title="sparknlp.annotator.pos.perceptron.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> and</p></li>
+<li><p>a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p></li>
 </ul>
 <p>Optionally the user can provide an entity dictionary file with
-<a class="reference internal" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setExternalFeatures" title="sparknlp.annotator.ner.ner_crf.NerCrfApproach.setExternalFeatures"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExternalFeatures()</span></code></a> for better accuracy.</p>
+<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setExternalFeatures" title="sparknlp.annotator.ner.ner_crf.NerCrfApproach.setExternalFeatures"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExternalFeatures()</span></code></a> for better accuracy.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
 <table class="table">
 <thead>
@@ -799,42 +807,42 @@ these need to be defined with for example:</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.c0">
-<span class="sig-name descname"><span class="pre">c0</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='c0',</span> <span class="pre">doc='c0</span> <span class="pre">params</span> <span class="pre">defining</span> <span class="pre">decay</span> <span class="pre">speed</span> <span class="pre">for</span> <span class="pre">gradient')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.c0" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">c0</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='c0',</span> <span class="pre">doc='c0</span> <span class="pre">params</span> <span class="pre">defining</span> <span class="pre">decay</span> <span class="pre">speed</span> <span class="pre">for</span> <span class="pre">gradient')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.c0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.c0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.externalFeatures">
-<span class="sig-name descname"><span class="pre">externalFeatures</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='externalFeatures',</span> <span class="pre">doc='Additional</span> <span class="pre">dictionaries</span> <span class="pre">paths</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">features')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.externalFeatures" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">externalFeatures</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='externalFeatures',</span> <span class="pre">doc='Additional</span> <span class="pre">dictionaries</span> <span class="pre">paths</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">features')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.externalFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.externalFeatures" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.includeConfidence">
-<span class="sig-name descname"><span class="pre">includeConfidence</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='includeConfidence',</span> <span class="pre">doc=&quot;external</span> <span class="pre">features</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">delimited</span> <span class="pre">text.</span> <span class="pre">needs</span> <span class="pre">'delimiter'</span> <span class="pre">in</span> <span class="pre">options&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.includeConfidence" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">includeConfidence</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='includeConfidence',</span> <span class="pre">doc=&quot;external</span> <span class="pre">features</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">delimited</span> <span class="pre">text.</span> <span class="pre">needs</span> <span class="pre">'delimiter'</span> <span class="pre">in</span> <span class="pre">options&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.includeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.includeConfidence" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'pos',</span> <span class="pre">'word_embeddings']</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'pos',</span> <span class="pre">'word_embeddings']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.l2">
-<span class="sig-name descname"><span class="pre">l2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='l2',</span> <span class="pre">doc='L2</span> <span class="pre">regularization</span> <span class="pre">coefficient')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.l2" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">l2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='l2',</span> <span class="pre">doc='L2</span> <span class="pre">regularization</span> <span class="pre">coefficient')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.l2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.l2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.lossEps">
-<span class="sig-name descname"><span class="pre">lossEps</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lossEps',</span> <span class="pre">doc='If</span> <span class="pre">Epoch</span> <span class="pre">relative</span> <span class="pre">improvement</span> <span class="pre">less</span> <span class="pre">than</span> <span class="pre">eps</span> <span class="pre">then</span> <span class="pre">training</span> <span class="pre">is</span> <span class="pre">stopped')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.lossEps" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">lossEps</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lossEps',</span> <span class="pre">doc='If</span> <span class="pre">Epoch</span> <span class="pre">relative</span> <span class="pre">improvement</span> <span class="pre">less</span> <span class="pre">than</span> <span class="pre">eps</span> <span class="pre">then</span> <span class="pre">training</span> <span class="pre">is</span> <span class="pre">stopped')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.lossEps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.lossEps" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.minW">
-<span class="sig-name descname"><span class="pre">minW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minW',</span> <span class="pre">doc='Features</span> <span class="pre">with</span> <span class="pre">less</span> <span class="pre">weights</span> <span class="pre">then</span> <span class="pre">this</span> <span class="pre">param</span> <span class="pre">value</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">filtered')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.minW" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">minW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minW',</span> <span class="pre">doc='Features</span> <span class="pre">with</span> <span class="pre">less</span> <span class="pre">weights</span> <span class="pre">then</span> <span class="pre">this</span> <span class="pre">param</span> <span class="pre">value</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">filtered')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.minW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.minW" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'named_entity'</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'named_entity'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -946,7 +954,7 @@ stopped, by default 0.001.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfApproach.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='verbose',</span> <span class="pre">doc='Level</span> <span class="pre">of</span> <span class="pre">verbosity</span> <span class="pre">during</span> <span class="pre">training')</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.verbose" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='verbose',</span> <span class="pre">doc='Level</span> <span class="pre">of</span> <span class="pre">verbosity</span> <span class="pre">during</span> <span class="pre">training')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfApproach.verbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach.verbose" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -954,7 +962,7 @@ stopped, by default 0.001.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerCrfModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Extracts Named Entities based on a CRF Model.</p>
 <p>This Named Entity recognition annotator allows for a generic model to be
 trained by utilizing a CRF machine learning algorithm. The data should have
@@ -965,9 +973,9 @@ extracted with for example</p>
 <li><p>a Tokenizer and</p></li>
 <li><p>a PerceptronModel.</p></li>
 </ul>
-<p>This is the instantiated model of the <a class="reference internal" href="#sparknlp.annotator.ner.ner_crf.NerCrfApproach" title="sparknlp.annotator.ner.ner_crf.NerCrfApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerCrfApproach</span></code></a>. For training
+<p>This is the instantiated model of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach" title="sparknlp.annotator.ner.ner_crf.NerCrfApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerCrfApproach</span></code></a>. For training
 your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.pretrained" title="sparknlp.annotator.ner.ner_crf.NerCrfModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel.pretrained" title="sparknlp.annotator.ner.ner_crf.NerCrfModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerCrfModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;word_embeddings&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">])</span> \
@@ -1056,22 +1064,22 @@ False</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfModel.includeConfidence">
-<span class="sig-name descname"><span class="pre">includeConfidence</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='includeConfidence',</span> <span class="pre">doc=&quot;external</span> <span class="pre">features</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">delimited</span> <span class="pre">text.</span> <span class="pre">needs</span> <span class="pre">'delimiter'</span> <span class="pre">in</span> <span class="pre">options&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.includeConfidence" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">includeConfidence</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='includeConfidence',</span> <span class="pre">doc=&quot;external</span> <span class="pre">features</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">delimited</span> <span class="pre">text.</span> <span class="pre">needs</span> <span class="pre">'delimiter'</span> <span class="pre">in</span> <span class="pre">options&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfModel.includeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.includeConfidence" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'pos',</span> <span class="pre">'word_embeddings']</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'pos',</span> <span class="pre">'word_embeddings']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NerCrfModel'</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NerCrfModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_crf.NerCrfModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'named_entity'</span></em><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'named_entity'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ner/ner_crf.html#NerCrfModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_crf.NerCrfModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1209,7 +1217,7 @@ default False.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

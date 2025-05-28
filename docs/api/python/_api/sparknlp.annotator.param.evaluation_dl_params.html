@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.param.evaluation_dl_params module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.param.evaluation_dl_params module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -676,20 +684,20 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EvaluationDLParams</span></span><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.internal.params_getters_setters.html#sparknlp.internal.params_getters_setters.ParamsGettersSetters" title="sparknlp.internal.params_getters_setters.ParamsGettersSetters"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParamsGettersSetters</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/params_getters_setters/index.html#sparknlp.internal.params_getters_setters.ParamsGettersSetters" title="sparknlp.internal.params_getters_setters.ParamsGettersSetters"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParamsGettersSetters</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.enableOutputLogs">
-<span class="sig-name descname"><span class="pre">enableOutputLogs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableOutputLogs',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">stdout</span> <span class="pre">in</span> <span class="pre">addition</span> <span class="pre">to</span> <span class="pre">Spark</span> <span class="pre">logs.')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.enableOutputLogs" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">enableOutputLogs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableOutputLogs',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">stdout</span> <span class="pre">in</span> <span class="pre">addition</span> <span class="pre">to</span> <span class="pre">Spark</span> <span class="pre">logs.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.enableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.enableOutputLogs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.evaluationLogExtended">
-<span class="sig-name descname"><span class="pre">evaluationLogExtended</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='evaluationLogExtended',</span> <span class="pre">doc='Whether</span> <span class="pre">logs</span> <span class="pre">for</span> <span class="pre">validation</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">extended:</span> <span class="pre">it</span> <span class="pre">displays</span> <span class="pre">time</span> <span class="pre">and</span> <span class="pre">evaluation</span> <span class="pre">of</span> <span class="pre">each</span> <span class="pre">label.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">False.')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.evaluationLogExtended" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">evaluationLogExtended</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='evaluationLogExtended',</span> <span class="pre">doc='Whether</span> <span class="pre">logs</span> <span class="pre">for</span> <span class="pre">validation</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">extended:</span> <span class="pre">it</span> <span class="pre">displays</span> <span class="pre">time</span> <span class="pre">and</span> <span class="pre">evaluation</span> <span class="pre">of</span> <span class="pre">each</span> <span class="pre">label.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">False.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.evaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.evaluationLogExtended" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.outputLogsPath">
-<span class="sig-name descname"><span class="pre">outputLogsPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputLogsPath',</span> <span class="pre">doc='Folder</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">training</span> <span class="pre">logs')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.outputLogsPath" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputLogsPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputLogsPath',</span> <span class="pre">doc='Folder</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">training</span> <span class="pre">logs')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.outputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.outputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -804,17 +812,17 @@ between 0.0 and 1.0.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.testDataset">
-<span class="sig-name descname"><span class="pre">testDataset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='testDataset',</span> <span class="pre">doc='Path</span> <span class="pre">to</span> <span class="pre">test</span> <span class="pre">dataset.</span> <span class="pre">If</span> <span class="pre">set</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">calculate</span> <span class="pre">statistic</span> <span class="pre">on</span> <span class="pre">it</span> <span class="pre">during</span> <span class="pre">training.')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.testDataset" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">testDataset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='testDataset',</span> <span class="pre">doc='Path</span> <span class="pre">to</span> <span class="pre">test</span> <span class="pre">dataset.</span> <span class="pre">If</span> <span class="pre">set</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">calculate</span> <span class="pre">statistic</span> <span class="pre">on</span> <span class="pre">it</span> <span class="pre">during</span> <span class="pre">training.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.testDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.testDataset" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.validationSplit">
-<span class="sig-name descname"><span class="pre">validationSplit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='validationSplit',</span> <span class="pre">doc='Choose</span> <span class="pre">the</span> <span class="pre">proportion</span> <span class="pre">of</span> <span class="pre">training</span> <span class="pre">dataset</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">validated</span> <span class="pre">against</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">on</span> <span class="pre">each</span> <span class="pre">Epoch.</span> <span class="pre">The</span> <span class="pre">value</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">1.0</span> <span class="pre">and</span> <span class="pre">by</span> <span class="pre">default</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">off.')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.validationSplit" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">validationSplit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='validationSplit',</span> <span class="pre">doc='Choose</span> <span class="pre">the</span> <span class="pre">proportion</span> <span class="pre">of</span> <span class="pre">training</span> <span class="pre">dataset</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">validated</span> <span class="pre">against</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">on</span> <span class="pre">each</span> <span class="pre">Epoch.</span> <span class="pre">The</span> <span class="pre">value</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">between</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">1.0</span> <span class="pre">and</span> <span class="pre">by</span> <span class="pre">default</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">0.0</span> <span class="pre">and</span> <span class="pre">off.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.validationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.validationSplit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='verbose',</span> <span class="pre">doc='Level</span> <span class="pre">of</span> <span class="pre">verbosity</span> <span class="pre">during</span> <span class="pre">training')</span></em><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.verbose" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='verbose',</span> <span class="pre">doc='Level</span> <span class="pre">of</span> <span class="pre">verbosity</span> <span class="pre">during</span> <span class="pre">training')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/param/evaluation_dl_params.html#EvaluationDLParams.verbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.verbose" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -899,7 +907,7 @@ between 0.0 and 1.0.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

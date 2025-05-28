@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.base.prompt_assembler module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.prompt_assembler module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,9 +685,9 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PromptAssembler</span></span><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.internal.annotator_transformer.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a></p>
-<dl>
-<dt>Assembles a sequence of messages into a single string using a template. These strings can then</dt><dd><p>be used as prompts for large language models.</p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a></p>
+<p>Assembles a sequence of messages into a single string using a template. These strings can then
+be used as prompts for large language models.</p>
 <p>This annotator expects an array of two-tuples as the type of the input column (one array of
 tuples per row). The first element of the tuples should be the role and the second element is
 the text of the message. Possible roles are “system”, “user” and “assistant”.</p>
@@ -703,8 +711,6 @@ supported.</p>
 </tr>
 </tbody>
 </table>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -719,44 +725,103 @@ supported.</p>
 </dl>
 </dd>
 </dl>
-<p>You are a helpful assistant.&lt;<a href="#id1"><span class="problematic" id="id2">|eot_id|</span></a>&gt;&lt;<a href="#id3"><span class="problematic" id="id4">|start_header_id|</span></a>&gt;assistant&lt;<a href="#id5"><span class="problematic" id="id6">|end_header_id|</span></a>&gt;</p>
-<p>Hello there, how can I help you?&lt;<a href="#id7"><span class="problematic" id="id8">|eot_id|</span></a>&gt;&lt;<a href="#id9"><span class="problematic" id="id10">|start_header_id|</span></a>&gt;user&lt;<a href="#id11"><span class="problematic" id="id12">|end_header_id|</span></a>&gt;</p>
-<p>I need help with organizing my room.&lt;<a href="#id13"><span class="problematic" id="id14">|eot_id|</span></a>&gt;&lt;<a href="#id15"><span class="problematic" id="id16">|start_header_id|</span></a>&gt;assistant&lt;<a href="#id17"><span class="problematic" id="id18">|end_header_id|</span></a>&gt;</p>
-<dl>
-<dt>]|</dt><dd><table class="table">
-<tbody>
-</tbody>
-</table>
-</dd>
-</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello there, how can I help you?&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;I need help with organizing my room.&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">messages</span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;{{- bos_token }} {</span><span class="si">%- i</span><span class="s2">f custom_tools is defined %} {</span><span class="si">%- s</span><span class="s2">et tools = custom_tools %} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;endif %} {</span><span class="si">%- i</span><span class="s2">f not tools_in_user_message is defined %} {</span><span class="si">%- s</span><span class="s2">et tools_in_user_message = true %} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;endif %} {</span><span class="si">%- i</span><span class="s1">f not date_string is defined %} {</span><span class="si">%- s</span><span class="s1">et date_string = &quot;26 Jul 2024&quot; %} {</span><span class="si">%- e</span><span class="s1">ndif %} &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;{</span><span class="si">%- i</span><span class="s2">f not tools is defined %} {</span><span class="si">%- s</span><span class="s2">et tools = none %} {</span><span class="si">%- e</span><span class="s2">ndif %} {#- This block extracts the &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;system message, so we can slot it into the right place. #} {</span><span class="si">%- i</span><span class="s2">f messages[0][&#39;role&#39;] == &#39;system&#39; %}&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot; {</span><span class="si">%- s</span><span class="s2">et system_message = messages[0][&#39;content&#39;]|trim %} {</span><span class="si">%- s</span><span class="s2">et messages = messages[1:] %} {</span><span class="si">%- e</span><span class="s2">lse&quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39; %} {</span><span class="si">%- s</span><span class="s1">et system_message = &quot;&quot; %} {</span><span class="si">%- e</span><span class="s1">ndif %} {#- System message + builtin tools #} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- i</span><span class="s1">f builtin_tools is defined or tools is &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;not none %} {{- &quot;Environment: ipython</span><span class="se">\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- i</span><span class="s1">f builtin_tools is defined %} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;Tools: &quot; + builtin_tools | reject(</span><span class="se">\&#39;</span><span class="s1">equalto&#39;</span><span class="p">,</span> \<span class="s1">&#39;code_interpreter</span><span class="se">\&#39;</span><span class="s1">) | join(&quot;, &quot;) + &quot;</span><span class="se">\n\n</span><span class="s1">&quot;}} &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;{</span><span class="si">%- e</span><span class="s1">ndif %} {{- &quot;Cutting Knowledge Date: December 2023</span><span class="se">\n</span><span class="s1">&quot; }} {{- &quot;Today Date: &quot; + date_string &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;+ &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- i</span><span class="s1">f tools is not none and not tools_in_user_message %} {{- &quot;You have access to &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;the following functions. To call a function, please respond with JSON for a function call.&quot; }} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: dictionary of argument name and its&#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39; value}.</span><span class="se">\&#39;</span><span class="s1"> }} {{- &quot;Do not use variables.</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- f</span><span class="s1">or t in tools %} {{- t | tojson(indent=4) &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;}} {{- &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndfor %} {</span><span class="si">%- e</span><span class="s1">ndif %} {{- system_message }} {{- &quot;&lt;|eot_id|&gt;&quot; }} {#- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;Custom tools are passed in a user message with some extra guidance #} {</span><span class="si">%- i</span><span class="s2">f tools_in_user_message &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;and not tools is none %} {#- Extract the first user message so we can plug it in here #} {</span><span class="si">%- i</span><span class="s2">f &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;messages | length != 0 %} {</span><span class="si">%- s</span><span class="s2">et first_user_message = messages[0][&#39;content&#39;]|trim %} {</span><span class="si">%- s</span><span class="s2">et &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;messages = messages[1:] %} {</span><span class="si">%- e</span><span class="s1">lse %} {{- raise_exception(&quot;Cannot put tools in the first user &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;message when there&#39;s no first user message!</span><span class="se">\&quot;</span><span class="s2">) }} {</span><span class="si">%- e</span><span class="s2">ndif %} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;&#39;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- </span><span class="se">\&quot;</span><span class="s2">Given the following functions, please &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;respond with a JSON for a function call &quot; }} {{- &quot;with its proper arguments that best answers the &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;given prompt.</span><span class="se">\n\n</span><span class="s1">&quot; }} {{- </span><span class="se">\&#39;</span><span class="s1">Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;dictionary of argument name and its value}.</span><span class="se">\&#39;</span><span class="s1"> }} {{- &quot;Do not use variables.</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- f</span><span class="s1">or t in &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;tools %} {{- t | tojson(indent=4) }} {{- &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndfor %} {{- first_user_message + &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&lt;|eot_id|&gt;</span><span class="se">\&quot;</span><span class="s2">}} {</span><span class="si">%- e</span><span class="s2">ndif %} {</span><span class="si">%- f</span><span class="s2">or message in messages %} {</span><span class="si">%- i</span><span class="s2">f not (message.role == &#39;ipython&#39; &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;or message.role == &#39;tool&#39; or &#39;tool_calls&#39; in message) %} {{- &#39;&lt;|start_header_id|&gt;&#39; + message[&#39;role&#39;]&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot; + &#39;&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39;+ message[&#39;content&#39;] | trim + &#39;&lt;|eot_id|&gt;&#39; }} {</span><span class="si">%- e</span><span class="s2">lif &#39;tool_calls&#39; in &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;message %} {</span><span class="si">%- i</span><span class="s1">f not message.tool_calls|length == 1 %} {{- raise_exception(&quot;This model only &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;supports single tool-calls at once!&quot;) }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- s</span><span class="s1">et tool_call = message.tool_calls[0]&#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;.function %} {</span><span class="si">%- i</span><span class="s2">f builtin_tools is defined and tool_call.name in builtin_tools %} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;&#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- </span><span class="se">\&quot;</span><span class="s2">&lt;|python_tag|&gt;</span><span class="se">\&quot;</span><span class="s2"> + tool_call.name + &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;.call(&quot; }} {</span><span class="si">%- f</span><span class="s1">or arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + </span><span class="se">\&#39;</span><span class="s1">=&quot;</span><span class="se">\&#39;</span><span class="s1"> + &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;arg_val + </span><span class="se">\&#39;</span><span class="s1">&quot;</span><span class="se">\&#39;</span><span class="s1"> }} {</span><span class="si">%- i</span><span class="s1">f not loop.last %} {{- &quot;, &quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">ndfor %} {{- &quot;)&quot; }} {%- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;else %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- &#39;{</span><span class="se">\&quot;</span><span class="s2">name&quot;</span><span class="p">:</span> \<span class="s2">&quot;&#39; + &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;tool_call.name + </span><span class="se">\&#39;</span><span class="s1">&quot;, </span><span class="se">\&#39;</span><span class="s1"> }} {{- </span><span class="se">\&#39;</span><span class="s1">&quot;parameters&quot;: </span><span class="se">\&#39;</span><span class="s1"> }} {{- tool_call.arguments | tojson }} {{- &quot;}&quot; &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;}} {</span><span class="si">%- e</span><span class="s2">ndif %} {</span><span class="si">%- i</span><span class="s2">f builtin_tools is defined %} {#- This means we&#39;re in ipython mode #} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;&lt;|eom_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">lse %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">lif message.role == &quot;tool&quot; &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;or message.role == &quot;ipython&quot; %} {{- &quot;&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s1">&quot; }} {%- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;else %} {{- message.content }} {</span><span class="si">%- e</span><span class="s1">ndif %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">ndfor %} {</span><span class="si">%- i</span><span class="s1">f &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;add_generation_prompt %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; }} {</span><span class="si">%- e</span><span class="s2">ndif %} &quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prompt_assembler</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">PromptAssembler</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;prompt&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setChatTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prompt_assembler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;prompt.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                                                                                                                                                                                                                                                                      |</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI need help with organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n]|</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.addAssistant">
-<span class="sig-name descname"><span class="pre">addAssistant</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='addAssistant',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">add</span> <span class="pre">an</span> <span class="pre">assistant</span> <span class="pre">header</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">generated</span> <span class="pre">string')</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.addAssistant" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">addAssistant</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='addAssistant',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">add</span> <span class="pre">an</span> <span class="pre">assistant</span> <span class="pre">header</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">generated</span> <span class="pre">string')</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.addAssistant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.addAssistant" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate">
-<span class="sig-name descname"><span class="pre">chatTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='chatTemplate',</span> <span class="pre">doc='Template</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">chat')</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">chatTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='chatTemplate',</span> <span class="pre">doc='Template</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">chat')</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.chatTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.inputCol">
-<span class="sig-name descname"><span class="pre">inputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCol',</span> <span class="pre">doc='input</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.inputCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCol',</span> <span class="pre">doc='input</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.inputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.inputCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PromptAssembler'</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PromptAssembler'</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.outputCol">
-<span class="sig-name descname"><span class="pre">outputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCol',</span> <span class="pre">doc='output</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCol',</span> <span class="pre">doc='output</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="reference internal" href="../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -901,7 +966,7 @@ supported.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

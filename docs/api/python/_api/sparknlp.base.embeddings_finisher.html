@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.base.embeddings_finisher module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.embeddings_finisher module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EmbeddingsFinisher</span></span><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.internal.annotator_transformer.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a></p>
 <p>Extracts embeddings from Annotations into a more easily usable form.</p>
 <blockquote>
 <div><p>This is useful for example:</p>
@@ -727,7 +735,7 @@ by default False</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher" title="sparknlp.base.embeddings_finisher.EmbeddingsFinisher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmbeddingsFinisher</span></code></a></dt><dd><p>for finishing embeddings</p>
+<dt><a class="reference internal" href="../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher" title="sparknlp.base.embeddings_finisher.EmbeddingsFinisher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmbeddingsFinisher</span></code></a></dt><dd><p>for finishing embeddings</p>
 </dd>
 </dl>
 </div>
@@ -788,7 +796,7 @@ by default False</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.cleanAnnotations">
-<span class="sig-name descname"><span class="pre">cleanAnnotations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanAnnotations',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">all</span> <span class="pre">the</span> <span class="pre">existing</span> <span class="pre">annotation</span> <span class="pre">columns')</span></em><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.cleanAnnotations" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cleanAnnotations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanAnnotations',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">all</span> <span class="pre">the</span> <span class="pre">existing</span> <span class="pre">annotation</span> <span class="pre">columns')</span></em><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.cleanAnnotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.cleanAnnotations" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -805,22 +813,22 @@ by default False</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.inputCols">
-<span class="sig-name descname"><span class="pre">inputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCols',</span> <span class="pre">doc='name</span> <span class="pre">of</span> <span class="pre">input</span> <span class="pre">annotation</span> <span class="pre">cols</span> <span class="pre">containing</span> <span class="pre">embeddings')</span></em><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.inputCols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCols',</span> <span class="pre">doc='name</span> <span class="pre">of</span> <span class="pre">input</span> <span class="pre">annotation</span> <span class="pre">cols</span> <span class="pre">containing</span> <span class="pre">embeddings')</span></em><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.inputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.inputCols" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EmbeddingsFinisher'</span></em><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EmbeddingsFinisher'</span></em><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputAsVector">
-<span class="sig-name descname"><span class="pre">outputAsVector</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputAsVector',</span> <span class="pre">doc='if</span> <span class="pre">enabled</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">output</span> <span class="pre">the</span> <span class="pre">embeddings</span> <span class="pre">as</span> <span class="pre">Vectors</span> <span class="pre">instead</span> <span class="pre">of</span> <span class="pre">arrays')</span></em><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputAsVector" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAsVector</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputAsVector',</span> <span class="pre">doc='if</span> <span class="pre">enabled</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">output</span> <span class="pre">the</span> <span class="pre">embeddings</span> <span class="pre">as</span> <span class="pre">Vectors</span> <span class="pre">instead</span> <span class="pre">of</span> <span class="pre">arrays')</span></em><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.outputAsVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputAsVector" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputCols">
-<span class="sig-name descname"><span class="pre">outputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCols',</span> <span class="pre">doc='output</span> <span class="pre">EmbeddingsFinisher</span> <span class="pre">ouput</span> <span class="pre">cols')</span></em><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputCols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCols',</span> <span class="pre">doc='output</span> <span class="pre">EmbeddingsFinisher</span> <span class="pre">ouput</span> <span class="pre">cols')</span></em><a class="reference internal" href="../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.outputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.outputCols" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -968,7 +976,7 @@ by default False.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

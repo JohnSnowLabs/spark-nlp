@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.document_assembler &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.document_assembler &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -381,7 +381,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
-<div class="viewcode-block" id="DocumentAssembler"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepares data into a format that is processable by Spark NLP.</span>
 
 <span class="sd">    This is the entry point for every Spark NLP pipeline. The</span>
@@ -443,26 +443,26 @@ document.write(`
 <span class="sd">    |    |    |    |-- element: float (containsNull = False)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="DocumentAssembler.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;input column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;output column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">idCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;idCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column for setting an id to such string in row&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">metadataCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;metadataCol&quot;</span><span class="p">,</span> <span class="s2">&quot;String to String map column to use as metadata&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">cleanupMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanupMode&quot;</span><span class="p">,</span> <span class="s2">&quot;possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;DocumentAssembler&#39;</span>
+<div class="viewcode-block" id="DocumentAssembler.inputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.inputCol">[docs]</a>    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;input column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentAssembler.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;output column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentAssembler.idCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.idCol">[docs]</a>    <span class="n">idCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;idCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column for setting an id to such string in row&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentAssembler.metadataCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.metadataCol">[docs]</a>    <span class="n">metadataCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;metadataCol&quot;</span><span class="p">,</span> <span class="s2">&quot;String to String map column to use as metadata&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentAssembler.cleanupMode"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.cleanupMode">[docs]</a>    <span class="n">cleanupMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanupMode&quot;</span><span class="p">,</span> <span class="s2">&quot;possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentAssembler.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;DocumentAssembler&#39;</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DocumentAssembler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.DocumentAssembler&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="n">cleanupMode</span><span class="o">=</span><span class="s1">&#39;disabled&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DocumentAssembler.setParams"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setParams">[docs]</a>    <span class="nd">@keyword_only</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+<div class="viewcode-block" id="DocumentAssembler.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.setInputCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.setInputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input column name.</span>
 
 <span class="sd">        Parameters</span>
@@ -472,7 +472,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.setOutputCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
 
 <span class="sd">        Parameters</span>
@@ -482,7 +482,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.setIdCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setIdCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIdCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.setIdCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setIdCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIdCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets name of string type column for row id.</span>
 
 <span class="sd">        Parameters</span>
@@ -492,7 +492,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">idCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.setMetadataCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setMetadataCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMetadataCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.setMetadataCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setMetadataCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMetadataCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets name for Map type column with metadata information.</span>
 
 <span class="sd">        Parameters</span>
@@ -502,7 +502,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">metadataCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.setCleanupMode"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanupMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.setCleanupMode"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanupMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how to cleanup the document, by default disabled.</span>
 <span class="sd">        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,</span>
 <span class="sd">        each, each_full, delete_full``</span>
@@ -516,7 +516,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanupMode</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentAssembler.getOutputCol"><a class="viewcode-back" href="../../../_api/sparknlp.base.document_assembler.html#sparknlp.base.document_assembler.DocumentAssembler.getOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentAssembler.getOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler.getOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output column name of annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCol</span><span class="p">)</span></div></div>
 
@@ -564,7 +564,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>
