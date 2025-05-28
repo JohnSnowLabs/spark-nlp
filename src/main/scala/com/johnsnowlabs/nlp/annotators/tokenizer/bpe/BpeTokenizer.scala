@@ -440,15 +440,6 @@ object BpeTokenizer {
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           prependString = prependString)
-      case "paligemma" =>
-        new PaliGemmaTokenizer(
-          merges,
-          vocab,
-          modelSpecialTokens(),
-          padWithSequenceTokens,
-          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
-          alwaysAddPrefix = alwaysAddPrefix,
-          prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
