@@ -1,15 +1,14 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting Started &#8212; Spark NLP 5.5.3 documentation</title>
+    <title>Getting Started &#8212; Spark NLP 6.0.1 documentation</title>
   
   
   
@@ -19,33 +18,31 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css?v=e1fb877f" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
-    <script src="../static/jquery.js"></script>
-    <script src="../static/underscore.js"></script>
-    <script src="../static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../static/doctools.js"></script>
-    <script src="../static/sphinx_highlight.js"></script>
-    <script src="../static/toggleprompt.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script src="../static/doctools.js?v=888ff710"></script>
+    <script src="../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../static/toggleprompt.js?v=670350bf"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'getting_started/index';</script>
-    <link rel="shortcut icon" href="../static/fav.ico"/>
+    <link rel="icon" href="../static/fav.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="User Guide" href="../user_guide/index.html" />
@@ -60,6 +57,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -100,9 +106,11 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -110,25 +118,26 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
+        <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -174,23 +183,27 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -201,18 +214,21 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -232,7 +248,8 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
+          <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -278,12 +295,13 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -316,8 +334,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -347,22 +365,22 @@ document.write(`
 <h2>Spark NLP Cheat Sheet<a class="headerlink" href="#spark-nlp-cheat-sheet" title="Permalink to this heading">#</a></h2>
 <p>This cheat sheet can be used as a quick reference on how to set up your environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Spark NLP from PyPI</span>
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.3
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.0.1
 
 <span class="c1"># Install Spark NLP from Anaconda/Conda</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.3
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.0.1
 
 <span class="c1"># Load Spark NLP with Spark Shell</span>
-spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.3
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.0.1
 
 <span class="c1"># Load Spark NLP with PySpark</span>
-pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.3
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.0.1
 
 <span class="c1"># Load Spark NLP with Spark Submit</span>
-spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.3
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.0.1
 
 <span class="c1"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-5.5.3
+spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-6.0.1
 </pre></div>
 </div>
 </section>
@@ -398,7 +416,7 @@ Please refer to <a class="reference external" href="https://spark.apache.org/doc
 <p>Then we can create a new environment <code class="docutils literal notranslate"><span class="pre">sparknlp</span></code> and install the <code class="docutils literal notranslate"><span class="pre">spark-nlp</span></code> package with pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sparknlp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>sparknlp
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.3<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.0.1<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -411,7 +429,7 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 <p>We can also create a Python <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>sparknlp<span class="w"> </span>--python<span class="o">=</span>python3.8<span class="w"> </span><span class="c1"># depends on how your Python installation is set up</span>
 <span class="nb">source</span><span class="w"> </span>sparknlp/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">5</span>.5.3<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.0.1<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -422,8 +440,8 @@ pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="
 </section>
 <section id="starting-a-spark-nlp-session-from-python">
 <h2>Starting a Spark NLP Session from Python<a class="headerlink" href="#starting-a-spark-nlp-session-from-python" title="Permalink to this heading">#</a></h2>
-<p>A Spark session for Spark NLP can be created (or retrieved) by using <a class="reference internal" href="../reference/autosummary/sparknlp/index.html#sparknlp.start" title="sparknlp.start"><code class="xref py py-func docutils literal notranslate"><span class="pre">sparknlp.start()</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<p>A Spark session for Spark NLP can be created (or retrieved) by using <a class="reference internal" href="../_api/sparknlp.html#sparknlp.start" title="sparknlp.start"><code class="xref py py-func docutils literal notranslate"><span class="pre">sparknlp.start()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -436,7 +454,7 @@ you can manually start the SparkSession with:</p>
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:5.5.3&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:6.0.1&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -448,11 +466,10 @@ you can manually start the SparkSession with:</p>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../index.html"
@@ -472,10 +489,7 @@ you can manually start the SparkSession with:</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -485,6 +499,7 @@ you can manually start the SparkSession with:</p>
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
+
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
@@ -502,6 +517,7 @@ you can manually start the SparkSession with:</p>
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
     <a href="../_sources/getting_started/index.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
@@ -522,8 +538,8 @@ you can manually start the SparkSession with:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -531,6 +547,7 @@ you can manually start the SparkSession with:</p>
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2023, John Snow Labs.
@@ -540,8 +557,9 @@ you can manually start the SparkSession with:</p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>
@@ -549,10 +567,12 @@ you can manually start the SparkSession with:</p>
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
 </p></div>
       
     </div>

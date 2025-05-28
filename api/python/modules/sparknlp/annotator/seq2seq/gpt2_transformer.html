@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.gpt2_transformer &#8212; Spark NLP 5.5.3 documentation</title>
+    <title>sparknlp.annotator.seq2seq.gpt2_transformer &#8212; Spark NLP 6.0.1 documentation</title>
   
   
   
@@ -18,33 +17,31 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
-    <script src="../../../../static/jquery.js"></script>
-    <script src="../../../../static/underscore.js"></script>
-    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../../static/doctools.js"></script>
-    <script src="../../../../static/sphinx_highlight.js"></script>
-    <script src="../../../../static/toggleprompt.js"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/gpt2_transformer';</script>
-    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="icon" href="../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -57,6 +54,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -97,9 +103,11 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
   
 
 <a class="navbar-brand logo" href="../../../../index.html">
@@ -107,25 +115,26 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
+        <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -171,23 +180,27 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -198,13 +211,16 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
@@ -225,7 +241,8 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
+          <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -271,12 +288,13 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -309,8 +327,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../index.html" class="nav-link" aria-label="Home">
@@ -323,7 +341,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">sparknlp.annotator.seq2seq.gpt2_transformer</li>
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
 </nav>
 </div>
@@ -356,10 +374,10 @@ document.write(`
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the GPT2Transformer.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="GPT2Transformer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer">[docs]</a><span class="k">class</span> <span class="nc">GPT2Transformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GPT2Transformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;GPT2: the OpenAI Text-To-Text Transformer</span>
 
 <span class="sd">    GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million</span>
@@ -522,7 +540,7 @@ document.write(`
                            <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GPT2Transformer.setTask"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTask">[docs]</a>    <span class="k">def</span> <span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setTask"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
 
 <span class="sd">        Parameters</span>
@@ -532,7 +550,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
 
 <span class="sd">        Parameters</span>
@@ -542,7 +560,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -552,7 +570,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setMinOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setMinOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
 
 <span class="sd">        Parameters</span>
@@ -562,7 +580,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
 
 <span class="sd">        Parameters</span>
@@ -572,7 +590,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setDoSample"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
 
 <span class="sd">        Parameters</span>
@@ -582,7 +600,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setTemperature"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
 
 <span class="sd">        Parameters</span>
@@ -592,7 +610,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setTopK"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
 <span class="sd">        top-k-filtering.</span>
 
@@ -603,7 +621,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setTopP"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
 
 <span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
@@ -616,7 +634,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
 
 <span class="sd">        Parameters</span>
@@ -631,7 +649,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2Transformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
 
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
@@ -644,7 +662,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GPT2Transformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
@@ -663,8 +681,8 @@ document.write(`
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span>
         <span class="p">)</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="GPT2Transformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -679,12 +697,12 @@ document.write(`
 <span class="sd">        GPT2Transformer</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_GPT2Loader</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_GPT2Loader</span>
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_GPT2Loader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">GPT2Transformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="GPT2Transformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GPT2Transformer.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -702,7 +720,7 @@ document.write(`
 <span class="sd">        GPT2Transformer</span>
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">GPT2Transformer</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -710,16 +728,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -737,8 +751,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -746,6 +760,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2023, John Snow Labs.
@@ -755,8 +770,9 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>
@@ -764,10 +780,12 @@ document.write(`
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
 </p></div>
       
     </div>

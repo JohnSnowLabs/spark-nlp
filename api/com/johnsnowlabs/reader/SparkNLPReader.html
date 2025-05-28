@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 5.5.3 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
-          <meta name="description" content="Spark NLP 5.5.3 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
-          <meta name="keywords" content="Spark NLP 5.5.3 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
+          <title>Spark NLP 6.0.1 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
+          <meta name="description" content="Spark NLP 6.0.1 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
+          <meta name="keywords" content="Spark NLP 6.0.1 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 5.5.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -143,6 +143,10 @@
                         <a href="EmailReader.html" title="">EmailReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="ExcelReader.html" title=""></a>
+                        <a href="ExcelReader.html" title="">ExcelReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="class" href="HTMLElement.html" title=""></a>
                         <a href="HTMLElement.html" title="">HTMLElement</a>
                       </li><li class="current-entities indented3">
@@ -154,9 +158,25 @@
                         <a class="object" href="MimeType$.html" title=""></a>
                         <a href="MimeType$.html" title="">MimeType</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="PdfToText$.html" title=""></a>
+                        <a class="class" href="PdfToText.html" title=""></a>
+                        <a href="PdfToText.html" title="">PdfToText</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="PdfToTextTrait.html" title=""></a>
+                        <a href="PdfToTextTrait.html" title="">PdfToTextTrait</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="PowerPointReader.html" title=""></a>
+                        <a href="PowerPointReader.html" title="">PowerPointReader</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">SparkNLPReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="TextReader.html" title=""></a>
+                        <a href="TextReader.html" title="">TextReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="WordReader.html" title=""></a>
@@ -353,7 +373,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="doc(docPath:String):org.apache.spark.sql.DataFrame"></a><a id="doc(String):DataFrame"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#doc(docPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
@@ -368,7 +388,27 @@
         <span class="name">doc</span><span class="params">(<span name="docPath">docPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Instantiates class to read Word files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read Word files.</p><p>docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+&quot;path/word/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> docsPath = <span class="lit">"home/user/word-directory"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> docsDf = sparkNLPReader.email(docsPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> docsDf = SparkNLP.read.doc(docsPath)</pre><pre>docsDf.select(<span class="lit">"doc"</span>).show(<span class="kw">false</span>)
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+|doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+|[{Table, Header Col <span class="num">1</span>, {}}, {Table, Header Col <span class="num">2</span>, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+
+docsDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- doc: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div></div>
     </li><li name="com.johnsnowlabs.reader.SparkNLPReader#email" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="email(emailPath:String):org.apache.spark.sql.DataFrame"></a><a id="email(String):DataFrame"></a>
       <span class="permalink">
@@ -385,7 +425,7 @@
       </span>
       
       <p class="shortcomment cmt">Instantiates class to read email files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read email files.</p><p>emailPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
-&quot;path/html/emails&quot;</p><h4>Example</h4><pre><span class="kw">val</span> emailsPath = <span class="lit">"home/user/emails-directory"</span>
+&quot;path/email/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> emailsPath = <span class="lit">"home/user/emails-directory"</span>
 <span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
 <span class="kw">val</span> emailDf = sparkNLPReader.email(emailsPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> emailDf = SparkNLP.read.email(emailsPath)</pre><pre>emailDf.select(<span class="lit">"email"</span>).show(<span class="kw">false</span>)
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -641,6 +681,79 @@ root
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#pdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pdf(pdfPath:String):org.apache.spark.sql.DataFrame"></a><a id="pdf(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#pdf(pdfPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pdf</span><span class="params">(<span name="pdfPath">pdfPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read PDF files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read PDF files.</p><p>pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.
+&quot;path/pdfs/&quot;</p><h4>Example</h4><pre><span class="kw">val</span> pdfsPath = <span class="lit">"home/user/pdfs-directory"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> pdfDf = sparkNLPReader.pdf(pdfsPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> pdfDf = SparkNLP.read.pdf(pdfsPath)</pre><pre>pdfDf.show(<span class="kw">false</span>)
++--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+|                path|    modificationTime|length|                text|height_dimension|width_dimension|             content|exception|pagenum|
++--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+|file:/content/pdf...|<span class="num">2025</span>-<span class="num">01</span>-<span class="num">15</span> <span class="num">20</span>:<span class="num">48</span>:...| <span class="num">25803</span>|This is a Title \...|             <span class="num">842</span>|            <span class="num">596</span>|[<span class="num">25</span> <span class="num">50</span> <span class="num">44</span> <span class="num">46</span> <span class="num">2</span>D <span class="num">3.</span>..|     NULL|      <span class="num">0</span>|
+|file:/content/pdf...|<span class="num">2025</span>-<span class="num">01</span>-<span class="num">15</span> <span class="num">20</span>:<span class="num">48</span>:...|  <span class="num">9487</span>|This is a page.\n...|             <span class="num">841</span>|            <span class="num">595</span>|[<span class="num">25</span> <span class="num">50</span> <span class="num">44</span> <span class="num">46</span> <span class="num">2</span>D <span class="num">3.</span>..|     NULL|      <span class="num">0</span>|
++--------------------+--------------------+------+--------------------+----------------+---------------+--------------------+---------+-------+
+
+pdf_df.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- modificationTime: timestamp (nullable = <span class="kw">true</span>)
+ |-- length: long (nullable = <span class="kw">true</span>)
+ |-- text: string (nullable = <span class="kw">true</span>)
+ |-- height_dimension: integer (nullable = <span class="kw">true</span>)
+ |-- width_dimension: integer (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- exception: string (nullable = <span class="kw">true</span>)
+ |-- pagenum: integer (nullable = <span class="kw">true</span>)</pre></div></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#ppt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ppt(docPath:String):org.apache.spark.sql.DataFrame"></a><a id="ppt(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#ppt(docPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ppt</span><span class="params">(<span name="docPath">docPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read PowerPoint files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read PowerPoint files.</p><p>docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+&quot;path/power-point/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> docsPath = <span class="lit">"home/user/power-point-directory"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> pptDf = sparkNLPReader.ppt(docsPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> pptDf = SparkNLP.read.ppt(docsPath)</pre><pre>xlsDf.select(<span class="lit">"ppt"</span>).show(<span class="kw">false</span>)
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|ppt                                                                                                                                                                                                                                                                                                                      |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text <span class="kw">for</span> first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() <span class="kw">for</span> subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+pptDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- ppt: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -673,6 +786,42 @@ root
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#txt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="txt(filePath:String):org.apache.spark.sql.DataFrame"></a><a id="txt(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#txt(filePath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">txt</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read txt files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read txt files.</p><p>filePath: this is a path to a directory of TXT files or a path to an TXT file E.g.
+&quot;path/txt/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> filePath = <span class="lit">"home/user/txt/files"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> txtDf = sparkNLPReader.txt(filePath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> txtDf = SparkNLP.read.txt(filePath)</pre><pre>txtDf.select(<span class="lit">"txt"</span>).show(<span class="kw">false</span>)
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[{Title, BIG DATA ANALYTICS, {paragraph -&gt; <span class="num">0</span>}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -&gt; <span class="num">0</span>}}, {Title, MACHINE LEARNING, {paragraph -&gt; <span class="num">1</span>}}, {NarrativeText, Spark's MLlib provides scalable machine learning algorithms.\nIt includes tools <span class="kw">for</span> classification, regression, clustering, and more., {paragraph -&gt; <span class="num">1</span>}}]|
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+emailDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- txt: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -741,6 +890,42 @@ root
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#xls" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xls(docPath:String):org.apache.spark.sql.DataFrame"></a><a id="xls(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#xls(docPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xls</span><span class="params">(<span name="docPath">docPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read Excel files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read Excel files.</p><p>docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+&quot;path/excel/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> docsPath = <span class="lit">"home/user/excel-directory"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> xlsDf = sparkNLPReader.xls(docsPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> xlsDf = SparkNLP.read.xls(docsPath)</pre><pre>xlsDf.select(<span class="lit">"xls"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|xls                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[{Title, Financial performance, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Quarterly revenue\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t1.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Group financial performance\tFY <span class="num">22</span>\tFY <span class="num">23</span>\t\t2.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Segmental results\tFY <span class="num">22</span>\tFY <span class="num">23</span>\t\t3.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Segmental analysis\tFY <span class="num">22</span>\tFY <span class="num">23</span>\t\t4.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Cash flow\tFY <span class="num">22</span>\tFY <span class="num">23</span>\t\t5.<span class="num">0</span>, {SheetName -&gt; Index}}, {Title, Operational metrics, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Mobile customers\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t6.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Fixed broadband customers\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t7.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Marketable homes passed\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t8.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, TV customers\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t9.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Converged customers\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t10.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Mobile churn\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t11.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Mobile data usage\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t12.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Mobile ARPU\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t13.<span class="num">0</span>, {SheetName -&gt; Index}}, {Title, Other, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Average foreign exchange rates\tNine quarters to <span class="num">30</span> June <span class="num">2023</span>\t\t\t14.<span class="num">0</span>, {SheetName -&gt; Index}}, {NarrativeText, Guidance rates\tFY <span class="num">23</span>/<span class="num">24</span>\t\t\t14.<span class="num">0</span>, {SheetName -&gt; Index}}]|
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+xlsDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- content: binary (nullable = <span class="kw">true</span>)
+ |-- xls: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div></div>
     </li>
               </ol>
             </div>

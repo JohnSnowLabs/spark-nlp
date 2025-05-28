@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2 active"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2 active"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -3747,6 +3747,108 @@ To see which models are compatible and how to import them see
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="coheretransformer">CoHereTransformer</h2>
+
+  <p>Text Generation using Cohere Command-R.</p>
+
+  <p>C4AI Command-R is a research release of a 35 billion parameter highly performant generative model.
+Command-R is a large language model with open weights optimized for a variety of use cases including reasoning,
+summarization, and question answering. Command-R has the capability for multilingual generation evaluated
+in 10 languages and highly performant RAG capabilities.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">CoHere</span> <span class="k">=</span> <span class="nv">CoHereTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/cohere/index.html#sparknlp.annotator.seq2seq.cohere.CoHereTransformer">CoHereTransformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer">CoHereTransformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/CoHereTransformer.scala">CoHereTransformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="n">CoHere</span> <span class="o">=</span> <span class="n">CoHereTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"c4ai_command_r_v01_int4"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span>   
+          <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"generation"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">CoHere</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+              <span class="p">(</span>
+                        <span class="mi">1</span><span class="p">,</span>
+                        <span class="s">"&lt;BOS_TOKEN&gt;&lt;|START_OF_TURN_TOKEN|&gt;&lt;|USER_TOKEN|&gt;Hello, how are you?&lt;|END_OF_TURN_TOKEN|&gt;&lt;|START_OF_TURN_TOKEN|&gt;&lt;|CHATBOT_TOKEN|&gt;"</span>
+                        <span class="p">)</span>
+          <span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"generation.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.CoHereTransformer</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+         <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">CoHere</span> <span class="k">=</span> <span class="nv">CoHereTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"c4ai_command_r_v01_int4"</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
+         <span class="o">.</span><span class="py">setMinOutputLength</span><span class="o">(</span><span class="mi">15</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setDoSample</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">40</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setNoRepeatNgramSize</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="nc">CoHere</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+     <span class="o">(</span>
+              <span class="mi">1</span><span class="o">,</span>
+              <span class="s">"""
+              &lt;BOS_TOKEN&gt;&lt;|START_OF_TURN_TOKEN|&gt;&lt;|USER_TOKEN|&gt;Hello, how are you?&lt;|END_OF_TURN_TOKEN|&gt;&lt;|START_OF_TURN_TOKEN|&gt;&lt;|CHATBOT_TOKEN|&gt;
+              """</span><span class="o">.</span><span class="py">stripMargin</span><span class="o">)</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="convnextforimageclassification">ConvNextForImageClassification</h2>
 
   <p>ConvNextForImageClassification is an image classifier based on ConvNet models.</p>
@@ -6200,6 +6302,128 @@ The use of an accelerator such as GPU is recommended.</p>
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="gemma3formultimodal">Gemma3ForMultiModal</h2>
+
+  <p>Visual Question Answering using Gemma 3 Vision.</p>
+
+  <p>Gemma3ForMultiModal can load Gemma 3 Vision models for visual question answering.
+The model consists of a vision encoder, a text encoder, a text decoder and a model merger.
+The vision encoder will encode the input image, the text encoder will encode the input text,
+the model merger will merge the image and text embeddings, and the text decoder will output the answer.</p>
+
+  <p>Gemma 3 is a family of lightweight, state-of-the-art open models from Google, built from the same 
+research and technology used to create the Gemini models. It features:</p>
+  <ul>
+    <li>Large 128K context window</li>
+    <li>Multilingual support in over 140 languages</li>
+    <li>Multimodal capabilities handling both text and image inputs</li>
+    <li>Optimized for deployment on limited resources (laptops, desktops, cloud)</li>
+  </ul>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">Gemma3ForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"gemma3_4b_it_int4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/gemma3_for_multimodal/index.html#sparknlp.annotator.cv.gemma3_for_multimodal.Gemma3ForMultiModal">Gemma3ForMultiModal</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal">Gemma3ForMultiModal</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Gemma3ForMultiModal.scala">Gemma3ForMultiModal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;bos&gt;&lt;start_of_turn&gt;user</span><span class="se">\n</span><span class="s">You are a helpful assistant.</span><span class="se">\n\n</span><span class="s">&lt;start_of_image&gt;Describe this image in detail.&lt;end_of_turn&gt;</span><span class="se">\n</span><span class="s">&lt;start_of_turn&gt;model</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">Gemma3ForMultiModal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;bos&gt;&lt;start_of_turn&gt;user\nYou are a helpful assistant.\n\n&lt;start_of_image&gt;Describe this image in detail.&lt;end_of_turn&gt;\n&lt;start_of_turn&gt;model\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">Gemma3ForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="hubertforctc">HubertForCTC</h2>
 
   <p>Hubert Model with a language modeling head on top for Connectionist Temporal Classification
@@ -6481,6 +6705,222 @@ data are available at this https URL. <a href="https://instructor-embedding.gith
 <span class="o">+--------------------------------------------------------------------------------+</span>
 <span class="o">|[</span><span class="kt">-</span><span class="err">2</span><span class="kt">.</span><span class="err">3497989177703857</span>,<span class="err">0</span><span class="kt">.</span><span class="err">480538547039032</span>,<span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">3238905668258667</span>,<span class="kt">-</span><span class="err">1</span><span class="kt">.</span><span class="err">612930893898010</span><span class="kt">...|</span>
 <span class="kt">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="janusformultimodal">JanusForMultiModal</h2>
+
+  <p>Unified Multimodal Understanding and Generation using Janus.</p>
+
+  <p>JanusForMultiModal can load Janus Vision models for unified multimodal understanding and generation.
+The model consists of a vision encoder, a text encoder, and a text decoder. Janus decouples visual encoding for enhanced flexibility, leveraging a unified transformer architecture for both understanding and generation tasks.</p>
+
+  <p>Janus uses SigLIP-L as the vision encoder, supporting 384 x 384 image inputs. For image generation, it utilizes a tokenizer with a downsample rate of 16. The framework is based on DeepSeek-LLM-1.3b-base, trained on approximately 500B text tokens.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">JanusForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/janus_for_multimodal/index.html#sparknlp.annotator.cv.janus_for_multimodal.JanusForMultiModal">JanusForMultiModal</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/JanusForMultiModal">JanusForMultiModal</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/JanusForMultiModal.scala">JanusForMultiModal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span>
+    <span class="s">"text"</span><span class="p">,</span>
+    <span class="n">lit</span><span class="p">(</span><span class="s">"User: &lt;image_placeholder&gt;Describe image in details</span><span class="se">\n\n</span><span class="s">Assistant:"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">JanusForMultiModal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span> \\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">imageAssembler</span><span class="p">,</span>
+    <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span> <span class="c1">// Replace with your image folder</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"User: &lt;image_placeholder&gt;Describe image in details\n\nAssistant:"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">JanusForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">imageAssembler</span><span class="o">,</span>
+  <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="llavaformultimodal">LLAVAForMultiModal</h2>
+
+  <p>Visual Question Answering using LLAVA.</p>
+
+  <p>LLAVAForMultiModal can load LLAVA models for visual question answering.
+The model consists of a vision encoder, a text encoder as well as a text decoder.
+The vision encoder will encode the input image, the text encoder will encode the input question together
+with the encoding of the image, and the text decoder will output the answer to the question.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">LLAVAForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"llava_1_5_7b_hf"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/llava_for_multimodal/index.html#sparknlp.annotator.cv.llava_for_multimodal.LLAVAForMultiModal">LLAVAForMultiModal</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal">LLAVAForMultiModal</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/LLAVAForMultiModal.scala">LLAVAForMultiModal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"USER: </span><span class="se">\n</span><span class="s"> &lt;|image|&gt; </span><span class="se">\n</span><span class="s"> What's this picture about? </span><span class="se">\n</span><span class="s"> ASSISTANT:</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">LLAVAForMultiModal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"USER: \n &lt;|image|&gt; \nWhat is unusual on this picture? \n ASSISTANT:\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">LLAVAForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </code></pre></div>      </div>
 
     </div>
@@ -7270,6 +7710,115 @@ Models from the HuggingFace 🤗 Transformers library are also compatible with S
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="mllamaformultimodal">MLLamaForMultimodal</h2>
+
+  <p>Visual Question Answering using MLLama.</p>
+
+  <p>MLLamaForMultimodal can load LLAMA 3.2 Vision models for visual question answering.
+The model consists of a vision encoder, a text encoder, and a text decoder.
+The vision encoder encodes the input image, the text encoder processes the input question
+alongside the image encoding, and the text decoder generates the answer to the question.</p>
+
+  <p>The Llama 3.2-Vision collection comprises pretrained and instruction-tuned multimodal large
+language models (LLMs) available in 11B and 90B sizes. These models are optimized for visual
+recognition, image reasoning, captioning, and answering general questions about images.
+The models outperform many open-source and proprietary multimodal models on standard industry
+benchmarks.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">MLLamaForMultimodal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="err"> </span><span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+<span class="err"> </span><span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/m_llama_for_multimodal/index.html#sparknlp.annotator.cv.mllama_for_multimodal.MLLamaForMultimodal">MLLamaForMultimodal</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/MLLamaForMultimodal">MLLamaForMultimodal</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/MLLamaForMultimodal.scala">MLLamaForMultimodal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span>
+<span class="err"> </span> <span class="err"> </span> <span class="s">"text"</span><span class="p">,</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;|begin_of_text|&gt;&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">&lt;|image|&gt;What is unusual on this image?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \\
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \\
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">MLLamaForMultimodal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \\
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span> \\
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">imageAssembler</span><span class="p">,</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span> <span class="c1">// Replace with your image folder</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;|begin_of_text|&gt;&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\n&lt;|image|&gt;What is unusual on this image?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">MLLamaForMultimodal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+<span class="err"> </span> <span class="n">imageAssembler</span><span class="o">,</span>
+<span class="err"> </span> <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="mpnetembeddings">MPNetEmbeddings</h2>
 
   <p>Sentence embeddings using MPNet.</p>
@@ -7813,6 +8362,130 @@ The use of an accelerator such as GPU is recommended.</p>
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="olmotransformer">OLMoTransformer</h2>
+
+  <p>OLMo, a series of Open Language Models, is designed to enable the science of language models. These models are trained on the Dolma dataset, offering open-source capabilities for language model research and application. The OLMo models support various NLP tasks including text generation, summarization, and more.</p>
+
+  <p>Pretrained models can be loaded using the <code class="language-plaintext highlighter-rouge">pretrained</code> method from the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">olmo</span> <span class="k">=</span> <span class="nv">OLMoTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"olmo_1b_int4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=OLMo">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/OLMoTestSpec.scala">OLMoTestSpec</a>.</p>
+
+  <p><strong>Sources</strong> :
+<a href="https://allenai.org/olmo">OLMo Project Page</a>
+<a href="https://github.com/allenai/OLMo">OLMo GitHub Repository</a>
+<a href="https://arxiv.org/pdf/2402.00838.pdf">OLMo: Accelerating the Science of Language Models (Paper)</a></p>
+
+  <p><strong>Paper abstract</strong></p>
+
+  <p><em>Language models (LMs) have become ubiquitous in both NLP research and commercial products. 
+As their commercial importance has surged, the most powerful models have become proprietary, 
+limiting scientific study. OLMo addresses this gap by offering an open-source framework, 
+including training data, models, and code. This initiative aims to empower the research community, 
+fostering transparency and innovation in language model development.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/olmo_transformer/index.html#sparknlp.annotator.seq2seq.olmo_transformer.OLMoTransformer">OLMoTransformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/seq2seq/OLMoTransformer">OLMoTransformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/seq2seq/OLMoTransformer.scala">OLMoTransformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># Document Assembler
+</span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="c1"># OLMo Transformer
+</span><span class="n">olmo</span> <span class="o">=</span> <span class="n">OLMoTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"olmo_1b_int4"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setMinOutputLength</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setDoSample</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setTopK</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setNoRepeatNgramSize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"generation"</span><span class="p">)</span>
+
+<span class="c1"># Pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">olmo</span><span class="p">])</span>
+
+<span class="c1"># Sample Data
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"My name is Leonardo."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Display Results
+</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"generation.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.OLMoTransformer</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// Document Assembler</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="c1">// OLMo Transformer</span>
+<span class="k">val</span> <span class="nv">olmo</span> <span class="k">=</span> <span class="nv">OLMoTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"olmo_1b_int4"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setMinOutputLength</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setDoSample</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setNoRepeatNgramSize</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+
+<span class="c1">// Pipeline</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">olmo</span><span class="o">))</span>
+
+<span class="c1">// Sample Data</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"My name is Leonardo."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="c1">// Display Results</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="openaicompletion">OpenAICompletion</h2>
 
   <p>Transformer that makes a request for OpenAI Completion API for each executor.</p>
@@ -7908,6 +8581,339 @@ The use of an accelerator such as GPU is recommended.</p>
 <span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">227</span>, <span class="kt">\n\nI</span> <span class="kt">recently</span> <span class="kt">visited</span> <span class="kt">Barbecue</span> <span class="kt">Joe's</span> <span class="kt">for</span> <span class="kt">dinner</span> <span class="kt">and</span> <span class="kt">it</span> <span class="kt">was</span> <span class="kt">amazing!</span> <span class="kt">The</span> <span class="kt">menu</span> <span class="kt">had</span> <span class="kt">so</span> <span class="kt">many</span> <span class="kt">items</span> <span class="kt">to</span> <span class="kt">choose</span> <span class="kt">from</span> <span class="kt">including</span> <span class="kt">pulled</span> <span class="kt">pork</span>, <span class="kt">smoked</span> <span class="kt">turkey</span>, <span class="kt">brisket</span>, <span class="kt">pork</span> <span class="kt">ribs</span>, <span class="kt">and</span> <span class="kt">sandwiches.</span> <span class="kt">I</span> <span class="kt">opted</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">pulled</span> <span class="kt">pork</span> <span class="kt">sandwich</span> <span class="kt">and</span> <span class="kt">let</span>, <span class="o">{}</span>, <span class="o">[]}]</span>                               <span class="o">|</span>
 <span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">172</span>, <span class="kt">\n\n</span><span class="o">{</span> <span class="kt">\n</span>   <span class="err">"</span><span class="kt">review</span><span class="err">"</span><span class="kt">:</span> <span class="o">{</span> <span class="kt">\n</span>      <span class="err">"</span><span class="kt">overallRating</span><span class="err">"</span><span class="kt">:</span> <span class="err">4</span>, <span class="kt">\n</span>      <span class="err">"</span><span class="kt">reviewBody</span><span class="err">"</span><span class="kt">:</span> <span class="err">"</span><span class="kt">I</span> <span class="kt">enjoyed</span> <span class="kt">my</span> <span class="kt">meal</span> <span class="kt">at</span> <span class="kt">this</span> <span class="kt">restaurant.</span> <span class="kt">The</span> <span class="kt">food</span> <span class="kt">was</span> <span class="kt">flavourful</span>, <span class="kt">well-prepared</span> <span class="kt">and</span> <span class="kt">beautifully</span> <span class="kt">presented.</span>, <span class="o">{}</span>, <span class="o">[]}]</span>                                                                                   <span class="kt">|</span>
 <span class="kt">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="paligemmaformultimodal">PaliGemmaForMultiModal</h2>
+
+  <p>Visual Question Answering using PaliGemma.</p>
+
+  <p>PaliGemmaForMultiModal can load PaliGemma models for visual question answering.
+The model consists of a vision encoder, a text encoder, a text decoder and a model merger.
+The vision encoder will encode the input image, the text encoder will encode the input text,
+the model merger will merge the image and text embeddings, and the text decoder will output the answer.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">PaliGemmaForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"paligemma_3b_pt_224_int4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://www.google.com/url?sa=E&amp;source=gmail&amp;q=/api/python/reference/autosummary/sparknlp/annotator/cv/paligemma_for_multimodal/index.html#sparknlp.annotator.cv.paligemma_for_multimodal.PaliGemmaForMultiModal">PaliGemmaForMultiModal</a></td>
+        <td><strong>Scala API:</strong> <a href="https://www.google.com/url?sa=E&amp;source=gmail&amp;q=/api/com/johnsnowlabs/nlp/annotators/cv/PaliGemmaForMultiModal">PaliGemmaForMultiModal</a></td>
+        <td><strong>Source:</strong> <a href="https://www.google.com/url?sa=E&amp;source=gmail&amp;q=https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/PaliGemmaForMultiModal.scala">PaliGemmaForMultiModal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"USER: </span><span class="se">\n</span><span class="s"> &lt;image&gt; </span><span class="se">\n</span><span class="s">Describe this image. </span><span class="se">\n</span><span class="s">ASSISTANT:</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">PaliGemmaForMultiModal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"USER: \n &lt;image&gt; \nDescribe this image. \nASSISTANT:\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">PaliGemmaForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="phi3vision">Phi3Vision</h2>
+
+  <p>Visual Question Answering using Phi3Vision.</p>
+
+  <p>Phi3Vision can load Phi3Vision models for visual question answering.
+The model consists of a vision encoder, a text encoder as well as a text decoder.
+The vision encoder will encode the input image, the text encoder will encode the input question together
+with the encoding of the image, and the text decoder will output the answer to the question.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">Phi3Vision</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"phi_3_vision_128k_instruct"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
+
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3VisionTest.scala">Phi3VisionTestSpec</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/phi3_vision/index.html#sparknlp.annotator.cv.phi3_vision.Phi3Vision">Phi3Vision</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision">Phi3Vision</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision.scala">Phi3Vision</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;|user|&gt; </span><span class="se">\n</span><span class="s"> &lt;|image_1|&gt; </span><span class="se">\n</span><span class="s">What is unusual on this picture? &lt;|end|&gt;</span><span class="se">\n</span><span class="s"> &lt;|assistant|&gt;</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">Phi3Vision</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"phi_3_vision_128k_instruct"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;|user|&gt; \n &lt;|image_1|&gt; \nWhat is unusual on this picture? &lt;|end|&gt;\n &lt;|assistant|&gt;\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">Phi3Vision</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"phi_3_vision_128k_instruct"</span><span class="o">,</span><span class="s">"en"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="qwen2vltransformer">Qwen2VLTransformer</h2>
+
+  <p>Visual Question Answering and Multimodal Instruction Following using Qwen2-VL.</p>
+
+  <p>Qwen2VLTransformer can load Qwen2 Vision-Language models for visual question answering and
+multimodal instruction following. The model consists of a vision encoder, a text encoder, and
+a text decoder. The vision encoder processes the input image, the text encoder integrates
+the encoding of the image with the input text, and the text decoder outputs the response to
+the query or instruction.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">Qwen2VLTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/qwen2_vl/index.html#sparknlp.annotator.cv.qwen2_vl.Qwen2VLTransformer">Qwen2VLTransformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/Qwen2VLTransformer">Qwen2VLTransformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Qwen2VLTransformer.scala">Qwen2VLTransformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;|im_start|&gt;system</span><span class="se">\n</span><span class="s">You are a helpful assistant.&lt;|im_end|&gt;</span><span class="se">\n</span><span class="s">&lt;|im_start|&gt;user</span><span class="se">\n</span><span class="s">&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;Describe this image.&lt;|im_end|&gt;</span><span class="se">\n</span><span class="s">&lt;|im_start|&gt;assistant</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">Qwen2VLTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+<span class="err"> </span> <span class="err"> </span> <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">imageAssembler</span><span class="p">,</span>
+<span class="err"> </span> <span class="err"> </span> <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="err"> </span> <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span> <span class="c1">// Replace with your image folder</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;|im_start|&gt;system\nYou are a helpful assistant.&lt;|im_end|&gt;\n&lt;|im_start|&gt;user\n&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;Describe this image.&lt;|im_end|&gt;\n&lt;|im_start|&gt;assistant\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">Qwen2VLTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+<span class="err"> </span> <span class="err"> </span><span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+<span class="err"> </span> <span class="n">imageAssembler</span><span class="o">,</span>
+<span class="err"> </span> <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </code></pre></div>      </div>
 
     </div>
@@ -9121,6 +10127,108 @@ reported improvements. We release our models and code.</em></p>
         </div>
 
       </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="smolvlmtransformer">SmolVLMTransformer</h2>
+
+  <p>Compact Multimodal Model for Visual Question Answering using SmolVLM.</p>
+
+  <p>SmolVLMTransformer can load SmolVLM models for visual question answering. The model consists of a vision encoder, a text encoder, and a text decoder. The vision encoder encodes the input image, the text encoder processes the input question alongside the image encoding, and the text decoder generates the answer to the question.</p>
+
+  <p>SmolVLM is a compact open multimodal model that accepts arbitrary sequences of image and text inputs to produce text outputs. Designed for efficiency, SmolVLM can answer questions about images, describe visual content, create stories grounded on multiple images, or function as a pure language model without visual inputs.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">SmolVLMTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/smolvlm_transformer/index.html#sparknlp.annotator.cv.smolvlm_transformer.SmolVLMTransformer">SmolVLMTransformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/SmolVLMTransformer">SmolVLMTransformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/SmolVLMTransformer.scala">SmolVLMTransformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span>
+    <span class="s">"text"</span><span class="p">,</span>
+    <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;|im_start|&gt;User:&lt;image&gt;Can you describe the image?&lt;end_of_utterance&gt;</span><span class="se">\n</span><span class="s">Assistant:"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">SmolVLMTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span> \\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">imageAssembler</span><span class="p">,</span>
+    <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span> <span class="c1">// Replace with your image folder</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;|im_start|&gt;User:&lt;image&gt;Can you describe the image?&lt;end_of_utterance&gt;\nAssistant:"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">SmolVLMTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">imageAssembler</span><span class="o">,</span>
+  <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
 
     </div>
 
