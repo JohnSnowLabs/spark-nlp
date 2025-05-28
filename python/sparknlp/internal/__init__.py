@@ -272,15 +272,6 @@ class _GPT2Loader(ExtendedJavaWrapper):
             jspark,
         )
 
-class _Gemma3ForMultiModalLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark, use_openvino=False):
-        super(_Gemma3ForMultiModalLoader, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.cv.Gemma3ForMultiModal.loadSavedModel",
-            path,
-            jspark,
-            use_openvino
-        )
-
 class _JanusForMultiModalLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_JanusForMultiModalLoader, self).__init__(

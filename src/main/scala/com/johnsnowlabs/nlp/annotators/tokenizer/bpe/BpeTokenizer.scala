@@ -449,14 +449,6 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
-      case "gemma3" =>
-        new Gemma3Tokenizer(
-          merges,
-          vocab,
-          modelSpecialTokens(),
-          padWithSequenceTokens,
-          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
-          alwaysAddPrefix = alwaysAddPrefix)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }

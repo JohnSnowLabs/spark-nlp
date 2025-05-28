@@ -707,8 +707,7 @@ object PythonResourceDownloader {
     "OLMoTransformer" -> OLMoTransformer,
     "JanusForMultiModal" -> JanusForMultiModal,
     "SmolVLMTransformer" -> SmolVLMTransformer,
-    "PaliGemmaForMultiModal" -> PaliGemmaForMultiModal,
-    "Gemma3ForMultiModal" -> Gemma3ForMultiModal)
+    "PaliGemmaForMultiModal" -> PaliGemmaForMultiModal)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

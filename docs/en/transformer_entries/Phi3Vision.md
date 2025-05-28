@@ -103,15 +103,15 @@ result.select("image_assembler.origin", "answer.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Phi3Vision](/api/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision)
+[Phi3Vision](https://www.google.com/url?sa=E&source=gmail&q=/api/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Phi3Vision](/api/python/reference/autosummary/sparknlp/annotator/cv/phi3_vision/index.html#sparknlp.annotator.cv.phi3_vision.Phi3Vision)
+[Phi3Vision](https://www.google.com/url?sa=E&source=gmail&q=/api/python/reference/autosummary/sparknlp/annotator/cv/phi3_vision/index.html#sparknlp.annotator.cv.phi3_vision.Phi3Vision)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[Phi3Vision](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision.scala)
+[Phi3Vision](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Phi3Vision.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

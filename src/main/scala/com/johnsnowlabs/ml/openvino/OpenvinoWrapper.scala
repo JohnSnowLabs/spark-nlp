@@ -261,9 +261,4 @@ object OpenvinoWrapper {
       imageEncoder: OpenvinoWrapper,
       textEmbeddings: OpenvinoWrapper,
       modelMerger: OpenvinoWrapper)
-  case class Gemma3Wrappers(
-      languageModel: OpenvinoWrapper,
-      imageEncoder: OpenvinoWrapper,
-      textEmbeddings: OpenvinoWrapper,
-      modelMerger: OpenvinoWrapper)
 }
