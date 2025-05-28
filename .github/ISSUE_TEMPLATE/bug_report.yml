@@ -1,7 +1,7 @@
 name: Bug report
 description: File a possible bug/issue to help us improve Spark NLP. Thank you for contributing!
 labels: [question]
-assignees: "DevinTDHa"
+assignees: "maziyarpanahi"
 
 body:
   - type: checkboxes
