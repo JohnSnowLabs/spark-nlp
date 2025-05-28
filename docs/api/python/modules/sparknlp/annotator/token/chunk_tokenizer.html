@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.token.chunk_tokenizer &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.token.chunk_tokenizer &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator.token.tokenizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">TokenizerModel</span>
 
 
-<div class="viewcode-block" id="ChunkTokenizer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.chunk_tokenizer.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
+<div class="viewcode-block" id="ChunkTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenizes and flattens extracted NER chunks.</span>
 
 <span class="sd">    The ChunkTokenizer will split the extracted NER ``CHUNK`` type Annotations</span>
@@ -438,9 +443,9 @@ document.write(`
 <span class="sd">    |[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|</span>
 <span class="sd">    +-----------------------------------------------+---------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizer&#39;</span>
+<div class="viewcode-block" id="ChunkTokenizer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizer&#39;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span>
+<div class="viewcode-block" id="ChunkTokenizer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -450,7 +455,7 @@ document.write(`
         <span class="k">return</span> <span class="n">ChunkTokenizerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ChunkTokenizerModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.chunk_tokenizer.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkTokenizerModel</span><span class="p">(</span><span class="n">TokenizerModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ChunkTokenizerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkTokenizerModel</span><span class="p">(</span><span class="n">TokenizerModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the ChunkTokenizer.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.ChunkTokenizer`.</span>
@@ -466,9 +471,9 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizerModel&#39;</span>
+<div class="viewcode-block" id="ChunkTokenizerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ChunkTokenizerModel&#39;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span>
+<div class="viewcode-block" id="ChunkTokenizerModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/chunk_tokenizer/index.html#sparknlp.annotator.token.chunk_tokenizer.ChunkTokenizerModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -518,7 +523,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

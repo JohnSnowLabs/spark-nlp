@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.cleaners.cleaner module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.cleaners.cleaner module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,65 +685,65 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Cleaner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.cleaners.Cleaner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.annotator.seq2seq.marian_transformer.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer" title="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MarianTransformer</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer" title="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MarianTransformer</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.bullets">
-<span class="sig-name descname"><span class="pre">bullets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='bullets',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">handle</span> <span class="pre">bullets</span> <span class="pre">in</span> <span class="pre">text.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.bullets" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">bullets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='bullets',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">handle</span> <span class="pre">bullets</span> <span class="pre">in</span> <span class="pre">text.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.bullets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.bullets" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPostfixPattern">
-<span class="sig-name descname"><span class="pre">cleanPostfixPattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanPostfixPattern',</span> <span class="pre">doc='The</span> <span class="pre">pattern</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">postfix.</span> <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">simple</span> <span class="pre">string</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">regex</span> <span class="pre">pattern.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPostfixPattern" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cleanPostfixPattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanPostfixPattern',</span> <span class="pre">doc='The</span> <span class="pre">pattern</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">postfix.</span> <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">simple</span> <span class="pre">string</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">regex</span> <span class="pre">pattern.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.cleanPostfixPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPostfixPattern" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPrefixPattern">
-<span class="sig-name descname"><span class="pre">cleanPrefixPattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanPrefixPattern',</span> <span class="pre">doc='The</span> <span class="pre">pattern</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">prefix.</span> <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">simple</span> <span class="pre">string</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">regex</span> <span class="pre">pattern.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPrefixPattern" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cleanPrefixPattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanPrefixPattern',</span> <span class="pre">doc='The</span> <span class="pre">pattern</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">prefix.</span> <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">simple</span> <span class="pre">string</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">regex</span> <span class="pre">pattern.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.cleanPrefixPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPrefixPattern" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.cleanerMode">
-<span class="sig-name descname"><span class="pre">cleanerMode</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanerMode',</span> <span class="pre">doc='possible</span> <span class="pre">values:</span> <span class="pre">clean,</span> <span class="pre">bytes_string_to_string,</span> <span class="pre">clean_non_ascii_chars,</span> <span class="pre">clean_ordered_bullets,</span> <span class="pre">clean_postfix,</span> <span class="pre">clean_prefix,</span> <span class="pre">remove_punctuation,</span> <span class="pre">replace_unicode_quotes')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanerMode" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cleanerMode</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='cleanerMode',</span> <span class="pre">doc='possible</span> <span class="pre">values:</span> <span class="pre">clean,</span> <span class="pre">bytes_string_to_string,</span> <span class="pre">clean_non_ascii_chars,</span> <span class="pre">clean_ordered_bullets,</span> <span class="pre">clean_postfix,</span> <span class="pre">clean_prefix,</span> <span class="pre">remove_punctuation,</span> <span class="pre">replace_unicode_quotes')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.cleanerMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanerMode" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.dashes">
-<span class="sig-name descname"><span class="pre">dashes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dashes',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">handle</span> <span class="pre">dashes</span> <span class="pre">in</span> <span class="pre">text.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.dashes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dashes',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">handle</span> <span class="pre">dashes</span> <span class="pre">in</span> <span class="pre">text.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.dashes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.dashes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.encoding">
-<span class="sig-name descname"><span class="pre">encoding</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='encoding',</span> <span class="pre">doc='The</span> <span class="pre">encoding</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">decoding</span> <span class="pre">the</span> <span class="pre">byte</span> <span class="pre">string</span> <span class="pre">(default</span> <span class="pre">is</span> <span class="pre">utf-8)')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.encoding" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">encoding</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='encoding',</span> <span class="pre">doc='The</span> <span class="pre">encoding</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">decoding</span> <span class="pre">the</span> <span class="pre">byte</span> <span class="pre">string</span> <span class="pre">(default</span> <span class="pre">is</span> <span class="pre">utf-8)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.encoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.encoding" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.extraWhitespace">
-<span class="sig-name descname"><span class="pre">extraWhitespace</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='extraWhitespace',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">extra</span> <span class="pre">whitespace.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.extraWhitespace" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">extraWhitespace</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='extraWhitespace',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">extra</span> <span class="pre">whitespace.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.extraWhitespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.extraWhitespace" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.ignoreCase">
-<span class="sig-name descname"><span class="pre">ignoreCase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreCase',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">ignores</span> <span class="pre">case</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">pattern.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.ignoreCase" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ignoreCase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreCase',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">ignores</span> <span class="pre">case</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">pattern.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.ignoreCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.ignoreCase" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.lowercase">
-<span class="sig-name descname"><span class="pre">lowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lowercase',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">text</span> <span class="pre">to</span> <span class="pre">lowercase.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.lowercase" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">lowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lowercase',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">text</span> <span class="pre">to</span> <span class="pre">lowercase.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.lowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.lowercase" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Cleaner'</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Cleaner'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -899,12 +907,12 @@ clean_postfix, clean_prefix, remove_punctuation, replace_unicode_quotes</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.strip">
-<span class="sig-name descname"><span class="pre">strip</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='strip',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">removes</span> <span class="pre">leading</span> <span class="pre">or</span> <span class="pre">trailing</span> <span class="pre">whitespace</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">cleaned</span> <span class="pre">string.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.strip" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">strip</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='strip',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">removes</span> <span class="pre">leading</span> <span class="pre">or</span> <span class="pre">trailing</span> <span class="pre">whitespace</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">cleaned</span> <span class="pre">string.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.strip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.strip" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.cleaners.cleaner.Cleaner.trailingPunctuation">
-<span class="sig-name descname"><span class="pre">trailingPunctuation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='trailingPunctuation',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">trailing</span> <span class="pre">punctuation</span> <span class="pre">from</span> <span class="pre">text.')</span></em><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.trailingPunctuation" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">trailingPunctuation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='trailingPunctuation',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">remove</span> <span class="pre">trailing</span> <span class="pre">punctuation</span> <span class="pre">from</span> <span class="pre">text.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/cleaners/cleaner.html#Cleaner.trailingPunctuation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.cleaners.cleaner.Cleaner.trailingPunctuation" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1002,7 +1010,7 @@ clean_postfix, clean_prefix, remove_punctuation, replace_unicode_quotes</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

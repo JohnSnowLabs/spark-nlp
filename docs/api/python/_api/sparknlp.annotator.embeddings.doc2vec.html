@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.embeddings.doc2vec module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.doc2vec module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Doc2VecApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEnableCachingProperties" title="sparknlp.common.properties.HasEnableCachingProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEnableCachingProperties</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEnableCachingProperties" title="sparknlp.common.properties.HasEnableCachingProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEnableCachingProperties</span></code></a></p>
 <p>Trains a Word2Vec model that creates vector representations of words in a
 text corpus.</p>
 <p>The algorithm first constructs a vocabulary from the corpus and then learns
@@ -687,7 +695,7 @@ algorithms.</p>
 <p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
 implementation and a hierarchical softmax method to train the model. The
 variable names in the implementation match the original C implementation.</p>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Doc2VecModel</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Doc2VecModel</span></code></a>.</p>
 <p>For available pretrained models please see the <a class="reference external" href="https://sparknlp.org/models">Models Hub</a>.</p>
 <table class="table">
 <thead>
@@ -761,37 +769,37 @@ Representations of Words and Phrases and their Compositionality</a>.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxIter">
-<span class="sig-name descname"><span class="pre">maxIter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxIter',</span> <span class="pre">doc='maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">iterations</span> <span class="pre">(&gt;=</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxIter" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxIter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxIter',</span> <span class="pre">doc='maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">iterations</span> <span class="pre">(&gt;=</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.maxIter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxIter" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxSentenceLength">
-<span class="sig-name descname"><span class="pre">maxSentenceLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxSentenceLength',</span> <span class="pre">doc='the</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">(Maximum</span> <span class="pre">length</span> <span class="pre">(in</span> <span class="pre">words)</span> <span class="pre">of</span> <span class="pre">each</span> <span class="pre">sentence</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">input</span> <span class="pre">data.</span> <span class="pre">Any</span> <span class="pre">sentence</span> <span class="pre">longer</span> <span class="pre">than</span> <span class="pre">this</span> <span class="pre">threshold</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">divided</span> <span class="pre">into</span> <span class="pre">chunks</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">size</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxSentenceLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxSentenceLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxSentenceLength',</span> <span class="pre">doc='the</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">(Maximum</span> <span class="pre">length</span> <span class="pre">(in</span> <span class="pre">words)</span> <span class="pre">of</span> <span class="pre">each</span> <span class="pre">sentence</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">input</span> <span class="pre">data.</span> <span class="pre">Any</span> <span class="pre">sentence</span> <span class="pre">longer</span> <span class="pre">than</span> <span class="pre">this</span> <span class="pre">threshold</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">divided</span> <span class="pre">into</span> <span class="pre">chunks</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">size</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.maxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.maxSentenceLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.minCount">
-<span class="sig-name descname"><span class="pre">minCount</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minCount',</span> <span class="pre">doc=&quot;the</span> <span class="pre">minimum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">times</span> <span class="pre">a</span> <span class="pre">token</span> <span class="pre">must</span> <span class="pre">appear</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">included</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">word2vec</span> <span class="pre">model's</span> <span class="pre">vocabulary</span> <span class="pre">(&gt;=</span> <span class="pre">0)&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.minCount" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">minCount</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minCount',</span> <span class="pre">doc=&quot;the</span> <span class="pre">minimum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">times</span> <span class="pre">a</span> <span class="pre">token</span> <span class="pre">must</span> <span class="pre">appear</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">included</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">word2vec</span> <span class="pre">model's</span> <span class="pre">vocabulary</span> <span class="pre">(&gt;=</span> <span class="pre">0)&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.minCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.minCount" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.numPartitions">
-<span class="sig-name descname"><span class="pre">numPartitions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numPartitions',</span> <span class="pre">doc='number</span> <span class="pre">of</span> <span class="pre">partitions</span> <span class="pre">for</span> <span class="pre">sentences</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.numPartitions" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">numPartitions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numPartitions',</span> <span class="pre">doc='number</span> <span class="pre">of</span> <span class="pre">partitions</span> <span class="pre">for</span> <span class="pre">sentences</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.numPartitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.numPartitions" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.seed">
-<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='seed',</span> <span class="pre">doc='Random</span> <span class="pre">seed')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.seed" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='seed',</span> <span class="pre">doc='Random</span> <span class="pre">seed')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.seed" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -849,17 +857,17 @@ accuracy.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.stepSize">
-<span class="sig-name descname"><span class="pre">stepSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='stepSize',</span> <span class="pre">doc='Step</span> <span class="pre">size</span> <span class="pre">(learning</span> <span class="pre">rate)</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">iteration</span> <span class="pre">of</span> <span class="pre">optimization</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.stepSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">stepSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='stepSize',</span> <span class="pre">doc='Step</span> <span class="pre">size</span> <span class="pre">(learning</span> <span class="pre">rate)</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">iteration</span> <span class="pre">of</span> <span class="pre">optimization</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.stepSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.stepSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.vectorSize">
-<span class="sig-name descname"><span class="pre">vectorSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='vectorSize',</span> <span class="pre">doc='the</span> <span class="pre">dimension</span> <span class="pre">of</span> <span class="pre">codes</span> <span class="pre">after</span> <span class="pre">transforming</span> <span class="pre">from</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.vectorSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">vectorSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='vectorSize',</span> <span class="pre">doc='the</span> <span class="pre">dimension</span> <span class="pre">of</span> <span class="pre">codes</span> <span class="pre">after</span> <span class="pre">transforming</span> <span class="pre">from</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.vectorSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.vectorSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.windowSize">
-<span class="sig-name descname"><span class="pre">windowSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='windowSize',</span> <span class="pre">doc='the</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">(context</span> <span class="pre">words</span> <span class="pre">from</span> <span class="pre">[-window,</span> <span class="pre">window])</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.windowSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">windowSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='windowSize',</span> <span class="pre">doc='the</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">(context</span> <span class="pre">words</span> <span class="pre">from</span> <span class="pre">[-window,</span> <span class="pre">window])</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecApproach.windowSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.windowSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -867,7 +875,7 @@ accuracy.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Doc2VecModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.Doc2VecModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a></p>
 <p>Word2Vec model that creates vector representations of words in a text
 corpus.</p>
 <p>The algorithm first constructs a vocabulary from the corpus and then learns
@@ -877,9 +885,9 @@ algorithms.</p>
 <p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
 implementation and a hierarchical softmax method to train the model. The
 variable names in the implementation match the original C implementation.</p>
-<p>This is the instantiated model of the <a class="reference internal" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Doc2VecApproach</span></code></a>. For
+<p>This is the instantiated model of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Doc2VecApproach</span></code></a>. For
 training your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.pretrained" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.pretrained" title="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">Doc2VecModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
@@ -956,17 +964,17 @@ with two fields, word and vector.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Doc2VecModel'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Doc2VecModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1002,7 +1010,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.vectorSize">
-<span class="sig-name descname"><span class="pre">vectorSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='vectorSize',</span> <span class="pre">doc='the</span> <span class="pre">dimension</span> <span class="pre">of</span> <span class="pre">codes</span> <span class="pre">after</span> <span class="pre">transforming</span> <span class="pre">from</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.vectorSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">vectorSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='vectorSize',</span> <span class="pre">doc='the</span> <span class="pre">dimension</span> <span class="pre">of</span> <span class="pre">codes</span> <span class="pre">after</span> <span class="pre">transforming</span> <span class="pre">from</span> <span class="pre">words</span> <span class="pre">(&gt;</span> <span class="pre">0)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/doc2vec.html#Doc2VecModel.vectorSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.vectorSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1103,7 +1111,7 @@ Spark NLPs repositories otherwise.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

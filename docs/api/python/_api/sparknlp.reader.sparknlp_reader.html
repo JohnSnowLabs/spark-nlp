@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.sparknlp_reader module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.reader.sparknlp_reader module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -675,8 +683,8 @@ document.write(`
 <span id="sparknlp-reader-sparknlp-reader-module"></span><h1>sparknlp.reader.sparknlp_reader module<a class="headerlink" href="#module-sparknlp.reader.sparknlp_reader" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.reader.sparknlp_reader.SparkNLPReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SparkNLPReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/sparknlp_reader.html#SparkNLPReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.sparknlp_reader.SparkNLPReader" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.internal.extended_java_wrapper.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper" title="sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtendedJavaWrapper</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SparkNLPReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/sparknlp_reader.html#SparkNLPReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.sparknlp_reader.SparkNLPReader" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper" title="sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtendedJavaWrapper</span></code></a></p>
 <p>Instantiates class to read documents in various formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -695,19 +703,25 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reader</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 </pre></div>
 </div>
-<p># Reading HTML
-&gt;&gt;&gt; html_df = reader.html(”<a class="reference external" href="https://www.wikipedia.org">https://www.wikipedia.org</a>”)
-&gt;&gt;&gt; # Or with shorthand
-&gt;&gt;&gt; import sparknlp
-&gt;&gt;&gt; html_df = sparknlp.read().html(”<a class="reference external" href="https://www.wikipedia.org">https://www.wikipedia.org</a>”)</p>
-<p># Reading PDF
-&gt;&gt;&gt; pdf_df = reader.pdf(“home/user/pdfs-directory”)
-&gt;&gt;&gt; # Or with shorthand
-&gt;&gt;&gt; pdf_df = sparknlp.read().pdf(“home/user/pdfs-directory”)</p>
-<p># Reading Email
-&gt;&gt;&gt; email_df = reader.email(“home/user/emails-directory”)
-&gt;&gt;&gt; # Or with shorthand
-&gt;&gt;&gt; email_df = sparknlp.read().email(“home/user/emails-directory”)</p>
+<p>Reading HTML</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;https://www.wikipedia.org&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or with shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">html_df</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;https://www.wikipedia.org&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reading PDF</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pdf_df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="s2">&quot;home/user/pdfs-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or with shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdf_df</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="s2">&quot;home/user/pdfs-directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reading Email</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">email</span><span class="p">(</span><span class="s2">&quot;home/user/emails-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or with shorthand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">email</span><span class="p">(</span><span class="s2">&quot;home/user/emails-directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.sparknlp_reader.SparkNLPReader.doc">
 <span class="sig-name descname"><span class="pre">doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/sparknlp_reader.html#SparkNLPReader.doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.sparknlp_reader.SparkNLPReader.doc" title="Permalink to this definition">#</a></dt>
@@ -731,11 +745,18 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="n">doc_df</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">()</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;home/user/word-directory&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can use SparkNLP for one line of code
-&gt;&gt;&gt; import sparknlp
-&gt;&gt;&gt; doc_df = sparknlp.read().doc(“home/user/word-directory”)
-&gt;&gt;&gt; doc_df.show(truncate=False)</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docsDf</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<p>You can use SparkNLP for one line of code</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc_df</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s2">&quot;home/user/word-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+-------------------------------------------------+</span>
+<span class="go">|doc                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |</span>
+<span class="go">+-------------------------------------------------+</span>
+<span class="go">|[{Table, Header Col 1, {}}, {Table, Header Col 2,|</span>
+<span class="go">+-------------------------------------------------+</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">doc_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 <span class="go">root</span>
 <span class="go"> |-- path: string (nullable = true)</span>
 <span class="go"> |-- content: array (nullable = true)</span>
@@ -768,33 +789,21 @@ document.write(`
 </dl>
 </dd>
 </dl>
-<p>Cheers,</p>
-<p>, {sent_to -&gt; Danilo Burbano &lt;<a class="reference external" href="mailto:danilo&#37;&#52;&#48;johnsnowlabs&#46;com">danilo<span>&#64;</span>johnsnowlabs<span>&#46;</span>com</a>&gt;, sent_from -&gt; Danilo Burbano &lt;<a class="reference external" href="mailto:danilo&#37;&#52;&#48;johnsnowlabs&#46;com">danilo<span>&#64;</span>johnsnowlabs<span>&#46;</span>com</a>&gt;, mimeType -&gt; text/plain}}, {NarrativeText, &lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=”Content-Type” content=”text/html; charset=iso-8859-1”&gt;
-&lt;style type=”text/css” style=”display:none;”&gt; P {margin-top:0;margin-bottom:0;} &lt;/style&gt;
-&lt;/head&gt;
-&lt;body dir=”ltr”&gt;
-&lt;span style=”font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);”&gt;Email&amp;nbsp; test with two text attachments&lt;/span&gt;
-&lt;div class=”elementToProof” style=”font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);”&gt;
-&lt;br&gt;
-&lt;/div&gt;
-&lt;div class=”elementToProof” style=”font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);”&gt;
-Cheers,&lt;/div&gt;
-&lt;div class=”elementToProof” style=”font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);”&gt;
-&lt;br&gt;
-&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-, {sent_to -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, mimeType -&gt; text/html}}, {Attachment, filename.txt, {sent_to -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, contentType -&gt; text/plain; name=”filename.txt”}}, {NarrativeText, This is the content of the file.
-, {sent_to -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, mimeType -&gt; text/plain}}, {Attachment, filename2.txt, {sent_to -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, contentType -&gt; text/plain; name=”filename2.txt”}}, {NarrativeText, This is an additional content file.
-, {sent_to -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo&#64;johnsnowlabs.com&gt;, mimeType -&gt; text/plain}}]|</p>
-<blockquote>
-<div><table class="table">
-<tbody>
-</tbody>
-</table>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkNLPReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">email</span><span class="p">(</span><span class="s2">&quot;home/user/emails-directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also use SparkNLP to simplify the process:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">email</span><span class="p">(</span><span class="s2">&quot;home/user/emails-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---------------------------------------------------+</span>
+<span class="go">|email                                              |</span>
+<span class="go">+---------------------------------------------------+</span>
+<span class="go">|[{Title, Email Text Attachments, {sent_to -&gt; Danilo|</span>
+<span class="go">+---------------------------------------------------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">email_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 <span class="go">root</span>
 <span class="go"> |-- path: string (nullable = true)</span>
 <span class="go"> |-- content: array (nullable = true)</span>
@@ -807,7 +816,6 @@ Cheers,&lt;/div&gt;
 <span class="go"> |    |    |    |-- value: string (valueContainsNull = true)</span>
 </pre></div>
 </div>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -830,7 +838,7 @@ Cheers,&lt;/div&gt;
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkNLPReader</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">html_df</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;https://www.wikipedia.org&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">html_df</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">()</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;https://www.wikipedia.org&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can also use SparkNLP to simplify the process:</p>
@@ -850,19 +858,17 @@ Cheers,&lt;/div&gt;
 </tbody>
 </table>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">html_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="go">root</span>
+<span class="go"> |-- url: string (nullable = true)</span>
+<span class="go"> |-- html: array (nullable = true)</span>
+<span class="go"> |    |-- element: struct (containsNull = true)</span>
+<span class="go"> |    |    |-- elementType: string (nullable = true)</span>
+<span class="go"> |    |    |-- content: string (nullable = true)</span>
+<span class="go"> |    |    |-- metadata: map (nullable = true)</span>
+<span class="go"> |    |    |    |-- key: string</span>
+<span class="go"> |    |    |    |-- value: string (valueContainsNull = true)</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>root</dt><dd><p><a href="#id1"><span class="problematic" id="id2">|</span></a>– url: string (nullable = true)
-<a href="#id3"><span class="problematic" id="id4">|</span></a>– html: array (nullable = true)
-|    <a href="#id5"><span class="problematic" id="id6">|</span></a>– element: struct (containsNull = true)
-|    |    <a href="#id7"><span class="problematic" id="id8">|</span></a>– elementType: string (nullable = true)
-|    |    <a href="#id9"><span class="problematic" id="id10">|</span></a>– content: string (nullable = true)
-|    |    <a href="#id11"><span class="problematic" id="id12">|</span></a>– metadata: map (nullable = true)
-|    |    |    <a href="#id13"><span class="problematic" id="id14">|</span></a>– key: string
-|    |    |    <a href="#id15"><span class="problematic" id="id16">|</span></a>– value: string (valueContainsNull = true)</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -877,7 +883,7 @@ Cheers,&lt;/div&gt;
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>docPath</strong><span class="classifier">str</span></dt><dd><p>Path to an excel document file.</p>
+<dt><strong>docPath</strong><span class="classifier">str</span></dt><dd><p>Path to an power point document file.</p>
 </dd>
 </dl>
 </dd>
@@ -893,15 +899,17 @@ Cheers,&lt;/div&gt;
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pptDf</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">()</span><span class="o">.</span><span class="n">ppt</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;home/user/powerpoint-directory&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can use SparkNLP for one line of code
-&gt;&gt;&gt; import sparknlp
-&gt;&gt;&gt; pptDf = sparknlp.read().ppt(“home/user/powerpoint-directory”)
-&gt;&gt;&gt; pptDf.show(truncate=False)
-+————————————————————————————————————————————————————————————————————————————————————————————————————————-+
-<a href="#id17"><span class="problematic" id="id18">|ppt                                                                                                                                                                                                                                                                                                                      |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|</span></a>
-+————————————————————————————————————————————————————————————————————————————————————————————————————————-+</p>
+<p>You can use SparkNLP for one line of code</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pptDf</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">ppt</span><span class="p">(</span><span class="s2">&quot;home/user/powerpoint-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pptDf</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------------------------------------+</span>
+<span class="go">|ppt                                  |</span>
+<span class="go">+-------------------------------------+</span>
+<span class="go">|[{Title, Adding a Bullet Slide, {}},]|</span>
+<span class="go">+-------------------------------------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -922,14 +930,22 @@ Cheers,&lt;/div&gt;
 </dl>
 </dd>
 </dl>
-<p>It provides high-level APIs in Java, Scala, Python, and R., {paragraph -&gt; 0}}, {Title, MACHINE LEARNING, {paragraph -&gt; 1}}, {NarrativeText, Spark’s MLlib provides scalable machine learning algorithms.
-It includes tools for classification, regression, clustering, and more., {paragraph -&gt; 1}}]|</p>
-<blockquote>
-<div><table class="table">
-<tbody>
-</tbody>
-</table>
-</div></blockquote>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkNLPReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">txtDf</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">()</span><span class="o">.</span><span class="n">txt</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;home/user/txt/files&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can use SparkNLP for one line of code</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">txtDf</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">txt</span><span class="p">(</span><span class="s2">&quot;home/user/txt/files&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">txtDf</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------------------+</span>
+<span class="go">|txt                                            |</span>
+<span class="go">+-----------------------------------------------+</span>
+<span class="go">|[{Title, BIG DATA ANALYTICS, {paragraph -&gt; 0}}]|</span>
+<span class="go">+-----------------------------------------------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -950,6 +966,22 @@ It includes tools for classification, regression, clustering, and more., {paragr
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkNLPReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlsDf</span> <span class="o">=</span> <span class="n">SparkNLPReader</span><span class="p">()</span><span class="o">.</span><span class="n">xls</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;home/user/excel-directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can use SparkNLP for one line of code</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlsDf</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">xls</span><span class="p">(</span><span class="s2">&quot;home/user/excel-directory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xlsDf</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+--------------------------------------------+</span>
+<span class="go">|xls                                         |</span>
+<span class="go">+--------------------------------------------+</span>
+<span class="go">|[{Title, Financial performance, {SheetNam}}]|</span>
+<span class="go">+--------------------------------------------+</span>
+</pre></div>
+</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xlsDf</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 <span class="go">root</span>
 <span class="go"> |-- path: string (nullable = true)</span>
@@ -1042,7 +1074,7 @@ It includes tools for classification, regression, clustering, and more., {paragr
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -421,11 +421,13 @@ document.write(`
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.audio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.ml.ai&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 
-<span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span>
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span>
+<div class="viewcode-block" id="annotators"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.annotators">[docs]</a><span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span></div>
+<div class="viewcode-block" id="embeddings"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.embeddings">[docs]</a><span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span></div>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.0.2&quot;</span>
 
 
-<div class="viewcode-block" id="start"><a class="viewcode-back" href="../_api/sparknlp.html#sparknlp.start">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="start"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.start">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">apple_silicon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">aarch64</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
           <span class="n">memory</span><span class="o">=</span><span class="s2">&quot;16G&quot;</span><span class="p">,</span>
@@ -490,7 +492,7 @@ document.write(`
 <span class="sd">        The initiated Spark session.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">current_version</span> <span class="o">=</span> <span class="s2">&quot;6.0.1&quot;</span>
+    <span class="n">current_version</span> <span class="o">=</span> <span class="n">__version__</span>
 
     <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
@@ -662,11 +664,11 @@ document.write(`
         <span class="n">spark_session</span> <span class="o">=</span> <span class="n">start_without_realtime_output</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">spark_session</span></div>
 
-<div class="viewcode-block" id="read"><a class="viewcode-back" href="../_api/sparknlp.html#sparknlp.read">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.read">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">spark_session</span> <span class="o">=</span> <span class="n">start</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">SparkNLPReader</span><span class="p">(</span><span class="n">spark_session</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="version"><a class="viewcode-back" href="../_api/sparknlp.html#sparknlp.version">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">():</span>
+<div class="viewcode-block" id="version"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.version">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the current Spark NLP version.</span>
 
 <span class="sd">    Returns</span>
@@ -674,7 +676,7 @@ document.write(`
 <span class="sd">    str</span>
 <span class="sd">        The current Spark NLP version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;6.0.1&#39;</span></div>
+    <span class="k">return</span> <span class="n">__version__</span></div>
 </pre></div>
 
                 </article>
@@ -716,7 +718,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

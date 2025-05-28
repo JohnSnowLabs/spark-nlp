@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.sentiment.sentiment_detector module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.sentiment.sentiment_detector module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,11 +685,11 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentimentDetector</span></span><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
 <p>Trains a rule based sentiment detector, which calculates a score based on
 predefined keywords.</p>
 <p>A dictionary of predefined sentiment keywords must be provided with
-<a class="reference internal" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.setDictionary" title="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a>, where each line is a word delimited to its class
+<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.setDictionary" title="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a>, where each line is a word delimited to its class
 (either <code class="docutils literal notranslate"><span class="pre">positive</span></code> or <code class="docutils literal notranslate"><span class="pre">negative</span></code>). The dictionary can be set in the form
 of a delimited text file.</p>
 <p>By default, the sentiment score will be assigned labels <code class="docutils literal notranslate"><span class="pre">&quot;positive&quot;</span></code> if
@@ -766,47 +774,47 @@ of:</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.decrementMultiplier">
-<span class="sig-name descname"><span class="pre">decrementMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='decrementMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">decrement</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-2.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.decrementMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">decrementMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='decrementMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">decrement</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-2.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.decrementMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.decrementMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.dictionary">
-<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc='path</span> <span class="pre">for</span> <span class="pre">dictionary</span> <span class="pre">to</span> <span class="pre">sentiment</span> <span class="pre">analysis')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.dictionary" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc='path</span> <span class="pre">for</span> <span class="pre">dictionary</span> <span class="pre">to</span> <span class="pre">sentiment</span> <span class="pre">analysis')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.dictionary" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.enableScore">
-<span class="sig-name descname"><span class="pre">enableScore</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableScore',</span> <span class="pre">doc='if</span> <span class="pre">true,</span> <span class="pre">score</span> <span class="pre">will</span> <span class="pre">show</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">double</span> <span class="pre">value,</span> <span class="pre">else</span> <span class="pre">will</span> <span class="pre">output</span> <span class="pre">string</span> <span class="pre">&quot;positive&quot;</span> <span class="pre">or</span> <span class="pre">&quot;negative&quot;.</span> <span class="pre">Defaults</span> <span class="pre">false')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.enableScore" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">enableScore</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableScore',</span> <span class="pre">doc='if</span> <span class="pre">true,</span> <span class="pre">score</span> <span class="pre">will</span> <span class="pre">show</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">double</span> <span class="pre">value,</span> <span class="pre">else</span> <span class="pre">will</span> <span class="pre">output</span> <span class="pre">string</span> <span class="pre">&quot;positive&quot;</span> <span class="pre">or</span> <span class="pre">&quot;negative&quot;.</span> <span class="pre">Defaults</span> <span class="pre">false')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.enableScore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.enableScore" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.incrementMultiplier">
-<span class="sig-name descname"><span class="pre">incrementMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='incrementMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">increment</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">2.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.incrementMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">incrementMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='incrementMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">increment</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">2.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.incrementMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.incrementMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token',</span> <span class="pre">'document']</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token',</span> <span class="pre">'document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.negativeMultiplier">
-<span class="sig-name descname"><span class="pre">negativeMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='negativeMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">negative</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-1.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.negativeMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">negativeMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='negativeMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">negative</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-1.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.negativeMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.negativeMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentiment'</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentiment'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.positiveMultiplier">
-<span class="sig-name descname"><span class="pre">positiveMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='positiveMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">positive</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">1.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.positiveMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">positiveMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='positiveMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">positive</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">1.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.positiveMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.positiveMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.reverseMultiplier">
-<span class="sig-name descname"><span class="pre">reverseMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='reverseMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">revert</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-1.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.reverseMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reverseMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='reverseMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">revert</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">-1.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetector.reverseMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector.reverseMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -834,10 +842,10 @@ of:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SentimentDetectorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetectorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Rule based sentiment detector, which calculates a score based on
 predefined keywords.</p>
-<p>This is the instantiated model of the <a class="reference internal" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector" title="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentimentDetector</span></code></a>. For
+<p>This is the instantiated model of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector" title="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentimentDetector</span></code></a>. For
 training your own model, please see the documentation of that class.</p>
 <p>By default, the sentiment score will be assigned labels <code class="docutils literal notranslate"><span class="pre">&quot;positive&quot;</span></code> if
 the score is <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">0</span></code>, else <code class="docutils literal notranslate"><span class="pre">&quot;negative&quot;</span></code>.</p>
@@ -863,22 +871,22 @@ the score is <code class="docutils literal notranslate"><span class="pre">&gt;=<
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token',</span> <span class="pre">'document']</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token',</span> <span class="pre">'document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetectorModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SentimentDetectorModel'</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SentimentDetectorModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetectorModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentiment'</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentiment'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetectorModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.positiveMultiplier">
-<span class="sig-name descname"><span class="pre">positiveMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='positiveMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">positive</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">1.0')</span></em><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.positiveMultiplier" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">positiveMultiplier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='positiveMultiplier',</span> <span class="pre">doc='multiplier</span> <span class="pre">for</span> <span class="pre">positive</span> <span class="pre">sentiments.</span> <span class="pre">Defaults</span> <span class="pre">1.0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/sentiment/sentiment_detector.html#SentimentDetectorModel.positiveMultiplier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel.positiveMultiplier" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -968,7 +976,7 @@ the score is <code class="docutils literal notranslate"><span class="pre">&gt;=<
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

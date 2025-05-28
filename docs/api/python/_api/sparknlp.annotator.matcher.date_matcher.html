@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.matcher.date_matcher module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.matcher.date_matcher module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,14 +685,14 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DateMatcher</span></span><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils" title="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils"><code class="xref py py-class docutils literal notranslate"><span class="pre">DateMatcherUtils</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils" title="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils"><code class="xref py py-class docutils literal notranslate"><span class="pre">DateMatcherUtils</span></code></a></p>
 <p>Matches standard date formats into a provided format
 Reads from different forms of date and time expressions and converts them
 to a provided date format.</p>
 <p>Extracts only <strong>one</strong> date per document. Use with sentence detector to find
 matches in each sentence.
 To extract multiple dates from a document, please use the
-<a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher" title="sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiDateMatcher</span></code></a>.</p>
+<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/matcher/multi_date_matcher/index.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher" title="sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiDateMatcher</span></code></a>.</p>
 <p>Reads the following kind of dates:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;1978-01-28&quot;, &quot;1984/04/02,1/02/1980&quot;, &quot;2/28/79&quot;,
 &quot;The 31st of April in the year 2008&quot;, &quot;Fri, 21 Nov 1997&quot;, &quot;Jan 21,
@@ -775,17 +783,17 @@ tomorrow. If not set it will use the current day. Example: 11</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcher.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcher.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcher.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DateMatcher'</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DateMatcher'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcher.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcher.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'date'</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'date'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcher.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -797,47 +805,47 @@ tomorrow. If not set it will use the current day. Example: 11</p>
 <p>Base class for DateMatcher Annotators</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.aggressiveMatching">
-<span class="sig-name descname"><span class="pre">aggressiveMatching</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='aggressiveMatching',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">aggressively</span> <span class="pre">attempt</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">date</span> <span class="pre">matches,</span> <span class="pre">even</span> <span class="pre">in</span> <span class="pre">ambiguous</span> <span class="pre">or</span> <span class="pre">less</span> <span class="pre">common</span> <span class="pre">formats')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.aggressiveMatching" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">aggressiveMatching</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='aggressiveMatching',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">aggressively</span> <span class="pre">attempt</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">date</span> <span class="pre">matches,</span> <span class="pre">even</span> <span class="pre">in</span> <span class="pre">ambiguous</span> <span class="pre">or</span> <span class="pre">less</span> <span class="pre">common</span> <span class="pre">formats')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.aggressiveMatching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.aggressiveMatching" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateDay">
-<span class="sig-name descname"><span class="pre">anchorDateDay</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateDay',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">day</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">day.</span> <span class="pre">Example:</span> <span class="pre">11')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateDay" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">anchorDateDay</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateDay',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">day</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">day</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">day.</span> <span class="pre">Example:</span> <span class="pre">11')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.anchorDateDay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateDay" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateMonth">
-<span class="sig-name descname"><span class="pre">anchorDateMonth</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateMonth',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">month</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">month.</span> <span class="pre">Example:</span> <span class="pre">1</span> <span class="pre">which</span> <span class="pre">means</span> <span class="pre">January')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateMonth" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">anchorDateMonth</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateMonth',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">month</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">month.</span> <span class="pre">Example:</span> <span class="pre">1</span> <span class="pre">which</span> <span class="pre">means</span> <span class="pre">January')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.anchorDateMonth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateMonth" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateYear">
-<span class="sig-name descname"><span class="pre">anchorDateYear</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateYear',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">year</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">year.</span> <span class="pre">Example:</span> <span class="pre">2021')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateYear" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">anchorDateYear</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='anchorDateYear',</span> <span class="pre">doc='Add</span> <span class="pre">an</span> <span class="pre">anchor</span> <span class="pre">year</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">relative</span> <span class="pre">dates</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">day</span> <span class="pre">after</span> <span class="pre">tomorrow.</span> <span class="pre">If</span> <span class="pre">not</span> <span class="pre">set</span> <span class="pre">it</span> <span class="pre">will</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">year.</span> <span class="pre">Example:</span> <span class="pre">2021')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.anchorDateYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.anchorDateYear" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.defaultDayWhenMissing">
-<span class="sig-name descname"><span class="pre">defaultDayWhenMissing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='defaultDayWhenMissing',</span> <span class="pre">doc='which</span> <span class="pre">day</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">when</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">missing</span> <span class="pre">from</span> <span class="pre">parsed</span> <span class="pre">input')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.defaultDayWhenMissing" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">defaultDayWhenMissing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='defaultDayWhenMissing',</span> <span class="pre">doc='which</span> <span class="pre">day</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">when</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">missing</span> <span class="pre">from</span> <span class="pre">parsed</span> <span class="pre">input')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.defaultDayWhenMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.defaultDayWhenMissing" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.inputFormats">
-<span class="sig-name descname"><span class="pre">inputFormats</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputFormats',</span> <span class="pre">doc='input</span> <span class="pre">formats</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">patterns</span> <span class="pre">to</span> <span class="pre">match')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.inputFormats" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputFormats</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputFormats',</span> <span class="pre">doc='input</span> <span class="pre">formats</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">patterns</span> <span class="pre">to</span> <span class="pre">match')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.inputFormats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.inputFormats" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.outputFormat">
-<span class="sig-name descname"><span class="pre">outputFormat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputFormat',</span> <span class="pre">doc='desired</span> <span class="pre">output</span> <span class="pre">format</span> <span class="pre">for</span> <span class="pre">dates</span> <span class="pre">extracted')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.outputFormat" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputFormat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputFormat',</span> <span class="pre">doc='desired</span> <span class="pre">output</span> <span class="pre">format</span> <span class="pre">for</span> <span class="pre">dates</span> <span class="pre">extracted')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.outputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.outputFormat" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.readMonthFirst">
-<span class="sig-name descname"><span class="pre">readMonthFirst</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readMonthFirst',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">parse</span> <span class="pre">july</span> <span class="pre">07/05/2015</span> <span class="pre">or</span> <span class="pre">as</span> <span class="pre">05/07/2015')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.readMonthFirst" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">readMonthFirst</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readMonthFirst',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">parse</span> <span class="pre">july</span> <span class="pre">07/05/2015</span> <span class="pre">or</span> <span class="pre">as</span> <span class="pre">05/07/2015')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.readMonthFirst"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.readMonthFirst" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.relaxedFactoryStrategy">
-<span class="sig-name descname"><span class="pre">relaxedFactoryStrategy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='relaxedFactoryStrategy',</span> <span class="pre">doc='Matched</span> <span class="pre">Strategy</span> <span class="pre">to</span> <span class="pre">searches</span> <span class="pre">relaxed</span> <span class="pre">dates')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.relaxedFactoryStrategy" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">relaxedFactoryStrategy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='relaxedFactoryStrategy',</span> <span class="pre">doc='Matched</span> <span class="pre">Strategy</span> <span class="pre">to</span> <span class="pre">searches</span> <span class="pre">relaxed</span> <span class="pre">dates')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.relaxedFactoryStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.relaxedFactoryStrategy" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -988,7 +996,7 @@ dd/mm/yyyy.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.sourceLanguage">
-<span class="sig-name descname"><span class="pre">sourceLanguage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='sourceLanguage',</span> <span class="pre">doc='source</span> <span class="pre">language</span> <span class="pre">for</span> <span class="pre">explicit</span> <span class="pre">translation')</span></em><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.sourceLanguage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sourceLanguage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='sourceLanguage',</span> <span class="pre">doc='source</span> <span class="pre">language</span> <span class="pre">for</span> <span class="pre">explicit</span> <span class="pre">translation')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.sourceLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.sourceLanguage" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1087,7 +1095,7 @@ dd/mm/yyyy.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

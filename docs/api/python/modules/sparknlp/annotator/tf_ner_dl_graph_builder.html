@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.tf_ner_dl_graph_builder &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.tf_ner_dl_graph_builder &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -364,37 +369,37 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="TFNerDLGraphBuilderModel"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TFNerDLGraphBuilderModel</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilderModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TFNerDLGraphBuilderModel</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">dataset</span></div>
 
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TFNerDLGraphBuilder</span><span class="p">(</span><span class="n">Estimator</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TFNerDLGraphBuilder</span><span class="p">(</span><span class="n">Estimator</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span><span class="p">):</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.inputAnnotatorTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span></div>
 
-    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.labelColumn"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.labelColumn">[docs]</a>    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;labelColumn&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Labels&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.inputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputCols">[docs]</a>    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Input columns&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">graphFolder</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFolder&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path that contain external graph files&quot;</span><span class="p">,</span>
-                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.graphFolder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFolder">[docs]</a>    <span class="n">graphFolder</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFolder&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path that contain external graph files&quot;</span><span class="p">,</span>
+                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">graphFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFile&quot;</span><span class="p">,</span> <span class="s2">&quot;Graph file name. If empty, default name is generated.&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.graphFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFile">[docs]</a>    <span class="n">graphFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;graphFile&quot;</span><span class="p">,</span> <span class="s2">&quot;Graph file name. If empty, default name is generated.&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">hiddenUnitsNumber</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.hiddenUnitsNumber"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.hiddenUnitsNumber">[docs]</a>    <span class="n">hiddenUnitsNumber</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                               <span class="s2">&quot;hiddenUnitsNumber&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Number of hidden units&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.setHiddenUnitsNumber"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setHiddenUnitsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.setHiddenUnitsNumber"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setHiddenUnitsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</span>
 
 <span class="sd">        Parameters</span>
@@ -404,11 +409,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenUnitsNumber</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.getHiddenUnitsNumber"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getHiddenUnitsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.getHiddenUnitsNumber"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getHiddenUnitsNumber">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the number of hidden units for AssertionDLApproach and MedicalNerApproach.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenUnitsNumber</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.setLabelColumn"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.setLabelColumn"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column for data labels.</span>
 
 <span class="sd">        Parameters</span>
@@ -418,11 +423,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.getLabelColumn"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.getLabelColumn"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the name of the label column.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labelColumn</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.setInputCols"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
@@ -439,7 +444,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;InputCols datatype not supported. It must be either str or list&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.inputColsValidation"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputColsValidation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inputColsValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.inputColsValidation"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputColsValidation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inputColsValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">actual_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">actual_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -452,11 +457,11 @@ document.write(`
                 <span class="sa">f</span><span class="s2">&quot;Provided column amount: </span><span class="si">{</span><span class="n">actual_columns</span><span class="si">}</span><span class="s2">. &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;Which should be columns from the following annotators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.getInputCols"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.getInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.setGraphFolder"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setGraphFolder">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.setGraphFolder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setGraphFolder">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
 
 <span class="sd">        Parameters</span>
@@ -466,11 +471,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFolder</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.getGraphFolder"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFolder">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.getGraphFolder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFolder">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the graph folder.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFolder</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.setGraphFile"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setGraphFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.setGraphFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.setGraphFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the graph file name.</span>
 
 <span class="sd">        Parameters</span>
@@ -481,7 +486,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFile</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFNerDLGraphBuilder.getGraphFile"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.tf_ner_dl_graph_builder.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TFNerDLGraphBuilder.getGraphFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/tf_ner_dl_graph_builder/index.html#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the graph file name.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFile</span><span class="p">)</span></div>
 
@@ -579,7 +584,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

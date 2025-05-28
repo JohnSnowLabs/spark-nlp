@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="WordSegmenterApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordSegmenterApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordSegmenterApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a WordSegmenter which tokenizes non-english or non-whitespace</span>
 <span class="sd">    separated texts.</span>
 
@@ -483,46 +488,46 @@ document.write(`
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingDataSet)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordSegmenterApproach&quot;</span>
+<div class="viewcode-block" id="WordSegmenterApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordSegmenterApproach&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="WordSegmenterApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="WordSegmenterApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
-    <span class="n">posCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.posCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.posCol">[docs]</a>    <span class="n">posCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;posCol&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;column of Array of POS tags that match tokens&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">nIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.nIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.nIterations">[docs]</a>    <span class="n">nIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;nIterations&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Number of iterations in training, converges to better accuracy&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">frequencyThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.frequencyThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.frequencyThreshold">[docs]</a>    <span class="n">frequencyThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;frequencyThreshold&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;How many times at least a tag on a word to be marked as frequent&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">ambiguityThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.ambiguityThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.ambiguityThreshold">[docs]</a>    <span class="n">ambiguityThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;ambiguityThreshold&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;How much percentage of total amount of words are covered to be marked as frequent&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.enableRegexTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.enableRegexTokenizer">[docs]</a>    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                  <span class="s2">&quot;enableRegexTokenizer&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;Whether to use RegexTokenizer before segmentation. Useful for multilingual text&quot;</span><span class="p">,</span>
-                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.toLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.toLowercase">[docs]</a>    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;toLowercase&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Indicates whether to convert all characters to lowercase before tokenizing.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterApproach.pattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.pattern">[docs]</a>    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                     <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;regex pattern used for tokenizing. Defaults </span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -533,7 +538,7 @@ document.write(`
             <span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toLowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setPosColumn"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPosColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setPosColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPosColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column name for array of POS tags that match tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -543,7 +548,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">posCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setNIterations"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setNIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setNIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setNIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of iterations in training, converges to better accuracy,</span>
 <span class="sd">        by default 5.</span>
 
@@ -554,7 +559,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nIterations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setFrequencyThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setFrequencyThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how many times at least a tag on a word to be marked as</span>
 <span class="sd">        frequent, by default 5.</span>
 
@@ -565,7 +570,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">frequencyThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setAmbiguityThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setAmbiguityThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAmbiguityThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setAmbiguityThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setAmbiguityThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAmbiguityThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the percentage of total amount of words are covered to be</span>
 <span class="sd">        marked as frequent, by default 0.97.</span>
 
@@ -577,7 +582,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ambiguityThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.getNIterations"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getNIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getNIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.getNIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getNIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getNIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets number of iterations in training, converges to better accuracy.</span>
 
 <span class="sd">        Returns</span>
@@ -587,7 +592,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nIterations</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.getFrequencyThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.getFrequencyThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets How many times at least a tag on a word to be marked as</span>
 <span class="sd">        frequent.</span>
 
@@ -598,7 +603,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequencyThreshold</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.getAmbiguityThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getAmbiguityThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getAmbiguityThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.getAmbiguityThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.getAmbiguityThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getAmbiguityThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets How much percentage of total amount of words are covered to be</span>
 <span class="sd">        marked as frequent.</span>
 
@@ -610,7 +615,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ambiguityThreshold</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to to use RegexTokenizer before segmentation.</span>
 <span class="sd">        Useful for multilingual text</span>
 
@@ -621,7 +626,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setToLowercase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setToLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert all characters to lowercase before</span>
 <span class="sd">        tokenizing, by default False.</span>
 
@@ -632,7 +637,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toLowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterApproach.setPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterApproach.setPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the regex pattern used for tokenizing, by default ``\\s+``.</span>
 
 <span class="sd">        Parameters</span>
@@ -646,7 +651,7 @@ document.write(`
         <span class="k">return</span> <span class="n">WordSegmenterModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="WordSegmenterModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordSegmenterModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordSegmenterModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;WordSegmenter which tokenizes non-english or non-whitespace separated</span>
 <span class="sd">    texts.</span>
 
@@ -708,28 +713,28 @@ document.write(`
 <span class="sd">    |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。      ]|</span>
 <span class="sd">    +--------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordSegmenterModel&quot;</span>
+<div class="viewcode-block" id="WordSegmenterModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordSegmenterModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="WordSegmenterModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="WordSegmenterModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
-    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterModel.enableRegexTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.enableRegexTokenizer">[docs]</a>    <span class="n">enableRegexTokenizer</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                  <span class="s2">&quot;enableRegexTokenizer&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;Whether to use RegexTokenizer before segmentation. Useful for multilingual text&quot;</span><span class="p">,</span>
-                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterModel.toLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.toLowercase">[docs]</a>    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;toLowercase&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Indicates whether to convert all characters to lowercase before tokenizing.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordSegmenterModel.pattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pattern">[docs]</a>    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                     <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;regex pattern used for tokenizing. Defaults </span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterModel.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterModel.setEnableRegexTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setEnableRegexTokenizer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableRegexTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to to use RegexTokenizer before segmentation.</span>
 <span class="sd">        Useful for multilingual text</span>
 
@@ -740,7 +745,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableRegexTokenizer</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterModel.setToLowercase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterModel.setToLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert all characters to lowercase before</span>
 <span class="sd">        tokenizing, by default False.</span>
 
@@ -751,7 +756,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toLowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordSegmenterModel.setPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="WordSegmenterModel.setPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the regex pattern used for tokenizing, by default ``\\s+``.</span>
 
 <span class="sd">        Parameters</span>
@@ -767,8 +772,8 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="WordSegmenterModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ws.word_segmenter.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;wordseg_pku&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="WordSegmenterModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;wordseg_pku&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -829,7 +834,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

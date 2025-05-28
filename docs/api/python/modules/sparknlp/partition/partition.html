@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.partition.partition &#8212; Spark NLP 6.0.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
+    <script src="../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/partition/partition';</script>
+    <link rel="icon" href="../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.par...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.partition.partition</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2025 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains the Partition annotator for reading and processing various document types.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
+
+
+<div class="viewcode-block" id="Partition"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition/index.html#sparknlp.partition.partition.Partition">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Partition</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A unified interface for extracting structured content from various document types</span>
+<span class="sd">    using Spark NLP readers.</span>
+
+<span class="sd">    This class supports reading from files, URLs, in-memory strings, or byte arrays,</span>
+<span class="sd">    and returns parsed output as a structured Spark DataFrame.</span>
+
+<span class="sd">    Supported formats include:</span>
+<span class="sd">    - Plain text</span>
+<span class="sd">    - HTML</span>
+<span class="sd">    - Word (.doc/.docx)</span>
+<span class="sd">    - Excel (.xls/.xlsx)</span>
+<span class="sd">    - PowerPoint (.ppt/.pptx)</span>
+<span class="sd">    - Email files (.eml, .msg)</span>
+<span class="sd">    - PDFs</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : dict, optional</span>
+<span class="sd">        Configuration parameters, including:</span>
+
+<span class="sd">        - content_type : str</span>
+<span class="sd">            Override automatic file type detection.</span>
+<span class="sd">        - store_content : bool</span>
+<span class="sd">            Include raw file content in the output DataFrame.</span>
+<span class="sd">        - timeout : int</span>
+<span class="sd">            Timeout for fetching HTML content.</span>
+<span class="sd">        - title_font_size : int</span>
+<span class="sd">            Font size used to identify titles.</span>
+<span class="sd">        - include_page_breaks : bool</span>
+<span class="sd">            Tag content with page break metadata.</span>
+<span class="sd">        - group_broken_paragraphs : bool</span>
+<span class="sd">            Merge broken lines into full paragraphs.</span>
+<span class="sd">        - title_length_size : int</span>
+<span class="sd">            Max character length to qualify as title.</span>
+<span class="sd">        - paragraph_split : str</span>
+<span class="sd">            Regex to detect paragraph boundaries.</span>
+<span class="sd">        - short_line_word_threshold : int</span>
+<span class="sd">            Max words in a line to be considered short.</span>
+<span class="sd">        - threshold : float</span>
+<span class="sd">            Ratio of empty lines for switching grouping.</span>
+<span class="sd">        - max_line_count : int</span>
+<span class="sd">            Max lines evaluated in paragraph analysis.</span>
+<span class="sd">        - include_slide_notes : bool</span>
+<span class="sd">            Include speaker notes in output.</span>
+<span class="sd">        - infer_table_structure : bool</span>
+<span class="sd">            Generate HTML table structure.</span>
+<span class="sd">        - append_cells : bool</span>
+<span class="sd">            Merge Excel rows into one block.</span>
+<span class="sd">        - cell_separator : str</span>
+<span class="sd">            Join cell values in a row.</span>
+<span class="sd">        - add_attachment_content : bool</span>
+<span class="sd">            Include text of plain-text attachments.</span>
+<span class="sd">        - headers : dict</span>
+<span class="sd">            Request headers when using URLs.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Reading Text Files</span>
+
+<span class="sd">    &gt;&gt;&gt; txt_directory = &quot;/content/txtfiles/reader/txt&quot;</span>
+<span class="sd">    &gt;&gt;&gt; partition_df = Partition(content_type=&quot;text/plain&quot;).partition(txt_directory)</span>
+<span class="sd">    &gt;&gt;&gt; partition_df.show()</span>
+<span class="sd">    &gt;&gt;&gt; partition_df = Partition().partition(&quot;./email-files/test-several-attachments.eml&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; partition_df.show()</span>
+<span class="sd">    &gt;&gt;&gt; partition_df = Partition().partition(</span>
+<span class="sd">    ...     &quot;https://www.wikipedia.com&quot;,</span>
+<span class="sd">    ...     headers={&quot;Accept-Language&quot;: &quot;es-ES&quot;}</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; partition_df.show()</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |                path|                 txt|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |file:/content/txt...|[{Title, BIG DATA...|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+
+<span class="sd">    Reading Email Files</span>
+
+<span class="sd">    &gt;&gt;&gt; partition_df = Partition().partition(&quot;./email-files/test-several-attachments.eml&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; partition_df.show()</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |                path|               email|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |file:/content/ema...|[{Title, Test Sev...|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+
+<span class="sd">    Reading Webpages</span>
+
+<span class="sd">    &gt;&gt;&gt; partition_df = Partition().partition(&quot;https://www.wikipedia.com&quot;, headers = {&quot;Accept-Language&quot;: &quot;es-ES&quot;})</span>
+<span class="sd">    &gt;&gt;&gt; partition_df.show()</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |                 url|                html|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |https://www.wikip...|[{Title, Wikipedi...|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+
+<span class="sd">    For more examples, refer to:</span>
+<span class="sd">    `examples/python/data-preprocessing/SparkNLP_Partition_Reader_Demo.ipynb`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w">  </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Partition.spark"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition/index.html#sparknlp.partition.partition.Partition.spark">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value for key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;: Cannot cast </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2"> to string. Original error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Partition</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.partition.Partition&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Partition.partition"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition/index.html#sparknlp.partition.partition.Partition.partition">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads and parses content from a URL, file, or directory path.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to file or directory. URLs and DFS are supported.</span>
+<span class="sd">        headers : dict, optional</span>
+<span class="sd">            Headers for URL requests.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            DataFrame with parsed content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+
+<div class="viewcode-block" id="Partition.partition_urls"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition/index.html#sparknlp.partition.partition.Partition.partition_urls">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">partition_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads and parses content from multiple URLs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : list[str]</span>
+<span class="sd">            List of URLs.</span>
+<span class="sd">        headers : dict, optional</span>
+<span class="sd">            Request headers for URLs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            DataFrame with parsed URL content.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; urls_df = Partition().partition_urls([</span>
+<span class="sd">        ...     &quot;https://www.wikipedia.org&quot;, &quot;https://example.com/&quot;</span>
+<span class="sd">        ... ])</span>
+<span class="sd">        &gt;&gt;&gt; urls_df.show()</span>
+<span class="sd">        +--------------------+--------------------+</span>
+<span class="sd">        |                 url|                html|</span>
+<span class="sd">        +--------------------+--------------------+</span>
+<span class="sd">        |https://www.wikip...|[{Title, Wikipedi...|</span>
+<span class="sd">        |https://example.com/|[{Title, Example ...|</span>
+<span class="sd">        +--------------------+--------------------+</span>
+
+<span class="sd">        &gt;&gt;&gt; urls_df.printSchema()</span>
+<span class="sd">         root</span>
+<span class="sd">         |-- url: string (nullable = true)</span>
+<span class="sd">         |-- html: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">partitionUrlsJava</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span></div>
+
+
+<div class="viewcode-block" id="Partition.partition_text"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition/index.html#sparknlp.partition.partition.Partition.partition_text">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">partition_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parses content from a raw text string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        text : str</span>
+<span class="sd">            Raw text input.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            DataFrame with parsed text.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; raw_text = (</span>
+<span class="sd">        ...     &quot;The big brown fox\\n&quot;</span>
+<span class="sd">        ...     &quot;was walking down the lane.\\n&quot;</span>
+<span class="sd">        ...     &quot;\\n&quot;</span>
+<span class="sd">        ...     &quot;At the end of the lane,\\n&quot;</span>
+<span class="sd">        ...     &quot;the fox met a bear.&quot;</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; text_df = Partition(group_broken_paragraphs=True).partition_text(text=raw_text)</span>
+<span class="sd">        &gt;&gt;&gt; text_df.show()</span>
+<span class="sd">        +--------------------------------------+</span>
+<span class="sd">        |txt                                   |</span>
+<span class="sd">        +--------------------------------------+</span>
+<span class="sd">        |[{NarrativeText, The big brown fox was|</span>
+<span class="sd">        +--------------------------------------+</span>
+<span class="sd">        &gt;&gt;&gt; text_df.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- txt: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">partitionText</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataframe</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

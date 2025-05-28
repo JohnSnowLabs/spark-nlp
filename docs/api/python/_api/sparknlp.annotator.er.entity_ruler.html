@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.er.entity_ruler module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.er.entity_ruler module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EntityRulerApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorage" title="sparknlp.common.storage.HasStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorage</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorage" title="sparknlp.common.storage.HasStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorage</span></code></a></p>
 <p>Fits an Annotator to match exact strings or regex patterns provided in a
 file against a Document and assigns them an named entity. The definitions
 can contain any number of named entities.</p>
@@ -787,37 +795,37 @@ set. In this case, the delimiter might be set by using
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.alphabet">
-<span class="sig-name descname"><span class="pre">alphabet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='alphabet',</span> <span class="pre">doc='Alphabet</span> <span class="pre">resource</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">plain</span> <span class="pre">text</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">alphabet')</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.alphabet" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">alphabet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='alphabet',</span> <span class="pre">doc='Alphabet</span> <span class="pre">resource</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">plain</span> <span class="pre">text</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">alphabet')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.alphabet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.alphabet" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EntityRulerApproach'</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EntityRulerApproach'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.optionalInputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">optionalInputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.optionalInputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">optionalInputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.optionalInputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.optionalInputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.patternsResource">
-<span class="sig-name descname"><span class="pre">patternsResource</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='patternsResource',</span> <span class="pre">doc='Resource</span> <span class="pre">in</span> <span class="pre">JSON</span> <span class="pre">or</span> <span class="pre">CSV</span> <span class="pre">format</span> <span class="pre">to</span> <span class="pre">map</span> <span class="pre">entities</span> <span class="pre">to</span> <span class="pre">patterns')</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.patternsResource" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">patternsResource</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='patternsResource',</span> <span class="pre">doc='Resource</span> <span class="pre">in</span> <span class="pre">JSON</span> <span class="pre">or</span> <span class="pre">CSV</span> <span class="pre">format</span> <span class="pre">to</span> <span class="pre">map</span> <span class="pre">entities</span> <span class="pre">to</span> <span class="pre">patterns')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.patternsResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.patternsResource" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.sentenceMatch">
-<span class="sig-name descname"><span class="pre">sentenceMatch</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='sentenceMatch',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">match</span> <span class="pre">at</span> <span class="pre">sentence</span> <span class="pre">level.</span> <span class="pre">True:</span> <span class="pre">sentence</span> <span class="pre">level.</span> <span class="pre">False:</span> <span class="pre">token</span> <span class="pre">level')</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.sentenceMatch" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sentenceMatch</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='sentenceMatch',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">match</span> <span class="pre">at</span> <span class="pre">sentence</span> <span class="pre">level.</span> <span class="pre">True:</span> <span class="pre">sentence</span> <span class="pre">level.</span> <span class="pre">False:</span> <span class="pre">token</span> <span class="pre">level')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.sentenceMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.sentenceMatch" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -882,7 +890,7 @@ set. In this case, the delimiter might be set by using
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerApproach.useStorage">
-<span class="sig-name descname"><span class="pre">useStorage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='useStorage',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RocksDB</span> <span class="pre">storage</span> <span class="pre">to</span> <span class="pre">serialize</span> <span class="pre">patterns')</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.useStorage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">useStorage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='useStorage',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RocksDB</span> <span class="pre">storage</span> <span class="pre">to</span> <span class="pre">serialize</span> <span class="pre">patterns')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerApproach.useStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.useStorage" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -890,7 +898,7 @@ set. In this case, the delimiter might be set by using
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EntityRulerModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.er.EntityRulerModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorageModel" title="sparknlp.common.storage.HasStorageModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorageModel" title="sparknlp.common.storage.HasStorageModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageModel</span></code></a></p>
 <p>Instantiated model of the EntityRulerApproach.
 For usage and examples see the documentation of the main class.</p>
 <table class="table">
@@ -907,12 +915,12 @@ For usage and examples see the documentation of the main class.</p>
 </table>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.database">
-<span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ENTITY_PATTERNS']</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.database" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ENTITY_PATTERNS']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.database" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -922,17 +930,17 @@ For usage and examples see the documentation of the main class.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EntityRulerModel'</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EntityRulerModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.optionalInputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">optionalInputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.optionalInputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">optionalInputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.optionalInputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.optionalInputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chunk'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1032,7 +1040,7 @@ For usage and examples see the documentation of the main class.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

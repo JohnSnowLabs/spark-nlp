@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -368,41 +368,87 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextStripperType</span>
 
 
-<div class="viewcode-block" id="PdfToText"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PdfToText</span><span class="p">(</span><span class="n">JavaTransformer</span><span class="p">,</span> <span class="n">HasInputCol</span><span class="p">,</span> <span class="n">HasOutputCol</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PdfToText</span><span class="p">(</span><span class="n">JavaTransformer</span><span class="p">,</span> <span class="n">HasInputCol</span><span class="p">,</span> <span class="n">HasOutputCol</span><span class="p">,</span>
                 <span class="n">JavaMLReadable</span><span class="p">,</span> <span class="n">JavaMLWritable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract text from Pdf document to single string or to several strings per each page.</span>
-<span class="sd">    Input is a column with binary representation of PDF document.</span>
-<span class="sd">    As output generate column with text and page number.</span>
-<span class="sd">    Explode each page as separate row if split to page enabled.</span>
+<span class="sd">    Extract text from PDF documents as either a single string or multiple strings per page.</span>
+<span class="sd">    Input is a column with binary content of PDF files. Output is a column with extracted text,</span>
+<span class="sd">    with options to include page numbers or split pages.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pageNumCol : str, optional</span>
+<span class="sd">        Page number output column name.</span>
+<span class="sd">    partitionNum : int, optional</span>
+<span class="sd">        Number of partitions (default is 0).</span>
+<span class="sd">    storeSplittedPdf : bool, optional</span>
+<span class="sd">        Whether to store content of split PDFs (default is False).</span>
+<span class="sd">    splitPage : bool, optional</span>
+<span class="sd">        Enable/disable splitting per page (default is True).</span>
+<span class="sd">    onlyPageNum : bool, optional</span>
+<span class="sd">        Whether to extract only page numbers (default is False).</span>
+<span class="sd">    textStripper : str or TextStripperType, optional</span>
+<span class="sd">        Defines layout and formatting type.</span>
+<span class="sd">    sort : bool, optional</span>
+<span class="sd">        Enable/disable sorting content per page (default is False).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.reader import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; pdf_path = &quot;Documents/files/pdf&quot;</span>
+<span class="sd">    &gt;&gt;&gt; data_frame = spark.read.format(&quot;binaryFile&quot;).load(pdf_path)</span>
+<span class="sd">    &gt;&gt;&gt; pdf_to_text = PdfToText().setStoreSplittedPdf(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[pdf_to_text])</span>
+<span class="sd">    &gt;&gt;&gt; pipeline_model = pipeline.fit(data_frame)</span>
+<span class="sd">    &gt;&gt;&gt; pdf_df = pipeline_model.transform(data_frame)</span>
+<span class="sd">    &gt;&gt;&gt; pdf_df.show()</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |                path|    modificationTime|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    |file:/Users/paula...|2025-05-15 11:33:...|</span>
+<span class="sd">    |file:/Users/paula...|2025-05-15 11:33:...|</span>
+<span class="sd">    +--------------------+--------------------+</span>
+<span class="sd">    &gt;&gt;&gt; pdf_df.printSchema()</span>
+<span class="sd">    root</span>
+<span class="sd">     |-- path: string (nullable = true)</span>
+<span class="sd">     |-- modificationTime: timestamp (nullable = true)</span>
+<span class="sd">     |-- length: long (nullable = true)</span>
+<span class="sd">     |-- text: string (nullable = true)</span>
+<span class="sd">     |-- height_dimension: integer (nullable = true)</span>
+<span class="sd">     |-- width_dimension: integer (nullable = true)</span>
+<span class="sd">     |-- content: binary (nullable = true)</span>
+<span class="sd">     |-- exception: string (nullable = true)</span>
+<span class="sd">     |-- pagenum: integer (nullable = true)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pageNumCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pageNumCol&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.pageNumCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.pageNumCol">[docs]</a>    <span class="n">pageNumCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pageNumCol&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Page number output column name.&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">partitionNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;partitionNum&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.partitionNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.partitionNum">[docs]</a>    <span class="n">partitionNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;partitionNum&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Number of partitions.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">storeSplittedPdf</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;storeSplittedPdf&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.storeSplittedPdf"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.storeSplittedPdf">[docs]</a>    <span class="n">storeSplittedPdf</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;storeSplittedPdf&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Force to store splitted pdf.&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">splitPage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;splitPage&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.splitPage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.splitPage">[docs]</a>    <span class="n">splitPage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;splitPage&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Param for enable/disable splitting document per page&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">textStripper</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;textStripper&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.textStripper"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.textStripper">[docs]</a>    <span class="n">textStripper</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;textStripper&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Text stripper type used for output layout and formatting&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">sort</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.sort"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.sort">[docs]</a>    <span class="n">sort</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;Param for enable/disable sort lines&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">onlyPageNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;onlyPageNum&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="PdfToText.onlyPageNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.onlyPageNum">[docs]</a>    <span class="n">onlyPageNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;onlyPageNum&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Force to extract only number of pages&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -412,49 +458,49 @@ document.write(`
         <span class="nb">super</span><span class="p">(</span><span class="n">PdfToText</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.reader.PdfToText&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PdfToText.setInputCol"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setInputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setInputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`inputCol`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setOutputCol"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`outputCol`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setPageNumCol"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setPageNumCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPageNumCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setPageNumCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setPageNumCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPageNumCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`pageNumCol`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pageNumCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setPartitionNum"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setPartitionNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPartitionNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setPartitionNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setPartitionNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPartitionNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`partitionNum`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">partitionNum</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setStoreSplittedPdf"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setStoreSplittedPdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStoreSplittedPdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setStoreSplittedPdf"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setStoreSplittedPdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStoreSplittedPdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`storeSplittedPdf`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">storeSplittedPdf</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setSplitPage"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setSplitPage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setSplitPage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setSplitPage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`splitPage`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitPage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setOnlyPageNum"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOnlyPageNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setOnlyPageNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setOnlyPageNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOnlyPageNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`onlyPageNum`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">onlyPageNum</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PdfToText.setTextStripper"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setTextStripper">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextStripper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setTextStripper"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setTextStripper">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextStripper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`textStripper`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -465,7 +511,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Param textStripper must be a &#39;TextStripperType&#39; enum but got </span><span class="si">{</span><span class="n">type_value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">textStripper</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="PdfToText.setSort"><a class="viewcode-back" href="../../../_api/sparknlp.reader.pdf_to_text.html#sparknlp.reader.pdf_to_text.PdfToText.setSort">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PdfToText.setSort"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setSort">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`sort`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -511,7 +557,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

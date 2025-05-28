@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.embeddings.word_embeddings module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.word_embeddings module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,11 +685,11 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WordEmbeddings</span></span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorage" title="sparknlp.common.storage.HasStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorage</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorage" title="sparknlp.common.storage.HasStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorage</span></code></a></p>
 <p>Word Embeddings lookup annotator that maps tokens to vectors.</p>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p>
 <p>A custom token lookup dictionary for embeddings can be set with
-<a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorage.setStoragePath" title="sparknlp.common.storage.HasStorage.setStoragePath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStoragePath()</span></code></a>. Each line of the provided file needs to have a
+<a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorage.setStoragePath" title="sparknlp.common.storage.HasStorage.setStoragePath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStoragePath()</span></code></a>. Each line of the provided file needs to have a
 token, followed by their vector representation, delimited by a spaces:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
 <span class="n">are</span> <span class="mf">0.39658191506190343</span> <span class="mf">0.630968081620067</span> <span class="mf">0.5393722253731201</span> <span class="mf">0.8428180123359783</span>
@@ -776,22 +784,22 @@ content above.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordEmbeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordEmbeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'word_embeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'word_embeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.readCacheSize">
-<span class="sig-name descname"><span class="pre">readCacheSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readCacheSize',</span> <span class="pre">doc='cache</span> <span class="pre">size</span> <span class="pre">for</span> <span class="pre">items</span> <span class="pre">retrieved</span> <span class="pre">from</span> <span class="pre">storage.</span> <span class="pre">Increase</span> <span class="pre">for</span> <span class="pre">performance</span> <span class="pre">but</span> <span class="pre">higher</span> <span class="pre">memory</span> <span class="pre">consumption')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.readCacheSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">readCacheSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readCacheSize',</span> <span class="pre">doc='cache</span> <span class="pre">size</span> <span class="pre">for</span> <span class="pre">items</span> <span class="pre">retrieved</span> <span class="pre">from</span> <span class="pre">storage.</span> <span class="pre">Increase</span> <span class="pre">for</span> <span class="pre">performance</span> <span class="pre">but</span> <span class="pre">higher</span> <span class="pre">memory</span> <span class="pre">consumption')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings.readCacheSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.readCacheSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -826,7 +834,7 @@ by default 10000.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.writeBufferSize">
-<span class="sig-name descname"><span class="pre">writeBufferSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='writeBufferSize',</span> <span class="pre">doc='buffer</span> <span class="pre">size</span> <span class="pre">limit</span> <span class="pre">before</span> <span class="pre">dumping</span> <span class="pre">to</span> <span class="pre">disk</span> <span class="pre">storage</span> <span class="pre">while</span> <span class="pre">writing')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.writeBufferSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">writeBufferSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='writeBufferSize',</span> <span class="pre">doc='buffer</span> <span class="pre">size</span> <span class="pre">limit</span> <span class="pre">before</span> <span class="pre">dumping</span> <span class="pre">to</span> <span class="pre">disk</span> <span class="pre">storage</span> <span class="pre">while</span> <span class="pre">writing')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddings.writeBufferSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.writeBufferSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -834,10 +842,10 @@ by default 10000.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WordEmbeddingsModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorageModel" title="sparknlp.common.storage.HasStorageModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorageModel" title="sparknlp.common.storage.HasStorageModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageModel</span></code></a></p>
 <p>Word Embeddings lookup annotator that maps tokens to vectors</p>
-<p>This is the instantiated model of <a class="reference internal" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddings</span></code></a>.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>This is the instantiated model of <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddings</span></code></a>.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>      <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
@@ -881,10 +889,10 @@ but higher memory consumption</p>
 <p>There are also two convenient functions to retrieve the embeddings coverage
 with respect to the transformed dataset:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">withCoverageColumn()</span></code></a>: Adds a custom
+<li><p><a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">withCoverageColumn()</span></code></a>: Adds a custom
 column with word coverage stats for the embedded field. This creates
 a new column with statistics for each row.</p></li>
-<li><p><a class="reference internal" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">overallCoverage()</span></code></a>: Calculates overall word
+<li><p><a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage" title="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">overallCoverage()</span></code></a>: Calculates overall word
 coverage for the whole data in the embedded field. This returns a single
 coverage object considering all rows in the field.</p></li>
 </ul>
@@ -930,12 +938,12 @@ coverage object considering all rows in the field.</p></li>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.databases">
-<span class="sig-name descname"><span class="pre">databases</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['EMBEDDINGS']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.databases" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">databases</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['EMBEDDINGS']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel.databases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.databases" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -958,12 +966,12 @@ coverage object considering all rows in the field.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordEmbeddingsModel'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordEmbeddingsModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'word_embeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'word_embeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -984,7 +992,7 @@ field.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference internal" href="sparknlp.common.coverage_result.html#sparknlp.common.coverage_result.CoverageResult" title="sparknlp.common.coverage_result.CoverageResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageResult</span></code></a></dt><dd><p>CoverateResult object with extracted information</p>
+<dt><a class="reference internal" href="../reference/autosummary/sparknlp/common/coverage_result/index.html#sparknlp.common.coverage_result.CoverageResult" title="sparknlp.common.coverage_result.CoverageResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoverageResult</span></code></a></dt><dd><p>CoverateResult object with extracted information</p>
 </dd>
 </dl>
 </dd>
@@ -1025,7 +1033,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.readCacheSize">
-<span class="sig-name descname"><span class="pre">readCacheSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readCacheSize',</span> <span class="pre">doc='cache</span> <span class="pre">size</span> <span class="pre">for</span> <span class="pre">items</span> <span class="pre">retrieved</span> <span class="pre">from</span> <span class="pre">storage.</span> <span class="pre">Increase</span> <span class="pre">for</span> <span class="pre">performance</span> <span class="pre">but</span> <span class="pre">higher</span> <span class="pre">memory</span> <span class="pre">consumption')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.readCacheSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">readCacheSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='readCacheSize',</span> <span class="pre">doc='cache</span> <span class="pre">size</span> <span class="pre">for</span> <span class="pre">items</span> <span class="pre">retrieved</span> <span class="pre">from</span> <span class="pre">storage.</span> <span class="pre">Increase</span> <span class="pre">for</span> <span class="pre">performance</span> <span class="pre">but</span> <span class="pre">higher</span> <span class="pre">memory</span> <span class="pre">consumption')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/word_embeddings.html#WordEmbeddingsModel.readCacheSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.readCacheSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1168,7 +1176,7 @@ This creates a new column with statistics for each row.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

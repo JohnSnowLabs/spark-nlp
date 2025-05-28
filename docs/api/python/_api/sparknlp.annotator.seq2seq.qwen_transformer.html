@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.seq2seq.qwen_transformer module &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.seq2seq.qwen_transformer module &#8212; Spark NLP 6.0.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
@@ -588,19 +590,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -677,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QwenTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
 <p>Qwen: comprehensive language model series</p>
 <p>Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model
 pretrained on a large amount of data. In comparison with the previous released Qwen, the
@@ -692,7 +700,7 @@ attention, mixture of sliding window attention and full attention, etc. Addition
 an improved tokenizer adaptive to multiple natural languages and codes. For the beta version,
 temporarily we did not include GQA and the mixture of SWA and full attention.</p>
 <blockquote>
-<div><p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.pretrained" title="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<div><p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/seq2seq/qwen_transformer/index.html#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.pretrained" title="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">qwen</span> <span class="o">=</span> <span class="n">QwenTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -713,6 +721,28 @@ pretrained models please see the <a class="reference external" href="https://spa
 </tr>
 </tbody>
 </table>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2309.16609.pdf">Qwen Technical Report</a></p></li>
+<li><p><a class="reference external" href="https://qwenlm.github.io/blog/qwen1.5/">https://qwenlm.github.io/blog/qwen1.5/</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/QwenLM/Qwen1.5">QwenLM/Qwen1.5</a></p></li>
+</ul>
+<p><strong>Paper Abstract:</strong></p>
+<p><em>Large language models (LLMs) have revolutionized the field of artificial intelligence,
+enabling natural language processing tasks that were previously thought to be exclusive to
+humans. In this work, we introduce Qwen, the first installment of our large language model
+series. Qwen is a comprehensive language model series that encompasses distinct models with
+varying parameter counts. It includes Qwen, the base pretrained language models, and
+Qwen-Chat, the chat models finetuned with human alignment techniques. The base language models
+consistently demonstrate superior performance across a multitude of downstream tasks, and the
+chat models, particularly those trained using Reinforcement Learning from Human Feedback
+(RLHF), are highly competitive. The chat models possess advanced tool-use and planning
+capabilities for creating agent applications, showcasing impressive performance even when
+compared to bigger models on complex tasks like utilizing a code interpreter. Furthermore, we
+have developed coding-specialized models, Code-Qwen and Code-Qwen-Chat, as well as
+mathematics-focused models, Math-Qwen-Chat, which are built upon base language models. These
+models demonstrate significantly improved performance in comparison with open-source models,
+and slightly fall behind the proprietary models.</em></p>
 </div></blockquote>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -775,22 +805,22 @@ sequence. The use of an accelerator such as GPU is recommended.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.configProtoBytes">
-<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.configProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.doSample">
-<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.doSample" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.doSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.doSample" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.ignoreTokenIds">
-<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.ignoreTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -817,27 +847,27 @@ sequence. The use of an accelerator such as GPU is recommended.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.maxOutputLength">
-<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.maxOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.minOutputLength">
-<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.minOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QwenTransformer'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QwenTransformer'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.noRepeatNgramSize">
-<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.noRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -867,7 +897,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.repetitionPenalty">
-<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.repetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1019,17 +1049,17 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.temperature">
-<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.temperature" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.temperature" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topK">
-<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topK" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.topK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topK" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topP">
-<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topP" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/qwen_transformer.html#QwenTransformer.topP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.qwen_transformer.QwenTransformer.topP" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1127,7 +1157,7 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>
