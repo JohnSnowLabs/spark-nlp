@@ -27,10 +27,11 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
   val wordDirectory = "src/test/resources/reader/doc"
   val emailDirectory = "src/test/resources/reader/email"
   val htmlDirectory = "src/test/resources/reader/html"
+  val txtDirectory = "src/test/resources/reader/txt"
 
   "PartitionTransformer" should "work in a RAG pipeline" taggedAs SlowTest in {
     val partition = new PartitionTransformer()
-      .setInputCols("doc")
+      .setInputCols("text")
       .setContentType("application/msword")
       .setContentPath(s"$wordDirectory/fake_table.docx")
       .setOutputCol("partition")
@@ -46,7 +47,7 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.select("doc", "partition", "translation").show(truncate = false)
+    resultDf.select("text", "partition", "translation").show(truncate = false)
 
     assert(resultDf.select("partition").count() > 0)
   }
@@ -165,6 +166,48 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
     resultDf.show()
 
     assert(resultDf.select("partition").count() > 0)
+  }
+
+  it should "chunk semantically" taggedAs FastTest in {
+    val partition = new PartitionTransformer()
+      .setInputCols("text")
+      .setContentType("text/plain")
+      .setContentPath(s"$txtDirectory")
+      .setOutputCol("chunks")
+      .setChunkingStrategy("basic")
+      .setMaxCharacters(72)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(partition))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    resultDf.show(truncate = false)
+  }
+
+  it should "chunk semantically with document assembler" taggedAs FastTest in {
+    import spark.implicits._
+    val testDataSet = Seq(
+      "Introduction: RAG stands for Retrieval-Augmented Generation." +
+        " Why RAG? It improves factual accuracy and adds fresh or private data to LLMs." +
+        " Chunking: Breaks documents into pieces so they can be embedded." +
+        " Semantic Chunking: Focus on respecting document structure like sections." +
+        " Summary: RAG is powerful when paired with good chunking!").toDS
+      .toDF("text")
+
+    val partition = new PartitionTransformer()
+      .setInputCols("document")
+      .setOutputCol("chunks")
+      .setChunkingStrategy("basic")
+      .setMaxCharacters(140)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, partition))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(testDataSet)
+    resultDf.select("chunks").show(truncate = false)
+
   }
 
 }
