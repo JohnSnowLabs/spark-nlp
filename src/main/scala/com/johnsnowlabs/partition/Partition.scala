@@ -144,7 +144,13 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case None => getReaderByExtension(path, sparkNLPReader)
     }
 
-    reader(path)
+    val partitionResult = reader(path)
+    if (hasChunkerStrategy) {
+      val chunker = new SemanticChunker(params.asScala.toMap)
+      partitionResult.withColumn(
+        "chunks",
+        chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
+    } else partitionResult
   }
 
   def partitionStringContent(
@@ -340,6 +346,11 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       .flatMap(key => Option(params.get(key)))
       .flatMap(value => Try(value).toOption)
       .headOption
+  }
+
+  private def hasChunkerStrategy: Boolean = {
+    Seq("chunking_strategy", "chunkingStrategy")
+      .exists(params.asScala.contains)
   }
 
 }

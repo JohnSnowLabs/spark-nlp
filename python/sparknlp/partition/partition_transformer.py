@@ -15,13 +15,15 @@
 from sparknlp.common import *
 from sparknlp.partition.partition_properties import *
 
+
 class PartitionTransformer(
     AnnotatorModel,
     HasEmailReaderProperties,
     HasExcelReaderProperties,
     HasHTMLReaderProperties,
     HasPowerPointProperties,
-    HasTextReaderProperties
+    HasTextReaderProperties,
+    HasSemanticChunkerProperties
 ):
     """
     The PartitionTransformer annotator allows you to use the Partition feature more smoothly
@@ -162,10 +164,6 @@ class PartitionTransformer(
     def getIncludePageBreaks(self):
         return self.getOrDefault(self.includePageBreaks)
 
-    # def setHeaders(self, headers: Dict[str, str]):
-    #     self._call_java("setHeadersPython", headers)
-    #     return self
-
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.partition.PartitionTransformer",
                  java_model=None):
@@ -192,5 +190,9 @@ class PartitionTransformer(
             paragraphSplit=DOUBLE_PARAGRAPH_PATTERN,
             shortLineWordThreshold=5,
             maxLineCount=2000,
-            threshold=0.1
+            threshold=0.1,
+            chunkingStrategy="",
+            maxCharacters=100,
+            newAfterNChars=-1,
+            overlap=0
         )
