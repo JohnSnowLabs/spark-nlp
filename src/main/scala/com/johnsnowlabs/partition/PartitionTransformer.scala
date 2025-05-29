@@ -19,12 +19,12 @@ import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithBinaryFile,
-  datasetWithTxtFile,
+  datasetWithTextFile,
   isStringContent
 }
 import com.johnsnowlabs.reader.util.HasPdfProperties
 import com.johnsnowlabs.reader.{HTMLElement, PdfToText}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, explode, udf}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
@@ -85,7 +85,8 @@ class PartitionTransformer(override val uid: String)
     with HasHTMLReaderProperties
     with HasPowerPointProperties
     with HasTextReaderProperties
-    with HasPdfProperties {
+    with HasPdfProperties
+    with HasSemanticChunkerProperties {
 
   def this() = this(Identifiable.randomUID("PartitionTransformer"))
   protected val logger: Logger = LoggerFactory.getLogger(getClass.getName)
@@ -150,16 +151,20 @@ class PartitionTransformer(override val uid: String)
       "paragraphSplit" -> $(paragraphSplit),
       "shortLineWordThreshold" -> $(shortLineWordThreshold).toString,
       "maxLineCount" -> $(maxLineCount).toString,
-      "threshold" -> $(threshold).toString)
+      "threshold" -> $(threshold).toString,
+      "chunkingStrategy" -> $(chunkingStrategy),
+      "maxCharacters" -> $(maxCharacters).toString,
+      "newAfterNChars" -> $(newAfterNChars).toString,
+      "overlap" -> $(overlap).toString)
     val partitionInstance = new Partition(params.asJava)
-    partitionInstance.setOutputColumn($(inputCols).head)
 
     val inputColum = if (get(inputCols).isDefined) {
       $(inputCols).head
     } else {
       partitionInstance.getOutputColumn
     }
-    partitionInstance.setOutputColumn($(inputCols).head)
+    partitionInstance.setOutputColumn(inputColum)
+
     val partitionDf = if (isStringContent($(contentType))) {
       val partitionUDF = udf((text: String) =>
         partitionInstance.partitionStringContent(text, $(this.headers).asJava))
@@ -167,7 +172,7 @@ class PartitionTransformer(override val uid: String)
 
       schemaFieldOpt match {
         case Some(StructField(_, StringType, _, _)) =>
-          val stringContentDF = datasetWithTxtFile(dataset.sparkSession, $(contentPath))
+          val stringContentDF = datasetWithTextFile(dataset.sparkSession, $(contentPath))
           stringContentDF
             .withColumn(inputColum, partitionUDF(col("content")))
 
@@ -192,12 +197,14 @@ class PartitionTransformer(override val uid: String)
       binaryContentDF.withColumn(inputColum, partitionUDF(col("content")))
     }
 
-    val colName = findHTMLElementColumn(partitionDf).getOrElse {
+    val htmlElementColumns = findHTMLElementColumns(partitionDf)
+
+    if (htmlElementColumns.isEmpty) {
       val schemaString = partitionDf.schema.treeString
       throw new IllegalArgumentException(
         s"""❌ No column of type Array[HTMLElement] was found in the DataFrame.
            |
-           |💡 Expected a column with schema matching: Array[HTMLElement]
+           |💡 Expected one or more columns with schema matching: Array[HTMLElement]
            |
            |🧪 DataFrame Schema:
            |$schemaString
@@ -208,7 +215,12 @@ class PartitionTransformer(override val uid: String)
            |  - metadata: Map[String, String]
      """.stripMargin)
     }
-    partitionDf.withColumn(getOutputCol, wrapColumnMetadata(convertToAnnotations(col(colName))))
+
+    // Transform each matching column
+    val transformedDf = htmlElementColumns.foldLeft(partitionDf) { (df, colName) =>
+      df.withColumn(getOutputCol, wrapColumnMetadata(convertToAnnotations(col(colName))))
+    }
+    transformedDf
   }
 
   private def convertToAnnotations = udf { elements: Seq[Row] =>
@@ -240,6 +252,16 @@ class PartitionTransformer(override val uid: String)
         }
       }
       .map(_.name)
+  }
+
+  private def findHTMLElementColumns(dataFrame: DataFrame): Seq[String] = {
+    val htmlElementSchema = Encoders.product[HTMLElement].schema
+
+    dataFrame.schema.fields.collect {
+      case StructField(name, ArrayType(structType: StructType, _), _, _)
+          if structType == htmlElementSchema =>
+        name
+    }
   }
 
 }
