@@ -17,7 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
-import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTxtFile
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
@@ -109,7 +109,7 @@ class HTMLReader(
 
     ResourceHelper match {
       case _ if validFile(inputSource) && !inputSource.startsWith("http") =>
-        val htmlDf = datasetWithTxtFile(spark, inputSource)
+        val htmlDf = datasetWithTextFile(spark, inputSource)
           .withColumn(outputColumn, parseHtmlUDF(col("content")))
         if (storeContent) htmlDf.select("path", "content", outputColumn)
         else htmlDf.select("path", outputColumn)
