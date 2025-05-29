@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+import os
 import unittest
 
 import pytest
@@ -81,3 +82,32 @@ class PartitionTransformerURLsTesSpec(unittest.TestCase):
         resultDf.show(truncate=False)
 
         self.assertTrue(resultDf.select("partition").count() > 0)
+
+
+@pytest.mark.slow
+class PartitionTransformerChunkTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.content_path = f"file:///{os.getcwd()}/../src/test/resources/reader/txt/rag-example.txt"
+        self.testDataSet = self.spark.createDataFrame(
+            [("An example with DocumentAssembler annotator",)],
+            ["text"]
+        )
+        self.emptyDataSet = self.spark.createDataFrame([], self.testDataSet.schema)
+
+    def runTest(self):
+        partition = PartitionTransformer() \
+            .setInputCols(["document"]) \
+            .setContentPath(self.content_path) \
+            .setOutputCol("partition") \
+            .setChunkingStrategy("basic") \
+            .setMaxCharacters(140)
+
+        pipeline = Pipeline(stages=[partition])
+        pipelineModel = pipeline.fit(self.emptyDataSet)
+
+        resultDf = pipelineModel.transform(self.emptyDataSet)
+        resultDf.show(truncate=False)
+
+        # self.assertTrue(resultDf.select("partition").count() >= 0)

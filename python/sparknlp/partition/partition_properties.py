@@ -255,3 +255,45 @@ class HasTextReaderProperties(Params):
 
     def getThreshold(self):
         return self.getOrDefault(self.threshold)
+
+class HasSemanticChunkerProperties(Params):
+
+    chunkingStrategy = Param(
+        Params._dummy(),
+        "chunkingStrategy",
+        "Set the chunking strategy",
+        typeConverter=TypeConverters.toString
+    )
+
+    def setChunkingStrategy(self, value):
+        return self._set(chunkingStrategy=value)
+
+    maxCharacters = Param(
+        Params._dummy(),
+        "maxCharacters",
+        "Set the maximum number of characters",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setMaxCharacters(self, value):
+        return self._set(maxCharacters=value)
+
+    newAfterNChars = Param(
+        Params._dummy(),
+        "newAfterNChars",
+        "Insert a new chunk after N characters",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setNewAfterNChars(self, value):
+        return self._set(newAfterNChars=value)
+
+    overlap = Param(
+        Params._dummy(),
+        "overlap",
+        "Set the number of overlapping characters between chunks",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setOverlap(self, value):
+        return self._set(overlap=value)
