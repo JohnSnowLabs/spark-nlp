@@ -23,6 +23,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class PartitionChunkerTest extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
   val txtDirectory = "src/test/resources/reader/txt"
+  val htmlDirectory = "src/test/resources/reader/html"
 
   "Partition" should "perform basic chunk text" taggedAs FastTest in {
     val partitionOptions = Map("contentType" -> "text/plain", "chunkingStrategy" -> "basic")
@@ -36,6 +37,19 @@ class PartitionChunkerTest extends AnyFlatSpec {
     val chunkDf = textDf.select(explode($"chunks.content"))
     chunkDf.show(truncate = false)
     assert(chunkDf.count() > 1)
+  }
+
+  it should "perform chunking by title" taggedAs FastTest in {
+    val partitionOptions = Map(
+      "contentType" -> "text/html",
+      "titleFontSize" -> "14",
+      "chunkingStrategy" -> "byTitle",
+      "combineTextUnderNChars" -> "50")
+    val textDf = Partition(partitionOptions).partition(s"$htmlDirectory/fake-html.html")
+
+    val partitionDf = textDf.select(explode($"chunks.content"))
+    partitionDf.show(truncate = false)
+    assert(partitionDf.count() == 2)
   }
 
 }

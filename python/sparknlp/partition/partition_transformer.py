@@ -23,7 +23,7 @@ class PartitionTransformer(
     HasHTMLReaderProperties,
     HasPowerPointProperties,
     HasTextReaderProperties,
-    HasSemanticChunkerProperties
+    HasChunkerProperties
 ):
     """
     The PartitionTransformer annotator allows you to use the Partition feature more smoothly
@@ -194,5 +194,7 @@ class PartitionTransformer(
             chunkingStrategy="",
             maxCharacters=100,
             newAfterNChars=-1,
-            overlap=0
+            overlap=0,
+            combineTextUnderNChars=0,
+            overlapAll=False
         )

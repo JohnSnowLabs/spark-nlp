@@ -256,7 +256,7 @@ class HasTextReaderProperties(Params):
     def getThreshold(self):
         return self.getOrDefault(self.threshold)
 
-class HasSemanticChunkerProperties(Params):
+class HasChunkerProperties(Params):
 
     chunkingStrategy = Param(
         Params._dummy(),
@@ -297,3 +297,23 @@ class HasSemanticChunkerProperties(Params):
 
     def setOverlap(self, value):
         return self._set(overlap=value)
+
+    combineTextUnderNChars = Param(
+        Params._dummy(),
+        "combineTextUnderNChars",
+        "Threshold to merge adjacent small sections",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setCombineTextUnderNChars(self, value):
+        return self._set(combineTextUnderNChars=value)
+
+    overlapAll = Param(
+        Params._dummy(),
+        "overlapAll",
+        "Apply overlap context between all sections, not just split chunks",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setOverlapAll(self, value):
+        return self._set(overlapAll=value)
