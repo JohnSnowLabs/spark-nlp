@@ -16,15 +16,20 @@
 package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.partition.BasicChunker.chunkBasic
+import com.johnsnowlabs.partition.TitleChunker.chunkByTitle
 import com.johnsnowlabs.reader.HTMLElement
-import com.johnsnowlabs.reader.util.PartitionOptions.{getDefaultInt, getDefaultString}
+import com.johnsnowlabs.reader.util.PartitionOptions.{
+  getDefaultBoolean,
+  getDefaultInt,
+  getDefaultString
+}
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 
 import scala.collection.mutable
 
-class SemanticChunker(chunkerOptions: Map[String, String]) extends Serializable {
+class PartitionChunker(chunkerOptions: Map[String, String]) extends Serializable {
 
   def chunkUDF(): UserDefinedFunction = {
     udf((elements: Seq[Row]) => {
@@ -37,6 +42,14 @@ class SemanticChunker(chunkerOptions: Map[String, String]) extends Serializable 
 
       val chunks = getChunkerStrategy match {
         case "basic" => chunkBasic(htmlElements, getMaxCharacters, getNewAfterNChars, getOverlap)
+        case "byTitle" | "by_title" =>
+          chunkByTitle(
+            htmlElements,
+            getMaxCharacters,
+            getCombineTextUnderNChars,
+            getOverlap,
+            getNewAfterNChars,
+            getOverlapAll)
         case _ =>
           throw new IllegalArgumentException(s"Unknown chunker strategy: $getChunkerStrategy")
       }
@@ -62,6 +75,17 @@ class SemanticChunker(chunkerOptions: Map[String, String]) extends Serializable 
       chunkerOptions,
       Seq("chunkingStrategy", "chunking_strategy"),
       default = "none")
+  }
+
+  private def getCombineTextUnderNChars: Int = {
+    getDefaultInt(
+      chunkerOptions,
+      Seq("combineTextUnderNChars", "combine_text_under_n_chars"),
+      default = 0)
+  }
+
+  private def getOverlapAll: Boolean = {
+    getDefaultBoolean(chunkerOptions, Seq("overlapAll", "overlap_all"), default = false)
   }
 
 }

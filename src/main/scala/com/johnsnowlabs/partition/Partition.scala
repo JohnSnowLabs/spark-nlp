@@ -146,7 +146,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
     val partitionResult = reader(path)
     if (hasChunkerStrategy) {
-      val chunker = new SemanticChunker(params.asScala.toMap)
+      val chunker = new PartitionChunker(params.asScala.toMap)
       partitionResult.withColumn(
         "chunks",
         chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
