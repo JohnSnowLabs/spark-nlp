@@ -23,6 +23,8 @@ import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
+
 class GPT2TestSpec extends AnyFlatSpec {
   "gpt2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
@@ -145,7 +147,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
     val dataframe2 = model
@@ -154,7 +156,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe2)
 
@@ -188,7 +190,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
     val dataframe2 = model
@@ -197,7 +199,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe2)
 

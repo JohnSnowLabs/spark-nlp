@@ -61,7 +61,9 @@ trait HasBatchedAnnotate[M <: Model[M]] {
   private def processBatchRows(batchedRows: Seq[Row]): Seq[Row] = {
     val inputAnnotations = batchedRows.map(row => {
       getInputCols.flatMap(inputCol => {
-        row.getAs[mutable.Seq[Row]](inputCol).map(Annotation(_)) // TODO fix which mutable and immutable
+        row
+          .getAs[mutable.Seq[Row]](inputCol)
+          .map(Annotation(_)) // TODO fix which mutable and immutable
       })
     })
     val outputAnnotations = batchAnnotate(inputAnnotations.toSeq)

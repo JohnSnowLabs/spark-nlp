@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosT
 import org.apache.spark.sql.{Dataset, Row}
 
 import java.util
-import scala.collection.Map
+import scala.collection.{Map, mutable}
 import scala.util.Random
 
 trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
@@ -114,7 +114,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+    row.getAs[mutable.Seq[Row]](colNum).map(obj => Annotation(obj)).toSeq
   }
 
   protected def getLabelsFromSentences(

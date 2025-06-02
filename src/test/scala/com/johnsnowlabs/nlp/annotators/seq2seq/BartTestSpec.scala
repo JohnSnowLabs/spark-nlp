@@ -25,6 +25,8 @@ import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
+
 class BartTestSpec extends AnyFlatSpec {
 
   "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
@@ -205,7 +207,7 @@ class BartTestSpec extends AnyFlatSpec {
 
     results.select("summaries.result").show(truncate = false)
 //    val dataframe = results.select("summaries.result").collect()
-//    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+//    val result = dataframe.toSeq.head.getAs[mutable.Seq[String]](0).head
 //    println(result)
     //    assert(
     //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
@@ -247,7 +249,7 @@ class BartTestSpec extends AnyFlatSpec {
 
     results.select("summaries.result").show(truncate = false)
     val dataframe = results.select("summaries.result").collect()
-    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+    val result = dataframe.toSeq.head.getAs[mutable.Seq[String]](0).head
     println(result)
 //    assert(
 //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
@@ -294,7 +296,7 @@ class BartTestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
     val dataframe2 = model
@@ -303,7 +305,7 @@ class BartTestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe2)
 
@@ -353,7 +355,7 @@ class BartTestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
 
@@ -365,7 +367,7 @@ class BartTestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
 

@@ -32,6 +32,8 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
+import scala.collection.mutable
+
 /** Word Embeddings lookup annotator that maps tokens to vectors
   *
   * This is the instantiated model of [[WordEmbeddings]].
@@ -334,7 +336,7 @@ trait EmbeddingsCoverage {
     val words = dataset
       .select(embeddingsCol)
       .flatMap(row => {
-        val annotations = row.getAs[Seq[Row]](embeddingsCol)
+        val annotations = row.getAs[mutable.Seq[Row]](embeddingsCol)
         annotations.map(annotation =>
           Tuple2(
             annotation.getAs[Map[String, String]]("metadata")("token"),

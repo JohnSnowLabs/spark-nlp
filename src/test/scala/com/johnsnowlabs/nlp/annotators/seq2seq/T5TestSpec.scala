@@ -25,6 +25,8 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
+
 class T5TestSpec extends AnyFlatSpec {
 
   "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
@@ -95,7 +97,7 @@ class T5TestSpec extends AnyFlatSpec {
 
     results.select("summaries.result").show(truncate = false)
     val dataframe = results.select("summaries.result").collect()
-    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+    val result = dataframe.toSeq.head.getAs[mutable.Seq[String]](0).head
 
     assert(
       result == "the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core .")
@@ -141,7 +143,7 @@ class T5TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
     val dataframe2 = model
@@ -150,7 +152,7 @@ class T5TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe2)
 
@@ -199,7 +201,7 @@ class T5TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe1)
     val dataframe2 = model
@@ -208,7 +210,7 @@ class T5TestSpec extends AnyFlatSpec {
       .collect()
       .toSeq
       .head
-      .getAs[Seq[String]](0)
+      .getAs[mutable.Seq[String]](0)
       .head
     println(dataframe2)
 
@@ -254,7 +256,7 @@ class T5TestSpec extends AnyFlatSpec {
     val results1 = model.transform(testData)
 
     val dataframe1 =
-      results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
+      results1.select("summaries.result").collect().toSeq.head.getAs[mutable.Seq[String]](0).head
     assert(
       dataframe1 == "cook 2 months uncovered and uncovered for 15-20 mins with more butter . heat over medium")
 
@@ -300,7 +302,7 @@ class T5TestSpec extends AnyFlatSpec {
     val results1 = model.transform(testData)
 
     val dataframe1 =
-      results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
+      results1.select("summaries.result").collect().toSeq.head.getAs[mutable.Seq[String]](0).head
     println(dataframe1)
     assert(
       "dripping or 2 tablespoons of vegetable oil set aside, stirring constantly . add the onions and fry for about 10 minutes until softened ." == dataframe1)
@@ -347,7 +349,7 @@ class T5TestSpec extends AnyFlatSpec {
     val results1 = model.transform(testData)
 
     val dataframe1 =
-      results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
+      results1.select("summaries.result").collect().toSeq.head.getAs[mutable.Seq[String]](0).head
     println(dataframe1)
     assert(
       "the lamb fillet is cut into slices the thickness of a chop . add the kidneys and cook for 1-2 minutes, turning once, until browned ." == dataframe1)
@@ -392,7 +394,7 @@ class T5TestSpec extends AnyFlatSpec {
     val results1 = model.transform(testData)
 
     val dataframe1 =
-      results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
+      results1.select("summaries.result").collect().toSeq.head.getAs[mutable.Seq[String]](0).head
     println(dataframe1)
 
     assert(

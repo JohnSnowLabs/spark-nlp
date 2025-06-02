@@ -425,16 +425,18 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     val annotations = fullAnnotate(target, optionalTarget)
-    annotations.view.mapValues(_.map {
-      case annotation: Annotation =>
-        annotation.annotatorType match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-              if parseEmbeddings =>
-            annotation.embeddings.mkString(" ")
-          case _ => annotation.result
-        }
-      case _ => ""
-    }).toMap
+    annotations.view
+      .mapValues(_.map {
+        case annotation: Annotation =>
+          annotation.annotatorType match {
+            case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+                if parseEmbeddings =>
+              annotation.embeddings.mkString(" ")
+            case _ => annotation.result
+          }
+        case _ => ""
+      })
+      .toMap
   }
 
   def annotate(

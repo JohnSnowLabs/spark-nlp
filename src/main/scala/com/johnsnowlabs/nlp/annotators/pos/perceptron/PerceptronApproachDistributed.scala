@@ -159,7 +159,7 @@ class PerceptronApproachDistributed(override val uid: String)
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
       .groupByKey(tw => tw.word.toLowerCase)
-      .mapGroups { (lw, tw) => (lw, tw.toSeq.groupBy(_.tag).view.mapValues(_.length)) }
+      .mapGroups { (lw, tw) => (lw, tw.toSeq.groupBy(_.tag).view.mapValues(_.length).toMap) }
       .filter { lwtw =>
         val (_, mode) = lwtw._2.maxBy(t => t._2)
         val n = lwtw._2.values.sum

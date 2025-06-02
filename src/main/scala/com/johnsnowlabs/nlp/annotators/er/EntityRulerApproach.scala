@@ -475,15 +475,15 @@ class EntityRulerApproach(override val uid: String)
       cleanPatternsDataFrame(regexPatternsDataFrame, idFieldExist)
 
     cleanedRegexPatternsDataFrame.rdd.toLocalIterator.foreach { row =>
-      val patterns = row.getAs[Seq[String]]("flatten_patterns")
+      val patterns = row.getAs[mutable.Seq[String]]("flatten_patterns")
       val entity =
         if (idFieldExist) row.getAs[String]("label_id") else row.getAs[String]("label")
       storageReadWriter.getOrElse(None) match {
         case patternsWriter: PatternsReadWriter =>
           storePatterns(patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter =>
-          storeRegexPattern(patterns, entity, regexPatternsWriter)
-        case None => computePatterns(patterns, isRegex = true, entity)
+          storeRegexPattern(patterns.toSeq, entity, regexPatternsWriter)
+        case None => computePatterns(patterns.toSeq, isRegex = true, entity)
       }
     }
 
@@ -491,15 +491,15 @@ class EntityRulerApproach(override val uid: String)
     val cleanedKeywordsDataFrame = cleanPatternsDataFrame(keywordsDataFrame, idFieldExist)
 
     cleanedKeywordsDataFrame.rdd.toLocalIterator.foreach { row =>
-      val patterns = row.getAs[Seq[String]]("flatten_patterns")
+      val patterns = row.getAs[mutable.Seq[String]]("flatten_patterns")
       if (idFieldExist) {
         val labelId = row.getAs[String]("label_id")
         val label = labelId.split(",")(0)
         val id = labelId.split(",")(1)
-        keywordsPatterns.append(EntityPattern(label, patterns, Some(id), Some(true)))
+        keywordsPatterns.append(EntityPattern(label, patterns.toSeq, Some(id), Some(true)))
       } else {
         val label = row.getAs[String]("label")
-        keywordsPatterns.append(EntityPattern(label, patterns, None, Some(true)))
+        keywordsPatterns.append(EntityPattern(label, patterns.toSeq, None, Some(true)))
       }
 
     }

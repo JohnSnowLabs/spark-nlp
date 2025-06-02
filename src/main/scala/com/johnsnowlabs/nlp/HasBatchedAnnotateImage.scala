@@ -20,6 +20,8 @@ import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.IntParam
 import org.apache.spark.sql.Row
 
+import scala.collection.mutable
+
 trait HasBatchedAnnotateImage[M <: Model[M]] {
 
   this: RawAnnotator[M] =>
@@ -55,7 +57,7 @@ trait HasBatchedAnnotateImage[M <: Model[M]] {
         val inputAnnotations = batchedRows.map(row => {
           getInputCols.flatMap(inputCol => {
             row
-              .getAs[Seq[Row]](inputCol)
+              .getAs[mutable.Seq[Row]](inputCol)
               .map(r =>
                 AnnotationImage(
                   r.getString(0),

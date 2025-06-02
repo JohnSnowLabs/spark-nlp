@@ -22,11 +22,10 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
-
 import org.scalatest.flatspec.AnyFlatSpec
+import scala.collection.mutable
 
 trait ChunkerBehaviors {
   this: AnyFlatSpec =>
@@ -189,7 +188,7 @@ trait ChunkerBehaviors {
         .transform(testData)
         .select("finished_chunks")
         .collect()
-        .map(row => row.get(0).asInstanceOf[Seq[String]].toList)
+        .map(row => row.get(0).asInstanceOf[mutable.Seq[String]].toList)
       finished_chunks.map(row => assert(row.isEmpty))
     }
   }
@@ -246,7 +245,7 @@ trait ChunkerBehaviors {
         .transform(dataset)
         .select("finished_chunks")
         .collect()
-        .map(row => row.get(0).asInstanceOf[Seq[String]].toList)
+        .map(row => row.get(0).asInstanceOf[mutable.Seq[String]].toList)
       finished_chunks.map(row => assert(row.nonEmpty))
 
     }
