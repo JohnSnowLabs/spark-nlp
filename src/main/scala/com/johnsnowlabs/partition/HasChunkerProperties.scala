@@ -18,7 +18,7 @@ package com.johnsnowlabs.partition
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import org.apache.spark.ml.param.Param
 
-trait HasSemanticChunkerProperties extends ParamsAndFeaturesWritable {
+trait HasChunkerProperties extends ParamsAndFeaturesWritable {
 
   val chunkingStrategy = new Param[String](this, "chunkingStrategy", "Set the chunking strategy")
 
@@ -39,6 +39,26 @@ trait HasSemanticChunkerProperties extends ParamsAndFeaturesWritable {
 
   def setOverlap(value: Int): this.type = set(overlap, value)
 
-  setDefault(chunkingStrategy -> "", maxCharacters -> 100, newAfterNChars -> -1, overlap -> 0)
+  val combineTextUnderNChars =
+    new Param[Int](this, "combineTextUnderNChars", "Threshold to merge adjacent small sections")
+
+  def setComBineTextUnderNChars(value: Int): this.type =
+    set(combineTextUnderNChars, value)
+
+  val overlapAll =
+    new Param[Boolean](
+      this,
+      "overlapAll",
+      "Apply overlap context between all sections, not just split chunks")
+
+  def setOverlapAll(value: Boolean): this.type = set(overlapAll, value)
+
+  setDefault(
+    chunkingStrategy -> "",
+    maxCharacters -> 100,
+    newAfterNChars -> -1,
+    overlap -> 0,
+    combineTextUnderNChars -> 0,
+    overlapAll -> false)
 
 }
