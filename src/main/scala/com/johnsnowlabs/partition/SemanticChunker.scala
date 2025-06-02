@@ -16,6 +16,7 @@
 package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.partition.BasicChunker.chunkBasic
+import com.johnsnowlabs.partition.TitleChunker.chunkByTitle
 import com.johnsnowlabs.reader.HTMLElement
 import com.johnsnowlabs.reader.util.PartitionOptions.{getDefaultInt, getDefaultString}
 import org.apache.spark.sql.Row
@@ -37,6 +38,8 @@ class SemanticChunker(chunkerOptions: Map[String, String]) extends Serializable 
 
       val chunks = getChunkerStrategy match {
         case "basic" => chunkBasic(htmlElements, getMaxCharacters, getNewAfterNChars, getOverlap)
+        case "byTitle" | "by_title" =>
+          chunkByTitle(htmlElements, getMaxCharacters, getCombineTextUnderNChars, getOverlap)
         case _ =>
           throw new IllegalArgumentException(s"Unknown chunker strategy: $getChunkerStrategy")
       }
@@ -62,6 +65,13 @@ class SemanticChunker(chunkerOptions: Map[String, String]) extends Serializable 
       chunkerOptions,
       Seq("chunkingStrategy", "chunking_strategy"),
       default = "none")
+  }
+
+  private def getCombineTextUnderNChars: Int = {
+    getDefaultInt(
+      chunkerOptions,
+      Seq("combineTextUnderNChars", "combine_text_under_n_chars"),
+      default = 0)
   }
 
 }

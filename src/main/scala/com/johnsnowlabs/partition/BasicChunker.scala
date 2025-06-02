@@ -19,10 +19,6 @@ import com.johnsnowlabs.reader.HTMLElement
 
 import scala.collection.mutable
 
-case class Chunk(elements: List[HTMLElement]) {
-  def length: Int = elements.map(_.content.length).sum
-}
-
 object BasicChunker {
 
   /** Splits a list of [[HTMLElement]]s into chunks constrained by a maximum number of characters.

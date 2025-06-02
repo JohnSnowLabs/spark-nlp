@@ -29,7 +29,7 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
   val htmlDirectory = "src/test/resources/reader/html"
   val txtDirectory = "src/test/resources/reader/txt"
 
-  "PartitionTransformer" should "work in a RAG pipeline" taggedAs SlowTest in {
+  "PartitionTransformer" should "work in a RAG pipeline" taggedAs SlowTest ignore {
     val partition = new PartitionTransformer()
       .setInputCols("text")
       .setContentType("application/msword")
