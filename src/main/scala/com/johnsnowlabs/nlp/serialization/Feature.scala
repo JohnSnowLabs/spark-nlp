@@ -338,7 +338,17 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
+      try {
+        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
+      } catch {
+        case e: org.apache.spark.SparkException
+            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          println(
+            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
+          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).collect())
+        case e: Exception =>
+          throw e
+      }
     } else {
       None
     }
@@ -391,7 +401,17 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect().toSet)
+      try {
+        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect.toSet)
+      } catch {
+        case e: org.apache.spark.SparkException
+            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          println(
+            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
+          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).collect.toSet)
+        case e: Exception =>
+          throw e
+      }
     } else {
       None
     }
@@ -444,8 +464,17 @@ class TransducerFeature(model: HasFeatures, override val name: String)
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val sc = spark.sparkContext.objectFile[VocabParser](dataPath.toString).collect().head
-      Some(sc)
+      try {
+        Some(spark.sparkContext.objectFile[VocabParser](dataPath.toString).collect().head)
+      } catch {
+        case e: org.apache.spark.SparkException
+            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          println(
+            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
+          Some(deserializeLegacyObject[VocabParser](spark, dataPath.toString).collect().head)
+        case e: Exception =>
+          throw e
+      }
     } else {
       None
     }

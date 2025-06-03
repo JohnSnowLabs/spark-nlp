@@ -45,8 +45,9 @@ class LegacyObjectInputStream(
       resultClassDescriptor.getName match {
         case "scala.collection.immutable.HashMap$SerializationProxy" =>
           ObjectStreamClass.lookup(classOf[LegacyHashMapSerializationProxy])
+        case "scala.collection.immutable.HashSet$SerializationProxy" =>
+          ObjectStreamClass.lookup(classOf[LegacyHashSetSerializationProxy])
         case "scala.collection.immutable.List$SerializationProxy" =>
-          /*          println("DHA: Using LegacyListSerializationProxy")*/
           ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
         case "scala.collection.immutable.ListSerializeEnd$" =>
           println("DHA: Using LegacyListSerializationEnd")
