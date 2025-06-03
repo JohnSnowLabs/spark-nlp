@@ -105,4 +105,47 @@ class PdfToTextTest extends AnyFlatSpec {
     assert(actualResult == expectedResult)
   }
 
+  it should "extract coordinates with normalizeLigatures" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(true)
+      .setSplitPage(true)
+      .setExtractCoordinates(true)
+    val dummyDataFrame =
+      spark.read.format("binaryFile").load("src/test/resources/reader/pdf/ligatures_text.pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    val explodedDF = pdfDf
+      .selectExpr("explode(positions) as position")
+      .selectExpr("explode(position.mapping) as mapping")
+      .select("mapping.c")
+    val containsLigature = explodedDF.filter(col("c") === "œ").count() > 0
+
+    assert(!containsLigature)
+  }
+
+  it should "extract coordinates without normalizeLigatures" taggedAs FastTest in {
+    val pdfToText = new PdfToText()
+      .setStoreSplittedPdf(true)
+      .setSplitPage(true)
+      .setExtractCoordinates(true)
+      .setNormalizeLigatures(false)
+    val dummyDataFrame =
+      spark.read.format("binaryFile").load("src/test/resources/reader/pdf/ligatures_text.pdf")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    val explodedDF = pdfDf
+      .selectExpr("explode(positions) as position")
+      .selectExpr("explode(position.mapping) as mapping")
+      .select("mapping.c")
+    val containsLigature = explodedDF.filter(col("c") === "œ").count() > 0
+
+    assert(containsLigature)
+  }
+
 }
