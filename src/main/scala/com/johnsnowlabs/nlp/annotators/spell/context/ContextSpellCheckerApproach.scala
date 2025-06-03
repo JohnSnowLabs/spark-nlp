@@ -621,9 +621,7 @@ class ContextSpellCheckerApproach(override val uid: String)
 
     // compute frequencies - logarithmic
     totalCount = math.log(totalCount)
-    for (key <- vocab.keys) {
-      vocab.update(key, math.log(vocab(key)) - totalCount)
-    }
+    vocab.mapValuesInPlace { case (_, v) => math.log(v) - totalCount }
     logger.info(s"Vocabulary size: ${vocab.size}")
     (vocab, classes)
   }
