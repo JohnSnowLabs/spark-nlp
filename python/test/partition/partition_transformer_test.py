@@ -84,7 +84,7 @@ class PartitionTransformerURLsTesSpec(unittest.TestCase):
         self.assertTrue(resultDf.select("partition").count() > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class PartitionTransformerChunkTestSpec(unittest.TestCase):
 
     def setUp(self):
