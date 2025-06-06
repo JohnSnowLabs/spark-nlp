@@ -89,7 +89,7 @@ class PartitionTransformerChunkTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.spark = SparkContextForTest.spark
-        self.content_path = f"file:///{os.getcwd()}/../src/test/resources/reader/txt/rag-example.txt"
+        self.content_path = f"file:///{os.getcwd()}/../src/test/resources/reader/txt/long-text.txt"
         self.testDataSet = self.spark.createDataFrame(
             [("An example with DocumentAssembler annotator",)],
             ["text"]
@@ -98,7 +98,7 @@ class PartitionTransformerChunkTestSpec(unittest.TestCase):
 
     def runTest(self):
         partition = PartitionTransformer() \
-            .setInputCols(["document"]) \
+            .setInputCols(["text"]) \
             .setContentPath(self.content_path) \
             .setOutputCol("partition") \
             .setChunkingStrategy("basic") \
@@ -110,4 +110,4 @@ class PartitionTransformerChunkTestSpec(unittest.TestCase):
         resultDf = pipelineModel.transform(self.emptyDataSet)
         resultDf.show(truncate=False)
 
-        # self.assertTrue(resultDf.select("partition").count() >= 0)
+        self.assertTrue(resultDf.select("partition").count() >= 0)
