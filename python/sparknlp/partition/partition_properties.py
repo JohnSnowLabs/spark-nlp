@@ -255,3 +255,65 @@ class HasTextReaderProperties(Params):
 
     def getThreshold(self):
         return self.getOrDefault(self.threshold)
+
+class HasChunkerProperties(Params):
+
+    chunkingStrategy = Param(
+        Params._dummy(),
+        "chunkingStrategy",
+        "Set the chunking strategy",
+        typeConverter=TypeConverters.toString
+    )
+
+    def setChunkingStrategy(self, value):
+        return self._set(chunkingStrategy=value)
+
+    maxCharacters = Param(
+        Params._dummy(),
+        "maxCharacters",
+        "Set the maximum number of characters",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setMaxCharacters(self, value):
+        return self._set(maxCharacters=value)
+
+    newAfterNChars = Param(
+        Params._dummy(),
+        "newAfterNChars",
+        "Insert a new chunk after N characters",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setNewAfterNChars(self, value):
+        return self._set(newAfterNChars=value)
+
+    overlap = Param(
+        Params._dummy(),
+        "overlap",
+        "Set the number of overlapping characters between chunks",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setOverlap(self, value):
+        return self._set(overlap=value)
+
+    combineTextUnderNChars = Param(
+        Params._dummy(),
+        "combineTextUnderNChars",
+        "Threshold to merge adjacent small sections",
+        typeConverter=TypeConverters.toInt
+    )
+
+    def setCombineTextUnderNChars(self, value):
+        return self._set(combineTextUnderNChars=value)
+
+    overlapAll = Param(
+        Params._dummy(),
+        "overlapAll",
+        "Apply overlap context between all sections, not just split chunks",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setOverlapAll(self, value):
+        return self._set(overlapAll=value)

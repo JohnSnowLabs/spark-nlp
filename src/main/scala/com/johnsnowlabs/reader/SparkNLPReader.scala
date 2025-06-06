@@ -33,7 +33,8 @@ import scala.collection.JavaConverters._
 
 class SparkNLPReader(
     params: java.util.Map[String, String] = new java.util.HashMap(),
-    headers: java.util.Map[String, String] = new java.util.HashMap()) {
+    headers: java.util.Map[String, String] = new java.util.HashMap())
+    extends Serializable {
 
   /** Instantiates class to read HTML files.
     *
