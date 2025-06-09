@@ -285,4 +285,10 @@ object OpenvinoWrapper {
       textEmbeddingsModel: OpenvinoWrapper,
       imageEmbedModel: OpenvinoWrapper,
       modelMergerModel: OpenvinoWrapper)
+  case class E5VWrappers(
+      languageModel: OpenvinoWrapper,
+      visionEmbeddingsModel: OpenvinoWrapper,
+      textEmbeddingsModel: OpenvinoWrapper,
+      imagePackerModel: OpenvinoWrapper,
+      mergeModel: OpenvinoWrapper)
 }
