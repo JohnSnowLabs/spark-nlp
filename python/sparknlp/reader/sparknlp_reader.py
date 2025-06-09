@@ -323,3 +323,48 @@ class SparkNLPReader(ExtendedJavaWrapper):
             raise TypeError("docPath must be a string")
         jdf = self._java_obj.txt(docPath)
         return self.getDataFrame(self.spark, jdf)
+
+    def xml(self, docPath):
+        """Reads XML files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        docPath : str
+            Path to an XML file or a directory containing XML files.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed XML content.
+
+        Examples
+        --------
+        >>> from sparknlp.reader import SparkNLPReader
+        >>> xml_df = SparkNLPReader(spark).xml("home/user/xml-directory")
+
+        You can use SparkNLP for one line of code
+
+        >>> import sparknlp
+        >>> xml_df = sparknlp.read().xml("home/user/xml-directory")
+        >>> xml_df.show(truncate=False)
+        +-----------------------------------------------------------+
+        |xml                                                       |
+        +-----------------------------------------------------------+
+        |[{Title, John Smith, {elementId -> ..., tag -> title}}]   |
+        +-----------------------------------------------------------+
+
+        >>> xml_df.printSchema()
+        root
+         |-- path: string (nullable = true)
+         |-- xml: array (nullable = true)
+         |    |-- element: struct (containsNull = true)
+         |    |    |-- elementType: string (nullable = true)
+         |    |    |-- content: string (nullable = true)
+         |    |    |-- metadata: map (nullable = true)
+         |    |    |    |-- key: string
+         |    |    |    |-- value: string (valueContainsNull = true)
+        """
+        if not isinstance(docPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.xml(docPath)
+        return self.getDataFrame(self.spark, jdf)

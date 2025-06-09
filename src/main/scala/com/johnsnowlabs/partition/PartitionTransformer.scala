@@ -86,6 +86,7 @@ class PartitionTransformer(override val uid: String)
     with HasPowerPointProperties
     with HasTextReaderProperties
     with HasPdfProperties
+    with HasXmlReaderProperties
     with HasChunkerProperties {
 
   def this() = this(Identifiable.randomUID("PartitionTransformer"))
@@ -157,7 +158,9 @@ class PartitionTransformer(override val uid: String)
       "newAfterNChars" -> $(newAfterNChars).toString,
       "overlap" -> $(overlap).toString,
       "combineTextUnderNChars" -> $(combineTextUnderNChars).toString,
-      "overlapAll" -> $(overlapAll).toString)
+      "overlapAll" -> $(overlapAll).toString,
+      "xmlKeepTags" -> $(xmlKeepTags).toString,
+      "onlyLeafNodes" -> $(onlyLeafNodes).toString)
     val partitionInstance = new Partition(params.asJava)
 
     val inputColum = if (get(inputCols).isDefined) {

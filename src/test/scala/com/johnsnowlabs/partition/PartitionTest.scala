@@ -32,6 +32,7 @@ class PartitionTest extends AnyFlatSpec {
   val emailDirectory = "src/test/resources/reader/email"
   val htmlDirectory = "src/test/resources/reader/html"
   val pdfDirectory = "src/test/resources/reader/pdf"
+  val xmlDirectory = "src/test/resources/reader/xml"
 
   "Partition" should "work with text content_type" taggedAs FastTest in {
     val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
@@ -179,6 +180,13 @@ class PartitionTest extends AnyFlatSpec {
         mutable.Map("paragraph" -> "0")))
 
     assert(elements == expectedElements)
+  }
+
+  it should "work with XML content_type" taggedAs FastTest in {
+    val pdfDf = Partition(Map("content_type" -> "application/xml")).partition(xmlDirectory)
+    pdfDf.show()
+
+    assert(!pdfDf.select(col("xml")).isEmpty)
   }
 
 }
