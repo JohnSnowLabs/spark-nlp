@@ -41,3 +41,4 @@ from sparknlp.annotator.embeddings.mxbai_embeddings import *
 from sparknlp.annotator.embeddings.snowflake_embeddings import *
 from sparknlp.annotator.embeddings.nomic_embeddings import *
 from sparknlp.annotator.embeddings.auto_gguf_embeddings import *
+from sparknlp.annotator.embeddings.e5v_embeddings import *

@@ -15,6 +15,9 @@
 
 
 import sparknlp.internal as _internal
+import numpy as np
+from pyspark.sql import Row
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BinaryType
 
 
 def get_config_path():
@@ -33,3 +36,26 @@ class CoNLLGenerator:
             _internal._CoNLLGeneratorExportFromTargetAndPipeline(*args).apply()
         else:
             raise NotImplementedError(f"No exportConllFiles alternative takes {num_args} parameters")
+
+
+class EmbeddingsDataFrameUtils:
+    """
+    Utility for creating DataFrames compatible with multimodal embedding models (e.g., E5VEmbeddings) for text-only scenarios.
+    Provides:
+      - imageSchema: the expected schema for Spark image DataFrames
+      - emptyImageRow: a dummy image row for text-only embedding
+    """
+    imageSchema = StructType([
+        StructField(
+            "image",
+            StructType([
+                StructField("origin", StringType(), True),
+                StructField("height", IntegerType(), True),
+                StructField("width", IntegerType(), True),
+                StructField("nChannels", IntegerType(), True),
+                StructField("mode", IntegerType(), True),
+                StructField("data", BinaryType(), True),
+            ]),
+        )
+    ])
+    emptyImageRow = Row(Row("", 0, 0, 0, 0, bytes()))
