@@ -1165,3 +1165,11 @@ class _Florence2TransformerLoader(ExtendedJavaWrapper):
             jspark,
             use_openvino,
         )
+class _E5VEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_E5VEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.E5VEmbeddings.loadSavedModel",
+            path,
+            jspark,
+            use_openvino
+        )
