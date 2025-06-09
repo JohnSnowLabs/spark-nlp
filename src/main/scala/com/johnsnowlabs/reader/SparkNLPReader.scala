@@ -296,7 +296,6 @@ class SparkNLPReader(
     *  |-- width_dimension: integer (nullable = true)
     *  |-- content: binary (nullable = true)
     *  |-- exception: string (nullable = true)
-    *  |-- pagenum: integer (nullable = true)
     * }}}
     *
     * @param params
@@ -640,6 +639,71 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("blockSplit", "block_split"),
       default = BLOCK_SPLIT_PATTERN)
+  }
+
+  /** Instantiates class to read XML files.
+    *
+    * xmlPath: this is a path to a directory of XML files or a path to an XML file. E.g.,
+    * "path/xml/files"
+    *
+    * ==Example==
+    * {{{
+    * val xmlPath = "home/user/xml-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val xmlDf = sparkNLPReader.xml(xmlPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val xmlDf = SparkNLP.read.xml(xmlPath)
+    * }}}
+    *
+    * {{{
+    * xmlDf.select("xml").show(false)
+    * +------------------------------------------------------------------------------------------------------------------------+
+    * |xml                                                                                                                    |
+    * +------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, John Smith, {elementId -> ..., tag -> title}}, {UncategorizedText, Some content..., {elementId -> ...}}]     |
+    * +------------------------------------------------------------------------------------------------------------------------+
+    *
+    * xmlDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- xml: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param xmlPath
+    *   Path to the XML file or directory
+    * @return
+    *   A DataFrame with parsed XML as structured elements
+    */
+
+  def xml(xmlPath: String): DataFrame = {
+    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    xmlReader.read(xmlPath)
+  }
+
+  def xmlToHTMLElement(xml: String): Seq[HTMLElement] = {
+    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    xmlReader.parseXml(xml)
+  }
+
+  private def getXmlKeepTags: Boolean = {
+    getDefaultBoolean(params.asScala.toMap, Seq("xmlKeepTags", "xml_keep_tags"), default = false)
+  }
+
+  private def getOnlyLeafNodes: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("onlyLeafNodes", "only_leaf_nodes"),
+      default = true)
   }
 
 }
