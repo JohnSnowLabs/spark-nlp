@@ -25,6 +25,53 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.xml.{Elem, Node, XML}
 
+/** Class to parse and read XML files.
+ *
+ * @param storeContent
+ *   Whether to include the raw XML content in the resulting DataFrame as a separate 'content'
+ *   column. By default, this is false.
+ *
+ * @param xmlKeepTags
+ *   Whether to retain original XML tag names and include them in the metadata for each extracted
+ *   element. Useful for preserving structure. Default is false.
+ *
+ * @param onlyLeafNodes
+ *   If true, only the deepest elements (those without child elements) are extracted. If false,
+ *   all elements are extracted. Default is true.
+ *
+ * ==Input Format==
+ * Input must be a valid path to an XML file or a directory containing XML files.
+ *
+ * ==Example==
+ * {{{
+ * val xmlPath = "./data/sample.xml"
+ * val xmlReader = new XMLReader()
+ * val xmlDf = xmlReader.read(xmlPath)
+ * }}}
+ *
+ * {{{
+ * xmlDf.show(truncate = false)
+ * +----------------------+--------------------------------------------------+
+ * |path                  |xml                                               |
+ * +----------------------+--------------------------------------------------+
+ * |file:/data/sample.xml |[{Title, My Book, {tag -> title}}, ...]          |
+ * +----------------------+--------------------------------------------------+
+ *
+ * xmlDf.printSchema()
+ * root
+ *  |-- path: string (nullable = true)
+ *  |-- xml: array (nullable = true)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- elementType: string (nullable = true)
+ *  |    |    |-- content: string (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ * }}}
+ *
+ * For more examples refer to:
+ * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_XML_Reader_Demo.ipynb notebook]]
+ */
 class XMLReader(
     storeContent: Boolean = false,
     xmlKeepTags: Boolean = false,
