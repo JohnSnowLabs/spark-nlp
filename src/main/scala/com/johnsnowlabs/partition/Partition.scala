@@ -188,6 +188,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
           "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
         sparkNLPReader.ppt
       case "application/pdf" => sparkNLPReader.pdf
+      case "application/xml" => sparkNLPReader.xml
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -199,6 +200,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "text/plain" => sparkNLPReader.txtToHTMLElement
       case "text/html" => sparkNLPReader.htmlToHTMLElement
       case "url" => sparkNLPReader.urlToHTMLElement
+      case "application/xml" => sparkNLPReader.xmlToHTMLElement
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -234,6 +236,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "xls" | "xlsx" => sparkNLPReader.xls
       case "ppt" | "pptx" => sparkNLPReader.ppt
       case "pdf" => sparkNLPReader.pdf
+      case "xml" => sparkNLPReader.xml
       case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
     }
   }
