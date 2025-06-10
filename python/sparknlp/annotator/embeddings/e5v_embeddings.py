@@ -81,7 +81,7 @@ class E5VEmbeddings(AnnotatorModel,
     outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.embeddings.E5VEmbeddings", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.E5VEmbeddings", java_model=None):
         """Initializes the E5VEmbeddings annotator.
 
         Parameters
