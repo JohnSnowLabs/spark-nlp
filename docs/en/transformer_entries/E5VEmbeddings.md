@@ -5,7 +5,7 @@ E5VEmbeddings
 {%- capture description -%}
 Universal multimodal embeddings using E5-V.
 
-E5-V is a multimodal embedding model that bridges the modality gap between text and images, enabling strong performance in cross-modal retrieval, classification, clustering, and more. It supports both image+text and text-only embedding scenarios, and is fine-tuned from lmms-lab/llama3-llava-next-8b. The default model is `"e5v_1_5_7b_int4"`.
+E5-V is a multimodal embedding model that bridges the modality gap between text and images, enabling strong performance in cross-modal retrieval, classification, clustering, and more. It supports both image+text and text-only embedding scenarios, and is fine-tuned from lmms-lab/llama3-llava-next-8b. The default model is `"e5v_int4"`.
 
 Note that this annotator is only supported for Spark Versions 3.4 and up.
 
