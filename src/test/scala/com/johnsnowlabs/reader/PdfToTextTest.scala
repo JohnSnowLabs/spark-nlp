@@ -148,4 +148,18 @@ class PdfToTextTest extends AnyFlatSpec {
     assert(containsLigature)
   }
 
+  it should "show exception for corrupted PDF files" in {
+    val pdfToText = new PdfToText()
+    val dummyDataFrame =
+      spark.read.format("binaryFile").load("src/test/resources/reader/pdf-corrupted")
+    val pipelineModel = new Pipeline()
+      .setStages(Array(pdfToText))
+      .fit(dummyDataFrame)
+
+    val pdfDf = pipelineModel.transform(dummyDataFrame)
+    pdfDf.select("exception").show(truncate = false)
+
+    assert(pdfDf.filter(col("exception") =!= "").count() > 0)
+  }
+
 }
