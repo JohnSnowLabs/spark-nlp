@@ -5,7 +5,7 @@
 New Features & Enhancements
 ----------------
 * Introducing E5-V Universal Embeddings (SPARKNLP-1143)
-* Enhanced Chunking Strategies (SPARKNLP-1125)
+* Enhanced Chunking Strategies and Behavior (SPARKNLP-1125)
 * New XML Reader (SPARKNLP-1119)
 
 ----------------
