@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.tf_ner_dl_graph_builder module &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.annotator.tf_ner_dl_graph_builder module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -415,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -684,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFNerDLGraphBuilder</span></span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Estimator</span></code>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Estimator.html#pyspark.ml.Estimator" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Estimator</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile">
 <span class="sig-name descname"><span class="pre">getGraphFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.getGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile" title="Permalink to this definition">#</a></dt>
@@ -826,7 +827,7 @@ file name.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFNerDLGraphBuilderModel</span></span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Model.html#pyspark.ml.Model" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
 </dd></dl>
 
 </section>

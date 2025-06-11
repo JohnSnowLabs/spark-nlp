@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -616,6 +616,68 @@ document.write(`
 
 <div class="viewcode-block" id="HasTextReaderProperties.getThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="HasChunkerProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasChunkerProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+<div class="viewcode-block" id="HasChunkerProperties.chunkingStrategy"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.chunkingStrategy">[docs]</a>    <span class="n">chunkingStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;chunkingStrategy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the chunking strategy&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setChunkingStrategy"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setChunkingStrategy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setChunkingStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkingStrategy</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.maxCharacters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.maxCharacters">[docs]</a>    <span class="n">maxCharacters</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;maxCharacters&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the maximum number of characters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setMaxCharacters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setMaxCharacters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxCharacters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxCharacters</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.newAfterNChars"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.newAfterNChars">[docs]</a>    <span class="n">newAfterNChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;newAfterNChars&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Insert a new chunk after N characters&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setNewAfterNChars"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setNewAfterNChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNewAfterNChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">newAfterNChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.overlap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.overlap">[docs]</a>    <span class="n">overlap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;overlap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the number of overlapping characters between chunks&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setOverlap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlap">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overlap</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.combineTextUnderNChars"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.combineTextUnderNChars">[docs]</a>    <span class="n">combineTextUnderNChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;combineTextUnderNChars&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Threshold to merge adjacent small sections&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setCombineTextUnderNChars"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setCombineTextUnderNChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCombineTextUnderNChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">combineTextUnderNChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.overlapAll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.overlapAll">[docs]</a>    <span class="n">overlapAll</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;overlapAll&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Apply overlap context between all sections, not just split chunks&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasChunkerProperties.setOverlapAll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOverlapAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overlapAll</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

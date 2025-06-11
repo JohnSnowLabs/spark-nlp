@@ -18,6 +18,7 @@ Submodules
    sparknlp.annotator.embeddings.distil_bert_embeddings
    sparknlp.annotator.embeddings.doc2vec
    sparknlp.annotator.embeddings.e5_embeddings
+   sparknlp.annotator.embeddings.e5v_embeddings
    sparknlp.annotator.embeddings.elmo_embeddings
    sparknlp.annotator.embeddings.instructor_embeddings
    sparknlp.annotator.embeddings.longformer_embeddings

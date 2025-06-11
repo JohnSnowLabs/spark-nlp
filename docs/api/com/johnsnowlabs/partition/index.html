@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.2 ScalaDoc  - com.johnsnowlabs.partition</title>
-          <meta name="description" content="Spark NLP 6.0.2 ScalaDoc - com.johnsnowlabs.partition" />
-          <meta name="keywords" content="Spark NLP 6.0.2 ScalaDoc com.johnsnowlabs.partition" />
+          <title>Spark NLP 6.0.3 ScalaDoc  - com.johnsnowlabs.partition</title>
+          <meta name="description" content="Spark NLP 6.0.3 ScalaDoc - com.johnsnowlabs.partition" />
+          <meta name="keywords" content="Spark NLP 6.0.3 ScalaDoc com.johnsnowlabs.partition" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -199,6 +199,18 @@
       
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="object" href="BasicChunker$.html" title=""></a>
+                        <a href="BasicChunker$.html" title="">BasicChunker</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="Chunk.html" title=""></a>
+                        <a href="Chunk.html" title="">Chunk</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasChunkerProperties.html" title=""></a>
+                        <a href="HasChunkerProperties.html" title="">HasChunkerProperties</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasEmailReaderProperties.html" title=""></a>
                         <a href="HasEmailReaderProperties.html" title="">HasEmailReaderProperties</a>
                       </li><li class="current-entities indented3">
@@ -222,13 +234,25 @@
                         <a class="trait" href="HasTextReaderProperties.html" title=""></a>
                         <a href="HasTextReaderProperties.html" title="">HasTextReaderProperties</a>
                       </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasXmlReaderProperties.html" title=""></a>
+                        <a href="HasXmlReaderProperties.html" title="">HasXmlReaderProperties</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Partition$.html" title=""></a>
                         <a class="class" href="Partition.html" title="The Partition class is a unified interface for extracting structured content from various document types using Spark NLP readers."></a>
                         <a href="Partition.html" title="The Partition class is a unified interface for extracting structured content from various document types using Spark NLP readers.">Partition</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="PartitionChunker.html" title=""></a>
+                        <a href="PartitionChunker.html" title="">PartitionChunker</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="class" href="PartitionTransformer.html" title="The PartitionTransformer annotator allows you to use the Partition feature more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="PartitionTransformer.html" title="The PartitionTransformer annotator allows you to use the Partition feature more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">PartitionTransformer</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="TitleChunker$.html" title=""></a>
+                        <a href="TitleChunker$.html" title="">TitleChunker</a>
                       </li><li name="com.johnsnowlabs.reader" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="reader"></a><a id="reader:reader"></a>
       <span class="permalink">
@@ -340,7 +364,39 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.partition.HasEmailReaderProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.partition.Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ChunkextendsProductwithSerializable"></a><a id="Chunk:Chunk"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/Chunk.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="Chunk.html"><span class="name">Chunk</span></a><span class="params">(<span name="elements">elements: <a href="../../../scala/index.html#List[+A]=List[A]" class="extmbr" name="scala.List">List</a>[<a href="../reader/HTMLElement.html" class="extype" name="com.johnsnowlabs.reader.HTMLElement">HTMLElement</a>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.partition.HasChunkerProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasChunkerPropertiesextendsParamsAndFeaturesWritable"></a><a id="HasChunkerProperties:HasChunkerProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/HasChunkerProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasChunkerProperties.html"><span class="name">HasChunkerProperties</span></a><span class="result"> extends <a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.partition.HasEmailReaderProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasEmailReaderPropertiesextendsParamsAndFeaturesWritable"></a><a id="HasEmailReaderProperties:HasEmailReaderProperties"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/partition/HasEmailReaderProperties.html" title="Permalink">
@@ -436,6 +492,22 @@
       </span>
       
       
+    </li><li name="com.johnsnowlabs.partition.HasXmlReaderProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasXmlReaderPropertiesextendsParamsAndFeaturesWritable"></a><a id="HasXmlReaderProperties:HasXmlReaderProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/HasXmlReaderProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasXmlReaderProperties.html"><span class="name">HasXmlReaderProperties</span></a><span class="result"> extends <a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.partition.Partition" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="PartitionextendsSerializable"></a><a id="Partition:Partition"></a>
       <span class="permalink">
@@ -461,8 +533,24 @@ title thresholds, page breaks, etc.) can be configured through the params map du
 initialization.</p><p>By abstracting reader initialization, type detection, and parsing logic, Partition simplifies
 document ingestion in scalable NLP pipelines.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.partition.PartitionChunker" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PartitionChunkerextendsSerializable"></a><a id="PartitionChunker:PartitionChunker"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/PartitionChunker.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="PartitionChunker.html"><span class="name">PartitionChunker</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.partition.PartitionTransformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PartitionTransformerextendsAnnotatorModel[com.johnsnowlabs.partition.PartitionTransformer]withHasSimpleAnnotate[com.johnsnowlabs.partition.PartitionTransformer]withHasReaderPropertieswithHasEmailReaderPropertieswithHasExcelReaderPropertieswithHasHTMLReaderPropertieswithHasPowerPointPropertieswithHasTextReaderPropertieswithHasPdfProperties"></a><a id="PartitionTransformer:PartitionTransformer"></a>
+      <a id="PartitionTransformerextendsAnnotatorModel[com.johnsnowlabs.partition.PartitionTransformer]withHasSimpleAnnotate[com.johnsnowlabs.partition.PartitionTransformer]withHasReaderPropertieswithHasEmailReaderPropertieswithHasExcelReaderPropertieswithHasHTMLReaderPropertieswithHasPowerPointPropertieswithHasTextReaderPropertieswithHasPdfPropertieswithHasXmlReaderPropertieswithHasChunkerProperties"></a><a id="PartitionTransformer:PartitionTransformer"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/partition/PartitionTransformer.html" title="Permalink">
         <i class="material-icons"></i>
@@ -473,7 +561,7 @@ document ingestion in scalable NLP pipelines.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="The PartitionTransformer annotator allows you to use the Partition feature more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="PartitionTransformer.html"><span class="name">PartitionTransformer</span></a><span class="result"> extends <a href="../nlp/AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PartitionTransformer.html" class="extype" name="com.johnsnowlabs.partition.PartitionTransformer">PartitionTransformer</a>] with <a href="../nlp/HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="PartitionTransformer.html" class="extype" name="com.johnsnowlabs.partition.PartitionTransformer">PartitionTransformer</a>] with <a href="HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a> with <a href="HasEmailReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasEmailReaderProperties">HasEmailReaderProperties</a> with <a href="HasExcelReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasExcelReaderProperties">HasExcelReaderProperties</a> with <a href="HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a> with <a href="HasPowerPointProperties.html" class="extype" name="com.johnsnowlabs.partition.HasPowerPointProperties">HasPowerPointProperties</a> with <a href="HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a> with <a href="../reader/util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></span>
+        <a title="The PartitionTransformer annotator allows you to use the Partition feature more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="PartitionTransformer.html"><span class="name">PartitionTransformer</span></a><span class="result"> extends <a href="../nlp/AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="PartitionTransformer.html" class="extype" name="com.johnsnowlabs.partition.PartitionTransformer">PartitionTransformer</a>] with <a href="../nlp/HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="PartitionTransformer.html" class="extype" name="com.johnsnowlabs.partition.PartitionTransformer">PartitionTransformer</a>] with <a href="HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a> with <a href="HasEmailReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasEmailReaderProperties">HasEmailReaderProperties</a> with <a href="HasExcelReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasExcelReaderProperties">HasExcelReaderProperties</a> with <a href="HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a> with <a href="HasPowerPointProperties.html" class="extype" name="com.johnsnowlabs.partition.HasPowerPointProperties">HasPowerPointProperties</a> with <a href="HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a> with <a href="../reader/util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a> with <a href="HasXmlReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasXmlReaderProperties">HasXmlReaderProperties</a> with <a href="HasChunkerProperties.html" class="extype" name="com.johnsnowlabs.partition.HasChunkerProperties">HasChunkerProperties</a></span>
       </span>
       
       <p class="shortcomment cmt">The PartitionTransformer annotator allows you to use the Partition feature more smoothly
@@ -519,7 +607,23 @@ resultDf.show()
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.partition.Partition" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="com.johnsnowlabs.partition.BasicChunker" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BasicChunker"></a><a id="BasicChunker:BasicChunker"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/BasicChunker$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="BasicChunker$.html"><span class="name">BasicChunker</span></a>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.partition.Partition" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Partition"></a><a id="Partition:Partition"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/partition/Partition$.html" title="Permalink">
@@ -532,6 +636,22 @@ resultDf.show()
       </span>
       <span class="symbol">
         <a title="" href="Partition$.html"><span class="name">Partition</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.partition.TitleChunker" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TitleChunker"></a><a id="TitleChunker:TitleChunker"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/partition/TitleChunker$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="TitleChunker$.html"><span class="name">TitleChunker</span></a>
       </span>
       
       
