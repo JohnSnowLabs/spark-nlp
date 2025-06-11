@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.util &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.util &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -369,6 +369,9 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.util.CoNLLGenerator" title="sparknlp.util.CoNLLGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoNLLGenerator</span></code></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.util.EmbeddingsDataFrameUtils" title="sparknlp.util.EmbeddingsDataFrameUtils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmbeddingsDataFrameUtils</span></code></a></p></td>
+<td><p>Utility for creating DataFrames compatible with multimodal embedding models (e.g., E5VEmbeddings) for text-only scenarios.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -392,6 +395,29 @@ document.write(`
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.util.CoNLLGenerator.exportConllFiles">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exportConllFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/util.html#CoNLLGenerator.exportConllFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.util.CoNLLGenerator.exportConllFiles" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.util.EmbeddingsDataFrameUtils">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EmbeddingsDataFrameUtils</span></span><a class="reference internal" href="../../../../modules/sparknlp/util.html#EmbeddingsDataFrameUtils"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.util.EmbeddingsDataFrameUtils" title="Permalink to this definition">#</a></dt>
+<dd><p>Utility for creating DataFrames compatible with multimodal embedding models (e.g., E5VEmbeddings) for text-only scenarios.
+Provides:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>imageSchema: the expected schema for Spark image DataFrames</p></li>
+<li><p>emptyImageRow: a dummy image row for text-only embedding</p></li>
+</ul>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.util.EmbeddingsDataFrameUtils.imageSchema">
+<span class="sig-name descname"><span class="pre">imageSchema</span></span><a class="reference internal" href="../../../../modules/sparknlp/util.html#EmbeddingsDataFrameUtils.imageSchema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.util.EmbeddingsDataFrameUtils.imageSchema" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.util.EmbeddingsDataFrameUtils.emptyImageRow">
+<span class="sig-name descname"><span class="pre">emptyImageRow</span></span><a class="reference internal" href="../../../../modules/sparknlp/util.html#EmbeddingsDataFrameUtils.emptyImageRow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.util.EmbeddingsDataFrameUtils.emptyImageRow" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -432,6 +458,11 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.get_config_path"><code class="docutils literal notranslate"><span class="pre">get_config_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.CoNLLGenerator"><code class="docutils literal notranslate"><span class="pre">CoNLLGenerator</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.CoNLLGenerator.exportConllFiles"><code class="docutils literal notranslate"><span class="pre">CoNLLGenerator.exportConllFiles()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.EmbeddingsDataFrameUtils"><code class="docutils literal notranslate"><span class="pre">EmbeddingsDataFrameUtils</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.EmbeddingsDataFrameUtils.imageSchema"><code class="docutils literal notranslate"><span class="pre">EmbeddingsDataFrameUtils.imageSchema</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.util.EmbeddingsDataFrameUtils.emptyImageRow"><code class="docutils literal notranslate"><span class="pre">EmbeddingsDataFrameUtils.emptyImageRow</span></code></a></li>
 </ul>
 </li>
 </ul>

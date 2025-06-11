@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition.partition_transformer module &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.partition.partition_transformer module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -415,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -685,7 +686,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PartitionTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.partition.PartitionTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties" title="sparknlp.partition.partition_properties.HasChunkerProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a></p>
 <p>The PartitionTransformer annotator allows you to use the Partition feature more smoothly
 within existing Spark NLP workflows, enabling seamless reuse of your pipelines.</p>
 <p>It supports reading from files, URLs, in-memory strings, or byte arrays, and works

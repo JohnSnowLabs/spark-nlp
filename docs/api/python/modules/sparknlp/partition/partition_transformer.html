@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.partition.partition_transformer &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.partition.partition_transformer &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -376,13 +376,15 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.partition.partition_properties</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
+
 <div class="viewcode-block" id="PartitionTransformer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_transformer/index.html#sparknlp.partition.partition_transformer.PartitionTransformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PartitionTransformer</span><span class="p">(</span>
     <span class="n">AnnotatorModel</span><span class="p">,</span>
     <span class="n">HasEmailReaderProperties</span><span class="p">,</span>
     <span class="n">HasExcelReaderProperties</span><span class="p">,</span>
     <span class="n">HasHTMLReaderProperties</span><span class="p">,</span>
     <span class="n">HasPowerPointProperties</span><span class="p">,</span>
-    <span class="n">HasTextReaderProperties</span>
+    <span class="n">HasTextReaderProperties</span><span class="p">,</span>
+    <span class="n">HasChunkerProperties</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The PartitionTransformer annotator allows you to use the Partition feature more smoothly</span>
@@ -523,10 +525,6 @@ document.write(`
 <div class="viewcode-block" id="PartitionTransformer.getIncludePageBreaks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_transformer/index.html#sparknlp.partition.partition_transformer.PartitionTransformer.getIncludePageBreaks">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getIncludePageBreaks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">includePageBreaks</span><span class="p">)</span></div>
 
-    <span class="c1"># def setHeaders(self, headers: Dict[str, str]):</span>
-    <span class="c1">#     self._call_java(&quot;setHeadersPython&quot;, headers)</span>
-    <span class="c1">#     return self</span>
-
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.partition.PartitionTransformer&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -553,7 +551,13 @@ document.write(`
             <span class="n">paragraphSplit</span><span class="o">=</span><span class="n">DOUBLE_PARAGRAPH_PATTERN</span><span class="p">,</span>
             <span class="n">shortLineWordThreshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
             <span class="n">maxLineCount</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
-            <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">chunkingStrategy</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">maxCharacters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">newAfterNChars</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">combineTextUnderNChars</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">overlapAll</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span></div>
 </pre></div>
 

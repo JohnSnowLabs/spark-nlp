@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -683,6 +683,51 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">txt</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparkNLPReader.xml"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.xml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads XML files and returns a Spark DataFrame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        docPath : str</span>
+<span class="sd">            Path to an XML file or a directory containing XML files.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            A DataFrame containing parsed XML content.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
+<span class="sd">        &gt;&gt;&gt; xml_df = SparkNLPReader(spark).xml(&quot;home/user/xml-directory&quot;)</span>
+
+<span class="sd">        You can use SparkNLP for one line of code</span>
+
+<span class="sd">        &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">        &gt;&gt;&gt; xml_df = sparknlp.read().xml(&quot;home/user/xml-directory&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; xml_df.show(truncate=False)</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |xml                                                       |</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |[{Title, John Smith, {elementId -&gt; ..., tag -&gt; title}}]   |</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+
+<span class="sd">        &gt;&gt;&gt; xml_df.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- path: string (nullable = true)</span>
+<span class="sd">         |-- xml: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">xml</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div></div>
 </pre></div>
 

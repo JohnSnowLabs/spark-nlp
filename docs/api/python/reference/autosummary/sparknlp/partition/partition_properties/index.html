@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.0.2 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=a36f5912"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.2 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -393,6 +393,9 @@ document.write(`
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p></td>
+<td><p>Components that take parameters. This also provides an internal</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasChunkerProperties" title="sparknlp.partition.partition_properties.HasChunkerProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
 </tbody>
@@ -707,6 +710,76 @@ param map to store parameter values attached to the instance.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasChunkerProperties</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties" title="Permalink to this definition">#</a></dt>
+<dd><p>Components that take parameters. This also provides an internal
+param map to store parameter values attached to the instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.chunkingStrategy">
+<span class="sig-name descname"><span class="pre">chunkingStrategy</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.chunkingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.chunkingStrategy" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.maxCharacters">
+<span class="sig-name descname"><span class="pre">maxCharacters</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.maxCharacters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.maxCharacters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.newAfterNChars">
+<span class="sig-name descname"><span class="pre">newAfterNChars</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.newAfterNChars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.newAfterNChars" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.overlap">
+<span class="sig-name descname"><span class="pre">overlap</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.overlap" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.combineTextUnderNChars">
+<span class="sig-name descname"><span class="pre">combineTextUnderNChars</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.combineTextUnderNChars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.combineTextUnderNChars" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.overlapAll">
+<span class="sig-name descname"><span class="pre">overlapAll</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.overlapAll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.overlapAll" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setChunkingStrategy">
+<span class="sig-name descname"><span class="pre">setChunkingStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setChunkingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setChunkingStrategy" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setMaxCharacters">
+<span class="sig-name descname"><span class="pre">setMaxCharacters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setMaxCharacters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setMaxCharacters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setNewAfterNChars">
+<span class="sig-name descname"><span class="pre">setNewAfterNChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setNewAfterNChars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setNewAfterNChars" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setOverlap">
+<span class="sig-name descname"><span class="pre">setOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlap" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setCombineTextUnderNChars">
+<span class="sig-name descname"><span class="pre">setCombineTextUnderNChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setCombineTextUnderNChars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setCombineTextUnderNChars" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll">
+<span class="sig-name descname"><span class="pre">setOverlapAll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasChunkerProperties.setOverlapAll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -786,6 +859,21 @@ param map to store parameter values attached to the instance.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getMaxLineCount"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getMaxLineCount()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setThreshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.setThreshold()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getThreshold()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.chunkingStrategy"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.chunkingStrategy</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.maxCharacters"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.maxCharacters</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.newAfterNChars"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.newAfterNChars</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.overlap"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.overlap</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.combineTextUnderNChars"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.combineTextUnderNChars</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.overlapAll"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.overlapAll</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setChunkingStrategy"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setChunkingStrategy()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setMaxCharacters"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setMaxCharacters()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setNewAfterNChars"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setNewAfterNChars()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlap"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setOverlap()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setCombineTextUnderNChars"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setCombineTextUnderNChars()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setOverlapAll()</span></code></a></li>
 </ul>
 </li>
 </ul>
