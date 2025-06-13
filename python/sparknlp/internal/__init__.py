@@ -1173,3 +1173,12 @@ class _E5VEmbeddingsLoader(ExtendedJavaWrapper):
             jspark,
             use_openvino
         )
+
+class _Phi4Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_Phi4Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
