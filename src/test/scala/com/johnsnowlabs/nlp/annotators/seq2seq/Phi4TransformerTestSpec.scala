@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class Phi4TransformerTestSpec extends AnyFlatSpec {
 
-  "phi4" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "phi4" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(

@@ -45,44 +45,40 @@ import com.johnsnowlabs.nlp.serialization.{MapFeature, StructFeature}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/**
-  * Phi-4: State-of-the-art open model by Microsoft Research
+/** Phi-4: State-of-the-art open model by Microsoft Research
   *
-  * phi-4 is a 14B parameter, dense decoder-only Transformer model trained on 9.8T tokens, designed for advanced reasoning, code, and general NLP tasks. For more details, see:
+  * phi-4 is a 14B parameter, dense decoder-only Transformer model trained on 9.8T tokens,
+  * designed for advanced reasoning, code, and general NLP tasks. For more details, see:
   * https://huggingface.co/microsoft/phi-4
   *
-  * == Model Overview ==
-  * - 14B parameters, dense decoder-only Transformer
-  * - 16K context length
-  * - Trained on 9.8T tokens (synthetic, public domain, academic, Q&A, code)
-  * - Focus on high-quality, advanced reasoning, math, code, and general NLP
-  * - Multilingual data: ~8% (primarily English)
-  * - Released under MIT License
+  * ==Model Overview==
+  *   - 14B parameters, dense decoder-only Transformer
+  *   - 16K context length
+  *   - Trained on 9.8T tokens (synthetic, public domain, academic, Q&A, code)
+  *   - Focus on high-quality, advanced reasoning, math, code, and general NLP
+  *   - Multilingual data: ~8% (primarily English)
+  *   - Released under MIT License
   *
-  * == Intended Use ==
-  * - General-purpose AI, research, and generative features
-  * - Memory/compute constrained and latency-bound environments
-  * - Reasoning, logic, and code generation
+  * ==Intended Use==
+  *   - General-purpose AI, research, and generative features
+  *   - Memory/compute constrained and latency-bound environments
+  *   - Reasoning, logic, and code generation
   *
-  * == Benchmarks ==
-  * - MMLU: 84.8 | HumanEval: 82.6 | GPQA: 56.1 | DROP: 75.5 | MATH: 80.6
-  * - Outperforms or matches other 14B/70B models on many tasks
+  * ==Benchmarks==
+  *   - MMLU: 84.8 | HumanEval: 82.6 | GPQA: 56.1 | DROP: 75.5 | MATH: 80.6
+  *   - Outperforms or matches other 14B/70B models on many tasks
   *
-  * == Safety & Limitations ==
-  * - Safety alignment via SFT and DPO, red-teamed by Microsoft AIRT
-  * - Not intended for high-risk or consequential domains without further assessment
-  * - Primarily English; other languages may have reduced performance
-  * - May generate inaccurate, offensive, or biased content; use with care
+  * ==Safety & Limitations==
+  *   - Safety alignment via SFT and DPO, red-teamed by Microsoft AIRT
+  *   - Not intended for high-risk or consequential domains without further assessment
+  *   - Primarily English; other languages may have reduced performance
+  *   - May generate inaccurate, offensive, or biased content; use with care
   *
-  * == Usage ==
-  * Pretrained models can be loaded with `pretrained` of the companion object:
-  * {{ {
-  * val phi4 = Phi4Transformer.pretrained()
-  *   .setInputCols("document")
-  *   .setOutputCol("generation")
-  * }}}
-  * The default model is `"phi-4"`, if no name is provided. For available pretrained models please
-  * see the [[https://huggingface.co/microsoft/phi-4 Models Hub]].
+  * ==Usage==
+  * Pretrained models can be loaded with `pretrained` of the companion object: {{ { val phi4 =
+  * Phi4Transformer.pretrained() .setInputCols("document") .setOutputCol("generation") }}} The
+  * default model is `"phi-4"`, if no name is provided. For available pretrained models please see
+  * the [[https://huggingface.co/microsoft/phi-4 Models Hub]].
   *
   * '''Note:''' This is a resource-intensive module, especially with larger models and sequences.
   * Use of accelerators such as GPUs is strongly recommended.
@@ -91,31 +87,24 @@ import org.json4s.jackson.JsonMethods._
   *   - https://huggingface.co/microsoft/phi-4
   *   - arXiv:2412.08905
   *
-  * == Example ==
-  * {{ {
-  * import spark.implicits._
-  * import com.johnsnowlabs.nlp.base._
-  * import com.johnsnowlabs.nlp.annotator._
-  * import org.apache.spark.ml.Pipeline
+  * ==Example==
+  * {{ { import spark.implicits._ import com.johnsnowlabs.nlp.base._ import
+  * com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline
   *
-  * val documentAssembler = new DocumentAssembler()
-  *   .setInputCol("text")
-  *   .setOutputCol("documents")
+  * val documentAssembler = new DocumentAssembler() .setInputCol("text")
+  * .setOutputCol("documents")
   *
-  * val phi4 = Phi4Transformer.pretrained("phi-4")
-  *   .setInputCols(Array("documents"))
-  *   .setMaxOutputLength(60)
-  *   .setOutputCol("generation")
+  * val phi4 = Phi4Transformer.pretrained("phi-4") .setInputCols(Array("documents"))
+  * .setMaxOutputLength(60) .setOutputCol("generation")
   *
   * val pipeline = new Pipeline().setStages(Array(documentAssembler, phi4))
   *
-  * val data = Seq(
-  *   (1, "<|im_start|>system<|im_sep|>\nYou are a helpful assistant!\n<|im_start|>user<|im_sep|>\nWhat is Phi-4?\n<|im_start|>assistant<|im_sep|>\n")
+  * val data = Seq( (1, "<|im_start|>system<|im_sep|>\nYou are a helpful
+  * assistant!\n<|im_start|>user<|im_sep|>\nWhat is Phi-4?\n<|im_start|>assistant<|im_sep|>\n")
   * ).toDF("id", "text")
   *
   * val result = pipeline.fit(data).transform(data)
-  * result.select("generation.result").show(truncate = false)
-  * }}}
+  * result.select("generation.result").show(truncate = false) }}}
   */
 class Phi4Transformer(override val uid: String)
     extends AnnotatorModel[Phi4Transformer]
