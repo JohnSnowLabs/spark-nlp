@@ -473,6 +473,13 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
+      case "phi4" =>
+        new Phi4Tokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
