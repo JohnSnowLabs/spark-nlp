@@ -91,10 +91,21 @@ class DataFrameOptimizer(override val uid: String)
   def setPersistFormat(value: String): this.type = set(persistFormat, value)
   def setOutputOptions(options: Map[String, String]): this.type = set(outputOptions, options)
 
+  setDefault(
+    executorCores -> 1,
+    numWorkers -> 1,
+    numPartitions -> 1,
+    doCache -> false,
+    persistFormat -> "none",
+    outputOptions -> Map.empty[String, String]
+  )
+
   override def transformSchema(schema: StructType): StructType = schema
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    val partCount = if (isDefined(numPartitions)) {
+    validateParams()
+
+    val partCount = if (isDefined(numPartitions) && $(numPartitions) > 1) {
       $(numPartitions)
     } else if (isDefined(executorCores) && isDefined(numWorkers)) {
       $(executorCores) * $(numWorkers)
@@ -124,6 +135,20 @@ class DataFrameOptimizer(override val uid: String)
     }
 
     optimizedDf
+  }
+
+  private def validateParams(): Unit = {
+    if (isDefined(executorCores) && $(executorCores) <= 0)
+      throw new IllegalArgumentException("executorCores must be > 0")
+
+    if (isDefined(numWorkers) && $(numWorkers) <= 0)
+      throw new IllegalArgumentException("numWorkers must be > 0")
+
+    if (isDefined(numPartitions) && $(numPartitions) <= 0)
+      throw new IllegalArgumentException("numPartitions must be > 0")
+
+    if (isDefined(persistPath) && !isDefined(persistFormat))
+      throw new IllegalArgumentException("persistFormat must be defined when persistPath is set")
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)

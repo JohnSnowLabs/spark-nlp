@@ -163,6 +163,7 @@ class DataFrameOptimizer(Transformer):
         return self
 
     def _transform(self, dataset: DataFrame) -> DataFrame:
+        self._validate_params()
         part_count = self.getOrDefault(self.numPartitions)
         cores = self.getOrDefault(self.executorCores)
         workers = self.getOrDefault(self.numWorkers)
@@ -194,3 +195,22 @@ class DataFrameOptimizer(Transformer):
                 raise ValueError(f"Unsupported format: {format}")
 
         return optimized_df
+
+    def _validate_params(self):
+        if self.isDefined(self.executorCores):
+            val = self.getOrDefault(self.executorCores)
+            if val <= 0:
+                raise ValueError("executorCores must be > 0")
+
+        if self.isDefined(self.numWorkers):
+            val = self.getOrDefault(self.numWorkers)
+            if val <= 0:
+                raise ValueError("numWorkers must be > 0")
+
+        if self.isDefined(self.numPartitions):
+            val = self.getOrDefault(self.numPartitions)
+            if val <= 0:
+                raise ValueError("numPartitions must be > 0")
+
+        if self.isDefined(self.persistPath) and not self.isDefined(self.persistFormat):
+            raise ValueError("persistFormat must be defined when persistPath is set")

@@ -70,7 +70,6 @@ class DataframeOptimizerPipelineTestSpec(unittest.TestCase):
             .setOutputCol("sentences")
 
         pipeline = Pipeline(stages=[
-
             data_frame_optimizer,
             document_assembler,
             sentence_detector
