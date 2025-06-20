@@ -64,7 +64,7 @@ class MiniLMEmbeddings(AnnotatorModel,
     ----------
     `MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers <https://arxiv.org/abs/2002.10957>`__
 
-    https://github.com/microsoft/MiniLM
+    `MiniLM Github Repository <https://github.com/microsoft/unilm/tree/master/minilm>`__
 
     **Paper abstract**
 
