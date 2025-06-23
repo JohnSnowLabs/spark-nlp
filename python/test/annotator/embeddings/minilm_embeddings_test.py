@@ -27,7 +27,7 @@ class MiniLMEmbeddingsTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.tested_annotator = MiniLMEmbeddings \
-            .loadSavedModel("file:///mnt/research/Projects/ModelZoo/MiniLM/models/int4/sentence-transformers/all-MiniLM-L6-v2",self.spark) \
+            .pretrained() \
             .setInputCols(["documents"]) \
             .setOutputCol("minilm")
 
