@@ -1,4 +1,15 @@
 =======
+6.0.4
+=======
+----------------
+New Features & Enhancements
+----------------
+* Introducing MiniLMEmbeddings (SPARKNLP-282)
+* Introducing DataFrameOptimizer (SPARKNLP-1086)
+* Added PDF Reader features (SPARKNLP-1161)
+
+
+=======
 6.0.3
 =======
 ----------------
