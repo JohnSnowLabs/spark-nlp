@@ -21,46 +21,46 @@ import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-
-/**
- * Optimizes a [[org.apache.spark.sql.DataFrame]] by adjusting the number of partitions, optionally caching it,
- * and optionally persisting it to disk.
- *
- * This transformer is useful when fine-tuning performance in a Spark NLP pipeline or preparing data
- * for export or downstream tasks. It provides options to control the number of partitions directly,
- * or to calculate them using the number of executor cores and workers. Additionally, it can persist
- * the DataFrame in CSV, JSON, or Parquet format with configurable writer options.
- *
- * == Parameters ==
- * - `executorCores` (Int): Number of cores per executor, used to calculate partitions.
- * - `numWorkers` (Int): Total number of executor nodes.
- * - `numPartitions` (Int): Target number of partitions. Overrides the computed value from cores × workers.
- * - `doCache` (Boolean): Whether to cache the transformed DataFrame.
- * - `persistPath` (String): Optional path to write the output DataFrame.
- * - `persistFormat` (String): File format for persistence. Supported: `csv`, `json`, `parquet`.
- * - `outputOptions` (Map[String, String]): Extra options passed to the DataFrameWriter.
- *
- * == Example ==
- * {{{
- * val optimizer = new DataFrameOptimizer()
- *   .setExecutorCores(4)
- *   .setNumWorkers(5)
- *   .setDoCache(true)
- *   .setPersistPath("/tmp/output")
- *   .setPersistFormat("parquet")
- *   .setOutputOptions(Map("compression" -> "snappy"))
- *
- * val optimizedDF = optimizer.transform(inputDF)
- * }}}
- *
- * This transformer does not modify the schema of the DataFrame.
- *
- * @groupname param Param Definitions
- * @groupname getParam Get Param values
- * @groupname setParam Set Param values
- * @groupname transform Transformation functions
- * @groupname Ungrouped Members
- */
+/** Optimizes a [[org.apache.spark.sql.DataFrame]] by adjusting the number of partitions,
+  * optionally caching it, and optionally persisting it to disk.
+  *
+  * This transformer is useful when fine-tuning performance in a Spark NLP pipeline or preparing
+  * data for export or downstream tasks. It provides options to control the number of partitions
+  * directly, or to calculate them using the number of executor cores and workers. Additionally,
+  * it can persist the DataFrame in CSV, JSON, or Parquet format with configurable writer options.
+  *
+  * ==Parameters==
+  *   - `executorCores` (Int): Number of cores per executor, used to calculate partitions.
+  *   - `numWorkers` (Int): Total number of executor nodes.
+  *   - `numPartitions` (Int): Target number of partitions. Overrides the computed value from
+  *     cores × workers.
+  *   - `doCache` (Boolean): Whether to cache the transformed DataFrame.
+  *   - `persistPath` (String): Optional path to write the output DataFrame.
+  *   - `persistFormat` (String): File format for persistence. Supported: `csv`, `json`,
+  *     `parquet`.
+  *   - `outputOptions` (Map[String, String]): Extra options passed to the DataFrameWriter.
+  *
+  * ==Example==
+  * {{{
+  * val optimizer = new DataFrameOptimizer()
+  *   .setExecutorCores(4)
+  *   .setNumWorkers(5)
+  *   .setDoCache(true)
+  *   .setPersistPath("/tmp/output")
+  *   .setPersistFormat("parquet")
+  *   .setOutputOptions(Map("compression" -> "snappy"))
+  *
+  * val optimizedDF = optimizer.transform(inputDF)
+  * }}}
+  *
+  * This transformer does not modify the schema of the DataFrame.
+  *
+  * @groupname param Param Definitions
+  * @groupname getParam Get Param values
+  * @groupname setParam Set Param values
+  * @groupname transform Transformation functions
+  * @groupname Ungrouped Members
+  */
 
 class DataFrameOptimizer(override val uid: String)
     extends Transformer
@@ -97,8 +97,7 @@ class DataFrameOptimizer(override val uid: String)
     numPartitions -> 1,
     doCache -> false,
     persistFormat -> "none",
-    outputOptions -> Map.empty[String, String]
-  )
+    outputOptions -> Map.empty[String, String])
 
   override def transformSchema(schema: StructType): StructType = schema
 
