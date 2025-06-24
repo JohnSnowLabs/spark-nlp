@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.3 documentation</title>
+    <title>sparknlp.reader.pdf_to_text &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -359,7 +359,20 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for sparknlp.reader.pdf_to_text</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">keyword_only</span>
+<span></span><span class="c1">#  Copyright 2017-2025 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">keyword_only</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param.shared</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasInputCol</span><span class="p">,</span> <span class="n">HasOutputCol</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaMLReadable</span><span class="p">,</span> <span class="n">JavaMLWritable</span>
@@ -450,6 +463,14 @@ document.write(`
                         <span class="s2">&quot;Force to extract only number of pages&quot;</span><span class="p">,</span>
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="PdfToText.extractCoordinates"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.extractCoordinates">[docs]</a>    <span class="n">extractCoordinates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;extractCoordinates&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Force extract coordinates of text.&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PdfToText.normalizeLigatures"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.normalizeLigatures">[docs]</a>    <span class="n">normalizeLigatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;normalizeLigatures&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;Whether to convert ligature chars such as &#39;ﬂ&#39; into its corresponding chars (e.g., {&#39;f&#39;, &#39;l&#39;}).&quot;</span><span class="p">,</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -515,7 +536,19 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the value of :py:attr:`sort`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PdfToText.setExtractCoordinates"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setExtractCoordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of :py:attr:`extractCoordinates`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extractCoordinates</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PdfToText.setNormalizeLigatures"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/pdf_to_text/index.html#sparknlp.reader.pdf_to_text.PdfToText.setNormalizeLigatures">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNormalizeLigatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of :py:attr:`normalizeLigatures`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">normalizeLigatures</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
