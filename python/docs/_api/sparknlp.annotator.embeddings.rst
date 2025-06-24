@@ -22,6 +22,7 @@ Submodules
    sparknlp.annotator.embeddings.elmo_embeddings
    sparknlp.annotator.embeddings.instructor_embeddings
    sparknlp.annotator.embeddings.longformer_embeddings
+   sparknlp.annotator.embeddings.minilm_embeddings
    sparknlp.annotator.embeddings.mpnet_embeddings
    sparknlp.annotator.embeddings.mxbai_embeddings
    sparknlp.annotator.embeddings.nomic_embeddings

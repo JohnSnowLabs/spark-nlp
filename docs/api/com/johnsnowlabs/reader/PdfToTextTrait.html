@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.3 ScalaDoc  - com.johnsnowlabs.reader.PdfToTextTrait</title>
-          <meta name="description" content="Spark NLP 6.0.3 ScalaDoc - com.johnsnowlabs.reader.PdfToTextTrait" />
-          <meta name="keywords" content="Spark NLP 6.0.3 ScalaDoc com.johnsnowlabs.reader.PdfToTextTrait" />
+          <title>Spark NLP 6.0.4 ScalaDoc  - com.johnsnowlabs.reader.PdfToTextTrait</title>
+          <meta name="description" content="Spark NLP 6.0.4 ScalaDoc - com.johnsnowlabs.reader.PdfToTextTrait" />
+          <meta name="keywords" content="Spark NLP 6.0.4 ScalaDoc com.johnsnowlabs.reader.PdfToTextTrait" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -268,7 +268,42 @@
         <div id="allMembers">
         
 
-        
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.johnsnowlabs.reader.util.pdf.PdfUtils.ChainException" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ChainExceptionextendsAnyRef"></a><a id="ChainException:ChainException"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/util/pdf/PdfUtils$ChainException.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="util/pdf/PdfUtils$ChainException.html"><span class="name">ChainException</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/pdf/PdfUtils.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">PdfUtils</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.util.pdf.PdfUtils.exceptionUtils" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="exceptionUtilsextendsAnyRef"></a><a id="exceptionUtils:exceptionUtils"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/util/pdf/PdfUtils$exceptionUtils.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="util/pdf/PdfUtils$exceptionUtils.html"><span class="name">exceptionUtils</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/pdf/PdfUtils.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.PdfUtils">PdfUtils</a></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -798,9 +833,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.PdfToTextTrait#pdfToText" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="pdfToText(content:Array[Byte],onlyPageNum:Boolean,splitPage:Boolean,storeSplittedPdf:Boolean,sort:Boolean,textStripper:String):Seq[(String,Int,Int,Array[Byte],String,Int)]"></a><a id="pdfToText(Array[Byte],Boolean,Boolean,Boolean,Boolean,String):Seq[(String,Int,Int,Array[Byte],String,Int)]"></a>
+      <a id="pdfToText(content:Array[Byte],onlyPageNum:Boolean,splitPage:Boolean,storeSplittedPdf:Boolean,sort:Boolean,textStripper:String,extractCoordinates:Boolean,normalizeLigatures:Boolean):Seq[(String,Seq[com.johnsnowlabs.reader.util.pdf.schema.PageMatrix],Int,Int,Array[Byte],String,Int)]"></a><a id="pdfToText(Array[Byte],Boolean,Boolean,Boolean,Boolean,String,Boolean,Boolean):Seq[(String,Seq[PageMatrix],Int,Int,Array[Byte],String,Int)]"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/PdfToTextTrait.html#pdfToText(content:Array[Byte],onlyPageNum:Boolean,splitPage:Boolean,storeSplittedPdf:Boolean,sort:Boolean,textStripper:String):Seq[(String,Int,Int,Array[Byte],String,Int)]" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/PdfToTextTrait.html#pdfToText(content:Array[Byte],onlyPageNum:Boolean,splitPage:Boolean,storeSplittedPdf:Boolean,sort:Boolean,textStripper:String,extractCoordinates:Boolean,normalizeLigatures:Boolean):Seq[(String,Seq[com.johnsnowlabs.reader.util.pdf.schema.PageMatrix],Int,Int,Array[Byte],String,Int)]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -809,7 +844,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">pdfToText</span><span class="params">(<span name="content">content: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>, <span name="onlyPageNum">onlyPageNum: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="splitPage">splitPage: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="storeSplittedPdf">storeSplittedPdf: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="sort">sort: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="textStripper">textStripper: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>], <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
+        <span class="name">pdfToText</span><span class="params">(<span name="content">content: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>, <span name="onlyPageNum">onlyPageNum: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="splitPage">splitPage: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="storeSplittedPdf">storeSplittedPdf: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="sort">sort: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="textStripper">textStripper: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="extractCoordinates">extractCoordinates: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="normalizeLigatures">normalizeLigatures: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[(<span class="extype" name="scala.Predef.String">String</span>, <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="util/pdf/schema/PageMatrix.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.schema.PageMatrix">PageMatrix</a>], <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>], <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
       </span>
       
       
