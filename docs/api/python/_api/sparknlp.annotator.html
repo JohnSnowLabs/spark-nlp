@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator package &#8212; Spark NLP 6.0.3 documentation</title>
+    <title>sparknlp.annotator package &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -419,6 +419,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mxbai_embeddings.html">sparknlp.annotator.embeddings.mxbai_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.nomic_embeddings.html">sparknlp.annotator.embeddings.nomic_embeddings module</a></li>
@@ -532,6 +533,7 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunk2_doc.html">sparknlp.annotator.chunk2_doc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunker.html">sparknlp.annotator.chunker module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html">sparknlp.annotator.dataframe_optimizer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a></li>
@@ -1076,6 +1078,10 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html#sparknlp.annotator.embeddings.longformer_embeddings.LongformerEmbeddings"><code class="docutils literal notranslate"><span class="pre">LongformerEmbeddings</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html#sparknlp.annotator.embeddings.minilm_embeddings.MiniLMEmbeddings"><code class="docutils literal notranslate"><span class="pre">MiniLMEmbeddings</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html#sparknlp.annotator.embeddings.mpnet_embeddings.MPNetEmbeddings"><code class="docutils literal notranslate"><span class="pre">MPNetEmbeddings</span></code></a></li>
 </ul>
@@ -1491,6 +1497,28 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.chunker.html#sparknlp.annotator.chunker.Chunker.setRegexParsers"><code class="docutils literal notranslate"><span class="pre">Chunker.setRegexParsers()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html">sparknlp.annotator.dataframe_optimizer module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.doCache"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.doCache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.executorCores"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.executorCores</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.numPartitions"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.numPartitions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.numWorkers"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.numWorkers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.outputOptions"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.outputOptions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.persistFormat"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.persistFormat</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.persistPath"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.persistPath</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setDoCache"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setDoCache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setExecutorCores"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setExecutorCores()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setNumPartitions"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setNumPartitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setNumWorkers"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setNumWorkers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setOutputOptions"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setOutputOptions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setParams"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setParams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setPersistFormat"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setPersistFormat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.DataFrameOptimizer.setPersistPath"><code class="docutils literal notranslate"><span class="pre">DataFrameOptimizer.setPersistPath()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html#sparknlp.annotator.dataframe_optimizer.toStringDict"><code class="docutils literal notranslate"><span class="pre">toStringDict()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a><ul>

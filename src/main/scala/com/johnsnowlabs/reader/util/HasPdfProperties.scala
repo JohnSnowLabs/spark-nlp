@@ -37,6 +37,12 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
     "textStripper",
     "Text stripper type used for output layout and formatting")
   final val sort = new BooleanParam(this, "sort", "Enable/disable sorting content on the page.")
+  final val extractCoordinates =
+    new BooleanParam(this, "extractCoordinates", "Force extract coordinates of text.")
+  final val normalizeLigatures = new BooleanParam(
+    this,
+    "normalizeLigatures",
+    "Whether to convert ligature chars such as 'ﬂ' into its corresponding chars (e.g., {'f', 'l'}).")
 
   /** @group setParam */
   def setPageNumCol(value: String): this.type = set(pageNumCol, value)
@@ -62,6 +68,12 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
   /** @group setParam */
   def setSort(value: Boolean): this.type = set(sort, value)
 
+  /** @group setParam */
+  def setExtractCoordinates(value: Boolean): this.type = set(extractCoordinates, value)
+
+  /** @group setParam */
+  def setNormalizeLigatures(value: Boolean): this.type = set(normalizeLigatures, value)
+
   setDefault(
     pageNumCol -> "pagenum",
     originCol -> "path",
@@ -70,6 +82,8 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
     onlyPageNum -> false,
     splitPage -> true,
     sort -> false,
-    textStripper -> TextStripperType.PDF_TEXT_STRIPPER)
+    textStripper -> TextStripperType.PDF_TEXT_STRIPPER,
+    extractCoordinates -> false,
+    normalizeLigatures -> true)
 
 }

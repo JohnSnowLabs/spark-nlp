@@ -257,6 +257,16 @@ class _E5Loader(ExtendedJavaWrapper):
         )
 
 
+class _MiniLMLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, use_openvino=False):
+        super(_MiniLMLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.MiniLMEmbeddings.loadSavedModel",
+            path,
+            jspark,
+            use_openvino,
+        )
+
+
 class _BGELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BGELoader, self).__init__(

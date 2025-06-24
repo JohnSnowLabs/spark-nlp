@@ -38,6 +38,7 @@ Submodules
 
    sparknlp.annotator.chunk2_doc
    sparknlp.annotator.chunker
+   sparknlp.annotator.dataframe_optimizer
    sparknlp.annotator.date2_chunk
    sparknlp.annotator.document_character_text_splitter
    sparknlp.annotator.document_normalizer

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 6.0.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 6.0.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 6.0.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 6.0.4 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 6.0.4 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -517,6 +517,10 @@
                         <a class="object" href="Chunker$.html" title="This is the companion object of Chunker."></a>
                         <a class="class" href="Chunker.html" title="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document."></a>
                         <a href="Chunker.html" title="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.">Chunker</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="DataFrameOptimizer.html" title="Optimizes a org.apache.spark.sql.DataFrame by adjusting the number of partitions, optionally caching it, and optionally persisting it to disk."></a>
+                        <a href="DataFrameOptimizer.html" title="Optimizes a org.apache.spark.sql.DataFrame by adjusting the number of partitions, optionally caching it, and optionally persisting it to disk.">DataFrameOptimizer</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Date2Chunk$.html" title="This is the companion object of Date2Chunk."></a>
                         <a class="class" href="Date2Chunk.html" title="Converts DATE type Annotations to CHUNK type."></a>
@@ -1042,6 +1046,38 @@ result.selectExpr(<span class="lit">"explode(chunk) as result"</span>).show(<spa
 +-------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="pos/perceptron/PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a> for
   Part-Of-Speech tagging</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DataFrameOptimizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DataFrameOptimizerextendsTransformerwithDefaultParamsWritable"></a><a id="DataFrameOptimizer:DataFrameOptimizer"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DataFrameOptimizer.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Optimizes a org.apache.spark.sql.DataFrame by adjusting the number of partitions, optionally caching it, and optionally persisting it to disk." href="DataFrameOptimizer.html"><span class="name">DataFrameOptimizer</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Optimizes a <span class="extype" name="org.apache.spark.sql.DataFrame">org.apache.spark.sql.DataFrame</span> by adjusting the number of partitions,
+optionally caching it, and optionally persisting it to disk.</p><div class="fullcomment"><div class="comment cmt"><p>Optimizes a <span class="extype" name="org.apache.spark.sql.DataFrame">org.apache.spark.sql.DataFrame</span> by adjusting the number of partitions,
+optionally caching it, and optionally persisting it to disk.</p><p>This transformer is useful when fine-tuning performance in a Spark NLP pipeline or preparing
+data for export or downstream tasks. It provides options to control the number of partitions
+directly, or to calculate them using the number of executor cores and workers. Additionally,
+it can persist the DataFrame in CSV, JSON, or Parquet format with configurable writer options.</p><h4>Parameters</h4><ul><li><code>executorCores</code> (Int): Number of cores per executor, used to calculate partitions.</li><li><code>numWorkers</code> (Int): Total number of executor nodes.</li><li><code>numPartitions</code> (Int): Target number of partitions. Overrides the computed value from
+    cores × workers.</li><li><code>doCache</code> (Boolean): Whether to cache the transformed DataFrame.</li><li><code>persistPath</code> (String): Optional path to write the output DataFrame.</li><li><code>persistFormat</code> (String): File format for persistence. Supported: <code>csv</code>, <code>json</code>,
+    <code>parquet</code>.</li><li><code>outputOptions</code> (Map[String, String]): Extra options passed to the DataFrameWriter.</li></ul><h4>Example</h4><pre><span class="kw">val</span> optimizer = <span class="kw">new</span> DataFrameOptimizer()
+  .setExecutorCores(<span class="num">4</span>)
+  .setNumWorkers(<span class="num">5</span>)
+  .setDoCache(<span class="kw">true</span>)
+  .setPersistPath(<span class="lit">"/tmp/output"</span>)
+  .setPersistFormat(<span class="lit">"parquet"</span>)
+  .setOutputOptions(<span class="std">Map</span>(<span class="lit">"compression"</span> -&gt; <span class="lit">"snappy"</span>))
+
+<span class="kw">val</span> optimizedDF = optimizer.transform(inputDF)</pre><p>This transformer does not modify the schema of the DataFrame.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Date2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Date2ChunkextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.Date2Chunk]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.Date2Chunk]"></a><a id="Date2Chunk:Date2Chunk"></a>
       <span class="permalink">

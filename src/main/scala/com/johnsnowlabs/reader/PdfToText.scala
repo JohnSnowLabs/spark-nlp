@@ -18,19 +18,20 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.IAnnotation
 import com.johnsnowlabs.reader.util.HasPdfProperties
 import com.johnsnowlabs.reader.util.pdf._
+import com.johnsnowlabs.reader.util.pdf.schema.{MappingMatrix, PageMatrix}
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.spark.internal.Logging
 import org.apache.spark.ml.Transformer
+import org.apache.spark.ml.param.ParamMap
 import org.apache.spark.ml.param.shared.{HasInputCol, HasOutputCol}
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{col, posexplode_outer, udf}
+import org.apache.spark.sql.functions.{col, lit, posexplode_outer, udf}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-import java.io.ByteArrayOutputStream
+import java.io.{ByteArrayOutputStream, PrintWriter, StringWriter}
 import scala.util.{Failure, Success, Try}
 
 /** Extract text from PDF document to a single string or to several strings per each page. Input
@@ -104,6 +105,7 @@ class PdfToText(override val uid: String)
 
   protected def outputDataType: StructType = new StructType()
     .add($(outputCol), StringType)
+    .add("positions", PageMatrix.dataType)
     .add("height_dimension", IntegerType)
     .add("width_dimension", IntegerType)
     .add($(inputCol), BinaryType)
@@ -128,13 +130,14 @@ class PdfToText(override val uid: String)
   setDefault(inputCol -> "content", outputCol -> "text")
 
   private def transformUDF: UserDefinedFunction = udf(
-    (path: String, content: Array[Byte]) => {
-      doProcess(content)
+    (path: String, content: Array[Byte], exception: String) => {
+      doProcess(content, exception)
     },
     ArrayType(outputDataType))
 
   private def doProcess(
-      content: Array[Byte]): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      content: Array[Byte],
+      exception: String): Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     val pagesTry = Try(
       pdfToText(
         content,
@@ -142,11 +145,19 @@ class PdfToText(override val uid: String)
         $(splitPage),
         $(storeSplittedPdf),
         $(sort),
-        $(textStripper)))
+        $(textStripper),
+        $(extractCoordinates),
+        $(normalizeLigatures)))
 
     pagesTry match {
-      case Failure(_) =>
-        Seq()
+      case Failure(e) =>
+        log.error("Pdf load error during text extraction")
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        log.error(sw.toString)
+        log.error(pagesTry.toString)
+        val errMessage = e.toString + " " + e.getMessage
+        Seq(("", Seq(), -1, -1, Array(), exception.concatException(s"PdfToText: $errMessage"), 0))
       case Success(content) =>
         content
     }
@@ -157,7 +168,15 @@ class PdfToText(override val uid: String)
 
     val selCols1 = df.columns
       .filterNot(_ == $(inputCol))
-      .map(col) :+ posexplode_outer(transformUDF(df.col($(originCol)), df.col($(inputCol))))
+      .map(col) :+ posexplode_outer(
+      transformUDF(
+        df.col($(originCol)),
+        df.col($(inputCol)),
+        if (df.columns.contains("exception")) {
+          col("exception")
+        } else {
+          lit(null)
+        }))
       .as(Seq("tmp_num", "tmp_result"))
     val selCols = df.columns
       .filterNot(_ == $(inputCol))
@@ -179,16 +198,25 @@ class PdfToText(override val uid: String)
         getOrDefault(inputCol),
         throw new RuntimeException(s"Column not found ${getOrDefault(inputCol)}"))
 
-      pdfs flatMap { case BinaryFile(bytes, path) =>
-        doProcess(bytes).zipWithIndex.map { case ((text, _, _, content, exception, _), pageNum) =>
-          val metadata =
-            Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
+      pdfs flatMap {
+        case BinaryFile(bytes, path) =>
+          doProcess(bytes, path).zipWithIndex.map {
+            case ((text, pageMatrix, _, _, content, exception, _), pageNum) =>
+              val metadata =
+                Map("exception" -> exception, "sourcePath" -> path, "pageNum" -> pageNum.toString)
 
-          val result = lightRecord ++ Map(
-            getOutputCol -> Seq(OcrText(text, metadata, content)),
-            getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
-          result
-        }
+              val result = lightRecord ++ Map(
+                getOutputCol -> Seq(OcrText(text, metadata, content)),
+                getOrDefault(pageNumCol) -> Seq(PageNum(pageNum)))
+
+              if ($(extractCoordinates))
+                result ++ Map("positions" -> pageMatrix.map(pm => PositionsOutput(pm.mapping)))
+              else
+                result
+
+            case _ => lightRecord.chainExceptions(s"Wrong Input in $uid")
+          }
+        case _ => Seq(lightRecord.chainExceptions(s"Wrong Input in $uid"))
       }
     }
   }
@@ -224,11 +252,14 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       splitPage: Boolean,
       storeSplittedPdf: Boolean,
       sort: Boolean,
-      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      textStripper: String,
+      extractCoordinates: Boolean,
+      normalizeLigatures: Boolean = false)
+      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     val validPdf = checkAndFixPdf(content)
     val pdfDoc = PDDocument.load(validPdf)
     val numPages = pdfDoc.getNumberOfPages
-    log.info(s"Number of pages ${numPages}")
+    log.info(s"Number of pages $numPages")
     require(numPages >= 1, "pdf input stream cannot be empty")
     val result = if (!onlyPageNum) {
       pdfboxMethod(
@@ -239,9 +270,11 @@ trait PdfToTextTrait extends Logging with PdfUtils {
         splitPage,
         storeSplittedPdf,
         sort,
-        textStripper)
+        textStripper,
+        extractCoordinates,
+        normalizeLigatures = normalizeLigatures)
     } else {
-      Range(1, numPages + 1).map(pageNum => ("", 1, 1, null, null, pageNum))
+      Range(1, numPages + 1).map(pageNum => ("", null, 1, 1, null, null, pageNum))
     }
     pdfDoc.close()
     log.info("Close pdf")
@@ -256,9 +289,13 @@ trait PdfToTextTrait extends Logging with PdfUtils {
       splitPage: Boolean,
       storeSplittedPdf: Boolean,
       sort: Boolean,
-      textStripper: String): Seq[(String, Int, Int, Array[Byte], String, Int)] = {
+      textStripper: String,
+      extractCoordinates: Boolean,
+      normalizeCoordinates: Boolean = true,
+      normalizeLigatures: Boolean = false)
+      : Seq[(String, Seq[PageMatrix], Int, Int, Array[Byte], String, Int)] = {
     lazy val out: ByteArrayOutputStream = new ByteArrayOutputStream()
-    if (splitPage)
+    if (splitPage) {
       Range(startPage, endPage + 1).flatMap(pagenum =>
         extractText(pdfDoc, pagenum, pagenum, sort, textStripper)
           .map { text =>
@@ -271,22 +308,77 @@ trait PdfToTextTrait extends Logging with PdfUtils {
               outputDocument.close()
               out.toByteArray
             } else null
+            val coordinates =
+              if (extractCoordinates)
+                getCoordinates(pdfDoc, pagenum, pagenum, normalizeCoordinates, normalizeLigatures)
+              else null
             (
               text,
+              coordinates,
               page.getMediaBox.getHeight.toInt,
               page.getMediaBox.getWidth.toInt,
               splittedPdf,
               null,
               pagenum)
           })
-    else {
+    } else {
       val text = extractText(pdfDoc, startPage, endPage, sort, textStripper).mkString(
         System.lineSeparator())
       val heightDimension = pdfDoc.getPage(startPage).getMediaBox.getHeight.toInt
       val widthDimension = pdfDoc.getPage(startPage).getMediaBox.getWidth.toInt
+      val coordinates =
+        if (extractCoordinates)
+          getCoordinates(pdfDoc, startPage, endPage, normalizeCoordinates, normalizeLigatures)
+        else null
       Seq(
-        (text, heightDimension, widthDimension, if (storeSplittedPdf) content else null, null, 0))
+        (
+          text,
+          coordinates,
+          heightDimension,
+          widthDimension,
+          if (storeSplittedPdf) content else null,
+          null,
+          0))
     }
+  }
+
+  private def getCoordinates(
+      doc: => PDDocument,
+      startPage: Int,
+      endPage: Int,
+      normalizeOutput: Boolean = true,
+      normalizeLigatures: Boolean = true): Seq[PageMatrix] = {
+    import scala.collection.JavaConverters._
+    val unicodeUtils = new UnicodeUtils
+    Range(startPage, endPage + 1).map(pagenum => {
+      val (_, pHeight) = getPageDims(pagenum, doc)
+      val stripper = new CustomStripper
+      stripper.setStartPage(pagenum + 1)
+      stripper.setEndPage(pagenum + 1)
+      stripper.getText(doc)
+      val line = stripper.lines.asScala.flatMap(_.textPositions.asScala)
+
+      val mappings = line.toArray.map(p => {
+        MappingMatrix(
+          p.toString,
+          p.getTextMatrix.getTranslateX,
+          if (normalizeOutput) pHeight - p.getTextMatrix.getTranslateY - p.getHeightDir
+          else p.getTextMatrix.getTranslateY,
+          p.getWidth,
+          p.getHeightDir,
+          0,
+          "pdf")
+      })
+
+      val coordinates =
+        if (normalizeLigatures) unicodeUtils.normalizeLigatures(mappings) else mappings
+      PageMatrix(coordinates)
+    })
+  }
+
+  private def getPageDims(numPage: Int, document: PDDocument) = {
+    val page = document.getPage(numPage).getMediaBox
+    (page.getWidth, page.getHeight)
   }
 }
 
