@@ -19,14 +19,14 @@ ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
 
 // new setting for the Central Portal
-//ThisBuild / publishTo := {
-//  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
-//  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
-//  else localStaging.value
-//}
+ThisBuild / publishTo := {
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
+}
 
 // Use sonatype bundle instead
-publishTo := sonatypePublishToBundle.value
+//publishTo := sonatypePublishToBundle.value
 
 sonatypeProfileName := "com.johnsnowlabs.nlp"
 
