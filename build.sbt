@@ -1,6 +1,6 @@
-import sbtassembly.MergeStrategy
+import Dependencies.*
 import M2Resolvers.m2Resolvers
-import Dependencies._
+import sbtassembly.MergeStrategy
 
 name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
@@ -34,99 +34,7 @@ Compile / doc / target := baseDirectory.value / "docs/api"
 coverageExcludedPackages := ".*nlp.embeddings.*;.*ml.tensorflow.*;.*nlp.annotators.classifier.dl.*;" +
   ".*nlp.annotators.seq2seq.*;.*ml.*"
 
-licenses += "Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")
-
 (ThisBuild / resolvers) := m2Resolvers
-
-credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
-
-sonatypeProfileName := "com.johnsnowlabs.nlp"
-
-publishTo := sonatypePublishToBundle.value
-
-sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
-
-sonatypeCredentialHost := "s01.oss.sonatype.org"
-
-publishTo := {
-  val nexus = "https://s01.oss.sonatype.org/"
-  if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
-  else Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
-
-homepage := Some(url("https://sparknlp.org"))
-
-scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/JohnSnowLabs/spark-nlp"),
-    "scm:git@github.com:JohnSnowLabs/spark-nlp.git"))
-
-(ThisBuild / developers) := List(
-  Developer(
-    id = "saifjsl",
-    name = "Saif Addin",
-    email = "saif@johnsnowlabs.com",
-    url = url("https://github.com/saifjsl")),
-  Developer(
-    id = "maziyarpanahi",
-    name = "Maziyar Panahi",
-    email = "maziyar@johnsnowlabs.com",
-    url = url("https://github.com/maziyarpanahi")),
-  Developer(
-    id = "albertoandreottiATgmail",
-    name = "Alberto Andreotti",
-    email = "alberto@pacific.ai",
-    url = url("https://github.com/albertoandreottiATgmail")),
-  Developer(
-    id = "danilojsl",
-    name = "Danilo Burbano",
-    email = "danilo@johnsnowlabs.com",
-    url = url("https://github.com/danilojsl")),
-  Developer(
-    id = "rohit13k",
-    name = "Rohit Kumar",
-    email = "rohit@johnsnowlabs.com",
-    url = url("https://github.com/rohit13k")),
-  Developer(
-    id = "aleksei-ai",
-    name = "Aleksei Alekseev",
-    email = "aleksei@pacific.ai",
-    url = url("https://github.com/aleksei-ai")),
-  Developer(
-    id = "showy",
-    name = "Eduardo Muñoz",
-    email = "eduardo@johnsnowlabs.com",
-    url = url("https://github.com/showy")),
-  Developer(
-    id = "C-K-Loan",
-    name = "Christian Kasim Loan",
-    email = "christian@johnsnowlabs.com",
-    url = url("https://github.com/C-K-Loan")),
-  Developer(
-    id = "wolliq",
-    name = "Stefano Lori",
-    email = "stefano@johnsnowlabs.com",
-    url = url("https://github.com/wolliq")),
-  Developer(
-    id = "vankov",
-    name = "Ivan Vankov",
-    email = "ivan@johnsnowlabs.com",
-    url = url("https://github.com/vankov")),
-  Developer(
-    id = "alinapetukhova",
-    name = "Alina Petukhova",
-    email = "alina@johnsnowlabs.com",
-    url = url("https://github.com/alinapetukhova")),
-  Developer(
-    id = "hatrungduc",
-    name = "Devin Ha",
-    email = "trung@johnsnowlabs.com",
-    url = url("https://github.com/hatrungduc")),
-  Developer(
-    id = "ahmedlone127",
-    name = "Khawja Ahmed Lone",
-    email = "lone@johnsnowlabs.com",
-    url = url("https://github.com/ahmedlone127")))
 
 lazy val analyticsDependencies = Seq(
   "org.apache.spark" %% "spark-core" % sparkVer % Provided,
@@ -164,8 +72,7 @@ lazy val utilDependencies = Seq(
     exclude ("org.apache.logging.log4j", "log4j-api"),
   scratchpad
     exclude ("org.apache.logging.log4j", "log4j-api"),
-  pdfBox
-)
+  pdfBox)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
@@ -238,7 +145,8 @@ lazy val root = (project in file("."))
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
-  case PathList("module-info.class") => MergeStrategy.discard // Discard any module-info.class globally
+  case PathList("module-info.class") =>
+    MergeStrategy.discard // Discard any module-info.class globally
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _ @_*) => MergeStrategy.first
   case PathList("com.amazonaws", _ @_*) => MergeStrategy.last
