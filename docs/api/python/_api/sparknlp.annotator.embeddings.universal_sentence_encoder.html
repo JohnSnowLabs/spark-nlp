@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.embeddings.universal_sentence_encoder module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.embeddings.universal_sentence_encoder module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,11 +686,11 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UniversalSentenceEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="sparknlp.common.storage.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties" title="sparknlp.common.properties.HasEmbeddingsProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmbeddingsProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/storage/index.html#sparknlp.common.storage.HasStorageRef" title="sparknlp.common.storage.HasStorageRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasStorageRef</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
 <p>The Universal Sentence Encoder encodes text into high dimensional vectors
 that can be used for text classification, semantic similarity, clustering
 and other natural language tasks.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.pretrained" title="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/embeddings/universal_sentence_encoder/index.html#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.pretrained" title="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
@@ -770,17 +783,17 @@ download and on TF Hub.</em></p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.configProtoBytes">
-<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.configProtoBytes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder.configProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.configProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.loadSP">
-<span class="sig-name descname"><span class="pre">loadSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='loadSP',</span> <span class="pre">doc=&quot;Whether</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">SentencePiece</span> <span class="pre">ops</span> <span class="pre">file</span> <span class="pre">which</span> <span class="pre">is</span> <span class="pre">required</span> <span class="pre">only</span> <span class="pre">by</span> <span class="pre">multi-lingual</span> <span class="pre">models.</span> <span class="pre">This</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">changeable</span> <span class="pre">after</span> <span class="pre">it's</span> <span class="pre">set</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">pretrained</span> <span class="pre">model</span> <span class="pre">nor</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">compatible</span> <span class="pre">with</span> <span class="pre">Windows.&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.loadSP" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">loadSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='loadSP',</span> <span class="pre">doc=&quot;Whether</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">SentencePiece</span> <span class="pre">ops</span> <span class="pre">file</span> <span class="pre">which</span> <span class="pre">is</span> <span class="pre">required</span> <span class="pre">only</span> <span class="pre">by</span> <span class="pre">multi-lingual</span> <span class="pre">models.</span> <span class="pre">This</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">changeable</span> <span class="pre">after</span> <span class="pre">it's</span> <span class="pre">set</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">pretrained</span> <span class="pre">model</span> <span class="pre">nor</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">compatible</span> <span class="pre">with</span> <span class="pre">Windows.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder.loadSP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.loadSP" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -807,12 +820,12 @@ download and on TF Hub.</em></p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UniversalSentenceEncoder'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UniversalSentenceEncoder'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sentence_embeddings'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/universal_sentence_encoder.html#UniversalSentenceEncoder.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.universal_sentence_encoder.UniversalSentenceEncoder.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -949,7 +962,7 @@ multi-lingual models</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

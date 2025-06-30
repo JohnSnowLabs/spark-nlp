@@ -55,7 +55,7 @@ class DocumentCharacterTextSplitter(AnnotatorModel):
     chunkOverlap
         Length of the overlap between text chunks , by default `0`.
     splitPatterns
-        Patterns to separate the text by in decreasing priority , by default `["\n\n", "\n", " ", ""]`.
+        Patterns to separate the text by in decreasing priority , by default `["\\n\\n", "\\n", " ", ""]`.
     patternsAreRegex
         Whether to interpret the split patterns as regular expressions , by default `False`.
     keepSeparators
@@ -94,13 +94,13 @@ class DocumentCharacterTextSplitter(AnnotatorModel):
     |                                                                          result|splits[0].begin|splits[0].end|length|
     +--------------------------------------------------------------------------------+---------------+-------------+------+
     |[ Project Gutenberg's The Adventures of Sherlock Holmes, by Arthur Conan Doyl...|              0|        19994| 19994|
-    |["And Mademoiselle's address?" he asked.\n\n"Is Briony Lodge, Serpentine Aven...|          19798|        39395| 19597|
-    |["How did that help you?"\n\n"It was all-important. When a woman thinks that ...|          39371|        59242| 19871|
-    |["'But,' said I, 'there would be millions of red-headed men who\nwould apply....|          59166|        77833| 18667|
-    |[My friend was an enthusiastic musician, being himself not only a\nvery capab...|          77835|        97769| 19934|
-    |["And yet I am not convinced of it," I answered. "The cases which\ncome to li...|          97771|       117248| 19477|
-    |["Well, she had a slate-coloured, broad-brimmed straw hat, with a\nfeather of...|         117250|       137242| 19992|
-    |["That sounds a little paradoxical."\n\n"But it is profoundly True. Singulari...|         137244|       157171| 19927|
+    |["And Mademoiselle's address?" he asked.\\n\\n"Is Briony Lodge, Serpentine Aven...|          19798|        39395| 19597|
+    |["How did that help you?"\\n\\n"It was all-important. When a woman thinks that ...|          39371|        59242| 19871|
+    |["'But,' said I, 'there would be millions of red-headed men who\\nwould apply....|          59166|        77833| 18667|
+    |[My friend was an enthusiastic musician, being himself not only a\\nvery capab...|          77835|        97769| 19934|
+    |["And yet I am not convinced of it," I answered. "The cases which\\ncome to li...|          97771|       117248| 19477|
+    |["Well, she had a slate-coloured, broad-brimmed straw hat, with a\\nfeather of...|         117250|       137242| 19992|
+    |["That sounds a little paradoxical."\\n\\n"But it is profoundly True. Singulari...|         137244|       157171| 19927|
     +--------------------------------------------------------------------------------+---------------+-------------+------+
 
     """

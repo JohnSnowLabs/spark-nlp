@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.document_token_splitter &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.document_token_splitter &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -376,7 +381,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="DocumentTokenSplitter"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.document_token_splitter.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentTokenSplitter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentTokenSplitter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentTokenSplitter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that splits large documents into smaller documents based on the number of tokens in</span>
 <span class="sd">    the text.</span>
 
@@ -449,37 +454,37 @@ document.write(`
 <span class="sd">    |                                                                          result|begin|  end|length|tokens|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+-----+-----+------+------+</span>
 <span class="sd">    |[ Project Gutenberg&#39;s The Adventures of Sherlock Holmes, by Arthur Conan Doyl...|    0| 3018|  3018|   512|</span>
-<span class="sd">    |[study of crime, and occupied his\nimmense faculties and extraordinary powers...| 2950| 5707|  2757|   512|</span>
-<span class="sd">    |[but as I have changed my clothes I can&#39;t imagine how you\ndeduce it. As to M...| 5659| 8483|  2824|   512|</span>
-<span class="sd">    |[quarters received. Be in your chamber then at that hour, and do\nnot take it...| 8427|11241|  2814|   512|</span>
-<span class="sd">    |[a pity\nto miss it.&quot;\n\n&quot;But your client--&quot;\n\n&quot;Never mind him. I may want y...|11188|13970|  2782|   512|</span>
-<span class="sd">    |[person who employs me wishes his agent to be unknown to\nyou, and I may conf...|13918|16898|  2980|   512|</span>
-<span class="sd">    |[letters back.&quot;\n\n&quot;Precisely so. But how--&quot;\n\n&quot;Was there a secret marriage?...|16836|19744|  2908|   512|</span>
-<span class="sd">    |[seven hundred in\nnotes,&quot; he said.\n\nHolmes scribbled a receipt upon a shee...|19683|22551|  2868|   512|</span>
+<span class="sd">    |[study of crime, and occupied his\\nimmense faculties and extraordinary powers...| 2950| 5707|  2757|   512|</span>
+<span class="sd">    |[but as I have changed my clothes I can&#39;t imagine how you\\ndeduce it. As to M...| 5659| 8483|  2824|   512|</span>
+<span class="sd">    |[quarters received. Be in your chamber then at that hour, and do\\nnot take it...| 8427|11241|  2814|   512|</span>
+<span class="sd">    |[a pity\\nto miss it.&quot;\\n\\n&quot;But your client--&quot;\\n\\n&quot;Never mind him. I may want y...|11188|13970|  2782|   512|</span>
+<span class="sd">    |[person who employs me wishes his agent to be unknown to\\nyou, and I may conf...|13918|16898|  2980|   512|</span>
+<span class="sd">    |[letters back.&quot;\\n\\n&quot;Precisely so. But how--&quot;\\n\\n&quot;Was there a secret marriage?...|16836|19744|  2908|   512|</span>
+<span class="sd">    |[seven hundred in\\nnotes,&quot; he said.\\n\\nHolmes scribbled a receipt upon a shee...|19683|22551|  2868|   512|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+-----+-----+------+------+</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.inputAnnotatorTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">numTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.numTokens"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.numTokens">[docs]</a>    <span class="n">numTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;numTokens&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Limit of the number of tokens in a text&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">tokenOverlap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentTokenSplitter.tokenOverlap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.tokenOverlap">[docs]</a>    <span class="n">tokenOverlap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;tokenOverlap&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Length of the token overlap between text chunks&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">explodeSplits</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentTokenSplitter.explodeSplits"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.explodeSplits">[docs]</a>    <span class="n">explodeSplits</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;explodeSplits&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Whether to explode split chunks to separate rows&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentTokenSplitter.trimWhitespace"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.trimWhitespace">[docs]</a>    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;trimWhitespace&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Whether to trim whitespaces of extracted chunks&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -491,7 +496,7 @@ document.write(`
             <span class="n">trimWhitespace</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="DocumentTokenSplitter.setNumTokens"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.document_token_splitter.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setNumTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.setNumTokens"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setNumTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the limit of the number of tokens in a text</span>
 
 <span class="sd">        Parameters</span>
@@ -503,7 +508,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of tokens should be larger than 0.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentTokenSplitter.setTokenOverlap"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.document_token_splitter.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setTokenOverlap">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTokenOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.setTokenOverlap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setTokenOverlap">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTokenOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Length of the token overlap between text chunks, by default `0`.</span>
 
 <span class="sd">        Parameters</span>
@@ -515,7 +520,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Token overlap can&#39;t be larger than number of tokens.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tokenOverlap</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentTokenSplitter.setExplodeSplits"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.document_token_splitter.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setExplodeSplits">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSplits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.setExplodeSplits"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setExplodeSplits">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSplits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode split chunks to separate rows, by default `False`.</span>
 
 <span class="sd">        Parameters</span>
@@ -525,7 +530,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeSplits</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentTokenSplitter.setTrimWhitespace"><a class="viewcode-back" href="../../../_api/sparknlp.annotator.document_token_splitter.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setTrimWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentTokenSplitter.setTrimWhitespace"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_token_splitter/index.html#sparknlp.annotator.document_token_splitter.DocumentTokenSplitter.setTrimWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to trim whitespaces of extracted chunks, by default `True`.</span>
 
 <span class="sd">        Parameters</span>
@@ -575,7 +580,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

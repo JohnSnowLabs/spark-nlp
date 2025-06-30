@@ -24,7 +24,7 @@ class Date2Chunk(AnnotatorModel):
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``DATE``              ``CHUNK``
+    ``DATE``               ``CHUNK``
     ====================== ======================
 
     Parameters

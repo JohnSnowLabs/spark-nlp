@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.seq2seq.mistral_transformer module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.mistral_transformer module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,10 +686,9 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MistralTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.MistralTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
 <p>Mistral 7B</p>
-<blockquote>
-<div><p>Mistral 7B, a 7.3 billion-parameter model that stands out for its efficient and effective
+<p>Mistral 7B, a 7.3 billion-parameter model that stands out for its efficient and effective
 performance in natural language processing. Surpassing Llama 2 13B across all benchmarks and
 excelling over Llama 1 34B in various aspects, Mistral 7B strikes a balance between English
 language tasks and code comprehension, rivaling the capabilities of CodeLlama 7B in the
@@ -689,7 +701,7 @@ sequences at a reduced computational cost. This feature enhances the model’s a
 process extensive textual input, expanding its utility in handling more complex tasks.</p>
 <p>In summary, Mistral 7B represents a notable advancement in language models, offering a
 reliable and versatile solution for various natural language processing challenges.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained" title="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/seq2seq/mistral_transformer/index.html#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained" title="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mistral</span> <span class="o">=</span> <span class="n">MistralTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -710,7 +722,6 @@ pretrained models please see the <a class="reference external" href="https://spa
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
@@ -746,32 +757,62 @@ default []</p>
 <p class="rubric">Notes</p>
 <p>This is a very computationally expensive module especially on larger
 sequence. The use of an accelerator such as GPU is recommended.</p>
-<p>Question: Leonardo Da Vinci invented the microscope?
-Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">in the late 16th century, long after Leonardo’]                                                                                                                                                    |</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://mistral.ai/news/announcing-mistral_7b/">Mistral 7B</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/mistralai/mistral-src">mistralai/mistral-src</a></p></li>
+</ul>
+<p><strong>Paper Abstract:</strong></p>
+<p><em>We introduce Mistral 7B v0.1, a 7-billion-parameter language model engineered for superior
+performance and efficiency. Mistral 7B outperforms Llama 2 13B across all evaluated
+benchmarks, and Llama 1 34B in reasoning, mathematics, and code generation. Our model
+leverages grouped-query attention (GQA) for faster inference, coupled with sliding window
+attention (SWA) to effectively handle sequences of arbitrary length with a reduced inference
+cost. We also provide a model fine-tuned to follow instructions, Mistral 7B – Instruct, that
+surpasses the Llama 2 13B – Chat model both on human and automated benchmarks. Our models are
+released under the Apache 2.0 license.</em></p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mistral</span> <span class="o">=</span> <span class="n">MistralTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;mistral_7b&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;documents&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;generation&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">mistral</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;My name is Leonardo.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;summaries.generation&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                                                                                                                                              |</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[Leonardo Da Vinci invented the microscope?\n Question: Leonardo Da Vinci invented the microscope?\n Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |</span>
+<span class="go">| in the late 16th century, long after Leonardo&#39;]                                                                                                                                                    |</span>
+<span class="go">-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
 </div>
-<p>—————————————————————————————————————————————————————————————————–+</p>
-</div></blockquote>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.configProtoBytes">
-<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.configProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.doSample">
-<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.doSample" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.doSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.doSample" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.ignoreTokenIds">
-<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.ignoreTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -798,27 +839,27 @@ Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscop
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.maxOutputLength">
-<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.maxOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.minOutputLength">
-<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.minOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MistralTransformer'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MistralTransformer'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.noRepeatNgramSize">
-<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.noRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -848,7 +889,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.repetitionPenalty">
-<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.repetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1000,17 +1041,17 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.temperature">
-<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.temperature" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.temperature" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topK">
-<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topK" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.topK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topK" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topP">
-<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topP" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/mistral_transformer.html#MistralTransformer.topP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.mistral_transformer.MistralTransformer.topP" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1108,7 +1149,7 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

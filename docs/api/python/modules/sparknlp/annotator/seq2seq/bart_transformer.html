@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="BartTransformer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BartTransformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BartTransformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation,</span>
 <span class="sd">    Translation, and Comprehension Transformer</span>
 
@@ -522,58 +527,58 @@ document.write(`
 <span class="sd">    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BartTransformer&quot;</span>
+<div class="viewcode-block" id="BartTransformer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BartTransformer&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="BartTransformer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="BartTransformer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="BartTransformer.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
-    <span class="n">task</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="s2">&quot;Transformer&#39;s task, e.g. summarize&gt;&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.task"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.task">[docs]</a>    <span class="n">task</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="s2">&quot;Transformer&#39;s task, e.g. summarize&gt;&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.minOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.minOutputLength">[docs]</a>    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.maxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.maxOutputLength">[docs]</a>    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.doSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.doSample">[docs]</a>    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.temperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.temperature">[docs]</a>    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.topK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.topK">[docs]</a>    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.topP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.topP">[docs]</a>    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.repetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.repetitionPenalty">[docs]</a>    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.noRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.noRepeatNgramSize">[docs]</a>    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.ignoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.ignoreTokenIds">[docs]</a>    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
-    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="BartTransformer.beamSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.beamSize">[docs]</a>    <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;The Number of beams for beam search.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">useCache</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useCache&quot;</span><span class="p">,</span> <span class="s2">&quot;Use caching to enhance performance&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+<div class="viewcode-block" id="BartTransformer.useCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.useCache">[docs]</a>    <span class="n">useCache</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useCache&quot;</span><span class="p">,</span> <span class="s2">&quot;Use caching to enhance performance&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output, by default `[]`.</span>
 
 <span class="sd">        Parameters</span>
@@ -583,7 +588,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -593,7 +598,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setTask"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setTask"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``, by default `&quot;&quot;`.</span>
 
 <span class="sd">        Parameters</span>
@@ -603,7 +608,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setMinOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated, by default `0`.</span>
 
 <span class="sd">        Parameters</span>
@@ -613,7 +618,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text, by default `20`.</span>
 
 <span class="sd">        Parameters</span>
@@ -623,7 +628,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setDoSample"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise, by default `False`.</span>
 
 <span class="sd">        Parameters</span>
@@ -633,7 +638,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setTemperature"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities, by default `1.0`.</span>
 
 <span class="sd">        Parameters</span>
@@ -643,7 +648,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setTopK"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
 <span class="sd">        top-k-filtering, by default `50`.</span>
 
@@ -654,7 +659,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setTopP"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens, by default `1.0`.</span>
 
 <span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
@@ -667,7 +672,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty, by default `1.0`.</span>
 
 <span class="sd">        Parameters</span>
@@ -682,7 +687,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once, by default `0`.</span>
 
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
@@ -694,7 +699,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setBeamSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setBeamSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setBeamSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setBeamSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of beam size for beam search, by default `4`.</span>
 
 <span class="sd">        Parameters</span>
@@ -704,7 +709,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.setCache"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.setCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use caching to enhance performance, by default `False`.</span>
 
 <span class="sd">        Parameters</span>
@@ -736,8 +741,8 @@ document.write(`
             <span class="n">useCache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="BartTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="BartTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -758,8 +763,8 @@ document.write(`
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_BartLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">BartTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BartTransformer.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.bart_transformer.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;distilbart_xsum_12_6&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="BartTransformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;distilbart_xsum_12_6&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -820,7 +825,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cv.convnext_for_image_classification &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.cv.convnext_for_image_classification &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="ConvNextForImageClassification"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ConvNextForImageClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+<div class="viewcode-block" id="ConvNextForImageClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ConvNextForImageClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                      <span class="n">HasBatchedAnnotateImage</span><span class="p">,</span>
                                      <span class="n">HasImageFeatureProperties</span><span class="p">,</span>
                                      <span class="n">HasEngine</span><span class="p">):</span>
@@ -489,31 +494,31 @@ document.write(`
 <span class="sd">    |tractor.JPEG     |[thresher, thrasher, threshing machine                    |</span>
 <span class="sd">    +-----------------+----------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ConvNextForImageClassification&quot;</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ConvNextForImageClassification&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">]</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
-    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with &quot;</span>
                              <span class="s2">&quot;config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
-    <span class="n">doRescale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doRescale&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.doRescale"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.doRescale">[docs]</a>    <span class="n">doRescale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doRescale&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Whether to rescale the image values by rescaleFactor.&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">rescaleFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;rescaleFactor&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.rescaleFactor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.rescaleFactor">[docs]</a>    <span class="n">rescaleFactor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;rescaleFactor&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Factor to scale the image values&quot;</span><span class="p">,</span>
-                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">cropPct</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cropPct&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.cropPct"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.cropPct">[docs]</a>    <span class="n">cropPct</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cropPct&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Percentage of the resized image to crop&quot;</span><span class="p">,</span>
-                    <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                    <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.setDoRescale"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setDoRescale">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoRescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.setDoRescale"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setDoRescale">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoRescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Whether to rescale the image values by rescaleFactor, by default `True`.</span>
 
 <span class="sd">        Parameters</span>
@@ -523,7 +528,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doRescale</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.setRescaleFactor"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setRescaleFactor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRescaleFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.setRescaleFactor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setRescaleFactor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRescaleFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Factor to scale the image values, by default `1/255.0`.</span>
 
 <span class="sd">        Parameters</span>
@@ -533,7 +538,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rescaleFactor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.setCropPct"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setCropPct">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCropPct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.setCropPct"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setCropPct">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCropPct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Determines rescale and crop percentage for images smaller than the configured size, by default `224 / 256`.</span>
 
 <span class="sd">        If the image size is smaller than the specified size, the smaller edge of the image will be</span>
@@ -546,13 +551,13 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cropPct</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.getClasses"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.getClasses">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.getClasses">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns labels used to train this model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -583,8 +588,8 @@ document.write(`
             <span class="n">cropPct</span><span class="o">=</span><span class="mi">224</span> <span class="o">/</span> <span class="mf">256.0</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -604,8 +609,8 @@ document.write(`
                                                  <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">ConvNextForImageClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvNextForImageClassification.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cv.convnext_for_image_classification.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;image_classifier_convnext_tiny_224_local&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ConvNextForImageClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;image_classifier_convnext_tiny_224_local&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
                    <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
@@ -669,7 +674,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

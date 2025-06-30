@@ -15,13 +15,26 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
+  BLOCK_SPLIT_PATTERN,
+  DOUBLE_PARAGRAPH_PATTERN
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.pdf.TextStripperType
+import com.johnsnowlabs.reader.util.PartitionOptions.{
+  getDefaultBoolean,
+  getDefaultInt,
+  getDefaultString
+}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
 
-class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashMap()) {
+class SparkNLPReader(
+    params: java.util.Map[String, String] = new java.util.HashMap(),
+    headers: java.util.Map[String, String] = new java.util.HashMap())
+    extends Serializable {
 
   /** Instantiates class to read HTML files.
     *
@@ -69,45 +82,69 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     *   Parameter with custom configuration
     */
 
+  private var outputColumn = "reader"
+
+  def setOutputColumn(value: String): Unit = {
+    require(value.nonEmpty, "Result column name cannot be empty.")
+    outputColumn = value
+  }
+
+  def getOutputColumn: String = outputColumn
+
   def html(htmlPath: String): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
   }
 
+  def htmlToHTMLElement(html: String): Seq[HTMLElement] = {
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
+    htmlReader.htmlToHTMLElement(html)
+  }
+
+  def urlToHTMLElement(url: String): Seq[HTMLElement] = {
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
+    htmlReader.urlToHTMLElement(url)
+  }
+
   def html(urls: Array[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
-    val htmlReader = new HTMLReader(getTitleFontSize, getStoreContent)
+    val htmlReader =
+      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+    setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
   }
 
-  private def getTitleFontSize: Int = {
-    val titleFontSize =
-      try {
-        params.asScala.getOrElse("titleFontSize", "16").toInt
-      } catch {
-        case _: IllegalArgumentException => 16
-      }
+  private lazy val htmlHeaders: Map[String, String] =
+    if (headers == null) Map.empty
+    else headers.asScala.toMap.map { case (k, v) => k -> v }
 
-    titleFontSize
+  private def getTitleFontSize: Int = {
+    getDefaultInt(params.asScala.toMap, Seq("titleFontSize", "title_font_size"), default = 16)
   }
 
   private def getStoreContent: Boolean = {
-    val storeContent =
-      try {
-        params.asScala.getOrElse("storeContent", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    storeContent
+    getDefaultBoolean(params.asScala.toMap, Seq("storeContent", "store_content"), default = false)
+  }
+
+  private def getTimeout: Int = {
+    getDefaultInt(params.asScala.toMap, Seq("timeout"), default = 30)
   }
 
   /** Instantiates class to read email files.
     *
-    * emailPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+    * emailPath: this is a path to a directory of email files or a path to an email file E.g.
     * "path/email/files"
     *
     * ==Example==
@@ -150,22 +187,26 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
 
   def email(emailPath: String): DataFrame = {
     val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
-    emailReader.read(emailPath)
+    setOutputColumn(emailReader.getOutputColumn)
+    emailReader.email(emailPath)
+  }
+
+  def email(content: Array[Byte]): Seq[HTMLElement] = {
+    val emailReader = new EmailReader(getAddAttachmentContent, getStoreContent)
+    setOutputColumn(emailReader.getOutputColumn)
+    emailReader.emailToHTMLElement(content)
   }
 
   private def getAddAttachmentContent: Boolean = {
-    val addAttachmentContent =
-      try {
-        params.asScala.getOrElse("addAttachmentContent", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    addAttachmentContent
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("addAttachmentContent", "add_attachment_content"),
+      default = false)
   }
 
   /** Instantiates class to read Word files.
     *
-    * docPath: this is a path to a directory of Word files or a path to an HTML file E.g.
+    * docPath: this is a path to a directory of Word files or a path to an Word file E.g.
     * "path/word/files"
     *
     * ==Example==
@@ -207,8 +248,15 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def doc(docPath: String): DataFrame = {
-    val wordReader = new WordReader(getStoreContent)
+    val wordReader = new WordReader(getStoreContent, getIncludePageBreaks)
+    setOutputColumn(wordReader.getOutputColumn)
     wordReader.doc(docPath)
+  }
+
+  def doc(content: Array[Byte]): Seq[HTMLElement] = {
+    val wordReader = new WordReader(getAddAttachmentContent, getStoreContent)
+    setOutputColumn(wordReader.getOutputColumn)
+    wordReader.docToHTMLElement(content)
   }
 
   /** Instantiates class to read PDF files.
@@ -248,7 +296,6 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     *  |-- width_dimension: integer (nullable = true)
     *  |-- content: binary (nullable = true)
     *  |-- exception: string (nullable = true)
-    *  |-- pagenum: integer (nullable = true)
     * }}}
     *
     * @param params
@@ -259,6 +306,10 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
     val pdfToText = new PdfToText()
       .setStoreSplittedPdf(getStoreSplittedPdf)
+      .setSplitPage(getSplitPage)
+      .setOnlyPageNum(getOnlyPageNum)
+      .setTextStripper(getTextStripper)
+      .setSort(getSort)
     val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
     val pipelineModel = new Pipeline()
       .setStages(Array(pdfToText))
@@ -268,18 +319,55 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
   }
 
   private def getStoreSplittedPdf: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("storeSplittedPdf", "store_splitted_pdf"),
+      default = false)
+  }
+
+  private def getSplitPage: Boolean = {
     val splitPage =
       try {
-        params.asScala.getOrElse("storeSplittedPdf", "false").toBoolean
+        params.asScala.getOrElse("splitPage", "true").toBoolean
+      } catch {
+        case _: IllegalArgumentException => true
+      }
+    splitPage
+  }
+
+  private def getOnlyPageNum: Boolean = {
+    val splitPage =
+      try {
+        params.asScala.getOrElse("onlyPageNum", "false").toBoolean
       } catch {
         case _: IllegalArgumentException => false
       }
     splitPage
   }
 
+  private def getTextStripper: String = {
+    val textStripper =
+      try {
+        params.asScala.getOrElse("textStripper", TextStripperType.PDF_TEXT_STRIPPER)
+      } catch {
+        case _: IllegalArgumentException => TextStripperType.PDF_TEXT_STRIPPER
+      }
+    textStripper
+  }
+
+  private def getSort: Boolean = {
+    val sort =
+      try {
+        params.asScala.getOrElse("sort", "false").toBoolean
+      } catch {
+        case _: IllegalArgumentException => false
+      }
+    sort
+  }
+
   /** Instantiates class to read Excel files.
     *
-    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+    * docPath: this is a path to a directory of Excel files or a path to an Excel file E.g.
     * "path/excel/files"
     *
     * ==Example==
@@ -321,18 +409,50 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     */
 
   def xls(docPath: String): DataFrame = {
-    val excelReader = new ExcelReader(getTitleFontSize, getCellSeparator, getStoreContent)
+    val excelReader =
+      new ExcelReader(
+        titleFontSize = getTitleFontSize,
+        cellSeparator = getCellSeparator,
+        storeContent = getStoreContent,
+        includePageBreaks = getIncludePageBreaks,
+        inferTableStructure = getInferTableStructure,
+        appendCells = getAppendCells)
+    setOutputColumn(excelReader.getOutputColumn)
     excelReader.xls(docPath)
   }
 
+  def xls(content: Array[Byte]): Seq[HTMLElement] = {
+    val excelReader =
+      new ExcelReader(
+        titleFontSize = getTitleFontSize,
+        cellSeparator = getCellSeparator,
+        storeContent = getStoreContent,
+        includePageBreaks = getIncludePageBreaks,
+        inferTableStructure = getInferTableStructure,
+        appendCells = getAppendCells)
+    setOutputColumn(excelReader.getOutputColumn)
+    excelReader.xlsToHTMLElement(content)
+  }
+
   private def getCellSeparator: String = {
-    params.asScala.getOrElse("cellSeparator", "\t")
+    getDefaultString(params.asScala.toMap, Seq("cellSeparator", "cell_separator"), default = "\t")
+  }
+
+  private def getInferTableStructure: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("inferTableStructure", "infer_table_structure"),
+      default = false)
+  }
+
+  private def getAppendCells: Boolean = {
+    getDefaultBoolean(params.asScala.toMap, Seq("appendCells", "append_cells"), default = false)
   }
 
   /** Instantiates class to read PowerPoint files.
     *
-    * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
-    * "path/power-point/files"
+    * docPath: this is a path to a directory of PowerPoint files or a path to an PowerPoint file
+    * E.g. "path/power-point/files"
     *
     * ==Example==
     * {{{
@@ -374,7 +494,14 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
 
   def ppt(docPath: String): DataFrame = {
     val powerPointReader = new PowerPointReader(getStoreContent)
+    setOutputColumn(powerPointReader.getOutputColumn)
     powerPointReader.ppt(docPath)
+  }
+
+  def ppt(content: Array[Byte]): Seq[HTMLElement] = {
+    val powerPointReader = new PowerPointReader(getStoreContent)
+    setOutputColumn(powerPointReader.getOutputColumn)
+    powerPointReader.pptToHTMLElement(content)
   }
 
   /** Instantiates class to read txt files.
@@ -420,19 +547,163 @@ class SparkNLPReader(params: java.util.Map[String, String] = new java.util.HashM
     *   Parameter with custom configuration
     */
   def txt(filePath: String): DataFrame = {
-    val textReader = new TextReader(getTitleLengthSize, getStoreContent)
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getBlockSplit,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
+    setOutputColumn(textReader.getOutputColumn)
     textReader.txt(filePath)
   }
 
+  def txtToHTMLElement(text: String): Seq[HTMLElement] = {
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getBlockSplit,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
+    setOutputColumn(textReader.getOutputColumn)
+    textReader.txtToHTMLElement(text)
+  }
+
+  def txtContent(content: String): DataFrame = {
+    val textReader = new TextReader(
+      getTitleLengthSize,
+      getStoreContent,
+      getBlockSplit,
+      getGroupBrokenParagraphs,
+      getParagraphSplit,
+      getShortLineWordThreshold,
+      getMaxLineCount,
+      getThreshold)
+    textReader.txtContent(content)
+  }
+
   private def getTitleLengthSize: Int = {
-    val titleLengthSize =
+    getDefaultInt(params.asScala.toMap, Seq("titleLengthSize", "title_length_size"), default = 50)
+  }
+
+  private def getIncludePageBreaks: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includePageBreaks", "include_page_breaks"),
+      default = false)
+  }
+
+  private def getGroupBrokenParagraphs: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("groupBrokenParagraphs", "group_broken_paragraphs"),
+      default = false)
+  }
+
+  private def getParagraphSplit: String = {
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("paragraphSplit", "paragraph_split"),
+      default = DOUBLE_PARAGRAPH_PATTERN)
+  }
+
+  private def getShortLineWordThreshold: Int = {
+    getDefaultInt(
+      params.asScala.toMap,
+      Seq("shortLineWordThreshold", "short_line_word_threshold"),
+      default = 5)
+  }
+
+  private def getMaxLineCount: Int = {
+    getDefaultInt(params.asScala.toMap, Seq("maxLineCount", "max_line_count"), default = 2000)
+  }
+
+  private def getThreshold: Double = {
+    val threshold =
       try {
-        params.asScala.getOrElse("titleLengthSize", "50").toInt
+        params.asScala.getOrElse("threshold", "0.1").toDouble
       } catch {
-        case _: IllegalArgumentException => 50
+        case _: IllegalArgumentException => 0.1
       }
 
-    titleLengthSize
+    threshold
+  }
+
+  private def getBlockSplit: String = {
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("blockSplit", "block_split"),
+      default = BLOCK_SPLIT_PATTERN)
+  }
+
+  /** Instantiates class to read XML files.
+    *
+    * xmlPath: this is a path to a directory of XML files or a path to an XML file. E.g.,
+    * "path/xml/files"
+    *
+    * ==Example==
+    * {{{
+    * val xmlPath = "home/user/xml-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val xmlDf = sparkNLPReader.xml(xmlPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val xmlDf = SparkNLP.read.xml(xmlPath)
+    * }}}
+    *
+    * {{{
+    * xmlDf.select("xml").show(false)
+    * +------------------------------------------------------------------------------------------------------------------------+
+    * |xml                                                                                                                    |
+    * +------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, John Smith, {elementId -> ..., tag -> title}}, {UncategorizedText, Some content..., {elementId -> ...}}]     |
+    * +------------------------------------------------------------------------------------------------------------------------+
+    *
+    * xmlDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- xml: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param xmlPath
+    *   Path to the XML file or directory
+    * @return
+    *   A DataFrame with parsed XML as structured elements
+    */
+
+  def xml(xmlPath: String): DataFrame = {
+    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    xmlReader.read(xmlPath)
+  }
+
+  def xmlToHTMLElement(xml: String): Seq[HTMLElement] = {
+    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    xmlReader.parseXml(xml)
+  }
+
+  private def getXmlKeepTags: Boolean = {
+    getDefaultBoolean(params.asScala.toMap, Seq("xmlKeepTags", "xml_keep_tags"), default = false)
+  }
+
+  private def getOnlyLeafNodes: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("onlyLeafNodes", "only_leaf_nodes"),
+      default = true)
   }
 
 }

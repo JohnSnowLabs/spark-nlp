@@ -432,6 +432,47 @@ object BpeTokenizer {
           addPrefixSpaceToSentence = addPrefixSpaceToSentence,
           alwaysAddPrefix = alwaysAddPrefix,
           prependString = prependString)
+      case "smolvlm" =>
+        new SmolVLMTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          prependString = prependString)
+      case "paligemma" =>
+        new PaliGemmaTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
+          prependString = prependString)
+      case "gemma3" =>
+        new Gemma3Tokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix)
+      case "internvl" =>
+        new InternVLTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "florence2" =>
+        new Florence2Tokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix,
+          prependString = prependString)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }

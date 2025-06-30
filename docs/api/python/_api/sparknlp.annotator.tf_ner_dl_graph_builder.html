@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.tf_ner_dl_graph_builder module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.tf_ner_dl_graph_builder module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -672,7 +685,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFNerDLGraphBuilder</span></span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Estimator</span></code>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Estimator.html#pyspark.ml.Estimator" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Estimator</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile">
 <span class="sig-name descname"><span class="pre">getGraphFile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.getGraphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.getGraphFile" title="Permalink to this definition">#</a></dt>
@@ -705,27 +718,27 @@ document.write(`
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFile">
-<span class="sig-name descname"><span class="pre">graphFile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='graphFile',</span> <span class="pre">doc='Graph</span> <span class="pre">file</span> <span class="pre">name.</span> <span class="pre">If</span> <span class="pre">empty,</span> <span class="pre">default</span> <span class="pre">name</span> <span class="pre">is</span> <span class="pre">generated.')</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFile" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">graphFile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='graphFile',</span> <span class="pre">doc='Graph</span> <span class="pre">file</span> <span class="pre">name.</span> <span class="pre">If</span> <span class="pre">empty,</span> <span class="pre">default</span> <span class="pre">name</span> <span class="pre">is</span> <span class="pre">generated.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.graphFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFile" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFolder">
-<span class="sig-name descname"><span class="pre">graphFolder</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='graphFolder',</span> <span class="pre">doc='Folder</span> <span class="pre">path</span> <span class="pre">that</span> <span class="pre">contain</span> <span class="pre">external</span> <span class="pre">graph</span> <span class="pre">files')</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFolder" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">graphFolder</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='graphFolder',</span> <span class="pre">doc='Folder</span> <span class="pre">path</span> <span class="pre">that</span> <span class="pre">contain</span> <span class="pre">external</span> <span class="pre">graph</span> <span class="pre">files')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.graphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.graphFolder" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.hiddenUnitsNumber">
-<span class="sig-name descname"><span class="pre">hiddenUnitsNumber</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='hiddenUnitsNumber',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">hidden</span> <span class="pre">units')</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.hiddenUnitsNumber" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">hiddenUnitsNumber</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='hiddenUnitsNumber',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">hidden</span> <span class="pre">units')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.hiddenUnitsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.hiddenUnitsNumber" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'word_embeddings']</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document',</span> <span class="pre">'token',</span> <span class="pre">'word_embeddings']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputCols">
-<span class="sig-name descname"><span class="pre">inputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCols',</span> <span class="pre">doc='Input</span> <span class="pre">columns')</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputCols" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputCols</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputCols',</span> <span class="pre">doc='Input</span> <span class="pre">columns')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.inputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.inputCols" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -735,7 +748,7 @@ document.write(`
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.labelColumn">
-<span class="sig-name descname"><span class="pre">labelColumn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='labelColumn',</span> <span class="pre">doc='Labels')</span></em><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.labelColumn" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">labelColumn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='labelColumn',</span> <span class="pre">doc='Labels')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilder.labelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilder.labelColumn" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -814,7 +827,7 @@ file name.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFNerDLGraphBuilderModel</span></span><a class="reference internal" href="../modules/sparknlp/annotator/tf_ner_dl_graph_builder.html#TFNerDLGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.tf_ner_dl_graph_builder.TFNerDLGraphBuilderModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Model.html#pyspark.ml.Model" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsWritable.html#pyspark.ml.util.DefaultParamsWritable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsWritable</span></code></a>, <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.util.DefaultParamsReadable.html#pyspark.ml.util.DefaultParamsReadable" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultParamsReadable</span></code></a></p>
 </dd></dl>
 
 </section>
@@ -903,7 +916,7 @@ file name.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

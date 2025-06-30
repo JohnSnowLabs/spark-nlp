@@ -106,13 +106,13 @@ class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.data
-        self.excel_file = f"file:///{os.getcwd()}/../src/test/resources/reader/ppt"
+        self.ppt_file = f"file:///{os.getcwd()}/../src/test/resources/reader/ppt"
 
     def runTest(self):
-        excel_df = sparknlp.read().ppt(self.excel_file)
-        excel_df.show()
+        ppt_df = sparknlp.read().ppt(self.ppt_file)
+        ppt_df.show()
 
-        self.assertTrue(excel_df.select("ppt").count() > 0)
+        self.assertTrue(ppt_df.select("ppt").count() > 0)
 
 @pytest.mark.fast
 class SparkNLPTestTXTFilesSpec(unittest.TestCase):
@@ -126,3 +126,17 @@ class SparkNLPTestTXTFilesSpec(unittest.TestCase):
         txt_df.show()
 
         self.assertTrue(txt_df.select("txt").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestXMLFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.xml_files = f"file:///{os.getcwd()}/../src/test/resources/reader/xml"
+
+    def runTest(self):
+        xml_df = sparknlp.read().xml(self.xml_files)
+        xml_df.show()
+
+        self.assertTrue(xml_df.select("xml").count() > 0)

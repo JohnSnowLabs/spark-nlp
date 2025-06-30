@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.util &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.util &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../static/doctools.js?v=888ff710"></script>
     <script src="../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -376,15 +376,18 @@ document.write(`
 
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_internal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">Row</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">BinaryType</span>
 
 
-<div class="viewcode-block" id="get_config_path"><a class="viewcode-back" href="../../_api/sparknlp.util.html#sparknlp.util.get_config_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_config_path</span><span class="p">():</span>
+<div class="viewcode-block" id="get_config_path"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.get_config_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_config_path</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_ConfigLoaderGetter</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="CoNLLGenerator"><a class="viewcode-back" href="../../_api/sparknlp.util.html#sparknlp.util.CoNLLGenerator">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CoNLLGenerator</span><span class="p">:</span>
-<div class="viewcode-block" id="CoNLLGenerator.exportConllFiles"><a class="viewcode-back" href="../../_api/sparknlp.util.html#sparknlp.util.CoNLLGenerator.exportConllFiles">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">exportConllFiles</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="CoNLLGenerator"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.CoNLLGenerator">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CoNLLGenerator</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="CoNLLGenerator.exportConllFiles"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.CoNLLGenerator.exportConllFiles">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">exportConllFiles</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="n">num_args</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_args</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">_internal</span><span class="o">.</span><span class="n">_CoNLLGeneratorExportFromDataFrame</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
@@ -394,6 +397,29 @@ document.write(`
             <span class="n">_internal</span><span class="o">.</span><span class="n">_CoNLLGeneratorExportFromTargetAndPipeline</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No exportConllFiles alternative takes </span><span class="si">{</span><span class="n">num_args</span><span class="si">}</span><span class="s2"> parameters&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EmbeddingsDataFrameUtils"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.EmbeddingsDataFrameUtils">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EmbeddingsDataFrameUtils</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Utility for creating DataFrames compatible with multimodal embedding models (e.g., E5VEmbeddings) for text-only scenarios.</span>
+<span class="sd">    Provides:</span>
+<span class="sd">      - imageSchema: the expected schema for Spark image DataFrames</span>
+<span class="sd">      - emptyImageRow: a dummy image row for text-only embedding</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="EmbeddingsDataFrameUtils.imageSchema"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.EmbeddingsDataFrameUtils.imageSchema">[docs]</a>    <span class="n">imageSchema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+        <span class="n">StructField</span><span class="p">(</span>
+            <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+            <span class="n">StructType</span><span class="p">([</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;origin&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;nChannels&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">BinaryType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="p">]),</span>
+        <span class="p">)</span>
+    <span class="p">])</span></div>
+<div class="viewcode-block" id="EmbeddingsDataFrameUtils.emptyImageRow"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/util/index.html#sparknlp.util.EmbeddingsDataFrameUtils.emptyImageRow">[docs]</a>    <span class="n">emptyImageRow</span> <span class="o">=</span> <span class="n">Row</span><span class="p">(</span><span class="n">Row</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">()))</span></div></div>
 </pre></div>
 
                 </article>
@@ -435,7 +461,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

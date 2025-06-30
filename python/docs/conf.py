@@ -12,19 +12,21 @@
 #
 import os
 import sys
+from datetime import date
 
 sys.path.insert(0, os.path.abspath("../"))
 
+from sparknlp import __version__
+
 
 # -- Project information -----------------------------------------------------
-
 project = "Spark NLP"
-copyright = "2023, John Snow Labs"
+copyright = f"{date.today().year} John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "6.0.0"
-pyspark_version = "3.2.3"
+release = __version__
+pyspark_version = "3.4.4"
 
 # -- General configuration ---------------------------------------------------
 
@@ -99,6 +101,7 @@ numpydoc_show_class_members = False  # Or add Method section in doc strings? htt
 autoapi_options = [
     "members",
     "show-module-summary",
+    "undoc-members"
 ]
 autoapi_type = "python"
 autoapi_dirs = ["../sparknlp"]

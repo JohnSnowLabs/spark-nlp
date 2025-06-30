@@ -12,6 +12,7 @@ Subpackages
    sparknlp.common
    sparknlp.internal
    sparknlp.logging
+   sparknlp.partition
    sparknlp.pretrained
    sparknlp.reader
    sparknlp.training

@@ -152,7 +152,21 @@ class ImageAssembler(override val uid: String)
           result = image.get.data,
           metadata = metadata,
           text = text.getOrElse("")))
-    } else Seq.empty
+    } else if (text.isDefined) {
+      Seq(
+        AnnotationImage(
+          annotatorType = outputAnnotatorType,
+          origin = "",
+          height = 0,
+          width = 0,
+          nChannels = 0,
+          mode = 0,
+          result = Array.emptyByteArray,
+          metadata = metadata,
+          text = text.getOrElse("")))
+    } else {
+      Seq.empty[AnnotationImage]
+    }
 
   }
 

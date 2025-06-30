@@ -66,6 +66,8 @@ sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 annotators = annotator
 embeddings = annotator
 
+__version__ = "6.0.3"
+
 
 def start(gpu=False,
           apple_silicon=False,
@@ -132,7 +134,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "6.0.0"
+    current_version = __version__
 
     if params is None:
         params = {}
@@ -316,4 +318,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '6.0.0'
+    return __version__

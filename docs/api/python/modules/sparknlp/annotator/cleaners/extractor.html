@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cleaners.extractor &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.cleaners.extractor &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -375,83 +380,83 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;Contains classes for Extractor.&quot;&quot;&quot;</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="Extractor"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Extractor</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Extractor&quot;</span>
+<div class="viewcode-block" id="Extractor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Extractor</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Extractor&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="Extractor.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+<div class="viewcode-block" id="Extractor.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
-    <span class="n">emailDateTimeTzPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Extractor.emailDateTimeTzPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.emailDateTimeTzPattern">[docs]</a>    <span class="n">emailDateTimeTzPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;emailDateTimeTzPattern&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Specifies the date-time pattern for email timestamps, including time zone formatting.&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">emailAddress</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.emailAddress"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.emailAddress">[docs]</a>    <span class="n">emailAddress</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;emailAddress&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for email addresses.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">ipAddressPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.ipAddressPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.ipAddressPattern">[docs]</a>    <span class="n">ipAddressPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;ipAddressPattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for IP addresses.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">ipAddressNamePattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.ipAddressNamePattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.ipAddressNamePattern">[docs]</a>    <span class="n">ipAddressNamePattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;ipAddressNamePattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for IP addresses with names.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">mapiIdPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.mapiIdPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.mapiIdPattern">[docs]</a>    <span class="n">mapiIdPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;mapiIdPattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for MAPI IDs.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">usPhoneNumbersPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.usPhoneNumbersPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.usPhoneNumbersPattern">[docs]</a>    <span class="n">usPhoneNumbersPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;usPhoneNumbersPattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for US phone numbers.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">imageUrlPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.imageUrlPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.imageUrlPattern">[docs]</a>    <span class="n">imageUrlPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;imageUrlPattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for image URLs.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">textPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.textPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.textPattern">[docs]</a>    <span class="n">textPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;textPattern&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the pattern for text after and before.&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">extractorMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.extractorMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.extractorMode">[docs]</a>    <span class="n">extractorMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;extractorMode&quot;</span><span class="p">,</span>
         <span class="s2">&quot;possible values: &quot;</span> <span class="o">+</span>
         <span class="s2">&quot;email_date, email_address, ip_address, ip_address_name, mapi_id, us_phone_numbers, image_urls, bullets, text_after, text_before&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">index</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Extractor.index"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.index">[docs]</a>    <span class="n">index</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;index&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Specifies the index of the pattern to extract in text after or before&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setEmailDateTimeTzPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setEmailDateTimeTzPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmailDateTimeTzPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setEmailDateTimeTzPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setEmailDateTimeTzPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmailDateTimeTzPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets specifies the date-time pattern for email timestamps, including time zone formatting.</span>
 
 <span class="sd">        Parameters</span>
@@ -461,7 +466,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">emailDateTimeTzPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setEmailAddress"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setEmailAddress">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmailAddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setEmailAddress"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setEmailAddress">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmailAddress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for email addresses.</span>
 
 <span class="sd">        Parameters</span>
@@ -471,7 +476,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">emailAddress</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setIpAddressPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setIpAddressPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIpAddressPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setIpAddressPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setIpAddressPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIpAddressPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for IP addresses.</span>
 
 <span class="sd">        Parameters</span>
@@ -481,7 +486,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ipAddressPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setIpAddressNamePattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setIpAddressNamePattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIpAddressNamePattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setIpAddressNamePattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setIpAddressNamePattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIpAddressNamePattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for IP addresses with names.</span>
 
 <span class="sd">        Parameters</span>
@@ -491,7 +496,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ipAddressNamePattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setMapiIdPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setMapiIdPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMapiIdPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setMapiIdPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setMapiIdPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMapiIdPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for MAPI IDs.</span>
 
 <span class="sd">        Parameters</span>
@@ -501,7 +506,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mapiIdPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setUsPhoneNumbersPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setUsPhoneNumbersPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUsPhoneNumbersPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setUsPhoneNumbersPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setUsPhoneNumbersPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUsPhoneNumbersPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for US phone numbers.</span>
 
 <span class="sd">        Parameters</span>
@@ -511,7 +516,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">usPhoneNumbersPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setImageUrlPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setImageUrlPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImageUrlPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setImageUrlPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setImageUrlPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setImageUrlPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for image URLs.</span>
 
 <span class="sd">        Parameters</span>
@@ -521,7 +526,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">imageUrlPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setTextPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setTextPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setTextPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setTextPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for text after and before.</span>
 
 <span class="sd">        Parameters</span>
@@ -531,10 +536,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">textPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setExtractorMode"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setExtractorMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractorMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setExtractorMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setExtractorMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractorMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extractorMode</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Extractor.setIndex"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.extractor.html#sparknlp.annotator.cleaners.extractor.Extractor.setIndex">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Extractor.setIndex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/extractor/index.html#sparknlp.annotator.cleaners.extractor.Extractor.setIndex">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the index of the pattern to extract in text after or before.</span>
 
 <span class="sd">        Parameters</span>
@@ -591,7 +596,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -16,9 +16,13 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.DocParser.RichParagraph
-import com.johnsnowlabs.reader.util.DocxParser
-import com.johnsnowlabs.reader.util.DocxParser.RichXWPFParagraph
+import com.johnsnowlabs.reader.util.DocxParser.{
+  RichXWPFDocument,
+  RichXWPFParagraph,
+  RichXWPFTable
+}
 import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.xwpf.usermodel.{XWPFDocument, XWPFParagraph, XWPFTable}
 import org.apache.spark.sql.DataFrame
@@ -28,28 +32,89 @@ import java.io.{ByteArrayInputStream, IOException}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class WordReader(storeContent: Boolean = false) extends Serializable {
+/** Class to read and parse Word files.
+  *
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate `content`
+  *   column, alongside the structured output. Default is `false`.
+  * @param includePageBreaks
+  *   Whether to detect and tag content with page break metadata. In Word documents, this includes
+  *   manual and section breaks. In Excel files, this includes page breaks based on column
+  *   boundaries. Default is `false`.
+  * @param inferTableStructure
+  *   Whether to generate an HTML table representation from structured table content. When
+  *   enabled, a full table element is added alongside cell-level elements, based on row and
+  *   column layout. Default is `false`.
+  *
+  * ==Example==
+  * {{{
+  * val docDirectory = "./word-files/fake_table.docx"
+  * val wordReader = new WordReader()
+  * val wordDf = wordReader.doc(docDirectory)
+  *
+  * wordDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 doc|
+  * +--------------------+--------------------+
+  * |file:/content/wor...|[{Table, Header C...|
+  * +--------------------+--------------------+
+  *
+  * wordDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- doc: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_Word_Reader_Demo.ipynb notebook]].
+  */
+class WordReader(
+    storeContent: Boolean = false,
+    includePageBreaks: Boolean = false,
+    inferTableStructure: Boolean = false)
+    extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "doc"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
+  /** @param filePath
+    *   this is a path to a directory of word files or a path to a word file E.g.
+    *   "path/word/files"
+    *
+    * @return
+    *   Dataframe with parsed word doc content.
+    */
 
   def doc(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val wordDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("doc", parseWordUDF(col("content")))
-      if (storeContent) wordDf.select("path", "doc", "content") else wordDf.select("path", "doc")
+      val wordDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parseWordUDF(col("content")))
+      if (storeContent) wordDf.select("path", outputColumn, "content")
+      else wordDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
   private val parseWordUDF = udf((data: Array[Byte]) => {
     parseDoc(data)
   })
+
+  def docToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    parseDoc(content)
+  }
 
   // Constants for file type identification
   private val ZipMagicNumberFirstByte: Byte =
@@ -76,10 +141,10 @@ class WordReader(storeContent: Boolean = false) extends Serializable {
     try {
       if (isDocxFile(content)) {
         val document = new XWPFDocument(docInputStream)
-        val headers = DocxParser.extractHeaders(document).map { header =>
+        val headers = document.extractHeaders.map { header =>
           HTMLElement(ElementType.HEADER, header, mutable.Map())
         }
-        val footers = DocxParser.extractFooters(document).map { footer =>
+        val footers = document.extractFooters.map { footer =>
           HTMLElement(ElementType.FOOTER, footer, mutable.Map())
         }
         val docElements = parseDocxToElements(document)
@@ -123,14 +188,12 @@ class WordReader(storeContent: Boolean = false) extends Serializable {
     else {
       val metadata = mutable.Map[String, String]()
 
-      if (paragraph.isCustomPageBreak) {
-        pageBreak += 1
-        metadata += ("pageBreak" -> pageBreak.toString)
-      }
-
-      if (paragraph.isSectionBreak) {
-        pageBreak += 1
-        metadata += ("pageBreak" -> pageBreak.toString)
+      if (includePageBreaks) {
+        val isBreak = paragraph.isCustomPageBreak || paragraph.isSectionBreak
+        if (isBreak) {
+          pageBreak += 1
+          metadata += ("pageBreak" -> pageBreak.toString)
+        }
       }
 
       if (tableLocation.nonEmpty) {
@@ -147,14 +210,24 @@ class WordReader(storeContent: Boolean = false) extends Serializable {
   }
 
   private def processTable(table: XWPFTable): Seq[HTMLElement] = {
-    table.getRows.asScala.zipWithIndex.flatMap { case (row, rowIndex) =>
-      row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
-        val tableLocation = mutable.Map("tableLocation" -> s"($rowIndex, $cellIndex)")
-        cell.getParagraphs.asScala.flatMap { paragraph =>
-          processParagraph(paragraph, "table", tableLocation)
+    val tableHtml = if (inferTableStructure) Some(table.processAsHtml) else None
+
+    val tableElements: Seq[HTMLElement] = table.getRows.asScala.zipWithIndex.flatMap {
+      case (row, rowIndex) =>
+        row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
+          val tableLocation = mutable.Map("tableLocation" -> s"($rowIndex, $cellIndex)")
+          cell.getParagraphs.asScala.flatMap { paragraph =>
+            processParagraph(paragraph, "table", tableLocation)
+          }
         }
-      }
     }
+
+    if (tableHtml.isDefined) {
+      val htmlElement =
+        HTMLElement(ElementType.HTML, tableHtml.get, mutable.Map.empty[String, String])
+      tableElements :+ htmlElement
+    } else tableElements
+
   }
 
   private def parseDocToElements(document: HWPFDocument): Seq[HTMLElement] = {

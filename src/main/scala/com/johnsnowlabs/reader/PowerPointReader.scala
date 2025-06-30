@@ -17,7 +17,8 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.reader.util.PptParser
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
+import com.johnsnowlabs.reader.util.PptParser.{RichHSLFSlide, RichXSLFSlide}
 import org.apache.poi.hslf.usermodel.HSLFSlideShow
 import org.apache.poi.xslf.usermodel.XMLSlideShow
 import org.apache.spark.sql.DataFrame
@@ -26,29 +27,93 @@ import org.apache.spark.sql.functions.{col, udf}
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 
-class PowerPointReader(storeContent: Boolean = false) extends Serializable {
+/** Class to read and parse PowerPoint files.
+  *
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. The default value is false.
+  * @param inferTableStructure
+  *   Whether to generate an HTML table representation from structured table content. When
+  *   enabled, a full <table> element is added alongside cell-level elements, based on row and
+  *   column layout. The default value is false.
+  * @param includeSlideNotes
+  *   Whether to extract speaker notes from slides. When enabled, notes are included as narrative
+  *   text elements. The default value is false.
+  *
+  * docPath: this is a path to a directory of Excel files or a path to an HTML file E.g.
+  * "path/power-point/files"
+  *
+  * ==Example==
+  * {{{
+  * val path = "./ppt-files/fake-power-point.pptx"
+  * val powerPointReader = new PowerPointReader()
+  * val pptDf = powerPointReader.ppt(path)
+  * }}}
+  *
+  * {{{
+  * pptDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 ppt|
+  * +--------------------+--------------------+
+  * |file:/content/ppt...|[{Title, Adding a...|
+  * +--------------------+--------------------+
+  *
+  * pptDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- ppt: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_PowerPoint_Reader_Demo.ipynb notebook]].
+  */
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+class PowerPointReader(
+    storeContent: Boolean = false,
+    inferTableStructure: Boolean = false,
+    includeSlideNotes: Boolean = false)
+    extends Serializable {
+
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "ppt"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
+  /** @param filePath
+    *   this is a path to a directory of ppt files or a path to an ppt file E.g. "path/ppts/files"
+    *
+    * @return
+    *   Dataframe with parsed power point content.
+    */
 
   def ppt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val binaryFilesRDD = spark.sparkContext.binaryFiles(filePath)
-      val byteArrayRDD = binaryFilesRDD.map { case (path, portableDataStream) =>
-        val byteArray = portableDataStream.toArray()
-        (path, byteArray)
-      }
-      val powerPointDf = byteArrayRDD
-        .toDF("path", "content")
-        .withColumn("ppt", parsePowerPointUDF(col("content")))
-      if (storeContent) powerPointDf.select("path", "ppt", "content")
-      else powerPointDf.select("path", "ppt")
+      val powerPointDf = datasetWithBinaryFile(spark, filePath)
+        .withColumn(outputColumn, parsePowerPointUDF(col("content")))
+      if (storeContent) powerPointDf.select("path", outputColumn, "content")
+      else powerPointDf.select("path", outputColumn)
     } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
   }
 
   private val parsePowerPointUDF = udf((data: Array[Byte]) => {
     parsePowerPoint(data)
   })
+
+  def pptToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
+    parsePowerPoint(content)
+  }
 
   // Constants for file type identification
   private val ZipMagicNumberFirstByte: Byte = 0x50.toByte // First byte of ZIP files
@@ -86,7 +151,7 @@ class PowerPointReader(storeContent: Boolean = false) extends Serializable {
     val slides = ppt.getSlides
 
     val elements = slides.asScala.flatMap { slide =>
-      PptParser.extractHSLFSlideContent(slide)
+      slide.extractHSLFSlideContent
     }
     ppt.close()
     elements
@@ -97,7 +162,7 @@ class PowerPointReader(storeContent: Boolean = false) extends Serializable {
     val slides = pptx.getSlides
 
     val elements = slides.asScala.flatMap { slide =>
-      PptParser.extractXSLFSlideContent(slide)
+      slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes)
     }
     pptx.close()
     elements

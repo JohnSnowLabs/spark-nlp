@@ -15,37 +15,126 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
+  BLOCK_SPLIT_PATTERN,
+  DOUBLE_PARAGRAPH_PATTERN
+}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
+import com.johnsnowlabs.reader.util.TextParser
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.udf
+import org.apache.spark.sql.functions.{col, udf}
 
 import scala.collection.mutable
 
-class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) extends Serializable {
+/** Class to read and parse text files.
+  *
+  * @param titleLengthSize
+  *   Maximum character length used to determine if a text block qualifies as a title during
+  *   parsing. The default value is 50.
+  * @param storeContent
+  *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
+  *   from URLs. By default, it is set to false.
+  * @param groupBrokenParagraphs
+  *   Whether to merge fragmented lines into coherent paragraphs using heuristics based on line
+  *   length and structure. By default, it is set to false.
+  * @param paragraphSplit
+  *   Regex pattern used to detect paragraph boundaries when grouping broken paragraphs. Default
+  *   value is set to double paragraph pattern.
+  * @param shortLineWordThreshold
+  *   Maximum word count for a line to be considered 'short' during broken paragraph grouping.
+  *   Default value is 5.
+  * @param maxLineCount
+  *   Maximum number of lines to evaluate when estimating paragraph layout characteristics.
+  *   Default value is 2000.
+  * @param threshold
+  *   Threshold ratio of empty lines used to decide between new line-based or broken-paragraph
+  *   grouping. Default value is 0.1.
+  *
+  * ==Example==
+  * {{{
+  * val filePath = "./txt-files/simple-text.txt"
+  * val textReader = new TextReader()
+  * val textDf = textReader.txt(filePath)
+  * }}}
+  *
+  * {{{
+  * textDf.show()
+  * +--------------------+--------------------+
+  * |                path|                 txt|
+  * +--------------------+--------------------+
+  * |file:/content/txt...|[{Title, BIG DATA...|
+  * +--------------------+--------------------+
+  *
+  * textDf.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- txt: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_Text_Reader_Demo.ipynb notebook]].
+  */
+class TextReader(
+    titleLengthSize: Int = 50,
+    storeContent: Boolean = false,
+    blockSplit: String = BLOCK_SPLIT_PATTERN,
+    groupBrokenParagraphs: Boolean = false,
+    paragraphSplit: String = DOUBLE_PARAGRAPH_PATTERN,
+    shortLineWordThreshold: Int = 5,
+    maxLineCount: Int = 2000,
+    threshold: Double = 0.1)
+    extends Serializable {
 
-  private val spark = ResourceHelper.spark
-  import spark.implicits._
+  private lazy val spark = ResourceHelper.spark
+
+  private var outputColumn = "txt"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
 
   /** Parses TXT files and returns a DataFrame.
     *
     * The DataFrame will contain:
     *   - "path": the file path,
     *   - "content": the raw text content,
-    *   - "txt": a Seq[HTMLElement] containing the parsed elements.
+    *   - outputColumn: a Seq[HTMLElement] containing the parsed elements.
     */
   def txt(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val textFilesRDD = spark.sparkContext.wholeTextFiles(filePath)
-      val textDf = textFilesRDD
-        .toDF("path", "content")
-        .withColumn("txt", parseTxtUDF($"content"))
-      if (storeContent) textDf.select("path", "txt", "content") else textDf.select("path", "txt")
+      import spark.implicits._
+      val textDf = datasetWithTextFile(spark, filePath)
+        .withColumn(outputColumn, parseTxtUDF($"content"))
+      if (storeContent) textDf.select("path", outputColumn, "content")
+      else textDf.select("path", outputColumn)
     } else {
       throw new IllegalArgumentException(s"Invalid filePath: $filePath")
     }
   }
 
+  def txtContent(content: String): DataFrame = {
+    import spark.implicits._
+    val df = spark.createDataFrame(Seq(("in-memory", content))).toDF("source", "content")
+    val textDf = df.withColumn(outputColumn, parseTxtUDF($"content"))
+    if (storeContent) textDf.select(outputColumn, "content")
+    else textDf.select(col(outputColumn))
+  }
+
   private val parseTxtUDF = udf((text: String) => parseTxt(text))
+
+  def txtToHTMLElement(text: String): Seq[HTMLElement] = {
+    parseTxt(text)
+  }
 
   /** Parses the given text into a sequence of HTMLElements.
     *
@@ -58,21 +147,33 @@ class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) exten
     *   - Omit any element with empty content.
     */
   private def parseTxt(text: String): Seq[HTMLElement] = {
-    val blocks = text.split("\\n\\n+").map(_.trim).filter(_.nonEmpty)
+    val processedText = if (groupBrokenParagraphs) {
+      TextParser.autoParagraphGrouper(
+        text,
+        paragraphSplit,
+        maxLineCount,
+        threshold,
+        shortLineWordThreshold)
+    } else {
+      text
+    }
+
+    // Split the processed text into blocks using two or more newlines.
+    val blocks = processedText.split(blockSplit).map(_.trim).filter(_.nonEmpty)
     val elements = mutable.ArrayBuffer[HTMLElement]()
     var i = 0
     while (i < blocks.length) {
       val currentBlock = blocks(i)
       if (isTitleCandidate(currentBlock)) {
         elements += HTMLElement(
-          "Title",
+          ElementType.TITLE,
           currentBlock,
           mutable.Map("paragraph" -> (i / 2).toString))
         if (i + 1 < blocks.length && !isTitleCandidate(blocks(i + 1))) {
           val narrative = blocks(i + 1)
           if (narrative.nonEmpty) {
             elements += HTMLElement(
-              "NarrativeText",
+              ElementType.NARRATIVE_TEXT,
               narrative,
               mutable.Map("paragraph" -> (i / 2).toString))
           }
@@ -82,7 +183,7 @@ class TextReader(titleLengthSize: Int = 50, storeContent: Boolean = false) exten
         }
       } else {
         elements += HTMLElement(
-          "NarrativeText",
+          ElementType.NARRATIVE_TEXT,
           currentBlock,
           mutable.Map("paragraph" -> (i / 2).toString))
         i += 1

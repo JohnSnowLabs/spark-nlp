@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.logging.comet &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.logging.comet &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -379,7 +379,7 @@ document.write(`
     <span class="kn">import</span><span class="w"> </span><span class="nn">comet_ml</span>
 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
     <span class="c1"># Python 3.6</span>
-    <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="comet_ml"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.comet_ml">[docs]</a>    <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span></div>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
     <span class="c1"># Python 3.7+</span>
     <span class="n">comet_ml</span> <span class="o">=</span> <span class="kc">None</span>
@@ -389,7 +389,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 
-<div class="viewcode-block" id="CometLogger"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CometLogger</span><span class="p">:</span>
+<div class="viewcode-block" id="CometLogger"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CometLogger</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Logger class for Comet integration</span>
 
 <span class="sd">    `Comet &lt;https://www.comet.ml/&gt;`__ is a meta machine learning platform</span>
@@ -491,26 +491,26 @@ document.write(`
                 <span class="s2">&quot;`comet_ml` is not installed. Please install it with `pip install comet-ml`.&quot;</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">comet_mode</span> <span class="o">=</span> <span class="n">comet_mode</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span> <span class="o">=</span> <span class="n">workspace</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">project_name</span> <span class="o">=</span> <span class="n">project_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_id</span> <span class="o">=</span> <span class="n">experiment_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_kwargs</span> <span class="o">=</span> <span class="n">experiment_kwargs</span>
+<div class="viewcode-block" id="CometLogger.comet_mode"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.comet_mode">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">comet_mode</span> <span class="o">=</span> <span class="n">comet_mode</span></div>
+<div class="viewcode-block" id="CometLogger.workspace"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.workspace">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span> <span class="o">=</span> <span class="n">workspace</span></div>
+<div class="viewcode-block" id="CometLogger.project_name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.project_name">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_name</span> <span class="o">=</span> <span class="n">project_name</span></div>
+<div class="viewcode-block" id="CometLogger.experiment_id"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.experiment_id">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_id</span> <span class="o">=</span> <span class="n">experiment_id</span></div>
+<div class="viewcode-block" id="CometLogger.experiment_kwargs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.experiment_kwargs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">experiment_kwargs</span> <span class="o">=</span> <span class="n">experiment_kwargs</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_experiment</span><span class="p">(</span>
+<div class="viewcode-block" id="CometLogger.experiment"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.experiment">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_experiment</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">comet_mode</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">project_name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span>
             <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment_kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_other</span><span class="p">(</span><span class="s2">&quot;Created from&quot;</span><span class="p">,</span> <span class="s2">&quot;SparkNLP&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">add_tags</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_watch_file</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_monitor_thread_timeout</span> <span class="o">=</span> <span class="mi">5</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="viewcode-block" id="CometLogger.thread"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.thread">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_experiment</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -550,7 +550,7 @@ document.write(`
                 <span class="o">**</span><span class="n">experiment_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="CometLogger.log_pipeline_parameters"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_pipeline_parameters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_pipeline_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_pipeline_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_pipeline_parameters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_pipeline_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterates over the different stages in a pyspark PipelineModel object</span>
 <span class="sd">        and logs the parameters to Comet.</span>
 
@@ -580,7 +580,7 @@ document.write(`
             <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">param_value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_parameter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stage</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">param_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_visualization"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_visualization">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_visualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;viz.html&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_visualization"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_visualization">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_visualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;viz.html&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Uploads a NER visualization from Spark NLP Display to comet.</span>
 
 <span class="sd">        Parameters</span>
@@ -609,7 +609,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_asset_data</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_metrics"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_metrics">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_metrics"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_metrics">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Submits logs of an evaluation metrics.</span>
 
 <span class="sd">        Parameters</span>
@@ -652,7 +652,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_parameters"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_parameters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_parameters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_parameters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Logs a dictionary (or dictionary-like object) of multiple parameters.</span>
 
 <span class="sd">        Parameters</span>
@@ -664,7 +664,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_completed_run"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_completed_run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_completed_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_completed_run"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_completed_run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_completed_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Submit logs of training metrics after a run has completed.</span>
 
 <span class="sd">        Parameters</span>
@@ -678,7 +678,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse_log_entry</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_other</span><span class="p">(</span><span class="s2">&quot;log_file_path&quot;</span><span class="p">,</span> <span class="n">log_file_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_asset"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_asset">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_asset"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_asset">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Uploads an asset to comet.</span>
 
 <span class="sd">        Parameters</span>
@@ -693,7 +693,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">log_asset</span><span class="p">(</span><span class="n">asset_path</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.log_asset_data"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.log_asset_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_asset_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.log_asset_data"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.log_asset_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_asset_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Uploads the data given to comet (str, binary, or JSON).</span>
 
 <span class="sd">        Parameters</span>
@@ -715,7 +715,7 @@ document.write(`
             <span class="n">asset</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CometLogger.monitor"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.monitor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logdir</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.monitor"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.monitor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logdir</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Monitors the training of the model and submits logs to comet, given</span>
 <span class="sd">        by an interval.</span>
 
@@ -818,7 +818,7 @@ document.write(`
                 <span class="n">metrics</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_run_metrics</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span><span class="p">),</span> <span class="n">epoch</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span><span class="p">))</span>
 
-<div class="viewcode-block" id="CometLogger.end"><a class="viewcode-back" href="../../../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger.end">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CometLogger.end"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger.end">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ends the experiment and the logger. Submits all outstanding logs to</span>
 <span class="sd">        comet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -867,7 +867,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

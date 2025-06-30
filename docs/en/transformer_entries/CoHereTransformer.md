@@ -1,5 +1,3 @@
-
-
 {%- capture title -%}
 CoHereTransformer
 {%- endcapture -%}
@@ -19,6 +17,8 @@ val CoHere = CoHereTransformer.pretrained()
      .setInputCols("document")
      .setOutputCol("generation")
 ```
+{%- endcapture -%}
+
 {%- capture input_anno -%}
 DOCUMENT
 {%- endcapture -%}

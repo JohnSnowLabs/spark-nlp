@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -375,7 +375,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 
-<div class="viewcode-block" id="SparkNLPReader"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SparkNLPReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SparkNLPReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiates class to read documents in various formats.</span>
 
 <span class="sd">    Parameters</span>
@@ -394,30 +394,33 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
 <span class="sd">    &gt;&gt;&gt; reader = SparkNLPReader(spark)</span>
 
-<span class="sd">    # Reading HTML</span>
+<span class="sd">    Reading HTML</span>
+
 <span class="sd">    &gt;&gt;&gt; html_df = reader.html(&quot;https://www.wikipedia.org&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; # Or with shorthand</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; html_df = sparknlp.read().html(&quot;https://www.wikipedia.org&quot;)</span>
 
-<span class="sd">    # Reading PDF</span>
+<span class="sd">    Reading PDF</span>
+
 <span class="sd">    &gt;&gt;&gt; pdf_df = reader.pdf(&quot;home/user/pdfs-directory&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; # Or with shorthand</span>
 <span class="sd">    &gt;&gt;&gt; pdf_df = sparknlp.read().pdf(&quot;home/user/pdfs-directory&quot;)</span>
 
-<span class="sd">    # Reading Email</span>
+<span class="sd">    Reading Email</span>
+<span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; email_df = reader.email(&quot;home/user/emails-directory&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; # Or with shorthand</span>
 <span class="sd">    &gt;&gt;&gt; email_df = sparknlp.read().email(&quot;home/user/emails-directory&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SparkNLPReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.reader.SparkNLPReader&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">spark</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SparkNLPReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.reader.SparkNLPReader&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+<div class="viewcode-block" id="SparkNLPReader.spark"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.spark">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">spark</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.html"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.html">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">htmlPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.html"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.html">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">htmlPath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads HTML files or URLs and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
@@ -433,7 +436,7 @@ document.write(`
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
-<span class="sd">        &gt;&gt;&gt; html_df = SparkNLPReader(spark).html(&quot;https://www.wikipedia.org&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; html_df = SparkNLPReader().html(&quot;https://www.wikipedia.org&quot;)</span>
 
 <span class="sd">        You can also use SparkNLP to simplify the process:</span>
 
@@ -447,7 +450,6 @@ document.write(`
 <span class="sd">        |https://example.com/|[{Title, Example Domain, {pageNumber -&gt; 1}}, {NarrativeText, 0, This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission., {pageNumber -&gt; 1}}, {NarrativeText, 0, More information... More information..., {pageNumber -&gt; 1}}]   |</span>
 <span class="sd">        +--------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">        &gt;&gt;&gt; html_df.printSchema()</span>
-
 <span class="sd">        root</span>
 <span class="sd">         |-- url: string (nullable = true)</span>
 <span class="sd">         |-- html: array (nullable = true)</span>
@@ -464,7 +466,7 @@ document.write(`
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.email"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.email">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.email"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.email">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads email files and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
@@ -486,13 +488,12 @@ document.write(`
 
 <span class="sd">        &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">        &gt;&gt;&gt; email_df = sparknlp.read().email(&quot;home/user/emails-directory&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; email_df.show(truncate=False)</span>
-
-<span class="sd">        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |</span>
-<span class="sd">        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |[{Title, Email Text Attachments, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;}}, {NarrativeText, Email  test with two text attachments\r\n\r\nCheers,\r\n\r\n, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, mimeType -&gt; text/plain}}, {NarrativeText, &lt;html&gt;\r\n&lt;head&gt;\r\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;\r\n&lt;style type=&quot;text/css&quot; style=&quot;display:none;&quot;&gt; P {margin-top:0;margin-bottom:0;} &lt;/style&gt;\r\n&lt;/head&gt;\r\n&lt;body dir=&quot;ltr&quot;&gt;\r\n&lt;span style=&quot;font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);&quot;&gt;Email&amp;nbsp; test with two text attachments&lt;/span&gt;\r\n&lt;div class=&quot;elementToProof&quot; style=&quot;font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);&quot;&gt;\r\n&lt;br&gt;\r\n&lt;/div&gt;\r\n&lt;div class=&quot;elementToProof&quot; style=&quot;font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);&quot;&gt;\r\nCheers,&lt;/div&gt;\r\n&lt;div class=&quot;elementToProof&quot; style=&quot;font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);&quot;&gt;\r\n&lt;br&gt;\r\n&lt;/div&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, mimeType -&gt; text/html}}, {Attachment, filename.txt, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, contentType -&gt; text/plain; name=&quot;filename.txt&quot;}}, {NarrativeText, This is the content of the file.\n, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, mimeType -&gt; text/plain}}, {Attachment, filename2.txt, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, contentType -&gt; text/plain; name=&quot;filename2.txt&quot;}}, {NarrativeText, This is an additional content file.\n, {sent_to -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, sent_from -&gt; Danilo Burbano &lt;danilo@johnsnowlabs.com&gt;, mimeType -&gt; text/plain}}]|</span>
-<span class="sd">        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        &gt;&gt;&gt; email_df.show()</span>
+<span class="sd">        +---------------------------------------------------+</span>
+<span class="sd">        |email                                              |</span>
+<span class="sd">        +---------------------------------------------------+</span>
+<span class="sd">        |[{Title, Email Text Attachments, {sent_to -&gt; Danilo|</span>
+<span class="sd">        +---------------------------------------------------+</span>
 <span class="sd">        &gt;&gt;&gt; email_df.printSchema()</span>
 <span class="sd">        root</span>
 <span class="sd">         |-- path: string (nullable = true)</span>
@@ -512,7 +513,7 @@ document.write(`
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.doc"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.doc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.doc"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.doc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads word document files and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
@@ -531,16 +532,17 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; doc_df = SparkNLPReader().doc(spark, &quot;home/user/word-directory&quot;)</span>
 
 <span class="sd">        You can use SparkNLP for one line of code</span>
+
 <span class="sd">        &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">        &gt;&gt;&gt; doc_df = sparknlp.read().doc(&quot;home/user/word-directory&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; doc_df.show(truncate=False)</span>
+<span class="sd">        &gt;&gt;&gt; doc_df.show()</span>
+<span class="sd">        +-------------------------------------------------+</span>
+<span class="sd">        |doc                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |</span>
+<span class="sd">        +-------------------------------------------------+</span>
+<span class="sd">        |[{Table, Header Col 1, {}}, {Table, Header Col 2,|</span>
+<span class="sd">        +-------------------------------------------------+</span>
 
-<span class="sd">        +----------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |doc                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |</span>
-<span class="sd">        +----------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |[{Table, Header Col 1, {}}, {Table, Header Col 2, {}}, {Table, Lorem ipsum, {}}, {Table, A Link example, {}}, {NarrativeText, Dolor sit amet, {}}]  |</span>
-<span class="sd">        +----------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        &gt;&gt;&gt; docsDf.printSchema()</span>
+<span class="sd">        &gt;&gt;&gt; doc_df.printSchema()</span>
 <span class="sd">        root</span>
 <span class="sd">         |-- path: string (nullable = true)</span>
 <span class="sd">         |-- content: array (nullable = true)</span>
@@ -559,14 +561,14 @@ document.write(`
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.pdf"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.pdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdfPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.pdf"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.pdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdfPath</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.xls"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.xls">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">xls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.xls"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.xls">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">xls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads excel document files and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
@@ -585,27 +587,27 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; xlsDf = SparkNLPReader().xls(spark, &quot;home/user/excel-directory&quot;)</span>
 
 <span class="sd">        You can use SparkNLP for one line of code</span>
+
 <span class="sd">        &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">        &gt;&gt;&gt; xlsDf = sparknlp.read().xls(&quot;home/user/excel-directory&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; xlsDf.show(truncate=False)</span>
+<span class="sd">        &gt;&gt;&gt; xlsDf.show()</span>
+<span class="sd">        +--------------------------------------------+</span>
+<span class="sd">        |xls                                         |</span>
+<span class="sd">        +--------------------------------------------+</span>
+<span class="sd">        |[{Title, Financial performance, {SheetNam}}]|</span>
+<span class="sd">        +--------------------------------------------+</span>
 
-<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |xls                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |</span>
-<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |[{Title, Financial performance, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Quarterly revenue\tNine quarters to 30 June 2023\t\t\t1.0, {SheetName -&gt; Index}}, {NarrativeText, Group financial performance\tFY 22\tFY 23\t\t2.0, {SheetName -&gt; Index}}, {NarrativeText, Segmental results\tFY 22\tFY 23\t\t3.0, {SheetName -&gt; Index}}, {NarrativeText, Segmental analysis\tFY 22\tFY 23\t\t4.0, {SheetName -&gt; Index}}, {NarrativeText, Cash flow\tFY 22\tFY 23\t\t5.0, {SheetName -&gt; Index}}, {Title, Operational metrics, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Mobile customers\tNine quarters to 30 June 2023\t\t\t6.0, {SheetName -&gt; Index}}, {NarrativeText, Fixed broadband customers\tNine quarters to 30 June 2023\t\t\t7.0, {SheetName -&gt; Index}}, {NarrativeText, Marketable homes passed\tNine quarters to 30 June 2023\t\t\t8.0, {SheetName -&gt; Index}}, {NarrativeText, TV customers\tNine quarters to 30 June 2023\t\t\t9.0, {SheetName -&gt; Index}}, {NarrativeText, Converged customers\tNine quarters to 30 June 2023\t\t\t10.0, {SheetName -&gt; Index}}, {NarrativeText, Mobile churn\tNine quarters to 30 June 2023\t\t\t11.0, {SheetName -&gt; Index}}, {NarrativeText, Mobile data usage\tNine quarters to 30 June 2023\t\t\t12.0, {SheetName -&gt; Index}}, {NarrativeText, Mobile ARPU\tNine quarters to 30 June 2023\t\t\t13.0, {SheetName -&gt; Index}}, {Title, Other, {SheetName -&gt; Index}}, {Title, Topic\tPeriod\t\t\tPage, {SheetName -&gt; Index}}, {NarrativeText, Average foreign exchange rates\tNine quarters to 30 June 2023\t\t\t14.0, {SheetName -&gt; Index}}, {NarrativeText, Guidance rates\tFY 23/24\t\t\t14.0, {SheetName -&gt; Index}}]|</span>
-<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-
-<span class="sd">       &gt;&gt;&gt; xlsDf.printSchema()</span>
-<span class="sd">       root</span>
-<span class="sd">        |-- path: string (nullable = true)</span>
-<span class="sd">        |-- content: binary (nullable = true)</span>
-<span class="sd">        |-- xls: array (nullable = true)</span>
-<span class="sd">        |    |-- element: struct (containsNull = true)</span>
-<span class="sd">        |    |    |-- elementType: string (nullable = true)</span>
-<span class="sd">        |    |    |-- content: string (nullable = true)</span>
-<span class="sd">        |    |    |-- metadata: map (nullable = true)</span>
-<span class="sd">        |    |    |    |-- key: string</span>
-<span class="sd">        |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &gt;&gt;&gt; xlsDf.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- path: string (nullable = true)</span>
+<span class="sd">         |-- content: binary (nullable = true)</span>
+<span class="sd">         |-- xls: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
 <span class="sd">       &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
@@ -613,14 +615,14 @@ document.write(`
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.ppt"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.ppt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">ppt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.ppt"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.ppt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">ppt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads power point document files and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        docPath : str</span>
-<span class="sd">            Path to an excel document file.</span>
+<span class="sd">            Path to an power point document file.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -633,14 +635,15 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; pptDf = SparkNLPReader().ppt(spark, &quot;home/user/powerpoint-directory&quot;)</span>
 
 <span class="sd">        You can use SparkNLP for one line of code</span>
+
 <span class="sd">        &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">        &gt;&gt;&gt; pptDf = sparknlp.read().ppt(&quot;home/user/powerpoint-directory&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; pptDf.show(truncate=False)</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |ppt                                                                                                                                                                                                                                                                                                                      |</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |[{Title, Adding a Bullet Slide, {}}, {ListItem, • Find the bullet slide layout, {}}, {ListItem, – Use _TextFrame.text for first bullet, {}}, {ListItem, • Use _TextFrame.add_paragraph() for subsequent bullets, {}}, {NarrativeText, Here is a lot of text!, {}}, {NarrativeText, Here is some text in a text box!, {}}]|</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        +-------------------------------------+</span>
+<span class="sd">        |ppt                                  |</span>
+<span class="sd">        +-------------------------------------+</span>
+<span class="sd">        |[{Title, Adding a Bullet Slide, {}},]|</span>
+<span class="sd">        +-------------------------------------+</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
@@ -648,7 +651,7 @@ document.write(`
         <span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataframe</span></div>
 
-<div class="viewcode-block" id="SparkNLPReader.txt"><a class="viewcode-back" href="../../../_api/sparknlp.reader.sparknlp_reader.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.txt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">txt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<div class="viewcode-block" id="SparkNLPReader.txt"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.txt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">txt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads TXT files and returns a Spark DataFrame.</span>
 
 <span class="sd">        Parameters</span>
@@ -667,18 +670,64 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; txtDf = SparkNLPReader().txt(spark, &quot;home/user/txt/files&quot;)</span>
 
 <span class="sd">        You can use SparkNLP for one line of code</span>
+
 <span class="sd">        &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">        &gt;&gt;&gt; txtDf = sparknlp.read().txt(&quot;home/user/txt/files&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; txtDf.show(truncate=False)</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |txt                                                                                                                                                                                                                                                                                                                                                                                                                                        |</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">        |[{Title, BIG DATA ANALYTICS, {paragraph -&gt; 0}}, {NarrativeText, Apache Spark is a fast and general-purpose cluster computing system.\nIt provides high-level APIs in Java, Scala, Python, and R., {paragraph -&gt; 0}}, {Title, MACHINE LEARNING, {paragraph -&gt; 1}}, {NarrativeText, Spark&#39;s MLlib provides scalable machine learning algorithms.\nIt includes tools for classification, regression, clustering, and more., {paragraph -&gt; 1}}]|</span>
-<span class="sd">        +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        +-----------------------------------------------+</span>
+<span class="sd">        |txt                                            |</span>
+<span class="sd">        +-----------------------------------------------+</span>
+<span class="sd">        |[{Title, BIG DATA ANALYTICS, {paragraph -&gt; 0}}]|</span>
+<span class="sd">        +-----------------------------------------------+</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">txt</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparkNLPReader.xml"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.xml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docPath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads XML files and returns a Spark DataFrame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        docPath : str</span>
+<span class="sd">            Path to an XML file or a directory containing XML files.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            A DataFrame containing parsed XML content.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
+<span class="sd">        &gt;&gt;&gt; xml_df = SparkNLPReader(spark).xml(&quot;home/user/xml-directory&quot;)</span>
+
+<span class="sd">        You can use SparkNLP for one line of code</span>
+
+<span class="sd">        &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">        &gt;&gt;&gt; xml_df = sparknlp.read().xml(&quot;home/user/xml-directory&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; xml_df.show(truncate=False)</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |xml                                                       |</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |[{Title, John Smith, {elementId -&gt; ..., tag -&gt; title}}]   |</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+
+<span class="sd">        &gt;&gt;&gt; xml_df.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- path: string (nullable = true)</span>
+<span class="sd">         |-- xml: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">xml</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -721,7 +770,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

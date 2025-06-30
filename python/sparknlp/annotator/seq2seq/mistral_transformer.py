@@ -91,8 +91,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     References
     ----------
-    - `Mistral 7B
-      <https://mistral.ai/news/announcing-mistral_7b/>`__
+    - `Mistral 7B <https://mistral.ai/news/announcing-mistral_7b/>`__
     - https://github.com/mistralai/mistral-src
 
     **Paper Abstract:**
@@ -126,7 +125,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     |result                                                                                                                                                                                              |
     +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    |[Leonardo Da Vinci invented the microscope?\n Question: Leonardo Da Vinci invented the microscope?\n Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |
+    |[Leonardo Da Vinci invented the microscope?\\n Question: Leonardo Da Vinci invented the microscope?\\n Answer: No, Leonardo Da Vinci did not invent the microscope. The first microscope was invented |
     | in the late 16th century, long after Leonardo']                                                                                                                                                    |
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     """

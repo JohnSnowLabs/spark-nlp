@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.openai.openai_completion &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.openai.openai_completion &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -375,7 +380,7 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;Contains classes for OpenAICompletion.&quot;&quot;&quot;</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="OpenAICompletion"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OpenAICompletion</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OpenAICompletion</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transformer that makes a request for OpenAI Completion API for each executor.</span>
 
 <span class="sd">   See OpenAI API Doc: https://platform.openai.com/docs/api-reference/completions/create for reference</span>
@@ -424,7 +429,6 @@ document.write(`
 <span class="sd">   &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">   &gt;&gt;&gt; from sparknlp.common import *</span>
 <span class="sd">   &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-
 <span class="sd">   &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
 <span class="sd">   ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">   ...     .setOutputCol(&quot;document&quot;)</span>
@@ -444,89 +448,89 @@ document.write(`
 <span class="sd">   +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">   |completion                                                                                                                                                                                                                                                                                        |</span>
 <span class="sd">   +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="sd">   |[{document, 0, 258, \n\nI had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|</span>
-<span class="sd">   |[{document, 0, 227, \n\nI recently visited Barbecue Joe&#39;s for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |</span>
-<span class="sd">   |[{document, 0, 172, \n\n{ \n   &quot;review&quot;: { \n      &quot;overallRating&quot;: 4, \n      &quot;reviewBody&quot;: &quot;I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |</span>
+<span class="sd">   |[{document, 0, 258, \\n\\nI had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|</span>
+<span class="sd">   |[{document, 0, 227, \\n\\nI recently visited Barbecue Joe&#39;s for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |</span>
+<span class="sd">   |[{document, 0, 172, \\n\\n{ \\n   &quot;review&quot;: { \\n      &quot;overallRating&quot;: 4, \\n      &quot;reviewBody&quot;: &quot;I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |</span>
 <span class="sd">   +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">   &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;OpenAICompletion&quot;</span>
+<div class="viewcode-block" id="OpenAICompletion.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;OpenAICompletion&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="OpenAICompletion.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="OpenAICompletion.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.model"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.model">[docs]</a>    <span class="n">model</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;model&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;ID of the OpenAI model to use&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">suffix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.suffix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.suffix">[docs]</a>    <span class="n">suffix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;suffix&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;The suffix that comes after a completion of inserted text.&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">maxTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.maxTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.maxTokens">[docs]</a>    <span class="n">maxTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;maxTokens&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;The maximum number of tokens to generate in the completion.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.temperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.temperature">[docs]</a>    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;What sampling temperature to use, between 0 and 2&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.topP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.topP">[docs]</a>    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">numberOfCompletions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.numberOfCompletions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.numberOfCompletions">[docs]</a>    <span class="n">numberOfCompletions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;numberOfCompletions&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;How many completions to generate for each prompt.&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">logprobs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.logprobs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logprobs">[docs]</a>    <span class="n">logprobs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;logprobs&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Include the log probabilities on the logprobs most likely tokens, as well the chosen tokens.&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">echo</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.echo"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.echo">[docs]</a>    <span class="n">echo</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;echo&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Echo back the prompt in addition to the completion&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">stop</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.stop"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.stop">[docs]</a>    <span class="n">stop</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;stop&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;Up to 4 sequences where the API will stop generating further tokens.&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">presencePenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.presencePenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.presencePenalty">[docs]</a>    <span class="n">presencePenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                  <span class="s2">&quot;presencePenalty&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model&#39;s likelihood to talk about new topics.&quot;</span><span class="p">,</span>
-                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">frequencyPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.frequencyPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.frequencyPenalty">[docs]</a>    <span class="n">frequencyPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                   <span class="s2">&quot;frequencyPenalty&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model&#39;s likelihood to repeat the same line verbatim.&quot;</span><span class="p">,</span>
-                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">bestOf</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.bestOf"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.bestOf">[docs]</a>    <span class="n">bestOf</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;bestOf&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Generates best_of completions server-side and returns the `best` (the one with the highest log probability per token).&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">logitBias</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.logitBias"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logitBias">[docs]</a>    <span class="n">logitBias</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;logitBias&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;Modify the likelihood of specified tokens appearing in the completion.&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">user</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="OpenAICompletion.user"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.user">[docs]</a>    <span class="n">user</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                  <span class="s2">&quot;user&quot;</span><span class="p">,</span>
                  <span class="s2">&quot;A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets model ID of the OpenAI model to use</span>
 
 <span class="sd">        Parameters</span>
@@ -536,7 +540,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setSuffix"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setSuffix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setSuffix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setSuffix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the suffix that comes after a completion of inserted text.</span>
 
 <span class="sd">        Parameters</span>
@@ -546,7 +550,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setMaxTokens"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setMaxTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setMaxTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setMaxTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum number of tokens to generate in the completion.</span>
 <span class="sd">           The token count of your prompt plus max_tokens cannot exceed the model&#39;s context length.</span>
 
@@ -557,7 +561,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setTemperature"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets what sampling temperature to use, between 0 and 2.</span>
 <span class="sd">        Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.</span>
 <span class="sd">        We generally recommend altering this or top_p but not both.</span>
@@ -569,7 +573,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setTopP"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets An alternative to sampling with temperature, called nucleus sampling.</span>
 <span class="sd">        Where the model considers the results of the tokens with top_p probability mass.</span>
 <span class="sd">        So 0.1 means only the tokens comprising the top 10% probability mass are considered.</span>
@@ -583,7 +587,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setNumberOfCompletions"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setNumberOfCompletions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfCompletions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setNumberOfCompletions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setNumberOfCompletions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfCompletions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how many completions to generate for each prompt.</span>
 
 <span class="sd">        Note: Because this parameter generates many completions, it can quickly consume your token quota.</span>
@@ -596,7 +600,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numberOfCompletions</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setLogprobs"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setLogprobs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLogprobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setLogprobs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setLogprobs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLogprobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the log probabilities on the logprobs most likely tokens, as well the chosen tokens.</span>
 <span class="sd">        For example, if logprobs is 5, the API will return a list of the 5 most likely tokens.</span>
 <span class="sd">        The API will always return the logprob of the sampled token, so there may be up to logprobs+1 elements in the response.</span>
@@ -609,7 +613,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">logprobs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setEcho"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setEcho">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEcho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setEcho"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setEcho">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEcho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets echo back the prompt in addition to the completion</span>
 
 <span class="sd">        Parameters</span>
@@ -619,7 +623,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">echo</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setStop"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setStop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setStop"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setStop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Up to 4 sequences where the API will stop generating further tokens.</span>
 <span class="sd">        The returned text will not contain the stop sequence.</span>
 
@@ -630,7 +634,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setPresencePenalty"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setPresencePenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPresencePenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setPresencePenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setPresencePenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPresencePenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets values to penalize new tokens based on whether they appear in the text so far,</span>
 <span class="sd">        increasing the model&#39;s likelihood to talk about new topics.</span>
 
@@ -643,7 +647,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">presencePenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setFrequencyPenalty"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setFrequencyPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setFrequencyPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setFrequencyPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets values to penalize new tokens based on their existing frequency in the text so far,</span>
 <span class="sd">           decreasing the model&#39;s likelihood to repeat the same line verbatim.</span>
 
@@ -656,7 +660,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">frequencyPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setBestOf"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setBestOf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBestOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setBestOf"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setBestOf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBestOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets best_of completions server-side and returns the &quot;best&quot; (the one with the highest log probability per token)</span>
 
 <span class="sd">        Parameters</span>
@@ -670,7 +674,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">bestOf</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setLogitBias"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setLogitBias">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLogitBias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setLogitBias"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setLogitBias">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLogitBias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the likelihood of specified tokens appearing in the completion</span>
 
 <span class="sd">        Parameters</span>
@@ -683,7 +687,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">logitBias</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAICompletion.setUser"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.openai.openai_completion.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setUser">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAICompletion.setUser"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/openai/openai_completion/index.html#sparknlp.annotator.openai.openai_completion.OpenAICompletion.setUser">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a unique identifier representing your end-user</span>
 
 <span class="sd">        Parameters</span>
@@ -750,7 +754,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                           <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                           <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
                                           <span class="n">HasClassifierActivationProperties</span><span class="p">,</span>
@@ -460,28 +465,28 @@ document.write(`
 <span class="sd">    |[neg] |</span>
 <span class="sd">    +------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DistilBertForSequenceClassification&quot;</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DistilBertForSequenceClassification&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
-    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
-    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.coalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.coalesceSentences">[docs]</a>    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
-                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification.getClasses"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.getClasses">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.getClasses">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns labels used to train this model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -491,7 +496,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.</span>
 <span class="sd">        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences</span>
 <span class="sd">        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)</span>
@@ -518,8 +523,8 @@ document.write(`
             <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -538,8 +543,8 @@ document.write(`
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DistilBertSequenceClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DistilBertForSequenceClassification.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;distilbert_base_sequence_classifier_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DistilBertForSequenceClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.DistilBertForSequenceClassification.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;distilbert_base_sequence_classifier_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -601,7 +606,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

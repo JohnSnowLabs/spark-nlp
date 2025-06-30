@@ -47,21 +47,7 @@ class SnowFlakeEmbeddings(AnnotatorModel,
 	``DOCUMENT``            ``SENTENCE_EMBEDDINGS``
 	====================== ======================
 
-	Parameters
-	----------
-	batchSize
-		Size of every batch , by default 8
-	dimension
-		Number of embedding dimensions, by default 768
-	caseSensitive
-		Whether to ignore case in tokens for embeddings matching, by default False
-	maxSentenceLength
-		Max sentence length to process, by default 512
-	configProtoBytes
-		ConfigProto from tensorflow, serialized into byte array.
-
-	References
-	----------
+	**References**
 
 	`Arctic-Embed: Scalable, Efficient, and Accurate Text Embedding Models <https://arxiv.org/abs/2405.05374>`__
 	`Snowflake Arctic-Embed Models <https://github.com/Snowflake-Labs/arctic-embed>`__
@@ -77,6 +63,20 @@ class SnowFlakeEmbeddings(AnnotatorModel,
      document, and negative document derived from hard harmful mining. Mining of the negatives and
      data curation is crucial to retrieval accuracy. A detailed technical report will be available
      shortly. *
+
+	Parameters
+	----------
+	batchSize
+		Size of every batch , by default 8
+	dimension
+		Number of embedding dimensions, by default 768
+	caseSensitive
+		Whether to ignore case in tokens for embeddings matching, by default False
+	maxSentenceLength
+		Max sentence length to process, by default 512
+	configProtoBytes
+		ConfigProto from tensorflow, serialized into byte array.
+
 
 	Examples
 	--------

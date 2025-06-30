@@ -565,7 +565,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
 
 
     References
-    -------------
+    ----------
     For an in-depth explanation of the module see the article `Applying Context
     Aware Spell Checking in Spark NLP
     <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.

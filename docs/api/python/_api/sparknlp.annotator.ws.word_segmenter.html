@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ws.word_segmenter module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.ws.word_segmenter module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,7 +686,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WordSegmenterApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
 <p>Trains a WordSegmenter which tokenizes non-english or non-whitespace
 separated texts.</p>
 <p>Many languages are not whitespace separated and their sentences are a concatenation
@@ -699,13 +712,13 @@ of the century.</p></li>
 </ul>
 </dd>
 </dl>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a>.</p>
 <p>To train your own model, a training dataset consisting of <a class="reference external" href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Part-Of-Speech
 tags</a> is required.
 The data has to be loaded into a dataframe, where the column is an
-Annotation of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>. This can be set with <a class="reference internal" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setPosColumn()</span></code></a>.</p>
+Annotation of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>. This can be set with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.setPosColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setPosColumn()</span></code></a>.</p>
 <p><strong>Tip</strong>:
-The helper class <a class="reference internal" href="sparknlp.training.pos.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> might be useful to read training data into
+The helper class <a class="reference internal" href="../reference/autosummary/sparknlp/training/pos/index.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> might be useful to read training data into
 data frames.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation">Examples</a>.</p>
 <dl class="field-list simple">
@@ -781,17 +794,17 @@ Annotations.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.ambiguityThreshold">
-<span class="sig-name descname"><span class="pre">ambiguityThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ambiguityThreshold',</span> <span class="pre">doc='How</span> <span class="pre">much</span> <span class="pre">percentage</span> <span class="pre">of</span> <span class="pre">total</span> <span class="pre">amount</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">are</span> <span class="pre">covered</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">marked</span> <span class="pre">as</span> <span class="pre">frequent')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.ambiguityThreshold" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ambiguityThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ambiguityThreshold',</span> <span class="pre">doc='How</span> <span class="pre">much</span> <span class="pre">percentage</span> <span class="pre">of</span> <span class="pre">total</span> <span class="pre">amount</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">are</span> <span class="pre">covered</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">marked</span> <span class="pre">as</span> <span class="pre">frequent')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.ambiguityThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.ambiguityThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.enableRegexTokenizer">
-<span class="sig-name descname"><span class="pre">enableRegexTokenizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableRegexTokenizer',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RegexTokenizer</span> <span class="pre">before</span> <span class="pre">segmentation.</span> <span class="pre">Useful</span> <span class="pre">for</span> <span class="pre">multilingual</span> <span class="pre">text')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.enableRegexTokenizer" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">enableRegexTokenizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableRegexTokenizer',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RegexTokenizer</span> <span class="pre">before</span> <span class="pre">segmentation.</span> <span class="pre">Useful</span> <span class="pre">for</span> <span class="pre">multilingual</span> <span class="pre">text')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.enableRegexTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.enableRegexTokenizer" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.frequencyThreshold">
-<span class="sig-name descname"><span class="pre">frequencyThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyThreshold',</span> <span class="pre">doc='How</span> <span class="pre">many</span> <span class="pre">times</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">a</span> <span class="pre">tag</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">marked</span> <span class="pre">as</span> <span class="pre">frequent')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.frequencyThreshold" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">frequencyThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyThreshold',</span> <span class="pre">doc='How</span> <span class="pre">many</span> <span class="pre">times</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">a</span> <span class="pre">tag</span> <span class="pre">on</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">marked</span> <span class="pre">as</span> <span class="pre">frequent')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.frequencyThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.frequencyThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -841,32 +854,32 @@ frequent.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.nIterations">
-<span class="sig-name descname"><span class="pre">nIterations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nIterations',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">iterations</span> <span class="pre">in</span> <span class="pre">training,</span> <span class="pre">converges</span> <span class="pre">to</span> <span class="pre">better</span> <span class="pre">accuracy')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.nIterations" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">nIterations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nIterations',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">iterations</span> <span class="pre">in</span> <span class="pre">training,</span> <span class="pre">converges</span> <span class="pre">to</span> <span class="pre">better</span> <span class="pre">accuracy')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.nIterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.nIterations" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordSegmenterApproach'</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordSegmenterApproach'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.pattern">
-<span class="sig-name descname"><span class="pre">pattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pattern',</span> <span class="pre">doc='regex</span> <span class="pre">pattern</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">tokenizing.</span> <span class="pre">Defaults</span> <span class="pre">\\s+')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.pattern" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pattern',</span> <span class="pre">doc='regex</span> <span class="pre">pattern</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">tokenizing.</span> <span class="pre">Defaults</span> <span class="pre">\\s+')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.pattern" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.posCol">
-<span class="sig-name descname"><span class="pre">posCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='posCol',</span> <span class="pre">doc='column</span> <span class="pre">of</span> <span class="pre">Array</span> <span class="pre">of</span> <span class="pre">POS</span> <span class="pre">tags</span> <span class="pre">that</span> <span class="pre">match</span> <span class="pre">tokens')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.posCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">posCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='posCol',</span> <span class="pre">doc='column</span> <span class="pre">of</span> <span class="pre">Array</span> <span class="pre">of</span> <span class="pre">POS</span> <span class="pre">tags</span> <span class="pre">that</span> <span class="pre">match</span> <span class="pre">tokens')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.posCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.posCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -975,7 +988,7 @@ tokenizing, by default False.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.toLowercase">
-<span class="sig-name descname"><span class="pre">toLowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='toLowercase',</span> <span class="pre">doc='Indicates</span> <span class="pre">whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">lowercase</span> <span class="pre">before</span> <span class="pre">tokenizing.')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.toLowercase" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">toLowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='toLowercase',</span> <span class="pre">doc='Indicates</span> <span class="pre">whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">lowercase</span> <span class="pre">before</span> <span class="pre">tokenizing.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach.toLowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach.toLowercase" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -983,7 +996,7 @@ tokenizing, by default False.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WordSegmenterModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>WordSegmenter which tokenizes non-english or non-whitespace separated
 texts.</p>
 <p>Many languages are not whitespace separated and their sentences are a
@@ -991,9 +1004,9 @@ concatenation of many symbols, like Korean, Japanese or Chinese. Without
 understanding the language, splitting the words into their corresponding
 tokens is impossible. The WordSegmenter is trained to understand these
 languages and plit them into semantically correct parts.</p>
-<p>This is the instantiated model of the <a class="reference internal" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterApproach</span></code></a>. For
+<p>This is the instantiated model of the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterApproach</span></code></a>. For
 training your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wordSegmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -1050,27 +1063,27 @@ Hub</a>.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.enableRegexTokenizer">
-<span class="sig-name descname"><span class="pre">enableRegexTokenizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableRegexTokenizer',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RegexTokenizer</span> <span class="pre">before</span> <span class="pre">segmentation.</span> <span class="pre">Useful</span> <span class="pre">for</span> <span class="pre">multilingual</span> <span class="pre">text')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.enableRegexTokenizer" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">enableRegexTokenizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='enableRegexTokenizer',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">RegexTokenizer</span> <span class="pre">before</span> <span class="pre">segmentation.</span> <span class="pre">Useful</span> <span class="pre">for</span> <span class="pre">multilingual</span> <span class="pre">text')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.enableRegexTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.enableRegexTokenizer" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordSegmenterModel'</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WordSegmenterModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pattern">
-<span class="sig-name descname"><span class="pre">pattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pattern',</span> <span class="pre">doc='regex</span> <span class="pre">pattern</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">tokenizing.</span> <span class="pre">Defaults</span> <span class="pre">\\s+')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pattern" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pattern</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pattern',</span> <span class="pre">doc='regex</span> <span class="pre">pattern</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">tokenizing.</span> <span class="pre">Defaults</span> <span class="pre">\\s+')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.pattern" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1144,7 +1157,7 @@ tokenizing, by default False.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.toLowercase">
-<span class="sig-name descname"><span class="pre">toLowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='toLowercase',</span> <span class="pre">doc='Indicates</span> <span class="pre">whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">lowercase</span> <span class="pre">before</span> <span class="pre">tokenizing.')</span></em><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.toLowercase" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">toLowercase</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='toLowercase',</span> <span class="pre">doc='Indicates</span> <span class="pre">whether</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">all</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">lowercase</span> <span class="pre">before</span> <span class="pre">tokenizing.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterModel.toLowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel.toLowercase" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1250,7 +1263,7 @@ tokenizing, by default False.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

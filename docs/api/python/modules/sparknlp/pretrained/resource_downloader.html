@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -384,7 +384,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">printProgress</span>
 
 
-<div class="viewcode-block" id="ResourceDownloader"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ResourceDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceDownloader"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ResourceDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Downloads and manages resources, pretrained models/pipelines.</span>
 
 <span class="sd">    Usually you will not need to use this class directly. It is called by the</span>
@@ -419,8 +419,8 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ResourceDownloader.downloadModel"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;PythonResourceDownloader&#39;</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.downloadModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;PythonResourceDownloader&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a model with the default downloader. Usually this method</span>
 <span class="sd">        does not need to be called directly, as it is called by the `pretrained()`</span>
 <span class="sd">        method of the annotator.</span>
@@ -463,8 +463,8 @@ document.write(`
 
             <span class="k">return</span> <span class="n">reader</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">j_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.downloadModelDirectly"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;public/models&quot;</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.downloadModelDirectly"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;public/models&quot;</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads a model directly to the cache folder.</span>
 <span class="sd">        You can use to copy-paste the s3 URI from the model hub  and download the model.</span>
 <span class="sd">        For available s3 URI and models, please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
@@ -480,8 +480,8 @@ document.write(`
         <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">unzip</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ResourceDownloader.downloadPipeline"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">downloadPipeline</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.downloadPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">downloadPipeline</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pipeline with the default downloader.</span>
 
 <span class="sd">        Parameters</span>
@@ -516,8 +516,8 @@ document.write(`
 
             <span class="k">return</span> <span class="n">jmodel</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.clearCache"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">clearCache</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.clearCache"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">clearCache</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Clears the cache entry of a model.</span>
 
 <span class="sd">        Parameters</span>
@@ -531,8 +531,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_internal</span><span class="o">.</span><span class="n">_ClearCache</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.showPublicModels"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">showPublicModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.showPublicModels"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">showPublicModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints all pretrained models for a particular annotator model, that are</span>
 <span class="sd">        compatible with a version of Spark NLP. If any of the optional arguments are not</span>
 <span class="sd">        set, the filter is not considered.</span>
@@ -548,8 +548,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowPublicModels</span><span class="p">(</span><span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.showPublicPipelines"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">showPublicPipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.showPublicPipelines"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">showPublicPipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints all pretrained models for a particular annotator model, that are</span>
 <span class="sd">        compatible with a version of Spark NLP. If any of the optional arguments are not</span>
 <span class="sd">        set, the filter is not considered.</span>
@@ -563,14 +563,14 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowPublicPipelines</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.showUnCategorizedResources"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">showUnCategorizedResources</span><span class="p">():</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.showUnCategorizedResources"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">showUnCategorizedResources</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Shows models or pipelines in the metadata which has not been categorized yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowUnCategorizedResources</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ResourceDownloader.showAvailableAnnotators"><a class="viewcode-back" href="../../../_api/sparknlp.pretrained.resource_downloader.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">showAvailableAnnotators</span><span class="p">():</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ResourceDownloader.showAvailableAnnotators"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">showAvailableAnnotators</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Shows all available annotators in Spark NLP.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowAvailableAnnotators</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div></div>
@@ -616,7 +616,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

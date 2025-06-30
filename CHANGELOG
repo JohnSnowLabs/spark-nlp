@@ -1,4 +1,54 @@
 =======
+6.0.3
+=======
+----------------
+New Features & Enhancements
+----------------
+* Introducing E5-V Universal Embeddings (SPARKNLP-1143)
+* Enhanced Chunking Strategies and Behavior (SPARKNLP-1125)
+* New XML Reader (SPARKNLP-1119)
+
+----------------
+Bug Fixes
+----------------
+* Fixed typo for Excel reader notebook
+
+=======
+6.0.2
+=======
+----------------
+New Features & Enhancements
+----------------
+* Introducing new Vision Language Models:
+  * InternVL (SPARKNLP-1123)
+  * Florance-2 (SPARKNLP-1131)
+* Introducing Partition and PartitionTransformer for unstructured data processing (SPARKNLP-1174)
+
+----------------
+Bug Fixes
+----------------
+* Adjusted python type annotations for the `AutoGGUFModel` (#14576)
+
+=======
+6.0.1
+=======
+----------------
+New Features & Enhancements
+----------------
+* Introducing new Vision Language Models:
+  * SmolVLM (SPARKNLP-1115)
+  * PaliGemma + PaliGemma2 (SPARKNLP-1121)
+  * Gemma 3 (SPARKNLP-1124)
+
+* Adding additional parameters options to PDF Reader (SPARKNLP-1158)
+
+----------------
+Bug Fixes
+----------------
+* Fixed typo in Python for RoBertaForMultipleChoice (SPARKNLP-1177)
+* Fixing typos in various jupyter notebooks
+
+=======
 6.0.0
 =======
 ----------------

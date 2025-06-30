@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_overwriter &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.ner.ner_overwriter &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="NerOverwriter"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ner.ner_overwriter.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NerOverwriter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="NerOverwriter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NerOverwriter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overwrites entities of specified strings.</span>
 
 <span class="sd">    The input for this Annotator have to be entities that are already extracted,</span>
@@ -474,11 +479,11 @@ document.write(`
 <span class="sd">    |[named_entity, 66, 66, O, [word -&gt; .], []]               |</span>
 <span class="sd">    +---------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerOverwriter&quot;</span>
+<div class="viewcode-block" id="NerOverwriter.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerOverwriter&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span><span class="p">]</span>
+<div class="viewcode-block" id="NerOverwriter.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span>
+<div class="viewcode-block" id="NerOverwriter.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -487,14 +492,14 @@ document.write(`
             <span class="n">newNerEntity</span><span class="o">=</span><span class="s2">&quot;I-OVERWRITE&quot;</span>
         <span class="p">)</span>
 
-    <span class="n">nerWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nerWords&quot;</span><span class="p">,</span> <span class="s2">&quot;The words to be overwritten&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">newNerEntity</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;newNerEntity&quot;</span><span class="p">,</span> <span class="s2">&quot;new NER class to apply to those stopwords&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">replaceEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;replaceEntities&quot;</span><span class="p">,</span> <span class="s2">&quot;Ner tags to be replaced&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+<div class="viewcode-block" id="NerOverwriter.nerWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.nerWords">[docs]</a>    <span class="n">nerWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nerWords&quot;</span><span class="p">,</span> <span class="s2">&quot;The words to be overwritten&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NerOverwriter.newNerEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.newNerEntity">[docs]</a>    <span class="n">newNerEntity</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;newNerEntity&quot;</span><span class="p">,</span> <span class="s2">&quot;new NER class to apply to those stopwords&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NerOverwriter.replaceEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.replaceEntities">[docs]</a>    <span class="n">replaceEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;replaceEntities&quot;</span><span class="p">,</span> <span class="s2">&quot;Ner tags to be replaced&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerOverwriter.setNerWords"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ner.ner_overwriter.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setNerWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNerWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="NerOverwriter.setNerWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setNerWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNerWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the words to be overwritten.</span>
 
 <span class="sd">        Parameters</span>
@@ -504,7 +509,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nerWords</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerOverwriter.setNewNerEntity"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ner.ner_overwriter.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setNewNerEntity">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNewNerEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="NerOverwriter.setNewNerEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setNewNerEntity">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNewNerEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets new NER class to apply to those stopwords, by default</span>
 <span class="sd">        I-OVERWRITE.</span>
 
@@ -515,7 +520,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">newNerEntity</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NerOverwriter.setReplaceEntities"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.ner.ner_overwriter.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setReplaceEntities">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReplaceEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rw</span><span class="p">):</span>
+<div class="viewcode-block" id="NerOverwriter.setReplaceEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter.setReplaceEntities">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReplaceEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rw</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets weights dictionary with the tags that you want to replace.</span>
 
 <span class="sd">        Parameters</span>
@@ -566,7 +571,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

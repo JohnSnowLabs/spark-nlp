@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.openai.openai_completion module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.openai.openai_completion module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,10 +686,9 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OpenAICompletion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.ml.ai.OpenAICompletion'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Transformer that makes a request for OpenAI Completion API for each executor.</p>
-<blockquote>
-<div><p>See OpenAI API Doc: <a class="reference external" href="https://platform.openai.com/docs/api-reference/completions/create">https://platform.openai.com/docs/api-reference/completions/create</a> for reference</p>
+<p>See OpenAI API Doc: <a class="reference external" href="https://platform.openai.com/docs/api-reference/completions/create">https://platform.openai.com/docs/api-reference/completions/create</a> for reference</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -689,7 +701,6 @@ document.write(`
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -724,82 +735,95 @@ document.write(`
 </dl>
 </dd>
 </dl>
-<dl class="simple">
-<dt>I had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|</dt><dd><p><a href="#id1"><span class="problematic" id="id2">|</span></a>[{document, 0, 227,</p>
-</dd>
-<dt>I recently visited Barbecue Joe’s for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |</dt><dd><p><a href="#id3"><span class="problematic" id="id4">|</span></a>[{document, 0, 172,</p>
-</dd>
-</dl>
-<dl>
-<dt>{ </dt><dd><dl class="simple">
-<dt>“review”: { </dt><dd><p>“overallRating”: 4, 
-“reviewBody”: “I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |</p>
-</dd>
-</dl>
-<table class="table">
-<tbody>
-</tbody>
-</table>
-</dd>
-</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">openai_completion</span> <span class="o">=</span> <span class="n">OpenAICompletion</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;completion&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setModel</span><span class="p">(</span><span class="s2">&quot;text-davinci-003&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxTokens</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">openai_completion</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]],</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample_text</span><span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;Generate a restaurant review.&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Write a review for a local eatery.&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Create a JSON with a review of a dining experience.&quot;</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_text</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|completion                                                                                                                                                                                                                                                                                        |</span>
+<span class="go">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[{document, 0, 258, \n\nI had the pleasure of dining at La Fiorita recently, and it was a truly delightful experience! The menu boasted a wonderful selection of classic Italian dishes, all exquisitely prepared and presented. The service staff was friendly and attentive and really, {}, []}]|</span>
+<span class="go">|[{document, 0, 227, \n\nI recently visited Barbecue Joe&#39;s for dinner and it was amazing! The menu had so many items to choose from including pulled pork, smoked turkey, brisket, pork ribs, and sandwiches. I opted for the pulled pork sandwich and let, {}, []}]                               |</span>
+<span class="go">|[{document, 0, 172, \n\n{ \n   &quot;review&quot;: { \n      &quot;overallRating&quot;: 4, \n      &quot;reviewBody&quot;: &quot;I enjoyed my meal at this restaurant. The food was flavourful, well-prepared and beautifully presented., {}, []}]                                                                                   |</span>
+<span class="go">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.bestOf">
-<span class="sig-name descname"><span class="pre">bestOf</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='bestOf',</span> <span class="pre">doc='Generates</span> <span class="pre">best_of</span> <span class="pre">completions</span> <span class="pre">server-side</span> <span class="pre">and</span> <span class="pre">returns</span> <span class="pre">the</span> <span class="pre">`best`</span> <span class="pre">(the</span> <span class="pre">one</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">highest</span> <span class="pre">log</span> <span class="pre">probability</span> <span class="pre">per</span> <span class="pre">token).')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.bestOf" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">bestOf</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='bestOf',</span> <span class="pre">doc='Generates</span> <span class="pre">best_of</span> <span class="pre">completions</span> <span class="pre">server-side</span> <span class="pre">and</span> <span class="pre">returns</span> <span class="pre">the</span> <span class="pre">`best`</span> <span class="pre">(the</span> <span class="pre">one</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">highest</span> <span class="pre">log</span> <span class="pre">probability</span> <span class="pre">per</span> <span class="pre">token).')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.bestOf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.bestOf" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.echo">
-<span class="sig-name descname"><span class="pre">echo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='echo',</span> <span class="pre">doc='Echo</span> <span class="pre">back</span> <span class="pre">the</span> <span class="pre">prompt</span> <span class="pre">in</span> <span class="pre">addition</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">completion')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.echo" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">echo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='echo',</span> <span class="pre">doc='Echo</span> <span class="pre">back</span> <span class="pre">the</span> <span class="pre">prompt</span> <span class="pre">in</span> <span class="pre">addition</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">completion')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.echo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.echo" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.frequencyPenalty">
-<span class="sig-name descname"><span class="pre">frequencyPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyPenalty',</span> <span class="pre">doc=&quot;Number</span> <span class="pre">between</span> <span class="pre">-2.0</span> <span class="pre">and</span> <span class="pre">2.0.</span> <span class="pre">Positive</span> <span class="pre">values</span> <span class="pre">penalize</span> <span class="pre">new</span> <span class="pre">tokens</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">their</span> <span class="pre">existing</span> <span class="pre">frequency</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">so</span> <span class="pre">far,</span> <span class="pre">decreasing</span> <span class="pre">the</span> <span class="pre">model's</span> <span class="pre">likelihood</span> <span class="pre">to</span> <span class="pre">repeat</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">line</span> <span class="pre">verbatim.&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.frequencyPenalty" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">frequencyPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyPenalty',</span> <span class="pre">doc=&quot;Number</span> <span class="pre">between</span> <span class="pre">-2.0</span> <span class="pre">and</span> <span class="pre">2.0.</span> <span class="pre">Positive</span> <span class="pre">values</span> <span class="pre">penalize</span> <span class="pre">new</span> <span class="pre">tokens</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">their</span> <span class="pre">existing</span> <span class="pre">frequency</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">so</span> <span class="pre">far,</span> <span class="pre">decreasing</span> <span class="pre">the</span> <span class="pre">model's</span> <span class="pre">likelihood</span> <span class="pre">to</span> <span class="pre">repeat</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">line</span> <span class="pre">verbatim.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.frequencyPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.frequencyPenalty" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.logitBias">
-<span class="sig-name descname"><span class="pre">logitBias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='logitBias',</span> <span class="pre">doc='Modify</span> <span class="pre">the</span> <span class="pre">likelihood</span> <span class="pre">of</span> <span class="pre">specified</span> <span class="pre">tokens</span> <span class="pre">appearing</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">completion.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logitBias" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">logitBias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='logitBias',</span> <span class="pre">doc='Modify</span> <span class="pre">the</span> <span class="pre">likelihood</span> <span class="pre">of</span> <span class="pre">specified</span> <span class="pre">tokens</span> <span class="pre">appearing</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">completion.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.logitBias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logitBias" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.logprobs">
-<span class="sig-name descname"><span class="pre">logprobs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='logprobs',</span> <span class="pre">doc='Include</span> <span class="pre">the</span> <span class="pre">log</span> <span class="pre">probabilities</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">logprobs</span> <span class="pre">most</span> <span class="pre">likely</span> <span class="pre">tokens,</span> <span class="pre">as</span> <span class="pre">well</span> <span class="pre">the</span> <span class="pre">chosen</span> <span class="pre">tokens.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logprobs" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">logprobs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='logprobs',</span> <span class="pre">doc='Include</span> <span class="pre">the</span> <span class="pre">log</span> <span class="pre">probabilities</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">logprobs</span> <span class="pre">most</span> <span class="pre">likely</span> <span class="pre">tokens,</span> <span class="pre">as</span> <span class="pre">well</span> <span class="pre">the</span> <span class="pre">chosen</span> <span class="pre">tokens.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.logprobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.logprobs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.maxTokens">
-<span class="sig-name descname"><span class="pre">maxTokens</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxTokens',</span> <span class="pre">doc='The</span> <span class="pre">maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">completion.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.maxTokens" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxTokens</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxTokens',</span> <span class="pre">doc='The</span> <span class="pre">maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">completion.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.maxTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.maxTokens" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.model">
-<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='model',</span> <span class="pre">doc='ID</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">OpenAI</span> <span class="pre">model</span> <span class="pre">to</span> <span class="pre">use')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.model" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='model',</span> <span class="pre">doc='ID</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">OpenAI</span> <span class="pre">model</span> <span class="pre">to</span> <span class="pre">use')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.model" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OpenAICompletion'</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OpenAICompletion'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.numberOfCompletions">
-<span class="sig-name descname"><span class="pre">numberOfCompletions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numberOfCompletions',</span> <span class="pre">doc='How</span> <span class="pre">many</span> <span class="pre">completions</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">prompt.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.numberOfCompletions" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">numberOfCompletions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numberOfCompletions',</span> <span class="pre">doc='How</span> <span class="pre">many</span> <span class="pre">completions</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">prompt.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.numberOfCompletions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.numberOfCompletions" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.presencePenalty">
-<span class="sig-name descname"><span class="pre">presencePenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='presencePenalty',</span> <span class="pre">doc=&quot;Number</span> <span class="pre">between</span> <span class="pre">-2.0</span> <span class="pre">and</span> <span class="pre">2.0.</span> <span class="pre">Positive</span> <span class="pre">values</span> <span class="pre">penalize</span> <span class="pre">new</span> <span class="pre">tokens</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">whether</span> <span class="pre">they</span> <span class="pre">appear</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">so</span> <span class="pre">far,</span> <span class="pre">increasing</span> <span class="pre">the</span> <span class="pre">model's</span> <span class="pre">likelihood</span> <span class="pre">to</span> <span class="pre">talk</span> <span class="pre">about</span> <span class="pre">new</span> <span class="pre">topics.&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.presencePenalty" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">presencePenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='presencePenalty',</span> <span class="pre">doc=&quot;Number</span> <span class="pre">between</span> <span class="pre">-2.0</span> <span class="pre">and</span> <span class="pre">2.0.</span> <span class="pre">Positive</span> <span class="pre">values</span> <span class="pre">penalize</span> <span class="pre">new</span> <span class="pre">tokens</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">whether</span> <span class="pre">they</span> <span class="pre">appear</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">so</span> <span class="pre">far,</span> <span class="pre">increasing</span> <span class="pre">the</span> <span class="pre">model's</span> <span class="pre">likelihood</span> <span class="pre">to</span> <span class="pre">talk</span> <span class="pre">about</span> <span class="pre">new</span> <span class="pre">topics.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.presencePenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.presencePenalty" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -863,7 +887,7 @@ decreasing the model’s likelihood to repeat the same line verbatim.</p>
 <dt><strong>value</strong><span class="classifier">dict</span></dt><dd><dl class="simple">
 <dt>Modify the likelihood of specified tokens appearing in the completion.</dt><dd><p>Accepts a json object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated
 bias value from -100 to 100. You can use this tokenizer tool (which works for both GPT-2 and GPT-3) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
-As an example, you can pass {“50256”: -100} to prevent the &lt;<a href="#id5"><span class="problematic" id="id6">|endoftext|</span></a>&gt; token from being generated.</p>
+As an example, you can pass {“50256”: -100} to prevent the &lt;<a href="#id1"><span class="problematic" id="id2">|endoftext|</span></a>&gt; token from being generated.</p>
 </dd>
 </dl>
 </dd>
@@ -1032,27 +1056,27 @@ of the tokens with top_p probability mass</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='stop',</span> <span class="pre">doc='Up</span> <span class="pre">to</span> <span class="pre">4</span> <span class="pre">sequences</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">API</span> <span class="pre">will</span> <span class="pre">stop</span> <span class="pre">generating</span> <span class="pre">further</span> <span class="pre">tokens.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.stop" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='stop',</span> <span class="pre">doc='Up</span> <span class="pre">to</span> <span class="pre">4</span> <span class="pre">sequences</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">API</span> <span class="pre">will</span> <span class="pre">stop</span> <span class="pre">generating</span> <span class="pre">further</span> <span class="pre">tokens.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.stop" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.suffix">
-<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='suffix',</span> <span class="pre">doc='The</span> <span class="pre">suffix</span> <span class="pre">that</span> <span class="pre">comes</span> <span class="pre">after</span> <span class="pre">a</span> <span class="pre">completion</span> <span class="pre">of</span> <span class="pre">inserted</span> <span class="pre">text.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.suffix" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='suffix',</span> <span class="pre">doc='The</span> <span class="pre">suffix</span> <span class="pre">that</span> <span class="pre">comes</span> <span class="pre">after</span> <span class="pre">a</span> <span class="pre">completion</span> <span class="pre">of</span> <span class="pre">inserted</span> <span class="pre">text.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.suffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.suffix" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.temperature">
-<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='What</span> <span class="pre">sampling</span> <span class="pre">temperature</span> <span class="pre">to</span> <span class="pre">use,</span> <span class="pre">between</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">2')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.temperature" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='What</span> <span class="pre">sampling</span> <span class="pre">temperature</span> <span class="pre">to</span> <span class="pre">use,</span> <span class="pre">between</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">2')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.temperature" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.topP">
-<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='An</span> <span class="pre">alternative</span> <span class="pre">to</span> <span class="pre">sampling</span> <span class="pre">with</span> <span class="pre">temperature,</span> <span class="pre">called</span> <span class="pre">nucleus</span> <span class="pre">sampling,</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">considers</span> <span class="pre">the</span> <span class="pre">results</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">top_p</span> <span class="pre">probability</span> <span class="pre">mass')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.topP" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='An</span> <span class="pre">alternative</span> <span class="pre">to</span> <span class="pre">sampling</span> <span class="pre">with</span> <span class="pre">temperature,</span> <span class="pre">called</span> <span class="pre">nucleus</span> <span class="pre">sampling,</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">model</span> <span class="pre">considers</span> <span class="pre">the</span> <span class="pre">results</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">top_p</span> <span class="pre">probability</span> <span class="pre">mass')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.topP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.topP" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.openai.openai_completion.OpenAICompletion.user">
-<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='user',</span> <span class="pre">doc='A</span> <span class="pre">unique</span> <span class="pre">identifier</span> <span class="pre">representing</span> <span class="pre">your</span> <span class="pre">end-user,</span> <span class="pre">which</span> <span class="pre">can</span> <span class="pre">help</span> <span class="pre">OpenAI</span> <span class="pre">to</span> <span class="pre">monitor</span> <span class="pre">and</span> <span class="pre">detect</span> <span class="pre">abuse.')</span></em><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.user" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='user',</span> <span class="pre">doc='A</span> <span class="pre">unique</span> <span class="pre">identifier</span> <span class="pre">representing</span> <span class="pre">your</span> <span class="pre">end-user,</span> <span class="pre">which</span> <span class="pre">can</span> <span class="pre">help</span> <span class="pre">OpenAI</span> <span class="pre">to</span> <span class="pre">monitor</span> <span class="pre">and</span> <span class="pre">detect</span> <span class="pre">abuse.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/openai/openai_completion.html#OpenAICompletion.user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.openai.openai_completion.OpenAICompletion.user" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1156,7 +1180,7 @@ of the tokens with top_p probability mass</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

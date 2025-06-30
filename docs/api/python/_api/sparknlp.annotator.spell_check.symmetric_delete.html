@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.spell_check.symmetric_delete module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.spell_check.symmetric_delete module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,16 +686,16 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SymmetricDeleteApproach</span></span><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_approach.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_approach/index.html#sparknlp.common.annotator_approach.AnnotatorApproach" title="sparknlp.common.annotator_approach.AnnotatorApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorApproach</span></code></a></p>
 <p>Trains a Symmetric Delete spelling correction algorithm. Retrieves tokens
 and utilizes distance metrics to compute possible derived words.</p>
 <p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit
 candidate generation and dictionary lookup for a given Damerau-Levenshtein distance.
 It is six orders of magnitude faster (than the standard approach with deletes +
 transposes + replaces + inserts) and language independent.</p>
-<p>A dictionary of correct spellings must be provided with <a class="reference internal" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a> in
+<p>A dictionary of correct spellings must be provided with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a> in
 the form of a text file, where each word is parsed by a regex pattern.</p>
-<p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteModel</span></code></a>.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteModel</span></code></a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -757,42 +770,42 @@ from training, by default 0</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.corpus">
-<span class="sig-name descname"><span class="pre">corpus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='corpus',</span> <span class="pre">doc='folder</span> <span class="pre">or</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">text</span> <span class="pre">that</span> <span class="pre">teaches</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">language')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.corpus" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">corpus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='corpus',</span> <span class="pre">doc='folder</span> <span class="pre">or</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">text</span> <span class="pre">that</span> <span class="pre">teaches</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">language')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.corpus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.corpus" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.deletesThreshold">
-<span class="sig-name descname"><span class="pre">deletesThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='deletesThreshold',</span> <span class="pre">doc='minimum</span> <span class="pre">frequency</span> <span class="pre">of</span> <span class="pre">corrections</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">needs</span> <span class="pre">to</span> <span class="pre">have</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">considered</span> <span class="pre">from</span> <span class="pre">training.Increase</span> <span class="pre">if</span> <span class="pre">training</span> <span class="pre">set</span> <span class="pre">is</span> <span class="pre">LARGE.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">0')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.deletesThreshold" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">deletesThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='deletesThreshold',</span> <span class="pre">doc='minimum</span> <span class="pre">frequency</span> <span class="pre">of</span> <span class="pre">corrections</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">needs</span> <span class="pre">to</span> <span class="pre">have</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">considered</span> <span class="pre">from</span> <span class="pre">training.Increase</span> <span class="pre">if</span> <span class="pre">training</span> <span class="pre">set</span> <span class="pre">is</span> <span class="pre">LARGE.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.deletesThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.deletesThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dictionary">
-<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc='folder</span> <span class="pre">or</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">text</span> <span class="pre">that</span> <span class="pre">teaches</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">language')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dictionary" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dictionary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dictionary',</span> <span class="pre">doc='folder</span> <span class="pre">or</span> <span class="pre">file</span> <span class="pre">with</span> <span class="pre">text</span> <span class="pre">that</span> <span class="pre">teaches</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">language')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dictionary" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dupsLimit">
-<span class="sig-name descname"><span class="pre">dupsLimit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dupsLimit',</span> <span class="pre">doc='maximum</span> <span class="pre">duplicate</span> <span class="pre">of</span> <span class="pre">characters</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">to</span> <span class="pre">consider.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">2')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dupsLimit" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dupsLimit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='dupsLimit',</span> <span class="pre">doc='maximum</span> <span class="pre">duplicate</span> <span class="pre">of</span> <span class="pre">characters</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">to</span> <span class="pre">consider.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">2')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.dupsLimit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dupsLimit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.frequencyThreshold">
-<span class="sig-name descname"><span class="pre">frequencyThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyThreshold',</span> <span class="pre">doc='minimum</span> <span class="pre">frequency</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">considered</span> <span class="pre">from</span> <span class="pre">training.</span> <span class="pre">Increase</span> <span class="pre">if</span> <span class="pre">training</span> <span class="pre">set</span> <span class="pre">is</span> <span class="pre">LARGE.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">0')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.frequencyThreshold" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">frequencyThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='frequencyThreshold',</span> <span class="pre">doc='minimum</span> <span class="pre">frequency</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">considered</span> <span class="pre">from</span> <span class="pre">training.</span> <span class="pre">Increase</span> <span class="pre">if</span> <span class="pre">training</span> <span class="pre">set</span> <span class="pre">is</span> <span class="pre">LARGE.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">0')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.frequencyThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.frequencyThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.maxEditDistance">
-<span class="sig-name descname"><span class="pre">maxEditDistance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxEditDistance',</span> <span class="pre">doc='max</span> <span class="pre">edit</span> <span class="pre">distance</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">derive</span> <span class="pre">strings</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">word')</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.maxEditDistance" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxEditDistance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxEditDistance',</span> <span class="pre">doc='max</span> <span class="pre">edit</span> <span class="pre">distance</span> <span class="pre">characters</span> <span class="pre">to</span> <span class="pre">derive</span> <span class="pre">strings</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">word')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.maxEditDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.maxEditDistance" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -866,14 +879,14 @@ default 3.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SymmetricDeleteModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Symmetric Delete spelling correction algorithm.</p>
 <p>The Symmetric Delete spelling correction algorithm reduces the complexity of
 edit candidate generation and dictionary lookup for a given
 Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
 standard approach with deletes + transposes + replaces + inserts) and
 language independent.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spell</span> <span class="o">=</span> <span class="n">SymmetricDeleteModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
@@ -943,17 +956,17 @@ available pretrained models please see the <a class="reference external" href="h
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['token']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SymmetricDeleteModel'</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SymmetricDeleteModel'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteModel.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/spell_check/symmetric_delete.html#SymmetricDeleteModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1070,7 +1083,7 @@ Spark NLPs repositories otherwise.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

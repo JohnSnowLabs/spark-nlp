@@ -1,0 +1,20 @@
+<library>
+    <section name="Fiction">
+        <shelf number="1">
+            <book>
+                <title>The Alchemist</title>
+                <author>Paulo Coelho</author>
+                <year>1988</year>
+            </book>
+        </shelf>
+    </section>
+    <section name="Science">
+        <shelf number="2">
+            <book>
+                <title>A Brief History of Time</title>
+                <author>Stephen Hawking</author>
+                <year>1988</year>
+            </book>
+        </shelf>
+    </section>
+</library>

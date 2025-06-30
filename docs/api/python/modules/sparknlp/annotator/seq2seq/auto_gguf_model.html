@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="AutoGGUFModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_model.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AutoGGUFModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasLlamaCppProperties</span><span class="p">):</span>
+<div class="viewcode-block" id="AutoGGUFModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AutoGGUFModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasLlamaCppProperties</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Annotator that uses the llama.cpp library to generate text completions with large language</span>
 <span class="sd">    models.</span>
@@ -598,9 +603,9 @@ document.write(`
 <span class="sd">    +-----------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFModel&quot;</span>
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span>
+<div class="viewcode-block" id="AutoGGUFModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFModel&quot;</span></div>
+<div class="viewcode-block" id="AutoGGUFModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AutoGGUFModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
 
     <span class="nd">@keyword_only</span>
@@ -617,8 +622,8 @@ document.write(`
             <span class="n">nPredict</span><span class="o">=</span><span class="mi">100</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="AutoGGUFModel.loadSavedModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_model.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFModel.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -637,8 +642,8 @@ document.write(`
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AutoGGUFLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">AutoGGUFModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AutoGGUFModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.seq2seq.auto_gguf_model.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -699,7 +704,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

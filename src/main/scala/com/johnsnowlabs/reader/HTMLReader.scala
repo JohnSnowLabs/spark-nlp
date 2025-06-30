@@ -17,8 +17,9 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
+import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.{col, lit, udf}
+import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element, Node, TextNode}
 
@@ -26,32 +27,110 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends Serializable {
+/** Class to parse and read HTML files.
+  *
+  * @param titleFontSize
+  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
+  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *   column, alongside the structured output. By default, it is set to false.
+  * @param timeout
+  *   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
+  *   from URLs. By default, it is set to 0.
+  * @param headers
+  *   sets the necessary headers for the URL request.
+  *
+  * Two types of input paths are supported for the reader,
+  *
+  * htmlPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+  * "path/html/files"
+  *
+  * url: this is the URL or set of URLs of a website . E.g., "https://www.wikipedia.org"
+  *
+  * ==Example==
+  * {{{
+  * val path = "./html-files/fake-html.html"
+  * val HTMLReader = new HTMLReader()
+  * val htmlDF = HTMLReader.read(url)
+  * }}}
+  *
+  * {{{
+  * htmlDF.show()
+  * +--------------------+--------------------+
+  * |                path|                html|
+  * +--------------------+--------------------+
+  * |file:/content/htm...|[{Title, My First...|
+  * +--------------------+--------------------+
+  *
+  * htmlDf.printSchema()
+  * root
+  *  |-- url: string (nullable = true)
+  *  |-- html: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_HTML_Reader_Demo.ipynb notebook]].
+  */
 
-  private val spark = ResourceHelper.spark
+class HTMLReader(
+    titleFontSize: Int = 16,
+    storeContent: Boolean = false,
+    timeout: Int = 0,
+    headers: Map[String, String] = Map.empty)
+    extends Serializable {
+
+  private lazy val spark = ResourceHelper.spark
   import spark.implicits._
+
+  private var outputColumn = "html"
+
+  def setOutputColumn(value: String): this.type = {
+    require(value.nonEmpty, "Output column name cannot be empty.")
+    outputColumn = value
+    this
+  }
+
+  def getOutputColumn: String = outputColumn
+
+  /** @param inputSource
+    *   this is the link to the URL E.g. www.wikipedia.com
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
 
   def read(inputSource: String): DataFrame = {
 
     ResourceHelper match {
       case _ if validFile(inputSource) && !inputSource.startsWith("http") =>
-        val htmlDf = spark.sparkContext
-          .wholeTextFiles(inputSource)
-          .toDF("path", "content")
-          .withColumn("html", parseHtmlUDF(col("content")))
-        if (storeContent) htmlDf.select("path", "content", "html")
-        else htmlDf.select("path", "html")
+        val htmlDf = datasetWithTextFile(spark, inputSource)
+          .withColumn(outputColumn, parseHtmlUDF(col("content")))
+        if (storeContent) htmlDf.select("path", "content", outputColumn)
+        else htmlDf.select("path", outputColumn)
       case _ if isValidURL(inputSource) =>
         val htmlDf = spark
           .createDataset(Seq(inputSource))
           .toDF("url")
-          .withColumn("html", parseURLUDF(col("url")))
-        if (storeContent) htmlDf.select("url", "content", "html")
-        else htmlDf.select("url", "html")
+          .withColumn(outputColumn, parseURLUDF(col("url")))
+        if (storeContent) htmlDf.select("url", "content", outputColumn)
+        else htmlDf.select("url", outputColumn)
       case _ =>
         throw new IllegalArgumentException(s"Invalid inputSource: $inputSource")
     }
   }
+
+  /** @param inputURLs
+    *   this is a list of URLs E.g. [www.wikipedia.com, www.example.com]
+    *
+    * @return
+    *   Dataframe with parsed URL content.
+    */
 
   def read(inputURLs: Array[String]): DataFrame = {
     val spark = ResourceHelper.spark
@@ -61,7 +140,7 @@ class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends
     spark
       .createDataset(validURLs)
       .toDF("url")
-      .withColumn("html", parseURLUDF(col("url")))
+      .withColumn(outputColumn, parseURLUDF(col("url")))
   }
 
   private val parseHtmlUDF = udf((html: String) => {
@@ -70,13 +149,31 @@ class HTMLReader(titleFontSize: Int = 16, storeContent: Boolean = false) extends
   })
 
   private val parseURLUDF = udf((url: String) => {
-    val document = Jsoup.connect(url).get()
+    val connection = Jsoup
+      .connect(url)
+      .headers(headers.asJava)
+      .timeout(timeout * 1000)
+    val document = connection.get()
     startTraversalFromBody(document)
   })
 
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
     val body = document.body()
     extractElements(body)
+  }
+
+  def htmlToHTMLElement(html: String): Array[HTMLElement] = {
+    val document = Jsoup.parse(html)
+    startTraversalFromBody(document)
+  }
+
+  def urlToHTMLElement(url: String): Array[HTMLElement] = {
+    val connection = Jsoup
+      .connect(url)
+      .headers(headers.asJava)
+      .timeout(timeout * 1000)
+    val document = connection.get()
+    startTraversalFromBody(document)
   }
 
   private case class NodeMetadata(tagName: Option[String], hidden: Boolean, var visited: Boolean)

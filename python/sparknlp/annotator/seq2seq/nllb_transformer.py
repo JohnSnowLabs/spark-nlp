@@ -77,7 +77,7 @@ class NLLBTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         Target Language (Default: `fr`)
 
     Languages Covered
-    -----
+    -----------------
     Acehnese (Arabic script) (ace_Arab), Acehnese (Latin script) (ace_Latn), Mesopotamian Arabic
     (acm_Arab), Ta’izzi-Adeni Arabic (acq_Arab), Tunisian Arabic (aeb_Arab), Afrikaans (afr_Latn),
     South Levantine Arabic (ajp_Arab), Akan (aka_Latn), Amharic (amh_Ethi), North Levantine Arabic

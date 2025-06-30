@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.keyword_extraction.yake_keyword_extraction &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.keyword_extraction.yake_keyword_extraction &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="YakeKeywordExtraction"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">YakeKeywordExtraction</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">YakeKeywordExtraction</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Yake is an Unsupervised, Corpus-Independent, Domain and</span>
 <span class="sd">    Language-Independent and Single-Document keyword extraction algorithm.</span>
 
@@ -511,11 +516,11 @@ document.write(`
 <span class="sd">    |anthony goldbloom    |0.41584827825302534|</span>
 <span class="sd">    +---------------------+-------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;YakeKeywordExtraction&quot;</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;YakeKeywordExtraction&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -530,19 +535,19 @@ document.write(`
             <span class="n">stopWords</span><span class="o">=</span><span class="n">YakeKeywordExtraction</span><span class="o">.</span><span class="n">loadDefaultStopWords</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="n">minNGrams</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minNGrams&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum N-grams a keyword should have&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">maxNGrams</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxNGrams&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum N-grams a keyword should have&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Keyword Score threshold&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
-    <span class="n">windowSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;windowSize&quot;</span><span class="p">,</span> <span class="s2">&quot;Window size for Co-Occurrence&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">nKeywords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nKeywords&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of Keywords to extract&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-    <span class="n">stopWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopWords&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.minNGrams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.minNGrams">[docs]</a>    <span class="n">minNGrams</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minNGrams&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum N-grams a keyword should have&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="YakeKeywordExtraction.maxNGrams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.maxNGrams">[docs]</a>    <span class="n">maxNGrams</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxNGrams&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum N-grams a keyword should have&quot;</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="YakeKeywordExtraction.threshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.threshold">[docs]</a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Keyword Score threshold&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+<div class="viewcode-block" id="YakeKeywordExtraction.windowSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.windowSize">[docs]</a>    <span class="n">windowSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;windowSize&quot;</span><span class="p">,</span> <span class="s2">&quot;Window size for Co-Occurrence&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="YakeKeywordExtraction.nKeywords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.nKeywords">[docs]</a>    <span class="n">nKeywords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nKeywords&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of Keywords to extract&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="YakeKeywordExtraction.stopWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.stopWords">[docs]</a>    <span class="n">stopWords</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;stopWords&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;the words to be filtered out. by default it&#39;s english stop words from Spark ML&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setWindowSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setWindowSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setWindowSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setWindowSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setWindowSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setWindowSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets window size for Co-Occurrence, by default 3.</span>
 
 <span class="sd">        Parameters</span>
@@ -552,7 +557,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">windowSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setMinNGrams"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setMinNGrams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinNGrams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setMinNGrams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setMinNGrams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinNGrams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum N-grams a keyword should have, by default 2.</span>
 
 <span class="sd">        Parameters</span>
@@ -562,7 +567,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minNGrams</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setMaxNGrams"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setMaxNGrams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxNGrams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setMaxNGrams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setMaxNGrams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxNGrams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum N-grams a keyword should have, by default 3.</span>
 
 <span class="sd">        Parameters</span>
@@ -572,7 +577,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxNGrams</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets keyword Score threshold, by default -1.</span>
 
 <span class="sd">        Parameters</span>
@@ -582,7 +587,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setNKeywords"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setNKeywords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNKeywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setNKeywords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setNKeywords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNKeywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of Keywords to extract, by default 30.</span>
 
 <span class="sd">        Parameters</span>
@@ -592,7 +597,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nKeywords</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.setStopWords"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStopWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.setStopWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.setStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStopWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the words to be filtered out, by default english stop words from</span>
 <span class="sd">        Spark ML.</span>
 
@@ -603,7 +608,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stopWords</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.getStopWords"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.getStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getStopWords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.getStopWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.getStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getStopWords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the words to be filtered out, by default english stop words from</span>
 <span class="sd">        Spark ML.</span>
 
@@ -614,7 +619,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stopWords</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="YakeKeywordExtraction.loadDefaultStopWords"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.loadDefaultStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadDefaultStopWords</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="YakeKeywordExtraction.loadDefaultStopWords"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction.loadDefaultStopWords">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadDefaultStopWords</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads the default stop words for the given language.</span>
 
 <span class="sd">        Supported languages: danish, dutch, english, finnish, french, german,</span>
@@ -670,7 +675,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

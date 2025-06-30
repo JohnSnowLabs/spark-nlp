@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.sentiment.vivekn_sentiment &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.sentiment.vivekn_sentiment &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -379,7 +384,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common.annotator_type</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorType</span>
 
 
-<div class="viewcode-block" id="ViveknSentimentApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentiment.vivekn_sentiment.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ViveknSentimentApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="ViveknSentimentApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ViveknSentimentApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan.</span>
 
 <span class="sd">    The analyzer requires sentence boundaries to give a score in context.</span>
@@ -459,34 +464,34 @@ document.write(`
 <span class="sd">    +---------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTIMENT</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTIMENT</span></div>
 
-    <span class="n">sentimentCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.sentimentCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.sentimentCol">[docs]</a>    <span class="n">sentimentCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;sentimentCol&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;column with the sentiment result of every row. Must be &#39;positive&#39; or &#39;negative&#39;&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">pruneCorpus</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.pruneCorpus"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.pruneCorpus">[docs]</a>    <span class="n">pruneCorpus</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;pruneCorpus&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">importantFeatureRatio</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.importantFeatureRatio"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.importantFeatureRatio">[docs]</a>    <span class="n">importantFeatureRatio</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                   <span class="s2">&quot;importantFeatureRatio&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;proportion of feature content to be considered relevant. Defaults to 0.5&quot;</span><span class="p">,</span>
-                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">unimportantFeatureStep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.unimportantFeatureStep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.unimportantFeatureStep">[docs]</a>    <span class="n">unimportantFeatureStep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;unimportantFeatureStep&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;proportion to lookahead in unimportant features. Defaults to 0.025&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">featureLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.featureLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.featureLimit">[docs]</a>    <span class="n">featureLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;featureLimit&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;content feature limit, to boost performance in very dirt text. Default disabled with -1&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -494,7 +499,7 @@ document.write(`
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">pruneCorpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">importantFeatureRatio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">unimportantFeatureStep</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">featureLimit</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ViveknSentimentApproach.setSentimentCol"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentiment.vivekn_sentiment.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.setSentimentCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSentimentCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.setSentimentCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.setSentimentCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSentimentCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column with the sentiment result of every row.</span>
 
 <span class="sd">        Must be either &#39;positive&#39; or &#39;negative&#39;.</span>
@@ -506,7 +511,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sentimentCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ViveknSentimentApproach.setPruneCorpus"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentiment.vivekn_sentiment.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.setPruneCorpus">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPruneCorpus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ViveknSentimentApproach.setPruneCorpus"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach.setPruneCorpus">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPruneCorpus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the removal of unfrequent scenarios from scope, by default 1.</span>
 
 <span class="sd">        The higher the better performance.</span>
@@ -522,7 +527,7 @@ document.write(`
         <span class="k">return</span> <span class="n">ViveknSentimentModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ViveknSentimentModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentiment.vivekn_sentiment.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ViveknSentimentModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ViveknSentimentModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ViveknSentimentModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sentiment analyser inspired by the algorithm by Vivek Narayanan.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.ViveknSentimentApproach`. For</span>
@@ -553,26 +558,26 @@ document.write(`
 
 <span class="sd">    https://github.com/vivekn/sentiment/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ViveknSentimentModel&quot;</span>
+<div class="viewcode-block" id="ViveknSentimentModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ViveknSentimentModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="ViveknSentimentModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTIMENT</span>
+<div class="viewcode-block" id="ViveknSentimentModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTIMENT</span></div>
 
-    <span class="n">importantFeatureRatio</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentModel.importantFeatureRatio"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.importantFeatureRatio">[docs]</a>    <span class="n">importantFeatureRatio</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                   <span class="s2">&quot;importantFeatureRatio&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;proportion of feature content to be considered relevant. Defaults to 0.5&quot;</span><span class="p">,</span>
-                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">unimportantFeatureStep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentModel.unimportantFeatureStep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.unimportantFeatureStep">[docs]</a>    <span class="n">unimportantFeatureStep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                    <span class="s2">&quot;unimportantFeatureStep&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;proportion to lookahead in unimportant features. Defaults to 0.025&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">featureLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ViveknSentimentModel.featureLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.featureLimit">[docs]</a>    <span class="n">featureLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;featureLimit&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;content feature limit, to boost performance in very dirt text. Default disabled with -1&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ViveknSentimentModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -580,8 +585,8 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="ViveknSentimentModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.sentiment.vivekn_sentiment.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sentiment_vivekn&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ViveknSentimentModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sentiment_vivekn&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -642,7 +647,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

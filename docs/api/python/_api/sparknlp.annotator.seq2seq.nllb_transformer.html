@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.seq2seq.nllb_transformer module &#8212; Spark NLP 6.0.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.nllb_transformer module &#8212; Spark NLP 6.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=30ef5761"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=0717dd0b"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,11 +383,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
@@ -410,6 +415,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
@@ -585,18 +591,25 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
@@ -673,12 +686,12 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NLLBTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.NLLBTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sparknlp.common.annotator_model.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="sparknlp.common.properties.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasBatchedAnnotate" title="sparknlp.common.properties.HasBatchedAnnotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasBatchedAnnotate</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEngine" title="sparknlp.common.properties.HasEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEngine</span></code></a></p>
 <p>NLLB : multilingual translation model</p>
 <p>NLLB is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many
 multilingual translation.</p>
 <p>The model can directly translate between 200+ languages.</p>
-<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained" title="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+<p>Pretrained models can be loaded with <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/seq2seq/nllb_transformer/index.html#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained" title="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nllb</span> <span class="o">=</span> <span class="n">NLLBTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
@@ -732,60 +745,6 @@ default []</p>
 </dd>
 <dt><strong>tgtLang</strong></dt><dd><p>Target Language (Default: <cite>fr</cite>)</p>
 </dd>
-<dt><strong>Languages Covered</strong></dt><dd></dd>
-<dt><strong>—–</strong></dt><dd></dd>
-<dt><strong>Acehnese (Arabic script) (ace_Arab), Acehnese (Latin script) (ace_Latn), Mesopotamian Arabic</strong></dt><dd></dd>
-<dt><strong>(acm_Arab), Ta’izzi-Adeni Arabic (acq_Arab), Tunisian Arabic (aeb_Arab), Afrikaans (afr_Latn),</strong></dt><dd></dd>
-<dt><strong>South Levantine Arabic (ajp_Arab), Akan (aka_Latn), Amharic (amh_Ethi), North Levantine Arabic</strong></dt><dd></dd>
-<dt><strong>(apc_Arab), Modern Standard Arabic (arb_Arab), Modern Standard Arabic (Romanized) (arb_Latn),</strong></dt><dd></dd>
-<dt><strong>Najdi Arabic (ars_Arab), Moroccan Arabic (ary_Arab), Egyptian Arabic (arz_Arab), Assamese</strong></dt><dd></dd>
-<dt><strong>(asm_Beng), Asturian (ast_Latn), Awadhi (awa_Deva), Central Aymara (ayr_Latn), South</strong></dt><dd></dd>
-<dt><strong>Azerbaijani (azb_Arab), North Azerbaijani (azj_Latn), Bashkir (bak_Cyrl), Bambara (bam_Latn),</strong></dt><dd></dd>
-<dt><strong>Balinese (ban_Latn), Belarusian (bel_Cyrl), Bemba (bem_Latn), Bengali (ben_Beng), Bhojpuri</strong></dt><dd></dd>
-<dt><strong>(bho_Deva), Banjar (Arabic script) (bjn_Arab), Banjar (Latin script) (bjn_Latn), Standard</strong></dt><dd></dd>
-<dt><strong>Tibetan (bod_Tibt), Bosnian (bos_Latn), Buginese (bug_Latn), Bulgarian (bul_Cyrl), Catalan</strong></dt><dd></dd>
-<dt><strong>(cat_Latn), Cebuano (ceb_Latn), Czech (ces_Latn), Chokwe (cjk_Latn), Central Kurdish</strong></dt><dd></dd>
-<dt><strong>(ckb_Arab), Crimean Tatar (crh_Latn), Welsh (cym_Latn), Danish (dan_Latn), German (deu_Latn),</strong></dt><dd></dd>
-<dt><strong>Southwestern Dinka (dik_Latn), Dyula (dyu_Latn), Dzongkha (dzo_Tibt), Greek (ell_Grek),</strong></dt><dd></dd>
-<dt><strong>English (eng_Latn), Esperanto (epo_Latn), Estonian (est_Latn), Basque (eus_Latn), Ewe</strong></dt><dd></dd>
-<dt><strong>(ewe_Latn), Faroese (fao_Latn), Fijian (fij_Latn), Finnish (fin_Latn), Fon (fon_Latn), French</strong></dt><dd></dd>
-<dt><strong>(fra_Latn), Friulian (fur_Latn), Nigerian Fulfulde (fuv_Latn), Scottish Gaelic (gla_Latn),</strong></dt><dd></dd>
-<dt><strong>Irish (gle_Latn), Galician (glg_Latn), Guarani (grn_Latn), Gujarati (guj_Gujr), Haitian Creole</strong></dt><dd></dd>
-<dt><strong>(hat_Latn), Hausa (hau_Latn), Hebrew (heb_Hebr), Hindi (hin_Deva), Chhattisgarhi (hne_Deva),</strong></dt><dd></dd>
-<dt><strong>Croatian (hrv_Latn), Hungarian (hun_Latn), Armenian (hye_Armn), Igbo (ibo_Latn), Ilocano</strong></dt><dd></dd>
-<dt><strong>(ilo_Latn), Indonesian (ind_Latn), Icelandic (isl_Latn), Italian (ita_Latn), Javanese</strong></dt><dd></dd>
-<dt><strong>(jav_Latn), Japanese (jpn_Jpan), Kabyle (kab_Latn), Jingpho (kac_Latn), Kamba (kam_Latn),</strong></dt><dd></dd>
-<dt><strong>Kannada (kan_Knda), Kashmiri (Arabic script) (kas_Arab), Kashmiri (Devanagari script)</strong></dt><dd></dd>
-<dt><strong>(kas_Deva), Georgian (kat_Geor), Central Kanuri (Arabic script) (knc_Arab), Central Kanuri</strong></dt><dd></dd>
-<dt><strong>(Latin script) (knc_Latn), Kazakh (kaz_Cyrl), Kabiyè (kbp_Latn), Kabuverdianu (kea_Latn),</strong></dt><dd></dd>
-<dt><strong>Khmer (khm_Khmr), Kikuyu (kik_Latn), Kinyarwanda (kin_Latn), Kyrgyz (kir_Cyrl), Kimbundu</strong></dt><dd></dd>
-<dt><strong>(kmb_Latn), Northern Kurdish (kmr_Latn), Kikongo (kon_Latn), Korean (kor_Hang), Lao</strong></dt><dd></dd>
-<dt><strong>(lao_Laoo), Ligurian (lij_Latn), Limburgish (lim_Latn), Lingala (lin_Latn), Lithuanian</strong></dt><dd></dd>
-<dt><strong>(lit_Latn), Lombard (lmo_Latn), Latgalian (ltg_Latn), Luxembourgish (ltz_Latn), Luba-Kasai</strong></dt><dd></dd>
-<dt><strong>(lua_Latn), Ganda (lug_Latn), Luo (luo_Latn), Mizo (lus_Latn), Standard Latvian (lvs_Latn),</strong></dt><dd></dd>
-<dt><strong>Magahi (mag_Deva), Maithili (mai_Deva), Malayalam (mal_Mlym), Marathi (mar_Deva), Minangkabau</strong></dt><dd></dd>
-<dt><strong>(Arabic script) (min_Arab), Minangkabau (Latin script) (min_Latn), Macedonian (mkd_Cyrl),</strong></dt><dd></dd>
-<dt><strong>Plateau Malagasy (plt_Latn), Maltese (mlt_Latn), Meitei (Bengali script) (mni_Beng), Halh</strong></dt><dd></dd>
-<dt><strong>Mongolian (khk_Cyrl), Mossi (mos_Latn), Maori (mri_Latn), Burmese (mya_Mymr), Dutch</strong></dt><dd></dd>
-<dt><strong>(nld_Latn), Norwegian Nynorsk (nno_Latn), Norwegian Bokmål (nob_Latn), Nepali (npi_Deva),</strong></dt><dd></dd>
-<dt><strong>Northern Sotho (nso_Latn), Nuer (nus_Latn), Nyanja (nya_Latn), Occitan (oci_Latn), West</strong></dt><dd></dd>
-<dt><strong>Central Oromo (gaz_Latn), Odia (ory_Orya), Pangasinan (pag_Latn), Eastern Panjabi (pan_Guru),</strong></dt><dd></dd>
-<dt><strong>Papiamento (pap_Latn), Western Persian (pes_Arab), Polish (pol_Latn), Portuguese (por_Latn),</strong></dt><dd></dd>
-<dt><strong>Dari (prs_Arab), Southern Pashto (pbt_Arab), Ayacucho Quechua (quy_Latn), Romanian (ron_Latn),</strong></dt><dd></dd>
-<dt><strong>Rundi (run_Latn), Russian (rus_Cyrl), Sango (sag_Latn), Sanskrit (san_Deva), Santali</strong></dt><dd></dd>
-<dt><strong>(sat_Olck), Sicilian (scn_Latn), Shan (shn_Mymr), Sinhala (sin_Sinh), Slovak (slk_Latn),</strong></dt><dd></dd>
-<dt><strong>Slovenian (slv_Latn), Samoan (smo_Latn), Shona (sna_Latn), Sindhi (snd_Arab), Somali</strong></dt><dd></dd>
-<dt><strong>(som_Latn), Southern Sotho (sot_Latn), Spanish (spa_Latn), Tosk Albanian (als_Latn), Sardinian</strong></dt><dd></dd>
-<dt><strong>(srd_Latn), Serbian (srp_Cyrl), Swati (ssw_Latn), Sundanese (sun_Latn), Swedish (swe_Latn),</strong></dt><dd></dd>
-<dt><strong>Swahili (swh_Latn), Silesian (szl_Latn), Tamil (tam_Taml), Tatar (tat_Cyrl), Telugu</strong></dt><dd></dd>
-<dt><strong>(tel_Telu), Tajik (tgk_Cyrl), Tagalog (tgl_Latn), Thai (tha_Thai), Tigrinya (tir_Ethi),</strong></dt><dd></dd>
-<dt><strong>Tamasheq (Latin script) (taq_Latn), Tamasheq (Tifinagh script) (taq_Tfng), Tok Pisin</strong></dt><dd></dd>
-<dt><strong>(tpi_Latn), Tswana (tsn_Latn), Tsonga (tso_Latn), Turkmen (tuk_Latn), Tumbuka (tum_Latn),</strong></dt><dd></dd>
-<dt><strong>Turkish (tur_Latn), Twi (twi_Latn), Central Atlas Tamazight (tzm_Tfng), Uyghur (uig_Arab),</strong></dt><dd></dd>
-<dt><strong>Ukrainian (ukr_Cyrl), Umbundu (umb_Latn), Urdu (urd_Arab), Northern Uzbek (uzn_Latn), Venetian</strong></dt><dd></dd>
-<dt><strong>(vec_Latn), Vietnamese (vie_Latn), Waray (war_Latn), Wolof (wol_Latn), Xhosa (xho_Latn),</strong></dt><dd></dd>
-<dt><strong>Eastern Yiddish (ydd_Hebr), Yoruba (yor_Latn), Yue Chinese (yue_Hant), Chinese (Simplified)</strong></dt><dd></dd>
-<dt><strong>(zho_Hans), Chinese (Traditional) (zho_Hant), Standard Malay (zsm_Latn), Zulu (zul_Latn).</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -836,27 +795,27 @@ to the previous state-of-the-art, laying important groundwork towards realizing 
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.beamSize">
-<span class="sig-name descname"><span class="pre">beamSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='beamSize',</span> <span class="pre">doc='The</span> <span class="pre">Number</span> <span class="pre">of</span> <span class="pre">beams</span> <span class="pre">for</span> <span class="pre">beam</span> <span class="pre">search.')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.beamSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">beamSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='beamSize',</span> <span class="pre">doc='The</span> <span class="pre">Number</span> <span class="pre">of</span> <span class="pre">beams</span> <span class="pre">for</span> <span class="pre">beam</span> <span class="pre">search.')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.beamSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.beamSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.configProtoBytes">
-<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">configProtoBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='configProtoBytes',</span> <span class="pre">doc='ConfigProto</span> <span class="pre">from</span> <span class="pre">tensorflow,</span> <span class="pre">serialized</span> <span class="pre">into</span> <span class="pre">byte</span> <span class="pre">array.</span> <span class="pre">Get</span> <span class="pre">with</span> <span class="pre">config_proto.SerializeToString()')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.configProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.configProtoBytes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.doSample">
-<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.doSample" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">doSample</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='doSample',</span> <span class="pre">doc='Whether</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">sampling;</span> <span class="pre">use</span> <span class="pre">greedy</span> <span class="pre">decoding</span> <span class="pre">otherwise')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.doSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.doSample" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.ignoreTokenIds">
-<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ignoreTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreTokenIds',</span> <span class="pre">doc=&quot;A</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">ignored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">decoder's</span> <span class="pre">output&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.ignoreTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.ignoreTokenIds" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -883,27 +842,27 @@ to the previous state-of-the-art, laying important groundwork towards realizing 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.maxOutputLength">
-<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">maxOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='maxOutputLength',</span> <span class="pre">doc='Maximum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">output</span> <span class="pre">text')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.maxOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.maxOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.minOutputLength">
-<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">minOutputLength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='minOutputLength',</span> <span class="pre">doc='Minimum</span> <span class="pre">length</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">generated')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.minOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.minOutputLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NLLBTransformer'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.name" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NLLBTransformer'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.noRepeatNgramSize">
-<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">noRepeatNgramSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='noRepeatNgramSize',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">int</span> <span class="pre">&gt;</span> <span class="pre">0,</span> <span class="pre">all</span> <span class="pre">ngrams</span> <span class="pre">of</span> <span class="pre">that</span> <span class="pre">size</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">occur</span> <span class="pre">once')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.noRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.noRepeatNgramSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -933,7 +892,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.repetitionPenalty">
-<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">repetitionPenalty</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repetitionPenalty',</span> <span class="pre">doc='The</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">repetition</span> <span class="pre">penalty.</span> <span class="pre">1.0</span> <span class="pre">means</span> <span class="pre">no</span> <span class="pre">penalty.</span> <span class="pre">See</span> <span class="pre">`this</span> <span class="pre">paper</span> <span class="pre">&lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.repetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.repetitionPenalty" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1127,27 +1086,27 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.srcLang">
-<span class="sig-name descname"><span class="pre">srcLang</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='srcLang',</span> <span class="pre">doc='Source</span> <span class="pre">Language</span> <span class="pre">(Default:</span> <span class="pre">`en`)')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.srcLang" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">srcLang</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='srcLang',</span> <span class="pre">doc='Source</span> <span class="pre">Language</span> <span class="pre">(Default:</span> <span class="pre">`en`)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.srcLang"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.srcLang" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.temperature">
-<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.temperature" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='The</span> <span class="pre">value</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">module</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">token</span> <span class="pre">probabilities')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.temperature" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.tgtLang">
-<span class="sig-name descname"><span class="pre">tgtLang</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='tgtLang',</span> <span class="pre">doc='Target</span> <span class="pre">Language</span> <span class="pre">(Default:</span> <span class="pre">`fr`)')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.tgtLang" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">tgtLang</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='tgtLang',</span> <span class="pre">doc='Target</span> <span class="pre">Language</span> <span class="pre">(Default:</span> <span class="pre">`fr`)')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.tgtLang"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.tgtLang" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topK">
-<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topK" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topK',</span> <span class="pre">doc='The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">highest</span> <span class="pre">probability</span> <span class="pre">vocabulary</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">for</span> <span class="pre">top-k-filtering')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.topK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topK" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topP">
-<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topP" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">topP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='topP',</span> <span class="pre">doc='If</span> <span class="pre">set</span> <span class="pre">to</span> <span class="pre">float</span> <span class="pre">&lt;</span> <span class="pre">1,</span> <span class="pre">only</span> <span class="pre">the</span> <span class="pre">most</span> <span class="pre">probable</span> <span class="pre">tokens</span> <span class="pre">with</span> <span class="pre">probabilities</span> <span class="pre">that</span> <span class="pre">add</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">``top_p``</span> <span class="pre">or</span> <span class="pre">higher</span> <span class="pre">are</span> <span class="pre">kept</span> <span class="pre">for</span> <span class="pre">generation')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/seq2seq/nllb_transformer.html#NLLBTransformer.topP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.nllb_transformer.NLLBTransformer.topP" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1251,7 +1210,7 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>
