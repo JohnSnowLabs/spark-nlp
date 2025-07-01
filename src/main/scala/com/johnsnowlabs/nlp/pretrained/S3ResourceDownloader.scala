@@ -21,6 +21,7 @@ import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.nio.file.Files
@@ -35,11 +36,25 @@ class S3ResourceDownloader(
     region: String = "us-east-1")
     extends ResourceDownloader {
 
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
+
   private val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!CloudHelper.isCloudPath(cacheFolder) && !fileSystem.exists(cachePath)) {
+  private val isNotCloudPath = !CloudHelper.isCloudPath(cacheFolder)
+
+  private lazy val doesNotExistCachePath = {
+    try {
+      !fileSystem.exists(cachePath)
+    } catch {
+      case e: Exception =>
+        logger.error(s"Error checking cache path existence: ${e.getMessage}")
+        false
+    }
+  }
+
+  if (isNotCloudPath && doesNotExistCachePath) {
     fileSystem.mkdirs(cachePath)
   }
 
@@ -83,16 +98,20 @@ class S3ResourceDownloader(
     val link = resolveLink(request)
     link.flatMap { resource =>
       val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-
+      logger.info(s"In S3ResourceDownloader.download: $s3FilePath")
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
+        logger.info("Resource not found in S3")
         None
       } else {
+        logger.info("Resource found in S3")
         val sourceS3URI = s"s3a://$bucket/$s3FilePath"
         val zipFile = sourceS3URI.split("/").last
         val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
 
+        logger.info("Before cachePath.toString: " + cachePath.toString)
         cachePath.toString match {
           case path if CloudHelper.isCloudPath(path) => {
+            logger.info(s"In S3ResourceDownloader.cachePath is cloud path: $path")
             CloudResources.downloadModelFromCloud(
               awsGateway,
               cachePath.toString,
@@ -100,6 +119,7 @@ class S3ResourceDownloader(
               sourceS3URI)
           }
           case _ => {
+            logger.info(s"In S3ResourceDownloader before downloadAndUnzipFile")
             val destinationFile = new Path(cachePath.toString, resource.fileName)
             downloadAndUnzipFile(destinationFile, resource, s3FilePath)
           }
