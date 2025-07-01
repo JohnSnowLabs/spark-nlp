@@ -60,7 +60,10 @@ class MarkdownReader extends Serializable {
 
       if (line.startsWith("```")) {
         if (inCodeBlock) {
-          elements += HTMLElement(ElementType.UNCATEGORIZED_TEXT, codeBuffer.toString(), mutable.Map("paragraph" -> paragraphIdx.toString))
+          elements += HTMLElement(
+            ElementType.UNCATEGORIZED_TEXT,
+            codeBuffer.toString(),
+            mutable.Map("paragraph" -> paragraphIdx.toString))
           codeBuffer.clear()
           inCodeBlock = false
           paragraphIdx += 1
@@ -72,12 +75,21 @@ class MarkdownReader extends Serializable {
       } else if (line.matches("#{1,6} .*")) {
         val level = line.takeWhile(_ == '#').length
         val content = line.dropWhile(_ == '#').trim
-        elements += HTMLElement(ElementType.TITLE, content, mutable.Map("level" -> level.toString, "paragraph" -> paragraphIdx.toString))
+        elements += HTMLElement(
+          ElementType.TITLE,
+          content,
+          mutable.Map("level" -> level.toString, "paragraph" -> paragraphIdx.toString))
         paragraphIdx += 1
       } else if (line.matches("[-*] .*|\\d+\\. .*")) {
-        elements += HTMLElement(ElementType.LIST_ITEM, line, mutable.Map("paragraph" -> paragraphIdx.toString))
+        elements += HTMLElement(
+          ElementType.LIST_ITEM,
+          line,
+          mutable.Map("paragraph" -> paragraphIdx.toString))
       } else if (line.nonEmpty) {
-        elements += HTMLElement(ElementType.NARRATIVE_TEXT, line, mutable.Map("paragraph" -> paragraphIdx.toString))
+        elements += HTMLElement(
+          ElementType.NARRATIVE_TEXT,
+          line,
+          mutable.Map("paragraph" -> paragraphIdx.toString))
       }
       i += 1
     }
