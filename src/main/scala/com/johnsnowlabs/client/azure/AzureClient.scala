@@ -1,5 +1,6 @@
 package com.johnsnowlabs.client.azure
 
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.client.{CloudClient, CloudStorage}
 import com.johnsnowlabs.util.ConfigHelper
 
@@ -8,12 +9,17 @@ class AzureClient(parameters: Map[String, String] = Map.empty) extends CloudClie
   private lazy val azureStorageConnection = cloudConnect()
 
   override protected def cloudConnect(): CloudStorage = {
-    val storageAccountName = parameters.getOrElse(
-      "storageAccountName",
-      throw new Exception("Azure client requires storageAccountName"))
-    val accountKey =
-      parameters.getOrElse("accountKey", ConfigHelper.getHadoopAzureConfig(storageAccountName))
-    new AzureGateway(storageAccountName, accountKey)
+    if (CloudHelper.isMicrosoftFabric) {
+      // These params are NOT required for Fabric
+      new AzureGateway("", "", isFabricLakehouse = true)
+    } else {
+      val storageAccountName = parameters.getOrElse(
+        "storageAccountName",
+        throw new Exception("Azure client requires storageAccountName"))
+      val accountKey =
+        parameters.getOrElse("accountKey", ConfigHelper.getHadoopAzureConfig(storageAccountName))
+      new AzureGateway(storageAccountName, accountKey)
+    }
   }
 
   override def doesBucketPathExist(bucketName: String, filePath: String): Boolean = {
