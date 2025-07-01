@@ -79,15 +79,33 @@ object CloudResources {
         if (!modelExists) {
           val destination =
             unzipInExternalCloudStorage(sourceS3URI, cachePath, azureClient, zippedModel)
-          modelPath = Some(transformURIToWASB(destination))
+          modelPath = buildAzureModelPath(cachePath, destination)
         } else {
-          modelPath = Some(transformURIToWASB(cachePath + "/" + modelName))
+          modelPath = buildAzureModelPathWhenExists(cachePath, modelName)
         }
 
         modelPath
       }
     }
 
+  }
+
+  private def buildAzureModelPath(cachePath: String, destination: String): Option[String] = {
+    if (CloudHelper.isFabricAbfss(cachePath)) {
+      Some(destination)
+    } else {
+      Some(transformURIToWASB(destination))
+    }
+  }
+
+  private def buildAzureModelPathWhenExists(
+      cachePath: String,
+      modelName: String): Option[String] = {
+    if (CloudHelper.isFabricAbfss(cachePath)) {
+      Some(cachePath + "/" + modelName)
+    } else {
+      Some(transformURIToWASB(cachePath + "/" + modelName))
+    }
   }
 
   private def doesModelExistInExternalCloudStorage(
@@ -111,11 +129,18 @@ object CloudResources {
         gcpClient.doesBucketPathExist(destinationBucketName, modelPath)
       }
       case azureClient: AzureClient => {
-        val (destinationBucketName, destinationStoragePath) =
-          CloudHelper.parseAzureBlobURI(destinationURI)
-        val modelPath = destinationStoragePath + "/" + modelName
+        if (CloudHelper.isFabricAbfss(destinationURI)) {
+          val fabricUri =
+            if (destinationURI.endsWith("/")) destinationURI + modelName
+            else destinationURI + "/" + modelName
+          azureClient.doesBucketPathExist(fabricUri, "")
+        } else {
+          val (destinationBucketName, destinationStoragePath) =
+            CloudHelper.parseAzureBlobURI(destinationURI)
+          val modelPath = destinationStoragePath + "/" + modelName
 
-        azureClient.doesBucketPathExist(destinationBucketName, modelPath)
+          azureClient.doesBucketPathExist(destinationBucketName, modelPath)
+        }
       }
     }
 
@@ -133,7 +158,6 @@ object CloudResources {
     val zipFile = sourceKey.split("/").last
     val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
 
-    println(s"Uploading model $modelName to external Cloud Storage URI: $destinationStorageURI")
     while (zipEntry != null) {
       if (!zipEntry.isDirectory) {
         val outputStream = new ByteArrayOutputStream()
@@ -165,16 +189,23 @@ object CloudResources {
               inputStream)
           }
           case azureClient: AzureClient => {
-            val (destinationBucketName, destinationStoragePath) =
-              CloudHelper.parseAzureBlobURI(destinationStorageURI)
+            if (CloudHelper.isFabricAbfss(destinationStorageURI)) {
+              val fabricUri = (if (destinationStorageURI.endsWith("/")) destinationStorageURI
+                               else destinationStorageURI + "/") +
+                s"$modelName/${zipEntry.getName}"
+              azureClient.copyFileToBucket(fabricUri, "", inputStream)
+            } else {
+              val (destinationBucketName, destinationStoragePath) =
+                CloudHelper.parseAzureBlobURI(destinationStorageURI)
 
-            val destinationAzureStoragePath =
-              s"$destinationStoragePath/$modelName/${zipEntry.getName}".stripPrefix("/")
+              val destinationAzureStoragePath =
+                s"$destinationStoragePath/$modelName/${zipEntry.getName}".stripPrefix("/")
 
-            azureClient.copyFileToBucket(
-              destinationBucketName,
-              destinationAzureStoragePath,
-              inputStream)
+              azureClient.copyFileToBucket(
+                destinationBucketName,
+                destinationAzureStoragePath,
+                inputStream)
+            }
           }
         }
 
@@ -286,9 +317,18 @@ object CloudResources {
         Paths.get(directory, keyPrefix).toUri
       }
       case azureClient: AzureClient => {
-        val (bucketName, keyPrefix) = CloudHelper.parseAzureBlobURI(bucketURI)
-        azureClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
-        Paths.get(directory, keyPrefix).toUri
+        if (CloudHelper.isFabricAbfss(bucketURI)) {
+          azureClient.downloadFilesFromBucketToDirectory(bucketURI, "", directory, isIndex)
+          Paths.get(directory).toUri
+        } else {
+          val (bucketName, keyPrefix) = CloudHelper.parseAzureBlobURI(bucketURI)
+          azureClient.downloadFilesFromBucketToDirectory(
+            bucketName,
+            keyPrefix,
+            directory,
+            isIndex)
+          Paths.get(directory, keyPrefix).toUri
+        }
       }
     }
 
