@@ -239,6 +239,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "ppt" | "pptx" => sparkNLPReader.ppt
       case "pdf" => sparkNLPReader.pdf
       case "xml" => sparkNLPReader.xml
+      case "md" => sparkNLPReader.md
       case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
     }
   }
