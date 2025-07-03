@@ -94,6 +94,14 @@ class MarkdownReader extends Serializable {
       i += 1
     }
 
+    if (inCodeBlock) {
+      elements += HTMLElement(
+        ElementType.UNCATEGORIZED_TEXT,
+        codeBuffer.toString(),
+        mutable.Map("paragraph" -> paragraphIdx.toString)
+      )
+    }
+
     elements
   }
 }

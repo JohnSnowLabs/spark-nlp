@@ -411,6 +411,6 @@ class SparkNLPReader(ExtendedJavaWrapper):
          |    |    |    |-- value: string (valueContainsNull = true)
         """
         if not isinstance(filePath, str):
-            raise TypeError("docPath must be a string")
+            raise TypeError("filePath must be a string")
         jdf = self._java_obj.md(filePath)
         return self.getDataFrame(self.spark, jdf)

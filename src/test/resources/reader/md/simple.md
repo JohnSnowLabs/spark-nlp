@@ -11,3 +11,4 @@ This is a basic Markdown file to test headers and paragraph parsing.
 ```scala
 val x = 42
 println(x)
+```
