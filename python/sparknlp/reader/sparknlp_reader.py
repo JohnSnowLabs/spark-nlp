@@ -414,3 +414,48 @@ class SparkNLPReader(ExtendedJavaWrapper):
             raise TypeError("filePath must be a string")
         jdf = self._java_obj.md(filePath)
         return self.getDataFrame(self.spark, jdf)
+
+    def csv(self, csvPath):
+        """Reads CSV files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        docPath : str
+            Path to an CSV file or a directory containing CSV files.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed CSV content.
+
+        Examples
+        --------
+        >>> from sparknlp.reader import SparkNLPReader
+        >>> csv_df = SparkNLPReader(spark).csv("home/user/csv-directory")
+
+        You can use SparkNLP for one line of code
+
+        >>> import sparknlp
+        >>> csv_df = sparknlp.read().csv("home/user/csv-directory")
+        >>> csv_df.show(truncate=False)
+        +-----------------------------------------------------------------------------------------------------------------------------------------+
+        |csv                                                                                                                                      |
+        +-----------------------------------------------------------------------------------------------------------------------------------------+
+        |[{NarrativeText, Alice 100 Bob 95, {}}, {Table, <table><tr><td>Alice</td><td>100</td></tr><tr><td>Bob</td><td>95</td></tr></table>, {}}] |
+        +-----------------------------------------------------------------------------------------------------------------------------------------+
+
+        >>> csv_df.printSchema()
+        root
+         |-- path: string (nullable = true)
+         |-- csv: array (nullable = true)
+         |    |-- element: struct (containsNull = true)
+         |    |    |-- elementType: string (nullable = true)
+         |    |    |-- content: string (nullable = true)
+         |    |    |-- metadata: map (nullable = true)
+         |    |    |    |-- key: string
+         |    |    |    |-- value: string (valueContainsNull = true)
+        """
+        if not isinstance(csvPath, str):
+            raise TypeError("docPath must be a string")
+        jdf = self._java_obj.csv(csvPath)
+        return self.getDataFrame(self.spark, jdf)

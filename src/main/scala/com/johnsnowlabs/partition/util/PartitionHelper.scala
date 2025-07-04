@@ -17,6 +17,9 @@ package com.johnsnowlabs.partition.util
 
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
+import java.nio.charset.Charset
+import java.nio.file.Files
+
 object PartitionHelper {
 
   def datasetWithBinaryFile(sparkSession: SparkSession, contentPath: String): DataFrame = {
@@ -41,6 +44,23 @@ object PartitionHelper {
       case "text/plain" | "text/html" | "url" => true
       case _ => false
     }
+  }
+
+  def datasetWithTextFileEncoding(
+      sparkSession: SparkSession,
+      contentPath: String,
+      encoding: String): DataFrame = {
+    import sparkSession.implicits._
+    val fs = new java.io.File(contentPath)
+    val files =
+      if (fs.isDirectory) fs.listFiles.filter(_.isFile).map(_.getPath)
+      else Array(contentPath)
+    val fileContents = files.map { path =>
+      val content =
+        new String(Files.readAllBytes(java.nio.file.Paths.get(path)), Charset.forName(encoding))
+      (path, content)
+    }
+    sparkSession.sparkContext.parallelize(fileContents).toDF("path", "content")
   }
 
 }
