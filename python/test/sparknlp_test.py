@@ -29,7 +29,6 @@ class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
         html_df = sparknlp.read().html("https://www.wikipedia.org")
         html_df.show()
         assert html_df.select("html").count() > 0
-
         params = {"titleFontSize": "12"}
         html_params_df = sparknlp.read(params).html("https://www.wikipedia.org")
         html_params_df.show()
@@ -153,3 +152,17 @@ class SparkNLPTestMdFilesSpec(unittest.TestCase):
         md_df.show()
 
         self.assertTrue(md_df.select("md").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestCSVFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.csv_files = f"file:///{os.getcwd()}/../src/test/resources/reader/csv/stanley-cups.csv"
+
+    def runTest(self):
+        csv_df = sparknlp.read().csv(self.csv_files)
+        csv_df.show()
+
+        self.assertTrue(csv_df.select("csv").count() > 0)

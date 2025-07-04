@@ -757,4 +757,73 @@ class SparkNLPReader(
     markdownReader.parseMarkdownWithTables(mdContent)
   }
 
+  /** Instantiates class to read XML files.
+    *
+    * csvPath: this is a path to a directory of CSV files or a path to an CSV file. E.g.,
+    * "path/csv/files"
+    *
+    * ==Example==
+    * {{{
+    * val csvPath = "home/user/csv-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val csvDf = sparkNLPReader.csv(csvPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val csvDf = SparkNLP.read.csv(csvPath)
+    * }}}
+    *
+    * {{{
+    * csvDf.select("csv").show(false)
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    * |csv                                                                                                                                      |
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{NarrativeText, Alice 100 Bob 95, {}}, {Table, <table><tr><td>Alice</td><td>100</td></tr><tr><td>Bob</td><td>95</td></tr></table>, {}}] |
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * csvDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- csv: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param csvPath
+    *   Path to the CSV file or directory
+    * @return
+    *   A DataFrame with parsed CSV as structured elements
+    */
+  def csv(csvPath: String): DataFrame = {
+    val csvReader = new CSVReader(
+      encoding = getEncoding,
+      includeHeader = getIncludeHeader,
+      inferTableStructure = getInferTableStructure,
+      delimiter = getDelimiter,
+      storeContent = getStoreContent)
+    setOutputColumn(csvReader.getOutputColumn)
+    csvReader.csv(csvPath)
+  }
+
+  private def getEncoding: String = {
+    getDefaultString(params.asScala.toMap, Seq("encoding"), default = "UTF-8")
+  }
+
+  private def getIncludeHeader: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includeHeader", "include_header"),
+      default = true)
+  }
+
+  private def getDelimiter: String = {
+    getDefaultString(params.asScala.toMap, Seq("delimiter"), default = ",")
+  }
+
 }
