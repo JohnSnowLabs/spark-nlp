@@ -754,7 +754,7 @@ class SparkNLPReader(
   def mdToHTMLElement(mdContent: String): Seq[HTMLElement] = {
     val markdownReader = new MarkdownReader()
     setOutputColumn(markdownReader.getOutputColumn)
-    markdownReader.parseMarkdown(mdContent)
+    markdownReader.parseMarkdownWithTables(mdContent)
   }
 
 }
