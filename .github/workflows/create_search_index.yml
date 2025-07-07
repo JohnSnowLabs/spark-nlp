@@ -15,7 +15,7 @@ concurrency:
 jobs:
   jekyll:
     runs-on: RAM32GB
-    timeout-minutes: 600
+    timeout-minutes: 500
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
