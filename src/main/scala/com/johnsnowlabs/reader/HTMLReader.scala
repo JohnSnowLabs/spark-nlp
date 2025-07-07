@@ -288,8 +288,7 @@ class HTMLReader(
                 elements += HTMLElement(
                   ElementType.UNCATEGORIZED_TEXT, // or ElementType.CODE if you have it
                   content = codeText,
-                  metadata = pageMetadata
-                )
+                  metadata = pageMetadata)
               }
             case "p" =>
               if (!visitedNode) {

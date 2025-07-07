@@ -82,7 +82,7 @@ object CloudHelper {
 
   private def isAzureBlobPath(uri: String): Boolean = {
     (uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")) || uri.startsWith(
-        "abfss://")
+      "abfss://")
   }
 
   def isMicrosoftFabric: Boolean = {
