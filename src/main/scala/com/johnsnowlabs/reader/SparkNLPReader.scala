@@ -701,4 +701,60 @@ class SparkNLPReader(
       default = true)
   }
 
+  /** Instantiates class to read Markdown (.md) files.
+    *
+    * This method loads a Markdown file or directory of `.md` files and parses the content into
+    * structured elements such as headers, narrative text, lists, and code blocks.
+    *
+    * ==Example==
+    * {{{
+    * val mdPath = "home/user/markdown-files"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val mdDf = sparkNLPReader.md(mdPath)
+    * }}}
+    *
+    * ==Example 2==
+    * Use SparkNLP in one line:
+    * {{{
+    * val mdDf = SparkNLP.read.md(mdPath)
+    * }}}
+    *
+    * {{{
+    * mdDf.select("md").show(false)
+    *
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    * |md                                                                                                                                 |
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, Introduction, {level -> 1, paragraph -> 0}}, {NarrativeText, This is a Markdown paragraph., {paragraph -> 0}}, ...]        |
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * mdDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- md: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param mdPath
+    *   Path to a single .md file or a directory of Markdown files.
+    * @return
+    *   A DataFrame with parsed Markdown content as structured HTMLElements.
+    */
+  def md(mdPath: String): DataFrame = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    markdownReader.md(mdPath)
+  }
+
+  def mdToHTMLElement(mdContent: String): Seq[HTMLElement] = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    markdownReader.parseMarkdownWithTables(mdContent)
+  }
+
 }

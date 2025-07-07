@@ -149,5 +149,8 @@ object Dependencies {
 
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
+
+  val flexmarkVersion = "0.61.34"
+  val flexmark = "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion
   /** ------- Dependencies end  ------- */
 }
