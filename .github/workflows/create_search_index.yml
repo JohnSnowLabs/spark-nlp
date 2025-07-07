@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   jekyll:
-    runs-on: self-hosted
+    runs-on: RAM32GB
     timeout-minutes: 600
     environment: jekyll
     steps:
@@ -83,7 +83,6 @@ jobs:
           7z a -tzip jekyll-content.zip \
             ./docs/_site/* \
             ./docs/.jekyll-metadata \
-            ./docs/backup-models.json \
             ./docs/backup-benchmarking.json \
             ./docs/backup-references.json
       - name: Upload artifacts
