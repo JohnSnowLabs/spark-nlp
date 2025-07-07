@@ -751,10 +751,23 @@ class SparkNLPReader(
     markdownReader.md(mdPath)
   }
 
-  def mdToHTMLElement(mdContent: String): Seq[HTMLElement] = {
+  def md(mdPath: String = "", url: String = "", text: String = ""): DataFrame = {
     val markdownReader = new MarkdownReader()
     setOutputColumn(markdownReader.getOutputColumn)
-    markdownReader.parseMarkdown(mdContent)
+    markdownReader.md(mdPath, url, text)
+  }
+
+  def mdStringToHTMLElement(mdContent: String): Seq[HTMLElement] = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    markdownReader.parseMarkdownWithTables(mdContent)
+  }
+
+  def mdURLToHTMLElement(url: String): Seq[HTMLElement] = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    val urlContent = markdownReader.parseUrl(url)
+    markdownReader.parseMarkdownWithTables(urlContent)
   }
 
 }

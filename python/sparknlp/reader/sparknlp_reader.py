@@ -414,3 +414,55 @@ class SparkNLPReader(ExtendedJavaWrapper):
             raise TypeError("filePath must be a string")
         jdf = self._java_obj.md(filePath)
         return self.getDataFrame(self.spark, jdf)
+
+    def md(self, filePath="", url="", text=""):
+        """Reads Markdown files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        filePath : str
+            Path to a Markdown file or a directory containing Markdown files.
+        url : str
+            URL to fetch Markdown content from (optional).
+        text :  str
+            Text content to parse as Markdown (optional).
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed Markdown content.
+
+        Examples
+        --------
+        >>> from sparknlp.reader import SparkNLPReader
+        >>> md_df = SparkNLPReader(spark).md("home/user/markdown-directory")
+
+        You can use SparkNLP for one line of code
+
+        >>> import sparknlp
+        >>> md_df = sparknlp.read().md("home/user/markdown-directory")
+        >>> md_df.show(truncate=False)
+        +-----------------------------------------------------------+
+        |md                                                         |
+        +-----------------------------------------------------------+
+        |[{Title, Sample Markdown Document, {elementId -> ..., tag -> title}}]|
+        +-----------------------------------------------------------+
+
+        >>> md_df.printSchema()
+        root
+         |-- path: string (nullable = true)
+         |-- md: array (nullable = true)
+         |    |-- element: struct (containsNull = true)
+         |    |    |-- elementType: string (nullable = true)
+         |    |    |-- content: string (nullable = true)
+         |    |    |-- metadata: map (nullable = true)
+         |    |    |    |-- key: string
+         |    |    |    |-- value: string (valueContainsNull = true)
+        """
+        if not isinstance(filePath, str):
+            raise TypeError("filePath must be a string")
+        if not isinstance(url, str):
+            raise TypeError("url must be a string")
+        if not isinstance(url, str):
+            raise TypeError("text must be a string")
+        jdf = self._java_obj.md(filePath, url, text)
+        return self.getDataFrame(self.spark, jdf)

@@ -17,12 +17,19 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
+import com.vladsch.flexmark.ext.tables.TablesExtension
+import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.util.misc.Extension
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-import scala.collection.mutable
+import java.net.{HttpURLConnection, URL}
+import java.util.Collections
+import scala.io.Source
 
-class MarkdownReader extends Serializable {
+class MarkdownReader(fileEncoding: String = "UTF-8") extends Serializable {
 
   private lazy val spark: SparkSession = ResourceHelper.spark
   private var outputColumn: String = "md"
@@ -35,73 +42,103 @@ class MarkdownReader extends Serializable {
 
   def getOutputColumn: String = outputColumn
 
-  def md(filePath: String): DataFrame = {
+  /** Main entrypoint: supports either filePath or direct text input. Output is always a DataFrame
+    * with source and parsed markdown column.
+    */
+  def md(filePath: String = null, url: String = "", text: String = ""): DataFrame = {
+    Seq(
+      Option(filePath).filter(_.trim.nonEmpty).map(mdFromFile),
+      Option(text).filter(_.trim.nonEmpty).map(mdFromText),
+      Option(url).filter(_.nonEmpty).map(mdFromUrl))
+      .collectFirst { case Some(df) => df }
+      .getOrElse(
+        throw new IllegalArgumentException("No valid source provided for MarkdownReader."))
+  }
+
+  /** Reads and parses markdown file from a file path. */
+  private def mdFromFile(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val textDf = datasetWithTextFile(spark, filePath)
-        .withColumn(outputColumn, parseMarkdownUDF(col("content")))
-      textDf.select("path", outputColumn)
+      val textDf = if (fileEncoding == "UTF-8") {
+        datasetWithTextFile(spark, filePath)
+          .withColumn(outputColumn, parseMarkdownUDF(col("content")))
+      } else {
+        val content = readFileWithEncodingFallback(filePath)
+        import spark.implicits._
+        val mdDf = spark.createDataFrame(Seq((filePath, content))).toDF("path", "content")
+        mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
+      }
+      textDf.select(col("path").as("source"), col(outputColumn))
     } else {
       throw new IllegalArgumentException(s"Invalid filePath: $filePath")
     }
   }
 
-  private val parseMarkdownUDF = udf((text: String) => parseMarkdown(text))
+  private def readFileWithEncodingFallback(path: String): String = {
+    def readWithEncoding(encoding: String): String = {
+      val src = Source.fromFile(path, encoding)
+      try src.mkString
+      finally src.close()
+    }
+    try {
+      readWithEncoding(fileEncoding)
+    } catch {
+      case _: java.nio.charset.MalformedInputException | _: java.io.IOException =>
+        readWithEncoding("ISO-8859-1")
+    }
+  }
 
-  def parseMarkdown(text: String): Seq[HTMLElement] = {
-    val lines = text.split("\n")
-    val elements = mutable.ArrayBuffer[HTMLElement]()
-    var i = 0
-    var paragraphIdx = 0
-    var inCodeBlock = false
-    val codeBuffer = new StringBuilder
+  /** Parses markdown text directly from a string input. */
+  private def mdFromText(text: String): DataFrame = {
+    import spark.implicits._
+    val mdDf = spark.createDataFrame(Seq(("in-memory", text))).toDF("source", "content")
+    val textDf = mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
+    textDf.select($"source", col(outputColumn))
+  }
 
-    while (i < lines.length) {
-      val line = lines(i).trim
+  private def mdFromUrl(url: String): DataFrame = {
+    val content = parseUrl(url)
+    import spark.implicits._
+    val mdDf = spark.createDataFrame(Seq((url, content))).toDF("source", "content")
+    val textDf = mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
+    textDf.select($"source", col(outputColumn))
+  }
 
-      if (line.startsWith("```")) {
-        if (inCodeBlock) {
-          elements += HTMLElement(
-            ElementType.UNCATEGORIZED_TEXT,
-            codeBuffer.toString(),
-            mutable.Map("paragraph" -> paragraphIdx.toString))
-          codeBuffer.clear()
-          inCodeBlock = false
-          paragraphIdx += 1
-        } else {
-          inCodeBlock = true
-        }
-      } else if (inCodeBlock) {
-        codeBuffer.append(line).append("\n")
-      } else if (line.matches("#{1,6} .*")) {
-        val level = line.takeWhile(_ == '#').length
-        val content = line.dropWhile(_ == '#').trim
-        elements += HTMLElement(
-          ElementType.TITLE,
-          content,
-          mutable.Map("level" -> level.toString, "paragraph" -> paragraphIdx.toString))
-        paragraphIdx += 1
-      } else if (line.matches("[-*] .*|\\d+\\. .*")) {
-        elements += HTMLElement(
-          ElementType.LIST_ITEM,
-          line,
-          mutable.Map("paragraph" -> paragraphIdx.toString))
-      } else if (line.nonEmpty) {
-        elements += HTMLElement(
-          ElementType.NARRATIVE_TEXT,
-          line,
-          mutable.Map("paragraph" -> paragraphIdx.toString))
-      }
-      i += 1
+  def parseUrl(url: String): String = {
+    if (!ResourceHelper.isValidURL(url)) {
+      throw new IllegalArgumentException(s"Invalid URL: $url")
     }
 
-    if (inCodeBlock) {
-      elements += HTMLElement(
-        ElementType.UNCATEGORIZED_TEXT,
-        codeBuffer.toString(),
-        mutable.Map("paragraph" -> paragraphIdx.toString)
-      )
-    }
+    val connection = new URL(url).openConnection().asInstanceOf[HttpURLConnection]
+    connection.setRequestProperty("Accept", "text/markdown")
+    connection.connect()
+    val contentType = Option(connection.getContentType).getOrElse("")
+    val lowerContentType = contentType.toLowerCase
+    if (!lowerContentType.startsWith("text/markdown") && !lowerContentType.startsWith(
+        "text/plain"))
+      throw new IllegalArgumentException(
+        s"Expected Content-Type text/markdown or text/plain, got: $contentType")
 
-    elements
+    val source = scala.io.Source.fromInputStream(connection.getInputStream, "UTF-8")
+    val content =
+      try source.mkString
+      finally source.close()
+    connection.disconnect()
+
+    content
+  }
+
+  private val parseMarkdownUDF = udf((text: String) => parseMarkdownWithTables(text))
+
+  def parseMarkdownWithTables(markdown: String): Seq[HTMLElement] = {
+    val options = new MutableDataSet()
+    val extensions: java.util.List[Extension] =
+      Collections.singletonList(TablesExtension.create())
+    options.set(Parser.EXTENSIONS, extensions)
+
+    val parser = Parser.builder(options).build()
+    val renderer = HtmlRenderer.builder(options).build()
+    val document = parser.parse(markdown)
+    val html = renderer.render(document)
+    new HTMLReader().htmlToHTMLElement(html).toSeq
   }
 }

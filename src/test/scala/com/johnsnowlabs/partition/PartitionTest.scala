@@ -121,7 +121,8 @@ class PartitionTest extends AnyFlatSpec {
   }
 
   it should "work with an URL" taggedAs FastTest in {
-    val htmlDf = Partition().partition("https://www.wikipedia.org")
+    val htmlDf =
+      Partition(Map("contentType" -> "text/html")).partition(url = "https://www.wikipedia.org")
     htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)

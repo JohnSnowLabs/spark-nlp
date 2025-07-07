@@ -153,3 +153,22 @@ class SparkNLPTestMdFilesSpec(unittest.TestCase):
         md_df.show()
 
         self.assertTrue(md_df.select("md").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestMdContentSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.content = """\
+                        # Shopping List
+                         - Milk
+                         - Bread
+                         - Eggs
+                        """
+
+    def runTest(self):
+        md_df = sparknlp.read().md(text=self.content)
+        md_df.show()
+
+        self.assertTrue(md_df.select("md").count() > 0)

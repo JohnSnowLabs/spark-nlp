@@ -16,17 +16,19 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
+
+import scala.io.Source
 
 class MarkdownReaderTest extends AnyFlatSpec {
 
+  import ResourceHelper.spark.implicits._
   val mdDirectory = "src/test/resources/reader/md"
+  val mdReader = new MarkdownReader()
 
   "Markdown Reader" should "read a markdown file with headers and text" taggedAs FastTest in {
-    import ResourceHelper.spark.implicits._
-    val reader = new MarkdownReader()
-    val textDf = reader.md(s"$mdDirectory/simple.md")
+    val textDf = mdReader.md(s"$mdDirectory/simple.md")
     textDf.select("md").show(truncate = false)
 
     val elements: Seq[HTMLElement] = textDf
@@ -40,7 +42,6 @@ class MarkdownReaderTest extends AnyFlatSpec {
   }
 
   it should "detect list items in markdown" taggedAs FastTest in {
-    val reader = new MarkdownReader()
     val content = """
                     |# Shopping List
                     | - Milk
@@ -48,14 +49,18 @@ class MarkdownReaderTest extends AnyFlatSpec {
                     | - Eggs
                     |""".stripMargin
 
-    val items = reader.parseMarkdown(content)
+    val mdDf = mdReader.md(text = content)
+    val elements: Seq[HTMLElement] = mdDf
+      .select("md")
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
 
-    assert(items.count(_.elementType == ElementType.LIST_ITEM) == 3)
-    assert(items.exists(e => e.content.contains("Bread")))
+    assert(elements.count(_.elementType == ElementType.LIST_ITEM) == 3)
+    assert(elements.exists(e => e.content.contains("Bread")))
   }
 
   it should "parse code blocks in markdown" taggedAs FastTest in {
-    val reader = new MarkdownReader()
     val content = """
                     |```scala
                     |val x = 10
@@ -63,26 +68,133 @@ class MarkdownReaderTest extends AnyFlatSpec {
                     |```
                     |""".stripMargin
 
-    val items = reader.parseMarkdown(content)
+    val mdDf = mdReader.md(text = content)
+    val elements: Seq[HTMLElement] = mdDf
+      .select("md")
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
 
-    assert(items.exists(_.elementType == ElementType.UNCATEGORIZED_TEXT))
-    assert(items.exists(_.content.contains("val x = 10")))
+    assert(elements.exists(_.elementType == ElementType.UNCATEGORIZED_TEXT))
+    assert(elements.exists(_.content.contains("val x = 10")))
   }
 
-  it should "assign paragraph metadata correctly" taggedAs FastTest in {
-    val reader = new MarkdownReader()
-    val content = """
-                    |# Intro
-                    |Some intro text.
-                    |
-                    |## Details
-                    |Detail line one.
-                    |Detail line two.
-                    |""".stripMargin
+  it should "parse README.md and the first element must be a TITLE" taggedAs FastTest in {
+    val mdDf = mdReader.md(filePath = s"$mdDirectory/README.md") // Update path if needed
 
-    val elements = reader.parseMarkdown(content)
-    val paragraphs = elements.map(_.metadata("paragraph")).toSet
-    assert(paragraphs.size > 1)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "No elements found in README.md")
+    assert(
+      elements.head.elementType == ElementType.TITLE,
+      s"First element type is not TITLE, but ${elements.head.elementType}")
+
+  }
+
+  it should "parse README.md from direct text input" taggedAs FastTest in {
+    val source = Source.fromFile(s"$mdDirectory/README.md", "UTF-8")
+    val content =
+      try source.mkString
+      finally source.close()
+    val df = mdReader.md(text = content)
+
+    val elements: Seq[HTMLElement] = df
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "No elements found from text input")
+  }
+
+  it should "parse markdown from a real GitHub raw URL" taggedAs SlowTest in {
+    val testUrl =
+      "https://raw.githubusercontent.com/adamschwartz/github-markdown-kitchen-sink/master/README.md"
+    val mdDf = mdReader.md(url = testUrl)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    mdDf.show()
+    assert(elements.nonEmpty, "Parsed elements from URL are empty")
+
+    val sourceVal = mdDf.select("source").as[String].collect().head
+    assert(sourceVal == testUrl, s"Source column mismatch: expected $testUrl, got $sourceVal")
+  }
+
+  it should "parse markdown table as TABLE element" taggedAs FastTest in {
+    val df = mdReader.md(filePath = s"$mdDirectory/simple-table.md")
+
+    val elements: Seq[HTMLElement] = df
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "Parsed elements for table are empty")
+    assert(elements.head.elementType == ElementType.TABLE)
+  }
+
+  it should "correctly parse markdown files with umlauts regardless of encoding" taggedAs FastTest in {
+    val filesAndEncodings =
+      Seq(("umlauts-utf8.md", "UTF-8"), ("umlauts-non-utf8.md", "ISO-8859-1"))
+
+    filesAndEncodings.foreach { case (fname, enc) =>
+      val path = s"$mdDirectory/$fname"
+      val mdReader = new MarkdownReader(fileEncoding = enc)
+      val df = mdReader.md(filePath = path)
+      val elements: Seq[HTMLElement] = df
+        .select(mdReader.getOutputColumn)
+        .as[Seq[HTMLElement]]
+        .collect()
+        .head
+      assert(elements.nonEmpty, s"File $fname: No elements parsed")
+      assert(
+        elements.last.content.endsWith("äöüß"),
+        s"File $fname: Last element does not end with 'äöüß', got: ${elements.last.content}")
+    }
+  }
+
+  it should "parse a code block with XML processing instruction as a single element" taggedAs FastTest in {
+    val xmlContent =
+      """```
+        |<?xml version="1.0"?>
+        |<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+        |  <head></head>
+        |  <boolean>true</boolean>
+        |</sparql>
+        |```""".stripMargin
+
+    val mdDf = mdReader.md(text = xmlContent)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.length == 1, s"Expected 1 element, got ${elements.length}")
+  }
+
+  it should "parse a code block with no XML processing instruction" taggedAs FastTest in {
+    val xmlContent =
+      """```
+        |<?php echo "hello"; ?>
+        |```""".stripMargin
+
+    val mdDf = mdReader.md(text = xmlContent)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.length == 1, s"Expected 1 element, got ${elements.length}")
   }
 
 }

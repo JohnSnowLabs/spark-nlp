@@ -131,26 +131,35 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     *   DataFrame with parsed file content.
     */
   def partition(
-      path: String,
+      path: String = "",
+      url: String = "",
+      text: String = "",
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params, headers)
     sparkNLPReader.setOutputColumn(outputColumn)
-    if (isUrl(path) && (getContentType.isEmpty || getContentType.getOrElse("") == "text/html")) {
-      return sparkNLPReader.html(path)
+
+    if (url.nonEmpty) {
+      return partitionURLContent(url, sparkNLPReader)
     }
 
-    val reader = getContentType match {
-      case Some(contentType) => getReaderByContentType(contentType, sparkNLPReader)
-      case None => getReaderByExtension(path, sparkNLPReader)
+    val partitionResult = {
+      if (path.nonEmpty) {
+        val reader = getContentType match {
+          case Some(contentType) => getFilePathReaderByContentType(contentType, sparkNLPReader)
+          case None => getFilePathReaderByExtension(path, sparkNLPReader)
+        }
+        reader(path)
+      } else {
+        val reader = getContentType match {
+          case Some(contentType) => getReaderByContentType(contentType, sparkNLPReader)
+          case None =>
+            throw new IllegalArgumentException(
+              "Content type is not specified. Please provide a valid content type or file path.")
+        }
+        reader(path, url, text)
+      }
     }
-
-    val partitionResult = reader(path)
-    if (hasChunkerStrategy) {
-      val chunker = new PartitionChunker(params.asScala.toMap)
-      partitionResult.withColumn(
-        "chunks",
-        chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
-    } else partitionResult
+    partitionResult
   }
 
   def partitionStringContent(
@@ -171,7 +180,23 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     reader(input)
   }
 
-  private def getReaderByContentType(
+  private def partitionURLContent(url: String, sparkNLPReader: SparkNLPReader): DataFrame = {
+    if (!isUrl(url)) {
+      throw new IllegalArgumentException(s"Invalid URL: $url")
+    }
+
+    val contentType = getContentType.getOrElse("unknown")
+    contentType match {
+      case "text/html" => sparkNLPReader.html(url)
+      case "text/markdown" => sparkNLPReader.md(url = url)
+      case _ =>
+        throw new IllegalArgumentException(
+          s"Content type: $contentType does not support URL reading")
+    }
+
+  }
+
+  private def getFilePathReaderByContentType(
       contentType: String,
       sparkNLPReader: SparkNLPReader): String => DataFrame = {
     contentType match {
@@ -194,6 +219,14 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     }
   }
 
+  private def getReaderByContentType(
+      contentType: String,
+      sparkNLPReader: SparkNLPReader): (String, String, String) => DataFrame = {
+    contentType match {
+      case "text/markdown" => sparkNLPReader.md
+    }
+  }
+
   private def getReaderForStringContent(
       contentType: String,
       sparkNLPReader: SparkNLPReader): String => Seq[HTMLElement] = {
@@ -202,7 +235,8 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "text/html" => sparkNLPReader.htmlToHTMLElement
       case "url" => sparkNLPReader.urlToHTMLElement
       case "application/xml" => sparkNLPReader.xmlToHTMLElement
-      case "text/markdown" => sparkNLPReader.mdToHTMLElement
+      case "text/markdown" => sparkNLPReader.mdStringToHTMLElement
+      case "url/markdown" => sparkNLPReader.mdURLToHTMLElement
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -226,7 +260,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
   }
 
-  private def getReaderByExtension(
+  private def getFilePathReaderByExtension(
       path: String,
       sparkNLPReader: SparkNLPReader): String => DataFrame = {
     val extension = getFileExtension(path)

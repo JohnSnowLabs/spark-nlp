@@ -129,7 +129,7 @@ class Partition(ExtendedJavaWrapper):
         super(Partition, self).__init__("com.johnsnowlabs.partition.Partition", params)
 
 
-    def partition(self, path, headers=None):
+    def partition(self, path="", url="", text="", headers=None):
         """
         Reads and parses content from a URL, file, or directory path.
 
@@ -147,7 +147,7 @@ class Partition(ExtendedJavaWrapper):
     """
         if headers is None:
             headers = {}
-        jdf = self._java_obj.partition(path, headers)
+        jdf = self._java_obj.partition(path, url, text, headers)
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 

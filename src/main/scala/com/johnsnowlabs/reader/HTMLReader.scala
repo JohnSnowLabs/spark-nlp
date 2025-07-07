@@ -268,6 +268,28 @@ class HTMLReader(
                   content = tableText,
                   metadata = pageMetadata)
               }
+            case "li" =>
+              val itemText = element.text().trim
+              if (itemText.nonEmpty && !visitedNode) {
+                trackingNodes(element).visited = true
+                elements += HTMLElement(
+                  ElementType.LIST_ITEM,
+                  content = itemText,
+                  metadata = pageMetadata)
+              }
+            case "pre" =>
+              // A <pre> tag typically contains a <code> child
+              val codeElem = element.getElementsByTag("code").first()
+              val codeText =
+                if (codeElem != null) codeElem.text().trim
+                else element.text().trim
+              if (codeText.nonEmpty && !visitedNode) {
+                trackingNodes(element).visited = true
+                elements += HTMLElement(
+                  ElementType.UNCATEGORIZED_TEXT, // or ElementType.CODE if you have it
+                  content = codeText,
+                  metadata = pageMetadata)
+              }
             case "p" =>
               if (!visitedNode) {
                 classifyParagraphElement(element) match {
