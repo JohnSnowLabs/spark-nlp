@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/KshitizGIT-DebugWebsiteBuildIssue
   pull_request:
     branches:
       - master
@@ -15,7 +16,7 @@ concurrency:
 jobs:
   jekyll:
     runs-on: RAM32GB
-    timeout-minutes: 500
+    timeout-minutes: 600
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
