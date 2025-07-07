@@ -99,7 +99,8 @@ class MarkdownReader extends Serializable {
 
   def parseMarkdownWithTables(markdown: String): Seq[HTMLElement] = {
     val options = new MutableDataSet()
-    val extensions: java.util.List[Extension] = Collections.singletonList(TablesExtension.create())
+    val extensions: java.util.List[Extension] =
+      Collections.singletonList(TablesExtension.create())
     options.set(Parser.EXTENSIONS, extensions)
 
     val parser = Parser.builder(options).build()

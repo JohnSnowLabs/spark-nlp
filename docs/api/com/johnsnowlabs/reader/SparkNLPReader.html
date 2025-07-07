@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.4 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
-          <meta name="description" content="Spark NLP 6.0.4 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
-          <meta name="keywords" content="Spark NLP 6.0.4 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
+          <title>Spark NLP 6.0.5 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
+          <meta name="description" content="Spark NLP 6.0.5 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
+          <meta name="keywords" content="Spark NLP 6.0.5 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.0.5 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -153,6 +153,10 @@
                         <span class="separator"></span>
                         <a class="class" href="HTMLReader.html" title="Class to parse and read HTML files."></a>
                         <a href="HTMLReader.html" title="Class to parse and read HTML files.">HTMLReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="MarkdownReader.html" title=""></a>
+                        <a href="MarkdownReader.html" title="">MarkdownReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="MimeType$.html" title=""></a>
@@ -675,6 +679,60 @@ root
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#md" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="md(mdPath:String):org.apache.spark.sql.DataFrame"></a><a id="md(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#md(mdPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">md</span><span class="params">(<span name="mdPath">mdPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read Markdown (.md) files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read Markdown (.md) files.</p><p>This method loads a Markdown file or directory of <code>.md</code> files and parses the content into
+structured elements such as headers, narrative text, lists, and code blocks.</p><h4>Example</h4><pre><span class="kw">val</span> mdPath = <span class="lit">"home/user/markdown-files"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> mdDf = sparkNLPReader.md(mdPath)</pre><h4>Example 2</h4><p>Use SparkNLP in one line:</p><pre><span class="kw">val</span> mdDf = SparkNLP.read.md(mdPath)</pre><pre>mdDf.select(<span class="lit">"md"</span>).show(<span class="kw">false</span>)
+
++-----------------------------------------------------------------------------------------------------------------------------------+
+|md                                                                                                                                 |
++-----------------------------------------------------------------------------------------------------------------------------------+
+|[{Title, Introduction, {level -&gt; <span class="num">1</span>, paragraph -&gt; <span class="num">0</span>}}, {NarrativeText, This is a Markdown paragraph., {paragraph -&gt; <span class="num">0</span>}}, ...]        |
++-----------------------------------------------------------------------------------------------------------------------------------+
+
+mdDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- md: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div><dl class="paramcmts block"><dt class="param">mdPath</dt><dd class="cmt"><p>
+  Path to a single .md file or a directory of Markdown files.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  A DataFrame with parsed Markdown content as structured HTMLElements.</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#mdToHTMLElement" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="mdToHTMLElement(mdContent:String):Seq[com.johnsnowlabs.reader.HTMLElement]"></a><a id="mdToHTMLElement(String):Seq[HTMLElement]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#mdToHTMLElement(mdContent:String):Seq[com.johnsnowlabs.reader.HTMLElement]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mdToHTMLElement</span><span class="params">(<span name="mdContent">mdContent: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="HTMLElement.html" class="extype" name="com.johnsnowlabs.reader.HTMLElement">HTMLElement</a>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
