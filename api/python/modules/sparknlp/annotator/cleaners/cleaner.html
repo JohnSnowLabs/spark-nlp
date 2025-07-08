@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cleaners.cleaner &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.cleaners.cleaner &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -376,72 +381,72 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="n">MarianTransformer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="Cleaner"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Cleaner</span><span class="p">(</span><span class="n">MarianTransformer</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cleaner&quot;</span>
+<div class="viewcode-block" id="Cleaner"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Cleaner</span><span class="p">(</span><span class="n">MarianTransformer</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cleaner&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="Cleaner.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+<div class="viewcode-block" id="Cleaner.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
-    <span class="n">encoding</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.encoding"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.encoding">[docs]</a>    <span class="n">encoding</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;encoding&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;The encoding to be used for decoding the byte string (default is utf-8)&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">cleanPrefixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.cleanPrefixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPrefixPattern">[docs]</a>    <span class="n">cleanPrefixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;cleanPrefixPattern&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;The pattern for the prefix. Can be a simple string or a regex pattern.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">cleanPostfixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.cleanPostfixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanPostfixPattern">[docs]</a>    <span class="n">cleanPostfixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;cleanPostfixPattern&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;The pattern for the postfix. Can be a simple string or a regex pattern.&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">cleanerMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="Cleaner.cleanerMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.cleanerMode">[docs]</a>    <span class="n">cleanerMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;cleanerMode&quot;</span><span class="p">,</span>
         <span class="s2">&quot;possible values: &quot;</span> <span class="o">+</span>
         <span class="s2">&quot;clean, bytes_string_to_string, clean_non_ascii_chars, clean_ordered_bullets, clean_postfix, clean_prefix, remove_punctuation, replace_unicode_quotes&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
-    <span class="n">extraWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.extraWhitespace"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.extraWhitespace">[docs]</a>    <span class="n">extraWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                     <span class="s2">&quot;extraWhitespace&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Whether to remove extra whitespace.&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">dashes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.dashes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.dashes">[docs]</a>    <span class="n">dashes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                 <span class="s2">&quot;dashes&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;Whether to handle dashes in text.&quot;</span><span class="p">,</span>
-                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">bullets</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.bullets"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.bullets">[docs]</a>    <span class="n">bullets</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;bullets&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;Whether to handle bullets in text.&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">trailingPunctuation</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.trailingPunctuation"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.trailingPunctuation">[docs]</a>    <span class="n">trailingPunctuation</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                     <span class="s2">&quot;trailingPunctuation&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Whether to remove trailing punctuation from text.&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">lowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.lowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.lowercase">[docs]</a>    <span class="n">lowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                 <span class="s2">&quot;lowercase&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;Whether to convert text to lowercase.&quot;</span><span class="p">,</span>
-                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">ignoreCase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.ignoreCase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.ignoreCase">[docs]</a>    <span class="n">ignoreCase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;ignoreCase&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;If true, ignores case in the pattern.&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">strip</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Cleaner.strip"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.strip">[docs]</a>    <span class="n">strip</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                <span class="s2">&quot;strip&quot;</span><span class="p">,</span>
                <span class="s2">&quot;If true, removes leading or trailing whitespace from the cleaned string.&quot;</span><span class="p">,</span>
-               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setEncoding"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setEncoding">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEncoding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setEncoding"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setEncoding">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEncoding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the encoding to be used for decoding the byte string (default is utf-8).</span>
 
 <span class="sd">        Parameters</span>
@@ -451,7 +456,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setCleanPrefixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setCleanPrefixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for the prefix. Can be a simple string or a regex pattern.</span>
 
 <span class="sd">        Parameters</span>
@@ -461,7 +466,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanPrefixPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setCleanPostfixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanPostfixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanPostfixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setCleanPostfixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanPostfixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanPostfixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pattern for the postfix. Can be a simple string or a regex pattern.</span>
 
 <span class="sd">        Parameters</span>
@@ -471,7 +476,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanPostfixPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setCleanerMode"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanerMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanerMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setCleanerMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setCleanerMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanerMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the cleaner mode.</span>
 
 <span class="sd">        Possible values:</span>
@@ -485,7 +490,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanerMode</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setExtraWhitespace"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setExtraWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtraWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setExtraWhitespace"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setExtraWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtraWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to remove extra whitespace.</span>
 
 <span class="sd">        Parameters</span>
@@ -495,7 +500,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extraWhitespace</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setDashes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setDashes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDashes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setDashes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setDashes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDashes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to handle dashes in text.</span>
 
 <span class="sd">        Parameters</span>
@@ -505,7 +510,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dashes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setBullets"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setBullets">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBullets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setBullets"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setBullets">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBullets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to handle bullets in text.</span>
 
 <span class="sd">        Parameters</span>
@@ -515,7 +520,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">bullets</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setTrailingPunctuation"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setTrailingPunctuation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrailingPunctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setTrailingPunctuation"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setTrailingPunctuation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrailingPunctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to remove trailing punctuation from text.</span>
 
 <span class="sd">        Parameters</span>
@@ -525,7 +530,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">trailingPunctuation</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setLowercase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert text to lowercase.</span>
 
 <span class="sd">        Parameters</span>
@@ -535,7 +540,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setIgnoreCase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setIgnoreCase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setIgnoreCase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setIgnoreCase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore case in the pattern.</span>
 
 <span class="sd">        Parameters</span>
@@ -545,7 +550,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreCase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Cleaner.setStrip"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.cleaners.cleaner.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setStrip">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStrip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Cleaner.setStrip"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cleaners/cleaner/index.html#sparknlp.annotator.cleaners.cleaner.Cleaner.setStrip">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStrip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to remove leading or trailing whitespace from the cleaned string.</span>
 
 <span class="sd">        Parameters</span>
@@ -602,7 +607,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

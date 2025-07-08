@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Comet - A meta machine learning platform &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>Comet - A meta machine learning platform &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,7 @@ models for real-world applications by streamlining the machine learning
 model lifecycle. By leveraging Comet, users can track, compare, explain and
 reproduce their machine learning experiments.</p>
 <p>Comet can easily integrated into the Spark NLP workflow with the a dedicated
-logging class <a class="reference internal" href="../_api/sparknlp.logging.comet.html#sparknlp.logging.comet.CometLogger" title="sparknlp.logging.comet.CometLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">CometLogger</span></code></a>, to log training and evaluation metrics,
+logging class <a class="reference internal" href="../reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger" title="sparknlp.logging.comet.CometLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">CometLogger</span></code></a>, to log training and evaluation metrics,
 pipeline parameters and NER visualization made with sparknlp-display.</p>
 <p>To log a Spark NLP annotator, it will need an “outputLogPath” parameter, as the
 CometLogger reads the log file generated during the training process.</p>
@@ -400,7 +400,7 @@ information.</p>
 training accuracy, validation accuracy etc. can be submitted to Comet and will
 be available for inspection on the web interface.</p>
 <p>The following example shows how to integrate it while training a
-<a class="reference internal" href="../_api/sparknlp.annotator.classifier_dl.multi_classifier_dl.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach" title="sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiClassifierDLApproach</span></code></a>.</p>
+<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach" title="sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiClassifierDLApproach</span></code></a>.</p>
 <p>First we need to do the necessary imports for the pipeline and Comet.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -493,8 +493,8 @@ metrics directly with</p>
 <section id="logging-visualizations">
 <h2>Logging Visualizations<a class="headerlink" href="#logging-visualizations" title="Permalink to this heading">#</a></h2>
 <p>Visualizations from Spark NLP Display can also be submitted to comet.</p>
-<p>This example has NER chunks (NER extracted by e.g. <a class="reference internal" href="../_api/sparknlp.annotator.ner.ner_dl.html#sparknlp.annotator.ner.ner_dl.NerDLModel" title="sparknlp.annotator.ner.ner_dl.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a>
-and converted by a <a class="reference internal" href="../_api/sparknlp.annotator.ner.ner_converter.html#sparknlp.annotator.ner.ner_converter.NerConverter" title="sparknlp.annotator.ner.ner_converter.NerConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerConverter</span></code></a>) extracted in the colum
+<p>This example has NER chunks (NER extracted by e.g. <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLModel" title="sparknlp.annotator.ner.ner_dl.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a>
+and converted by a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter" title="sparknlp.annotator.ner.ner_converter.NerConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerConverter</span></code></a>) extracted in the colum
 “ner_chunk”.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp_display</span><span class="w"> </span><span class="kn">import</span> <span class="n">NerVisualizer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">()</span>
@@ -611,7 +611,7 @@ Comet.</p>
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

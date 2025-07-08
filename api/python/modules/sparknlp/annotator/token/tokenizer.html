@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.token.tokenizer &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.token.tokenizer &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="Tokenizer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Tokenizer</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Tokenizer</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenizes raw text in document type columns into TokenizedSentence .</span>
 
 <span class="sd">    This class represents a non fitted tokenizer. Fitting it will cause the</span>
@@ -448,71 +453,71 @@ document.write(`
 <span class="sd">    +-----------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Tokenizer&#39;</span>
+<div class="viewcode-block" id="Tokenizer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Tokenizer&#39;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="Tokenizer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="Tokenizer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
-    <span class="n">targetPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.targetPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.targetPattern">[docs]</a>    <span class="n">targetPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;targetPattern&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;pattern to grab from text as token candidates. Defaults \S+&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">prefixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.prefixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.prefixPattern">[docs]</a>    <span class="n">prefixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;prefixPattern&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">suffixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.suffixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.suffixPattern">[docs]</a>    <span class="n">suffixPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;suffixPattern&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">infixPatterns</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.infixPatterns"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.infixPatterns">[docs]</a>    <span class="n">infixPatterns</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;infixPatterns&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">exceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.exceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.exceptions">[docs]</a>    <span class="n">exceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;exceptions&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Words that won&#39;t be affected by tokenization rules&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">exceptionsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.exceptionsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.exceptionsPath">[docs]</a>    <span class="n">exceptionsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;exceptionsPath&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;path to file containing list of exceptions&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">caseSensitiveExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.caseSensitiveExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.caseSensitiveExceptions">[docs]</a>    <span class="n">caseSensitiveExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                     <span class="s2">&quot;caseSensitiveExceptions&quot;</span><span class="p">,</span>
                                     <span class="s2">&quot;Whether to care for case sensitiveness in exceptions&quot;</span><span class="p">,</span>
-                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">contextChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.contextChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.contextChars">[docs]</a>    <span class="n">contextChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;contextChars&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;character list used to separate from token boundaries&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">splitPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.splitPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.splitPattern">[docs]</a>    <span class="n">splitPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;splitPattern&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;character list used to separate from the inside of tokens&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">splitChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.splitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.splitChars">[docs]</a>    <span class="n">splitChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;splitChars&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;character list used to separate from the inside of tokens&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.minLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.minLength">[docs]</a>    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;minLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the minimum allowed length for each token&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="Tokenizer.maxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.maxLength">[docs]</a>    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;maxLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the maximum allowed length for each token&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -525,7 +530,7 @@ document.write(`
             <span class="n">maxLength</span><span class="o">=</span><span class="mi">99999</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Tokenizer.getInfixPatterns"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getInfixPatterns">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInfixPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getInfixPatterns"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getInfixPatterns">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInfixPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets regex patterns that match tokens within a single target. Groups</span>
 <span class="sd">        identify different sub-tokens.</span>
 
@@ -536,7 +541,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;infixPatterns&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getSuffixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getSuffixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getSuffixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getSuffixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getSuffixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getSuffixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets regex with groups and ends with ``\\z`` to match target suffix.</span>
 
 <span class="sd">        Returns</span>
@@ -546,7 +551,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;suffixPattern&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getPrefixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getPrefixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets regex with groups and begins with ``\\A`` to match target</span>
 <span class="sd">        prefix.</span>
 
@@ -557,7 +562,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;prefixPattern&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getContextChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getContextChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets character list used to separate from token boundaries.</span>
 
 <span class="sd">        Returns</span>
@@ -567,7 +572,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;contextChars&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getSplitChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getSplitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets character list used to separate from the inside of tokens.</span>
 
 <span class="sd">        Returns</span>
@@ -577,7 +582,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;splitChars&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setTargetPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setTargetPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTargetPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setTargetPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setTargetPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTargetPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets pattern to grab from text as token candidates, by default</span>
 <span class="sd">        ``\\S+``.</span>
 
@@ -588,7 +593,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">targetPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setPrefixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setPrefixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setPrefixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPrefixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets regex with groups and begins with ``\\A`` to match target prefix, by</span>
 <span class="sd">        default ``\\A([^\\s\\w\\$\\.]*)``.</span>
 
@@ -599,7 +604,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">prefixPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setSuffixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSuffixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSuffixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setSuffixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSuffixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSuffixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets regex with groups and ends with ``\\z`` to match target suffix,</span>
 <span class="sd">        by default ``([^\\s\\w]?)([^\\s\\w]*)\\z``.</span>
 
@@ -610,7 +615,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">suffixPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setInfixPatterns"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setInfixPatterns">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInfixPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setInfixPatterns"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setInfixPatterns">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInfixPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets regex patterns that match tokens within a single target. Groups</span>
 <span class="sd">        identify different sub-tokens.</span>
 
@@ -621,7 +626,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">infixPatterns</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.addInfixPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.addInfixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addInfixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.addInfixPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.addInfixPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addInfixPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an additional regex pattern that match tokens within a single</span>
 <span class="sd">        target. Groups identify different sub-tokens.</span>
 
@@ -637,7 +642,7 @@ document.write(`
         <span class="n">infix_patterns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">infixPatterns</span><span class="o">=</span><span class="n">infix_patterns</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setExceptions"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets words that won&#39;t be affected by tokenization rules.</span>
 
 <span class="sd">        Parameters</span>
@@ -647,7 +652,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">exceptions</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getExceptions"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets words that won&#39;t be affected by tokenization rules.</span>
 
 <span class="sd">        Returns</span>
@@ -657,7 +662,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;exceptions&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setExceptionsPath"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setExceptionsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExceptionsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="Tokenizer.setExceptionsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setExceptionsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExceptionsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Path to txt file with list of token exceptions</span>
 
 <span class="sd">        Parameters</span>
@@ -672,7 +677,7 @@ document.write(`
         <span class="n">opts</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">exceptionsPath</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Tokenizer.addException"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.addException">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addException</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.addException"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.addException">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addException</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an additional word that won&#39;t be affected by tokenization rules.</span>
 
 <span class="sd">        Parameters</span>
@@ -687,7 +692,7 @@ document.write(`
         <span class="n">exception_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">exceptions</span><span class="o">=</span><span class="n">exception_tokens</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setCaseSensitiveExceptions"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setCaseSensitiveExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCaseSensitiveExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setCaseSensitiveExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setCaseSensitiveExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCaseSensitiveExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to care for case sensitiveness in exceptions, by default</span>
 <span class="sd">        True.</span>
 
@@ -698,7 +703,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitiveExceptions</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.getCaseSensitiveExceptions"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.getCaseSensitiveExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getCaseSensitiveExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.getCaseSensitiveExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.getCaseSensitiveExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getCaseSensitiveExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether to care for case sensitiveness in exceptions.</span>
 
 <span class="sd">        Returns</span>
@@ -708,7 +713,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;caseSensitiveExceptions&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setContextChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setContextChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character list used to separate from token boundaries, by</span>
 <span class="sd">        default [&#39;.&#39;, &#39;,&#39;, &#39;;&#39;, &#39;:&#39;, &#39;!&#39;, &#39;?&#39;, &#39;*&#39;, &#39;-&#39;, &#39;(&#39;, &#39;)&#39;, &#39;&quot;&#39;, &quot;&#39;&quot;].</span>
 
@@ -719,7 +724,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contextChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.addContextChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.addContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.addContextChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.addContextChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addContextChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an additional character to the list used to separate from token</span>
 <span class="sd">        boundaries.</span>
 
@@ -735,7 +740,7 @@ document.write(`
         <span class="n">context_chars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contextChars</span><span class="o">=</span><span class="n">context_chars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setSplitPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSplitPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setSplitPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSplitPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets pattern to separate from the inside of tokens. Takes priority</span>
 <span class="sd">        over splitChars.</span>
 
@@ -746,7 +751,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setSplitChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setSplitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character list used to separate from the inside of tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -756,7 +761,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.addSplitChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.addSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.addSplitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.addSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an additional character to separate from the inside of tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -771,7 +776,7 @@ document.write(`
         <span class="n">split_chars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitChars</span><span class="o">=</span><span class="n">split_chars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setMinLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setMinLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum allowed length for each token, by default 0.</span>
 
 <span class="sd">        Parameters</span>
@@ -781,7 +786,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Tokenizer.setMaxLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.Tokenizer.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Tokenizer.setMaxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each token, by default 99999.</span>
 
 <span class="sd">        Parameters</span>
@@ -795,7 +800,7 @@ document.write(`
         <span class="k">return</span> <span class="n">TokenizerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TokenizerModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.TokenizerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TokenizerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TokenizerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TokenizerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenizes raw text into word pieces, tokens. Identifies tokens with</span>
 <span class="sd">    tokenization open standards. A few rules will help customizing it if</span>
 <span class="sd">    defaults do not fit user needs.</span>
@@ -817,41 +822,41 @@ document.write(`
 <span class="sd">    splitChars</span>
 <span class="sd">        Character list used to separate from the inside of tokens</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TokenizerModel&quot;</span>
+<div class="viewcode-block" id="TokenizerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TokenizerModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="TokenizerModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="TokenizerModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
-    <span class="n">exceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.exceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.exceptions">[docs]</a>    <span class="n">exceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;exceptions&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Words that won&#39;t be affected by tokenization rules&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-    <span class="n">caseSensitiveExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.caseSensitiveExceptions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.caseSensitiveExceptions">[docs]</a>    <span class="n">caseSensitiveExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                     <span class="s2">&quot;caseSensitiveExceptions&quot;</span><span class="p">,</span>
                                     <span class="s2">&quot;Whether to care for case sensitiveness in exceptions&quot;</span><span class="p">,</span>
-                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">targetPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.targetPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.targetPattern">[docs]</a>    <span class="n">targetPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;targetPattern&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;pattern to grab from text as token candidates. Defaults \S+&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">rules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.rules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.rules">[docs]</a>    <span class="n">rules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;rules&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;Rules structure factory containing pre processed regex rules&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">splitPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.splitPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.splitPattern">[docs]</a>    <span class="n">splitPattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;splitPattern&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;character list used to separate from the inside of tokens&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">splitChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="TokenizerModel.splitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.splitChars">[docs]</a>    <span class="n">splitChars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;splitChars&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;character list used to separate from the inside of tokens&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.TokenizerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TokenizerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -863,7 +868,7 @@ document.write(`
             <span class="n">caseSensitiveExceptions</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="TokenizerModel.setSplitPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.TokenizerModel.setSplitPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TokenizerModel.setSplitPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.setSplitPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets pattern to separate from the inside of tokens. Takes priority</span>
 <span class="sd">        over splitChars.</span>
 
@@ -874,7 +879,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitPattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TokenizerModel.setSplitChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.TokenizerModel.setSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TokenizerModel.setSplitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.setSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character list used to separate from the inside of tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -884,7 +889,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TokenizerModel.addSplitChars"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.TokenizerModel.addSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TokenizerModel.addSplitChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.addSplitChars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">addSplitChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an additional character to separate from the inside of tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -899,8 +904,8 @@ document.write(`
         <span class="n">split_chars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitChars</span><span class="o">=</span><span class="n">split_chars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TokenizerModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.tokenizer.html#sparknlp.annotator.token.tokenizer.TokenizerModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;token_rules&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="TokenizerModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;token_rules&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -961,7 +966,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

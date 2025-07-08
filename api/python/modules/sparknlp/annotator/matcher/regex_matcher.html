@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="RegexMatcher"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexMatcher</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexMatcher</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Uses rules to match a set of regular expressions and associate them with a</span>
 <span class="sd">    provided identifier.</span>
 
@@ -451,26 +456,26 @@ document.write(`
 <span class="sd">    +--------------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="RegexMatcher.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+<div class="viewcode-block" id="RegexMatcher.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
-    <span class="n">strategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexMatcher.strategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.strategy">[docs]</a>    <span class="n">strategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;strategy&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">externalRules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RegexMatcher.externalRules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.externalRules">[docs]</a>    <span class="n">externalRules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;externalRules&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;external resource to rules, needs &#39;delimiter&#39; in options&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
-    <span class="n">rules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RegexMatcher.rules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.rules">[docs]</a>    <span class="n">rules</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                   <span class="s2">&quot;rules&quot;</span><span class="p">,</span>
                   <span class="s2">&quot;Regex rules to match the identifier with&quot;</span><span class="p">,</span>
-                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">delimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RegexMatcher.delimiter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.delimiter">[docs]</a>    <span class="n">delimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;delimiter&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Delimiter for rules&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -479,7 +484,7 @@ document.write(`
             <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;MATCH_ALL&quot;</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="RegexMatcher.setStrategy"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setStrategy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexMatcher.setStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setStrategy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets matching strategy, by default &quot;MATCH_ALL&quot;.</span>
 
 <span class="sd">        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE.</span>
@@ -491,7 +496,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexMatcher.setExternalRules"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExternalRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="RegexMatcher.setExternalRules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExternalRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets external resource to rules, needs &#39;delimiter&#39; in options.</span>
 
 <span class="sd">        Only one of either parameter `rules` or `externalRules` must be set.</span>
@@ -513,7 +518,7 @@ document.write(`
             <span class="n">opts</span><span class="p">[</span><span class="s2">&quot;delimiter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delimiter</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">externalRules</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="RegexMatcher.setRules"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexMatcher.setRules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the regex rules to match the identifier with.</span>
 
 <span class="sd">        The rules must consist of a regex pattern and an identifier for that pattern. The regex</span>
@@ -538,7 +543,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rules</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexMatcher.setDelimiter"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexMatcher.setDelimiter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the delimiter for rules.</span>
 
 <span class="sd">        Parameters</span>
@@ -552,7 +557,7 @@ document.write(`
         <span class="k">return</span> <span class="n">RegexMatcherModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RegexMatcherModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexMatcherModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexMatcherModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexMatcherModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the RegexMatcher.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.RegexMatcher`.</span>
@@ -569,9 +574,9 @@ document.write(`
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="RegexMatcherModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
+<div class="viewcode-block" id="RegexMatcherModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.RegexMatcherModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RegexMatcherModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -579,7 +584,7 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RegexMatcherModel&quot;</span></div>
+<div class="viewcode-block" id="RegexMatcherModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RegexMatcherModel&quot;</span></div></div>
 </pre></div>
 
                 </article>
@@ -621,7 +626,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

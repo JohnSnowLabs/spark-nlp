@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.base.prompt_assembler &#8212; Spark NLP 6.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=cc9e4dc6"></script>
+    <script src="../../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/base/prompt_assembler/index';</script>
+    <link rel="icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../audio_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.audio_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.doc2_chunk</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../document_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.document_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../embeddings_finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.embeddings_finisher</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.finisher</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../graph_finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.graph_finisher</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../has_recursive_fit/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.has_recursive_fit</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../has_recursive_transform/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.has_recursive_transform</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.image_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../light_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.light_pipeline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multi_document_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.multi_document_assembler</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.prompt_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../recursive_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.recursive_pipeline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../table_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.table_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../token_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token_assembler</span></code></a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.base.prompt_assembler">
+<span id="sparknlp-base-prompt-assembler"></span><h1><a class="reference internal" href="#module-sparknlp.base.prompt_assembler" title="sparknlp.base.prompt_assembler"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.prompt_assembler</span></code></a><a class="headerlink" href="#module-sparknlp.base.prompt_assembler" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for the PromptAssembler.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.prompt_assembler.PromptAssembler" title="sparknlp.base.prompt_assembler.PromptAssembler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PromptAssembler</span></code></a></p></td>
+<td><p>Assembles a sequence of messages into a single string using a template. These strings can then</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PromptAssembler</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler" title="Permalink to this definition">#</a></dt>
+<dd><p>Assembles a sequence of messages into a single string using a template. These strings can then
+be used as prompts for large language models.</p>
+<p>This annotator expects an array of two-tuples as the type of the input column (one array of
+tuples per row). The first element of the tuples should be the role and the second element is
+the text of the message. Possible roles are “system”, “user” and “assistant”.</p>
+<p>An assistant header can be added to the end of the generated string by using
+<code class="docutils literal notranslate"><span class="pre">setAddAssistant(True)</span></code>.</p>
+<p>At the moment, this annotator uses llama.cpp as a backend to parse and apply the templates.
+llama.cpp uses basic pattern matching to determine the type of the template, then applies a
+basic version of the template to the messages. This means that more advanced templates are not
+supported.</p>
+<p>For an extended example see the
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/llama.cpp/PromptAssember_with_AutoGGUFModel.ipynb">example notebook</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>inputCol</strong></dt><dd><p>Input column name</p>
+</dd>
+<dt><strong>outputCol</strong></dt><dd><p>Output column name</p>
+</dd>
+<dt><strong>chatTemplate</strong></dt><dd><p>Template used for the chat</p>
+</dd>
+<dt><strong>addAssistant</strong></dt><dd><p>Whether to add an assistant header to the end of the generated string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello there, how can I help you?&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;I need help with organizing my room.&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">messages</span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;{{- bos_token }} {</span><span class="si">%- i</span><span class="s2">f custom_tools is defined %} {</span><span class="si">%- s</span><span class="s2">et tools = custom_tools %} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;endif %} {</span><span class="si">%- i</span><span class="s2">f not tools_in_user_message is defined %} {</span><span class="si">%- s</span><span class="s2">et tools_in_user_message = true %} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;endif %} {</span><span class="si">%- i</span><span class="s1">f not date_string is defined %} {</span><span class="si">%- s</span><span class="s1">et date_string = &quot;26 Jul 2024&quot; %} {</span><span class="si">%- e</span><span class="s1">ndif %} &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;{</span><span class="si">%- i</span><span class="s2">f not tools is defined %} {</span><span class="si">%- s</span><span class="s2">et tools = none %} {</span><span class="si">%- e</span><span class="s2">ndif %} {#- This block extracts the &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;system message, so we can slot it into the right place. #} {</span><span class="si">%- i</span><span class="s2">f messages[0][&#39;role&#39;] == &#39;system&#39; %}&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot; {</span><span class="si">%- s</span><span class="s2">et system_message = messages[0][&#39;content&#39;]|trim %} {</span><span class="si">%- s</span><span class="s2">et messages = messages[1:] %} {</span><span class="si">%- e</span><span class="s2">lse&quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39; %} {</span><span class="si">%- s</span><span class="s1">et system_message = &quot;&quot; %} {</span><span class="si">%- e</span><span class="s1">ndif %} {#- System message + builtin tools #} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- i</span><span class="s1">f builtin_tools is defined or tools is &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;not none %} {{- &quot;Environment: ipython</span><span class="se">\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- i</span><span class="s1">f builtin_tools is defined %} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;Tools: &quot; + builtin_tools | reject(</span><span class="se">\&#39;</span><span class="s1">equalto&#39;</span><span class="p">,</span> \<span class="s1">&#39;code_interpreter</span><span class="se">\&#39;</span><span class="s1">) | join(&quot;, &quot;) + &quot;</span><span class="se">\n\n</span><span class="s1">&quot;}} &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;{</span><span class="si">%- e</span><span class="s1">ndif %} {{- &quot;Cutting Knowledge Date: December 2023</span><span class="se">\n</span><span class="s1">&quot; }} {{- &quot;Today Date: &quot; + date_string &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;+ &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- i</span><span class="s1">f tools is not none and not tools_in_user_message %} {{- &quot;You have access to &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;the following functions. To call a function, please respond with JSON for a function call.&quot; }} {{- &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: dictionary of argument name and its&#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39; value}.</span><span class="se">\&#39;</span><span class="s1"> }} {{- &quot;Do not use variables.</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- f</span><span class="s1">or t in tools %} {{- t | tojson(indent=4) &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;}} {{- &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndfor %} {</span><span class="si">%- e</span><span class="s1">ndif %} {{- system_message }} {{- &quot;&lt;|eot_id|&gt;&quot; }} {#- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;Custom tools are passed in a user message with some extra guidance #} {</span><span class="si">%- i</span><span class="s2">f tools_in_user_message &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;and not tools is none %} {#- Extract the first user message so we can plug it in here #} {</span><span class="si">%- i</span><span class="s2">f &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;messages | length != 0 %} {</span><span class="si">%- s</span><span class="s2">et first_user_message = messages[0][&#39;content&#39;]|trim %} {</span><span class="si">%- s</span><span class="s2">et &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;messages = messages[1:] %} {</span><span class="si">%- e</span><span class="s1">lse %} {{- raise_exception(&quot;Cannot put tools in the first user &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;message when there&#39;s no first user message!</span><span class="se">\&quot;</span><span class="s2">) }} {</span><span class="si">%- e</span><span class="s2">ndif %} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;&#39;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- </span><span class="se">\&quot;</span><span class="s2">Given the following functions, please &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;respond with a JSON for a function call &quot; }} {{- &quot;with its proper arguments that best answers the &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;given prompt.</span><span class="se">\n\n</span><span class="s1">&quot; }} {{- </span><span class="se">\&#39;</span><span class="s1">Respond in the format {&quot;name&quot;: function name, &quot;parameters&quot;: &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;dictionary of argument name and its value}.</span><span class="se">\&#39;</span><span class="s1"> }} {{- &quot;Do not use variables.</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- f</span><span class="s1">or t in &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;tools %} {{- t | tojson(indent=4) }} {{- &quot;</span><span class="se">\n\n</span><span class="s1">&quot; }} {</span><span class="si">%- e</span><span class="s1">ndfor %} {{- first_user_message + &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&lt;|eot_id|&gt;</span><span class="se">\&quot;</span><span class="s2">}} {</span><span class="si">%- e</span><span class="s2">ndif %} {</span><span class="si">%- f</span><span class="s2">or message in messages %} {</span><span class="si">%- i</span><span class="s2">f not (message.role == &#39;ipython&#39; &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;or message.role == &#39;tool&#39; or &#39;tool_calls&#39; in message) %} {{- &#39;&lt;|start_header_id|&gt;&#39; + message[&#39;role&#39;]&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot; + &#39;&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39;+ message[&#39;content&#39;] | trim + &#39;&lt;|eot_id|&gt;&#39; }} {</span><span class="si">%- e</span><span class="s2">lif &#39;tool_calls&#39; in &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;message %} {</span><span class="si">%- i</span><span class="s1">f not message.tool_calls|length == 1 %} {{- raise_exception(&quot;This model only &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;supports single tool-calls at once!&quot;) }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- s</span><span class="s1">et tool_call = message.tool_calls[0]&#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;.function %} {</span><span class="si">%- i</span><span class="s2">f builtin_tools is defined and tool_call.name in builtin_tools %} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;&#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- </span><span class="se">\&quot;</span><span class="s2">&lt;|python_tag|&gt;</span><span class="se">\&quot;</span><span class="s2"> + tool_call.name + &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;.call(&quot; }} {</span><span class="si">%- f</span><span class="s1">or arg_name, arg_val in tool_call.arguments | items %} {{- arg_name + </span><span class="se">\&#39;</span><span class="s1">=&quot;</span><span class="se">\&#39;</span><span class="s1"> + &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;arg_val + </span><span class="se">\&#39;</span><span class="s1">&quot;</span><span class="se">\&#39;</span><span class="s1"> }} {</span><span class="si">%- i</span><span class="s1">f not loop.last %} {{- &quot;, &quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">ndfor %} {{- &quot;)&quot; }} {%- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;else %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; -}} {{- &#39;{</span><span class="se">\&quot;</span><span class="s2">name&quot;</span><span class="p">:</span> \<span class="s2">&quot;&#39; + &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;tool_call.name + </span><span class="se">\&#39;</span><span class="s1">&quot;, </span><span class="se">\&#39;</span><span class="s1"> }} {{- </span><span class="se">\&#39;</span><span class="s1">&quot;parameters&quot;: </span><span class="se">\&#39;</span><span class="s1"> }} {{- tool_call.arguments | tojson }} {{- &quot;}&quot; &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;}} {</span><span class="si">%- e</span><span class="s2">ndif %} {</span><span class="si">%- i</span><span class="s2">f builtin_tools is defined %} {#- This means we&#39;re in ipython mode #} {{- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;&quot;&lt;|eom_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">lse %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">lif message.role == &quot;tool&quot; &#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;or message.role == &quot;ipython&quot; %} {{- &quot;&lt;|start_header_id|&gt;ipython&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s1">&quot; }} {%- &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;if message.content is mapping or message.content is iterable %} {{- message.content | tojson }} {%- &quot;</span>
+<span class="gp">... </span>    <span class="s1">&#39;else %} {{- message.content }} {</span><span class="si">%- e</span><span class="s1">ndif %} {{- &quot;&lt;|eot_id|&gt;&quot; }} {</span><span class="si">%- e</span><span class="s1">ndif %} {</span><span class="si">%- e</span><span class="s1">ndfor %} {</span><span class="si">%- i</span><span class="s1">f &#39;</span>
+<span class="gp">... </span>    <span class="s2">&quot;add_generation_prompt %} {{- &#39;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s2">&#39; }} {</span><span class="si">%- e</span><span class="s2">ndif %} &quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prompt_assembler</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">PromptAssembler</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;prompt&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setChatTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prompt_assembler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;prompt.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                                                                                                                                                                                                                                                                      |</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou are a helpful assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello there, how can I help you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI need help with organizing my room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n]|</span>
+<span class="go">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'document'</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.inputCol">
+<span class="sig-name descname"><span class="pre">inputCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.inputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.inputCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.outputCol">
+<span class="sig-name descname"><span class="pre">outputCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate">
+<span class="sig-name descname"><span class="pre">chatTemplate</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.chatTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.addAssistant">
+<span class="sig-name descname"><span class="pre">addAssistant</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.addAssistant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.addAssistant" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'PromptAssembler'</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.setParams">
+<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.setParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.setInputCol">
+<span class="sig-name descname"><span class="pre">setInputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.setInputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.setInputCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets input column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the input column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol">
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets output column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Output Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate">
+<span class="sig-name descname"><span class="pre">setChatTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.setChatTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the chat template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Template used for the chat</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant">
+<span class="sig-name descname"><span class="pre">setAddAssistant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/prompt_assembler.html#PromptAssembler.setAddAssistant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to add an assistant header to the end of the generated string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to add an assistant header to the end of the generated string</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler"><code class="docutils literal notranslate"><span class="pre">PromptAssembler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.outputAnnotatorType</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.inputCol"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.inputCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.outputCol"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.outputCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.chatTemplate"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.chatTemplate</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.addAssistant"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.addAssistant</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.name"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.setParams"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.setParams()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.setInputCol"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.setInputCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.setOutputCol"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.setOutputCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.setChatTemplate"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.setChatTemplate()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.prompt_assembler.PromptAssembler.setAddAssistant"><code class="docutils literal notranslate"><span class="pre">PromptAssembler.setAddAssistant()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../../../_sources/reference/autosummary/sparknlp/base/prompt_assembler/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

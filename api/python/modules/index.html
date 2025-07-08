@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overview: module code &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>Overview: module code &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -357,7 +357,8 @@ document.write(`
 <ul><li><a href="sparknlp/annotation.html">sparknlp.annotation</a></li>
 <li><a href="sparknlp/annotation_audio.html">sparknlp.annotation_audio</a></li>
 <li><a href="sparknlp/annotation_image.html">sparknlp.annotation_image</a></li>
-<li><a href="sparknlp/annotator/audio/hubert_for_ctc.html">sparknlp.annotator.audio.hubert_for_ctc</a></li>
+<li><a href="sparknlp/annotator.html">sparknlp.annotator</a></li>
+<ul><li><a href="sparknlp/annotator/audio/hubert_for_ctc.html">sparknlp.annotator.audio.hubert_for_ctc</a></li>
 <li><a href="sparknlp/annotator/audio/wav2vec2_for_ctc.html">sparknlp.annotator.audio.wav2vec2_for_ctc</a></li>
 <li><a href="sparknlp/annotator/audio/whisper_for_ctc.html">sparknlp.annotator.audio.whisper_for_ctc</a></li>
 <li><a href="sparknlp/annotator/chunk2_doc.html">sparknlp.annotator.chunk2_doc</a></li>
@@ -414,7 +415,9 @@ document.write(`
 <li><a href="sparknlp/annotator/cv/blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering</a></li>
 <li><a href="sparknlp/annotator/cv/clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification</a></li>
 <li><a href="sparknlp/annotator/cv/convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification</a></li>
+<li><a href="sparknlp/annotator/cv/florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer</a></li>
 <li><a href="sparknlp/annotator/cv/gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal</a></li>
+<li><a href="sparknlp/annotator/cv/internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal</a></li>
 <li><a href="sparknlp/annotator/cv/janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal</a></li>
 <li><a href="sparknlp/annotator/cv/llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal</a></li>
 <li><a href="sparknlp/annotator/cv/mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal</a></li>
@@ -425,12 +428,14 @@ document.write(`
 <li><a href="sparknlp/annotator/cv/swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification</a></li>
 <li><a href="sparknlp/annotator/cv/vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning</a></li>
 <li><a href="sparknlp/annotator/cv/vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification</a></li>
+<li><a href="sparknlp/annotator/dataframe_optimizer.html">sparknlp.annotator.dataframe_optimizer</a></li>
 <li><a href="sparknlp/annotator/date2_chunk.html">sparknlp.annotator.date2_chunk</a></li>
 <li><a href="sparknlp/annotator/dependency/dependency_parser.html">sparknlp.annotator.dependency.dependency_parser</a></li>
 <li><a href="sparknlp/annotator/dependency/typed_dependency_parser.html">sparknlp.annotator.dependency.typed_dependency_parser</a></li>
 <li><a href="sparknlp/annotator/document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter</a></li>
 <li><a href="sparknlp/annotator/document_normalizer.html">sparknlp.annotator.document_normalizer</a></li>
 <li><a href="sparknlp/annotator/document_token_splitter.html">sparknlp.annotator.document_token_splitter</a></li>
+<li><a href="sparknlp/annotator/document_token_splitter_test.html">sparknlp.annotator.document_token_splitter_test</a></li>
 <li><a href="sparknlp/annotator/embeddings/albert_embeddings.html">sparknlp.annotator.embeddings.albert_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/auto_gguf_embeddings.html">sparknlp.annotator.embeddings.auto_gguf_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings</a></li>
@@ -442,9 +447,11 @@ document.write(`
 <li><a href="sparknlp/annotator/embeddings/distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/doc2vec.html">sparknlp.annotator.embeddings.doc2vec</a></li>
 <li><a href="sparknlp/annotator/embeddings/e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings</a></li>
+<li><a href="sparknlp/annotator/embeddings/e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings</a></li>
+<li><a href="sparknlp/annotator/embeddings/minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/mxbai_embeddings.html">sparknlp.annotator.embeddings.mxbai_embeddings</a></li>
 <li><a href="sparknlp/annotator/embeddings/nomic_embeddings.html">sparknlp.annotator.embeddings.nomic_embeddings</a></li>
@@ -517,7 +524,7 @@ document.write(`
 <li><a href="sparknlp/annotator/token/tokenizer.html">sparknlp.annotator.token.tokenizer</a></li>
 <li><a href="sparknlp/annotator/token2_chunk.html">sparknlp.annotator.token2_chunk</a></li>
 <li><a href="sparknlp/annotator/ws/word_segmenter.html">sparknlp.annotator.ws.word_segmenter</a></li>
-<li><a href="sparknlp/base/audio_assembler.html">sparknlp.base.audio_assembler</a></li>
+</ul><li><a href="sparknlp/base/audio_assembler.html">sparknlp.base.audio_assembler</a></li>
 <li><a href="sparknlp/base/doc2_chunk.html">sparknlp.base.doc2_chunk</a></li>
 <li><a href="sparknlp/base/document_assembler.html">sparknlp.base.document_assembler</a></li>
 <li><a href="sparknlp/base/embeddings_finisher.html">sparknlp.base.embeddings_finisher</a></li>
@@ -550,6 +557,9 @@ document.write(`
 <li><a href="sparknlp/internal/params_getters_setters.html">sparknlp.internal.params_getters_setters</a></li>
 <li><a href="sparknlp/internal/recursive.html">sparknlp.internal.recursive</a></li>
 <li><a href="sparknlp/logging/comet.html">sparknlp.logging.comet</a></li>
+<li><a href="sparknlp/partition/partition.html">sparknlp.partition.partition</a></li>
+<li><a href="sparknlp/partition/partition_properties.html">sparknlp.partition.partition_properties</a></li>
+<li><a href="sparknlp/partition/partition_transformer.html">sparknlp.partition.partition_transformer</a></li>
 <li><a href="sparknlp/pretrained/pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline</a></li>
 <li><a href="sparknlp/pretrained/resource_downloader.html">sparknlp.pretrained.resource_downloader</a></li>
 <li><a href="sparknlp/pretrained/utils.html">sparknlp.pretrained.utils</a></li>
@@ -561,6 +571,7 @@ document.write(`
 <li><a href="sparknlp/training/pos.html">sparknlp.training.pos</a></li>
 <li><a href="sparknlp/training/pub_tator.html">sparknlp.training.pub_tator</a></li>
 <li><a href="sparknlp/training/spacy_to_annotation.html">sparknlp.training.spacy_to_annotation</a></li>
+<li><a href="sparknlp/training/tfgraphs.html">sparknlp.training.tfgraphs</a></li>
 <li><a href="sparknlp/upload_to_hub.html">sparknlp.upload_to_hub</a></li>
 <li><a href="sparknlp/util.html">sparknlp.util</a></li>
 </ul></ul>
@@ -604,7 +615,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

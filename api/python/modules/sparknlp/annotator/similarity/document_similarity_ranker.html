@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.similarity.document_similarity_ranker &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -380,7 +385,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that uses LSH techniques present in Spark ML lib to execute</span>
 <span class="sd">    approximate nearest neighbors search on top of sentence embeddings.</span>
 
@@ -475,57 +480,57 @@ document.write(`
 <span class="sd">    +-----------------------------------+------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOC_SIMILARITY_RANKINGS</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOC_SIMILARITY_RANKINGS</span></div>
 
-    <span class="n">similarityMethod</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.similarityMethod"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.similarityMethod">[docs]</a>    <span class="n">similarityMethod</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;similarityMethod&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;The similarity method used to calculate the neighbours. (Default: &#39;brp&#39;, &quot;</span>
                              <span class="s2">&quot;Bucketed Random Projection for Euclidean Distance)&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">numberOfNeighbours</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.numberOfNeighbours"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numberOfNeighbours">[docs]</a>    <span class="n">numberOfNeighbours</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;numberOfNeighbours&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;The number of neighbours the model will return (Default:`10`)&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">bucketLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.bucketLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.bucketLength">[docs]</a>    <span class="n">bucketLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;bucketLength&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;The bucket length that controls the average size of hash buckets. &quot;</span>
                          <span class="s2">&quot;A larger bucket length (i.e., fewer buckets) increases the probability of features &quot;</span>
                          <span class="s2">&quot;being hashed to the same bucket (increasing the numbers of true and false positives).&quot;</span><span class="p">,</span>
-                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">numHashTables</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.numHashTables"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.numHashTables">[docs]</a>    <span class="n">numHashTables</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;numHashTables&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;number of hash tables, where increasing number of hash tables lowers the &quot;</span>
                           <span class="s2">&quot;false negative rate,and decreasing it improves the running performance.&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">visibleDistances</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.visibleDistances"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.visibleDistances">[docs]</a>    <span class="n">visibleDistances</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;visibleDistances&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Whether to set visibleDistances in ranking output (Default: `false`).&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">identityRanking</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.identityRanking"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.identityRanking">[docs]</a>    <span class="n">identityRanking</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;identityRanking&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Whether to include identity in ranking result set. Useful for debug. (Default: `false`).&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">asRetrieverQuery</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.asRetrieverQuery"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetrieverQuery">[docs]</a>    <span class="n">asRetrieverQuery</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;asRetrieverQuery&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Whether to set the model as retriever RAG with a specific query string.&quot;</span>
                              <span class="s2">&quot;(Default: `empty`)&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">aggregationMethod</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.aggregationMethod"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.aggregationMethod">[docs]</a>    <span class="n">aggregationMethod</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                               <span class="s2">&quot;aggregationMethod&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;Specifies the method used to aggregate multiple sentence embeddings into a single vector representation.&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setSimilarityMethod"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSimilarityMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setSimilarityMethod"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setSimilarityMethod">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSimilarityMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the similarity method used to calculate the neighbours.</span>
 <span class="sd">            (Default: `&quot;brp&quot;`, Bucketed Random Projection for Euclidean Distance)</span>
 
@@ -536,7 +541,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">similarityMethod</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setNumberOfNeighbours"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumberOfNeighbours">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfNeighbours</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setNumberOfNeighbours"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumberOfNeighbours">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfNeighbours</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets The number of neighbours the model will return for each document(Default:`&quot;10&quot;`).</span>
 
 <span class="sd">        Parameters</span>
@@ -546,7 +551,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numberOfNeighbours</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setBucketLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setBucketLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBucketLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setBucketLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setBucketLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBucketLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the bucket length that controls the average size of hash buckets (Default:`&quot;2.0&quot;`).</span>
 
 <span class="sd">        Parameters</span>
@@ -556,7 +561,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">bucketLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setNumHashTables"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumHashTables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setNumHashTables"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setNumHashTables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumHashTables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of hash tables.</span>
 
 <span class="sd">        Parameters</span>
@@ -566,7 +571,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numHashTables</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setVisibleDistances"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setVisibleDistances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setVisibleDistances"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setVisibleDistances">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setVisibleDistances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the document distances visible in the result set.</span>
 
 <span class="sd">        Parameters</span>
@@ -577,7 +582,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">visibleDistances</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setIdentityRanking"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIdentityRanking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setIdentityRanking"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setIdentityRanking">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIdentityRanking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the document identity ranking inclusive in the result set.</span>
 
 <span class="sd">        Parameters</span>
@@ -589,7 +594,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">identityRanking</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.asRetriever"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">asRetriever</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.asRetriever"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.asRetriever">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">asRetriever</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the query to use the document similarity ranker as a retriever in a RAG fashion.</span>
 <span class="sd">            (Default: `&quot;&quot;`, empty if this annotator is not used as retriever)</span>
 
@@ -600,7 +605,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">asRetrieverQuery</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setAggregationMethod"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAggregationMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerApproach.setAggregationMethod"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach.setAggregationMethod">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAggregationMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the method used to aggregate multiple sentence embeddings into a single vector</span>
 <span class="sd">           representation.</span>
 
@@ -634,11 +639,11 @@ document.write(`
         <span class="k">return</span> <span class="n">DocumentSimilarityRankerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DocumentSimilarityRankerModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">):</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentSimilarityRankerModel&quot;</span>
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span>
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOC_SIMILARITY_RANKINGS</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentSimilarityRankerModel&quot;</span></div>
+<div class="viewcode-block" id="DocumentSimilarityRankerModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DocumentSimilarityRankerModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOC_SIMILARITY_RANKINGS</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -648,7 +653,7 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerFinisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentSimilarityRankerFinisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the DocumentSimilarityRankerApproach. For usage and examples see the</span>
 <span class="sd">    documentation of the main class.</span>
 
@@ -663,19 +668,19 @@ document.write(`
 <span class="sd">    extractNearestNeighbor</span>
 <span class="sd">        Whether to extract the nearest neighbor document</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.inputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.inputCols">[docs]</a>    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;name of input annotation cols containing document similarity ranker results&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.outputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.outputCols">[docs]</a>    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;outputCols&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;output DocumentSimilarityRankerFinisher output cols&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">extractNearestNeighbor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;extractNearestNeighbor&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.extractNearestNeighbor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.extractNearestNeighbor">[docs]</a>    <span class="n">extractNearestNeighbor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;extractNearestNeighbor&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;whether to extract the nearest neighbor document&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentSimilarityRankerFinisher&quot;</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentSimilarityRankerFinisher&quot;</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -684,12 +689,12 @@ document.write(`
             <span class="n">extractNearestNeighbor</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setParams"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setParams">[docs]</a>    <span class="nd">@keyword_only</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setInputCols"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setInputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets name of input annotation columns containing embeddings.</span>
 
 <span class="sd">        Parameters</span>
@@ -703,7 +708,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setOutputCols"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setOutputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets names of finished output columns.</span>
 
 <span class="sd">        Parameters</span>
@@ -717,7 +722,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setExtractNearestNeighbor"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setExtractNearestNeighbor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractNearestNeighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.setExtractNearestNeighbor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.setExtractNearestNeighbor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractNearestNeighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to extract the nearest neighbor document, by default False.</span>
 
 <span class="sd">        Parameters</span>
@@ -728,11 +733,11 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extractNearestNeighbor</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.getInputCols"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.getInputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets input columns name of annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.getOutputCols"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentSimilarityRankerFinisher.getOutputCols"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/document_similarity_ranker/index.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher.getOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output columns name of annotations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCols</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;finished_&quot;</span> <span class="o">+</span> <span class="n">input_col</span> <span class="k">for</span> <span class="n">input_col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()]</span>
@@ -779,7 +784,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

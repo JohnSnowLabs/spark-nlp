@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotation &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotation &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../static/doctools.js?v=888ff710"></script>
     <script src="../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -379,7 +379,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql.types</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="Annotation"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Annotation</span><span class="p">:</span>
+<div class="viewcode-block" id="Annotation"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Annotation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the output of Spark NLP Annotators and their details.</span>
 
 <span class="sd">    Parameters</span>
@@ -402,14 +402,14 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotatorType</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">annotatorType</span> <span class="o">=</span> <span class="n">annotatorType</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">begin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">embeddings</span>
+<div class="viewcode-block" id="Annotation.annotatorType"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.annotatorType">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">annotatorType</span> <span class="o">=</span> <span class="n">annotatorType</span></div>
+<div class="viewcode-block" id="Annotation.begin"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.begin">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">begin</span></div>
+<div class="viewcode-block" id="Annotation.end"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.end">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span></div>
+<div class="viewcode-block" id="Annotation.result"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.result">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span></div>
+<div class="viewcode-block" id="Annotation.metadata"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.metadata">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span></div>
+<div class="viewcode-block" id="Annotation.embeddings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.embeddings">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">embeddings</span></div>
 
-<div class="viewcode-block" id="Annotation.copy"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation.copy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+<div class="viewcode-block" id="Annotation.copy"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.copy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates new Annotation with a different result, containing all</span>
 <span class="sd">        settings of this Annotation.</span>
 
@@ -451,8 +451,8 @@ document.write(`
 
         <span class="k">return</span> <span class="n">same_annotation</span>
 
-<div class="viewcode-block" id="Annotation.dataType"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation.dataType">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">dataType</span><span class="p">():</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Annotation.dataType"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.dataType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">dataType</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a Spark `StructType`, that represents the schema of the</span>
 <span class="sd">        Annotation.</span>
 
@@ -483,8 +483,8 @@ document.write(`
             <span class="n">StructField</span><span class="p">(</span><span class="s1">&#39;embeddings&#39;</span><span class="p">,</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">FloatType</span><span class="p">()),</span> <span class="kc">False</span><span class="p">)</span>
         <span class="p">])</span></div>
 
-<div class="viewcode-block" id="Annotation.arrayType"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation.arrayType">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">arrayType</span><span class="p">():</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Annotation.arrayType"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.arrayType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">arrayType</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a Spark `ArrayType`, that contains the `dataType` of the</span>
 <span class="sd">        annotation.</span>
 
@@ -495,8 +495,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">Annotation</span><span class="o">.</span><span class="n">dataType</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Annotation.fromRow"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation.fromRow">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">fromRow</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Annotation.fromRow"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.fromRow">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fromRow</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a Annotation from a Spark `Row`.</span>
 
 <span class="sd">        Parameters</span>
@@ -512,8 +512,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Annotation</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">annotatorType</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Annotation.toRow"><a class="viewcode-back" href="../../_api/sparknlp.annotation.html#sparknlp.annotation.Annotation.toRow">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">toRow</span><span class="p">(</span><span class="n">annotation</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Annotation.toRow"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/annotation/index.html#sparknlp.annotation.Annotation.toRow">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">toRow</span><span class="p">(</span><span class="n">annotation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms an Annotation to a Spark `Row`.</span>
 
 <span class="sd">        Parameters</span>
@@ -570,7 +570,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.token.regex_tokenizer &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.token.regex_tokenizer &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="RegexTokenizer"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexTokenizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegexTokenizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A tokenizer that splits text by a regex pattern.</span>
 
 <span class="sd">    The pattern needs to be set with :meth:`.setPattern` and this sets the</span>
@@ -440,11 +445,11 @@ document.write(`
 <span class="sd">    +-------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RegexTokenizer&quot;</span>
+<div class="viewcode-block" id="RegexTokenizer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RegexTokenizer&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="RegexTokenizer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="RegexTokenizer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -460,42 +465,42 @@ document.write(`
             <span class="n">preservePosition</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.minLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.minLength">[docs]</a>    <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;minLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the minimum allowed length for each token&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.maxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.maxLength">[docs]</a>    <span class="n">maxLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;maxLength&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Set the maximum allowed length for each token&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.toLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.toLowercase">[docs]</a>    <span class="n">toLowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;toLowercase&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Indicates whether to convert all characters to lowercase before tokenizing.&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.pattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.pattern">[docs]</a>    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                     <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;regex pattern used for tokenizing. Defaults \S+&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">positionalMask</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.positionalMask"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.positionalMask">[docs]</a>    <span class="n">positionalMask</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;positionalMask&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Using a positional mask to guarantee the incremental progression of the tokenization.&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.trimWhitespace"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.trimWhitespace">[docs]</a>    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;trimWhitespace&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">preservePosition</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="RegexTokenizer.preservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.preservePosition">[docs]</a>    <span class="n">preservePosition</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;preservePosition&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setMinLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setMinLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setMinLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum allowed length for each token, by default 1.</span>
 
 <span class="sd">        Parameters</span>
@@ -505,7 +510,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setMaxLength"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setMaxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setMaxLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each token.</span>
 
 <span class="sd">        Parameters</span>
@@ -515,7 +520,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setToLowercase"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setToLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setToLowercase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setToLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert all characters to lowercase before</span>
 <span class="sd">        tokenizing, by default False.</span>
 
@@ -526,7 +531,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toLowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setPattern"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setPattern"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPattern">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the regex pattern used for tokenizing, by default ``\\s+``.</span>
 
 <span class="sd">        Parameters</span>
@@ -536,7 +541,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setPositionalMask"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPositionalMask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPositionalMask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setPositionalMask"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPositionalMask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPositionalMask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use a positional mask to guarantee the incremental</span>
 <span class="sd">        progression of the tokenization, by default False.</span>
 
@@ -547,7 +552,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">positionalMask</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setTrimWhitespace"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setTrimWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setTrimWhitespace"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setTrimWhitespace">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -557,7 +562,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">trimWhitespace</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RegexTokenizer.setPreservePosition"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.token.regex_tokenizer.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPreservePosition">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RegexTokenizer.setPreservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer.setPreservePosition">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.</span>
 
 <span class="sd">        Parameters</span>
@@ -608,7 +613,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

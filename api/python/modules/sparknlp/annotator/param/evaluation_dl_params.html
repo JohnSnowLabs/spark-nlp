@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.param.evaluation_dl_params &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.param.evaluation_dl_params &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,30 +382,30 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParamsGettersSetters</span>
 
 
-<div class="viewcode-block" id="EvaluationDLParams"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EvaluationDLParams</span><span class="p">(</span><span class="n">ParamsGettersSetters</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EvaluationDLParams</span><span class="p">(</span><span class="n">ParamsGettersSetters</span><span class="p">):</span>
 
-    <span class="n">verbose</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;Level of verbosity during training&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="EvaluationDLParams.verbose"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.verbose">[docs]</a>    <span class="n">verbose</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;Level of verbosity during training&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;validationSplit&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="EvaluationDLParams.validationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.validationSplit">[docs]</a>    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;validationSplit&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.&quot;</span><span class="p">,</span>
-                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">evaluationLogExtended</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;evaluationLogExtended&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="EvaluationDLParams.evaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.evaluationLogExtended">[docs]</a>    <span class="n">evaluationLogExtended</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;evaluationLogExtended&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;Whether logs for validation to be extended: it displays time and evaluation of each label. Default is False.&quot;</span><span class="p">,</span>
-                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">enableOutputLogs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;enableOutputLogs&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="EvaluationDLParams.enableOutputLogs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.enableOutputLogs">[docs]</a>    <span class="n">enableOutputLogs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;enableOutputLogs&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;Whether to use stdout in addition to Spark logs.&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputLogsPath&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path to save training logs&quot;</span><span class="p">,</span>
-                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+<div class="viewcode-block" id="EvaluationDLParams.outputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.outputLogsPath">[docs]</a>    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputLogsPath&quot;</span><span class="p">,</span> <span class="s2">&quot;Folder path to save training logs&quot;</span><span class="p">,</span>
+                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">testDataset</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;testDataset&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="EvaluationDLParams.testDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.testDataset">[docs]</a>    <span class="n">testDataset</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;testDataset&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Path to test dataset. If set used to calculate statistic on it during training.&quot;</span><span class="p">,</span>
-                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setVerbose"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setVerbose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setVerbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setVerbose"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setVerbose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setVerbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets level of verbosity during training</span>
 
 <span class="sd">        Parameters</span>
@@ -410,7 +415,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setValidationSplit"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setValidationSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setValidationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setValidationSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the proportion of training dataset to be validated against the</span>
 <span class="sd">        model on each Epoch, by default it is 0.0 and off. The value should be</span>
 <span class="sd">        between 0.0 and 1.0.</span>
@@ -423,7 +428,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">validationSplit</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setEvaluationLogExtended"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setEvaluationLogExtended">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setEvaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setEvaluationLogExtended">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether logs for validation to be extended, by default False.</span>
 <span class="sd">        Displays time and evaluation of each label.</span>
 
@@ -436,7 +441,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">evaluationLogExtended</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setEnableOutputLogs"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setEnableOutputLogs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableOutputLogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setEnableOutputLogs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setEnableOutputLogs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEnableOutputLogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use stdout in addition to Spark logs, by default</span>
 <span class="sd">        False.</span>
 
@@ -447,7 +452,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableOutputLogs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setOutputLogsPath"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setOutputLogsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setOutputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setOutputLogsPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path to save training logs</span>
 
 <span class="sd">        Parameters</span>
@@ -457,7 +462,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputLogsPath</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EvaluationDLParams.setTestDataset"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.evaluation_dl_params.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setTestDataset">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTestDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">SPARK</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="EvaluationDLParams.setTestDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/evaluation_dl_params/index.html#sparknlp.annotator.param.evaluation_dl_params.EvaluationDLParams.setTestDataset">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTestDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">SPARK</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;parquet&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Path to a parquet file of a test dataset. If set, it is used to calculate</span>
 <span class="sd">        statistics on it during training.</span>
 
@@ -530,7 +535,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

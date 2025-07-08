@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.word_embeddings &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.word_embeddings &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -378,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="WordEmbeddings"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordEmbeddings</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorage</span><span class="p">):</span>
+<div class="viewcode-block" id="WordEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordEmbeddings</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors.</span>
 
 <span class="sd">    For instantiated/pretrained models, see :class:`.WordEmbeddingsModel`.</span>
@@ -473,23 +478,23 @@ document.write(`
 <span class="sd">    SentenceEmbeddings : to combine embeddings into a sentence-level representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddings&quot;</span>
+<div class="viewcode-block" id="WordEmbeddings.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddings&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="WordEmbeddings.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span>
+<div class="viewcode-block" id="WordEmbeddings.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span></div>
 
-    <span class="n">writeBufferSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordEmbeddings.writeBufferSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.writeBufferSize">[docs]</a>    <span class="n">writeBufferSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;writeBufferSize&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;buffer size limit before dumping to disk storage while writing&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">readCacheSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordEmbeddings.readCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.readCacheSize">[docs]</a>    <span class="n">readCacheSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;readCacheSize&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;cache size for items retrieved from storage. Increase for performance but higher memory consumption&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordEmbeddings.setWriteBufferSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setWriteBufferSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setWriteBufferSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="WordEmbeddings.setWriteBufferSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setWriteBufferSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setWriteBufferSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets buffer size limit before dumping to disk storage while writing,</span>
 <span class="sd">        by default 10000.</span>
 
@@ -500,7 +505,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">writeBufferSize</span><span class="o">=</span><span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordEmbeddings.setReadCacheSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setReadCacheSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="WordEmbeddings.setReadCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setReadCacheSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
 <span class="sd">        performance but higher memory consumption.</span>
 
@@ -524,7 +529,7 @@ document.write(`
         <span class="k">return</span> <span class="n">WordEmbeddingsModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="WordEmbeddingsModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordEmbeddingsModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">):</span>
+<div class="viewcode-block" id="WordEmbeddingsModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WordEmbeddingsModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors</span>
 
 <span class="sd">    This is the instantiated model of :class:`.WordEmbeddings`.</span>
@@ -613,20 +618,20 @@ document.write(`
 <span class="sd">    SentenceEmbeddings : to combine embeddings into a sentence-level representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddingsModel&quot;</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddingsModel&quot;</span></div>
 
-    <span class="n">databases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EMBEDDINGS&#39;</span><span class="p">]</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.databases"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.databases">[docs]</a>    <span class="n">databases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EMBEDDINGS&#39;</span><span class="p">]</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span></div>
 
-    <span class="n">readCacheSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.readCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.readCacheSize">[docs]</a>    <span class="n">readCacheSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;readCacheSize&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;cache size for items retrieved from storage. Increase for performance but higher memory consumption&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordEmbeddingsModel.setReadCacheSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.setReadCacheSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.setReadCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.setReadCacheSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
 <span class="sd">        performance but higher memory consumption.</span>
 
@@ -644,8 +649,8 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="WordEmbeddingsModel.overallCoverage"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">overallCoverage</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.overallCoverage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">overallCoverage</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates overall word coverage for the whole data in the embedded</span>
 <span class="sd">        field.</span>
 
@@ -675,8 +680,8 @@ document.write(`
         <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoverageResult</span>
         <span class="k">return</span> <span class="n">CoverageResult</span><span class="p">(</span><span class="n">_EmbeddingsOverallCoverage</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="WordEmbeddingsModel.withCoverageColumn"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">withCoverageColumn</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">,</span> <span class="n">output_col</span><span class="o">=</span><span class="s1">&#39;coverage&#39;</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.withCoverageColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">withCoverageColumn</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">,</span> <span class="n">output_col</span><span class="o">=</span><span class="s1">&#39;coverage&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a custom column with word coverage stats for the embedded field.</span>
 <span class="sd">        This creates a new column with statistics for each row.</span>
 
@@ -708,8 +713,8 @@ document.write(`
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">_EmbeddingsCoverageColumn</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">,</span> <span class="n">output_col</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(),</span> <span class="n">dataset</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordEmbeddingsModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;glove_100d&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;glove_100d&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -730,8 +735,8 @@ document.write(`
         <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">WordEmbeddingsModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WordEmbeddingsModel.loadStorage"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.embeddings.word_embeddings.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.loadStorage">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="WordEmbeddingsModel.loadStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.loadStorage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads the model from storage.</span>
 
 <span class="sd">        Parameters</span>
@@ -785,7 +790,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

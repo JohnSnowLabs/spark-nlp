@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Loading datasets for training &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>Loading datasets for training &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -386,8 +386,8 @@ document.write(`
 <section id="pos-dataset">
 <h2>POS Dataset<a class="headerlink" href="#pos-dataset" title="Permalink to this heading">#</a></h2>
 <p>In order to train a Part of Speech Tagger annotator
-(<a class="reference internal" href="../_api/sparknlp.annotator.pos.perceptron.html#sparknlp.annotator.pos.perceptron.PerceptronApproach" title="sparknlp.annotator.pos.perceptron.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>), we need to
-get corpus data as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.pos.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> reads a plain text file
+(<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach" title="sparknlp.annotator.pos.perceptron.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>), we need to
+get corpus data as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/pos/index.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> reads a plain text file
 and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">|</span><span class="n">DT</span> <span class="n">few</span><span class="o">|</span><span class="n">JJ</span> <span class="n">months</span><span class="o">|</span><span class="n">NNS</span> <span class="n">ago</span><span class="o">|</span><span class="n">RB</span> <span class="n">you</span><span class="o">|</span><span class="n">PRP</span> <span class="n">received</span><span class="o">|</span><span class="n">VBD</span> <span class="n">a</span><span class="o">|</span><span class="n">DT</span> <span class="n">letter</span><span class="o">|</span><span class="n">NN</span>
@@ -401,9 +401,9 @@ and transforms it to a Spark dataset.</p>
 </section>
 <section id="conll-dataset">
 <h2>CoNLL Dataset<a class="headerlink" href="#conll-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.ner.ner_dl.html#sparknlp.annotator.ner.ner_dl.NerDLApproach" title="sparknlp.annotator.ner.ner_dl.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a> annotator, we need to get
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach" title="sparknlp.annotator.ner.ner_dl.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a> annotator, we need to get
 <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> format data
-as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.conll.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
@@ -426,9 +426,9 @@ as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.train
 </section>
 <section id="conllu-dataset">
 <h2>CoNLLU Dataset<a class="headerlink" href="#conllu-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach" title="sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a> annotator, we need to get
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach" title="sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a> annotator, we need to get
 <a class="reference external" href="https://universaldependencies.org/format.html">CoNLL-U</a> format data
-as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.training.conllu.html#sparknlp.training.conllu.CoNLLU" title="sparknlp.training.conllu.CoNLLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLLU</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp/training/conllu/index.html#sparknlp.training.conllu.CoNLLU" title="sparknlp.training.conllu.CoNLLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLLU</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
@@ -452,8 +452,8 @@ as a Spark dataframe. <a class="reference internal" href="../_api/sparknlp.train
 </section>
 <section id="spell-checkers-dataset">
 <h2>Spell Checkers Dataset<a class="headerlink" href="#spell-checkers-dataset" title="Permalink to this heading">#</a></h2>
-<p>In order to train a <a class="reference internal" href="../_api/sparknlp.annotator.spell_check.norvig_sweeting.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach" title="sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a> or
-<a class="reference internal" href="../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach" title="sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a> or
+<a class="reference internal" href="../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach" title="sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
 dataframe. We can read any plain text file and transform it to a Spark dataset.</p>
 <p><strong>Example</strong></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;./sherlockholmes.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
@@ -464,7 +464,7 @@ dataframe. We can read any plain text file and transform it to a Spark dataset.<
 <h2>PubTator Dataset<a class="headerlink" href="#pubtator-dataset" title="Permalink to this heading">#</a></h2>
 <p>The PubTator format includes medical papers’ titles, abstracts, and tagged chunks
 (see PubTator Docs and MedMentions Docs for more information).
-We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../_api/sparknlp.training.pub_tator.html#sparknlp.training.pub_tator.PubTator" title="sparknlp.training.pub_tator.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PubTator</span></code></a>.</p>
+We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../reference/autosummary/sparknlp/training/pub_tator/index.html#sparknlp.training.pub_tator.PubTator" title="sparknlp.training.pub_tator.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PubTator</span></code></a>.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">25763772</span>    <span class="mi">0</span>       <span class="mi">5</span>       <span class="n">DCTN4</span>   <span class="n">T116</span><span class="p">,</span><span class="n">T123</span>       <span class="n">C4308010</span>
 <span class="mi">25763772</span>    <span class="mi">23</span>      <span class="mi">63</span>      <span class="n">chronic</span> <span class="n">Pseudomonas</span> <span class="n">aeruginosa</span> <span class="n">infection</span>        <span class="n">T047</span>    <span class="n">C0854135</span>
@@ -567,7 +567,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

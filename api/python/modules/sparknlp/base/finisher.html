@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.finisher &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.finisher &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -379,7 +379,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
-<div class="viewcode-block" id="Finisher"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Finisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Finisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts annotation results into a format that easier to use.</span>
 
 <span class="sd">    It is useful to extract the results from Spark NLP Pipelines. The Finisher</span>
@@ -451,15 +451,15 @@ document.write(`
 <span class="sd">    Finisher : for finishing Strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;input annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;output finished annotation cols&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
-    <span class="n">valueSplitSymbol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;valueSplitSymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;character separating annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">annotationSplitSymbol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;annotationSplitSymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;character separating annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
-    <span class="n">cleanAnnotations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanAnnotations&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to remove annotation columns&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-    <span class="n">includeMetadata</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;annotation metadata format&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-    <span class="n">outputAsArray</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputAsArray&quot;</span><span class="p">,</span> <span class="s2">&quot;finisher generates an Array with the results instead of string&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-    <span class="n">parseEmbeddingsVectors</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;parseEmbeddingsVectors&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to include embeddings vectors in the process&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Finisher&quot;</span>
+<div class="viewcode-block" id="Finisher.inputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.inputCols">[docs]</a>    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;input annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.outputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.outputCols">[docs]</a>    <span class="n">outputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;output finished annotation cols&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.valueSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.valueSplitSymbol">[docs]</a>    <span class="n">valueSplitSymbol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;valueSplitSymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;character separating annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.annotationSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.annotationSplitSymbol">[docs]</a>    <span class="n">annotationSplitSymbol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;annotationSplitSymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;character separating annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.cleanAnnotations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.cleanAnnotations">[docs]</a>    <span class="n">cleanAnnotations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;cleanAnnotations&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to remove annotation columns&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.includeMetadata"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.includeMetadata">[docs]</a>    <span class="n">includeMetadata</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;includeMetadata&quot;</span><span class="p">,</span> <span class="s2">&quot;annotation metadata format&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.outputAsArray"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.outputAsArray">[docs]</a>    <span class="n">outputAsArray</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputAsArray&quot;</span><span class="p">,</span> <span class="s2">&quot;finisher generates an Array with the results instead of string&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.parseEmbeddingsVectors"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.parseEmbeddingsVectors">[docs]</a>    <span class="n">parseEmbeddingsVectors</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;parseEmbeddingsVectors&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to include embeddings vectors in the process&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Finisher.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Finisher&quot;</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -474,12 +474,12 @@ document.write(`
             <span class="n">outputCols</span><span class="o">=</span><span class="p">[]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Finisher.setParams"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setParams">[docs]</a>    <span class="nd">@keyword_only</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+<div class="viewcode-block" id="Finisher.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setInputCols"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
@@ -492,7 +492,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Finisher.setOutputCols"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setOutputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of finished output annotations.</span>
 
 <span class="sd">        Parameters</span>
@@ -505,7 +505,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Finisher.setValueSplitSymbol"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setValueSplitSymbol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValueSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setValueSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setValueSplitSymbol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setValueSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character separating values, by default #.</span>
 
 <span class="sd">        Parameters</span>
@@ -515,7 +515,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">valueSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setAnnotationSplitSymbol"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setAnnotationSplitSymbol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAnnotationSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setAnnotationSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setAnnotationSplitSymbol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAnnotationSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character separating annotations, by default @.</span>
 
 <span class="sd">        Parameters</span>
@@ -525,7 +525,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">annotationSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setCleanAnnotations"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setCleanAnnotations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to remove annotation columns, by default True.</span>
 
 <span class="sd">        Parameters</span>
@@ -535,7 +535,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setIncludeMetadata"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setIncludeMetadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIncludeMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setIncludeMetadata"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setIncludeMetadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIncludeMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include annotation metadata.</span>
 
 <span class="sd">        Parameters</span>
@@ -545,7 +545,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeMetadata</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setOutputAsArray"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setOutputAsArray">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setOutputAsArray"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setOutputAsArray">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to generate an array with the results instead of a</span>
 <span class="sd">        string.</span>
 
@@ -556,7 +556,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.setParseEmbeddingsVectors"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.setParseEmbeddingsVectors">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParseEmbeddingsVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.setParseEmbeddingsVectors"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setParseEmbeddingsVectors">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParseEmbeddingsVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include embeddings vectors in the process.</span>
 
 <span class="sd">        Parameters</span>
@@ -566,11 +566,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">parseEmbeddingsVectors</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.getInputCols"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.getInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.getInputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets input columns name of annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Finisher.getOutputCols"><a class="viewcode-back" href="../../../_api/sparknlp.base.finisher.html#sparknlp.base.finisher.Finisher.getOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Finisher.getOutputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.getOutputCols">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output columns name of annotations.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCols</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;finished_&quot;</span> <span class="o">+</span> <span class="n">input_col</span> <span class="k">for</span> <span class="n">input_col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()]</span>
@@ -617,7 +617,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

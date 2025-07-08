@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.recursive_pipeline &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.recursive_pipeline &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,7 +383,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">HasRecursiveTransform</span>
 
 
-<div class="viewcode-block" id="RecursivePipeline"><a class="viewcode-back" href="../../../_api/sparknlp.base.recursive_pipeline.html#sparknlp.base.recursive_pipeline.RecursivePipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RecursivePipeline</span><span class="p">(</span><span class="n">Pipeline</span><span class="p">,</span> <span class="n">JavaEstimator</span><span class="p">):</span>
+<div class="viewcode-block" id="RecursivePipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/recursive_pipeline/index.html#sparknlp.base.recursive_pipeline.RecursivePipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RecursivePipeline</span><span class="p">(</span><span class="n">Pipeline</span><span class="p">,</span> <span class="n">JavaEstimator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive pipelines are Spark NLP specific pipelines that allow a Spark</span>
 <span class="sd">    ML Pipeline to know about itself on every Pipeline Stage task.</span>
 
@@ -444,7 +444,7 @@ document.write(`
         <span class="k">return</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RecursivePipelineModel"><a class="viewcode-back" href="../../../_api/sparknlp.base.recursive_pipeline.html#sparknlp.base.recursive_pipeline.RecursivePipelineModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RecursivePipelineModel</span><span class="p">(</span><span class="n">PipelineModel</span><span class="p">):</span>
+<div class="viewcode-block" id="RecursivePipelineModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/recursive_pipeline/index.html#sparknlp.base.recursive_pipeline.RecursivePipelineModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RecursivePipelineModel</span><span class="p">(</span><span class="n">PipelineModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fitted RecursivePipeline.</span>
 
 <span class="sd">    Behaves the same as a Spark PipelineModel does. Not intended to be</span>
@@ -453,7 +453,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_model</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PipelineModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stages</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+<div class="viewcode-block" id="RecursivePipelineModel.stages"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/recursive_pipeline/index.html#sparknlp.base.recursive_pipeline.RecursivePipelineModel.stages">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">stages</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stages</span><span class="p">:</span>
@@ -507,7 +507,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

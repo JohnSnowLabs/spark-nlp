@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.training.conll &#8212; Spark NLP 6.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=cc9e4dc6"></script>
+    <script src="../../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/training/conll/index';</script>
+    <link rel="icon" href="../../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.conll</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conllu/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.conllu</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pos/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.pos</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pub_tator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.pub_tator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spacy_to_annotation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.spacy_to_annotation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tfgraphs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.tfgraphs</span></code></a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.training.conll">
+<span id="sparknlp-training-conll"></span><h1><a class="reference internal" href="#module-sparknlp.training.conll" title="sparknlp.training.conll"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training.conll</span></code></a><a class="headerlink" href="#module-sparknlp.training.conll" title="Permalink to this heading">#</a></h1>
+<p>Contains classes for CoNLL.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.training.conll.CoNLL" title="sparknlp.training.conll.CoNLL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoNLL</span></code></a></p></td>
+<td><p>Instantiates the class to read a CoNLL dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.training.conll.CoNLL">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CoNLL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'document'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentenceCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllLabelIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllPosIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllDocIdCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'doc_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explodeSentences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeDocId</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/training/conll.html#CoNLL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.conll.CoNLL" title="Permalink to this definition">#</a></dt>
+<dd><p>Instantiates the class to read a CoNLL dataset.</p>
+<p>The dataset should be in the format of <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> and needs to be specified
+with <a class="reference internal" href="#sparknlp.training.conll.CoNLL.readDataset" title="sparknlp.training.conll.CoNLL.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>, which will create a dataframe with the data.</p>
+<p>Can be used to train a <code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code>.</p>
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
+
+<span class="n">EU</span> <span class="n">NNP</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span>
+<span class="n">rejects</span> <span class="n">VBZ</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">German</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">call</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="n">to</span> <span class="n">TO</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">boycott</span> <span class="n">VB</span> <span class="n">I</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">British</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">lamb</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="o">.</span> <span class="o">.</span> <span class="n">O</span> <span class="n">O</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>documentCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="../../base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler" title="sparknlp.base.document_assembler.DocumentAssembler"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentAssembler</span></code></a> column, by default ‘document’</p>
+</dd>
+<dt><strong>sentenceCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="../../annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector" title="sparknlp.annotator.sentence.sentence_detector.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a> column, by default ‘sentence’</p>
+</dd>
+<dt><strong>tokenCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="../../annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer" title="sparknlp.annotator.token.tokenizer.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a> column, by default ‘token’</p>
+</dd>
+<dt><strong>posCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="../../annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronModel" title="sparknlp.annotator.pos.perceptron.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> column, by default ‘pos’</p>
+</dd>
+<dt><strong>conllLabelIndex</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the label column in the dataset, by default 3</p>
+</dd>
+<dt><strong>conllPosIndex</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the POS tags in the dataset, by default 1</p>
+</dd>
+<dt><strong>textCol</strong><span class="classifier">str, optional</span></dt><dd><p>Index of the text column in the dataset, by default ‘text’</p>
+</dd>
+<dt><strong>labelCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the label column, by default ‘label’</p>
+</dd>
+<dt><strong>explodeSentences</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to explode sentences to separate rows, by default True</p>
+</dd>
+<dt><strong>delimiter: str, optional</strong></dt><dd><p>Delimiter used to separate columns inside CoNLL file</p>
+</dd>
+<dt><strong>includeDocId: bool, optional</strong></dt><dd><p>Whether to try and parse the document id from the third item in the -DOCSTART- line (X if not found)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoNLL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;token.result as tokens&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;pos.result as pos&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;label.result as label&quot;</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="go">|text                                            |tokens                                                    |pos                                  |label                                    |</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="go">|EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|</span>
+<span class="go">|Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |</span>
+<span class="go">|BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training.conll.CoNLL.readDataset">
+<span class="sig-name descname"><span class="pre">readDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partitions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">pyspark.StorageLevel.DISK_ONLY</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/training/conll.html#CoNLL.readDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.conll.CoNLL.readDataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Reads the dataset from an external resource.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>spark</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html#pyspark.sql.SparkSession" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.SparkSession</span></code></a></span></dt><dd><p>Initiated Spark Session with Spark NLP</p>
+</dd>
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the resource, it can take two forms; a path to a conll file, or a path to a folder containing multiple CoNLL files.
+When the path points to a folder, the path must end in ‘*’.
+Examples:</p>
+<blockquote>
+<div><p>“/path/to/single/file.conll’
+“/path/to/folder/containing/multiple/files/<a href="#id1"><span class="problematic" id="id2">*</span></a>’</p>
+</div></blockquote>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the resource, by default ReadAs.TEXT</p>
+</dd>
+<dt><strong>partitions</strong><span class="classifier">sets the minimum number of partitions for the case of lifting multiple files in parallel into a single dataframe. Defaults to 8.</span></dt><dd></dd>
+<dt><strong>storage_level</strong><span class="classifier">sets the persistence level according to PySpark definitions. Defaults to StorageLevel.DISK_ONLY. Applies only when lifting multiple files.</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Spark Dataframe with the data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.training.conll.CoNLL"><code class="docutils literal notranslate"><span class="pre">CoNLL</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.training.conll.CoNLL.readDataset"><code class="docutils literal notranslate"><span class="pre">CoNLL.readDataset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../../../_sources/reference/autosummary/sparknlp/training/conll/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

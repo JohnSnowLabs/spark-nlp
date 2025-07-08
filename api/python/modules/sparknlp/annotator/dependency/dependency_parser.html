@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.dependency.dependency_parser &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.dependency.dependency_parser &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="DependencyParserApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DependencyParserApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="DependencyParserApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DependencyParserApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains an unlabeled parser that finds a grammatical relations between two</span>
 <span class="sd">    words in a sentence.</span>
 
@@ -456,24 +461,24 @@ document.write(`
 <span class="sd">    TypedDependencyParserApproach : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">POS</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="DependencyParserApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">POS</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span>
+<div class="viewcode-block" id="DependencyParserApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span></div>
 
-    <span class="n">dependencyTreeBank</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DependencyParserApproach.dependencyTreeBank"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.dependencyTreeBank">[docs]</a>    <span class="n">dependencyTreeBank</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;dependencyTreeBank&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Dependency treebank source files&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">conllU</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DependencyParserApproach.conllU"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.conllU">[docs]</a>    <span class="n">conllU</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;conllU&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;Universal Dependencies source files&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">numberOfIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DependencyParserApproach.numberOfIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.numberOfIterations">[docs]</a>    <span class="n">numberOfIterations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;numberOfIterations&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Number of iterations in training, converges to better accuracy&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -481,7 +486,7 @@ document.write(`
               <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">numberOfIterations</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DependencyParserApproach.setNumberOfIterations"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setNumberOfIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="DependencyParserApproach.setNumberOfIterations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setNumberOfIterations">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumberOfIterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of iterations in training, converges to better accuracy,</span>
 <span class="sd">        by default 10.</span>
 
@@ -492,7 +497,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numberOfIterations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DependencyParserApproach.setDependencyTreeBank"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setDependencyTreeBank">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDependencyTreeBank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="DependencyParserApproach.setDependencyTreeBank"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setDependencyTreeBank">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDependencyTreeBank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets dependency treebank source files.</span>
 
 <span class="sd">        Parameters</span>
@@ -507,7 +512,7 @@ document.write(`
         <span class="n">opts</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dependencyTreeBank</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="DependencyParserApproach.setConllU"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setConllU">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConllU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="DependencyParserApproach.setConllU"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach.setConllU">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConllU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Universal Dependencies source files.</span>
 
 <span class="sd">        Parameters</span>
@@ -526,7 +531,7 @@ document.write(`
         <span class="k">return</span> <span class="n">DependencyParserModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DependencyParserModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DependencyParserModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="DependencyParserModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DependencyParserModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Unlabeled parser that finds a grammatical relation between two words in a</span>
 <span class="sd">    sentence.</span>
 
@@ -615,16 +620,16 @@ document.write(`
 <span class="sd">    --------</span>
 <span class="sd">    TypedDependencyParserMdoel : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DependencyParserModel&quot;</span>
+<div class="viewcode-block" id="DependencyParserModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DependencyParserModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">POS</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="DependencyParserModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">POS</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span>
+<div class="viewcode-block" id="DependencyParserModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span></div>
 
-    <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="DependencyParserModel.perceptron"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.perceptron">[docs]</a>    <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;perceptron&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Dependency parsing perceptron features&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DependencyParserModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -632,8 +637,8 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="DependencyParserModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.dependency.dependency_parser.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DependencyParserModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -694,7 +699,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

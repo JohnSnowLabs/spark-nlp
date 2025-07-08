@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.training.spacy_to_annotation &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.training.spacy_to_annotation &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -377,18 +377,18 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 
-<div class="viewcode-block" id="SpacyToAnnotation"><a class="viewcode-back" href="../../../_api/sparknlp.training.spacy_to_annotation.html#sparknlp.training.spacy_to_annotation.SpacyToAnnotation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SpacyToAnnotation</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="SpacyToAnnotation"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/training/spacy_to_annotation/index.html#sparknlp.training.spacy_to_annotation.SpacyToAnnotation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SpacyToAnnotation</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper class to load a list of tokens/sentences as JSON to Annotation.</span>
 
 <span class="sd">    The JSON will be in this format:</span>
-<span class="sd">    [</span>
-<span class="sd">     {</span>
-<span class="sd">        &quot;tokens&quot;: [&quot;Hello&quot;, &quot;world&quot;, &quot;!&quot;, &quot;How&quot;, &quot;are&quot;, &quot;you&quot;, &quot;today&quot;, &quot;?&quot;, &quot;I&quot;, &quot;&#39;m&quot;, &quot;fine&quot;, &quot;thanks&quot;, &quot;.&quot;],</span>
-<span class="sd">        &quot;token_spaces&quot;: [true, false, true, true, true, true, false, true, false, true, true, false, false],</span>
-<span class="sd">        &quot;sentence_ends&quot;: [2, 7, 12]</span>
-<span class="sd">     }</span>
-<span class="sd">    ]</span>
+<span class="sd">        [</span>
+<span class="sd">         {</span>
+<span class="sd">            &quot;tokens&quot;: [&quot;Hello&quot;, &quot;world&quot;, &quot;!&quot;, &quot;How&quot;, &quot;are&quot;, &quot;you&quot;, &quot;today&quot;, &quot;?&quot;, &quot;I&quot;, &quot;&#39;m&quot;, &quot;fine&quot;, &quot;thanks&quot;, &quot;.&quot;],</span>
+<span class="sd">            &quot;token_spaces&quot;: [true, false, true, true, true, true, false, true, false, true, true, false, false],</span>
+<span class="sd">            &quot;sentence_ends&quot;: [2, 7, 12]</span>
+<span class="sd">         }</span>
+<span class="sd">        ]</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -407,7 +407,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SpacyToAnnotation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.SpacyToAnnotation&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SpacyToAnnotation.readJsonFile"><a class="viewcode-back" href="../../../_api/sparknlp.training.spacy_to_annotation.html#sparknlp.training.spacy_to_annotation.SpacyToAnnotation.readJsonFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">readJsonFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">jsonFilePath</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SpacyToAnnotation.readJsonFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/training/spacy_to_annotation/index.html#sparknlp.training.spacy_to_annotation.SpacyToAnnotation.readJsonFile">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">readJsonFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">jsonFilePath</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -457,7 +457,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

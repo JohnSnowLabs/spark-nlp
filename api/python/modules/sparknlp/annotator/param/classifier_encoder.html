@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.param.classifier_encoder &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.param.classifier_encoder &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,26 +382,26 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParamsGettersSetters</span>
 
 
-<div class="viewcode-block" id="ClassifierEncoder"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ClassifierEncoder</span><span class="p">(</span><span class="n">ParamsGettersSetters</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ClassifierEncoder</span><span class="p">(</span><span class="n">ParamsGettersSetters</span><span class="p">):</span>
 
-    <span class="n">maxEpochs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxEpochs&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum number of epochs to train&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="ClassifierEncoder.maxEpochs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.maxEpochs">[docs]</a>    <span class="n">maxEpochs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxEpochs&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum number of epochs to train&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+<div class="viewcode-block" id="ClassifierEncoder.lr"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.lr">[docs]</a>    <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-    <span class="n">batchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;batchSize&quot;</span><span class="p">,</span> <span class="s2">&quot;Batch size&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="ClassifierEncoder.batchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.batchSize">[docs]</a>    <span class="n">batchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;batchSize&quot;</span><span class="p">,</span> <span class="s2">&quot;Batch size&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="ClassifierEncoder.labelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.labelColumn">[docs]</a>    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                         <span class="s2">&quot;labelColumn&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Column with label per each token&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">randomSeed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;randomSeed&quot;</span><span class="p">,</span> <span class="s2">&quot;Random seed&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+<div class="viewcode-block" id="ClassifierEncoder.randomSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.randomSeed">[docs]</a>    <span class="n">randomSeed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;randomSeed&quot;</span><span class="p">,</span> <span class="s2">&quot;Random seed&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="ClassifierEncoder.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setMaxEpochs"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setMaxEpochs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxEpochs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setMaxEpochs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setMaxEpochs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxEpochs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum number of epochs to train, by default 30</span>
 
 <span class="sd">        Parameters</span>
@@ -406,7 +411,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxEpochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setLr"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setLr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setLr"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setLr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Learning Rate, by default 0.005</span>
 
 <span class="sd">        Parameters</span>
@@ -417,7 +422,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setBatchSize"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setBatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setBatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets batch size, by default 64.</span>
 
 <span class="sd">        Parameters</span>
@@ -428,7 +433,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setLabelColumn"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setLabelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setLabelColumn">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets name of column for data labels</span>
 
 <span class="sd">        Parameters</span>
@@ -438,7 +443,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setRandomSeed"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setRandomSeed">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRandomSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setRandomSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setRandomSeed">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRandomSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets random seed for shuffling</span>
 
 <span class="sd">        Parameters</span>
@@ -448,7 +453,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">randomSeed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ClassifierEncoder.setConfigProtoBytes"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.param.classifier_encoder.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="ClassifierEncoder.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/param/classifier_encoder/index.html#sparknlp.annotator.param.classifier_encoder.ClassifierEncoder.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
@@ -498,7 +503,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

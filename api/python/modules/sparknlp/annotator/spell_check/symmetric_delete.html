@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.spell_check.symmetric_delete &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.annotator.spell_check.symmetric_delete &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -327,6 +327,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -339,7 +341,10 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
   </ul>
@@ -377,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="SymmetricDeleteApproach"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SymmetricDeleteApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SymmetricDeleteApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a Symmetric Delete spelling correction algorithm. Retrieves tokens</span>
 <span class="sd">    and utilizes distance metrics to compute possible derived words.</span>
 
@@ -453,50 +458,50 @@ document.write(`
 <span class="sd">    NorvigSweetingApproach : for an alternative approach to spell checking</span>
 <span class="sd">    ContextSpellCheckerApproach : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
-    <span class="n">corpus</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.corpus"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.corpus">[docs]</a>    <span class="n">corpus</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;corpus&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;folder or file with text that teaches about the language&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.dictionary"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dictionary">[docs]</a>    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;folder or file with text that teaches about the language&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
-    <span class="n">maxEditDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.maxEditDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.maxEditDistance">[docs]</a>    <span class="n">maxEditDistance</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                             <span class="s2">&quot;maxEditDistance&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;max edit distance characters to derive strings from a word&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">frequencyThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.frequencyThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.frequencyThreshold">[docs]</a>    <span class="n">frequencyThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;frequencyThreshold&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;minimum frequency of words to be considered from training. &quot;</span> <span class="o">+</span>
                                <span class="s2">&quot;Increase if training set is LARGE. Defaults to 0&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">deletesThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.deletesThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.deletesThreshold">[docs]</a>    <span class="n">deletesThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;deletesThreshold&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;minimum frequency of corrections a word needs to have to be considered from training.&quot;</span> <span class="o">+</span>
                              <span class="s2">&quot;Increase if training set is LARGE. Defaults to 0&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-    <span class="n">dupsLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.dupsLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dupsLimit">[docs]</a>    <span class="n">dupsLimit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;dupsLimit&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;maximum duplicate of characters in a word to consider. Defaults to 2&quot;</span><span class="p">,</span>
-                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SymmetricDeleteApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">maxEditDistance</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">frequencyThreshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">deletesThreshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dupsLimit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.dictionary_path"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.dictionary_path">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="SymmetricDeleteApproach.setDictionary"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="s2">&quot;\S+&quot;</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.setDictionary"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDictionary">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="s2">&quot;\S+&quot;</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder or file with text that teaches about the language.</span>
 
 <span class="sd">        Parameters</span>
@@ -516,7 +521,7 @@ document.write(`
             <span class="n">opts</span><span class="p">[</span><span class="s2">&quot;tokenPattern&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token_pattern</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="SymmetricDeleteApproach.setMaxEditDistance"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setMaxEditDistance">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxEditDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.setMaxEditDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setMaxEditDistance">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxEditDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max edit distance characters to derive strings from a word, by</span>
 <span class="sd">        default 3.</span>
 
@@ -527,7 +532,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxEditDistance</span><span class="o">=</span><span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SymmetricDeleteApproach.setFrequencyThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.setFrequencyThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setFrequencyThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFrequencyThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum frequency of words to be considered from training, by</span>
 <span class="sd">        default 0.</span>
 
@@ -538,7 +543,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">frequencyThreshold</span><span class="o">=</span><span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SymmetricDeleteApproach.setDeletesThreshold"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDeletesThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDeletesThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="SymmetricDeleteApproach.setDeletesThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteApproach.setDeletesThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDeletesThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum frequency of corrections a word needs to have to be</span>
 <span class="sd">        considered from training, by default 0.</span>
 
@@ -554,7 +559,7 @@ document.write(`
         <span class="k">return</span> <span class="n">SymmetricDeleteModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SymmetricDeleteModel"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SymmetricDeleteModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SymmetricDeleteModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SymmetricDeleteModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Symmetric Delete spelling correction algorithm.</span>
 
 <span class="sd">    The Symmetric Delete spelling correction algorithm reduces the complexity of</span>
@@ -623,11 +628,11 @@ document.write(`
 <span class="sd">    NorvigSweetingModel : for an alternative approach to spell checking</span>
 <span class="sd">    ContextSpellCheckerModel : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SymmetricDeleteModel&quot;</span>
+<div class="viewcode-block" id="SymmetricDeleteModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SymmetricDeleteModel&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span>
+<div class="viewcode-block" id="SymmetricDeleteModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span>
+<div class="viewcode-block" id="SymmetricDeleteModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -636,8 +641,8 @@ document.write(`
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SymmetricDeleteModel.pretrained"><a class="viewcode-back" href="../../../../_api/sparknlp.annotator.spell_check.symmetric_delete.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;spellcheck_sd&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SymmetricDeleteModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/symmetric_delete/index.html#sparknlp.annotator.spell_check.symmetric_delete.SymmetricDeleteModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;spellcheck_sd&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
@@ -699,7 +704,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

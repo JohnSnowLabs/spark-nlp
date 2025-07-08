@@ -5760,6 +5760,133 @@ marathon. Check out the chart below to see how much protein you should be eating
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="e5vembeddings">E5VEmbeddings</h2>
+
+  <p>Universal multimodal embeddings using E5-V.</p>
+
+  <p>E5-V is a multimodal embedding model that bridges the modality gap between text and images, enabling strong performance in cross-modal retrieval, classification, clustering, and more. It supports both image+text and text-only embedding scenarios, and is fine-tuned from lmms-lab/llama3-llava-next-8b. The default model is <code class="language-plaintext highlighter-rouge">"e5v_int4"</code>.</p>
+
+  <p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">E5VEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"e5v"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=E5V">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/E5VEmbeddingsTestSpec.scala">E5VEmbeddingsTestSpec</a>.</p>
+
+  <p><strong>Sources</strong> :</p>
+
+  <ul>
+    <li><a href="https://arxiv.org/abs/2407.12580">E5-V: Universal Embeddings with Multimodal Large Language Models (arXiv)</a></li>
+    <li><a href="https://huggingface.co/royokong/e5-v">Hugging Face Model Card</a></li>
+    <li><a href="https://github.com/kongds/E5-V">E5-V Github Repository</a></li>
+  </ul>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/e5v_embeddings/index.html#sparknlp.annotator.cv.e5v_embeddings.E5VEmbeddings">E5VEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/E5VEmbeddings">E5VEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/E5VEmbeddings.scala">E5VEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Image + Text Embedding
+</span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="bp">True</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">imageFolder</span><span class="p">)</span>
+<span class="n">imagePrompt</span> <span class="o">=</span> <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">&lt;image&gt;</span><span class="se">\\</span><span class="s">nSummary above image in one word: &lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s"> </span><span class="se">\n</span><span class="s">"</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="n">imagePrompt</span><span class="p">))</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+<span class="n">e5vEmbeddings</span> <span class="o">=</span> <span class="n">E5VEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"e5v"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">imageAssembler</span><span class="p">,</span>
+    <span class="n">e5vEmbeddings</span>
+<span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"e5v.embeddings"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Text-Only Embedding
+</span><span class="kn">from</span> <span class="nn">sparknlp.util</span> <span class="kn">import</span> <span class="n">EmbeddingsDataFrameUtils</span>
+<span class="n">textPrompt</span> <span class="o">=</span> <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">&lt;sent&gt;</span><span class="se">\\</span><span class="s">nSummary above sentence in one word: &lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s"> </span><span class="se">\n</span><span class="s">"</span>
+<span class="n">textDesc</span> <span class="o">=</span> <span class="s">"A cat sitting in a box."</span>
+<span class="n">nullImageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">EmbeddingsDataFrameUtils</span><span class="p">.</span><span class="n">emptyImageRow</span><span class="p">]),</span>
+    <span class="n">EmbeddingsDataFrameUtils</span><span class="p">.</span><span class="n">imageSchema</span><span class="p">)</span>
+<span class="n">textDF</span> <span class="o">=</span> <span class="n">nullImageDF</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="n">textPrompt</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"&lt;sent&gt;"</span><span class="p">,</span> <span class="n">textDesc</span><span class="p">)))</span>
+<span class="n">e5vEmbeddings</span> <span class="o">=</span> <span class="n">E5VEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"e5v"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">e5vEmbeddings</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">textDF</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"e5v.embeddings"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Image + Text Embedding</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.ImageAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.E5VEmbeddings</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">imagePrompt</span> <span class="k">=</span> <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\n&lt;image&gt;\\nSummary above image in one word: &lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n \n"</span>
+<span class="k">val</span> <span class="nv">testDF</span> <span class="k">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="n">imagePrompt</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">().</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">e5vEmbeddings</span> <span class="k">=</span> <span class="nv">E5VEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"e5v"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">e5vEmbeddings</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"e5v.embeddings"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+
+<span class="c1">// Text-Only Embedding</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.util.EmbeddingsDataFrameUtils.</span><span class="o">{</span><span class="n">emptyImageRow</span><span class="o">,</span> <span class="n">imageSchema</span><span class="o">}</span>
+<span class="k">val</span> <span class="nv">textPrompt</span> <span class="k">=</span> <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\n&lt;sent&gt;\\nSummary above sentence in one word: &lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n \n"</span>
+<span class="k">val</span> <span class="nv">textDesc</span> <span class="k">=</span> <span class="s">"A cat sitting in a box."</span>
+<span class="k">val</span> <span class="nv">nullImageDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">sparkContext</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="n">emptyImageRow</span><span class="o">)),</span> <span class="n">imageSchema</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">textDF</span> <span class="k">=</span> <span class="nv">nullImageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="nv">textPrompt</span><span class="o">.</span><span class="py">replace</span><span class="o">(</span><span class="s">"&lt;sent&gt;"</span><span class="o">,</span> <span class="n">textDesc</span><span class="o">)))</span>
+<span class="k">val</span> <span class="nv">e5vEmbeddings</span> <span class="k">=</span> <span class="nv">E5VEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"e5v"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">e5vEmbeddings</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">textDF</span><span class="o">)</span>
+<span class="nv">result2</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"e5v.embeddings"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="h3-box">
 
   <h2 id="elmoembeddings">ElmoEmbeddings</h2>
@@ -6151,6 +6278,179 @@ semi-supervision signals.</em></p>
         </div>
 
       </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="florence2transformer">Florence2Transformer</h2>
+
+  <p>Florence2Transformer can load Florence-2 models for a wide variety of vision and vision-language tasks using prompt-based inference.</p>
+
+  <p>Florence-2 is an advanced vision foundation model from Microsoft that uses a prompt-based approach to handle tasks like image captioning, object detection, segmentation, OCR, and more. The model leverages the FLD-5B dataset, containing 5.4 billion annotations across 126 million images, to master multi-task learning. Its sequence-to-sequence architecture enables it to excel in both zero-shot and fine-tuned settings.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">florence2</span> <span class="k">=</span> <span class="nv">Florence2Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"florence2_base_ft_int4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Vision+Tasks">Models Hub</a>.</p>
+
+  <p>==Supported Tasks==</p>
+
+  <p>Florence-2 supports a variety of tasks through prompt engineering. The following prompt tokens can be used:</p>
+
+  <ul>
+    <li>
+      <caption>: Image captioning
+</caption>
+    </li>
+    <li>
+      <DETAILED_CAPTION>: Detailed image captioning
+</DETAILED_CAPTION>
+    </li>
+    <li>
+      <MORE_DETAILED_CAPTION>: Paragraph-level captioning
+</MORE_DETAILED_CAPTION>
+    </li>
+    <li>
+      <CAPTION_TO_PHRASE_GROUNDING>: Phrase grounding from caption (requires additional text input)
+</CAPTION_TO_PHRASE_GROUNDING>
+    </li>
+    <li>
+      <OD>: Object detection
+</OD>
+    </li>
+    <li>
+      <DENSE_REGION_CAPTION>: Dense region captioning
+</DENSE_REGION_CAPTION>
+    </li>
+    <li>
+      <REGION_PROPOSAL>: Region proposal
+</REGION_PROPOSAL>
+    </li>
+    <li>
+      <OCR>: Optical Character Recognition (plain text extraction)
+</OCR>
+    </li>
+    <li>
+      <OCR_WITH_REGION>: OCR with region information
+</OCR_WITH_REGION>
+    </li>
+    <li>
+      <REFERRING_EXPRESSION_SEGMENTATION>: Segmentation for a referred phrase (requires additional text input)
+</REFERRING_EXPRESSION_SEGMENTATION>
+    </li>
+    <li>
+      <REGION_TO_SEGMENTATION>: Polygon mask for a region (requires additional text input)
+</REGION_TO_SEGMENTATION>
+    </li>
+    <li>
+      <OPEN_VOCABULARY_DETECTION>: Open vocabulary detection for a phrase (requires additional text input)
+</OPEN_VOCABULARY_DETECTION>
+    </li>
+    <li>
+      <REGION_TO_CATEGORY>: Category of a region (requires additional text input)
+</REGION_TO_CATEGORY>
+    </li>
+    <li>
+      <REGION_TO_DESCRIPTION>: Description of a region (requires additional text input)
+</REGION_TO_DESCRIPTION>
+    </li>
+    <li>
+      <REGION_TO_OCR>: OCR for a region (requires additional text input)
+
+</REGION_TO_OCR>
+    </li>
+  </ul>
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/florence2_transformer/index.html#sparknlp.annotator.cv.florence2_transformer.Florence2Transformer">Florence2Transformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/Florence2Transformer">Florence2Transformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/Florence2Transformer.scala">Florence2Transformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;OD&gt;"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">florence2</span> <span class="o">=</span> <span class="n">Florence2Transformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">florence2</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;OD&gt;"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">florence2</span> <span class="k">=</span> <span class="nv">Florence2Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">florence2</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
 
     </div>
 
@@ -6705,6 +7005,129 @@ data are available at this https URL. <a href="https://instructor-embedding.gith
 <span class="o">+--------------------------------------------------------------------------------+</span>
 <span class="o">|[</span><span class="kt">-</span><span class="err">2</span><span class="kt">.</span><span class="err">3497989177703857</span>,<span class="err">0</span><span class="kt">.</span><span class="err">480538547039032</span>,<span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">3238905668258667</span>,<span class="kt">-</span><span class="err">1</span><span class="kt">.</span><span class="err">612930893898010</span><span class="kt">...|</span>
 <span class="kt">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="internvlformultimodal">InternVLForMultiModal</h2>
+
+  <p>Visual Question Answering using InternVL.</p>
+
+  <p>InternVLForMultiModal can load InternVL Vision models for visual question answering.
+The model consists of a vision encoder, a text encoder, a text decoder and a model merger.
+The vision encoder will encode the input image, the text encoder will encode the input text,
+the model merger will merge the image and text embeddings, and the text decoder will output the answer.</p>
+
+  <p>InternVL 2.5 is an advanced multimodal large language model (MLLM) series that builds upon InternVL 2.0,
+maintaining its core model architecture while introducing significant enhancements in training and testing
+strategies as well as data quality. Key features include:</p>
+  <ul>
+    <li>Large context window support</li>
+    <li>Multilingual support</li>
+    <li>Multimodal capabilities handling both text and image inputs</li>
+    <li>Optimized for deployment with int4 quantization</li>
+  </ul>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">visualQA</span> <span class="k">=</span> <span class="nv">InternVLForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"internvl2_5_1b_int4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/internvl_for_multimodal/index.html#sparknlp.annotator.cv.internvl_for_multimodal.InternVLForMultiModal">InternVLForMultiModal</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/InternVLForMultiModal">InternVLForMultiModal</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/InternVLForMultiModal.scala">InternVLForMultiModal</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
+
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">images_path</span><span class="p">)</span> <span class="c1"># Replace with your image path
+</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="s">"&lt;|im_start|&gt;&lt;image&gt;</span><span class="se">\n</span><span class="s">Describe this image in detail.&lt;|im_end|&gt;&lt;|im_start|&gt;assistant</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">visualQAClassifier</span> <span class="o">=</span> <span class="n">InternVLForMultiModal</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>   
+          <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>   
+          <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+          <span class="n">imageAssembler</span><span class="p">,</span>
+          <span class="n">visualQAClassifier</span>
+<span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"image_assembler.origin"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.DataFrame</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"path/to/your/images"</span> <span class="c1">// Replace with your image path</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+     <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">testDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">imageDF</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="s">"&lt;|im_start|&gt;&lt;image&gt;\nDescribe this image in detail.&lt;|im_end|&gt;&lt;|im_start|&gt;assistant\n"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualQAClassifier</span> <span class="k">=</span> <span class="nv">InternVLForMultiModal</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+     <span class="n">imageAssembler</span><span class="o">,</span>
+     <span class="n">visualQAClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDF</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"image_assembler.origin"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </code></pre></div>      </div>
 
     </div>
@@ -8352,6 +8775,151 @@ The use of an accelerator such as GPU is recommended.</p>
 <span class="o">|</span><span class="nc">Quelle</span> <span class="n">est</span> <span class="n">la</span> <span class="n">capitale</span> <span class="n">de</span> <span class="n">la</span> <span class="nc">France</span> <span class="o">?|</span>
 <span class="o">|</span><span class="nc">On</span> <span class="n">devrait</span> <span class="n">le</span> <span class="n">savoir</span> <span class="n">en</span> <span class="n">français</span><span class="o">.</span>    <span class="o">|</span>
 <span class="o">+-------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="minilmembeddings">MiniLMEmbeddings</h2>
+
+  <p>Sentence embeddings using MiniLM.</p>
+
+  <p>MiniLM, a lightweight and efficient sentence embedding model that can generate text embeddings
+for various NLP tasks (e.g., classification, retrieval, clustering, text evaluation, etc.)</p>
+
+  <p>Note that this annotator is only supported for Spark Versions 3.4 and up.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">MiniLMEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"minilm_embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"minilm_l6_v2"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?q=MiniLM">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/MiniLMEmbeddingsTestSpec.scala">MiniLMEmbeddingsTestSpec</a>.</p>
+
+  <p><strong>Sources</strong> :</p>
+
+  <p><a href="https://arxiv.org/abs/2002.10957">MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers</a></p>
+
+  <p><a href="https://github.com/microsoft/MiniLM">MiniLM Github Repository</a></p>
+
+  <p><strong>Paper abstract</strong></p>
+
+  <p><em>We present a simple and effective approach to compress large pre-trained Transformer models
+by distilling the self-attention module of the last Transformer layer. The compressed model
+(called MiniLM) can be trained with task-agnostic distillation and then fine-tuned on various
+downstream tasks. We evaluate MiniLM on the GLUE benchmark and show that it achieves comparable
+results with BERT-base while being 4.3x smaller and 5.5x faster. We also show that MiniLM can
+be further compressed to 22x smaller and 12x faster than BERT-base while maintaining comparable
+performance.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/embeddings/minilm_embeddings/index.html#sparknlp.annotator.embeddings.minilm_embeddings.MiniLMEmbeddings">MiniLMEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/MiniLMEmbeddings">MiniLMEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/MiniLMEmbeddings.scala">MiniLMEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">MiniLMEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"minilm_embeddings"</span><span class="p">)</span>
+<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"minilm_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"finished_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">embeddingsFinisher</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is a sample sentence for embedding generation."</span><span class="p">,</span>
+    <span class="s">"Another example sentence to demonstrate MiniLM embeddings."</span><span class="p">,</span>
+<span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[[</span><span class="mf">0.1234567</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2345678</span><span class="p">,</span> <span class="mf">0.3456789</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4567890</span><span class="p">,</span> <span class="mf">0.5678901</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6789012</span><span class="p">...</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[[</span><span class="mf">0.2345678</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3456789</span><span class="p">,</span> <span class="mf">0.4567890</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5678901</span><span class="p">,</span> <span class="mf">0.6789012</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7890123</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.MiniLMEmbeddings</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">MiniLMEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"minilm_l6_v2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"minilm_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingsFinisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EmbeddingsFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"minilm_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"finished_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsVector</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">embeddingsFinisher</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is a sample sentence for embedding generation."</span><span class="o">,</span>
+<span class="s">"Another example sentence to demonstrate MiniLM embeddings."</span>
+
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|[[</span><span class="err">0</span><span class="kt">.</span><span class="err">1234567</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">2345678</span>, <span class="err">0</span><span class="kt">.</span><span class="err">3456789</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">4567890</span>, <span class="err">0</span><span class="kt">.</span><span class="err">5678901</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">6789012</span><span class="kt">...|</span>
+<span class="kt">|</span><span class="o">[[</span><span class="err">0</span><span class="kt">.</span><span class="err">2345678</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">3456789</span>, <span class="err">0</span><span class="kt">.</span><span class="err">4567890</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">5678901</span>, <span class="err">0</span><span class="kt">.</span><span class="err">6789012</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">7890123</span><span class="kt">...|</span>
+<span class="kt">+--------------------------------------------------------------------------------+</span>
 </code></pre></div>      </div>
 
     </div>

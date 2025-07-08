@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -382,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
-<div class="viewcode-block" id="LightPipeline"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LightPipeline</span><span class="p">:</span>
+<div class="viewcode-block" id="LightPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LightPipeline</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a LightPipeline from a Spark PipelineModel.</span>
 
 <span class="sd">    LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark</span>
@@ -425,8 +425,8 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipelineModel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parse_embeddings</span> <span class="o">=</span> <span class="n">parse_embeddings</span>
+<div class="viewcode-block" id="LightPipeline.pipeline_model"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.pipeline_model">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipelineModel</span></div>
+<div class="viewcode-block" id="LightPipeline.parse_embeddings"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.parse_embeddings">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">parse_embeddings</span> <span class="o">=</span> <span class="n">parse_embeddings</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_validateStagesInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
@@ -518,7 +518,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -638,7 +638,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -687,7 +687,7 @@ document.write(`
             <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotationFromJava</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stages</span>
 
-<div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -748,7 +748,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="LightPipeline.transform"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.transform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.transform"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.transform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms a dataframe provided with the stages of the LightPipeline.</span>
 
 <span class="sd">        Parameters</span>
@@ -763,7 +763,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LightPipeline.setIgnoreUnsupported"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.setIgnoreUnsupported">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.setIgnoreUnsupported"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.setIgnoreUnsupported">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore unsupported AnnotatorModels.</span>
 
 <span class="sd">        Parameters</span>
@@ -779,7 +779,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">setIgnoreUnsupported</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="LightPipeline.getIgnoreUnsupported"><a class="viewcode-back" href="../../../_api/sparknlp.base.light_pipeline.html#sparknlp.base.light_pipeline.LightPipeline.getIgnoreUnsupported">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LightPipeline.getIgnoreUnsupported"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.getIgnoreUnsupported">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether to ignore unsupported AnnotatorModels.</span>
 
 <span class="sd">        Returns</span>
@@ -829,7 +829,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.table_assembler &#8212; Spark NLP 6.0.1 documentation</title>
+    <title>sparknlp.base.table_assembler &#8212; Spark NLP 6.0.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=9497d378"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -376,7 +376,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="TableAssembler"><a class="viewcode-back" href="../../../_api/sparknlp.base.table_assembler.html#sparknlp.base.table_assembler.TableAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TableAssembler</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TableAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TableAssembler</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This transformer parses text into tabular representation. The input consists of DOCUMENT annotations and the</span>
 <span class="sd">    output are TABLE annotations. The source format can be either JSON or CSV. The CSV format support alternative</span>
 <span class="sd">    delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values with double quotes.</span>
@@ -439,31 +439,31 @@ document.write(`
 <span class="sd">    | [sentence -&gt; 0, input_format -&gt; csv], []]]    |</span>
 <span class="sd">    +-----------------------------------------------+</span>
 <span class="sd">&quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TableAssembler&quot;</span>
+<div class="viewcode-block" id="TableAssembler.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TableAssembler&quot;</span></div>
 
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
+<div class="viewcode-block" id="TableAssembler.inputAnnotatorTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
 
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TABLE</span>
+<div class="viewcode-block" id="TableAssembler.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TABLE</span></div>
 
-    <span class="n">inputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="TableAssembler.inputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.inputFormat">[docs]</a>    <span class="n">inputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;inputFormat&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Input format (&#39;json&#39; or &#39;csv&#39;)&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">csvDelimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="TableAssembler.csvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.csvDelimiter">[docs]</a>    <span class="n">csvDelimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;csvDelimiter&quot;</span><span class="p">,</span>
         <span class="s2">&quot;CSV delimiter&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-    <span class="n">escapeCsvDelimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+<div class="viewcode-block" id="TableAssembler.escapeCsvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.escapeCsvDelimiter">[docs]</a>    <span class="n">escapeCsvDelimiter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;escapeCsvDelimiter&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Escape Csv delimiter by surrounding values with double quotes&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TableAssembler.setInputFormat"><a class="viewcode-back" href="../../../_api/sparknlp.base.table_assembler.html#sparknlp.base.table_assembler.TableAssembler.setInputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TableAssembler.setInputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setInputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the table input format. The following formats are currently supported: json, csv.</span>
 
 <span class="sd">        Parameters</span>
@@ -473,7 +473,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TableAssembler.setCsvDelimiter"><a class="viewcode-back" href="../../../_api/sparknlp.base.table_assembler.html#sparknlp.base.table_assembler.TableAssembler.setCsvDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TableAssembler.setCsvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setCsvDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the CSV delimiter.</span>
 
 <span class="sd">        Parameters</span>
@@ -483,7 +483,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">csvDelimiter</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TableAssembler.setEscapeCsvDelimiter"><a class="viewcode-back" href="../../../_api/sparknlp.base.table_assembler.html#sparknlp.base.table_assembler.TableAssembler.setEscapeCsvDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEscapeCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="TableAssembler.setEscapeCsvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setEscapeCsvDelimiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEscapeCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Escape Csv delimiter by surrounding values with double quotes</span>
 
 <span class="sd">        Parameters</span>
@@ -545,7 +545,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023, John Snow Labs.
+      © Copyright 2025 John Snow Labs.
       <br/>
     
   </p>
