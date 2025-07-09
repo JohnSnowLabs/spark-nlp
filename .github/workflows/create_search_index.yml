@@ -46,8 +46,6 @@ jobs:
           && mv _site/backup-benchmarking.json ./
           && mv _site/backup-references.json ./)
           || true
-      - name: Collect Workflow Telemetry
-        uses: catchpoint/workflow-telemetry-action@v2
       - name: Full build
         id: full-build
         env:
