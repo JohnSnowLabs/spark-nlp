@@ -1,6 +1,5 @@
 resolvers += "Maven Central" at "https://repo1.maven.org/maven2/"
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.11.2")
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
