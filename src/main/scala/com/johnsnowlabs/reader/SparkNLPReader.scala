@@ -310,6 +310,8 @@ class SparkNLPReader(
       .setOnlyPageNum(getOnlyPageNum)
       .setTextStripper(getTextStripper)
       .setSort(getSort)
+      .setExtractCoordinates(getExtractCoordinates)
+      .setNormalizeLigatures(getNormalizeLigatures)
     val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
     val pipelineModel = new Pipeline()
       .setStages(Array(pdfToText))
@@ -326,43 +328,36 @@ class SparkNLPReader(
   }
 
   private def getSplitPage: Boolean = {
-    val splitPage =
-      try {
-        params.asScala.getOrElse("splitPage", "true").toBoolean
-      } catch {
-        case _: IllegalArgumentException => true
-      }
-    splitPage
+    getDefaultBoolean(params.asScala.toMap, Seq("splitPage", "split_page"), default = true)
   }
 
   private def getOnlyPageNum: Boolean = {
-    val splitPage =
-      try {
-        params.asScala.getOrElse("onlyPageNum", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    splitPage
+    getDefaultBoolean(params.asScala.toMap, Seq("onlyPageNum", "only_page_num"), default = false)
   }
 
   private def getTextStripper: String = {
-    val textStripper =
-      try {
-        params.asScala.getOrElse("textStripper", TextStripperType.PDF_TEXT_STRIPPER)
-      } catch {
-        case _: IllegalArgumentException => TextStripperType.PDF_TEXT_STRIPPER
-      }
-    textStripper
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("textStripper", "text_stripper"),
+      default = TextStripperType.PDF_TEXT_STRIPPER)
   }
 
   private def getSort: Boolean = {
-    val sort =
-      try {
-        params.asScala.getOrElse("sort", "false").toBoolean
-      } catch {
-        case _: IllegalArgumentException => false
-      }
-    sort
+    getDefaultBoolean(params.asScala.toMap, Seq("sort"), default = false)
+  }
+
+  private def getExtractCoordinates: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("extractCoordinates", "extract_coordinates"),
+      default = false)
+  }
+
+  private def getNormalizeLigatures: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("normalizeLigatures", "normalize_ligatures"),
+      default = true)
   }
 
   /** Instantiates class to read Excel files.
