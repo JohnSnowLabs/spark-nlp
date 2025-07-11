@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+      - feature/KshitizGIT-DebugWebsiteBuildIssue
+  pull_request:
+    branches:
+      - master
 
 concurrency:
   # Make sure only workflow run at a time for create_search_index.yml
@@ -11,7 +15,8 @@ concurrency:
 
 jobs:
   jekyll:
-    runs-on: ubuntu-latest
+    runs-on: RAM32GB
+    timeout-minutes: 600
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
@@ -41,21 +46,8 @@ jobs:
           && mv _site/backup-benchmarking.json ./
           && mv _site/backup-references.json ./)
           || true
-      - name: Incremental build
-        id: incremental-build
-        env:
-          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
-          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
-          ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
-          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
-          ORIGIN: ${{ secrets.ORIGIN }}
-        working-directory: docs
-        run: |
-          bundle exec jekyll build --incremental
-        continue-on-error: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
       - name: Full build
         id: full-build
-        if: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
@@ -65,7 +57,7 @@ jobs:
         working-directory: docs
         run: |
           rm -f .jekyll-metadata
-          FULL_BUILD=1 bundle exec jekyll build --incremental
+          FULL_BUILD=1 bundle exec jekyll build --incremental --profile
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -90,7 +82,6 @@ jobs:
           7z a -tzip jekyll-content.zip \
             ./docs/_site/* \
             ./docs/.jekyll-metadata \
-            ./docs/backup-models.json \
             ./docs/backup-benchmarking.json \
             ./docs/backup-references.json
       - name: Upload artifacts

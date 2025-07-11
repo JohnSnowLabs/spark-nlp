@@ -252,7 +252,7 @@ class BulkIndexer
 
   def index(id, data)
     @buffer << { update: { _id: id, data: {doc: data, doc_as_upsert: true}} }
-    self.execute if @buffer.length >= 100
+    self.execute if @buffer.length >= 500
   end
 
   def execute
@@ -578,9 +578,10 @@ Jekyll::Hooks.register :site, :post_write do |site|
     models_references_json = backup_references_data.merge(models_references_json)
   end
 
-  filename = File.join(site.config['destination'], 'models.json')
-  File.write(filename, models_json.values.to_json)
-  File.write(backup_filename, models_json.to_json)
+  # filename = File.join(site.config['destination'], 'models.json')
+  # Commenting so that the site builds
+  # File.write(filename, models_json.values.to_json)
+  # File.write(backup_filename, models_json.to_json)
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
   File.write(benchmarking_filename, models_benchmarking_json.to_json)
