@@ -1,6 +1,6 @@
 ---
 layout: model
-title: "MedEmbed: Specialized Embedding Model for Medical and Clinical Information Retrieval"
+title: "MedEmbed base: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)"
 author: John Snow Labs
 name: bert_medembed_base_v0_1_openvino
 date: 2025-07-14
