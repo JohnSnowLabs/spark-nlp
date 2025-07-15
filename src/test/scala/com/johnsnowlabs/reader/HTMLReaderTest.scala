@@ -78,10 +78,11 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(!htmlDF.columns.contains("content"))
   }
 
-  it should "output as title for font size >= 14" taggedAs FastTest in {
-    val HTMLReader = new HTMLReader(titleFontSize = 14)
+  it should "output as title for font size >= 19" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(titleFontSize = 19)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
+    htmlDF.show(truncate = false)
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
@@ -90,8 +91,8 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(titleDF.count() == 2)
   }
 
-  it should "output as title for font size >= 16" taggedAs FastTest in {
-    val HTMLReader = new HTMLReader(titleFontSize = 16)
+  it should "output as title for font size >= 22" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(titleFontSize = 22)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
     val titleDF = htmlDF
@@ -100,6 +101,31 @@ class HTMLReaderTest extends AnyFlatSpec {
     titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 1)
+  }
+
+  it should "correctly parse div tags" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-div.html")
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
+    val textDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.NARRATIVE_TEXT)
+
+    assert(titleDF.count() == 1)
+    assert(textDF.count() == 1)
+  }
+
+  it should "correctly parse bold and strong tags" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-bold-strong.html")
+    htmlDF.show(truncate = false)
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
+
+    assert(titleDF.count() == 2)
   }
 
 }
