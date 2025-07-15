@@ -69,7 +69,7 @@ result.selectExpr("explode(embeddings.embeddings) as embeddings").show()
 ```
 ```scala
 import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.explode
 import spark.implicits._
@@ -78,13 +78,13 @@ val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-val bertEmbeddings = BertSentenceEmbeddings.load("bge_medembed_base_v0_1_openvino")
+val bgeEmbeddings = BGEEmbeddings.load("bge_medembed_base_v0_1_openvino")
   .setInputCols("document")
-  .setOutputCol("bert")
+  .setOutputCol("bge")
 
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,
-  bertEmbeddings
+  bgeEmbeddings
 ))
 
 val data = Seq(
@@ -94,7 +94,7 @@ val data = Seq(
 val model = pipeline.fit(data)
 val result = model.transform(data)
 
-result.select(explode($"bert.embeddings").alias("embeddings")).show(false)
+result.select(explode($"bge.embeddings").alias("embeddings")).show(false)
 
 ```
 </div>
