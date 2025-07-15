@@ -1,5 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-07-11T05:30:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English awesome_fb_model BartForZeroShotClassification from ClaudeYang</title><link href="/2025/06/24/awesome_fb_model_en.html" rel="alternate" type="text/html" title="English awesome_fb_model BartForZeroShotClassification from ClaudeYang" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>/2025/06/24/awesome_fb_model_en</id><content type="html" xml:base="/2025/06/24/awesome_fb_model_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-07-15T10:05:51+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Phi-3.5-mini int4</title><link href="/2025/07/03/phi_3.5_mini_instruct_int4_en.html" rel="alternate" type="text/html" title="Phi-3.5-mini int4" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>/2025/07/03/phi_3.5_mini_instruct_int4_en</id><content type="html" xml:base="/2025/07/03/phi_3.5_mini_instruct_int4_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;Phi-3.5-mini is a lightweight, state-of-the-art open model built upon datasets used for Phi-3 - synthetic data and filtered publicly available websites - with a focus on very high-quality, reasoning dense data. The model belongs to the Phi-3 model family and supports 128K token context length.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/phi_3.5_mini_instruct_int4_en_6.0.4_3.4_1751538746155.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/phi_3.5_mini_instruct_int4_en_6.0.4_3.4_1751538746155.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Phi3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Phi3Transformer&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadSavedModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXPORT_PATH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setDoSample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;generation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Phi3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, I am a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;completions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;phi_3.5_mini_instruct_int4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 6.0.4+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[generation]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;2.2 GB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="openvino" /><summary type="html">Description Phi-3.5-mini is a lightweight, state-of-the-art open model built upon datasets used for Phi-3 - synthetic data and filtered publicly available websites - with a focus on very high-quality, reasoning dense data. The model belongs to the Phi-3 model family and supports 128K token context length. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) Phi3 = Phi3Transformer \ .loadSavedModel(EXPORT_PATH, spark) \ .setMaxOutputLength(50) \ .setDoSample(True) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;generation&quot;) pipeline = Pipeline().setStages([document, Phi3]) data = spark.createDataFrame([[&quot;Hello, I am a&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;completions&quot;).show(truncate = False) Model Information Model Name: phi_3.5_mini_instruct_int4 Compatibility: Spark NLP 6.0.4+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: en Size: 2.2 GB</summary></entry><entry><title type="html">English awesome_fb_model BartForZeroShotClassification from ClaudeYang</title><link href="/2025/06/24/awesome_fb_model_en.html" rel="alternate" type="text/html" title="English awesome_fb_model BartForZeroShotClassification from ClaudeYang" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>/2025/06/24/awesome_fb_model_en</id><content type="html" xml:base="/2025/06/24/awesome_fb_model_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;Pretrained BartForZeroShotClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;awesome_fb_model&lt;/code&gt; is a English model originally trained by ClaudeYang.&lt;/p&gt;
 
@@ -753,74 +829,4 @@
 
 &lt;p&gt;References&lt;/p&gt;
 
-&lt;p&gt;https://huggingface.co/valhalla/distilbart-mnli-12-1&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="zero_shot" /><category term="bart" /><category term="openvino" /><summary type="html">Description Pretrained BartForZeroShotClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.distilbart_mnli_12_1 is a English model originally trained by valhalla. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = BartForZeroShotClassification.pretrained(&quot;distilbart_mnli_12_1&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, zeroShotClassifier]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = BartForZeroShotClassification.pretrained(&quot;distilbart_mnli_12_1&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, zeroShotClassifier)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: distilbart_mnli_12_1 Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 558.2 MB References References https://huggingface.co/valhalla/distilbart-mnli-12-1</summary></entry><entry><title type="html">English distilbart_mnli_12_1_pipeline pipeline BartForZeroShotClassification from valhalla</title><link href="/2025/06/24/distilbart_mnli_12_1_pipeline_en.html" rel="alternate" type="text/html" title="English distilbart_mnli_12_1_pipeline pipeline BartForZeroShotClassification from valhalla" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>/2025/06/24/distilbart_mnli_12_1_pipeline_en</id><content type="html" xml:base="/2025/06/24/distilbart_mnli_12_1_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
-
-&lt;p&gt;Pretrained BartForZeroShotClassification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;distilbart_mnli_12_1_pipeline&lt;/code&gt; is a English model originally trained by valhalla.&lt;/p&gt;
-
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_mnli_12_1_pipeline_en_5.5.1_3.0_1750785131082.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbart_mnli_12_1_pipeline_en_5.5.1_3.0_1750785131082.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_mnli_12_1_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_mnli_12_1_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
-
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;distilbart_mnli_12_1_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 5.5.1+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;558.3 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;References&lt;/p&gt;
-
-&lt;p&gt;https://huggingface.co/valhalla/distilbart-mnli-12-1&lt;/p&gt;
-
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BartForZeroShotClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="pipeline" /><category term="onnx" /><summary type="html">Description Pretrained BartForZeroShotClassification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.distilbart_mnli_12_1_pipeline is a English model originally trained by valhalla. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;distilbart_mnli_12_1_pipeline&quot;, lang = &quot;en&quot;) annotations = pipeline.transform(df) val pipeline = new PretrainedPipeline(&quot;distilbart_mnli_12_1_pipeline&quot;, lang = &quot;en&quot;) val annotations = pipeline.transform(df) Model Information Model Name: distilbart_mnli_12_1_pipeline Type: pipeline Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Language: en Size: 558.3 MB References References https://huggingface.co/valhalla/distilbart-mnli-12-1 Included Models DocumentAssembler TokenizerModel BartForZeroShotClassification</summary></entry></feed>
+&lt;p&gt;https://huggingface.co/valhalla/distilbart-mnli-12-1&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="onnx" /><category term="zero_shot" /><category term="bart" /><category term="openvino" /><summary type="html">Description Pretrained BartForZeroShotClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.distilbart_mnli_12_1 is a English model originally trained by valhalla. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = BartForZeroShotClassification.pretrained(&quot;distilbart_mnli_12_1&quot;,&quot;en&quot;) \ .setInputCols([&quot;document&quot;,&quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = Pipeline().setStages([documentAssembler, tokenizer, zeroShotClassifier]) data = spark.createDataFrame([[&quot;I love spark-nlp&quot;]]).toDF(&quot;text&quot;) pipelineModel = pipeline.fit(data) pipelineDF = pipelineModel.transform(data) val documentAssembler = new DocumentAssembler() .setInputCols(&quot;text&quot;) .setOutputCols(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = BartForZeroShotClassification.pretrained(&quot;distilbart_mnli_12_1&quot;, &quot;en&quot;) .setInputCols(Array(&quot;documents&quot;,&quot;token&quot;)) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, zeroShotClassifier)) val data = Seq(&quot;I love spark-nlp&quot;).toDS.toDF(&quot;text&quot;) val pipelineModel = pipeline.fit(data) val pipelineDF = pipelineModel.transform(data) Model Information Model Name: distilbart_mnli_12_1 Compatibility: Spark NLP 5.5.1+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 558.2 MB References References https://huggingface.co/valhalla/distilbart-mnli-12-1</summary></entry></feed>
