@@ -31,8 +31,9 @@ import scala.collection.mutable.ArrayBuffer
 /** Class to parse and read HTML files.
   *
   * @param titleFontSize
-  *   Minimum font size threshold in pixels used as part of heuristic rules to detect title elements based
-  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.
+  *   Minimum font size threshold in pixels used as part of heuristic rules to detect title
+  *   elements based on formatting (e.g., bold, centered, capitalized). By default, it is set to
+  *   16.
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate 'content'
   *   column, alongside the structured output. By default, it is set to false.
@@ -180,6 +181,7 @@ class HTMLReader(
   private case class NodeMetadata(tagName: Option[String], hidden: Boolean, var visited: Boolean)
 
   private def extractElements(root: Node): Array[HTMLElement] = {
+    var sentenceIndex = 0
     val elements = ArrayBuffer[HTMLElement]()
     val trackingNodes = mutable.Map[Node, NodeMetadata]()
     var pageNumber = 1
@@ -252,6 +254,8 @@ class HTMLReader(
 
           element.tagName() match {
             case "a" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
               val href = element.attr("href").trim
               val linkText = element.text().trim
               if (href.nonEmpty && linkText.nonEmpty && !visitedNode) {
@@ -262,6 +266,8 @@ class HTMLReader(
                   metadata = pageMetadata)
               }
             case "table" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
               val tableText = extractNestedTableContent(element).trim
               if (tableText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
@@ -271,6 +277,8 @@ class HTMLReader(
                   metadata = pageMetadata)
               }
             case "li" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
               val itemText = element.text().trim
               if (itemText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
@@ -286,6 +294,8 @@ class HTMLReader(
                 if (codeElem != null) codeElem.text().trim
                 else element.text().trim
               if (codeText.nonEmpty && !visitedNode) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
                 trackingNodes(element).visited = true
                 elements += HTMLElement(
                   ElementType.UNCATEGORIZED_TEXT, // or ElementType.CODE if you have it
@@ -301,6 +311,8 @@ class HTMLReader(
                     val childNodes = element.childNodes().asScala.toList
                     val aggregatedText = collectTextFromNodes(childNodes)
                     if (aggregatedText.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.NARRATIVE_TEXT,
                         content = aggregatedText,
@@ -310,6 +322,8 @@ class HTMLReader(
                     trackingNodes(element).visited = true
                     val titleText = element.text().trim
                     if (titleText.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.TITLE,
                         content = titleText,
@@ -319,6 +333,8 @@ class HTMLReader(
                     trackingNodes(element).visited = true
                     val text = element.text().trim
                     if (text.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.UNCATEGORIZED_TEXT,
                         content = text,
@@ -330,6 +346,8 @@ class HTMLReader(
               trackingNodes(element).visited = true
               val titleText = element.text().trim
               if (titleText.nonEmpty) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
                 elements += HTMLElement(
                   ElementType.TITLE,
                   content = titleText,
@@ -359,15 +377,14 @@ class HTMLReader(
     val tag = elem.tagName().toLowerCase
     val style = elem.attr("style").toLowerCase
     (tag == "p") ||
-      (tag == "div" && (
-        style.contains("font-size") ||
-          style.contains("line-height") ||
-          style.contains("margin") ||
-          elem.getElementsByTag("b").size() > 0 ||
-          elem.getElementsByTag("strong").size() > 0
-        ))
+    (tag == "div" && (
+      style.contains("font-size") ||
+        style.contains("line-height") ||
+        style.contains("margin") ||
+        elem.getElementsByTag("b").size() > 0 ||
+        elem.getElementsByTag("strong").size() > 0
+    ))
   }
-
 
   private def getTagName(node: Node): Option[String] = {
     node match {
@@ -386,7 +403,6 @@ class HTMLReader(
     }
   }
 
-
   private def isTitleElement(element: Element): Boolean = {
     val tag = element.tagName().toLowerCase
     val style = element.attr("style").toLowerCase
@@ -396,14 +412,15 @@ class HTMLReader(
 
   private def isTextElement(elem: Element): Boolean = {
     !isFormattedAsTitle(elem) &&
-      (elem.attr("style").toLowerCase.contains("text") ||
-        elem.tagName().toLowerCase == "p" ||
-        (elem.tagName().toLowerCase == "div" && isParagraphLikeElement(elem)))
+    (elem.attr("style").toLowerCase.contains("text") ||
+      elem.tagName().toLowerCase == "p" ||
+      (elem.tagName().toLowerCase == "div" && isParagraphLikeElement(elem)))
   }
 
   private def isFormattedAsTitle(elem: Element): Boolean = {
     val style = elem.attr("style").toLowerCase
-    val hasBoldTag = elem.getElementsByTag("b").size() > 0 || elem.getElementsByTag("strong").size() > 0
+    val hasBoldTag =
+      elem.getElementsByTag("b").size() > 0 || elem.getElementsByTag("strong").size() > 0
     hasBoldTag || HTMLParser.isFormattedAsTitle(style, titleFontSize)
   }
 
