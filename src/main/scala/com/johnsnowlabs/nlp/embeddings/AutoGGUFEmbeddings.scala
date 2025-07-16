@@ -18,7 +18,8 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.llama.LlamaModel
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
+import de.kherud.llama.LlamaModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
@@ -130,7 +131,8 @@ class AutoGGUFEmbeddings(override val uid: String)
       _model = Some(spark.sparkContext.broadcast(wrapper))
     }
 
-    setGpuSupportIfAvailable(spark)
+    this
+//    setGpuSupportIfAvailable(spark)
   }
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
@@ -140,7 +142,8 @@ class AutoGGUFEmbeddings(override val uid: String)
     embedding -> true,
     poolingType -> "MEAN",
     nCtx -> 4096,
-    nBatch -> 512)
+    nBatch -> 512,
+    nGpuLayers -> 99)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *
@@ -172,7 +175,7 @@ class AutoGGUFEmbeddings(override val uid: String)
     if (annotations.nonEmpty) {
 
       val modelParams =
-        getModelParameters.setNParallel(getBatchSize) // set parallel decoding to batch size
+        getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
@@ -181,7 +184,8 @@ class AutoGGUFEmbeddings(override val uid: String)
       // Return embeddings in annotation
       val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
         try {
-          (model.requestBatchEmbeddings(annotationsText.toArray), Map.empty)
+          val result: Array[Array[Float]] = annotationsText.map(model.embed).toArray
+          (result, Map.empty)
         } catch {
           case e: Exception =>
             logger.error("Error in llama.cpp embeddings", e)
@@ -241,7 +245,7 @@ trait ReadAutoGGUFEmbeddings {
       .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
       .setEngine(LlamaCPP.name)
 
-    val metadata = LlamaModel.getMetadataFromFile(localPath)
+    val metadata = LlamaExtensions.getMetadataFromFile(localPath)
     if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
     annotatorModel
   }

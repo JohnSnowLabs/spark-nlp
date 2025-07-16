@@ -18,8 +18,9 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.llama.LlamaModel
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -138,9 +139,7 @@ class AutoGGUFModel(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(spark.sparkContext.broadcast(wrapper))
     }
-
-    // Entrypoint for models. Automatically set GPU support if detected.
-    setGpuSupportIfAvailable(spark)
+    this
   }
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
@@ -150,8 +149,10 @@ class AutoGGUFModel(override val uid: String)
     useChatTemplate -> true,
     nCtx -> 4096,
     nBatch -> 512,
-    embedding -> false,
-    nPredict -> 100)
+    embedding -> false, // TODO: Disable this?
+    nPredict -> 100,
+    nGpuLayers -> 99,
+    systemPrompt -> "You are a helpful assistant.")
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *
@@ -177,12 +178,13 @@ class AutoGGUFModel(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
+    // TODO: group by doc and sentence
     if (annotations.nonEmpty) {
-      val annotationsText = annotations.map(_.result)
+      val annotationsText = annotations.map { anno => anno.result }
 
       val modelParams =
-        getModelParameters.setNParallel(getBatchSize) // set parallel decoding to batch size
-      val inferenceParams = getInferenceParameters
+        getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
+      val inferenceParams: InferenceParameters = getInferenceParameters
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
@@ -190,9 +192,9 @@ class AutoGGUFModel(override val uid: String)
         // Return embeddings in annotation
         val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
           try {
-            (model.requestBatchEmbeddings(annotationsText.toArray), Map.empty)
+            (annotationsText.map(model.embed), Map.empty)
           } catch {
-            case e: Exception =>
+            case e: LlamaException =>
               logger.error("Error in llama.cpp embeddings", e)
               (
                 Array.fill[Array[Float]](annotationsText.length)(Array.empty),
@@ -212,9 +214,12 @@ class AutoGGUFModel(override val uid: String)
       } else {
         val (completedTexts: Array[String], metadata: Map[String, String]) =
           try {
-            (model.requestBatchCompletion(annotationsText.toArray, inferenceParams), Map.empty)
+            val results: Array[String] = annotationsText.map { t =>
+              LlamaExtensions.complete(model, inferenceParams, getSystemPrompt, t)
+            }.toArray
+            (results, Map.empty)
           } catch {
-            case e: Exception =>
+            case e: LlamaException =>
               logger.error("Error in llama.cpp batch completion", e)
               (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
           }
@@ -268,7 +273,7 @@ trait ReadAutoGGUFModel {
       .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
       .setEngine(LlamaCPP.name)
 
-    val metadata = LlamaModel.getMetadataFromFile(localPath)
+    val metadata = LlamaExtensions.getMetadataFromFile(localPath)
     if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
     annotatorModel
   }

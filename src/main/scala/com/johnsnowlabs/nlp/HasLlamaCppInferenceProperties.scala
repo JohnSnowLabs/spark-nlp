@@ -1,8 +1,8 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
-import com.johnsnowlabs.nlp.llama.InferenceParameters
-import com.johnsnowlabs.nlp.llama.args._
+import de.kherud.llama.InferenceParameters
+import de.kherud.llama.args._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import org.apache.spark.ml.param._
 
