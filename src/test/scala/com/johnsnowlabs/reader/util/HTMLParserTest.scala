@@ -54,7 +54,9 @@ class HTMLParserTest extends AnyFlatSpec {
     assert(HTMLParser.isFormattedAsTitle("font-weight:bold;", 16))
     assert(HTMLParser.isFormattedAsTitle("font-weight: bold ;", 16))
     assert(HTMLParser.isFormattedAsTitle(" FONT-WEIGHT:BOLD ; ", 16)) // Mixed case
-    assert(HTMLParser.isFormattedAsTitle("font-weight:bold;font-size:10px;", 16)) // Bold but small font
+    assert(
+      HTMLParser.isFormattedAsTitle("font-weight:bold;font-size:10px;", 16)
+    ) // Bold but small font
   }
 
   it should "detect 'font-weight:bolder' as title" in {
@@ -110,7 +112,8 @@ class HTMLParserTest extends AnyFlatSpec {
   }
 
   it should "detect bold and centered even if font-size is too small" in {
-    assert(HTMLParser.isFormattedAsTitle("font-weight:bold; text-align:center; font-size:10px;", 16))
+    assert(
+      HTMLParser.isFormattedAsTitle("font-weight:bold; text-align:center; font-size:10px;", 16))
   }
 
   it should "detect large and centered even if not bold" in {

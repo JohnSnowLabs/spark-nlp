@@ -158,24 +158,29 @@ class TextReader(
       text
     }
 
-    // Split the processed text into blocks using two or more newlines.
     val blocks = processedText.split(blockSplit).map(_.trim).filter(_.nonEmpty)
     val elements = mutable.ArrayBuffer[HTMLElement]()
     var i = 0
+    var sentenceIdx = 0
+
     while (i < blocks.length) {
       val currentBlock = blocks(i)
+      val paragraphIdx = (i / 2).toString
+
       if (isTitleCandidate(currentBlock)) {
         elements += HTMLElement(
           ElementType.TITLE,
           currentBlock,
-          mutable.Map("paragraph" -> (i / 2).toString))
+          mutable.Map("paragraph" -> paragraphIdx, "sentence" -> sentenceIdx.toString))
+        sentenceIdx += 1
         if (i + 1 < blocks.length && !isTitleCandidate(blocks(i + 1))) {
           val narrative = blocks(i + 1)
           if (narrative.nonEmpty) {
             elements += HTMLElement(
               ElementType.NARRATIVE_TEXT,
               narrative,
-              mutable.Map("paragraph" -> (i / 2).toString))
+              mutable.Map("paragraph" -> paragraphIdx, "sentence" -> sentenceIdx.toString))
+            sentenceIdx += 1
           }
           i += 2
         } else {
@@ -185,7 +190,8 @@ class TextReader(
         elements += HTMLElement(
           ElementType.NARRATIVE_TEXT,
           currentBlock,
-          mutable.Map("paragraph" -> (i / 2).toString))
+          mutable.Map("paragraph" -> paragraphIdx, "sentence" -> sentenceIdx.toString))
+        sentenceIdx += 1
         i += 1
       }
     }
