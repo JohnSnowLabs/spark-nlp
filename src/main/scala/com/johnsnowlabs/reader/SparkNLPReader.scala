@@ -19,14 +19,13 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   BLOCK_SPLIT_PATTERN,
   DOUBLE_PARAGRAPH_PATTERN
 }
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import com.johnsnowlabs.reader.util.PartitionOptions.{
   getDefaultBoolean,
   getDefaultInt,
-  getDefaultString
+  getDefaultString,
+  getDefaultDouble
 }
-import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
@@ -93,35 +92,60 @@ class SparkNLPReader(
 
   def html(htmlPath: String): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
   }
 
   def htmlToHTMLElement(html: String): Seq[HTMLElement] = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.htmlToHTMLElement(html)
   }
 
   def urlToHTMLElement(url: String): Seq[HTMLElement] = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.urlToHTMLElement(url)
   }
 
   def html(urls: Array[String]): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
   }
@@ -140,6 +164,13 @@ class SparkNLPReader(
 
   private def getTimeout: Int = {
     getDefaultInt(params.asScala.toMap, Seq("timeout"), default = 30)
+  }
+
+  private def getIncludeTitleTag: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includeTitleTag", "include_title_tag"),
+      default = true)
   }
 
   /** Instantiates class to read email files.
@@ -302,22 +333,20 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
   def pdf(pdfPath: String): DataFrame = {
-    val spark = ResourceHelper.spark
-    spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
-    val pdfToText = new PdfToText()
-      .setStoreSplittedPdf(getStoreSplittedPdf)
-      .setSplitPage(getSplitPage)
-      .setOnlyPageNum(getOnlyPageNum)
-      .setTextStripper(getTextStripper)
-      .setSort(getSort)
-      .setExtractCoordinates(getExtractCoordinates)
-      .setNormalizeLigatures(getNormalizeLigatures)
-    val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
-    val pipelineModel = new Pipeline()
-      .setStages(Array(pdfToText))
-      .fit(binaryPdfDF)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    pdfReader.pdf(pdfPath)
+  }
 
-    pipelineModel.transform(binaryPdfDF)
+  def pdf(content: Array[Byte]): Seq[HTMLElement] = {
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    pdfReader.pdfToHTMLElement(content)
+  }
+
+  private def getTitleThreshold: Double = {
+    getDefaultDouble(
+      params.asScala.toMap,
+      Seq("titleThreshold", "title_threshold"),
+      default = 18.0)
   }
 
   private def getStoreSplittedPdf: Boolean = {

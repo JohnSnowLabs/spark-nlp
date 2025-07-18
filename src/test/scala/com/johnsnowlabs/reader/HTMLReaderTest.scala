@@ -16,7 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.{col, explode, map_keys}
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class HTMLReaderTest extends AnyFlatSpec {
@@ -126,6 +126,29 @@ class HTMLReaderTest extends AnyFlatSpec {
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
 
     assert(titleDF.count() == 2)
+  }
+
+  it should "correctly parse caption and th tags" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
+    htmlDF.show(truncate = false)
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TABLE)
+
+    assert(titleDF.count() == 1)
+  }
+
+  it should "include title tag value in metadata" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(includeTitleTag = true)
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
+    htmlDF.show(truncate = false)
+
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TITLE)
+
+    assert(titleDF.count() == 1)
   }
 
 }
