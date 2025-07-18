@@ -166,3 +166,16 @@ class SparkNLPTestCSVFilesSpec(unittest.TestCase):
         csv_df.show()
 
         self.assertTrue(csv_df.select("csv").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestPDFFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.pdf_file = f"file:///{os.getcwd()}/../src/test/resources/reader/pdf/pdf-title.pdf"
+
+    def runTest(self):
+        csv_df = sparknlp.read().pdf(self.pdf_file)
+        csv_df.show()
+
+        self.assertTrue(csv_df.select("pdf").count() > 0)

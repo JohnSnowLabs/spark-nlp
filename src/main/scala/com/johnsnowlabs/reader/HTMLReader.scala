@@ -84,6 +84,7 @@ class HTMLReader(
     titleFontSize: Int = 16,
     storeContent: Boolean = false,
     timeout: Int = 0,
+    includeTitleTag: Boolean = false,
     headers: Map[String, String] = Map.empty)
     extends Serializable {
 
@@ -161,7 +162,18 @@ class HTMLReader(
 
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
     val body = document.body()
-    extractElements(body)
+    val elements = extractElements(body)
+    val docTitle = document.title().trim
+
+    if (docTitle.nonEmpty && includeTitleTag) {
+      val titleElem = HTMLElement(
+        ElementType.TITLE,
+        content = docTitle,
+        metadata = mutable.Map.empty[String, String])
+      Array(titleElem) ++ elements
+    } else {
+      elements
+    }
   }
 
   def htmlToHTMLElement(html: String): Array[HTMLElement] = {

@@ -221,6 +221,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "application/vnd.ms-powerpoint" |
           "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
         sparkNLPReader.ppt
+      case "application/pdf" => sparkNLPReader.pdf
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
 

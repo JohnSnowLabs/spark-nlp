@@ -50,4 +50,15 @@ object PartitionOptions {
       .getOrElse(default)
   }
 
+  def getDefaultDouble(
+      params: Map[String, String],
+      options: Seq[String],
+      default: Double): Double = {
+    options
+      .flatMap(params.get)
+      .flatMap(value => Try(value.toDouble).toOption)
+      .headOption
+      .getOrElse(default)
+  }
+
 }
