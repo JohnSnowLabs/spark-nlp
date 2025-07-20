@@ -22,7 +22,16 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile,
   isStringContent
 }
-import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
+import com.johnsnowlabs.partition.{
+  HasEmailReaderProperties,
+  HasExcelReaderProperties,
+  HasHTMLReaderProperties,
+  HasPowerPointProperties,
+  HasReaderProperties,
+  HasTextReaderProperties,
+  HasXmlReaderProperties,
+  Partition
+}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
@@ -38,7 +47,12 @@ class Reader2Doc(override val uid: String)
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
     with HasReaderProperties
-    with HasHTMLReaderProperties {
+    with HasEmailReaderProperties
+    with HasExcelReaderProperties
+    with HasHTMLReaderProperties
+    with HasPowerPointProperties
+    with HasTextReaderProperties
+    with HasXmlReaderProperties {
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
 
@@ -51,7 +65,7 @@ class Reader2Doc(override val uid: String)
     new BooleanParam(
       this,
       "flattenOutput",
-      "If true, output is flattened to plain text with minimal metadata (sentence key only)")
+      "If true, output is flattened to plain text with minimal metadata")
 
   def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
 
@@ -60,9 +74,7 @@ class Reader2Doc(override val uid: String)
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
 
-    val params = Map("contentType" -> $(contentType))
-    val partitionInstance = new Partition(params.asJava)
-    val partitionDf = partitionContent(partitionInstance, dataset)
+    val partitionDf = partitionContent(partitionBuilder, dataset)
 
     val annotatedDf = partitionDf
       .withColumn(
@@ -72,6 +84,29 @@ class Reader2Doc(override val uid: String)
       .select(getOutputCol)
 
     afterAnnotate(annotatedDf)
+  }
+
+  private def partitionBuilder: Partition = {
+    val params = Map(
+      "contentType" -> $(contentType),
+      "storeContent" -> $(storeContent).toString,
+      "titleFontSize" -> $(titleFontSize).toString,
+      "inferTableStructure" -> $(inferTableStructure).toString,
+      "includePageBreaks" -> $(includePageBreaks).toString,
+      "addAttachmentContent" -> $(addAttachmentContent).toString,
+      "cellSeparator" -> $(cellSeparator),
+      "appendCells" -> $(appendCells).toString,
+      "timeout" -> $(timeout).toString,
+      "includeSlideNotes" -> $(includeSlideNotes).toString,
+      "titleLengthSize" -> $(titleLengthSize).toString,
+      "groupBrokenParagraphs" -> $(groupBrokenParagraphs).toString,
+      "paragraphSplit" -> $(paragraphSplit),
+      "shortLineWordThreshold" -> $(shortLineWordThreshold).toString,
+      "maxLineCount" -> $(maxLineCount).toString,
+      "threshold" -> $(threshold).toString,
+      "xmlKeepTags" -> $(xmlKeepTags).toString,
+      "onlyLeafNodes" -> $(onlyLeafNodes).toString)
+    new Partition(params.asJava)
   }
 
   private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {

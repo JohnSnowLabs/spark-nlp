@@ -42,7 +42,7 @@ class Reader2DocTest(unittest.TestCase):
         result_df = model.transform(self.empty_df)
         result_df.show()
 
-        # self.assertTrue(result_df.select("document").count() > 0)
+        self.assertTrue(result_df.select("document").count() > 0)
 
 
 class Reader2DocTokenTest(unittest.TestCase):
@@ -54,7 +54,7 @@ class Reader2DocTokenTest(unittest.TestCase):
     def runTest(self):
         reader2doc = Reader2Doc() \
             .setContentType("text/html") \
-            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/example.html") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/example-div.html") \
             .setOutputCol("document")
 
         regex_tok = RegexTokenizer() \
@@ -67,4 +67,4 @@ class Reader2DocTokenTest(unittest.TestCase):
         result_df = model.transform(self.empty_df)
         result_df.show()
 
-        # self.assertTrue(result_df.select("document").count() > 0)
+        self.assertTrue(result_df.select("document").count() > 0)
