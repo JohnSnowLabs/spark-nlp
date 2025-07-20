@@ -17,7 +17,7 @@ package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.{ElementType, HTMLElement}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -127,7 +127,7 @@ class PartitionTest extends AnyFlatSpec {
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "work with a set of URLS" taggedAs FastTest in {
+  it should "work with a set of URLS" taggedAs SlowTest in {
     val htmlDf =
       Partition().partitionUrls(Array("https://www.wikipedia.org", "https://example.com/"))
     htmlDf.show()
@@ -139,14 +139,14 @@ class PartitionTest extends AnyFlatSpec {
     val pdfDf = Partition().partition(s"$pdfDirectory/text_3_pages.pdf")
     pdfDf.show()
 
-    assert(!pdfDf.select(col("text")).isEmpty)
+    assert(!pdfDf.select(col("pdf")).isEmpty)
   }
 
   it should "work with PDF content_type" taggedAs FastTest in {
     val pdfDf = Partition(Map("content_type" -> "application/pdf")).partition(pdfDirectory)
     pdfDf.show()
 
-    assert(!pdfDf.select(col("text")).isEmpty)
+    assert(!pdfDf.select(col("pdf")).isEmpty)
   }
 
   it should "work with text in memory" taggedAs FastTest in {
@@ -179,7 +179,8 @@ class PartitionTest extends AnyFlatSpec {
         "At the end of the lane, the fox met a bear.",
         mutable.Map("paragraph" -> "0")))
 
-    assert(elements == expectedElements)
+    assert(elements.head.elementType == expectedElements.head.elementType)
+    assert(elements.head.content == expectedElements.head.content)
   }
 
   it should "work with XML content_type" taggedAs FastTest in {

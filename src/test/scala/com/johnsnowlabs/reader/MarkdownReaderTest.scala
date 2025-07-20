@@ -80,7 +80,7 @@ class MarkdownReaderTest extends AnyFlatSpec {
   }
 
   it should "parse README.md and the first element must be a TITLE" taggedAs FastTest in {
-    val mdDf = mdReader.md(filePath = s"$mdDirectory/README.md") // Update path if needed
+    val mdDf = mdReader.md(filePath = s"$mdDirectory/README.md")
 
     val elements: Seq[HTMLElement] = mdDf
       .select(mdReader.getOutputColumn)
