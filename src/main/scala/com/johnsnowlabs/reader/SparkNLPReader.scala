@@ -170,7 +170,7 @@ class SparkNLPReader(
     getDefaultBoolean(
       params.asScala.toMap,
       Seq("includeTitleTag", "include_title_tag"),
-      default = true)
+      default = false)
   }
 
   /** Instantiates class to read email files.

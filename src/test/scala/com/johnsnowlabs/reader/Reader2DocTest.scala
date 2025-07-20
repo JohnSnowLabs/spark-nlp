@@ -23,11 +23,12 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
-  val htmlFilesDirectory = "./src/test/resources/reader/html"
+  val htmlFilesDirectory = "src/test/resources/reader/html"
   val docDirectory = "src/test/resources/reader/doc"
   val txtDirectory = "src/test/resources/reader/txt/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val mdDirectory = "src/test/resources/reader/md"
+  val xmlDirectory = "src/test/resources/reader/xml"
 
   "Reader2Doc" should "convert unstructured input to structured output for HTML" taggedAs FastTest in {
 
@@ -50,11 +51,14 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       .setContentType("text/html")
       .setContentPath(s"$htmlFilesDirectory/example-div.html")
       .setOutputCol("document")
+      .setFlattenOutput(true)
+      .setExplodeDocs(false)
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
+    resultDf.show(truncate = false)
 
     val expected: Array[Seq[Annotation]] = Array(
       Seq(
@@ -163,6 +167,20 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val reader2Doc = new Reader2Doc()
       .setContentType("text/markdown")
       .setContentPath(s"$mdDirectory/simple.md")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() > 1)
+  }
+
+  it should "work with XML" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/xml")
+      .setContentPath(s"$xmlDirectory/test.xml")
       .setOutputCol("document")
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))

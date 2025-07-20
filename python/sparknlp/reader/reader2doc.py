@@ -49,6 +49,13 @@ class Reader2Doc(AnnotatorTransformer):
         typeConverter=TypeConverters.toBoolean
     )
 
+    flattenOutput = Param(
+        Params._dummy(),
+        "flattenOutput",
+        "If true, output is flattened to plain text with minimal metadata",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     @keyword_only
     def __init__(self):
         super(Reader2Doc, self).__init__(classname="com.johnsnowlabs.reader.Reader2Doc")
@@ -84,3 +91,13 @@ class Reader2Doc(AnnotatorTransformer):
             Name of the Output Column
         """
         return self._set(outputCol=value)
+
+    def setFlattenOutput(self, value):
+        """Sets whether to flatten the output to plain text with minimal metadata.
+
+        Parameters
+        ----------
+        value : bool
+            If true, output is flattened to plain text with minimal metadata
+        """
+        return self._set(flattenOutput=value)
