@@ -24,6 +24,7 @@ from sparknlp.reader.reader2doc import Reader2Doc
 from test.util import SparkContextForTest
 from pyspark.ml import Pipeline
 
+@pytest.mark.fast
 class Reader2DocTest(unittest.TestCase):
 
     def setUp(self):
@@ -40,11 +41,11 @@ class Reader2DocTest(unittest.TestCase):
         model = pipeline.fit(self.empty_df)
 
         result_df = model.transform(self.empty_df)
-        result_df.show()
 
         self.assertTrue(result_df.select("document").count() > 0)
 
 
+@pytest.mark.fast
 class Reader2DocTokenTest(unittest.TestCase):
 
     def setUp(self):
@@ -55,7 +56,8 @@ class Reader2DocTokenTest(unittest.TestCase):
         reader2doc = Reader2Doc() \
             .setContentType("text/html") \
             .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/example-div.html") \
-            .setOutputCol("document")
+            .setOutputCol("document") \
+            .setTitleThreshold(18.5)
 
         regex_tok = RegexTokenizer() \
             .setInputCols(["document"]) \
@@ -65,6 +67,27 @@ class Reader2DocTokenTest(unittest.TestCase):
         model = pipeline.fit(self.empty_df)
 
         result_df = model.transform(self.empty_df)
-        result_df.show()
+
+        self.assertTrue(result_df.select("document").count() > 0)
+
+
+@pytest.mark.fast
+class Reader2DocPdfTest(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("application/pdf") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/pdf/pdf-title.pdf") \
+            .setOutputCol("document") \
+            .setTitleThreshold(18.5)
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("document").count() > 0)

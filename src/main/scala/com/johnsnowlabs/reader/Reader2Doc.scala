@@ -41,6 +41,40 @@ import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
+/** The Reader2Doc annotator allows you to use the reading files more smoothly within existing
+  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+  * extracting structured content from various document types using Spark NLP readers. It supports
+  * reading from many files types and returns parsed output as a structured Spark DataFrame.
+  *
+  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
+  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.reader.Reader2Doc
+  * import com. johnsnowlabs.nlp.base.DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val partition = new Reader2Doc()
+  *   .setContentType("application/pdf")
+  *   .setContentPath(s"$pdfDirectory/")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(reader2Doc))
+  *
+  * val pipelineModel = pipeline.fit(emptyDataSet)
+  * val resultDf = pipelineModel.transform(emptyDataSet)
+  *
+  * resultDf.show()
+  * +------------------------------------------------------------------------------------------------------------------------------------+
+  * |document                                                                                                                            |
+  * +------------------------------------------------------------------------------------------------------------------------------------+
+  * |[{document, 0, 14, This is a Title, {pageNumber -> 1, elementType -> Title, fileName -> pdf-title.pdf}, []}]                        |
+  * |[{document, 15, 38, This is a narrative text, {pageNumber -> 1, elementType -> NarrativeText, fileName -> pdf-title.pdf}, []}]      |
+  * |[{document, 39, 68, This is another narrative text, {pageNumber -> 1, elementType -> NarrativeText, fileName -> pdf-title.pdf}, []}]|
+  * +------------------------------------------------------------------------------------------------------------------------------------+
+  * }}}
+  */
 class Reader2Doc(override val uid: String)
     extends Transformer
     with DefaultParamsWritable
@@ -69,7 +103,21 @@ class Reader2Doc(override val uid: String)
 
   def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
 
-  setDefault(this.explodeDocs -> true, contentType -> "", flattenOutput -> false)
+  val titleThreshold: Param[Float] =
+    new Param[Float](
+      this,
+      "titleThreshold",
+      "Minimum font size threshold for title detection in PDF docs")
+
+  def setTitleThreshold(value: Float): this.type = {
+    set(titleThreshold, value)
+  }
+
+  setDefault(
+    this.explodeDocs -> true,
+    contentType -> "",
+    flattenOutput -> false,
+    titleThreshold -> 18)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
@@ -105,7 +153,8 @@ class Reader2Doc(override val uid: String)
       "maxLineCount" -> $(maxLineCount).toString,
       "threshold" -> $(threshold).toString,
       "xmlKeepTags" -> $(xmlKeepTags).toString,
-      "onlyLeafNodes" -> $(onlyLeafNodes).toString)
+      "onlyLeafNodes" -> $(onlyLeafNodes).toString,
+      "titleThreshold" -> $(titleThreshold).toString)
     new Partition(params.asJava)
   }
 

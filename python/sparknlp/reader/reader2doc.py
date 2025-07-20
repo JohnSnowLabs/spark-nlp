@@ -16,8 +16,64 @@ from pyspark.ml.param import TypeConverters, Params, Param
 
 from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
+from sparknlp.partition.partition_properties import *
 
-class Reader2Doc(AnnotatorTransformer):
+class Reader2Doc(
+    AnnotatorTransformer,
+    HasEmailReaderProperties,
+    HasExcelReaderProperties,
+    HasHTMLReaderProperties,
+    HasPowerPointProperties,
+    HasTextReaderProperties,
+):
+
+    """
+The Reader2Doc annotator allows you to use reading files more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines.
+
+Reader2Doc can be used for extracting structured content from various document types
+using Spark NLP readers. It supports reading from many file types and returns parsed
+output as a structured Spark DataFrame.
+
+Supported formats include:
+    - Plain text
+    - HTML
+    - Word (.doc/.docx)
+    - Excel (.xls/.xlsx)
+    - PowerPoint (.ppt/.pptx)
+    - Email files (.eml, .msg)
+    - PDFs
+
+Example:
+    from johnsnowlabs.reader import Reader2Doc
+    from johnsnowlabs.nlp.base import DocumentAssembler
+    from pyspark.ml import Pipeline
+
+    # Initialize Reader2Doc for PDF files
+    reader2doc = Reader2Doc() \
+        .setContentType("application/pdf") \
+        .setContentPath(f"{pdf_directory}/")
+
+    # Build the pipeline with the Reader2Doc stage
+    pipeline = Pipeline(stages=[reader2doc])
+
+    # Fit the pipeline to an empty DataFrame
+    pipeline_model = pipeline.fit(empty_data_set)
+    result_df = pipeline_model.transform(empty_data_set)
+
+    # Show the resulting DataFrame
+    result_df.show()
+
+    # Output Example:
+    # +------------------------------------------------------------------------------------------------------------------------------------+
+    # |document                                                                                                                            |
+    # +------------------------------------------------------------------------------------------------------------------------------------+
+    # |[{'document', 0, 14, 'This is a Title', {'pageNumber': 1, 'elementType': 'Title', 'fileName': 'pdf-title.pdf'}, []}]               |
+    # |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
+    # |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
+    # +------------------------------------------------------------------------------------------------------------------------------------+
+"""
+
     name = 'Reader2Doc'
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
@@ -54,6 +110,13 @@ class Reader2Doc(AnnotatorTransformer):
         "flattenOutput",
         "If true, output is flattened to plain text with minimal metadata",
         typeConverter=TypeConverters.toBoolean
+    )
+
+    titleThreshold = Param(
+        Params._dummy(),
+        "titleThreshold",
+        "Minimum font size threshold for title detection in PDF docs",
+        typeConverter=TypeConverters.toFloat
     )
 
     @keyword_only
@@ -101,3 +164,13 @@ class Reader2Doc(AnnotatorTransformer):
             If true, output is flattened to plain text with minimal metadata
         """
         return self._set(flattenOutput=value)
+
+    def setTitleThreshold(self, value):
+        """Sets the minimum font size threshold for title detection in PDF documents.
+
+        Parameters
+        ----------
+        value : float
+            Minimum font size threshold for title detection in PDF docs
+        """
+        return self._set(titleThreshold=value)
