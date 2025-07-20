@@ -67,7 +67,7 @@ import scala.collection.mutable.ArrayBuffer
   *
   * htmlDf.printSchema()
   * root
-  *  |-- url: string (nullable = true)
+  *  |-- path: string (nullable = true)
   *  |-- html: array (nullable = true)
   *  |    |-- element: struct (containsNull = true)
   *  |    |    |-- elementType: string (nullable = true)

@@ -25,6 +25,46 @@ import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
+/** Class to parse and read PDF files.
+  *
+  * @param titleThreshold
+  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
+  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 18.
+  * @param storeContent
+  *   Whether to include the raw file content in the output DataFrame as a separate 'content'
+  *
+  * pdfPath: this is a path to a directory of HTML files or a path to an HTML file E.g.
+  * "path/pdf/files"
+  *
+  * ==Example==
+  * {{{
+  * val path = "./pdf-files/pdf-doc.pdf"
+  * val PdfReader = new PdfReader()
+  * val pdfDF = PdfReader.read(url)
+  * }}}
+  *
+  * {{{
+  * pdfDF.show()
+  * +--------------------+--------------------+
+  * |                path|                html|
+  * +--------------------+--------------------+
+  * |file:/content/htm...|[{Title, My First...|
+  * +--------------------+--------------------+
+  *
+  * pdfDF.printSchema()
+  * root
+  *  |-- path: string (nullable = true)
+  *  |-- pdf: array (nullable = true)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- elementType: string (nullable = true)
+  *  |    |    |-- content: string (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  * }}}
+  * For more examples please refer to this
+  * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_PDF_Reader_Demo.ipynb notebook]].
+  */
 class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
     extends Serializable {
 
