@@ -27,8 +27,9 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 import java.net.{HttpURLConnection, URL}
 import java.util.Collections
+import scala.io.Source
 
-class MarkdownReader extends Serializable {
+class MarkdownReader(fileEncoding: String = "UTF-8") extends Serializable {
 
   private lazy val spark: SparkSession = ResourceHelper.spark
   private var outputColumn: String = "md"
@@ -44,34 +45,65 @@ class MarkdownReader extends Serializable {
   /** Main entrypoint: supports either filePath or direct text input. Output is always a DataFrame
     * with source and parsed markdown column.
     */
-  def md(filePath: String = null, text: String = null): DataFrame = {
-    if (filePath != null && filePath.trim.nonEmpty) {
-      mdFromFile(filePath)
-    } else {
-      mdFromText(text)
-    }
+  def md(filePath: String = null, url: String = "", text: String = ""): DataFrame = {
+    Seq(
+      Option(filePath).filter(_.trim.nonEmpty).map(mdFromFile),
+      Option(text).filter(_.trim.nonEmpty).map(mdFromText),
+      Option(url).filter(_.nonEmpty).map(mdFromUrl))
+      .collectFirst { case Some(df) => df }
+      .getOrElse(
+        throw new IllegalArgumentException("No valid source provided for MarkdownReader."))
   }
 
   /** Reads and parses markdown file from a file path. */
   private def mdFromFile(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val textDf = datasetWithTextFile(spark, filePath)
-        .withColumn(outputColumn, parseMarkdownUDF(col("content")))
+      val textDf = if (fileEncoding == "UTF-8") {
+        datasetWithTextFile(spark, filePath)
+          .withColumn(outputColumn, parseMarkdownUDF(col("content")))
+      } else {
+        val content = readFileWithEncodingFallback(filePath)
+        import spark.implicits._
+        val mdDf = spark.createDataFrame(Seq((filePath, content))).toDF("path", "content")
+        mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
+      }
       textDf.select(col("path").as("source"), col(outputColumn))
     } else {
       throw new IllegalArgumentException(s"Invalid filePath: $filePath")
     }
   }
 
+  private def readFileWithEncodingFallback(path: String): String = {
+    def readWithEncoding(encoding: String): String = {
+      val src = Source.fromFile(path, encoding)
+      try src.mkString
+      finally src.close()
+    }
+    try {
+      readWithEncoding(fileEncoding)
+    } catch {
+      case _: java.nio.charset.MalformedInputException | _: java.io.IOException =>
+        readWithEncoding("ISO-8859-1")
+    }
+  }
+
   /** Parses markdown text directly from a string input. */
-  def mdFromText(text: String, source: String = "in-memory"): DataFrame = {
+  private def mdFromText(text: String): DataFrame = {
     import spark.implicits._
-    val mdDf = spark.createDataFrame(Seq((source, text))).toDF("source", "content")
+    val mdDf = spark.createDataFrame(Seq(("in-memory", text))).toDF("source", "content")
     val textDf = mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
     textDf.select($"source", col(outputColumn))
   }
 
-  def mdFromUrl(url: String): DataFrame = {
+  private def mdFromUrl(url: String): DataFrame = {
+    val content = parseUrl(url)
+    import spark.implicits._
+    val mdDf = spark.createDataFrame(Seq((url, content))).toDF("source", "content")
+    val textDf = mdDf.withColumn(outputColumn, parseMarkdownUDF($"content"))
+    textDf.select($"source", col(outputColumn))
+  }
+
+  def parseUrl(url: String): String = {
     if (!ResourceHelper.isValidURL(url)) {
       throw new IllegalArgumentException(s"Invalid URL: $url")
     }
@@ -92,7 +124,7 @@ class MarkdownReader extends Serializable {
       finally source.close()
     connection.disconnect()
 
-    mdFromText(content, url)
+    content
   }
 
   private val parseMarkdownUDF = udf((text: String) => parseMarkdownWithTables(text))

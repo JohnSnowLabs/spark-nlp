@@ -114,8 +114,7 @@ class MarkdownReaderTest extends AnyFlatSpec {
   it should "parse markdown from a real GitHub raw URL" taggedAs SlowTest in {
     val testUrl =
       "https://raw.githubusercontent.com/adamschwartz/github-markdown-kitchen-sink/master/README.md"
-
-    val mdDf = mdReader.mdFromUrl(url = testUrl)
+    val mdDf = mdReader.md(url = testUrl)
     val elements: Seq[HTMLElement] = mdDf
       .select(mdReader.getOutputColumn)
       .as[Seq[HTMLElement]]
@@ -138,10 +137,64 @@ class MarkdownReaderTest extends AnyFlatSpec {
       .collect()
       .head
 
-    println("Element types: " + elements.map(_.elementType).mkString(", "))
-
     assert(elements.nonEmpty, "Parsed elements for table are empty")
     assert(elements.head.elementType == ElementType.TABLE)
+  }
+
+  it should "correctly parse markdown files with umlauts regardless of encoding" taggedAs FastTest in {
+    val filesAndEncodings =
+      Seq(("umlauts-utf8.md", "UTF-8"), ("umlauts-non-utf8.md", "ISO-8859-1"))
+
+    filesAndEncodings.foreach { case (fname, enc) =>
+      val path = s"$mdDirectory/$fname"
+      val mdReader = new MarkdownReader(fileEncoding = enc)
+      val df = mdReader.md(filePath = path)
+      val elements: Seq[HTMLElement] = df
+        .select(mdReader.getOutputColumn)
+        .as[Seq[HTMLElement]]
+        .collect()
+        .head
+      assert(elements.nonEmpty, s"File $fname: No elements parsed")
+      assert(
+        elements.last.content.endsWith("äöüß"),
+        s"File $fname: Last element does not end with 'äöüß', got: ${elements.last.content}")
+    }
+  }
+
+  it should "parse a code block with XML processing instruction as a single element" taggedAs FastTest in {
+    val xmlContent =
+      """```
+        |<?xml version="1.0"?>
+        |<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+        |  <head></head>
+        |  <boolean>true</boolean>
+        |</sparql>
+        |```""".stripMargin
+
+    val mdDf = mdReader.md(text = xmlContent)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.length == 1, s"Expected 1 element, got ${elements.length}")
+  }
+
+  it should "parse a code block with no XML processing instruction" taggedAs FastTest in {
+    val xmlContent =
+      """```
+        |<?php echo "hello"; ?>
+        |```""".stripMargin
+
+    val mdDf = mdReader.md(text = xmlContent)
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.length == 1, s"Expected 1 element, got ${elements.length}")
   }
 
 }
