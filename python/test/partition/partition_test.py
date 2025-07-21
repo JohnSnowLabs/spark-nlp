@@ -101,7 +101,7 @@ class PartitionHtmlTesSpec(unittest.TestCase):
         self.assertTrue(html_file_df.select("html").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class PartitionUrlTesSpec(unittest.TestCase):
 
     def runTest(self):
@@ -122,8 +122,8 @@ class PartitionPdfTesSpec(unittest.TestCase):
         pdf_df = Partition(content_type = "application/pdf").partition(self.html_directory)
         pdf_file_df = Partition().partition(f"{self.html_directory}/text_3_pages.pdf")
 
-        self.assertTrue(pdf_df.select("text").count() > 0)
-        self.assertTrue(pdf_file_df.select("text").count() > 0)
+        self.assertTrue(pdf_df.select("pdf").count() > 0)
+        self.assertTrue(pdf_file_df.select("pdf").count() > 0)
 
 @pytest.mark.fast
 class PartitionTextInMemoryTesSpec(unittest.TestCase):
@@ -139,6 +139,5 @@ class PartitionTextInMemoryTesSpec(unittest.TestCase):
 
     def runTest(self):
         text_df = Partition(group_broken_paragraphs=True).partition_text(text = self.raw_text )
-        text_df.show(truncate=False)
 
         self.assertTrue(text_df.select("txt").count() > 0)
