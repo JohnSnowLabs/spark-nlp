@@ -140,9 +140,25 @@ Example:
         return self._set(contentPath=value)
 
     def setContentType(self, value):
+        """
+        Set the content type to load following MIME specification
+
+        Parameters
+        ----------
+        value : str
+            content type to load following MIME specification
+        """
         return self._set(contentType=value)
 
     def setExplodeDocs(self, value):
+        """Sets whether to explode the documents into separate rows.
+
+
+        Parameters
+        ----------
+        value : boolean
+        Whether to explode the documents into separate rows
+        """
         return self._set(explodeDocs=value)
 
     def setOutputCol(self, value):
