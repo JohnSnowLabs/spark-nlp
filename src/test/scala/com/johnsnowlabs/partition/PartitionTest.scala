@@ -36,28 +36,24 @@ class PartitionTest extends AnyFlatSpec {
 
   "Partition" should "work with text content_type" taggedAs FastTest in {
     val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
-    textDf.show()
 
     assert(!textDf.select(col("txt").getItem(0)).isEmpty)
   }
 
   it should "identify text file" taggedAs FastTest in {
     val textDf = Partition().partition(s"$txtDirectory/simple-text.txt")
-    textDf.show()
 
     assert(!textDf.select(col("txt").getItem(0)).isEmpty)
   }
 
   it should "work with word content_type" taggedAs FastTest in {
     val wordDf = Partition(Map("content_type" -> "application/msword")).partition(wordDirectory)
-    wordDf.show()
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
   }
 
   it should "identify word file" taggedAs FastTest in {
     val wordDf = Partition().partition(s"$wordDirectory/fake_table.docx")
-    wordDf.show()
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
   }
@@ -65,28 +61,24 @@ class PartitionTest extends AnyFlatSpec {
   it should "work with excel content_type" taggedAs FastTest in {
     val excelDf =
       Partition(Map("content_type" -> "application/vnd.ms-excel")).partition(excelDirectory)
-    excelDf.show()
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
   }
 
   it should "identify excel file" taggedAs FastTest in {
     val excelDf = Partition().partition(s"$excelDirectory/vodafone.xlsx")
-    excelDf.show()
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
   }
 
   it should "work with email content_type" taggedAs FastTest in {
     val emailDf = Partition(Map("content_type" -> "message/rfc822")).partition(emailDirectory)
-    emailDf.show()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
   }
 
   it should "wok with email file" taggedAs FastTest in {
     val emailDf = Partition().partition(s"$emailDirectory/test-several-attachments.eml")
-    emailDf.show()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
   }
@@ -94,35 +86,30 @@ class PartitionTest extends AnyFlatSpec {
   it should "work with powerpoint content_type" taggedAs FastTest in {
     val pptDf = Partition(Map("content_type" -> "application/vnd.ms-powerpoint"))
       .partition(powerPointDirectory)
-    pptDf.show()
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
   }
 
   it should "identify powerpoint file" taggedAs FastTest in {
     val pptDf = Partition().partition(s"$powerPointDirectory/fake-power-point.pptx")
-    pptDf.show()
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
   }
 
   it should "work with html content_type" taggedAs FastTest in {
     val htmlDf = Partition(Map("content_type" -> "text/html")).partition(htmlDirectory)
-    htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
   it should "identify html file" taggedAs FastTest in {
     val htmlDf = Partition().partition(s"$htmlDirectory/fake-html.html")
-    htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "work with an URL" taggedAs FastTest in {
+  it should "work with an URL" taggedAs SlowTest in {
     val htmlDf = Partition().partition("https://www.wikipedia.org")
-    htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
@@ -130,21 +117,18 @@ class PartitionTest extends AnyFlatSpec {
   it should "work with a set of URLS" taggedAs SlowTest in {
     val htmlDf =
       Partition().partitionUrls(Array("https://www.wikipedia.org", "https://example.com/"))
-    htmlDf.show()
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
   it should "identify a PDF file" taggedAs FastTest in {
     val pdfDf = Partition().partition(s"$pdfDirectory/text_3_pages.pdf")
-    pdfDf.show()
 
     assert(!pdfDf.select(col("pdf")).isEmpty)
   }
 
   it should "work with PDF content_type" taggedAs FastTest in {
     val pdfDf = Partition(Map("content_type" -> "application/pdf")).partition(pdfDirectory)
-    pdfDf.show()
 
     assert(!pdfDf.select(col("pdf")).isEmpty)
   }
@@ -161,7 +145,6 @@ class PartitionTest extends AnyFlatSpec {
         |""".stripMargin
 
     val textDf = Partition(Map("groupBrokenParagraphs" -> "true")).partitionText(content)
-    textDf.show()
 
     val elements: Seq[HTMLElement] = textDf
       .select("txt")
@@ -185,7 +168,6 @@ class PartitionTest extends AnyFlatSpec {
 
   it should "work with XML content_type" taggedAs FastTest in {
     val pdfDf = Partition(Map("content_type" -> "application/xml")).partition(xmlDirectory)
-    pdfDf.show()
 
     assert(!pdfDf.select(col("xml")).isEmpty)
   }

@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.ConfigHelper.{awsJavaSdkVersion, hadoopAwsVersion}
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
@@ -60,18 +60,16 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structured HTML in real time" taggedAs FastTest in {
+  it should "structured HTML in real time" taggedAs SlowTest in {
     val url = "https://www.wikipedia.org"
     val htmlDF = SparkNLP.read.html(url)
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structured HTML in real time for a set of URLs" taggedAs FastTest in {
+  it should "structured HTML in real time for a set of URLs" taggedAs SlowTest in {
     val urls = Array("https://www.wikipedia.org", "https://example.com/")
     val htmlDF = SparkNLP.read.html(urls)
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
@@ -89,7 +87,6 @@ class SparkNLPTestSpec extends AnyFlatSpec {
   it should "structured Email files" taggedAs FastTest in {
     val emailDirectory = "src/test/resources/reader/email"
     val emailDF = SparkNLP.read.email(emailDirectory)
-    emailDF.show()
 
     assert(!emailDF.select(col("email").getItem(0)).isEmpty)
   }

@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -26,7 +26,6 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "read html as dataframe" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(htmlFilesDirectory)
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(!htmlDF.columns.contains("content"))
@@ -35,25 +34,22 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "read html as dataframe with params" taggedAs FastTest in {
     val HTMLReader = new HTMLReader(titleFontSize = 12)
     val htmlDF = HTMLReader.read(htmlFilesDirectory)
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(!htmlDF.columns.contains("content"))
   }
 
-  it should "parse an html in real time" taggedAs FastTest in {
+  it should "parse an html in real time" taggedAs SlowTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read("https://www.wikipedia.org")
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(!htmlDF.columns.contains("content"))
   }
 
-  it should "parse URLS in real time" taggedAs FastTest in {
+  it should "parse URLS in real time" taggedAs SlowTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(Array("https://www.wikipedia.org", "https://example.com/"))
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(!htmlDF.columns.contains("content"))
@@ -62,7 +58,6 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "store content" taggedAs FastTest in {
     val HTMLReader = new HTMLReader(storeContent = true)
     val htmlDF = HTMLReader.read(htmlFilesDirectory)
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(htmlDF.columns.contains("content"))
@@ -72,7 +67,6 @@ class HTMLReaderTest extends AnyFlatSpec {
     val HTMLReader =
       new HTMLReader(headers = Map("User-Agent" -> "Mozilla/5.0", "Accept-Language" -> "es-ES"))
     val htmlDF = HTMLReader.read("https://www.google.com")
-    htmlDF.show()
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
     assert(!htmlDF.columns.contains("content"))
