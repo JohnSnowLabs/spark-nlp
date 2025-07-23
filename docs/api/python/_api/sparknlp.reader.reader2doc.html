@@ -1,0 +1,977 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.reader.reader2doc module &#8212; Spark NLP 6.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=413a1d38"></script>
+    <script src="../static/doctools.js?v=888ff710"></script>
+    <script src="../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_api/sparknlp.reader.reader2doc';</script>
+    <link rel="icon" href="../static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.annotator.html">sparknlp.annotator package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.audio.html">sparknlp.annotator.audio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.hubert_for_ctc.html">sparknlp.annotator.audio.hubert_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.wav2vec2_for_ctc.html">sparknlp.annotator.audio.wav2vec2_for_ctc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.audio.whisper_for_ctc.html">sparknlp.annotator.audio.whisper_for_ctc module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.classifier_dl.html">sparknlp.annotator.classifier_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.albert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_question_answering.html">sparknlp.annotator.classifier_dl.albert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.albert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_token_classification.html">sparknlp.annotator.classifier_dl.albert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.albert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bart_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.bert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_question_answering.html">sparknlp.annotator.classifier_dl.bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_token_classification.html">sparknlp.annotator.classifier_dl.bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_question_answering.html">sparknlp.annotator.classifier_dl.camembert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.camembert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_token_classification.html">sparknlp.annotator.classifier_dl.camembert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_token_classification.html">sparknlp.annotator.classifier_dl.deberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.deberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_question_answering.html">sparknlp.annotator.classifier_dl.distil_bert_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice.html">sparknlp.annotator.classifier_dl.distilbert_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_question_answering.html">sparknlp.annotator.classifier_dl.longformer_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_sequence_classification.html">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.longformer_for_token_classification.html">sparknlp.annotator.classifier_dl.longformer_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_question_answering.html">sparknlp.annotator.classifier_dl.mpnet_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.mpnet_for_token_classification.html">sparknlp.annotator.classifier_dl.mpnet_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.multi_classifier_dl.html">sparknlp.annotator.classifier_dl.multi_classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.sentiment_dl.html">sparknlp.annotator.classifier_dl.sentiment_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.tapas_for_question_answering.html">sparknlp.annotator.classifier_dl.tapas_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_multiple_choice module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.xlm_roberta_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_sequence_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.xlnet_for_token_classification.html">sparknlp.annotator.classifier_dl.xlnet_for_token_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cleaners.html">sparknlp.annotator.cleaners package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.cleaner.html">sparknlp.annotator.cleaners.cleaner module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cleaners.extractor.html">sparknlp.annotator.cleaners.extractor module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.coref.html">sparknlp.annotator.coref package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.coref.spanbert_coref.html">sparknlp.annotator.coref.spanbert_coref module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.cv.html">sparknlp.annotator.cv package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.blip_for_question_answering.html">sparknlp.annotator.cv.blip_for_question_answering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.clip_for_zero_shot_classification.html">sparknlp.annotator.cv.clip_for_zero_shot_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.convnext_for_image_classification.html">sparknlp.annotator.cv.convnext_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.florence2_transformer.html">sparknlp.annotator.cv.florence2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.gemma3_for_multimodal.html">sparknlp.annotator.cv.gemma3_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.internvl_for_multimodal.html">sparknlp.annotator.cv.internvl_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.janus_for_multimodal.html">sparknlp.annotator.cv.janus_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.llava_for_multimodal.html">sparknlp.annotator.cv.llava_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.mllama_for_multimodal.html">sparknlp.annotator.cv.mllama_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.paligemma_for_multimodal.html">sparknlp.annotator.cv.paligemma_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.phi3_vision_for_multimodal.html">sparknlp.annotator.cv.phi3_vision_for_multimodal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.qwen2vl_transformer.html">sparknlp.annotator.cv.qwen2vl_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.smolvlm_transformer.html">sparknlp.annotator.cv.smolvlm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.swin_for_image_classification.html">sparknlp.annotator.cv.swin_for_image_classification module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning.html">sparknlp.annotator.cv.vision_encoder_decoder_for_image_captioning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.cv.vit_for_image_classification.html">sparknlp.annotator.cv.vit_for_image_classification module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.dependency.html">sparknlp.annotator.dependency package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.dependency_parser.html">sparknlp.annotator.dependency.dependency_parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.dependency.typed_dependency_parser.html">sparknlp.annotator.dependency.typed_dependency_parser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.embeddings.html">sparknlp.annotator.embeddings package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.albert_embeddings.html">sparknlp.annotator.embeddings.albert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.auto_gguf_embeddings.html">sparknlp.annotator.embeddings.auto_gguf_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_sentence_embeddings.html">sparknlp.annotator.embeddings.bert_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bge_embeddings.html">sparknlp.annotator.embeddings.bge_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.camembert_embeddings.html">sparknlp.annotator.embeddings.camembert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.chunk_embeddings.html">sparknlp.annotator.embeddings.chunk_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.deberta_embeddings.html">sparknlp.annotator.embeddings.deberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.distil_bert_embeddings.html">sparknlp.annotator.embeddings.distil_bert_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.doc2vec.html">sparknlp.annotator.embeddings.doc2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5_embeddings.html">sparknlp.annotator.embeddings.e5_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mpnet_embeddings.html">sparknlp.annotator.embeddings.mpnet_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.mxbai_embeddings.html">sparknlp.annotator.embeddings.mxbai_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.nomic_embeddings.html">sparknlp.annotator.embeddings.nomic_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_embeddings.html">sparknlp.annotator.embeddings.roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.sentence_embeddings.html">sparknlp.annotator.embeddings.sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.snowflake_embeddings.html">sparknlp.annotator.embeddings.snowflake_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.uae_embeddings.html">sparknlp.annotator.embeddings.uae_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.universal_sentence_encoder.html">sparknlp.annotator.embeddings.universal_sentence_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word2vec.html">sparknlp.annotator.embeddings.word2vec module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.word_embeddings.html">sparknlp.annotator.embeddings.word_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.html">sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.xlnet_embeddings.html">sparknlp.annotator.embeddings.xlnet_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.er.html">sparknlp.annotator.er package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.er.entity_ruler.html">sparknlp.annotator.er.entity_ruler module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.html">sparknlp.annotator.keyword_extraction package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.keyword_extraction.yake_keyword_extraction.html">sparknlp.annotator.keyword_extraction.yake_keyword_extraction module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ld_dl.html">sparknlp.annotator.ld_dl package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ld_dl.language_detector_dl.html">sparknlp.annotator.ld_dl.language_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.matcher.html">sparknlp.annotator.matcher package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.big_text_matcher.html">sparknlp.annotator.matcher.big_text_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.date_matcher.html">sparknlp.annotator.matcher.date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html">sparknlp.annotator.matcher.multi_date_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html">sparknlp.annotator.matcher.regex_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ner.html">sparknlp.annotator.ner package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html">sparknlp.annotator.ner.ner_approach module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_converter.html">sparknlp.annotator.ner.ner_converter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_crf.html">sparknlp.annotator.ner.ner_crf module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_dl.html">sparknlp.annotator.ner.ner_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_overwriter.html">sparknlp.annotator.ner.ner_overwriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.zero_shot_ner_model.html">sparknlp.annotator.ner.zero_shot_ner_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.openai.html">sparknlp.annotator.openai package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_completion.html">sparknlp.annotator.openai.openai_completion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.openai.openai_embeddings.html">sparknlp.annotator.openai.openai_embeddings module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.param.html">sparknlp.annotator.param package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.classifier_encoder.html">sparknlp.annotator.param.classifier_encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.param.evaluation_dl_params.html">sparknlp.annotator.param.evaluation_dl_params module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.pos.html">sparknlp.annotator.pos package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.pos.perceptron.html">sparknlp.annotator.pos.perceptron module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentence.html">sparknlp.annotator.sentence package</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector.html">sparknlp.annotator.sentence.sentence_detector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html">sparknlp.annotator.sentence.sentence_detector_dl module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentiment.html">sparknlp.annotator.sentiment package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.sentiment_detector.html">sparknlp.annotator.sentiment.sentiment_detector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentiment.vivekn_sentiment.html">sparknlp.annotator.sentiment.vivekn_sentiment module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.seq2seq.html">sparknlp.annotator.seq2seq package</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_model.html">sparknlp.annotator.seq2seq.auto_gguf_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.auto_gguf_vision_model.html">sparknlp.annotator.seq2seq.auto_gguf_vision_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.bart_transformer.html">sparknlp.annotator.seq2seq.bart_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cohere_transformer.html">sparknlp.annotator.seq2seq.cohere_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html">sparknlp.annotator.seq2seq.cpm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama2_transformer.html">sparknlp.annotator.seq2seq.llama2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama3_transformer.html">sparknlp.annotator.seq2seq.llama3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.m2m100_transformer.html">sparknlp.annotator.seq2seq.m2m100_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.marian_transformer.html">sparknlp.annotator.seq2seq.marian_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.mistral_transformer.html">sparknlp.annotator.seq2seq.mistral_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.nllb_transformer.html">sparknlp.annotator.seq2seq.nllb_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.olmo_transformer.html">sparknlp.annotator.seq2seq.olmo_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi2_transformer.html">sparknlp.annotator.seq2seq.phi2_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi3_transformer.html">sparknlp.annotator.seq2seq.phi3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi4_transformer.html">sparknlp.annotator.seq2seq.phi4_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.spell_check.html">sparknlp.annotator.spell_check package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.context_spell_checker.html">sparknlp.annotator.spell_check.context_spell_checker module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.norvig_sweeting.html">sparknlp.annotator.spell_check.norvig_sweeting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.spell_check.symmetric_delete.html">sparknlp.annotator.spell_check.symmetric_delete module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.token.html">sparknlp.annotator.token package</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.chunk_tokenizer.html">sparknlp.annotator.token.chunk_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.recursive_tokenizer.html">sparknlp.annotator.token.recursive_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.regex_tokenizer.html">sparknlp.annotator.token.regex_tokenizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.token.tokenizer.html">sparknlp.annotator.token.tokenizer module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.ws.html">sparknlp.annotator.ws package</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ws.word_segmenter.html">sparknlp.annotator.ws.word_segmenter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunk2_doc.html">sparknlp.annotator.chunk2_doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.chunker.html">sparknlp.annotator.chunker module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.dataframe_optimizer.html">sparknlp.annotator.dataframe_optimizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter.html">sparknlp.annotator.document_token_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter_test.html">sparknlp.annotator.document_token_splitter_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.graph_extraction.html">sparknlp.annotator.graph_extraction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.lemmatizer.html">sparknlp.annotator.lemmatizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.n_gram_generator.html">sparknlp.annotator.n_gram_generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.normalizer.html">sparknlp.annotator.normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stemmer.html">sparknlp.annotator.stemmer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.stop_words_cleaner.html">sparknlp.annotator.stop_words_cleaner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.tf_ner_dl_graph_builder.html">sparknlp.annotator.tf_ner_dl_graph_builder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.token2_chunk.html">sparknlp.annotator.token2_chunk module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.base.html">sparknlp.base package</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.audio_assembler.html">sparknlp.base.audio_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.doc2_chunk.html">sparknlp.base.doc2_chunk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.document_assembler.html">sparknlp.base.document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.embeddings_finisher.html">sparknlp.base.embeddings_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.finisher.html">sparknlp.base.finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.graph_finisher.html">sparknlp.base.graph_finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_fit.html">sparknlp.base.has_recursive_fit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_transform.html">sparknlp.base.has_recursive_transform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.image_assembler.html">sparknlp.base.image_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.light_pipeline.html">sparknlp.base.light_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.multi_document_assembler.html">sparknlp.base.multi_document_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.prompt_assembler.html">sparknlp.base.prompt_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.recursive_pipeline.html">sparknlp.base.recursive_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.table_assembler.html">sparknlp.base.table_assembler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.token_assembler.html">sparknlp.base.token_assembler module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.common.html">sparknlp.common package</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_approach.html">sparknlp.common.annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.read_as.html">sparknlp.common.read_as module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.recursive_annotator_approach.html">sparknlp.common.recursive_annotator_approach module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.storage.html">sparknlp.common.storage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.utils.html">sparknlp.common.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.internal.html">sparknlp.internal package</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-26"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_java_ml.html">sparknlp.internal.annotator_java_ml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.annotator_transformer.html">sparknlp.internal.annotator_transformer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.extended_java_wrapper.html">sparknlp.internal.extended_java_wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.params_getters_setters.html">sparknlp.internal.params_getters_setters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.internal.recursive.html">sparknlp.internal.recursive module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.logging.html">sparknlp.logging package</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-27"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.logging.comet.html">sparknlp.logging.comet module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.partition.html">sparknlp.partition package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition.html">sparknlp.partition.partition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html">sparknlp.partition.partition_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_transformer.html">sparknlp.partition.partition_transformer module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.pretrained.html">sparknlp.pretrained package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.pretrained_pipeline.html">sparknlp.pretrained.pretrained_pipeline module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.resource_downloader.html">sparknlp.pretrained.resource_downloader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.pretrained.utils.html">sparknlp.pretrained.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">sparknlp.reader.reader2doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.training.html">sparknlp.training package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conll.html">sparknlp.training.conll module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.conllu.html">sparknlp.training.conllu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pos.html">sparknlp.training.pos module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.pub_tator.html">sparknlp.training.pub_tator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.spacy_to_annotation.html">sparknlp.training.spacy_to_annotation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.training.tfgraphs.html">sparknlp.training.tfgraphs module</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation.html">sparknlp.annotation module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_audio.html">sparknlp.annotation_audio module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotation_image.html">sparknlp.annotation_image module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.functions.html">sparknlp.functions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.upload_to_hub.html">sparknlp.upload_to_hub module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.util.html">sparknlp.util module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.rea...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.reader.reader2doc">
+<span id="sparknlp-reader-reader2doc-module"></span><h1>sparknlp.reader.reader2doc module<a class="headerlink" href="#module-sparknlp.reader.reader2doc" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Reader2Doc</span></span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p>
+<p>The Reader2Doc annotator allows you to use reading files more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines.</p>
+<p>Reader2Doc can be used for extracting structured content from various document types
+using Spark NLP readers. It supports reading from many file types and returns parsed
+output as a structured Spark DataFrame.</p>
+<p>Supported formats include:</p>
+<ul class="simple">
+<li><p>Plain text</p></li>
+<li><p>HTML</p></li>
+<li><p>Word (.doc/.docx)</p></li>
+<li><p>Excel (.xls/.xlsx)</p></li>
+<li><p>PowerPoint (.ppt/.pptx)</p></li>
+<li><p>Email files (.eml, .msg)</p></li>
+<li><p>PDFs</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">johnsnowlabs.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader2Doc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">johnsnowlabs.nlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize Reader2Doc for PDF files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reader2doc</span> <span class="o">=</span> <span class="n">Reader2Doc</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s2">&quot;application/pdf&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pdf_directory</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Build the pipeline with the Reader2Doc stage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2doc</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fit the pipeline to an empty DataFrame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Show the resulting DataFrame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|document                                                                                                                            |</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[{&#39;document&#39;, 0, 14, &#39;This is a Title&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;Title&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]               |</span>
+<span class="go">|[{&#39;document&#39;, 15, 38, &#39;This is a narrative text&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;NarrativeText&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]|</span>
+<span class="go">|[{&#39;document&#39;, 39, 68, &#39;This is another narrative text&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;NarrativeText&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]|</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.contentPath">
+<span class="sig-name descname"><span class="pre">contentPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='contentPath',</span> <span class="pre">doc='contentPath</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">files</span> <span class="pre">to</span> <span class="pre">read')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.contentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.contentPath" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.contentType">
+<span class="sig-name descname"><span class="pre">contentType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='contentType',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">content</span> <span class="pre">type</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">following</span> <span class="pre">MIME</span> <span class="pre">specification')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.contentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.contentType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.explodeDocs">
+<span class="sig-name descname"><span class="pre">explodeDocs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='explodeDocs',</span> <span class="pre">doc='whether</span> <span class="pre">to</span> <span class="pre">explode</span> <span class="pre">the</span> <span class="pre">documents</span> <span class="pre">into</span> <span class="pre">separate</span> <span class="pre">rows')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.explodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.explodeDocs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.flattenOutput">
+<span class="sig-name descname"><span class="pre">flattenOutput</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='flattenOutput',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">output</span> <span class="pre">is</span> <span class="pre">flattened</span> <span class="pre">to</span> <span class="pre">plain</span> <span class="pre">text</span> <span class="pre">with</span> <span class="pre">minimal</span> <span class="pre">metadata')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.flattenOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.flattenOutput" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Reader2Doc'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.outputCol">
+<span class="sig-name descname"><span class="pre">outputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCol',</span> <span class="pre">doc='output</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.outputCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setContentPath">
+<span class="sig-name descname"><span class="pre">setContentPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentPath" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets content path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>contentPath path to files to read</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setContentType">
+<span class="sig-name descname"><span class="pre">setContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setContentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentType" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the content type to load following MIME specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>content type to load following MIME specification</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setExplodeDocs">
+<span class="sig-name descname"><span class="pre">setExplodeDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setExplodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setExplodeDocs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode the documents into separate rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd></dd>
+<dt><strong>Whether to explode the documents into separate rows</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setFlattenOutput">
+<span class="sig-name descname"><span class="pre">setFlattenOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setFlattenOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setFlattenOutput" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to flatten the output to plain text with minimal metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>If true, output is flattened to plain text with minimal metadata</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setOutputCol">
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setOutputCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets output column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Output Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setParams">
+<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setTitleThreshold">
+<span class="sig-name descname"><span class="pre">setTitleThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setTitleThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setTitleThreshold" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the minimum font size threshold for title detection in PDF documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Minimum font size threshold for title detection in PDF docs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.titleThreshold">
+<span class="sig-name descname"><span class="pre">titleThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='titleThreshold',</span> <span class="pre">doc='Minimum</span> <span class="pre">font</span> <span class="pre">size</span> <span class="pre">threshold</span> <span class="pre">for</span> <span class="pre">title</span> <span class="pre">detection</span> <span class="pre">in</span> <span class="pre">PDF</span> <span class="pre">docs')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.titleThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.titleThreshold" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc"><code class="docutils literal notranslate"><span class="pre">Reader2Doc</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.contentPath"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.contentPath</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.contentType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.contentType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.explodeDocs"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.explodeDocs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.flattenOutput"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.flattenOutput</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.name"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputCol</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentPath"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setContentPath()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setContentType()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setExplodeDocs"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setExplodeDocs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setFlattenOutput"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setFlattenOutput()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setOutputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setOutputCol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setParams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setTitleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setTitleThreshold()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.titleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.titleThreshold</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_api/sparknlp.reader.reader2doc.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
