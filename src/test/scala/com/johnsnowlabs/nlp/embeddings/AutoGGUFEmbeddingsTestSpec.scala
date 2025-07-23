@@ -41,7 +41,8 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     .setBatchSize(4)
     .setPoolingType(poolingType)
     .setNCtx(8192)
-  def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")) =
+
+  def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")): Pipeline =
     new Pipeline().setStages(Array(documentAssembler, embedModel))
 
   it should "produce embeddings" taggedAs SlowTest in {
@@ -110,8 +111,8 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   it should "embed long text" taggedAs SlowTest in {
     val result = pipeline(
       model("MEAN")
-        .setNUbatch(2048)
-        .setNBatch(2048)).fit(longData).transform(longData)
+        .setNUbatch(4096)
+        .setNBatch(4096)).fit(longData).transform(longData)
     val collected = Annotation.collect(result, "embeddings")
     assert(collected.length == longDataCopies, "Should return the same number of rows")
 
