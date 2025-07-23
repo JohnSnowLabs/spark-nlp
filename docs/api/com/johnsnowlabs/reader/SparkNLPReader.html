@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.5 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
-          <meta name="description" content="Spark NLP 6.0.5 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
-          <meta name="keywords" content="Spark NLP 6.0.5 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
+          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader.SparkNLPReader</title>
+          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader.SparkNLPReader" />
+          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader.SparkNLPReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.5 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -135,6 +135,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.reader">reader</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="CSVReader.html" title="CSVReader partitions CSV files into structured elements with metadata, similar to ExcelReader."></a>
+                        <a href="CSVReader.html" title="CSVReader partitions CSV files into structured elements with metadata, similar to ExcelReader.">CSVReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="object" href="ElementType$.html" title=""></a>
                         <a href="ElementType$.html" title="">ElementType</a>
                       </li><li class="current-entities indented3">
@@ -162,6 +166,10 @@
                         <a class="object" href="MimeType$.html" title=""></a>
                         <a href="MimeType$.html" title="">MimeType</a>
                       </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="PdfReader.html" title="Class to parse and read PDF files."></a>
+                        <a href="PdfReader.html" title="Class to parse and read PDF files.">PdfReader</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="PdfToText$.html" title=""></a>
                         <a class="class" href="PdfToText.html" title="Extract text from PDF document to a single string or to several strings per each page."></a>
                         <a href="PdfToText.html" title="Extract text from PDF document to a single string or to several strings per each page.">PdfToText</a>
@@ -173,6 +181,10 @@
                         <span class="separator"></span>
                         <a class="class" href="PowerPointReader.html" title="Class to read and parse PowerPoint files."></a>
                         <a href="PowerPointReader.html" title="Class to read and parse PowerPoint files.">PowerPointReader</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Doc$.html" title=""></a>
+                        <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="" title=""></a>
@@ -381,6 +393,43 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#csv" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="csv(csvPath:String):org.apache.spark.sql.DataFrame"></a><a id="csv(String):DataFrame"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#csv(csvPath:String):org.apache.spark.sql.DataFrame" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">csv</span><span class="params">(<span name="csvPath">csvPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiates class to read XML files.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiates class to read XML files.</p><p>csvPath: this is a path to a directory of CSV files or a path to an CSV file. E.g.,
+&quot;path/csv/files&quot;</p><h4>Example</h4><pre><span class="kw">val</span> csvPath = <span class="lit">"home/user/csv-directory"</span>
+<span class="kw">val</span> sparkNLPReader = <span class="kw">new</span> SparkNLPReader()
+<span class="kw">val</span> csvDf = sparkNLPReader.csv(csvPath)</pre><h4>Example 2</h4><p>You can use SparkNLP for one line of code</p><pre><span class="kw">val</span> csvDf = SparkNLP.read.csv(csvPath)</pre><pre>csvDf.select(<span class="lit">"csv"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------------------------------------------------------------------------------------------------+
+|csv                                                                                                                                      |
++-----------------------------------------------------------------------------------------------------------------------------------------+
+|[{NarrativeText, Alice <span class="num">100</span> Bob <span class="num">95</span>, {}}, {Table, &lt;table&gt;&lt;tr&gt;&lt;td&gt;Alice&lt;/td&gt;&lt;td&gt;<span class="num">100</span>&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Bob&lt;/td&gt;&lt;td&gt;<span class="num">95</span>&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;, {}}] |
++-----------------------------------------------------------------------------------------------------------------------------------------+
+
+csvDf.printSchema()
+root
+ |-- path: string (nullable = <span class="kw">true</span>)
+ |-- csv: array (nullable = <span class="kw">true</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- elementType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- content: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)</pre></div><dl class="paramcmts block"><dt class="param">csvPath</dt><dd class="cmt"><p>
+  Path to the CSV file or directory</p></dd><dt>returns</dt><dd class="cmt"><p>
+  A DataFrame with parsed CSV as structured elements</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.SparkNLPReader#doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="doc(content:Array[Byte]):Seq[com.johnsnowlabs.reader.HTMLElement]"></a><a id="doc(Array[Byte]):Seq[HTMLElement]"></a>
       <span class="permalink">
@@ -787,6 +836,22 @@ root
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.SparkNLPReader#pdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="pdf(content:Array[Byte]):Seq[com.johnsnowlabs.reader.HTMLElement]"></a><a id="pdf(Array[Byte]):Seq[HTMLElement]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/SparkNLPReader.html#pdf(content:Array[Byte]):Seq[com.johnsnowlabs.reader.HTMLElement]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pdf</span><span class="params">(<span name="content">content: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="HTMLElement.html" class="extype" name="com.johnsnowlabs.reader.HTMLElement">HTMLElement</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.reader.SparkNLPReader#pdf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="pdf(pdfPath:String):org.apache.spark.sql.DataFrame"></a><a id="pdf(String):DataFrame"></a>
       <span class="permalink">

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.5 ScalaDoc  - com.johnsnowlabs.reader.HTMLReader</title>
-          <meta name="description" content="Spark NLP 6.0.5 ScalaDoc - com.johnsnowlabs.reader.HTMLReader" />
-          <meta name="keywords" content="Spark NLP 6.0.5 ScalaDoc com.johnsnowlabs.reader.HTMLReader" />
+          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader.HTMLReader</title>
+          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader.HTMLReader" />
+          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader.HTMLReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.5 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -135,6 +135,10 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.reader">reader</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="CSVReader.html" title="CSVReader partitions CSV files into structured elements with metadata, similar to ExcelReader."></a>
+                        <a href="CSVReader.html" title="CSVReader partitions CSV files into structured elements with metadata, similar to ExcelReader.">CSVReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="object" href="ElementType$.html" title=""></a>
                         <a href="ElementType$.html" title="">ElementType</a>
                       </li><li class="current-entities indented3">
@@ -162,6 +166,10 @@
                         <a class="object" href="MimeType$.html" title=""></a>
                         <a href="MimeType$.html" title="">MimeType</a>
                       </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="PdfReader.html" title="Class to parse and read PDF files."></a>
+                        <a href="PdfReader.html" title="Class to parse and read PDF files.">PdfReader</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="PdfToText$.html" title=""></a>
                         <a class="class" href="PdfToText.html" title="Extract text from PDF document to a single string or to several strings per each page."></a>
                         <a href="PdfToText.html" title="Extract text from PDF document to a single string or to several strings per each page.">PdfToText</a>
@@ -173,6 +181,10 @@
                         <span class="separator"></span>
                         <a class="class" href="PowerPointReader.html" title="Class to read and parse PowerPoint files."></a>
                         <a href="PowerPointReader.html" title="Class to read and parse PowerPoint files.">PowerPointReader</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Doc$.html" title=""></a>
+                        <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
@@ -269,9 +281,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.reader.HTMLReader#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(titleFontSize:Int,storeContent:Boolean,timeout:Int,headers:Map[String,String]):com.johnsnowlabs.reader.HTMLReader"></a><a id="&lt;init&gt;:HTMLReader"></a>
+      <a id="&lt;init&gt;(titleFontSize:Int,storeContent:Boolean,timeout:Int,includeTitleTag:Boolean,headers:Map[String,String]):com.johnsnowlabs.reader.HTMLReader"></a><a id="&lt;init&gt;:HTMLReader"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/HTMLReader.html#&lt;init&gt;(titleFontSize:Int,storeContent:Boolean,timeout:Int,headers:Map[String,String]):com.johnsnowlabs.reader.HTMLReader" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/HTMLReader.html#&lt;init&gt;(titleFontSize:Int,storeContent:Boolean,timeout:Int,includeTitleTag:Boolean,headers:Map[String,String]):com.johnsnowlabs.reader.HTMLReader" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -280,12 +292,13 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">HTMLReader</span><span class="params">(<span name="titleFontSize">titleFontSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">16</span></span>, <span name="storeContent">storeContent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="timeout">timeout: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="headers">headers: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../scala/index.html">Map.empty</a></span></span></span>)</span>
+        <span class="name">HTMLReader</span><span class="params">(<span name="titleFontSize">titleFontSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">16</span></span>, <span name="storeContent">storeContent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="timeout">timeout: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="includeTitleTag">includeTitleTag: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="headers">headers: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol"><span class="name"><a href="../../../scala/index.html">Map.empty</a></span></span></span>)</span>
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">titleFontSize</dt><dd class="cmt"><p>
-  Minimum font size threshold used as part of heuristic rules to detect title elements based
-  on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.</p></dd><dt class="param">storeContent</dt><dd class="cmt"><p>
+  Minimum font size threshold in pixels used as part of heuristic rules to detect title
+  elements based on formatting (e.g., bold, centered, capitalized). By default, it is set to
+  16.</p></dd><dt class="param">storeContent</dt><dd class="cmt"><p>
   Whether to include the raw file content in the output DataFrame as a separate 'content'
   column, alongside the structured output. By default, it is set to false.</p></dd><dt class="param">timeout</dt><dd class="cmt"><p>
   Timeout value in seconds for reading remote HTML resources. Applied when fetching content
@@ -305,7 +318,7 @@ url: this is the URL or set of URLs of a website . E.g., &quot;https://www.wikip
 
 htmlDf.printSchema()
 root
- |-- url: string (nullable = <span class="kw">true</span>)
+ |-- path: string (nullable = <span class="kw">true</span>)
  |-- html: array (nullable = <span class="kw">true</span>)
  |    |-- element: struct (containsNull = <span class="kw">true</span>)
  |    |    |-- elementType: string (nullable = <span class="kw">true</span>)

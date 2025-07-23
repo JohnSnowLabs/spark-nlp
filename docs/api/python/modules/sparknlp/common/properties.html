@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 6.0.5 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 6.1.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=68e6c9df"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=413a1d38"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.5 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1126,14 +1126,14 @@ document.write(`
     <span class="c1"># -------- MODEl PARAMETERS --------</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.nThreads"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nThreads">[docs]</a>    <span class="n">nThreads</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreads&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of threads to use during generation&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.nThreadsDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nThreadsDraft">[docs]</a>    <span class="n">nThreadsDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of threads to use during draft generation&quot;</span><span class="p">,</span>
-                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+    <span class="c1"># nThreadsDraft = Param(Params._dummy(), &quot;nThreadsDraft&quot;, &quot;Set the number of threads to use during draft generation&quot;,</span>
+    <span class="c1">#                       typeConverter=TypeConverters.toInt)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.nThreadsBatch"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatch">[docs]</a>    <span class="n">nThreadsBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsBatch&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Set the number of threads to use during batch and prompt processing&quot;</span><span class="p">,</span>
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.nThreadsBatchDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatchDraft">[docs]</a>    <span class="n">nThreadsBatchDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nThreadsBatchDraft&quot;</span><span class="p">,</span>
-                               <span class="s2">&quot;Set the number of threads to use during batch and prompt processing&quot;</span><span class="p">,</span>
-                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+    <span class="c1"># nThreadsBatchDraft = Param(Params._dummy(), &quot;nThreadsBatchDraft&quot;,</span>
+    <span class="c1">#                            &quot;Set the number of threads to use during batch and prompt processing&quot;,</span>
+    <span class="c1">#                            typeConverter=TypeConverters.toInt)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.nCtx"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nCtx">[docs]</a>    <span class="n">nCtx</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nCtx&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the size of the prompt context&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.nBatch"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nBatch">[docs]</a>    <span class="n">nBatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nBatch&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)&quot;</span><span class="p">,</span>
@@ -1143,12 +1143,12 @@ document.write(`
                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.nDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nDraft">[docs]</a>    <span class="n">nDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of tokens to draft for speculative decoding&quot;</span><span class="p">,</span>
                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.nChunks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nChunks">[docs]</a>    <span class="n">nChunks</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nChunks&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the maximal number of chunks to process&quot;</span><span class="p">,</span>
-                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.nSequences"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nSequences">[docs]</a>    <span class="n">nSequences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nSequences&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of sequences to decode&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.pSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.pSplit">[docs]</a>    <span class="n">pSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pSplit&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the speculative decoding split probability&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+    <span class="c1"># nChunks = Param(Params._dummy(), &quot;nChunks&quot;, &quot;Set the maximal number of chunks to process&quot;,</span>
+    <span class="c1">#                 typeConverter=TypeConverters.toInt)</span>
+    <span class="c1"># nSequences = Param(Params._dummy(), &quot;nSequences&quot;, &quot;Set the number of sequences to decode&quot;,</span>
+    <span class="c1">#                    typeConverter=TypeConverters.toInt)</span>
+    <span class="c1"># pSplit = Param(Params._dummy(), &quot;pSplit&quot;, &quot;Set the speculative decoding split probability&quot;,</span>
+    <span class="c1">#                typeConverter=TypeConverters.toFloat)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.nGpuLayers"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nGpuLayers">[docs]</a>    <span class="n">nGpuLayers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nGpuLayers&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.nGpuLayersDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.nGpuLayersDraft">[docs]</a>    <span class="n">nGpuLayersDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;nGpuLayersDraft&quot;</span><span class="p">,</span>
@@ -1163,10 +1163,10 @@ document.write(`
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.mainGpu"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.mainGpu">[docs]</a>    <span class="n">mainGpu</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mainGpu&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the main GPU that is used for scratch and small tensors.&quot;</span><span class="p">,</span>
                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.tensorSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.tensorSplit">[docs]</a>    <span class="n">tensorSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;tensorSplit&quot;</span><span class="p">,</span> <span class="s2">&quot;Set how split tensors should be distributed across GPUs&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListFloat</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.grpAttnN"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.grpAttnN">[docs]</a>    <span class="n">grpAttnN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;grpAttnN&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the group-attention factor&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.grpAttnW"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.grpAttnW">[docs]</a>    <span class="n">grpAttnW</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;grpAttnW&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the group-attention width&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+    <span class="c1"># tensorSplit = Param(Params._dummy(), &quot;tensorSplit&quot;, &quot;Set how split tensors should be distributed across GPUs&quot;,</span>
+    <span class="c1">#                     typeConverter=TypeConverters.toListFloat)</span>
+    <span class="c1"># grpAttnN = Param(Params._dummy(), &quot;grpAttnN&quot;, &quot;Set the group-attention factor&quot;, typeConverter=TypeConverters.toInt)</span>
+    <span class="c1"># grpAttnW = Param(Params._dummy(), &quot;grpAttnW&quot;, &quot;Set the group-attention width&quot;, typeConverter=TypeConverters.toInt)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.ropeFreqBase"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.ropeFreqBase">[docs]</a>    <span class="n">ropeFreqBase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeFreqBase&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;</span><span class="p">,</span>
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.ropeFreqScale"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.ropeFreqScale">[docs]</a>    <span class="n">ropeFreqScale</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeFreqScale&quot;</span><span class="p">,</span>
@@ -1198,7 +1198,7 @@ document.write(`
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
     <span class="c1"># Set the RoPE frequency scaling method, defaults to linear unless specified by the model.</span>
     <span class="c1">#</span>
-    <span class="c1">#   - UNSPECIFIED: Don&#39;t use any scaling</span>
+    <span class="c1">#   - NONE: Don&#39;t use any scaling</span>
     <span class="c1">#   - LINEAR: Linear scaling</span>
     <span class="c1">#   - YARN: YaRN RoPE scaling</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.ropeScalingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.ropeScalingType">[docs]</a>    <span class="n">ropeScalingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ropeScalingType&quot;</span><span class="p">,</span>
@@ -1209,26 +1209,28 @@ document.write(`
     <span class="c1">#   - 0 NONE: Don&#39;t use any pooling</span>
     <span class="c1">#   - 1 MEAN: Mean Pooling</span>
     <span class="c1">#   - 2 CLS: CLS Pooling</span>
+    <span class="c1">#   - 3 LAST: Last token pooling</span>
+    <span class="c1">#   - 4 RANK: For reranked models</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.poolingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.poolingType">[docs]</a>    <span class="n">poolingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;poolingType&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Set the pooling type for embeddings, use model default if unspecified&quot;</span><span class="p">,</span>
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.modelDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.modelDraft">[docs]</a>    <span class="n">modelDraft</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelDraft&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the draft model for speculative decoding&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.modelAlias"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.modelAlias">[docs]</a>    <span class="n">modelAlias</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;modelAlias&quot;</span><span class="p">,</span> <span class="s2">&quot;Set a model alias&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.lookupCacheStaticFilePath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheStaticFilePath">[docs]</a>    <span class="n">lookupCacheStaticFilePath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lookupCacheStaticFilePath&quot;</span><span class="p">,</span>
-                                      <span class="s2">&quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;</span><span class="p">,</span>
-                                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.lookupCacheDynamicFilePath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheDynamicFilePath">[docs]</a>    <span class="n">lookupCacheDynamicFilePath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lookupCacheDynamicFilePath&quot;</span><span class="p">,</span>
-                                       <span class="s2">&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;</span><span class="p">,</span>
-                                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+    <span class="c1"># lookupCacheStaticFilePath = Param(Params._dummy(), &quot;lookupCacheStaticFilePath&quot;,</span>
+    <span class="c1">#                                   &quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;,</span>
+    <span class="c1">#                                   typeConverter=TypeConverters.toString)</span>
+    <span class="c1"># lookupCacheDynamicFilePath = Param(Params._dummy(), &quot;lookupCacheDynamicFilePath&quot;,</span>
+    <span class="c1">#                                    &quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;,</span>
+    <span class="c1">#                                    typeConverter=TypeConverters.toString)</span>
     <span class="c1"># loraAdapters = new StructFeature[Map[String, Float]](this, &quot;loraAdapters&quot;)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.embedding"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.embedding">[docs]</a>    <span class="n">embedding</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;embedding&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to load model with embedding support&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.flashAttention"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.flashAttention">[docs]</a>    <span class="n">flashAttention</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;flashAttention&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to enable Flash Attention&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
-<div class="viewcode-block" id="HasLlamaCppProperties.inputPrefixBos"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.inputPrefixBos">[docs]</a>    <span class="n">inputPrefixBos</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputPrefixBos&quot;</span><span class="p">,</span>
-                           <span class="s2">&quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+    <span class="c1"># inputPrefixBos = Param(Params._dummy(), &quot;inputPrefixBos&quot;,</span>
+    <span class="c1">#                        &quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string&quot;,</span>
+    <span class="c1">#                        typeConverter=TypeConverters.toBoolean)</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.useMmap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.useMmap">[docs]</a>    <span class="n">useMmap</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useMmap&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;</span><span class="p">,</span>
                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
@@ -1309,17 +1311,17 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during generation&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreads</span><span class="o">=</span><span class="n">nThreads</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setNThreadsDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsDraft">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNThreadsDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during draft generation&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsDraft</span><span class="o">=</span><span class="n">nThreadsDraft</span><span class="p">)</span></div>
+    <span class="c1"># def setNThreadsDraft(self, nThreadsDraft: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the number of threads to use during draft generation&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(nThreadsDraft=nThreadsDraft)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setNThreadsBatch"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatch">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNThreadsBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsBatch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsBatch</span><span class="o">=</span><span class="n">nThreadsBatch</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setNThreadsBatchDraft"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatchDraft">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNThreadsBatchDraft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nThreadsBatchDraft</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nThreadsBatchDraft</span><span class="o">=</span><span class="n">nThreadsBatchDraft</span><span class="p">)</span></div>
+    <span class="c1"># def setNThreadsBatchDraft(self, nThreadsBatchDraft: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the number of threads to use during batch and prompt processing&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(nThreadsBatchDraft=nThreadsBatchDraft)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setNCtx"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNCtx">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNCtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nCtx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the size of the prompt context&quot;&quot;&quot;</span>
@@ -1337,17 +1339,17 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of tokens to draft for speculative decoding&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nDraft</span><span class="o">=</span><span class="n">nDraft</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setNChunks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNChunks">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNChunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nChunks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximal number of chunks to process&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nChunks</span><span class="o">=</span><span class="n">nChunks</span><span class="p">)</span></div>
+    <span class="c1"># def setNChunks(self, nChunks: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the maximal number of chunks to process&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(nChunks=nChunks)</span>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setNSequences"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNSequences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nSequences</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of sequences to decode&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nSequences</span><span class="o">=</span><span class="n">nSequences</span><span class="p">)</span></div>
+    <span class="c1"># def setNSequences(self, nSequences: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the number of sequences to decode&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(nSequences=nSequences)</span>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setPSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setPSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pSplit</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the speculative decoding split probability&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pSplit</span><span class="o">=</span><span class="n">pSplit</span><span class="p">)</span></div>
+    <span class="c1"># def setPSplit(self, pSplit: float):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the speculative decoding split probability&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(pSplit=pSplit)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setNGpuLayers"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNGpuLayers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNGpuLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nGpuLayers</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of layers to store in VRAM (-1 - use default)&quot;&quot;&quot;</span>
@@ -1365,17 +1367,17 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the main GPU that is used for scratch and small tensors.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mainGpu</span><span class="o">=</span><span class="n">mainGpu</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setTensorSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setTensorSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTensorSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensorSplit</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set how split tensors should be distributed across GPUs&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tensorSplit</span><span class="o">=</span><span class="n">tensorSplit</span><span class="p">)</span></div>
+    <span class="c1"># def setTensorSplit(self, tensorSplit: List[float]):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set how split tensors should be distributed across GPUs&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(tensorSplit=tensorSplit)</span>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setGrpAttnN"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnN">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGrpAttnN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnN</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention factor&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnN</span><span class="o">=</span><span class="n">grpAttnN</span><span class="p">)</span></div>
+    <span class="c1"># def setGrpAttnN(self, grpAttnN: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the group-attention factor&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(grpAttnN=grpAttnN)</span>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setGrpAttnW"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnW">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGrpAttnW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grpAttnW</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the group-attention width&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">grpAttnW</span><span class="o">=</span><span class="n">grpAttnW</span><span class="p">)</span></div>
+    <span class="c1"># def setGrpAttnW(self, grpAttnW: int):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set the group-attention width&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(grpAttnW=grpAttnW)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setRopeFreqBase"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setRopeFreqBase">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRopeFreqBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeFreqBase</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE base frequency, used by NTK-aware scaling&quot;&quot;&quot;</span>
@@ -1410,7 +1412,16 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defragmentationThreshold</span><span class="o">=</span><span class="n">defragmentationThreshold</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setNumaStrategy"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNumaStrategy">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNumaStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numaStrategy</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set optimization strategies that help on some NUMA systems (if available)&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set optimization strategies that help on some NUMA systems (if available)</span>
+
+<span class="sd">        Possible values:</span>
+
+<span class="sd">        - DISABLED: No NUMA optimizations</span>
+<span class="sd">        - DISTRIBUTE: spread execution evenly over all</span>
+<span class="sd">        - ISOLATE: only spawn threads on CPUs on the node that execution started on</span>
+<span class="sd">        - NUMA_CTL: use the CPU map provided by numactl</span>
+<span class="sd">        - MIRROR: Mirrors the model across NUMA nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">numaUpper</span> <span class="o">=</span> <span class="n">numaStrategy</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">numaStrategies</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DISABLED&quot;</span><span class="p">,</span> <span class="s2">&quot;DISTRIBUTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ISOLATE&quot;</span><span class="p">,</span> <span class="s2">&quot;NUMA_CTL&quot;</span><span class="p">,</span> <span class="s2">&quot;MIRROR&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">numaUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numaStrategies</span><span class="p">:</span>
@@ -1421,13 +1432,36 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numaStrategy</span><span class="o">=</span><span class="n">numaStrategy</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setRopeScalingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setRopeScalingType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRopeScalingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ropeScalingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeScalingType</span><span class="o">=</span><span class="n">ropeScalingType</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the RoPE frequency scaling method, defaults to linear unless specified by the model.</span>
+
+<span class="sd">        Possible values:</span>
+
+<span class="sd">        - NONE: Don&#39;t use any scaling</span>
+<span class="sd">        - LINEAR: Linear scaling</span>
+<span class="sd">        - YARN: YaRN RoPE scaling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ropeScalingTypeUpper</span> <span class="o">=</span> <span class="n">ropeScalingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">ropeScalingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;LINEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;YARN&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ropeScalingTypeUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ropeScalingTypes</span><span class="p">:</span>
+           <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+               <span class="sa">f</span><span class="s2">&quot;Invalid RoPE scaling type: </span><span class="si">{</span><span class="n">ropeScalingType</span><span class="si">}</span><span class="s2">. &quot;</span>
+               <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">ropeScalingTypes</span><span class="si">}</span><span class="s2">&quot;</span>
+           <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeScalingType</span><span class="o">=</span><span class="n">ropeScalingTypeUpper</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setPoolingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setPoolingType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPoolingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pooling type for embeddings, use model default if unspecified&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the pooling type for embeddings, use model default if unspecified</span>
+
+<span class="sd">        Possible values:</span>
+
+<span class="sd">        - 0 NONE: Don&#39;t use any pooling</span>
+<span class="sd">        - 1 MEAN: Mean Pooling</span>
+<span class="sd">        - 2 CLS: CLS Pooling</span>
+<span class="sd">        - 3 LAST: Last token pooling</span>
+<span class="sd">        - 4 RANK: For reranked models</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">poolingTypeUpper</span> <span class="o">=</span> <span class="n">poolingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="n">poolingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEAN&quot;</span><span class="p">,</span> <span class="s2">&quot;CLS&quot;</span><span class="p">,</span> <span class="s2">&quot;LAST&quot;</span><span class="p">]</span>
+        <span class="n">poolingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEAN&quot;</span><span class="p">,</span> <span class="s2">&quot;CLS&quot;</span><span class="p">,</span> <span class="s2">&quot;LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;RANK&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">poolingTypeUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">poolingTypes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Invalid pooling type: </span><span class="si">{</span><span class="n">poolingType</span><span class="si">}</span><span class="s2">. &quot;</span>
@@ -1443,13 +1477,13 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a model alias&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelAlias</span><span class="o">=</span><span class="n">modelAlias</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setLookupCacheStaticFilePath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheStaticFilePath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLookupCacheStaticFilePath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lookupCacheStaticFilePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lookupCacheStaticFilePath</span><span class="o">=</span><span class="n">lookupCacheStaticFilePath</span><span class="p">)</span></div>
+    <span class="c1"># def setLookupCacheStaticFilePath(self, lookupCacheStaticFilePath: str):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set path to static lookup cache to use for lookup decoding (not updated by generation)&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(lookupCacheStaticFilePath=lookupCacheStaticFilePath)</span>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setLookupCacheDynamicFilePath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheDynamicFilePath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLookupCacheDynamicFilePath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lookupCacheDynamicFilePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lookupCacheDynamicFilePath</span><span class="o">=</span><span class="n">lookupCacheDynamicFilePath</span><span class="p">)</span></div>
+    <span class="c1"># def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setEmbedding"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setEmbedding">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to load model with embedding support&quot;&quot;&quot;</span>
@@ -1459,9 +1493,9 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to enable Flash Attention&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">flashAttention</span><span class="o">=</span><span class="n">flashAttention</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setInputPrefixBos"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setInputPrefixBos">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInputPrefixBos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputPrefixBos</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputPrefixBos</span><span class="o">=</span><span class="n">inputPrefixBos</span><span class="p">)</span></div>
+    <span class="c1"># def setInputPrefixBos(self, inputPrefixBos: bool):</span>
+    <span class="c1">#     &quot;&quot;&quot;Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._set(inputPrefixBos=inputPrefixBos)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setUseMmap"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setUseMmap">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseMmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useMmap</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to use memory-map model (faster load but may increase pageouts if not using mlock)&quot;&quot;&quot;</span>
@@ -1621,9 +1655,9 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set token id bias&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTokenBias&quot;</span><span class="p">,</span> <span class="n">tokenBias</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HasLlamaCppProperties.setLoraAdapters"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setLoraAdapters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLoraAdapters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loraAdapters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set LoRA adapters with their scaling factors&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setLoraAdapters&quot;</span><span class="p">,</span> <span class="n">loraAdapters</span><span class="p">)</span></div>
+    <span class="c1"># def setLoraAdapters(self, loraAdapters: Dict[str, float]):</span>
+    <span class="c1">#     &quot;&quot;&quot;Set LoRA adapters with their scaling factors&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._call_java(&quot;setLoraAdapters&quot;, loraAdapters)</span>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.getMetadata"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.getMetadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the metadata of the model&quot;&quot;&quot;</span>

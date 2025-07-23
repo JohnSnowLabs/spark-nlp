@@ -22,6 +22,7 @@ Submodules
    sparknlp.annotator.seq2seq.olmo_transformer
    sparknlp.annotator.seq2seq.phi2_transformer
    sparknlp.annotator.seq2seq.phi3_transformer
+   sparknlp.annotator.seq2seq.phi4_transformer
    sparknlp.annotator.seq2seq.qwen_transformer
    sparknlp.annotator.seq2seq.starcoder_transformer
    sparknlp.annotator.seq2seq.t5_transformer

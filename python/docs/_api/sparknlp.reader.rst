@@ -9,6 +9,7 @@ Submodules
 
    sparknlp.reader.enums
    sparknlp.reader.pdf_to_text
+   sparknlp.reader.reader2doc
    sparknlp.reader.sparknlp_reader
 
 Module contents
