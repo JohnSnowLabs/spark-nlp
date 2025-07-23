@@ -11,7 +11,8 @@ concurrency:
 
 jobs:
   jekyll:
-    runs-on: ubuntu-latest
+    runs-on: RAM32GB
+    timeout-minutes: 600
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
@@ -49,6 +50,8 @@ jobs:
           ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
           ORIGIN: ${{ secrets.ORIGIN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
         working-directory: docs
         run: |
           bundle exec jekyll build --incremental
@@ -62,6 +65,8 @@ jobs:
           ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
           ORIGIN: ${{ secrets.ORIGIN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
         working-directory: docs
         run: |
           rm -f .jekyll-metadata
